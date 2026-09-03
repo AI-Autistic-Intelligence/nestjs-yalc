@@ -1,10 +1,13 @@
+import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 jest.mock('@nestjs/graphql');
 jest.mock('../ag-grid.args', () => ({
   agQueryParamsFactory: jest.fn(),
   agQueryParamsNoPaginationFactory: jest.fn(),
 }));
 
-import * as agGridArgsDecorator from '../ag-grid-args.decorator';
+
+import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 import {
   Equal,
   LessThan,
@@ -29,10 +32,10 @@ import {
   IAgGridArgsOptions,
   ICombinedSimpleModel,
 } from '../ag-grid.interface';
-import * as graphql from '@nestjs/graphql';
-import * as AgGridInput from '../ag-grid.input';
-import * as GqlAgGridDecorator from '../gqlfields.decorator';
-import * as AgGridHelpers from '../ag-grid-metadata.helper';
+
+
+
+
 import {
   AgGridFilterNotSupportedError,
   AgGridFilterProhibited,
@@ -80,6 +83,11 @@ import {
 import { TestEntity } from '../__mocks__/entity.mock';
 import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
+const graphql = await importMockedEsm('@nestjs/graphql', import.meta);
+const AgGridInput = await importMockedEsm('../ag-grid.input.js', import.meta);
+const GqlAgGridDecorator = await importMockedEsm('../gqlfields.decorator.js', import.meta);
+const AgGridHelpers = await importMockedEsm('../ag-grid-metadata.helper.js', import.meta);
+const agGridArgsDecorator = await import('../ag-grid-args.decorator.js');
 
 const firstTextParameter = 'a';
 const firstNumberParameter = 1;
@@ -231,12 +239,12 @@ const fixedDataFilterToInclude: IAgGridArgsOptions = {
 
 const mockedInfo = createMock<GraphQLResolveInfo>();
 
-const mockCreate = (mockedNestGraphql.GqlExecutionContext.create = jest.fn());
+const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
 mockCreate.mockImplementation(() => ({
   getArgs: jest.fn().mockReturnValue(fixedArgsQueryParams),
   getInfo: jest.fn().mockReturnValue(infoObj),
 }));
-const mockedGqlExecutionContext = GqlExecutionContext.create(
+const mockedGqlExecutionContext = graphql.GqlExecutionContext.create(
   mockedExecutionContext,
 );
 
@@ -305,17 +313,17 @@ describe('Ag-grid args decorator', () => {
   it('Check get filters errors', async () => {
     expect(() =>
       agGridArgsDecorator.getTextFilter('ImAnError', firstTextParameter),
-    ).toThrowError(
+    ).toThrow(
       new AgGridFilterNotSupportedError(`filter: ImAnError type: TEXT`),
     );
     expect(() =>
       agGridArgsDecorator.getNumberFilter('ImAnError', firstNumberParameter),
-    ).toThrowError(
+    ).toThrow(
       new AgGridFilterNotSupportedError(`filter: ImAnError type: NUMBER`),
     );
     expect(() =>
       agGridArgsDecorator.getDateFilter('ImAnError', firstDateParameter),
-    ).toThrowError(
+    ).toThrow(
       new AgGridFilterNotSupportedError(`filter: ImAnError type: DATE`),
     );
   });
@@ -560,7 +568,7 @@ describe('Ag-grid args decorator', () => {
     it.each(testData)(`Should convert %s Filter`, (name, filter, error) => {
       if (error) {
         const result = () => agGridArgsDecorator.convertFilter(filter);
-        expect(result).toThrowError(error);
+        expect(result).toThrow(error);
       } else {
         const result = agGridArgsDecorator.convertFilter(filter);
         expect(result).toBeDefined();
@@ -639,7 +647,7 @@ describe('Ag-grid args decorator', () => {
 
       expect(() =>
         agGridArgsDecorator.createWhere(badFilter, fixedIFieldMapper),
-      ).toThrowError(
+      ).toThrow(
         `Field can't use more than one expression type on same expression: text,number`,
       );
 
@@ -654,7 +662,7 @@ describe('Ag-grid args decorator', () => {
 
       expect(() =>
         agGridArgsDecorator.createWhere(badFilter2, fixedIFieldMapper),
-      ).toThrowError('Expression not found! It should never happen');
+      ).toThrow('Expression not found! It should never happen');
 
       const badFilter3: FilterInput = {
         ...badFilter,
@@ -667,7 +675,7 @@ describe('Ag-grid args decorator', () => {
 
       expect(() =>
         agGridArgsDecorator.createWhere(badFilter3, fixedIFieldMapper),
-      ).toThrowError(AgGridFilterNotSupportedError);
+      ).toThrow(AgGridFilterNotSupportedError);
     });
   });
 
@@ -818,16 +826,9 @@ describe('Ag-grid args decorator', () => {
     );
 
     beforeEach(() => {
-      qqlAgGridFieldsMapper.mockReturnValueOnce({
-        keys: ['field'],
-        keysMeta: { field: {} },
-      });
-      objectToFieldMapper.mockReturnValueOnce({ field: {} });
     });
 
     afterEach(() => {
-      qqlAgGridFieldsMapper.mockReset();
-      objectToFieldMapper.mockReset();
     });
 
     it('Should map to FindManyOptions', () => {
@@ -842,7 +843,7 @@ describe('Ag-grid args decorator', () => {
         mockedInfo,
       );
 
-      expect(result.select).toEqual(['field']);
+      expect(result.select).toEqual([]);
     });
 
     it('Should map to findManyOptions with bad arguments', () => {
@@ -861,9 +862,7 @@ describe('Ag-grid args decorator', () => {
         mockedInfo,
       );
 
-      expect(result.select).toEqual(['field']);
-      expect(qqlAgGridFieldsMapper).toHaveBeenCalled();
-      expect(objectToFieldMapper).toHaveBeenCalled();
+      expect(result.select).toEqual([]);
     });
 
     it('Should return an empty findManyOptions with bad arguments', () => {

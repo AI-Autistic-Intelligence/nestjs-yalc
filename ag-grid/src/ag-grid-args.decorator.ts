@@ -13,7 +13,7 @@ import {
   In,
   IsNull,
 } from 'typeorm';
-import { GqlAgGridFieldsMapper } from '@nestjs-yalc/ag-grid/gqlfields.decorator';
+import { GqlAgGridFieldsMapper } from './gqlfields.decorator.js';
 import { FieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
 import {
   AgQueryParams,
