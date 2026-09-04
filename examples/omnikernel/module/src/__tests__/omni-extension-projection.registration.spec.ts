@@ -20,41 +20,33 @@ import request from 'supertest';
 import { DataSource } from "typeorm";
 import type { OmniMigrationRunner } from '../omni-migration.js';
 
-const { OmniNamedEntity } = await import("../base/omni-named.entity.js");
-const { OmniRecordEntity } = await import("../base/omni-record.entity.js");
-const { OmniRelationEntity } = await import("../base/omni-relation.entity.js");
-const { OmniExternalRefEntity } =
-  await import("../base/omni-external-ref.entity.js");
-const { OmniCollectionEntity } = await import("../omni-collection.entity.js");
-const { OmniDocumentEntity } = await import("../omni-document.entity.js");
-const { OmniRecordStatus } = await import("../omni-record-status.enum.js");
-const { OmniKernelModule } = await import('../omnikernel.module.js');
-const {
+import { OmniNamedEntity } from "../base/omni-named.entity.js";
+import { OmniRecordEntity } from "../base/omni-record.entity.js";
+import { OmniRelationEntity } from "../base/omni-relation.entity.js";
+import { OmniExternalRefEntity } from "../base/omni-external-ref.entity.js";
+import { OmniCollectionEntity } from "../omni-collection.entity.js";
+import { OmniDocumentEntity } from "../omni-document.entity.js";
+import { OmniRecordStatus } from "../omni-record-status.enum.js";
+import { OmniKernelModule } from '../omnikernel.module.js';
+import {
   OmniRecordCondition,
   OmniRecordCreateInput,
   OmniRecordType,
   OmniRecordUpdateInput,
-} = await import('../omni-record.dto.js');
-const {
+} from '../omni-record.dto.js';
+import {
   createOmniExtensionProjectionEntity,
   defineOmniExtensionProjection,
-} = await import("../omni-extension-projection.definition.js");
-const { createOmniExtensionProjectionRegistration } =
-  await import("../omni-extension-projection.resource.js");
-const { defineOmniRelationProjection } = await import(
-  '../omni-relation-projection.definition.js'
-);
-const { createOmniRelationProjectionRegistration } = await import(
-  '../omni-relation-projection.resource.js'
-);
-const {
+} from "../omni-extension-projection.definition.js";
+import { createOmniExtensionProjectionRegistration } from "../omni-extension-projection.resource.js";
+import { defineOmniRelationProjection } from '../omni-relation-projection.definition.js';
+import { createOmniRelationProjectionRegistration } from '../omni-relation-projection.resource.js';
+import {
   captureOmniMigrationSnapshot,
   createOmniMigrationPlan,
   defineOmniMigrationSnapshot,
-} = await import("../omni-migration.js");
-const { createOmniProjectionReaderCatalogProvider } = await import(
-  '../omni-projection.catalog.js'
-);
+} from "../omni-migration.js";
+import { createOmniProjectionReaderCatalogProvider } from '../omni-projection.catalog.js';
 
 type ExtensionRow = {
   scopeId: string;

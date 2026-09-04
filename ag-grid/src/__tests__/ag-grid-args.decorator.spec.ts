@@ -1,13 +1,9 @@
 import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
-import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
-jest.mock('@nestjs/graphql');
 jest.mock('../ag-grid.args', () => ({
   agQueryParamsFactory: jest.fn(),
   agQueryParamsNoPaginationFactory: jest.fn(),
 }));
 
-
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 import {
   Equal,
   LessThan,
@@ -83,11 +79,11 @@ import {
 import { TestEntity } from '../__mocks__/entity.mock';
 import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
-const graphql = await importMockedEsm('@nestjs/graphql', import.meta);
-const AgGridInput = await importMockedEsm('../ag-grid.input.js', import.meta);
-const GqlAgGridDecorator = await importMockedEsm('../gqlfields.decorator.js', import.meta);
-const AgGridHelpers = await importMockedEsm('../ag-grid-metadata.helper.js', import.meta);
-const agGridArgsDecorator = await import('../ag-grid-args.decorator.js');
+import * as graphql from '@nestjs/graphql';
+import * as AgGridInput from '../ag-grid.input';
+import * as GqlAgGridDecorator from '../gqlfields.decorator';
+import * as AgGridHelpers from '../ag-grid-metadata.helper';
+import * as agGridArgsDecorator from '../ag-grid-args.decorator';
 
 const firstTextParameter = 'a';
 const firstNumberParameter = 1;
@@ -826,6 +822,8 @@ describe('Ag-grid args decorator', () => {
     );
 
     beforeEach(() => {
+      qqlAgGridFieldsMapper.mockClear();
+      objectToFieldMapper.mockClear();
     });
 
     afterEach(() => {
