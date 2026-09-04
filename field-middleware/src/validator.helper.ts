@@ -23,7 +23,10 @@ export function stringIsInEnumOrThrow<T extends Record<string, unknown>>(
   errorTrhow(toCheck, message);
 }
 
-export function stringIsInEnum<T extends Record<string, unknown>>(toCheck: string, enumName: T): boolean {
+export function stringIsInEnum<T extends Record<string, unknown>>(
+  toCheck: string,
+  enumName: T,
+): boolean {
   for (const enumProperty of Object.values(enumName) as string[]) {
     if (enumProperty.toLowerCase() === toCheck.toLowerCase()) {
       return true;

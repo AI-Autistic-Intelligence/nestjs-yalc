@@ -20,8 +20,10 @@ export function isDstExtended(dst: string | DstExtended): dst is DstExtended {
   return !!_dst.name && !!_dst.transformer;
 }
 
-export interface AgGridFieldMetadata<T = any>
-  extends Omit<FieldMapperProperty, 'dst'> {
+export interface AgGridFieldMetadata<T = any> extends Omit<
+  FieldMapperProperty,
+  'dst'
+> {
   dst?: string | DstExtended;
   src?: string;
 

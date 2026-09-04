@@ -5,12 +5,7 @@
  * definitions rather than JSON paths or driver-specific SQL.
  */
 export type ProjectionCodec =
-  | 'string'
-  | 'uuid'
-  | 'instant'
-  | 'integer'
-  | 'boolean'
-  | 'json';
+  'string' | 'uuid' | 'instant' | 'integer' | 'boolean' | 'json';
 
 /** GraphQL Int and PostgreSQL integer share this portable signed range. */
 export const PROJECTION_INTEGER_MIN = -(2 ** 31);

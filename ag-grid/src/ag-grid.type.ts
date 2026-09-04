@@ -51,9 +51,7 @@ export interface GqlSelectedFields<T> {
   fields: (keyof T)[];
 }
 
-export interface AgGridArgs<T>
-  extends FindManyOptions,
-    GqlSelectedFields<T> {}
+export interface AgGridArgs<T> extends FindManyOptions, GqlSelectedFields<T> {}
 
 export interface RecursiveFindOperator<T> {
   [index: number]: RecursiveFindOperator<T> | FindOperator<T>;

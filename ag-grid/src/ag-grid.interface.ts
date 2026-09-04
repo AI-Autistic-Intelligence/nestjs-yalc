@@ -80,14 +80,9 @@ export interface DateFilterModel extends SimpleFilterModel {
 }
 
 export type GenericFilterModel =
-  | SimpleFilterModel
-  | TextFilterModel
-  | NumberFilterModel;
+  SimpleFilterModel | TextFilterModel | NumberFilterModel;
 
-export type FilterModel =
-  | GenericFilterModel
-  | DateFilterModel
-  | SetFilterModel;
+export type FilterModel = GenericFilterModel | DateFilterModel | SetFilterModel;
 
 export interface CombinedSimpleModel {
   // the filter type: date, number or text
@@ -115,10 +110,7 @@ export interface MultiColumnObject extends MultiColumnProperty {
  */
 export type FilterInputOld = {
   [key: string]:
-    | FilterModel
-    | CombinedSimpleModel
-    | MultiColumnJoinOptions
-    | undefined;
+    FilterModel | CombinedSimpleModel | MultiColumnJoinOptions | undefined;
 } & MultiColumnProperty;
 
 export interface TextFilter {
@@ -148,10 +140,7 @@ export interface FilterExpressionsProperty {
 }
 
 export type FilterExpressionType =
-  | TextFilter
-  | NumberFilter
-  | DateFilter
-  | SetFilter;
+  TextFilter | NumberFilter | DateFilter | SetFilter;
 
 export interface FilterInput {
   operator?: Operators;
@@ -186,7 +175,10 @@ export interface AgGridFindExtraOptions {
   _aliasType?: string;
 }
 
-export interface AgGridFindManyOptions<T = unknown> extends Omit<FindManyOptions<T>, 'where'> {
+export interface AgGridFindManyOptions<T = unknown> extends Omit<
+  FindManyOptions<T>,
+  'where'
+> {
   where?: WhereCondition;
   /** Contains useful information about the graphql request */
   info?: GraphQLResolveInfo;
@@ -214,7 +206,9 @@ export interface BaseArg {
   /**
    *
    */
-  filterMiddleware?: { (ctx: GqlExecutionContext, filterValue?: unknown): unknown };
+  filterMiddleware?: {
+    (ctx: GqlExecutionContext, filterValue?: unknown): unknown;
+  };
   /**
    *
    */

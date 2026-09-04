@@ -26,7 +26,7 @@ import { ClassType } from '@nestjs-yalc/types/globals';
 import { ReplicationMode } from '@nestjs-yalc/database/query-builder.helper';
 import { isClass } from '@nestjs-yalc/utils/class.helper';
 import { getAgGridFieldMetadataList, isDstExtended } from './object.decorator';
-import { getProviderToken } from "./ag-grid-factory.helper";
+import { getProviderToken } from './ag-grid-factory.helper';
 
 /**
  *
@@ -92,7 +92,10 @@ export function validateSupportedError(
  * @todo must be refactorized with better types
  */
 @Injectable()
-export class GenericService<EntityRead extends ObjectLiteral, EntityWrite extends ObjectLiteral = EntityRead> {
+export class GenericService<
+  EntityRead extends ObjectLiteral,
+  EntityWrite extends ObjectLiteral = EntityRead,
+> {
   protected entityRead: EntityClassOrSchema;
   protected entityWrite: EntityClassOrSchema;
   protected repositoryWrite: AgGridRepository<EntityWrite>;
@@ -280,8 +283,16 @@ export class GenericService<EntityRead extends ObjectLiteral, EntityWrite extend
     if (databaseName) this.switchDatabaseConnection(databaseName);
 
     return options?.failOnNull !== true
-      ? (await this.repository.findOne({ where: where as any, select: fields as any, relations })) || undefined
-      : this.repository.findOneOrFail({ where: where as any, select: fields as any, relations });
+      ? (await this.repository.findOne({
+          where: where as any,
+          select: fields as any,
+          relations,
+        })) || undefined
+      : this.repository.findOneOrFail({
+          where: where as any,
+          select: fields as any,
+          relations,
+        });
   }
 
   /**
@@ -404,7 +415,9 @@ export class GenericService<EntityRead extends ObjectLiteral, EntityWrite extend
    * @throws NoResultsForConditions
    * @throws ConditionsTooBroadError
    */
-  async deleteEntity(conditions: FindOptionsWhere<EntityRead>): Promise<boolean> {
+  async deleteEntity(
+    conditions: FindOptionsWhere<EntityRead>,
+  ): Promise<boolean> {
     await this.validateConditions(conditions);
 
     const mappedConditions = this.mapEntityR2W(conditions);
@@ -480,9 +493,7 @@ export class GenericService<EntityRead extends ObjectLiteral, EntityWrite extend
   ): EntityWrite;
   protected mapEntityR2W(
     entityRead:
-      | EntityRead
-      | DeepPartial<EntityRead>
-      | FindOptionsWhere<EntityRead>,
+      EntityRead | DeepPartial<EntityRead> | FindOptionsWhere<EntityRead>,
   ): EntityWrite | FindOptionsWhere<EntityWrite> {
     const entity = this.entityWrite;
 
@@ -497,17 +508,15 @@ export class GenericService<EntityRead extends ObjectLiteral, EntityWrite extend
       const fieldMetadata = fieldMetadataList?.[propertyName];
 
       if (!fieldMetadata?.dst || !isDstExtended(fieldMetadata.dst)) {
-        (newEntityWrite as any)[propertyName] =
-          (entityRead as any)[propertyName];
+        (newEntityWrite as any)[propertyName] = (entityRead as any)[
+          propertyName
+        ];
         continue;
       }
 
       const dst = fieldMetadata.dst;
 
-      dst.transformer(
-        newEntityWrite,
-        (entityRead as any)[propertyName],
-      );
+      dst.transformer(newEntityWrite, (entityRead as any)[propertyName]);
     }
 
     return newEntityWrite;

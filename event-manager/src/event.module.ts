@@ -11,9 +11,7 @@ export const EVENT_EMITTER = 'EVENT_EMITTER';
 
 function isImprovedLoggerService(
   loggerProvider?:
-    | ImprovedLoggerService
-    | ILoggerProviderOptionsObject
-    | string,
+    ImprovedLoggerService | ILoggerProviderOptionsObject | string,
 ): loggerProvider is ImprovedLoggerService {
   return (
     loggerProvider !== undefined &&

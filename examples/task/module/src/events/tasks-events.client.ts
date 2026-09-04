@@ -23,8 +23,7 @@ export interface TaskStatusChangedEventPayload {
 }
 
 export type TaskDomainEventPayload =
-  | TaskCreatedEventPayload
-  | TaskStatusChangedEventPayload;
+  TaskCreatedEventPayload | TaskStatusChangedEventPayload;
 
 @Injectable()
 export class TasksEventsClient {

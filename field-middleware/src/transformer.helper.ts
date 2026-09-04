@@ -7,7 +7,9 @@ import { ValueTransformer } from 'typeorm';
  * @param enumName: enum object for checking if the column value belongs to it
  * @returns ValueTransformer object
  */
-export const enumTransformer = <T extends Record<string, unknown>>(enumName: T): ValueTransformer => {
+export const enumTransformer = <T extends Record<string, unknown>>(
+  enumName: T,
+): ValueTransformer => {
   const transformer = (value: string | number): string | number | null => {
     return belongsToEnum(enumName, value) ? value : null;
   };
@@ -18,7 +20,10 @@ export const enumTransformer = <T extends Record<string, unknown>>(enumName: T):
   };
 };
 
-export const defaultDateTransformer = (): { from: (value: Date) => Date; to: (value?: Date) => string | Date; } => {
+export const defaultDateTransformer = (): {
+  from: (value: Date) => Date;
+  to: (value?: Date) => string | Date;
+} => {
   const transform = (value?: Date): string | Date => {
     if (!value) {
       return DateHelper.dateToSQLDateTime(new Date());

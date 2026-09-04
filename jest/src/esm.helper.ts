@@ -71,7 +71,11 @@ export async function importMockedEsm(
       Object.getOwnPropertyNames(value).forEach((k) => {
         if (k !== 'length' && k !== 'name' && k !== 'prototype') {
           try {
-            Object.defineProperty(obj[prop], k, Object.getOwnPropertyDescriptor(value, k)!);
+            Object.defineProperty(
+              obj[prop],
+              k,
+              Object.getOwnPropertyDescriptor(value, k)!,
+            );
           } catch (e) {
             // ignore
           }

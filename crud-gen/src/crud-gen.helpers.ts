@@ -278,10 +278,7 @@ export function getDestinationFieldName(dst: string | DstExtended): string {
 const objectToFieldMapperCache = new WeakMap();
 export const objectToFieldMapper = (
   object:
-    | IFieldMapper
-    | IModelFieldAndFilterMapper
-    | ReturnTypeFuncValue
-    | ClassType,
+    IFieldMapper | IModelFieldAndFilterMapper | ReturnTypeFuncValue | ClassType,
 ): IModelFieldAndFilterMapper => {
   if (typeof object !== 'symbol') {
     const cached = objectToFieldMapperCache.get(object);
@@ -411,8 +408,7 @@ export interface ICrudGenBackendFactoryOptions<Entity extends ObjectLiteral> {
 export interface ICrudGenGraphqlFactoryOptions<Entity extends ObjectLiteral> {
   entityModel: ClassType<Entity>;
   resolver:
-    | Omit<IGenericResolverOptions<Entity>, 'entityModel'>
-    | IResolverOverride;
+    Omit<IGenericResolverOptions<Entity>, 'entityModel'> | IResolverOverride;
   serviceToken?: string;
   dataLoaderToken?: string;
 }

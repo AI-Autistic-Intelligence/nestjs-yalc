@@ -1,13 +1,21 @@
-import { ClassType } from "@nestjs-yalc/types";
-import { isClass } from "@nestjs-yalc/utils/class.helper";
-import { GetContext } from "@nestjs-yalc/utils/nest.decorator";
-import returnValue from "@nestjs-yalc/utils/returnValue";
-import { applyDecorators, ExecutionContext } from "@nestjs/common";
-import { GqlExecutionContext, Mutation } from "@nestjs/graphql";
-import { AgGridArgsSingle } from "./ag-grid-args.decorator";
-import { AgGridFindManyOptions } from "./ag-grid.interface";
-import { ExtraInput, generateDecorators, GenericResolver, GenericResolverMutationCreateOptions, GenericResolverOptions, GenericResolverQueryOptions, isExtraInputStrict } from "./generic-resolver.type";
-import { InputArgs } from "./gqlmapper.decorator";
+import { ClassType } from '@nestjs-yalc/types';
+import { isClass } from '@nestjs-yalc/utils/class.helper';
+import { GetContext } from '@nestjs-yalc/utils/nest.decorator';
+import returnValue from '@nestjs-yalc/utils/returnValue';
+import { applyDecorators, ExecutionContext } from '@nestjs/common';
+import { GqlExecutionContext, Mutation } from '@nestjs/graphql';
+import { AgGridArgsSingle } from './ag-grid-args.decorator';
+import { AgGridFindManyOptions } from './ag-grid.interface';
+import {
+  ExtraInput,
+  generateDecorators,
+  GenericResolver,
+  GenericResolverMutationCreateOptions,
+  GenericResolverOptions,
+  GenericResolverQueryOptions,
+  isExtraInputStrict,
+} from './generic-resolver.type';
+import { InputArgs } from './gqlmapper.decorator';
 
 export function defineCreateMutation<Entity extends Record<string, any>>(
   queryName: string,

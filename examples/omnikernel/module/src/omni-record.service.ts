@@ -18,8 +18,7 @@ export class OmniRecordService extends OmniScopedService<OmniRecordEntity> {
   constructor(
     repository: GenericTypeORMRepository<OmniRecordEntity>,
     scopeOrRepositoryWrite?:
-      | OmniScope
-      | GenericTypeORMRepository<OmniRecordEntity>,
+      OmniScope | GenericTypeORMRepository<OmniRecordEntity>,
     deletion: OmniDeletePolicy = 'tombstone',
     reservedRecordKinds: readonly string[] = [],
   ) {

@@ -32,7 +32,10 @@ export class GqlComplexityHelper {
 
   static customMaxDepth: number;
 
-  static processDocumentAST(document: DocumentNode, schema?: GraphQLSchema): void {
+  static processDocumentAST(
+    document: DocumentNode,
+    schema?: GraphQLSchema,
+  ): void {
     document.definitions
       .filter(isExecutableDefinitionNode)
       .forEach((operation: ExecutableDefinitionNode): void => {
@@ -49,9 +52,11 @@ export class GqlComplexityHelper {
           throw new GqlError(GqlErrorMsgs.MAX_OPERATIONS);
         }
 
-        selectionSet.selections.forEach((selectionNode: SelectionNode): void => {
-          GqlComplexityHelper.hasInvalidNode(selectionNode);
-        });
+        selectionSet.selections.forEach(
+          (selectionNode: SelectionNode): void => {
+            GqlComplexityHelper.hasInvalidNode(selectionNode);
+          },
+        );
       });
   }
 

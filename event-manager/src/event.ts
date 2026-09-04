@@ -75,9 +75,7 @@ export interface IEventOptions<
   message?: string;
   stack?: string;
   logger?:
-    | { instance?: ImprovedLoggerService; level?: LogLevel }
-    | LogLevel
-    | false;
+    { instance?: ImprovedLoggerService; level?: LogLevel } | LogLevel | false;
   /**
    * This is used to trigger the same event with different names.
    */

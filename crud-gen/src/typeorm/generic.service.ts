@@ -726,9 +726,7 @@ export class GenericService<
   ): EntityWrite;
   protected mapEntityR2W(
     entityRead:
-      | EntityRead
-      | DeepPartial<EntityRead>
-      | FindConditions<EntityRead>,
+      EntityRead | DeepPartial<EntityRead> | FindConditions<EntityRead>,
   ): EntityWrite | FindConditions<EntityWrite> {
     const entity = this.entityWrite;
 

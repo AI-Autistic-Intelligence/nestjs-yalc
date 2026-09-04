@@ -12,6 +12,12 @@ export class UserService extends GenericService<UserEntity> {
     @InjectRepository(UserEntity)
     public userRepository: Repository<UserEntity>,
   ) {
-    super(new AgGridRepository(userRepository.target, userRepository.manager, userRepository.queryRunner));
+    super(
+      new AgGridRepository(
+        userRepository.target,
+        userRepository.manager,
+        userRepository.queryRunner,
+      ),
+    );
   }
 }

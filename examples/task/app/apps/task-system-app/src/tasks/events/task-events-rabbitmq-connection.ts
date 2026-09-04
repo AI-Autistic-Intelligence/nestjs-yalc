@@ -41,8 +41,7 @@ function forceCloseRabbitResource(resource: {
   heartbeater?: { clear: () => void };
 }) {
   const connection = resource.connection as
-    | RabbitConnectionResource
-    | undefined;
+    RabbitConnectionResource | undefined;
 
   connection?.heartbeater?.clear();
   resource.heartbeater?.clear();

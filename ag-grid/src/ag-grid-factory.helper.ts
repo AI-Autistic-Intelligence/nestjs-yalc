@@ -1,33 +1,31 @@
 import {
-    DataLoaderFactory,
-    getDataloaderToken,
+  DataLoaderFactory,
+  getDataloaderToken,
 } from '@nestjs-yalc/data-loader/dataloader.helper';
 import { ClassType } from '@nestjs-yalc/types';
 import {
-    ClassProvider,
-    ExistingProvider,
-    FactoryProvider,
-    Provider,
-    ValueProvider,
+  ClassProvider,
+  ExistingProvider,
+  FactoryProvider,
+  Provider,
+  ValueProvider,
 } from '@nestjs/common';
 import { ObjectLiteral } from 'typeorm';
 import { JoinColumnMetadataArgs } from 'typeorm/metadata-args/JoinColumnMetadataArgs';
 import { RelationMetadataArgs } from 'typeorm/metadata-args/RelationMetadataArgs';
 import {
-    AgGridRepository,
-    AgGridRepositoryFactory,
+  AgGridRepository,
+  AgGridRepositoryFactory,
 } from './ag-grid.repository';
 import {
-    GenericResolverOptions,
-    resolverFactory,
+  GenericResolverOptions,
+  resolverFactory,
 } from './generic-resolver.resolver';
 import {
-    GenericService,
-    GenericServiceFactory,
+  GenericService,
+  GenericServiceFactory,
 } from './generic-service.service';
-import {
-    AgGridFieldMetadata
-} from './object.decorator';
+import { AgGridFieldMetadata } from './object.decorator';
 
 export interface DependencyObject<Entity extends ObjectLiteral> {
   providers: Array<FactoryProvider | Provider>;

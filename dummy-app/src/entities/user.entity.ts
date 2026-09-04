@@ -27,6 +27,10 @@ export class UserEntity {
   age: number;
 
   @Field((): [typeof PostEntity] => [PostEntity], { nullable: 'itemsAndList' })
-  @OneToMany((): typeof PostEntity => PostEntity, (post): UserEntity => post.user, { cascade: true })
+  @OneToMany(
+    (): typeof PostEntity => PostEntity,
+    (post): UserEntity => post.user,
+    { cascade: true },
+  )
   posts?: PostEntity[];
 }

@@ -278,8 +278,7 @@ function relationReader(
  */
 export function createOmniProjectionReaderCatalog(
   registrations: readonly (
-    | OmniProjectionReaderRegistration
-    | OmniProjectionReaderCatalogSource
+    OmniProjectionReaderRegistration | OmniProjectionReaderCatalogSource
   )[],
 ): OmniProjectionReaderCatalog {
   const byId = new Map<string, OmniProjectionReaderRegistration>();
@@ -335,8 +334,7 @@ export function createOmniProjectionReaderCatalog(
  */
 export function createOmniProjectionReaderCatalogProvider(
   registrations: readonly (
-    | OmniProjectionReaderRegistration
-    | OmniProjectionReaderCatalogSource
+    OmniProjectionReaderRegistration | OmniProjectionReaderCatalogSource
   )[],
   token: InjectionToken<OmniProjectionReaderCatalog> = OMNI_PROJECTION_READER_CATALOG,
 ): Provider {

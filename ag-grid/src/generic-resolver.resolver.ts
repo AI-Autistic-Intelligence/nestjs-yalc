@@ -1,29 +1,37 @@
 export * from './generic-mutation.resolver';
 export * from './generic-query.resolver';
 export * from './generic-resolver.type';
-import {
-    Resolver
-} from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql';
 
 import {
-    GenericService,
-    getServiceToken,
+  GenericService,
+  getServiceToken,
 } from '@nestjs-yalc/ag-grid/generic-service.service';
 import {
-    getDataloaderToken,
-    GQLDataLoader,
+  getDataloaderToken,
+  GQLDataLoader,
 } from '@nestjs-yalc/data-loader/dataloader.helper';
 import returnValue from '@nestjs-yalc/utils/returnValue';
-import {
-    Inject
-} from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { ContextId, ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { ObjectLiteral } from 'typeorm';
-import { RelationInfo } from "./ag-grid-factory.helper";
-import { getEntityRelations } from "./ag-grid-metadata.helper";
-import { defineCreateMutation, defineDeleteMutation, defineUpdateMutation } from "./generic-mutation.resolver";
-import { defineFieldResolver, defineGetGridResource, defineGetSingleResource } from "./generic-query.resolver";
-import { GenericResolver, GenericResolverOptions, isCustomSingleQueryOptions } from "./generic-resolver.type";
+import { RelationInfo } from './ag-grid-factory.helper';
+import { getEntityRelations } from './ag-grid-metadata.helper';
+import {
+  defineCreateMutation,
+  defineDeleteMutation,
+  defineUpdateMutation,
+} from './generic-mutation.resolver';
+import {
+  defineFieldResolver,
+  defineGetGridResource,
+  defineGetSingleResource,
+} from './generic-query.resolver';
+import {
+  GenericResolver,
+  GenericResolverOptions,
+  isCustomSingleQueryOptions,
+} from './generic-resolver.type';
 import { getAgGridFieldMetadataList } from './object.decorator';
 
 // export interface ICustomQueryOptions extends IGenericResolverMethodOptions {

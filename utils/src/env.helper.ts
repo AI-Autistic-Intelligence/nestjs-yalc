@@ -7,7 +7,8 @@ export const envToArray = <T>(key: string): T[] => {
   if (process.env[key] === '') return [];
 
   return (
-    <T[]>(<unknown>process.env[key]?.split(',').map((v): string => v.trim())) ?? []
+    <T[]>(<unknown>process.env[key]?.split(',').map((v): string => v.trim())) ??
+    []
   );
 };
 

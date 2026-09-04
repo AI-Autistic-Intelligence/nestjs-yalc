@@ -101,8 +101,7 @@ export interface ILogErrorPayload extends Omit<
 }
 
 type loggerOptionType =
-  | { instance?: ImprovedLoggerService; level?: LogLevel }
-  | false;
+  { instance?: ImprovedLoggerService; level?: LogLevel } | false;
 
 export interface IAbstractDefaultError
   extends

@@ -3,8 +3,8 @@ import {
   getAgGridFieldMetadataList,
   AgGridFieldMetadata,
 } from './object.decorator';
-import { formatRawSelection } from "./ag-grid-query.helper";
-import { getDestinationFieldName } from "./ag-grid-metadata.helper";
+import { formatRawSelection } from './ag-grid-query.helper';
+import { getDestinationFieldName } from './ag-grid-metadata.helper';
 
 /**
  * Monkey patching query builder
@@ -51,9 +51,9 @@ SelectQueryBuilder.prototype.getOne = async function () {
 
   const metaInfo = getAgGridFieldMetadataList(entities[0].constructor) ?? {};
 
-  for (const [propertyKey, field] of Object.entries<AgGridFieldMetadata<unknown>>(
-    metaInfo,
-  )) {
+  for (const [propertyKey, field] of Object.entries<
+    AgGridFieldMetadata<unknown>
+  >(metaInfo)) {
     if (field.mode === 'derived' && field.dst) {
       const itemKey = formatRawSelection(
         getDestinationFieldName(field.dst),
@@ -68,4 +68,6 @@ SelectQueryBuilder.prototype.getOne = async function () {
   return entities[0];
 };
 
-export class SelectQueryBuilderPatched<T extends ObjectLiteral> extends SelectQueryBuilder<T> {}
+export class SelectQueryBuilderPatched<
+  T extends ObjectLiteral,
+> extends SelectQueryBuilder<T> {}

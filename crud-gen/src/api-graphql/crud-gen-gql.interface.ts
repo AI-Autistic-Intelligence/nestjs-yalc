@@ -81,14 +81,10 @@ export interface DateFilterModel extends ISimpleFilterModel {
 }
 
 export type GenericFilterModel =
-  | ISimpleFilterModel
-  | ITextFilterModel
-  | INumberFilterModel;
+  ISimpleFilterModel | ITextFilterModel | INumberFilterModel;
 
 export type FilterModel =
-  | GenericFilterModel
-  | DateFilterModel
-  | ISetFilterModel;
+  GenericFilterModel | DateFilterModel | ISetFilterModel;
 
 export interface ICombinedSimpleModel {
   // the filter type: date, number or text
@@ -116,10 +112,7 @@ export interface IMultiColumnObject extends IMultiColumnProperty {
  */
 export type IFilterInputOld = {
   [key: string]:
-    | FilterModel
-    | ICombinedSimpleModel
-    | IMultiColumnJoinOptions
-    | undefined;
+    FilterModel | ICombinedSimpleModel | IMultiColumnJoinOptions | undefined;
 } & IMultiColumnProperty;
 
 export interface ITextFilter {
@@ -149,10 +142,7 @@ export interface IFilterExpressionsProperty {
 }
 
 export type FilterExpressionType =
-  | ITextFilter
-  | INumberFilter
-  | IDateFilter
-  | ISetFilter;
+  ITextFilter | INumberFilter | IDateFilter | ISetFilter;
 
 export interface FilterInput {
   operator?: Operators;

@@ -8,7 +8,10 @@ import {
   ReturnTypeFuncValue,
 } from '@nestjs/graphql';
 import { ObjectLiteral } from 'typeorm';
-import { columnConversion, objectToFieldMapper } from "@nestjs-yalc/ag-grid/ag-grid-metadata.helper";
+import {
+  columnConversion,
+  objectToFieldMapper,
+} from '@nestjs-yalc/ag-grid/ag-grid-metadata.helper';
 
 interface InputArgsOptions {
   /**

@@ -102,10 +102,7 @@ export function jestConfGenerator(
       `${rootPath}/`,
       options.defaultConfOptions,
       tsJestConfig(
-        options.tsConfigPath?.(proj) ??
-          `${rootPath}/${proj.path}/tsconfig.${
-            proj.type === 'library' ? 'lib' : 'app'
-          }.json`,
+        options.tsConfigPath?.(proj) ?? `${rootPath}/${proj.path}/tsconfig.json`,
         options.tsJestConfig,
       ),
     ),
@@ -129,7 +126,7 @@ export function jestConfGenerator(
 
   for (const projName of Object.keys(projectList)) {
     const proj = projectList[projName];
-    if (!options.skipProjects?.includes(proj.path)) {
+    if (!options.skipProjects?.includes(projName) && !options.skipProjects?.includes(proj.path)) {
       let conf = confFactory(projName, proj);
 
       if (appProjectsSettings[projName]?.confOverride) {

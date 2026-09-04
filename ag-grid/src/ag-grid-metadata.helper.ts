@@ -1,20 +1,20 @@
 import {
-    FieldMapper,
-    isFieldMapper,
+  FieldMapper,
+  isFieldMapper,
 } from '@nestjs-yalc/interfaces/maps.interface';
 import { ClassType } from '@nestjs-yalc/types';
 import { ReturnTypeFuncValue } from '@nestjs/graphql';
 import { getMetadataArgsStorage } from 'typeorm';
 import { JoinColumnMetadataArgs } from 'typeorm/metadata-args/JoinColumnMetadataArgs';
 import { RelationMetadataArgs } from 'typeorm/metadata-args/RelationMetadataArgs';
-import { RelationInfo } from "./ag-grid-factory.helper";
+import { RelationInfo } from './ag-grid-factory.helper';
 import {
-    AgGridFieldMetadata,
-    DstExtended,
-    FieldAndFilterMapper,
-    getAgGridFieldMetadataList,
-    getAgGridObjectMetadata,
-    isDstExtended,
+  AgGridFieldMetadata,
+  DstExtended,
+  FieldAndFilterMapper,
+  getAgGridFieldMetadataList,
+  getAgGridObjectMetadata,
+  isDstExtended,
 } from './object.decorator';
 
 export const columnConversion = (
@@ -63,11 +63,7 @@ export function getDestinationFieldName(dst: string | DstExtended): string {
 
 const objectToFieldMapperCache = new WeakMap();
 export const objectToFieldMapper = (
-  object:
-    | FieldMapper
-    | FieldAndFilterMapper
-    | ReturnTypeFuncValue
-    | ClassType,
+  object: FieldMapper | FieldAndFilterMapper | ReturnTypeFuncValue | ClassType,
 ): FieldAndFilterMapper => {
   if (typeof object !== 'symbol') {
     const cached = objectToFieldMapperCache.get(object as object);

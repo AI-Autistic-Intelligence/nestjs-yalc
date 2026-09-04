@@ -71,8 +71,16 @@ import {
   isSetFilterModel,
   isTextFilterModel,
 } from './ag-grid-type-checker.utils';
-import { applyJoinArguments, forceFilters, isAskingForCount } from "./ag-grid-query.helper";
-import { columnConversion, isSymbolic, objectToFieldMapper } from "./ag-grid-metadata.helper";
+import {
+  applyJoinArguments,
+  forceFilters,
+  isAskingForCount,
+} from './ag-grid-query.helper';
+import {
+  columnConversion,
+  isSymbolic,
+  objectToFieldMapper,
+} from './ag-grid-metadata.helper';
 
 export function getTextFilter(filter: string, firstParameter: string) {
   switch (filter.toLowerCase()) {
@@ -241,10 +249,7 @@ export function convertFilter(
 
 export function resolveFilter(
   filter:
-    | CombinedSimpleModel
-    | SimpleFilterModel
-    | DateFilterModel
-    | SetFilterModel,
+    CombinedSimpleModel | SimpleFilterModel | DateFilterModel | SetFilterModel,
 ): WhereConditionType {
   let filterToApply: FindOperator<findOperatorTypes> | CombinedWhereModel;
   if (
@@ -450,7 +455,9 @@ export function mapAgGridParams(
       case ExtraArgsStrategy.AT_LEAST_ONE:
         if (
           Object.keys(args as any).length <= 0 ||
-          extraArgsKeys.every((argName) => typeof (args as any)[argName] === 'undefined')
+          extraArgsKeys.every(
+            (argName) => typeof (args as any)[argName] === 'undefined',
+          )
         )
           throw new MissingArgumentsError();
         break;

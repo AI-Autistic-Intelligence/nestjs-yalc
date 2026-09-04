@@ -7,12 +7,12 @@ import {
 import { ClassType } from '@nestjs-yalc/types/globals';
 import { GraphQLResolveInfo } from 'graphql';
 import { removeSymbolicSelection } from './ag-grid-args.decorator';
+import { AgGridFieldMetadata, FieldAndFilterMapper } from './object.decorator';
+import { formatRawSelection } from '@nestjs-yalc/ag-grid/ag-grid-query.helper';
 import {
-  AgGridFieldMetadata,
-  FieldAndFilterMapper,
-} from './object.decorator';
-import { formatRawSelection } from "@nestjs-yalc/ag-grid/ag-grid-query.helper";
-import { columnConversion, objectToFieldMapper } from "@nestjs-yalc/ag-grid/ag-grid-metadata.helper";
+  columnConversion,
+  objectToFieldMapper,
+} from '@nestjs-yalc/ag-grid/ag-grid-metadata.helper';
 
 export interface GqlAgSingleParams {
   id: Type<any>;

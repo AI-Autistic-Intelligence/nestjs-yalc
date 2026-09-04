@@ -1,4 +1,3 @@
-
 import { faker } from '@faker-js/faker';
 
 // TODO: Probably we can use the internal faker of typeorm-seeding to create uniqueness, like we do here
@@ -17,19 +16,21 @@ export class FakerHelper {
   unique<Method extends (...args: any[]) => any>(
     method: Method,
     args: Parameters<Method>,
-    options?: { maxRetries?: number; maxTime?: number }
+    options?: { maxRetries?: number; maxTime?: number },
   ): ReturnType<Method> {
     const maxRetries = options?.maxRetries ?? DEF_FAKER_MAX_RETRIES;
     let result: ReturnType<Method>;
     let retries = 0;
-    
+
     do {
       result = method(...args);
       retries++;
     } while (this.uniqueStore.has(String(result)) && retries < maxRetries);
-    
+
     if (this.uniqueStore.has(String(result))) {
-      throw new Error(`Faker max retries reached for unique value: ${String(result)}`);
+      throw new Error(
+        `Faker max retries reached for unique value: ${String(result)}`,
+      );
     }
     this.uniqueStore.add(String(result));
     return result;
@@ -51,7 +52,9 @@ export class FakerHelper {
   }
 
   generateNewEmail(firstName: string, lastName: string, provider?: string) {
-    return this.unique(faker.internet.email, [{ firstName, lastName, provider }]);
+    return this.unique(faker.internet.email, [
+      { firstName, lastName, provider },
+    ]);
   }
 
   randomFromEnum<T extends Record<string, any>>(inputEnum: T): T[keyof T] {

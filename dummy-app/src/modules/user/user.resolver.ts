@@ -11,7 +11,8 @@ export class UserResolver {
 
   @Query((): (typeof UserEntity)[] => [UserEntity])
   getUsers(
-    @AgGridArgs({ entityType: UserEntity }) agGridArgs: AgGridFindManyOptions<UserEntity>,
+    @AgGridArgs({ entityType: UserEntity })
+    agGridArgs: AgGridFindManyOptions<UserEntity>,
   ): Promise<UserEntity[]> {
     return this.userService.getEntityListAgGrid(agGridArgs);
   }

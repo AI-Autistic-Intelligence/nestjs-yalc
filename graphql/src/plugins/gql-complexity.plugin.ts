@@ -1,8 +1,5 @@
 import { Plugin } from '@nestjs/apollo';
-import {
-  GraphQLRequestListener,
-  ApolloServerPlugin,
-} from '@apollo/server';
+import { GraphQLRequestListener, ApolloServerPlugin } from '@apollo/server';
 import { GqlComplexityHelper } from './gql-complexity.helper';
 
 @Plugin()

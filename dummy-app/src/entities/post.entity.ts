@@ -18,6 +18,9 @@ export class PostEntity {
   content: string;
 
   @Field((): typeof UserEntity => UserEntity)
-  @ManyToOne((): typeof UserEntity => UserEntity, (user): PostEntity[] | undefined => user.posts)
+  @ManyToOne(
+    (): typeof UserEntity => UserEntity,
+    (user): PostEntity[] | undefined => user.posts,
+  )
   user: UserEntity;
 }

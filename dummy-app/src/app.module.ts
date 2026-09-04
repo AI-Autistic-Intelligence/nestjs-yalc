@@ -28,9 +28,6 @@ import { GqlComplexityPlugin } from '@nestjs-yalc/graphql/plugins/gql-complexity
     }),
     UserModule,
   ],
-  providers: [
-    TestResolver,
-    GqlComplexityPlugin,
-  ],
+  providers: [TestResolver, GqlComplexityPlugin],
 })
 export class AppModule {}

@@ -1,10 +1,17 @@
-import { DecoratorType, FieldMapper } from "@nestjs-yalc/interfaces";
-import { ClassType } from "@nestjs-yalc/types";
-import { Query } from "@nestjs/common";
-import { ArgsOptions, GqlExecutionContext, Mutation, MutationOptions, QueryOptions, ReturnTypeFunc } from "@nestjs/graphql";
-import { AgQueryParams } from "./ag-grid.args";
-import { ExtraArgsStrategy } from "./ag-grid.enum";
-import { AgGridFindManyOptions, DArg, ExtraArg } from "./ag-grid.interface";
+import { DecoratorType, FieldMapper } from '@nestjs-yalc/interfaces';
+import { ClassType } from '@nestjs-yalc/types';
+import { Query } from '@nestjs/common';
+import {
+  ArgsOptions,
+  GqlExecutionContext,
+  Mutation,
+  MutationOptions,
+  QueryOptions,
+  ReturnTypeFunc,
+} from '@nestjs/graphql';
+import { AgQueryParams } from './ag-grid.args';
+import { ExtraArgsStrategy } from './ag-grid.enum';
+import { AgGridFindManyOptions, DArg, ExtraArg } from './ag-grid.interface';
 
 export interface GenericResolver {
   [index: string]: unknown; //index signature
@@ -39,17 +46,16 @@ export interface ExtraInputStrict<Type> {
   };
   gqlOptions?: ArgsOptions;
 }
-export interface GenericResolverMutationCreateOptions<Type>
-  extends GenericResolverMethodOptions {
+export interface GenericResolverMutationCreateOptions<
+  Type,
+> extends GenericResolverMethodOptions {
   extraInputs?: { [key: string]: ExtraInput<Type> };
 }
-export interface GenericResolverQueryOptions
-  extends GenericResolverMethodOptions {
+export interface GenericResolverQueryOptions extends GenericResolverMethodOptions {
   idName?: string | DArg;
   throwOnNotFound?: boolean;
 }
-export interface CustomSingleQueryOptions
-  extends GenericResolverMethodOptions {
+export interface CustomSingleQueryOptions extends GenericResolverMethodOptions {
   isSingleResource: true;
   throwOnNotFound?: boolean;
   idName?: string;
@@ -113,7 +119,9 @@ export function isCustomSingleQueryOptions(
 export function hasExtraArgs(option: GenericResolverQueryOptions): boolean {
   return !!(<GenericResolverQueryOptions>option).extraArgs;
 }
-export function hasFilters(findOptions: AgGridFindManyOptions): boolean | undefined {
+export function hasFilters(
+  findOptions: AgGridFindManyOptions,
+): boolean | undefined {
   return (
     (findOptions.where &&
       Object.values(findOptions.where.filters).length > 0) ||

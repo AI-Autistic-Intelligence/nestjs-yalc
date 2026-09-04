@@ -7,6 +7,4 @@ export type ImportType =
   | ForwardReference<unknown>;
 
 export type DecoratorType =
-  | ClassDecorator
-  | MethodDecorator
-  | PropertyDecorator;
+  ClassDecorator | MethodDecorator | PropertyDecorator;

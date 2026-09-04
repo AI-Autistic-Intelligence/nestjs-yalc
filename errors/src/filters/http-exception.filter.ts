@@ -18,10 +18,7 @@ import { LogLevelEnum } from '@nestjs-yalc/logger/logger.enum.js';
 import { type ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
 
 type HttpErrorType =
-  | common.HttpException
-  | MissingArgumentsError
-  | GqlError
-  | DefaultErrorMixin;
+  common.HttpException | MissingArgumentsError | GqlError | DefaultErrorMixin;
 @common.Catch(
   common.HttpException,
   MissingArgumentsError,

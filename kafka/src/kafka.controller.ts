@@ -1,5 +1,10 @@
 import { Controller } from '@nestjs/common';
-import { DeepPartial, FindOptionsWhere, Repository, ObjectLiteral } from 'typeorm';
+import {
+  DeepPartial,
+  FindOptionsWhere,
+  Repository,
+  ObjectLiteral,
+} from 'typeorm';
 
 @Controller()
 export class KafkaController<Entity extends ObjectLiteral> {

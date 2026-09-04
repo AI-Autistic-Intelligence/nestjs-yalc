@@ -52,7 +52,7 @@ export const tsJestConfig = (tsConfPath = '', overrideTsJestConfig?: any) => {
     path.basename(tsConfPath),
   );
 
-  if (tsConfigFile?.path !== tsConfPath) {
+  if (tsConfigFile?.path && path.resolve(tsConfigFile.path) !== path.resolve(tsConfPath)) {
     throw new Error(`Cannot find ${tsConfPath}`);
   }
 

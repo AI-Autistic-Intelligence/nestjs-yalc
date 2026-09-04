@@ -86,8 +86,7 @@ export class RabbitMqEventStrategy<P = any, O = any>
 export interface RabbitMqEventStrategyProviderOptions<P = any> {
   RabbitMqStrategy?: ClassType<RabbitMqEventStrategy<P>>;
   options:
-    | RabbitMqEventStrategyOptions<P>
-    | (() => RabbitMqEventStrategyOptions<P>);
+    RabbitMqEventStrategyOptions<P> | (() => RabbitMqEventStrategyOptions<P>);
 }
 
 export const RabbitMqEventStrategyProvider = <P = any>(
@@ -144,8 +143,7 @@ function forceCloseRabbitResource(resource: {
   heartbeater?: { clear: () => void };
 }) {
   const connection = resource.connection as
-    | RabbitConnectionResource
-    | undefined;
+    RabbitConnectionResource | undefined;
 
   connection?.heartbeater?.clear();
   resource.heartbeater?.clear();

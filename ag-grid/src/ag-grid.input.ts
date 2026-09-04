@@ -25,7 +25,7 @@ import {
   SetFilterModel,
   TextFilterModel,
 } from './ag-grid.interface';
-import { getEntityRelations } from "./ag-grid-metadata.helper";
+import { getEntityRelations } from './ag-grid-metadata.helper';
 
 export interface SortModel<T = any> {
   colId: keyof T | string;

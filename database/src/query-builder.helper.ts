@@ -97,7 +97,9 @@ export class QueryBuilderHelper {
    * @param mode Replication mode
    * @param operationFn The operation to apply to the QueryBuilder
    */
-  public static async applyOperationToQueryBuilder<Entity extends ObjectLiteral>(
+  public static async applyOperationToQueryBuilder<
+    Entity extends ObjectLiteral,
+  >(
     queryBuilder: SelectQueryBuilder<Entity>,
     mode: ReplicationMode,
     operationFn: (

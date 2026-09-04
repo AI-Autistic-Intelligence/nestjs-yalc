@@ -9,9 +9,10 @@ import { DeserializedData } from '../interface/debezium.interface';
 /**
  * Deserializer for Kafka data by using Avro Schema
  */
-export class KafkaAvroDeserializer
-  implements Deserializer<KafkaMessage, ReadPacket<DeserializedData<any, any>>>
-{
+export class KafkaAvroDeserializer implements Deserializer<
+  KafkaMessage,
+  ReadPacket<DeserializedData<any, any>>
+> {
   protected registry: SchemaRegistry;
 
   constructor(

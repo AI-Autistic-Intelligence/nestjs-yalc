@@ -159,9 +159,8 @@ export function CrudGenResourceFactory<Entity extends Record<string, any>>({
   rest,
 }: ICrudGenResourceFactoryOptions<Entity>): ICrudGenResourceFactoryResult<Entity> {
   const graphqlOptions:
-    | CrudGenResourceGraphqlOptions<Entity>
-    | false
-    | undefined = graphql === true ? { resolver: {} } : graphql;
+    CrudGenResourceGraphqlOptions<Entity> | false | undefined =
+    graphql === true ? { resolver: {} } : graphql;
 
   const restOptions: CrudGenResourceRestOptions<Entity> | false | undefined =
     rest === true ? {} : rest;

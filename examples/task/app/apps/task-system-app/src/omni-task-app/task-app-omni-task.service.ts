@@ -450,9 +450,7 @@ export class TaskAppOmniTaskService {
 
     const guid = filters.guid as string | FindOperator<string> | undefined;
     const projectId = filters.projectId as
-      | string
-      | FindOperator<string>
-      | undefined;
+      string | FindOperator<string> | undefined;
     const title = filters.title as string | FindOperator<string> | undefined;
 
     return {

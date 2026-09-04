@@ -10,8 +10,7 @@ export class OmniCollectionService extends OmniScopedService<OmniCollectionEntit
   constructor(
     repository: GenericTypeORMRepository<OmniCollectionEntity>,
     scopeOrRepositoryWrite?:
-      | OmniScope
-      | GenericTypeORMRepository<OmniCollectionEntity>,
+      OmniScope | GenericTypeORMRepository<OmniCollectionEntity>,
     deletion: OmniDeletePolicy = 'tombstone',
   ) {
     super(repository, scopeOrRepositoryWrite, deletion);

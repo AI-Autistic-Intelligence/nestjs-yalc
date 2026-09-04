@@ -15,12 +15,17 @@ import { AgGridFindManyOptions } from './ag-grid.interface';
 import { WhereFilters } from './ag-grid.type';
 import { AgGridFieldMetadata } from './object.decorator';
 import './query-builder.helpers';
-import { applySelectOnFind, whereObjectToSqlString } from "./ag-grid-query.helper";
-import { objectToFieldMapper } from "./ag-grid-metadata.helper";
+import {
+  applySelectOnFind,
+  whereObjectToSqlString,
+} from './ag-grid-query.helper';
+import { objectToFieldMapper } from './ag-grid-metadata.helper';
 
 export const AG_GRID_MAIN_ALIAS = 'AgGridMainAlias';
 
-export class AgGridRepository<Entity extends ObjectLiteral> extends Repository<Entity> {
+export class AgGridRepository<
+  Entity extends ObjectLiteral,
+> extends Repository<Entity> {
   protected entity: EntityClassOrSchema;
 
   /**
@@ -144,7 +149,10 @@ export class AgGridRepository<Entity extends ObjectLiteral> extends Repository<E
       processRelationExtraConditions('left', joinCopy.leftJoinAndSelect);
     }
 
-    queryBuilder.setFindOptions({ ...strippedFindOptions, join: joinCopy } as any);
+    queryBuilder.setFindOptions({
+      ...strippedFindOptions,
+      join: joinCopy,
+    } as any);
 
     rawSelection.length > 0 && queryBuilder.addSelect(rawSelection);
 
@@ -353,7 +361,7 @@ export function AgGridRepositoryFactory<Entity extends ObjectLiteral>(
   if ((cached = repositoryMap.get(entity))) return cached;
 
   const dynamicClass = (name: string) =>
-    ({ [name]: class extends AgGridRepository<Entity> {} }[name]);
+    ({ [name]: class extends AgGridRepository<Entity> {} })[name];
 
   const repo: ClassType<AgGridRepository<Entity>> = dynamicClass(
     `${entity.name}Repository`,
