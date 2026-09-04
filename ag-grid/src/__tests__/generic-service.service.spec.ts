@@ -1,3 +1,5 @@
+jest.mock('@nestjs/graphql');
+
 import * as GenericServiceModule from '../generic-service.service';
 import {
   GenericService,
@@ -35,6 +37,9 @@ import {
   ConditionsTooBroadError,
 } from '../conditions.error';
 import * as ClassHelper from '@nestjs-yalc/utils/class.helper';
+jest.mock('@nestjs-yalc/utils/class.helper', () => ({
+  isClass: jest.fn(),
+}));
 jest.mock('typeorm');
 
 describe('GenericService', () => {
@@ -85,48 +90,36 @@ describe('GenericService', () => {
   });
 
   it('should call the factory function properly', () => {
-    const spiedGenerciService = jest
-      .spyOn(GenericServiceModule, 'GenericService')
-      .mockImplementation(jest.fn());
+    const dummyService = jest.fn();
 
     const result: FactoryProvider = GenericServiceFactory<BaseEntity>(
       () => BaseEntity,
       'fakeConnection',
-      GenericService,
+      dummyService as any,
     );
     expect(result).toBeDefined();
     expect(result.useFactory()).toBeDefined();
 
-    expect(spiedGenerciService).toHaveBeenCalledTimes(1);
-
-    spiedGenerciService.mockRestore();
+    expect(dummyService).toHaveBeenCalledTimes(1);
   });
 
   it('should call the factory function properly with parameters', () => {
-    const spiedGenerciService = jest
-      .spyOn(GenericServiceModule, 'GenericService')
-      .mockImplementation(jest.fn());
+    const dummyService = jest.fn();
 
     const result: FactoryProvider = GenericServiceFactory<BaseEntity>(
       () => BaseEntity,
       'fakeConnection',
-      GenericService,
+      dummyService as any,
       MockedEntity,
       'fakeWriteConnection',
     );
     expect(result).toBeDefined();
     expect(result.useFactory()).toBeDefined();
 
-    expect(spiedGenerciService).toHaveBeenCalledTimes(1);
-
-    spiedGenerciService.mockRestore();
+    expect(dummyService).toHaveBeenCalledTimes(1);
   });
 
   it('Check GenericServiceFactory provide object to work properly ', () => {
-    const spiedGenerciService = jest
-      .spyOn(GenericServiceModule, 'GenericService')
-      .mockImplementation(jest.fn());
-
     const result: FactoryProvider = GenericServiceFactory<BaseEntity>(
       BaseEntity,
       'fakeConnection',
@@ -134,21 +127,15 @@ describe('GenericService', () => {
 
     expect(result).toBeDefined();
     expect(result.provide).toEqual('BaseEntityGenericService');
-    spiedGenerciService.mockRestore();
   });
 
   it('Should GenericServiceFactory works properly with default values ', () => {
-    const spiedGenerciService = jest
-      .spyOn(GenericServiceModule, 'GenericService')
-      .mockImplementation(jest.fn());
-
     const result: FactoryProvider = GenericServiceFactory<BaseEntity>(
       'BaseEntity' as any,
       'fakeConnection',
     );
 
     expect(result).toBeDefined();
-    spiedGenerciService.mockRestore();
   });
 
   it('Check getServiceToken', () => {
@@ -176,7 +163,7 @@ describe('GenericService', () => {
     const spiedGetEntity = jest.spyOn(service, 'getEntity');
     expect(spiedGetEntity).not.toHaveBeenCalled();
     await service.getEntity({}, [], ['RelatedEntity']);
-    expect(baseEntityRepository.findOne).toBeCalledWith({
+    expect(baseEntityRepository.findOne).toHaveBeenCalledWith({
       where: {},
       select: [],
       relations: ['RelatedEntity'],
@@ -253,7 +240,7 @@ describe('GenericService', () => {
     const entityList = await service.getEntityList({}, false, [
       'RelatedEntity',
     ]);
-    expect(baseEntityRepository.find).toBeCalledWith({
+    expect(baseEntityRepository.find).toHaveBeenCalledWith({
       relations: ['RelatedEntity'],
     });
     expect(entityList).toBe(mockedList);
@@ -495,21 +482,21 @@ describe('GenericService', () => {
     const mockedCountedList: [BaseEntity[], number] = [[new BaseEntity()], 1];
     baseEntityRepository.findAndCount.mockResolvedValue(mockedCountedList);
     await service.getEntityListAgGrid({}, true);
-    expect(baseEntityRepository.getManyAndCountAgGrid).toBeCalledWith({});
+    expect(baseEntityRepository.getManyAndCountAgGrid).toHaveBeenCalledWith({});
   });
 
   it('test getEntityListAgGrid with false count', async () => {
     const mockedList: BaseEntity[] = [new BaseEntity()];
     baseEntityRepository.find.mockResolvedValue(mockedList);
     await service.getEntityListAgGrid({}, false);
-    expect(baseEntityRepository.getManyAgGrid).toBeCalledWith({});
+    expect(baseEntityRepository.getManyAgGrid).toHaveBeenCalledWith({});
   });
 
   it('test getEntityListAgGrid with relations', async () => {
     const mockedList: BaseEntity[] = [new BaseEntity()];
     baseEntityRepository.find.mockResolvedValue(mockedList);
     await service.getEntityListAgGrid({}, false, ['RelatedEntity']);
-    expect(baseEntityRepository.getManyAgGrid).toBeCalledWith({
+    expect(baseEntityRepository.getManyAgGrid).toHaveBeenCalledWith({
       relations: ['RelatedEntity'],
     });
   });

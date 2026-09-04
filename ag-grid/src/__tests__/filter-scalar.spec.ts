@@ -58,7 +58,7 @@ describe('Filter scalar', () => {
   it('Check parseLiteral error', async () => {
     expect(() =>
       createdFilterScalar.parseLiteral(objectValueNode),
-    ).toThrowError();
+    ).toThrow();
   });
 
   it('test it test it', () => {

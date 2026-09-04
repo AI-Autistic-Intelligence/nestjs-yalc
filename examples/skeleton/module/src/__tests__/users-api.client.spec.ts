@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 
-const { UsersApiClient } = await import('../client/users-api.client.js');
+import { UsersApiClient } from '../client/users-api.client.js';
 
 describe('UsersApiClient', () => {
   it('wraps user and phone calls behind the configured API strategy', async () => {

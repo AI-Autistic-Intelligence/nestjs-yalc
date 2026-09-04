@@ -1,3 +1,11 @@
+jest.mock('@nestjs/graphql', () => {
+  const actual = jest.requireActual('@nestjs/graphql');
+  return {
+    ...actual,
+    Field: jest.fn().mockReturnValue(jest.fn()),
+  };
+});
+
 import {
   AgGridField,
   AgGridObject,
@@ -85,12 +93,10 @@ describe('ObjectDecorator', () => {
   });
 
   it('Should AgGridField work properly with default values', () => {
-    jest
-      .spyOn(ObjectDecorator, 'getAgGridFieldMetadataList')
-      .mockReturnValue({});
 
     const mockedNestGraphql = NestGraphql as jest.Mocked<typeof NestGraphql>;
-    mockedNestGraphql.addFieldMetadata = jest.fn();
+    const mockFieldDecorator = jest.fn();
+    (mockedNestGraphql.Field as jest.Mock).mockReturnValue(mockFieldDecorator);
 
     let gqlOptions: FieldOptions | undefined = undefined;
     let gqlType: ReturnTypeFunc | undefined = () => BaseEntity;
@@ -102,14 +108,13 @@ describe('ObjectDecorator', () => {
 
     agGridFieldDecorator({}, 'propertyKey');
 
-    expect(mockedNestGraphql.addFieldMetadata).toHaveBeenCalledWith(
-      gqlType,
-      {},
-      {},
-      'propertyKey',
-    );
+    expect(mockedNestGraphql.Field).toHaveBeenCalledWith(gqlType, gqlOptions);
+    expect(mockFieldDecorator).toHaveBeenCalledWith({}, 'propertyKey');
+
     gqlOptions = { name: 'name' };
     gqlType = undefined;
+    mockFieldDecorator.mockClear();
+    (mockedNestGraphql.Field as jest.Mock).mockClear();
 
     agGridFieldDecorator = AgGridField({
       gqlType,
@@ -117,11 +122,7 @@ describe('ObjectDecorator', () => {
     });
 
     agGridFieldDecorator({}, 'propertyKey');
-    expect(mockedNestGraphql.addFieldMetadata).toHaveBeenCalledWith(
-      gqlOptions,
-      gqlOptions,
-      {},
-      'propertyKey',
-    );
+    expect(mockedNestGraphql.Field).toHaveBeenCalledWith(gqlOptions);
+    expect(mockFieldDecorator).toHaveBeenCalledWith({}, 'propertyKey');
   });
 });

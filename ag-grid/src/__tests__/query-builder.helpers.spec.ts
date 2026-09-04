@@ -1,3 +1,5 @@
+jest.mock('@nestjs/graphql');
+
 import { ExtendedBaseEntity } from '@nestjs-yalc/jest/extended-base-entity.entity';
 import { mockQueryBuilder } from '@nestjs-yalc/jest/common-mocks.helper';
 import * as ObjectDecorator from '../object.decorator';
@@ -15,9 +17,7 @@ describe('QueryBuilderHelper', () => {
   });
 
   it('getMany works correctly', async () => {
-    jest
-      .spyOn(ObjectDecorator, 'getAgGridFieldMetadataList')
-      .mockReturnValueOnce({
+    Reflect.defineMetadata(ObjectDecorator.AGGRID_FIELD_METADATA_KEY, {
         first: {
           mode: 'derived',
           dst: 'something',
@@ -29,7 +29,8 @@ describe('QueryBuilderHelper', () => {
           mode: 'regular',
           dst: 'something',
         },
-      });
+    }, Object);
+
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],
@@ -43,9 +44,7 @@ describe('QueryBuilderHelper', () => {
       },
     ]);
 
-    jest
-      .spyOn(ObjectDecorator, 'getAgGridFieldMetadataList')
-      .mockReturnValueOnce(undefined);
+    Reflect.deleteMetadata(ObjectDecorator.AGGRID_FIELD_METADATA_KEY, Object);
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],
@@ -61,9 +60,7 @@ describe('QueryBuilderHelper', () => {
   });
 
   it('getOne works correctly', async () => {
-    jest
-      .spyOn(ObjectDecorator, 'getAgGridFieldMetadataList')
-      .mockReturnValueOnce({
+    Reflect.defineMetadata(ObjectDecorator.AGGRID_FIELD_METADATA_KEY, {
         first: {
           mode: 'derived',
           dst: 'something',
@@ -75,7 +72,8 @@ describe('QueryBuilderHelper', () => {
           mode: 'regular',
           dst: 'something',
         },
-      });
+    }, Object);
+
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],
@@ -87,9 +85,7 @@ describe('QueryBuilderHelper', () => {
       third: undefined,
     });
 
-    jest
-      .spyOn(ObjectDecorator, 'getAgGridFieldMetadataList')
-      .mockReturnValueOnce(undefined);
+    Reflect.deleteMetadata(ObjectDecorator.AGGRID_FIELD_METADATA_KEY, Object);
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],

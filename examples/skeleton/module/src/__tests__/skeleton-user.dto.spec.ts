@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 
-const { SkeletonUserType, SkeletonPhoneType } = await import('../index.js');
+import { SkeletonUserType, SkeletonPhoneType } from '../index.js';
 
 describe('Skeleton DTOs', () => {
   it('maps data into SkeletonUserType constructor', () => {

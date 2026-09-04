@@ -1,14 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import { DataSource } from 'typeorm';
 
-const { OmniNamedEntity } = await import('../base/omni-named.entity.js');
-const { OmniRecordEntity } = await import('../base/omni-record.entity.js');
-const { OmniRelationEntity } = await import('../base/omni-relation.entity.js');
-const { OmniExternalRefEntity } = await import(
-  '../base/omni-external-ref.entity.js'
-);
-const { OmniRecordStatus } = await import('../omni-record-status.enum.js');
-const { OmniRecordService } = await import('../omni-record.service.js');
+import { OmniNamedEntity } from '../base/omni-named.entity.js';
+import { OmniRecordEntity } from '../base/omni-record.entity.js';
+import { OmniRelationEntity } from '../base/omni-relation.entity.js';
+import { OmniExternalRefEntity } from '../base/omni-external-ref.entity.js';
+import { OmniRecordStatus } from '../omni-record-status.enum.js';
+import { OmniRecordService } from '../omni-record.service.js';
 
 const scope = {
   scopeId: 'scope-record-guard',

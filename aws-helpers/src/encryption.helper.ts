@@ -1,5 +1,9 @@
-import * as aws from 'aws-sdk';
-import * as localEncryption from '@nestjs-yalc/utils/encryption.helper';
+import { Logger } from '@nestjs/common';
+import {
+  GetParameterCommand,
+  GetParameterCommandOutput,
+  SSMClient,
+} from '@aws-sdk/client-ssm';
 
 /**
  *  Used for everything locally, must still be passed since sometimes we want to use other keys
@@ -14,142 +18,64 @@ export enum EncryptMode {
   LOCAL,
 }
 
-export const decryptCallback = (resolve: any, reject: any) => {
-  return (err: any, data: any) => {
-    if (err) {
-      return reject(err);
-    }
-    data.Plaintext =
-      typeof data.Plaintext === 'undefined' ? '' : data.Plaintext;
-    return resolve(data.Plaintext.toString());
-  };
-};
-
-export const asyncDecrypt = async (toDecrypt: any): Promise<string> => {
-  const kms = new aws.KMS({
-    region: process.env.KMS_REGION,
-  });
-  return new Promise((resolve, reject) => {
-    kms.decrypt(
-      {
-        KeyId: process.env.AWS_REMOTE_KEYID,
-        CiphertextBlob: Buffer.from(toDecrypt, 'base64'),
-      },
-      decryptCallback(resolve, reject),
-    );
-  });
-};
-
 // return reject to prevent further func execution (although promise result won't change after reject/resolve)
 // also guarantees typescript safety
-export const asyncEncrypt = async (toEncrypt: string): Promise<string> => {
-  const kms = new aws.KMS({
-    region: process.env.KMS_REGION,
-  });
-  const encryptionResult: aws.KMS.CiphertextType = await new Promise(
-    (resolve, reject) => {
-      // This should never occur, as this function is only called remotely. Throw Error just in case of bad remote env.
-      if (typeof process.env.AWS_REMOTE_KEYID === 'undefined') {
-        throw new Error(
-          'Calling kms encrypt function without setting the AWS_REMOTE_KEYID variable',
-        );
-      }
-      kms.encrypt(
-        {
-          KeyId: process.env.AWS_REMOTE_KEYID,
-          Plaintext: toEncrypt,
-        },
-        (err, data) => {
-          if (err) {
-            return reject(err);
-          }
-          if (typeof data.CiphertextBlob === 'undefined') {
-            return reject(
-              'Error CiphertextBlob coming from kms encrypt is undefined',
-            );
-          }
-          resolve(data.CiphertextBlob);
-        },
-      );
-    },
-  );
-  return encryptionResult.toString('base64');
-};
-
-/**
- * Method used to decrypt string with AWS. In case of local environment it performs a localEncryption with a staticKey as default
- * @param toDecrypt
- * @param encryptionKey
- * @returns
- */
-export const decryptString = async (
-  toDecrypt: any,
-  encryptMode: EncryptMode,
-  encryptionKey = staticKey,
-): Promise<string> => {
-  switch (encryptMode) {
-    case EncryptMode.AWS:
-      const decryptionResult: string = await asyncDecrypt(toDecrypt);
-      return decryptionResult.toString();
-    case EncryptMode.LOCAL:
-    default:
-      return localEncryption.decryptAes(toDecrypt, encryptionKey);
-  }
-};
-
-/**
- * Method used to encryptString with AWS. In case of local environment it performs a localEncryption with a staticKey as default
- * @param toDecrypt
- * @param encryptionKey
- * @returns
- */
-export const encryptString = async (
-  toEncrypt: any,
-  encryptMode: EncryptMode,
-  encryptionKey = staticKey,
-): Promise<string> => {
-  switch (encryptMode) {
-    case EncryptMode.AWS:
-      const encryptionResult: string = await asyncEncrypt(toEncrypt);
-      return encryptionResult;
-    case EncryptMode.LOCAL:
-    default:
-      return localEncryption.encryptAes(toEncrypt, encryptionKey);
-  }
-};
+const cachedSsmVariables = new Map<
+  string,
+  Promise<GetParameterCommandOutput>
+>();
 
 export const decryptSsmVariable = async (
   toDecrypt: string,
+  useCache: boolean = true,
 ): Promise<string> => {
-  const ssm = new aws.SSM();
+  if (useCache) {
+    if (cachedSsmVariables.has(toDecrypt)) {
+      const cachedValue = cachedSsmVariables.get(toDecrypt)!;
 
-  return new Promise((resolve) => {
-    ssm.getParameter(
-      {
+      const value = await cachedValue;
+      return value.Parameter?.Value ?? '';
+    }
+  }
+
+  const ssm = new SSMClient();
+  try {
+    const dataPromise: Promise<GetParameterCommandOutput> = ssm.send(
+      new GetParameterCommand({
         Name: toDecrypt,
         WithDecryption: true,
-      },
-      (err, data) => {
-        if (err || !data.Parameter?.Value) {
-          resolve('');
-        } else {
-          resolve(data.Parameter.Value);
-        }
-      },
+      }),
     );
-  });
+
+    if (useCache) {
+      cachedSsmVariables.set(toDecrypt, dataPromise);
+    }
+
+    const data = await dataPromise;
+
+    return data.Parameter?.Value ?? '';
+  } catch (err) {
+    Logger.error(
+      `Error while decrypting ssm variable ${toDecrypt} ${JSON.stringify(err)}`,
+    );
+    return '';
+  }
 };
 
-/**
- * This function set the process.env variables passed as paramenter with the corrisponding ssm variable decrypted
- * @param envVariableToDecrypt mapping variable between process.env and ssm variables name
- */
-export const setEnvironmentVariableFromSsm = async (envVariableToDecrypt: {
-  [key: string]: string;
-}) => {
-  for (const variable of Object.keys(envVariableToDecrypt)) {
-    process.env[variable] = await decryptSsmVariable(
-      envVariableToDecrypt[variable],
-    );
-  }
+export const setEnvironmentVariablesFromSsm = async (
+  envVariableToDecrypt: Record<string, string>,
+  useCache: boolean = true,
+): Promise<Record<string, string>> => {
+  const ssmVars: Record<string, string> = {};
+  const promises = Object.entries(envVariableToDecrypt).map(
+    async ([envVar, ssmVar]) => {
+      const value = await decryptSsmVariable(ssmVar, useCache);
+      process.env[envVar] = ssmVars[envVar] = value;
+
+      // Logger.debug(`Process env: ${envVar} set to ${process.env[envVar]}`);
+    },
+  );
+
+  await Promise.all(promises);
+  return ssmVars;
 };

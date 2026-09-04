@@ -22,32 +22,23 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DataSource } from "typeorm";
 
-const { OmniNamedEntity } = await import("../base/omni-named.entity.js");
-const { OmniRecordEntity } = await import("../base/omni-record.entity.js");
-const { OmniRelationEntity } = await import("../base/omni-relation.entity.js");
-const { OmniExternalRefEntity } =
-  await import("../base/omni-external-ref.entity.js");
-const { OmniExtensionProjectionService } =
-  await import("../omni-extension-projection.service.js");
-const {
+import { OmniNamedEntity } from '../base/omni-named.entity.js';
+import { OmniRecordEntity } from '../base/omni-record.entity.js';
+import { OmniRelationEntity } from '../base/omni-relation.entity.js';
+import { OmniExternalRefEntity } from '../base/omni-external-ref.entity.js';
+import { OmniExtensionProjectionService } from '../omni-extension-projection.service.js';
+import {
   createOmniExtensionProjectionEntity,
   defineOmniExtensionProjection,
-} = await import("../omni-extension-projection.definition.js");
-const { OmniExternalRefBindingValidator } =
-  await import("../omni-external-ref-binding.validator.js");
-const { OmniExternalRefService } =
-  await import("../omni-external-ref.service.js");
-const { OmniExternalRefInternalType } =
-  await import("../omni-external-ref-internal-type.enum.js");
-const { defineOmniRelationProjection } =
-  await import("../omni-relation-projection.definition.js");
-const { OmniRelationProjectionService } =
-  await import("../omni-relation-projection.service.js");
-const { createOmniRelationKindContract } =
-  await import("../omni-relation-kind.contract.js");
-const { createOmniProjectionReaderCatalog } =
-  await import("../omni-projection.catalog.js");
-const { OmniRecordStatus } = await import("../omni-record-status.enum.js");
+} from '../omni-extension-projection.definition.js';
+import { OmniExternalRefBindingValidator } from '../omni-external-ref-binding.validator.js';
+import { OmniExternalRefService } from '../omni-external-ref.service.js';
+import { OmniExternalRefInternalType } from '../omni-external-ref-internal-type.enum.js';
+import { defineOmniRelationProjection } from '../omni-relation-projection.definition.js';
+import { OmniRelationProjectionService } from '../omni-relation-projection.service.js';
+import { createOmniRelationKindContract } from '../omni-relation-kind.contract.js';
+import { createOmniProjectionReaderCatalog } from '../omni-projection.catalog.js';
+import { OmniRecordStatus } from '../omni-record-status.enum.js';
 
 type ExtensionRow = {
   scopeId: string;

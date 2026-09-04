@@ -1,16 +1,21 @@
-jest.mock('@nestjs/graphql');
-
-import { GqlGetRequest, paramDecoratorToCreate } from './gqlrequest.decorator';
+import { jest } from '@jest/globals';
 import {
   mockedExecutionContext,
-  mockedNestGraphql,
-} from '@nestjs-yalc/jest/common-mocks.helper';
+  mockedGqlCtxCreate,
+} from '@nestjs-yalc/jest/common-mocks.helper.js';
+import { GqlGetRequest, paramDecoratorToCreate } from './gqlrequest.decorator.js';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 describe('Gql user decorator test', () => {
-  const mockCreate = (mockedNestGraphql.GqlExecutionContext.create = jest.fn());
-  mockCreate.mockImplementation(() => ({
-    getContext: jest.fn().mockReturnValue({ req: 'valid_req' }),
-  }));
+  beforeEach(() => {
+    mockedGqlCtxCreate.mockReturnValue({
+      getContext: jest.fn().mockReturnValue({ req: 'valid_req' }),
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('Check Module', async () => {
     const testData = GqlGetRequest(null, mockedExecutionContext);
     expect(testData).toBeDefined();

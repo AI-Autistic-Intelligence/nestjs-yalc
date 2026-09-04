@@ -1,13 +1,14 @@
-import { LoggerService } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { YalcEventService } from '@nestjs-yalc/event-manager/event.service.js';
+import { envIsTrue } from '@nestjs-yalc/utils';
 import { Logger } from 'typeorm';
-import { LoggerEvent } from './logger.event';
+import { LoggerEvent } from './logger.event.js';
 
 export class TypeORMLogger implements Logger {
-  constructor(
-    private logger: LoggerService,
-    private eventEmitter: EventEmitter2,
-  ) {}
+  private isLoggerEnabled = false;
+
+  constructor(private event: YalcEventService) {
+    this.isLoggerEnabled = envIsTrue(process.env.TYPEORM_LOGGING || 'false');
+  }
 
   /**
    * Logs query and parameters used in it.
@@ -16,8 +17,15 @@ export class TypeORMLogger implements Logger {
     query: string,
     parameters?: any[] /*, queryRunner?: QueryRunner*/,
   ): any {
-    this.eventEmitter.emitAsync(LoggerEvent.QUERY_LOG, query);
-    this.logger.debug?.(`query: ${query}, parameters: ${parameters}`);
+    if (!this.isLoggerEnabled) return;
+
+    /* istanbul ignore next */
+    this.event.debug?.(LoggerEvent.QUERY_LOG, {
+      data: {
+        query,
+        parameters,
+      },
+    });
   }
   /**
    * Logs query that is failed.
@@ -28,10 +36,16 @@ export class TypeORMLogger implements Logger {
     parameters?: any[],
     // queryRunner?: QueryRunner,
   ): any {
-    this.eventEmitter.emitAsync(LoggerEvent.QUERY_ERROR, query, error);
-    this.logger.error?.(
-      `error: ${error}, query: ${query}, parameters: ${parameters}`,
-    );
+    if (!this.isLoggerEnabled) return;
+
+    /* istanbul ignore next */
+    this.event.error?.(LoggerEvent.QUERY_ERROR, {
+      data: {
+        error,
+        query,
+        parameters,
+      },
+    });
   }
   /**
    * Logs query that is slow.
@@ -42,22 +56,39 @@ export class TypeORMLogger implements Logger {
     parameters?: any[],
     // queryRunner?: QueryRunner,
   ): any {
-    this.eventEmitter.emitAsync(LoggerEvent.QUERY_SLOW, query, time);
-    this.logger.warn?.(
-      `SLOW QUERY!!!! time: ${time}, query: ${query}, parameters: ${parameters}`,
-    );
+    if (!this.isLoggerEnabled) return;
+
+    /* istanbul ignore next */
+    this.event.warn?.(LoggerEvent.QUERY_SLOW, {
+      message: `SLOW QUERY!!!!`,
+      data: {
+        time,
+        query,
+        parameters,
+      },
+    });
   }
   /**
    * Logs events from the schema build process.
    */
   logSchemaBuild(message: string /* , queryRunner?: QueryRunner */): any {
-    this.logger.debug?.(message);
+    if (!this.isLoggerEnabled) return;
+
+    /* istanbul ignore next */
+    this.event.debug?.(LoggerEvent.SCHEMA_BUILD, {
+      message,
+    });
   }
   /**
    * Logs events from the migrations run process.
    */
   logMigration(message: string /* , queryRunner?: QueryRunner */): any {
-    this.logger.debug?.(message);
+    if (!this.isLoggerEnabled) return;
+
+    /* istanbul ignore next */
+    this.event.debug?.(LoggerEvent.DEBUG, {
+      message,
+    });
   }
   /**
    * Perform logging using given logger, or by default to the console.
@@ -68,15 +99,26 @@ export class TypeORMLogger implements Logger {
     message: any,
     // queryRunner?: QueryRunner,
   ): any {
+    if (!this.isLoggerEnabled) return;
+
     switch (level) {
       case 'log':
-        this.logger.log?.(message);
+        /* istanbul ignore next */
+        this.event.log?.(LoggerEvent.LOG, {
+          message,
+        });
         break;
       case 'info':
-        this.logger.verbose?.(message);
+        /* istanbul ignore next */
+        this.event.verbose?.(LoggerEvent.INFO, {
+          message,
+        });
         break;
       case 'warn':
-        this.logger.warn?.(message);
+        /* istanbul ignore next */
+        this.event.warn?.(LoggerEvent.WARN, {
+          message,
+        });
         break;
     }
   }

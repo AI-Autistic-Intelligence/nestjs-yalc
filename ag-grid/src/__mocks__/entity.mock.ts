@@ -21,6 +21,20 @@ export class TestEntityDto extends TestEntity {
   id: number;
 }
 
+// TestEntityRelation2 is declared first to avoid TDZ (Temporal Dead Zone)
+// errors in ESM when TestEntityRelation references it via @OneToMany.
+export class TestEntityRelation2 extends TestEntity {
+  @ManyToOne(
+    () => TestEntityRelation,
+    returnProperty<any>('TestEntityRelation2'),
+  )
+  @JoinColumn({
+    name: 'TestEntityRelation2',
+    referencedColumnName: 'TestEntityRelation2',
+  })
+  TestEntityRelation: any; // Use any to avoid design:type evaluating undefined class
+}
+
 export class TestEntityRelation extends TestEntity {
   @OneToMany(
     () => TestEntityRelation2,
@@ -31,16 +45,4 @@ export class TestEntityRelation extends TestEntity {
     referencedColumnName: 'TestEntityRelation',
   })
   TestEntityRelation2: TestEntityRelation2;
-}
-
-export class TestEntityRelation2 extends TestEntity {
-  @ManyToOne(
-    () => TestEntityRelation,
-    returnProperty<TestEntityRelation>('TestEntityRelation2'),
-  )
-  @JoinColumn({
-    name: 'TestEntityRelation2',
-    referencedColumnName: 'TestEntityRelation2',
-  })
-  TestEntityRelation: TestEntityRelation;
 }

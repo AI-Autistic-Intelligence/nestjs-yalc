@@ -1,15 +1,15 @@
 import { describe, expect, it } from '@jest/globals';
 
-const { OmniCollectionKind } = await import('../omni-collection-kind.enum.js');
-const { OmniDocumentKind } = await import('../omni-document-kind.enum.js');
-const { OmniRelationKind } = await import('../omni-relation-kind.enum.js');
-const {
+import { OmniCollectionKind } from '../omni-collection-kind.enum.js';
+import { OmniDocumentKind } from '../omni-document-kind.enum.js';
+import { OmniRelationKind } from '../omni-relation-kind.enum.js';
+import {
   OMNI_COLLECTION_MEMBERSHIP_RELATION_KIND,
   isAllowedOmniRelation,
   isCanonicalCollectionMembershipRelation,
   isOmniCollectionRecordKind,
   isOmniDocumentRecordKind,
-} = await import('../omni-relation-semantics.js');
+} from '../omni-relation-semantics.js';
 
 describe('Omni relation semantics', () => {
   it('treats collection contains as the canonical collection membership edge', () => {

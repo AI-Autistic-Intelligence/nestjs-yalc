@@ -6,43 +6,27 @@ import { OmniRecordStatus } from '../omni-record-status.enum.js';
 import { OmniRelationKind } from '../omni-relation-kind.enum.js';
 import { OmniRelationStatus } from '../omni-relation-status.enum.js';
 
-const namedDto = await import('../omni-named.dto.js');
-const recordDto = await import('../omni-record.dto.js');
-const collectionDto = await import('../omni-collection.dto.js');
-const relationDto = await import('../omni-relation.dto.js');
-const externalRefDto = await import('../omni-external-ref.dto.js');
-const documentDto = await import('../omni-document.dto.js');
-const { OmniCollectionEntity } = await import('../omni-collection.entity.js');
-const { OmniCollectionService } = await import('../omni-collection.service.js');
-const { OmniDocumentEntity } = await import('../omni-document.entity.js');
-const { OmniDocumentService } = await import('../omni-document.service.js');
-const { OmniExternalRefInternalType } = await import(
-  '../omni-external-ref-internal-type.enum.js'
-);
-const { OmniExternalRefService } = await import(
-  '../omni-external-ref.service.js'
-);
-const relationSemantics = await import('../omni-relation-semantics.js');
-const { OmniKernelQueryService } = await import('../omnikernel.query.service.js');
-const { omniCollectionBackendProvidersFactory } = await import(
-  '../omni-collection.backend.js'
-);
-const { omniNamedBackendProvidersFactory } = await import(
-  '../omni-named.backend.js'
-);
-const { omniRecordBackendProvidersFactory } = await import(
-  '../omni-record.backend.js'
-);
-const { omniRelationBackendProvidersFactory } = await import(
-  '../omni-relation.backend.js'
-);
-const { omniExternalRefBackendProvidersFactory } = await import(
-  '../omni-external-ref.backend.js'
-);
-const { omniDocumentBackendProvidersFactory } = await import(
-  '../omni-document.backend.js'
-);
-const omnikernelPublicApi = await import('../index.js');
+import * as namedDto from '../omni-named.dto.js';
+import * as recordDto from '../omni-record.dto.js';
+import * as collectionDto from '../omni-collection.dto.js';
+import * as relationDto from '../omni-relation.dto.js';
+import * as externalRefDto from '../omni-external-ref.dto.js';
+import * as documentDto from '../omni-document.dto.js';
+import { OmniCollectionEntity } from '../omni-collection.entity.js';
+import { OmniCollectionService } from '../omni-collection.service.js';
+import { OmniDocumentEntity } from '../omni-document.entity.js';
+import { OmniDocumentService } from '../omni-document.service.js';
+import { OmniExternalRefInternalType } from '../omni-external-ref-internal-type.enum.js';
+import { OmniExternalRefService } from '../omni-external-ref.service.js';
+import * as relationSemantics from '../omni-relation-semantics.js';
+import { OmniKernelQueryService } from '../omnikernel.query.service.js';
+import { omniCollectionBackendProvidersFactory } from '../omni-collection.backend.js';
+import { omniNamedBackendProvidersFactory } from '../omni-named.backend.js';
+import { omniRecordBackendProvidersFactory } from '../omni-record.backend.js';
+import { omniRelationBackendProvidersFactory } from '../omni-relation.backend.js';
+import { omniExternalRefBackendProvidersFactory } from '../omni-external-ref.backend.js';
+import { omniDocumentBackendProvidersFactory } from '../omni-document.backend.js';
+import * as omnikernelPublicApi from '../index.js';
 
 describe('OmniKernel public API', () => {
   it('copies data through DTO constructors', () => {

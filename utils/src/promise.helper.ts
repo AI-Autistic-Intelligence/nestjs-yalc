@@ -1,3 +1,4 @@
+import { AnyFunction } from '@nestjs-yalc/types/globals.d.js';
 import * as pMap from 'p-map';
 
 export const PROMISE_CONCURRENCY_LIMIT = 1000;
@@ -16,8 +17,49 @@ export function promiseMap<Element, NewElement>(
   mapper: pMap.Mapper<Element, NewElement>,
   options?: pMap.Options,
 ): Promise<NewElement[]> {
-  return pMap(input, mapper, {
+  return pMap.default(input, mapper, {
     concurrency: options?.concurrency ?? PROMISE_CONCURRENCY_LIMIT,
     stopOnError: options?.stopOnError ?? true,
   });
 }
+
+/**
+ * This class allows you to track multiple promises and wait for all of them to resolve.
+ */
+export class PromiseTracker {
+  private promises: Promise<any>[] = [];
+  private deferred: AnyFunction[] = [];
+
+  add(promise: Promise<any>) {
+    this.promises.push(promise);
+    void promise
+      .finally(() => this.remove(promise))
+      .catch(() => {
+        // The original promise is still awaited by callers; this only prevents
+        // the cleanup chain from surfacing a duplicate unhandled rejection.
+      });
+  }
+
+  /**
+   * @param deferred - A function that will be executed after all promises are resolved.
+   */
+  addDeferred(deferred: AnyFunction) {
+    this.deferred.push(deferred);
+  }
+
+  private remove(promise: Promise<any>) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.promises = this.promises.filter((p) => p !== promise);
+  }
+
+  async waitForAll() {
+    await Promise.all(this.promises);
+
+    await Promise.all(this.deferred.map((d) => d()));
+  }
+}
+
+/**
+ * This is a global instance of the PromiseTracker class.
+ */
+export const globalPromiseTracker = new PromiseTracker();

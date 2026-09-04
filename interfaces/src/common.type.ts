@@ -1,2 +1,5 @@
-export type ClassType<T = unknown> = new (...args: unknown[]) => T;
-export type FactoryType<T> = (faker?: unknown) => T;
+/* istanbul ignore file */
+
+import type { Faker } from '@faker-js/faker';
+
+export type FactoryType<T = any> = (faker: Faker) => T;

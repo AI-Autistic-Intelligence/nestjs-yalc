@@ -5,20 +5,19 @@ import {
 } from "@nestjs-yalc/crud-gen";
 import { DataSource } from "typeorm";
 
-const { OmniNamedEntity } = await import("../base/omni-named.entity.js");
-const { OmniRecordEntity } = await import("../base/omni-record.entity.js");
-const { OmniRelationEntity } = await import("../base/omni-relation.entity.js");
-const { OmniExternalRefEntity } =
-  await import("../base/omni-external-ref.entity.js");
-const { OmniCollectionEntity } = await import("../omni-collection.entity.js");
-const { OmniDocumentEntity } = await import("../omni-document.entity.js");
-const { OmniRecordStatus } = await import("../omni-record-status.enum.js");
-const {
+import { OmniNamedEntity } from '../base/omni-named.entity.js';
+import { OmniRecordEntity } from '../base/omni-record.entity.js';
+import { OmniRelationEntity } from '../base/omni-relation.entity.js';
+import { OmniExternalRefEntity } from '../base/omni-external-ref.entity.js';
+import { OmniCollectionEntity } from '../omni-collection.entity.js';
+import { OmniDocumentEntity } from '../omni-document.entity.js';
+import { OmniRecordStatus } from '../omni-record-status.enum.js';
+import {
   createOmniExtensionProjectionEntity,
   createOmniExtensionProjectionTable,
   defineOmniExtensionProjection,
-} = await import("../omni-extension-projection.definition.js");
-const { captureOmniMigrationSnapshot } = await import("../omni-migration.js");
+} from '../omni-extension-projection.definition.js';
+import { captureOmniMigrationSnapshot } from '../omni-migration.js';
 
 const constraintName = "projection_status_initial_kind_unique";
 const fullConstraintName = "projection_status_kind_state_unique";

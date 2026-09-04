@@ -1,10 +1,8 @@
 import { describe, expect, it, jest } from "@jest/globals";
 
-const { canonicalOmniRelationKinds, createOmniRelationKindContract } =
-  await import("../omni-relation-kind.contract.js");
-const { normalizeOmniKernelRegistrationOptions, OmniScopeContext } =
-  await import("../omni-scope.js");
-const { OmniScopedRepository } = await import("../omni-scoped.repository.js");
+import { canonicalOmniRelationKinds, createOmniRelationKindContract } from '../omni-relation-kind.contract.js';
+import { normalizeOmniKernelRegistrationOptions, OmniScopeContext } from '../omni-scope.js';
+import { OmniScopedRepository } from '../omni-scoped.repository.js';
 
 describe("Omni scoped substrate", () => {
   it("derives a trusted scope, scopes cache keys, and rejects invalid registration", () => {

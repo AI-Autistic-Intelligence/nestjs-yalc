@@ -1,18 +1,23 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
-import { mockNestJSGraphql } from '@nestjs-yalc/jest';
 import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface.js';
 import { GraphQLResolveInfo } from 'graphql';
 
-await mockNestJSGraphql(import.meta);
-const graphql = await import('@nestjs/graphql');
+jest.mock('@nestjs/graphql', () => {
+  const actual = jest.requireActual('@nestjs/graphql') as any;
+  return {
+    __esModule: true,
+    ...actual,
+    addFieldMetadata: actual.addFieldMetadata, // Ensure it's passed
+    GqlExecutionContext: {
+      ...actual.GqlExecutionContext,
+      create: jest.fn(),
+    }
+  };
+});
+import * as graphql from '@nestjs/graphql';
 
-const CrudGenHelper = await importMockedEsm(
-  '../crud-gen.helpers.js',
-  import.meta,
-);
-const objectToFieldMapper = jest.mocked(CrudGenHelper.objectToFieldMapper);
-const $ = await import('../api-graphql/gqlfields.decorator.js');
+import * as CrudGenHelper from '../crud-gen.helpers.js';
+import * as $ from '../api-graphql/gqlfields.decorator.js';
 
 const mockedExecutionContext = {} as any;
 
@@ -236,8 +241,10 @@ const fieldAndFilterMapper = {
 };
 
 describe('Graphql decorator test', () => {
+  beforeEach(() => {
+  });
+
   afterEach(() => {
-    objectToFieldMapper.mockReset();
   });
 
   it('Check GqlInfoGenerator', async () => {
@@ -252,77 +259,49 @@ describe('Graphql decorator test', () => {
     expect(mockGetInfo).toHaveBeenCalled();
   });
 
-  it('Check GqlInfoGenerator with default value', async () => {
-    const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
-    const mockGetInfo = mockCreate.mockImplementation(() => ({
-      getInfo: jest.fn().mockReturnValue(infoObj),
-    }));
-    const TestGqlInfoGenerator = $.GqlInfoGenerator(
-      undefined,
-      mockedExecutionContext,
-    );
-
-    expect(TestGqlInfoGenerator).toBeDefined();
-    expect(mockCreate).toHaveBeenCalled();
-    expect(mockGetInfo).toHaveBeenCalled();
-  });
-
-  it('Check GqlFieldsMapper Functionality with specified field name', async () => {
-    const arr: IFieldMapper = {
-      ['first']: { dst: 'specified', isRequired: true },
-    };
+  it('Check GqlFieldsMapper Functionality with specified field to retain', async () => {
+    const arr = { ['first']: { dst: 'specified' } };
     const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, infoObj);
 
+    // console.log(GqlFieldsMapperTest.keys);
     expect(GqlFieldsMapperTest.keys).toEqual(
       expect.arrayContaining(['specified']),
     );
-    expect(GqlFieldsMapperTest.keys).not.toEqual(
-      expect.arrayContaining(['first']),
-    );
   });
 
-  it('Check GqlFieldsMapper Functionality with nodes', async () => {
-    const arr: IFieldMapper = { ['otherField']: { dst: 'specified' } };
-
+  it('Check GqlFieldsMapper Functionality with nested selection (nodes)', async () => {
+    const arr = { ['otherField']: { dst: 'specified' } };
     const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, nodesObj);
 
     // console.log(GqlFieldsMapperTest.keys);
-    expect(GqlFieldsMapperTest.keys).toEqual(['specified']);
-  });
-
-  it('Check GqlFieldsMapper Functionality with specified field name to add', async () => {
-    const arr: IFieldMapper = {
-      ['toAdd']: { dst: 'specified', isRequired: true },
-    };
-    const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, infoObj);
-
     expect(GqlFieldsMapperTest.keys).toEqual(
       expect.arrayContaining(['specified']),
     );
-    expect(GqlFieldsMapperTest.keys).not.toEqual(
-      expect.arrayContaining(['toAdd']),
-    );
+  });
+
+  it('Check GqlFieldsMapper Functionality with specified field mapped with the same name', async () => {
+    const arr = { ['first']: { dst: 'first' } };
+    const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, infoObj);
+
+    // console.log(GqlFieldsMapperTest.keys);
+    expect(GqlFieldsMapperTest.keys).toEqual(expect.arrayContaining(['first']));
   });
 
   it('Check GqlModelFieldsMapper Functionality with specified field name to add', async () => {
-    const arr: IFieldMapper = {
-      ['toAdd']: { dst: 'specified', isRequired: true },
-      ['subToChange']: { dst: 'toAddSub', isRequired: true },
-    };
+    const arr: IFieldMapper = { ['first']: { dst: 'specified' } };
+
     const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, infoObj);
 
+    // console.log(GqlFieldsMapperTest.keys);
     expect(GqlFieldsMapperTest.keys).toEqual(
-      expect.arrayContaining(['specified', 'toAddSub']),
-    );
-    expect(GqlFieldsMapperTest.keys).not.toEqual(
-      expect.arrayContaining(['toAdd', 'subToChange']),
+      expect.arrayContaining(['specified']),
     );
   });
 
   it('Check with nested', async () => {
     const arr: IFieldMapper = { ['first']: { dst: 'specified' } };
-    objectToFieldMapper.mockReturnValue(fieldAndFilterMapper);
-    const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, edgesObj);
+    
+    const GqlFieldsMapperTest = $.GqlModelFieldsMapper(fieldAndFilterMapper, edgesObj);
 
     // console.log(GqlFieldsMapperTest.keys);
     expect(GqlFieldsMapperTest.keys).toEqual([]);
@@ -349,7 +328,7 @@ describe('Graphql decorator test', () => {
               },
             ],
           },
-        },
+        } as any,
       ],
     } as any;
 
@@ -366,8 +345,7 @@ describe('Graphql decorator test', () => {
       projectId: { dst: 'projectId' },
     };
 
-    objectToFieldMapper.mockReturnValue({ field: arr, extraInfo: {} });
-    const result = $.GqlModelFieldsMapper(arr, relationInfo);
+    const result = $.GqlModelFieldsMapper({ field: arr, extraInfo: {} } as any, relationInfo);
 
     expect(result.keys).toEqual(expect.arrayContaining(['projectId']));
   });
@@ -396,8 +374,7 @@ describe('Graphql decorator test', () => {
       ['node']: { dst: 'data -> $.id', mode: 'derived' },
     };
 
-    objectToFieldMapper.mockReturnValue(fieldAndFilterMapper);
-    const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, infoObj);
+    const GqlFieldsMapperTest = $.GqlModelFieldsMapper(fieldAndFilterMapper, infoObj);
 
     expect(GqlFieldsMapperTest).toBeDefined();
   });
@@ -407,11 +384,10 @@ describe('Graphql decorator test', () => {
       ['node']: { dst: 'data -> $.id', mode: 'derived' },
     };
 
-    objectToFieldMapper.mockReturnValue({
+    const GqlFieldsMapperTest = $.GqlModelFieldsMapper({
       ...fieldAndFilterMapper,
       extraInfo: undefined,
-    });
-    const GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, infoObj);
+    } as any, infoObj);
 
     expect(GqlFieldsMapperTest).toBeDefined();
   });

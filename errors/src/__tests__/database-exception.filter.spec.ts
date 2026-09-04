@@ -19,12 +19,23 @@ import { ConnectionNotFoundError, EntityNotFoundError } from 'typeorm';
 import { ExceptionContextEnum } from '../error.enum.js';
 import { DatabaseExceptionFilter } from '../filters/database-exception.filter.js';
 
+import { GqlArgumentsHost } from '@nestjs/graphql';
+
+jest.mock('@nestjs/graphql');
+
 describe('Database exceptions filter', () => {
   let filter: DatabaseExceptionFilter;
   const loggerServiceMock = createMock<LoggerService>();
 
   beforeEach(() => {
     filter = new DatabaseExceptionFilter(loggerServiceMock);
+    GqlArgumentsHost.create = jest.fn().mockReturnValue({
+      getType: jest.fn(),
+    } as any) as any;
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should be defined', () => {

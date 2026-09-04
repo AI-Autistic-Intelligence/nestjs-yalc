@@ -1,5 +1,4 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 import * as GenericServiceModule from '../typeorm/generic.service.js';
 import {
   GenericService,
@@ -27,6 +26,11 @@ import { createMock } from '@golevelup/ts-jest';
 import { CGExtendedRepository } from '../typeorm/generic.repository.js';
 import { ConnectionNotFoundError } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
+import * as ClassHelper from '@nestjs-yalc/utils/class.helper.js';
+
+jest.mock('@nestjs-yalc/utils/class.helper.js', () => ({
+  isClass: jest.fn(),
+}));
 import {
   CreateEntityError,
   DeleteEntityError,
@@ -37,10 +41,8 @@ import {
   ConditionsTooBroadError,
 } from '../conditions.error.js';
 import { Operators } from '../crud-gen.enum.js';
-const ClassHelper = await importMockedEsm(
-  '@nestjs-yalc/utils/class.helper.js',
-  import.meta,
-);
+jest.mock('@nestjs-yalc/utils/class.helper.js');
+import * as ClassHelper from '@nestjs-yalc/utils/class.helper.js';
 jest.mock('typeorm');
 
 describe('GenericService', () => {
@@ -334,6 +336,10 @@ describe('GenericService', () => {
   });
 
   it('maps an extended destination only to its declared write property', () => {
+    const mockedIsClass = jest
+      .spyOn(ClassHelper, 'isClass')
+      .mockReturnValue(true);
+
     const writeRepo = new CGExtendedRepository();
     writeRepo.target = WriteEntity;
 
@@ -372,6 +378,7 @@ describe('GenericService', () => {
     });
     expect(res).not.toHaveProperty('jsonProperty');
     expect(res).not.toHaveProperty('simpleRename');
+    mockedIsClass.mockRestore();
   });
 
   it('should correctly map entities from read to write (without mapper)', () => {

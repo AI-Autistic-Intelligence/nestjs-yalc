@@ -1,6 +1,4 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
-import { mockNestJSGraphql } from '@nestjs-yalc/jest';
 import { createMock } from '@golevelup/ts-jest';
 import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper.js';
 import { ModuleRef } from '@nestjs/core';
@@ -34,12 +32,20 @@ import { FilterType } from '../crud-gen.enum.js';
 import { Query, Resolver } from '@nestjs/graphql';
 import { IRelationInfo } from '../crud-gen.helpers.js';
 
-await mockNestJSGraphql(import.meta);
-const graphql = await import('@nestjs/graphql');
-const CrudGenHelpers = await importMockedEsm(
-  '../crud-gen.helpers.js',
-  import.meta,
-);
+jest.mock('@nestjs/graphql', () => {
+  const actual = jest.requireActual('@nestjs/graphql') as any;
+  return {
+    __esModule: true,
+    ...actual,
+    addFieldMetadata: actual.addFieldMetadata, // Ensure it's passed
+    GqlExecutionContext: {
+      ...actual.GqlExecutionContext,
+      create: jest.fn(),
+    }
+  };
+});
+import * as graphql from '@nestjs/graphql';
+import * as CrudGenHelpers from '../crud-gen.helpers.js';
 const getEntityRelations = jest.mocked(CrudGenHelpers.getEntityRelations);
 
 class TestEntityDto extends TestEntityRelation {}

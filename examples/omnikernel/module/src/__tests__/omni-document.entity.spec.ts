@@ -1,9 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 import { getMetadataArgsStorage } from 'typeorm';
 
-const { OmniRecordEntity } = await import('../base/omni-record.entity.js');
-const { OmniDocumentEntity } = await import('../omni-document.entity.js');
-const { OmniDocumentKind } = await import('../omni-document-kind.enum.js');
+import { OmniRecordEntity } from '../base/omni-record.entity.js';
+import { OmniDocumentEntity } from '../omni-document.entity.js';
+import { OmniDocumentKind } from '../omni-document-kind.enum.js';
 
 describe('OmniDocumentEntity', () => {
   it('extends OmniRecordEntity', () => {

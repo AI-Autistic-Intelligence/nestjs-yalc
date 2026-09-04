@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 
-const { SkeletonUser } = await import('../skeleton-user.entity.js');
+import { SkeletonUser } from '../skeleton-user.entity.js';
 
 describe('SkeletonUser entity', () => {
   it('hydrates derived fullName after load when missing', () => {

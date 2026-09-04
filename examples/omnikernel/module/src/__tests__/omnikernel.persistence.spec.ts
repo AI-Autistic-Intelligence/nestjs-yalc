@@ -1,16 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import { DataSource } from 'typeorm';
 
-const { OmniNamedEntity } = await import('../base/omni-named.entity.js');
-const { OmniRecordEntity } = await import('../base/omni-record.entity.js');
-const { OmniRelationEntity } = await import('../base/omni-relation.entity.js');
-const { OmniCollectionEntity } = await import('../omni-collection.entity.js');
-const { OmniCollectionKind } = await import('../omni-collection-kind.enum.js');
-const { OmniDocumentEntity } = await import('../omni-document.entity.js');
-const { OmniDocumentKind } = await import('../omni-document-kind.enum.js');
-const { OmniRecordStatus } = await import('../omni-record-status.enum.js');
-const { OmniRelationKind } = await import('../omni-relation-kind.enum.js');
-const { OmniRelationStatus } = await import('../omni-relation-status.enum.js');
+import { OmniNamedEntity } from '../base/omni-named.entity.js';
+import { OmniRecordEntity } from '../base/omni-record.entity.js';
+import { OmniRelationEntity } from '../base/omni-relation.entity.js';
+import { OmniCollectionEntity } from '../omni-collection.entity.js';
+import { OmniCollectionKind } from '../omni-collection-kind.enum.js';
+import { OmniDocumentEntity } from '../omni-document.entity.js';
+import { OmniDocumentKind } from '../omni-document-kind.enum.js';
+import { OmniRecordStatus } from '../omni-record-status.enum.js';
+import { OmniRelationKind } from '../omni-relation-kind.enum.js';
+import { OmniRelationStatus } from '../omni-relation-status.enum.js';
 
 describe('OmniKernel persistence', () => {
   let dataSource: DataSource;

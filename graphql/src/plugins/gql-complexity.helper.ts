@@ -4,10 +4,9 @@ import {
   isExecutableDefinitionNode,
   SelectionNode,
   GraphQLSchema,
-  ExecutableDefinitionNode,
 } from 'graphql';
-import { GqlASTHelper } from './gql-ast.helper';
-import { GqlError, GqlErrorMsgs } from './gql.error';
+import { GqlASTHelper } from './gql-ast.helper.js';
+import { GqlError, GqlErrorMsgs } from './gql.error.js';
 
 const MAX_EXECUTABLE_DEFINITIONS = 50;
 const MAX_DEPTH = 3;
@@ -19,7 +18,7 @@ const returnTypeMap: { [key: string]: string } = {
   User: 'UserType', // Temporary solution for wrong type returned by the 'User' in UserEmail object type.
 };
 
-interface VisitedNode {
+interface IVisitedNode {
   /** at which level the field has been visited */
   depth: number;
 }
@@ -32,13 +31,10 @@ export class GqlComplexityHelper {
 
   static customMaxDepth: number;
 
-  static processDocumentAST(
-    document: DocumentNode,
-    schema?: GraphQLSchema,
-  ): void {
+  static processDocumentAST(document: DocumentNode, schema?: GraphQLSchema) {
     document.definitions
       .filter(isExecutableDefinitionNode)
-      .forEach((operation: ExecutableDefinitionNode): void => {
+      .forEach((operation) => {
         const { selectionSet } = operation;
 
         const { name } = selectionSet.selections[0] as FieldNode;
@@ -52,15 +48,13 @@ export class GqlComplexityHelper {
           throw new GqlError(GqlErrorMsgs.MAX_OPERATIONS);
         }
 
-        selectionSet.selections.forEach(
-          (selectionNode: SelectionNode): void => {
-            GqlComplexityHelper.hasInvalidNode(selectionNode);
-          },
-        );
+        selectionSet.selections.forEach((selectionNode: SelectionNode) => {
+          GqlComplexityHelper.hasInvalidNode(selectionNode);
+        });
       });
   }
 
-  static hasInvalidNode(selectionNode: SelectionNode): void {
+  static hasInvalidNode(selectionNode: SelectionNode) {
     if (!GqlASTHelper.isFieldNode(selectionNode)) {
       return;
     }
@@ -81,15 +75,15 @@ export class GqlComplexityHelper {
 
   static findInvalidNode(
     node: FieldNode,
-    visitedNodes: { [key: string]: VisitedNode },
+    visitedNodes: { [key: string]: IVisitedNode },
     depth: number,
-  ): void {
+  ) {
     const { name, selectionSet } = node;
     const { value: fieldName } = name;
     const notNodesField = fieldName !== 'nodes';
 
     // Process non-captilized request resources should not be supported
-    // It's still necessary to visit the selectionSet inside 'nodes' (AgGrid).
+    // It's still necessary to visit the selectionSet inside 'nodes' (CrudGen).
     // ID is used as a field name in entities, not a nested resource, it should be skipped.
     const shouldSkipFieldName =
       fieldName === 'ID' ||
@@ -122,8 +116,8 @@ export class GqlComplexityHelper {
     }
   }
 
-  static getDefaultVisitedNodes(key: string): { [key: string]: VisitedNode } {
-    const result: { [key: string]: VisitedNode } = {};
+  static getDefaultVisitedNodes(key: string): { [key: string]: IVisitedNode } {
+    const result: { [key: string]: IVisitedNode } = {};
     const operationReturnType: string | undefined = returnTypeMap[key];
 
     if (operationReturnType) {
@@ -135,9 +129,9 @@ export class GqlComplexityHelper {
 
   static processSelectionNodes(
     selections: SelectionNode[],
-    visitedNodes: { [key: string]: VisitedNode },
+    visitedNodes: { [key: string]: IVisitedNode },
     depth: number,
-  ): void {
+  ) {
     for (const node of GqlASTHelper.filterFieldNodes(selections)) {
       GqlComplexityHelper.findInvalidNode(node, visitedNodes, depth);
     }

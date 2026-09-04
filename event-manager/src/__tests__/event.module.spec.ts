@@ -87,7 +87,7 @@ describe('EventModule', () => {
         EventModule.forRootAsync({ loggerProvider },
           {
             provide: OPTION_PROVIDER, useValue:
-              { logger: new ImprovedNestLogger('test', {}), emitter: new EventEmitter2() }),
+              { logger: new ImprovedNestLogger('test', {}), emitter: new EventEmitter2() } }),
         EventEmitterModule.forRoot(),
       ],
     }).compile();

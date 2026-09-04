@@ -379,5 +379,5 @@ describe('Event Service', () => {
       'alias3',
       expect.anything(),
     );
-  }
+  });
 });

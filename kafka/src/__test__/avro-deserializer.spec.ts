@@ -1,18 +1,22 @@
+import { jest } from '@jest/globals';
 import { createMock } from '@golevelup/ts-jest';
 import * as confluent from '@kafkajs/confluent-schema-registry';
-import { KafkaAvroDeserializer } from '../plugin';
+import { KafkaAvroDeserializer } from '../plugin.js';
 
-jest.mock('@kafkajs/confluent-schema-registry', () => {
-  const mockedSchema = createMock<confluent.SchemaRegistry>();
-  mockedSchema.decode.mockResolvedValue('decoded');
-
-  return {
-    SchemaRegistry: jest.fn(() => mockedSchema),
-  };
-});
+// Using jest.spyOn in beforeEach instead of jest.mock
 
 describe('KafkaAvroDeserializer', () => {
-  let deserializer = new KafkaAvroDeserializer({} as any, {} as any);
+  let deserializer: KafkaAvroDeserializer;
+  let decodeSpy: any;
+
+  beforeEach(() => {
+    decodeSpy = jest.spyOn(confluent.SchemaRegistry.prototype, 'decode' as never).mockResolvedValue('decoded' as never);
+    deserializer = new KafkaAvroDeserializer({}, {});
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('Should be defined', () => {
     expect(deserializer).toBeDefined();

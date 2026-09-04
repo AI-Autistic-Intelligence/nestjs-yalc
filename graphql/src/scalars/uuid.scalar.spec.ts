@@ -1,12 +1,11 @@
-// @ts-nocheck
 import { StringValueNode, ValueNode } from 'graphql';
 import {
   UUIDScalar,
   formatValueErrorMessage,
   formatKindErrorMessage,
   validateUUID,
-} from './uuid.scalar';
-import { UUIDValidationError } from './uuid-validation.error';
+} from './uuid.scalar.js';
+import { UUIDValidationError } from './uuid-validation.error.js';
 
 describe('UUID Scalar Type', () => {
   const uuidScalarType = new UUIDScalar();
@@ -47,7 +46,7 @@ describe('UUID Scalar Type', () => {
     expect.hasAssertions();
     invalidInputs.forEach((input) => {
       try {
-        expect(uuidScalarType.parseLiteral(input)).toThrowError();
+        expect(uuidScalarType.parseLiteral(input)).toThrow();
       } catch (err) {
         expect(err).toBeInstanceOf(UUIDValidationError);
         expect(err.message).toBe(formatValueErrorMessage(input.value));
@@ -70,7 +69,7 @@ describe('UUID Scalar Type', () => {
     expect.hasAssertions();
     invalidInputs.forEach((input) => {
       try {
-        expect(uuidScalarType.parseLiteral(input)).toThrowError();
+        expect(uuidScalarType.parseLiteral(input)).toThrow();
       } catch (err) {
         expect(err).toBeInstanceOf(UUIDValidationError);
         expect(err.message).toBe(formatKindErrorMessage(input.kind));

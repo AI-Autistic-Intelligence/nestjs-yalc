@@ -1,11 +1,8 @@
 import { describe, expect, it, jest } from "@jest/globals";
 
-const { OmniExternalRefService } =
-  await import("../omni-external-ref.service.js");
-const { OmniExternalRefEntity } =
-  await import("../base/omni-external-ref.entity.js");
-const { OmniExternalRefInternalType } =
-  await import("../omni-external-ref-internal-type.enum.js");
+import { OmniExternalRefService } from '../omni-external-ref.service.js';
+import { OmniExternalRefEntity } from '../base/omni-external-ref.entity.js';
+import { OmniExternalRefInternalType } from '../omni-external-ref-internal-type.enum.js';
 
 const bindingValidator = {
   assertTarget: jest.fn(async () => ({})),

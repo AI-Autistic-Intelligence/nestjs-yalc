@@ -280,7 +280,7 @@ export const objectToFieldMapper = (
   object:
     IFieldMapper | IModelFieldAndFilterMapper | ReturnTypeFuncValue | ClassType,
 ): IModelFieldAndFilterMapper => {
-  if (typeof object !== 'symbol') {
+  if ((typeof object === 'object' && object !== null) || typeof object === 'function') {
     const cached = objectToFieldMapperCache.get(object);
     if (cached) {
       return cached;
@@ -335,7 +335,7 @@ export const objectToFieldMapper = (
     );
   } */
 
-  if (typeof object !== 'symbol')
+  if ((typeof object === 'object' && object !== null) || typeof object === 'function')
     objectToFieldMapperCache.set(object, fieldMapper);
 
   return fieldMapper;

@@ -1,12 +1,6 @@
-import {
-  expect,
-  jest,
-  describe,
-  it,
-  beforeEach,
-  afterEach,
-} from '@jest/globals';
-
+import { jest } from '@jest/globals';
+import '@nestjs-yalc/jest/common-mocks.helper.js';
+import { expect, describe, it, beforeEach, afterEach } from '@jest/globals';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { DynamicModule, INestApplicationContext, Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -18,49 +12,37 @@ import {
 import { AppBootstrap } from '../app-bootstrap.helper.js';
 import { yalcBaseAppModuleMetadataFactory } from '../base-app-module.helper.js';
 
-class TestModule1 {
-  static forRoot(): DynamicModule {
-    return {
-      module: TestModule1,
-      ...yalcBaseAppModuleMetadataFactory(TestModule1, 'test1', {
-        configFactory: () => ({}),
-        logger: true,
-      }),
-    };
-  }
-}
+@Module(
+  yalcBaseAppModuleMetadataFactory(TestModule1, 'test1', {
+    configFactory: () => ({}),
+    logger: true,
+  }),
+)
+class TestModule1 {}
 
-class TestModule2 {
-  static forRoot(): DynamicModule {
-    return {
-      module: TestModule2,
-      ...yalcBaseAppModuleMetadataFactory(TestModule2, 'test2', {
-        configFactory: () => ({}),
-        logger: true,
-      }),
-    };
-  }
-}
+@Module(
+  yalcBaseAppModuleMetadataFactory(TestModule2, 'test2', {
+    configFactory: () => ({}),
+    logger: true,
+  }),
+)
+class TestModule2 {}
 
-class BrokenModule {
-  static forRoot(): DynamicModule {
-    return {
-      module: BrokenModule,
-      ...yalcBaseAppModuleMetadataFactory(BrokenModule, 'brokenModule', {
-        configFactory: () => ({}),
-        logger: true,
-        providers: [
-          {
-            provide: 'brokenService',
-            useFactory: () => {
-              throw new Error('Test');
-            },
-          },
-        ],
-      }),
-    };
-  }
-}
+@Module(
+  yalcBaseAppModuleMetadataFactory(BrokenModule, 'brokenModule', {
+    configFactory: () => ({}),
+    logger: true,
+    providers: [
+      {
+        provide: 'brokenService',
+        useFactory: () => {
+          throw new Error('Test');
+        },
+      },
+    ],
+  }),
+)
+class BrokenModule {}
 
 describe('test standalone app functions', () => {
   let mockedModule: DeepMocked<DynamicModule>;
@@ -143,11 +125,11 @@ describe('test standalone app functions', () => {
   });
 
   it('should trigger an error if we bootstrap multiple servers', async () => {
-    await new AppBootstrap('test1', TestModule1.forRoot()).initApp();
+    await new AppBootstrap('test1', TestModule1).initApp();
 
     let error: any = null;
     try {
-      await new AppBootstrap('test2', TestModule2.forRoot(), {}).initApp();
+      await new AppBootstrap('test2', TestModule2, {}).initApp();
     } catch (e: any) {
       // eslint-disable-next-line no-console
       console.log(e);
@@ -159,14 +141,14 @@ describe('test standalone app functions', () => {
 
   it('should not trigger an error when the first app cannot be initialized because of an error', async () => {
     try {
-      await new AppBootstrap('brokenModule', BrokenModule.forRoot()).initApp();
+      await new AppBootstrap('brokenModule', BrokenModule).initApp();
     } catch (e: any) {
       // nothing
     }
 
     let error: any = null;
     try {
-      await new AppBootstrap('test2', TestModule2.forRoot(), {}).initApp();
+      await new AppBootstrap('test2', TestModule2, {}).initApp();
     } catch (e: any) {
       // eslint-disable-next-line no-console
       console.log(e);
@@ -177,13 +159,13 @@ describe('test standalone app functions', () => {
   });
 
   it('should not trigger an error if we bootstrap multiple servers with the skip option', async () => {
-    await new AppBootstrap('test1', TestModule1.forRoot(), {
+    await new AppBootstrap('test1', TestModule1, {
       skipMultiServerCheck: true,
     }).initApp();
 
     let error: any = null;
     try {
-      await new AppBootstrap('test2', TestModule2.forRoot(), {
+      await new AppBootstrap('test2', TestModule2, {
         skipMultiServerCheck: true,
       }).initApp();
     } catch (e: any) {
@@ -198,10 +180,11 @@ describe('test standalone app functions', () => {
   it('should not trigger an error if we bootstrap multiple servers with the env variable', async () => {
     process.env.APP_SKIP_MULTISERVER_CHECK = 'true';
 
+    await new AppBootstrap('test1', TestModule1).initApp();
+
     let error: any = null;
     try {
-      await new AppBootstrap('test1', TestModule1.forRoot()).initApp();
-      await new AppBootstrap('test2', TestModule2.forRoot()).initApp();
+      await new AppBootstrap('test2', TestModule2).initApp();
     } catch (e: any) {
       // eslint-disable-next-line no-console
       console.log(e);
@@ -212,7 +195,7 @@ describe('test standalone app functions', () => {
   });
 
   it('should get the main bootstrapped app', async () => {
-    const app = await new AppBootstrap('test1', TestModule1.forRoot()).initApp();
+    const app = await new AppBootstrap('test1', TestModule1).initApp();
 
     const mainApp = getMainBootstrappedApp();
 

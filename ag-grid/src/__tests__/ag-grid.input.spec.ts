@@ -1,3 +1,5 @@
+jest.mock('@nestjs/graphql');
+
 import {
   agJoinArgFactory,
   filterExpressionInputFactory,
@@ -12,11 +14,6 @@ import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
 
 describe('Dynamic user input dto test', () => {
-  const spiedEntityFieldsEnumFactory = jest.spyOn(
-    AgGridEnum,
-    'entityFieldsEnumFactory',
-  );
-
   it('Check RowGroup Dto', async () => {
     const testData = new RowGroup();
 
@@ -29,65 +26,30 @@ describe('Dynamic user input dto test', () => {
   });
 
   describe('Check SortModelFactory', () => {
-    beforeEach(() => {
-      spiedEntityFieldsEnumFactory.mockReturnValue({
-        ['test']: 'test',
-      });
-    });
+    it('Should return a SortModel correctly not cached and then cached', () => {
+      const result1 = sortModelFactory<TestEntity>(TestEntity);
+      expect(result1).toBeDefined();
 
-    afterEach(() => {
-      spiedEntityFieldsEnumFactory.mockReset();
-    });
-
-    it('Should return a SortModel correctly not cached', () => {
-      const result = sortModelFactory<TestEntity>(TestEntity);
-      expect(result).toBeDefined();
-      expect(spiedEntityFieldsEnumFactory).toHaveBeenCalledTimes(1);
-      spiedEntityFieldsEnumFactory.mockReset();
-    });
-
-    it('Should return a SortModel correctly cached', () => {
-      const result = sortModelFactory<TestEntity>(TestEntity);
-      expect(result).toBeDefined();
-      expect(spiedEntityFieldsEnumFactory).toHaveBeenCalledTimes(0);
+      const result2 = sortModelFactory<TestEntity>(TestEntity);
+      expect(result2).toBe(result1); // Exact same reference due to cache
     });
   });
 
   describe('Check FilterExpressionInputFactory', () => {
-    beforeEach(() => {
-      spiedEntityFieldsEnumFactory.mockReturnValue({
-        ['test']: 'test',
-      });
-    });
+    it('Should return a FilterExpression correctly not cached and then cached', () => {
+      const result1 = filterExpressionInputFactory<TestEntity>(TestEntity);
+      expect(result1).toBeDefined();
 
-    afterEach(() => {
-      spiedEntityFieldsEnumFactory.mockReset();
-    });
-
-    it('Should return a FilterExpression correctly not cached', () => {
-      const result = filterExpressionInputFactory<TestEntity>(TestEntity);
-      expect(result).toBeDefined();
-      expect(spiedEntityFieldsEnumFactory).toHaveBeenCalledTimes(1);
-      spiedEntityFieldsEnumFactory.mockReset();
-    });
-
-    it('Should return a FilterExpression correctly cached', () => {
-      const result = filterExpressionInputFactory<TestEntity>(TestEntity);
-      expect(result).toBeDefined();
-      expect(spiedEntityFieldsEnumFactory).toHaveBeenCalledTimes(0);
+      const result2 = filterExpressionInputFactory<TestEntity>(TestEntity);
+      expect(result2).toBe(result1); // Exact same reference due to cache
     });
   });
 
   it('Should return the JoinOptionInput already cached', () => {
-    const spiedgetEntityRelations = jest.spyOn(
-      AgGridHelpers,
-      'getEntityRelations',
-    );
     const result = agJoinArgFactory(TestEntityRelation);
     expect(result).toBeDefined();
 
     const cachedResult = agJoinArgFactory(TestEntityRelation);
     expect(cachedResult).toBe(result);
-    expect(spiedgetEntityRelations).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,7 +1,6 @@
 import { describe, expect, it, jest } from "@jest/globals";
 
-const { collectOmniKernelQueryPlanEvidence } =
-  await import("../omnikernel.diagnostics.js");
+import { collectOmniKernelQueryPlanEvidence } from '../omnikernel.diagnostics.js';
 
 const sample = {
   scopeId: "scope-alpha",

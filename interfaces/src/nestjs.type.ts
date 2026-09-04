@@ -1,10 +1,12 @@
 import { DynamicModule, ForwardReference, Type } from '@nestjs/common';
 
 export type ImportType =
-  | Type<unknown>
+  | Type<any>
   | DynamicModule
   | Promise<DynamicModule>
-  | ForwardReference<unknown>;
+  | ForwardReference<any>;
 
-export type DecoratorType =
-  ClassDecorator | MethodDecorator | PropertyDecorator;
+export type IDecoratorType =
+  | ClassDecorator
+  | MethodDecorator
+  | PropertyDecorator;

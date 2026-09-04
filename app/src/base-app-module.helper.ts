@@ -153,22 +153,18 @@ export function yalcBaseAppModuleMetadataFactory(
   ];
 
   const logger = options?.logger;
-  let loggerInstance: any;
   if (logger) {
-    loggerInstance = (logger === true ? LoggerServiceFactory : logger)(
-      appAlias,
-      undefined,
-      appAlias,
+    _providers.push(
+      (logger === true ? LoggerServiceFactory : logger)(
+        appAlias,
+        APP_LOGGER_SERVICE,
+        appAlias,
+      ),
     );
 
     _providers.push({
-      provide: APP_LOGGER_SERVICE,
-      useValue: loggerInstance,
-    });
-
-    _providers.push({
       provide: getAppLoggerToken(appAlias),
-      useValue: loggerInstance,
+      useExisting: APP_LOGGER_SERVICE,
     });
   }
 
@@ -208,13 +204,11 @@ export function yalcBaseAppModuleMetadataFactory(
     _imports.push(
       YalcGlobalStaticModule,
       (options?.eventModuleClass ?? EventModule).forRootAsync({
-        imports: [],
-        loggerProvider: loggerInstance
-          ? {
-              provide: 'INTERNAL_APP_LOGGER_SERVICE',
-              useValue: loggerInstance,
-            }
-          : undefined,
+        imports: [module],
+        loggerProvider: {
+          provide: 'INTERNAL_APP_LOGGER_SERVICE',
+          useExisting: getAppLoggerToken(appAlias),
+        },
         eventServiceToken: 'INTERNAL_APP_EVENT_SERVICE',
         eventEmitter: {
           provide: 'INTERNAL_APP_EVENT_EMITTER',
@@ -417,7 +411,7 @@ export class YalcDefaultAppModule {
               eventEmitter: eventEmitter,
             },
             overrideLoggerLevels: getEnvLoggerLevels(),
-          });
+          }).useFactory(configService, eventEmitter);
         },
         inject: [MAIN_APP_CONFIG_SERVICE, EventEmitter2],
       },

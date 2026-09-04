@@ -1,4 +1,4 @@
-import { UUIDValidationError } from './uuid-validation.error';
+import { UUIDValidationError } from './uuid-validation.error.js';
 import { Scalar, CustomScalar } from '@nestjs/graphql';
 import { Kind, ValueNode } from 'graphql';
 
@@ -6,14 +6,14 @@ import { Kind, ValueNode } from 'graphql';
 export class UUIDScalar implements CustomScalar<string, string> {
   description = 'UUID Scalar Type';
 
-  parseValue(value: any): string {
-    if (!validateUUID(value))
-      throw new UUIDValidationError(formatValueErrorMessage(value));
-    return value;
+  parseValue(value: unknown): string {
+    if (!validateUUID(value as string))
+      throw new UUIDValidationError(formatValueErrorMessage(value as string));
+    return value as string;
   }
 
-  serialize(value: any): string {
-    return value;
+  serialize(value: unknown): string {
+    return value as string;
   }
 
   parseLiteral(ast: ValueNode): string {

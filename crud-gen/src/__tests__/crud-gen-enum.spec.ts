@@ -1,34 +1,23 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 import { BaseEntity } from 'typeorm';
 
-const CrudGenHelper = await importMockedEsm(
-  '../crud-gen.helpers.js',
-  import.meta,
-);
+import * as CrudGenHelper from '../crud-gen.helpers.js';
 
-const { entityFieldsEnumGqlFactory } = await import(
-  '../api-graphql/crud-gen-gql.enum.js'
-);
+import { entityFieldsEnumGqlFactory } from '../api-graphql/crud-gen-gql.enum.js';
+import { ModelField } from '../object.decorator.js';
 
 const fixedProperty = 'columId';
 
 describe('entityFieldsEnumFactory', () => {
-  let mockedGetMappedTypeProperties: jest.SpyInstance;
   let fieldsEnum;
   let EntityModel: any;
 
-  beforeEach(() => {
-    mockedGetMappedTypeProperties = jest.spyOn(
-      CrudGenHelper,
-      'getMappedTypeProperties',
-    );
-
+  beforeAll(() => {
     EntityModel = class extends BaseEntity {
+      @ModelField({})
       [fixedProperty]: number;
     };
 
-    mockedGetMappedTypeProperties.mockReturnValue([fixedProperty]);
     fieldsEnum = entityFieldsEnumGqlFactory(EntityModel);
   });
 

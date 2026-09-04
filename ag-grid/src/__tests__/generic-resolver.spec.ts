@@ -1,4 +1,17 @@
-import { createMock } from '@golevelup/ts-jest';
+import { jest } from '@jest/globals';
+jest.mock('@nestjs/graphql');
+
+export const mockGetEntityRelations = jest.fn();
+
+jest.mock('../ag-grid-metadata.helper', () => {
+  const actual = jest.requireActual('../ag-grid-metadata.helper') as any;
+  return {
+    __esModule: true,
+    ...actual,
+    getEntityRelations: mockGetEntityRelations,
+  };
+});
+
 import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper';
 import { ModuleRef } from '@nestjs/core';
 import {
@@ -35,7 +48,8 @@ import { IRelationInfo } from '../ag-grid.helpers';
 import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
 
-jest.mock('@nestjs/graphql');
+
+import { createMock } from '@golevelup/ts-jest';
 
 class TestEntityDto extends TestEntityRelation {}
 class TestEntityInput extends TestEntityDto {}
@@ -249,13 +263,12 @@ describe('Generic Resolver', () => {
     createMock<GQLDataLoader<TestEntityRelation2>>();
   const mockedModuleRef = createMock<ModuleRef>();
 
-  const spiedAgGridMetaDataList = jest.spyOn(
-    AgGridObjectDecorator,
-    'getAgGridFieldMetadataList',
-  );
-
   const generateResolver = (mockedMetadataList, resolverOption) => {
-    spiedAgGridMetaDataList.mockReturnValue(mockedMetadataList);
+    if (mockedMetadataList) {
+      Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, mockedMetadataList, TestEntityRelation);
+    } else {
+      Reflect.deleteMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, TestEntityRelation);
+    }
     const ResolverClass = resolverFactory<TestEntityRelation>(resolverOption);
 
     const resolver: IGenericResolver = new ResolverClass(
@@ -345,7 +358,7 @@ describe('Generic Resolver', () => {
     );
     expect(resolver).toBeDefined();
     const queries = getQueriesFromResolver(resolver);
-    expect(() => queries.getSingleRes()).rejects.toThrowError();
+    expect(() => queries.getSingleRes()).rejects.toThrow();
   });
 
   it('Should create a resolver with a proper execution of the queries (without prefix)', async () => {
@@ -383,7 +396,8 @@ describe('Generic Resolver', () => {
 
   describe('Check dataloader one-to-many relationship', () => {
     let customMetadatList: { [key: string]: IAgGridFieldMetadata };
-    let mockedResolverInfoList: jest.SpyInstance;
+    // const mockedResolverInfoList = jest.spyOn(AgGridHelpers, 'getEntityRelations');
+    // removed local spy
     const oneToManyResolverInfo: IRelationInfo = {
       ...customResolverInfo,
       relation: {
@@ -405,17 +419,17 @@ describe('Generic Resolver', () => {
         },
         type: () => String,
       };
-      mockedResolverInfoList = jest.spyOn(AgGridHelpers, 'getEntityRelations');
+      // spyOn removed
     });
 
     afterEach(() => {
       jest.clearAllMocks();
-      mockedResolverInfoList.mockClear();
+      mockGetEntityRelations.mockClear();
     });
 
     afterAll(() => {
       jest.restoreAllMocks();
-      mockedResolverInfoList.mockRestore();
+      mockGetEntityRelations.mockRestore();
     });
 
     it('Should load the entity relationship', async () => {
@@ -429,7 +443,7 @@ describe('Generic Resolver', () => {
         join: undefined,
       };
 
-      mockedResolverInfoList.mockReturnValue([resolveInfo]);
+      mockGetEntityRelations.mockReturnValue([resolveInfo]);
       const resolver = generateResolver(customMetadatList, baseResolverOption);
 
       const result = await resolver[propertyRelationName](
@@ -448,7 +462,7 @@ describe('Generic Resolver', () => {
       spiedGetPropertyDescriptor.mockReturnValueOnce(undefined);
       const testFunction = () =>
         generateResolver(customMetadatList, baseResolverOption);
-      expect(testFunction).toThrowError();
+      expect(testFunction).toThrow();
 
       // Need to restore the original not-mocked implementation
       spiedGetPropertyDescriptor.mockRestore();
@@ -464,7 +478,7 @@ describe('Generic Resolver', () => {
         relationType: 'one-to-one',
       },
     };
-    let mockedResolverInfoList: jest.SpyInstance;
+    // let mockedResolverInfoList: jest.SpyInstance;
 
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
@@ -480,20 +494,37 @@ describe('Generic Resolver', () => {
         },
         type: () => String,
       };
-      mockedResolverInfoList = jest.spyOn(AgGridHelpers, 'getEntityRelations');
+      // spyOn removed
+    });
+
+
+    beforeEach(() => {
+      customMetadatList = { ...fixedMetadataList };
+      customMetadatList[propertyRelationName].relation = {
+        relationType: 'one-to-one',
+        sourceKey: {
+          dst: 'sourceKey',
+          alias: 'sourceKey',
+        },
+        targetKey: {
+          dst: 'targetKey',
+          alias: 'targetKey',
+        },
+        type: () => String,
+      };
     });
 
     afterEach(() => {
       jest.clearAllMocks();
-      mockedResolverInfoList.mockClear();
+      mockGetEntityRelations.mockClear();
     });
 
     afterAll(() => {
-      mockedResolverInfoList.mockRestore();
+      mockGetEntityRelations.mockRestore();
     });
 
     it('Should load the entity relationship with a one-to-one relationtype', async () => {
-      mockedResolverInfoList.mockReturnValueOnce([oneToOneResolverInfo]);
+      mockGetEntityRelations.mockReturnValueOnce([oneToOneResolverInfo]);
       const resolver = generateResolver(customMetadatList, baseResolverOption);
 
       const result = await resolver[propertyRelationName](
@@ -504,7 +535,7 @@ describe('Generic Resolver', () => {
     });
 
     it('Should return nested field if it is already loaded', async () => {
-      mockedResolverInfoList.mockReturnValueOnce([oneToOneResolverInfo]);
+      mockGetEntityRelations.mockReturnValueOnce([oneToOneResolverInfo]);
       const resolver = generateResolver(customMetadatList, baseResolverOption);
 
       const customEntity = {
@@ -522,7 +553,7 @@ describe('Generic Resolver', () => {
         join: undefined,
       };
 
-      mockedResolverInfoList.mockReturnValueOnce([resolveInfo]);
+      mockGetEntityRelations.mockReturnValueOnce([resolveInfo]);
 
       const resolver = generateResolver(undefined, baseResolverOption);
       await expect(
@@ -531,7 +562,7 @@ describe('Generic Resolver', () => {
     });
 
     it('Should throw an error if we try to load a resolveField with join and resolver specified', async () => {
-      mockedResolverInfoList.mockReturnValueOnce([oneToOneResolverInfo]);
+      mockGetEntityRelations.mockReturnValueOnce([oneToOneResolverInfo]);
       const resolver = generateResolver(customMetadatList, baseResolverOption);
       const customTestEntity = {
         [propertyRelationName]: {},
@@ -559,10 +590,9 @@ describe('Generic Resolver', () => {
         relationType: 'many-to-many',
       },
     };
-    const mockedResolverInfoList = jest.spyOn(
-      AgGridHelpers,
-      'getEntityRelations',
-    );
+    // const mockedResolverInfoList = jest.spyOn(AgGridHelpers, 'getEntityRelations');
+
+
 
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
@@ -582,16 +612,14 @@ describe('Generic Resolver', () => {
 
     afterEach(() => {
       jest.clearAllMocks();
-      mockedResolverInfoList.mockClear();
     });
 
     afterAll(() => {
       jest.restoreAllMocks();
-      mockedResolverInfoList.mockRestore();
     });
 
     it('Should load the entity relationship with a many-to-many relationtype', async () => {
-      mockedResolverInfoList.mockReturnValueOnce([manyToManyResolverInfo]);
+      mockGetEntityRelations.mockReturnValueOnce([manyToManyResolverInfo]);
       const resolver = generateResolver(customMetadatList, baseResolverOption);
 
       const result = await resolver[propertyRelationName](
@@ -603,7 +631,7 @@ describe('Generic Resolver', () => {
     });
 
     it('Should return nested field if it is already loaded', async () => {
-      mockedResolverInfoList.mockReturnValueOnce([manyToManyResolverInfo]);
+      mockGetEntityRelations.mockReturnValueOnce([manyToManyResolverInfo]);
 
       const resolver = generateResolver(customMetadatList, baseResolverOption);
 
@@ -620,7 +648,7 @@ describe('Generic Resolver', () => {
         join: undefined,
       };
 
-      mockedResolverInfoList.mockReturnValueOnce([resolveInfo]);
+      mockGetEntityRelations.mockReturnValueOnce([resolveInfo]);
       const resolver = generateResolver({}, baseResolverOption);
       const result = await resolver[propertyRelationName](
         TestEntityRelation2,
@@ -695,7 +723,7 @@ describe('Generic Resolver', () => {
       Object,
       'getOwnPropertyDescriptor',
     );
-    spiedAgGridMetaDataList.mockReturnValue({});
+    Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, {}, TestEntityRelation);
     const ResolverClass =
       resolverFactory<TestEntityRelation>(baseResolverOption);
 
@@ -712,11 +740,11 @@ describe('Generic Resolver', () => {
         defineDeleteMutation('', BaseEntity, ResolverClass, {} as any, {}),
     };
 
-    expect(testFunction.getSingle).toThrowError();
-    expect(testFunction.getGrid).toThrowError();
-    expect(testFunction.create).toThrowError();
-    expect(testFunction.update).toThrowError();
-    expect(testFunction.delete).toThrowError();
+    expect(testFunction.getSingle).toThrow();
+    expect(testFunction.getGrid).toThrow();
+    expect(testFunction.create).toThrow();
+    expect(testFunction.update).toThrow();
+    expect(testFunction.delete).toThrow();
     spiedGetPropertyDescriptor.mockRestore();
   });
 
@@ -785,9 +813,8 @@ describe('Generic Resolver', () => {
     ];
     resolveInfo.findIndex = jest.fn().mockReturnValue(-1);
 
-    const mockedGetEntityRelations = jest
-      .spyOn(AgGridHelpers, 'getEntityRelations')
-      .mockReturnValueOnce(resolveInfo);
+    // mockedGetEntityRelations removed
+    mockGetEntityRelations.mockReturnValueOnce(resolveInfo);
 
     const resolver = generateResolver(customResolverInfo, baseResolverOption);
     const result = await resolver[propertyRelationName](
@@ -795,7 +822,7 @@ describe('Generic Resolver', () => {
       {},
     );
     expect(result).toBeDefined();
-    mockedGetEntityRelations.mockRestore();
+    mockGetEntityRelations.mockClear();
   });
 
   it('Should check if defineFieldResolver call resolveField with nullable true', () => {
@@ -807,7 +834,7 @@ describe('Generic Resolver', () => {
       },
     };
 
-    spiedAgGridMetaDataList.mockReturnValue(fixedMetadataList);
+    Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, fixedMetadataList, TestEntityRelation);
     const ResolverClass =
       resolverFactory<TestEntityRelation>(baseResolverOption);
 
@@ -827,7 +854,7 @@ describe('Generic Resolver', () => {
       },
     };
 
-    spiedAgGridMetaDataList.mockReturnValue(fixedMetadataList);
+    Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, fixedMetadataList, TestEntityRelation);
     const ResolverClass =
       resolverFactory<TestEntityRelation>(baseResolverOption);
 
@@ -845,13 +872,13 @@ describe('Generic Resolver', () => {
       },
     };
 
-    spiedAgGridMetaDataList.mockReturnValue(fixedMetadataList);
+    Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, fixedMetadataList, TestEntityRelation);
     const ResolverClass =
       resolverFactory<TestEntityRelation>(baseResolverOption);
 
     expect(() =>
       defineFieldResolver([resolverInfo], ResolverClass),
-    ).toThrowError();
+    ).toThrow();
   });
 
   it('Should throw an error if descriptor is not definded in defineFieldResolver', () => {
@@ -874,7 +901,7 @@ describe('Generic Resolver', () => {
       defineFieldResolver([resolverInfo], {
         prototype: {},
       });
-    expect(testFn).toThrowError(
+    expect(testFn).toThrow(
       new ReferenceError(
         `GenericResolver.${propertyRelationName} must have a descriptor`,
       ),
@@ -889,7 +916,7 @@ describe('Generic Resolver', () => {
     };
     expect(() =>
       defineFieldResolver([resolverInfoOneToOne], { prototype: {} }),
-    ).toThrowError(
+    ).toThrow(
       new ReferenceError(
         `GenericResolver.${propertyRelationName} must have a descriptor`,
       ),
@@ -898,6 +925,6 @@ describe('Generic Resolver', () => {
   });
 
   it('should throw an error if receive an undefined', () => {
-    expect(() => checkFinalId(undefined)).toThrowError();
+    expect(() => checkFinalId(undefined)).toThrow();
   });
 });

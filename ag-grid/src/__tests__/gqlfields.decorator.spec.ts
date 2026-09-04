@@ -320,11 +320,7 @@ describe('Graphql decorator test', () => {
   });
 
   it('Check with nested', async () => {
-    const arr: IFieldMapper = { ['first']: { dst: 'specified' } };
-    jest
-      .spyOn(AgGridHelpers, 'objectToFieldMapper')
-      .mockReturnValue(fieldAndFilterMapper);
-    const GqlFieldsMapperTest = $.GqlAgGridFieldsMapper(arr, edgesObj);
+    const GqlFieldsMapperTest = $.GqlAgGridFieldsMapper(fieldAndFilterMapper, edgesObj);
 
     console.log(GqlFieldsMapperTest.keys);
     expect(GqlFieldsMapperTest.keys).toEqual([]);
@@ -350,27 +346,13 @@ describe('Graphql decorator test', () => {
   });
 
   it('Check GqlAgGridFieldsMapper with derived fields', () => {
-    const arr: IFieldMapper = {
-      ['node']: { dst: 'data -> $.id', mode: 'derived' },
-    };
-
-    jest
-      .spyOn(AgGridHelpers, 'objectToFieldMapper')
-      .mockReturnValue(fieldAndFilterMapper);
-    const GqlFieldsMapperTest = $.GqlAgGridFieldsMapper(arr, infoObj);
+    const GqlFieldsMapperTest = $.GqlAgGridFieldsMapper(fieldAndFilterMapper, infoObj);
 
     expect(GqlFieldsMapperTest).toBeDefined();
   });
 
   it('Check GqlAgGridFieldsMapper with extraInfo not setted', () => {
-    const arr: IFieldMapper = {
-      ['node']: { dst: 'data -> $.id', mode: 'derived' },
-    };
-
-    jest
-      .spyOn(AgGridHelpers, 'objectToFieldMapper')
-      .mockReturnValue({ ...fieldAndFilterMapper, extraInfo: undefined });
-    const GqlFieldsMapperTest = $.GqlAgGridFieldsMapper(arr, infoObj);
+    const GqlFieldsMapperTest = $.GqlAgGridFieldsMapper({ ...fieldAndFilterMapper, extraInfo: undefined } as any, infoObj);
 
     expect(GqlFieldsMapperTest).toBeDefined();
   });

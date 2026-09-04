@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 
-export const encryptAes = (toEncrypt: string, key: string): string => {
+export const encryptAes = (toEncrypt: string, key: string) => {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv(
     'aes-256-ctr',
@@ -12,7 +12,7 @@ export const encryptAes = (toEncrypt: string, key: string): string => {
   return iv.toString('hex') + ':' + encrypted;
 };
 
-export const decryptAes = (toDecrypt: string, key: string): string => {
+export const decryptAes = (toDecrypt: string, key: string) => {
   if (toDecrypt === '') {
     return '';
   }

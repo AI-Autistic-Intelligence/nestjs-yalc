@@ -1,6 +1,6 @@
 export interface AwsResponse {
   statusCode: number;
   body: string;
-  headers: unknown;
+  headers: any;
   isBase64Encoded?: boolean;
 }

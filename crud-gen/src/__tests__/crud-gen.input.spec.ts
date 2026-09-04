@@ -1,31 +1,21 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 
-const spiedEntityFieldsEnumGqlFactory = jest.fn(() => ({
+
+
+import * as CrudGenGqlEnum from '../api-graphql/crud-gen-gql.enum.js';
+const spiedEntityFieldsEnumGqlFactory = jest.spyOn(CrudGenGqlEnum as any, 'entityFieldsEnumGqlFactory');
+spiedEntityFieldsEnumGqlFactory.mockReturnValue({
   test: 'test',
-}));
+} as any);
 
-await jest.unstable_mockModule('../api-graphql/crud-gen-gql.enum.js', () => ({
-  __esModule: true,
-  entityFieldsEnumFactory: jest.fn(),
-  entityFieldsEnumGqlFactory: spiedEntityFieldsEnumGqlFactory,
-}));
-
-const CrudGenHelpers = await importMockedEsm(
-  '../crud-gen.helpers.js',
-  import.meta,
-);
-const spiedGetEntityRelations = jest.spyOn(
-  CrudGenHelpers,
-  'getEntityRelations',
-);
-const {
+import * as CrudGenHelpers from '../crud-gen.helpers.js';
+import {
   agJoinArgFactory,
   filterExpressionInputFactory,
   RowGroup,
   SortModel,
   sortModelFactory,
-} = await import('../api-graphql/crud-gen.input.js');
+} from '../api-graphql/crud-gen.input.js';
 import * as CrudGenEnum from '../crud-gen.enum.js';
 import { TestEntity, TestEntityRelation } from '../__mocks__/entity.mock.js';
 
@@ -42,6 +32,9 @@ describe('Dynamic user input dto test', () => {
   });
 
   describe('Check SortModelFactory', () => {
+    class DummySortEntity1 {}
+    class DummySortEntity2 {}
+
     beforeEach(() => {
       spiedEntityFieldsEnumGqlFactory.mockReturnValue({
         ['test']: 'test',
@@ -53,20 +46,25 @@ describe('Dynamic user input dto test', () => {
     });
 
     it('Should return a SortModel correctly not cached', () => {
-      const result = sortModelFactory<TestEntity>(TestEntity);
+      const result = sortModelFactory<DummySortEntity1>(DummySortEntity1 as any);
       expect(result).toBeDefined();
       expect(spiedEntityFieldsEnumGqlFactory).toHaveBeenCalledTimes(1);
       spiedEntityFieldsEnumGqlFactory.mockReset();
     });
 
     it('Should return a SortModel correctly cached', () => {
-      const result = sortModelFactory<TestEntity>(TestEntity);
+      sortModelFactory<DummySortEntity2>(DummySortEntity2 as any);
+      spiedEntityFieldsEnumGqlFactory.mockReset();
+      const result = sortModelFactory<DummySortEntity2>(DummySortEntity2 as any);
       expect(result).toBeDefined();
       expect(spiedEntityFieldsEnumGqlFactory).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('Check FilterExpressionInputFactory', () => {
+    class DummyFilterEntity1 {}
+    class DummyFilterEntity2 {}
+
     beforeEach(() => {
       spiedEntityFieldsEnumGqlFactory.mockReturnValue({
         ['test']: 'test',
@@ -78,14 +76,16 @@ describe('Dynamic user input dto test', () => {
     });
 
     it('Should return a FilterExpression correctly not cached', () => {
-      const result = filterExpressionInputFactory<TestEntity>(TestEntity);
+      const result = filterExpressionInputFactory<DummyFilterEntity1>(DummyFilterEntity1 as any);
       expect(result).toBeDefined();
       expect(spiedEntityFieldsEnumGqlFactory).toHaveBeenCalledTimes(1);
       spiedEntityFieldsEnumGqlFactory.mockReset();
     });
 
     it('Should return a FilterExpression correctly cached', () => {
-      const result = filterExpressionInputFactory<TestEntity>(TestEntity);
+      filterExpressionInputFactory<DummyFilterEntity2>(DummyFilterEntity2 as any);
+      spiedEntityFieldsEnumGqlFactory.mockReset();
+      const result = filterExpressionInputFactory<DummyFilterEntity2>(DummyFilterEntity2 as any);
       expect(result).toBeDefined();
       expect(spiedEntityFieldsEnumGqlFactory).toHaveBeenCalledTimes(0);
     });

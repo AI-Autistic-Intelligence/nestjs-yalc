@@ -44,6 +44,6 @@ await new AppBootstrap(AppModule).bootstrap();
 ## Documentation
 
 - Integration guide:
-  https://github.com/Nek97/nestjs-yalc/blob/dev/docs/how-to-integrate-nestjs-yalc.md
+  https://github.com/NestDevLab/nestjs-yalc/blob/dev/docs/how-to-integrate-nestjs-yalc.md
 - Backend blueprint:
-  https://github.com/Nek97/nestjs-yalc/blob/dev/docs/backend-blueprint.md
+  https://github.com/NestDevLab/nestjs-yalc/blob/dev/docs/backend-blueprint.md

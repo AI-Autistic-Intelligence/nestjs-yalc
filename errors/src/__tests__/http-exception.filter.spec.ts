@@ -12,8 +12,7 @@ import {
 import { HttpExceptionFilter } from '../filters/http-exception.filter.js';
 import { GqlError } from '@nestjs-yalc/graphql/plugins/gql.error.js';
 import { DefaultError } from '../index.js';
-jest.mock('@nestjs/graphql');
-
+import { GqlArgumentsHost } from '@nestjs/graphql';
 describe('Http exceptions filter', () => {
   let filter: HttpExceptionFilter;
   let loggerServiceMock: DeepMocked<LoggerService>;
@@ -24,6 +23,10 @@ describe('Http exceptions filter', () => {
     loggerServiceMock = createMock<LoggerService>();
     mockArgumentsHost = createMock<ArgumentsHost>();
     filter = new HttpExceptionFilter(loggerServiceMock);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should be defined', () => {

@@ -80,7 +80,7 @@ describe('AG-Grid Interceptor test', () => {
 
     expect(mockMap).toHaveBeenCalledTimes(1);
     expect(mockedExecutionContext.switchToHttp()).toBeDefined();
-    expect(callHandler.handle).toBeCalledTimes(1);
+    expect(callHandler.handle).toHaveBeenCalledTimes(1);
   });
 
   it('Check AgGridInterceptorWorker with endRow', async () => {

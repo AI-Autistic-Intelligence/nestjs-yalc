@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals';
 import { SELF_DECLARED_DEPS_METADATA } from '@nestjs/common/constants';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import type { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface.js';
 import { GraphQLResolveInfo } from 'graphql';
@@ -31,16 +30,10 @@ import { GenericService } from '../typeorm/generic.service.js';
 import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper.js';
 import { Resolver } from '@nestjs/graphql';
 
-const ObjectDecorator = await importMockedEsm(
-  '../object.decorator.js',
-  import.meta,
-);
+import * as ObjectDecorator from '../object.decorator.js';
 const { FilterOptionType } = ObjectDecorator;
 
-const CrudGenHelpers = await importMockedEsm(
-  '../crud-gen.helpers.js',
-  import.meta,
-);
+import * as CrudGenHelpers from '../crud-gen.helpers.js';
 const {
   forceFilterWorker,
   forceFilters,
@@ -343,7 +336,7 @@ describe('Crud-gen helpers', () => {
       fixedAlias,
     );
     expect(testData).toEqual(
-      "`alias`.`status` = 'verified' AND (`alias`.`status` = 'verified' AND (`alias`.`active` = 1 AND `alias`.`active` > 0))",
+      "``alias``.``status`` = 'verified' AND (``alias``.``status`` = 'verified' AND (``alias``.``active`` = 1 AND ``alias``.``active`` > 0))",
     );
   });
 
@@ -459,32 +452,21 @@ describe('Crud-gen helpers', () => {
       jest.restoreAllMocks();
     });
     it('should convert an Entity object to a field mapper already cached', () => {
-      jest
-        .spyOn(ObjectDecorator, 'getCrudGenObjectMetadata')
-        .mockReturnValueOnce(fixedObjectMetadata);
-
-      const spiedgetModelFieldMetadataList = jest.spyOn(
-        ObjectDecorator,
-        'getModelFieldMetadataList',
-      );
-      spiedgetModelFieldMetadataList.mockReturnValueOnce(fixedFieldMetaData);
+      Reflect.defineMetadata(ObjectDecorator.CRUDGEN_OBJECT_METADATA_KEY, fixedObjectMetadata, BaseEntity);
+      Reflect.defineMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, fixedFieldMetaData, BaseEntity);
 
       const fieldMapper = objectToFieldMapper(BaseEntity);
       expect(fieldMapper).toBeDefined();
 
       const result = objectToFieldMapper(BaseEntity);
       expect(result).toStrictEqual(fieldMapper);
+
+      Reflect.deleteMetadata(ObjectDecorator.CRUDGEN_OBJECT_METADATA_KEY, BaseEntity);
+      Reflect.deleteMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, BaseEntity);
     });
 
     it('Should convert an Entity object to a field mapper different fieldMetada configuration ', () => {
-      jest
-        .spyOn(ObjectDecorator, 'getCrudGenObjectMetadata')
-        .mockReturnValue(fixedObjectMetadata);
-
-      const spiedgetModelFieldMetadataList = jest.spyOn(
-        ObjectDecorator,
-        'getModelFieldMetadataList',
-      );
+      Reflect.defineMetadata(ObjectDecorator.CRUDGEN_OBJECT_METADATA_KEY, fixedObjectMetadata, BaseEntity);
 
       // Dst equals to src if undefined
       const customFieldMetadata = {
@@ -494,20 +476,22 @@ describe('Crud-gen helpers', () => {
         },
       };
 
-      spiedgetModelFieldMetadataList.mockReturnValueOnce(customFieldMetadata);
+      Reflect.defineMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, customFieldMetadata, BaseEntity);
       let fieldMapper = objectToFieldMapper(new BaseEntity());
       expect(fieldMapper).toBeDefined();
 
       // src setted to undefined
       customFieldMetadata.propertyName.src = undefined;
-      spiedgetModelFieldMetadataList.mockReturnValueOnce(customFieldMetadata);
+      Reflect.defineMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, customFieldMetadata, BaseEntity);
       fieldMapper = objectToFieldMapper(new BaseEntity());
       expect(fieldMapper).toBeDefined();
 
       // undefined fileldMetadata
-      spiedgetModelFieldMetadataList.mockReturnValueOnce(undefined);
+      Reflect.deleteMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, BaseEntity);
       fieldMapper = objectToFieldMapper(new BaseEntity());
       expect(fieldMapper).toBeDefined();
+
+      Reflect.deleteMetadata(ObjectDecorator.CRUDGEN_OBJECT_METADATA_KEY, BaseEntity);
     });
 
     it('Should convert a FieldMapper object to a field mapper', () => {
@@ -897,37 +881,37 @@ describe('Crud-gen helpers', () => {
   });
 
   it('Should get mapped type property with denyFilter false', () => {
-    jest.spyOn(CrudGenHelpers, 'objectToFieldMapper').mockReturnValueOnce({
-      field: {
-        id: {
-          denyFilter: false,
-          dst: 'id',
-        },
+    Reflect.defineMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, {
+      id: {
+        denyFilter: false,
+        dst: 'id',
       },
-    });
+    }, TestEntity);
 
     const result = getMappedTypeProperties(TestEntity);
     expect(result[0]).toBe('id');
+    
+    Reflect.deleteMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, TestEntity);
   });
 
   it('Should exclude mapped type property when denyFilter is true', () => {
-    jest.spyOn(CrudGenHelpers, 'objectToFieldMapper').mockReturnValueOnce({
-      field: {
-        id: {
-          denyFilter: false,
-          dst: 'id',
-        },
-        fullName: {
-          denyFilter: true,
-          dst: 'full_name_expr',
-          mode: 'derived',
-        },
+    Reflect.defineMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, {
+      id: {
+        denyFilter: false,
+        dst: 'id',
       },
-    });
+      fullName: {
+        denyFilter: true,
+        dst: 'full_name_expr',
+        mode: 'derived',
+      },
+    }, TestEntity);
 
     const result = getMappedTypeProperties(TestEntity);
     expect(result).toContain('id');
     expect(result).not.toContain('full_name_expr');
+    
+    Reflect.deleteMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, TestEntity);
   });
 
   it('Should get the column properties from an crud-gen field with mode derived', () => {

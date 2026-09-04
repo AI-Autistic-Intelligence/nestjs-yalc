@@ -1,11 +1,21 @@
 import { jest } from '@jest/globals';
-import { mockNestJSGraphql } from '@nestjs-yalc/jest';
 import { FieldOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import { BaseEntity } from 'typeorm';
 
-await mockNestJSGraphql(import.meta);
-const graphql = await import('@nestjs/graphql');
-const {
+jest.mock('@nestjs/graphql', () => {
+  const actual = jest.requireActual('@nestjs/graphql') as any;
+  return {
+    __esModule: true,
+    ...actual,
+    addFieldMetadata: actual.addFieldMetadata, // Ensure it's passed
+    GqlExecutionContext: {
+      ...actual.GqlExecutionContext,
+      create: jest.fn(),
+    }
+  };
+});
+import * as graphql from '@nestjs/graphql';
+import {
   ModelField,
   CrudGenObject,
   getModelFieldMetadata,
@@ -14,7 +24,7 @@ const {
   hasModelFieldMetadataList,
   hasCrudGenObjectMetadata,
   IModelFieldMetadata,
-} = await import('../object.decorator.js');
+} from '../object.decorator.js';
 import { TestEntityDto } from '../__mocks__/entity.mock.js';
 import { fixedIncludefilterOption } from '../__mocks__/filter.mocks.js';
 

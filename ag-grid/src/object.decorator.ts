@@ -2,7 +2,7 @@ import { FieldMapperProperty, FieldMapper } from '@nestjs-yalc/interfaces';
 import { ClassType } from '@nestjs-yalc/types/globals';
 import { isClass } from '@nestjs-yalc/utils/class.helper';
 import {
-  addFieldMetadata,
+  Field,
   FieldOptions,
   ReturnTypeFunc,
 } from '@nestjs/graphql';
@@ -76,7 +76,7 @@ export const AgGridField = <T = any>({
   gqlType,
   gqlOptions,
   ...options
-}: AgGridFieldMetadata<T>): PropertyDecorator => {
+}: AgGridFieldMetadata<T> = {} as any): PropertyDecorator => {
   return (target: any, property: string | symbol) => {
     const classConstructor = target.constructor;
     const propertyName = property.toString();
@@ -104,12 +104,11 @@ export const AgGridField = <T = any>({
 
     // graphql field metadata
     if (gqlOptions || gqlType) {
-      addFieldMetadata(
-        <ReturnTypeFunc>gqlType ?? <FieldOptions>gqlOptions,
-        gqlOptions ?? {},
-        target,
-        propertyName,
-      );
+      if (gqlType) {
+        Field(gqlType, gqlOptions)(target, property);
+      } else {
+        Field(gqlOptions)(target, property);
+      }
     }
   };
 };

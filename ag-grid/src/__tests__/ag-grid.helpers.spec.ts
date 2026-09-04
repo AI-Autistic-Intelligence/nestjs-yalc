@@ -1,3 +1,13 @@
+jest.mock('../object.decorator', () => {
+  const actual = jest.requireActual('../object.decorator');
+  return {
+    ...actual,
+    getAgGridObjectMetadata: jest.fn(),
+    getAgGridFieldMetadataList: jest.fn(),
+  };
+});
+jest.mock('@nestjs/graphql');
+
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
 import { GraphQLResolveInfo } from 'graphql';
@@ -362,7 +372,7 @@ describe('Ag-grid helpers', () => {
       whereObjectToSqlString<BaseEntity>(mockedQueryBuilder, {
         filters,
       });
-    }).toThrowError(AgGridConditionNotSupportedError);
+    }).toThrow(AgGridConditionNotSupportedError);
   });
 
   it('should throw error on wrong filter', async () => {
@@ -377,7 +387,7 @@ describe('Ag-grid helpers', () => {
       whereObjectToSqlString<BaseEntity>(mockedQueryBuilder, {
         filters,
       });
-    }).toThrowError(AgGridConditionNotSupportedError);
+    }).toThrow(AgGridConditionNotSupportedError);
   });
 
   it('should run isAskingForCount', async () => {
@@ -507,7 +517,7 @@ describe('Ag-grid helpers', () => {
     //     objectToFieldMapper({
     //       badFiled: {},
     //     } as any);
-    //   expect(fieldMapper).toThrowError();
+    //   expect(fieldMapper).toThrow();
     // });
   });
 
@@ -616,7 +626,7 @@ describe('Ag-grid helpers', () => {
   );
   it('Should throw error if it is not supported the native conversion', () => {
     const testFn = () => filterTypeToNativeType(FilterType.MULTI);
-    expect(testFn).toThrowError();
+    expect(testFn).toThrow();
   });
 
   it('Should check if a filter has a filterExpressionInput', () => {
@@ -674,13 +684,13 @@ describe('Ag-grid helpers', () => {
   });
 
   it('Should get mapped type property with denyFilter false', () => {
-    jest.spyOn(AgGridHelpers, 'objectToFieldMapper').mockReturnValueOnce({
-      field: {
-        id: {
-          denyFilter: false,
-          dst: 'id',
-        },
-      },
+    jest.mocked(ObjectDecorator.getAgGridObjectMetadata).mockReturnValueOnce({} as any);
+    jest.mocked(ObjectDecorator.getAgGridFieldMetadataList).mockReturnValueOnce({
+      id: {
+        src: 'id',
+        denyFilter: false,
+        dst: 'id',
+      } as any,
     });
 
     const result = getMappedTypeProperties(TestEntity);

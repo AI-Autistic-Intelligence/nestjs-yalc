@@ -1,3 +1,14 @@
+import {
+  expect,
+  jest,
+  describe,
+  it,
+  beforeEach,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
+
 // class NestLogger {}
 
 // jest.mock('@nestjs/common', () => ({
@@ -5,21 +16,27 @@
 //   Logger: NestLogger,
 // }));
 
-// import { LogLevelEnum, LoggerTypeEnum } from '../logger.enum';
-// import { AppLoggerFactory } from '../logger.factory';
+// import { LogLevelEnum, LoggerTypeEnum } from '../logger.enum.js';
+// import { AppLoggerFactory } from '../logger.factory.js';
 // import { DeepMocked } from '@golevelup/ts-jest';
 import { createMock } from '@golevelup/ts-jest';
 import { LoggerService } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { TypeORMLogger } from '../typeorm-logger';
+import { TypeORMLogger } from '../typeorm-logger.js';
 
 describe('TypeORMLogger with a valid logger', () => {
   const mockedLoggerService = createMock<LoggerService>();
   const mockedEventEmitter2 = createMock<EventEmitter2>();
-  const testLogger = new TypeORMLogger(
-    mockedLoggerService,
-    mockedEventEmitter2,
-  );
+  let testLogger: TypeORMLogger;
+
+  beforeAll(() => {
+    process.env.TYPEORM_LOGGING = 'true';
+    testLogger = new TypeORMLogger(mockedLoggerService, mockedEventEmitter2);
+  });
+
+  afterAll(() => {
+    delete process.env.TYPEORM_LOGGING;
+  });
 
   it('logQuery ', async () => {
     const spiedLoggerServiceFn = jest.spyOn(mockedLoggerService, 'debug');
@@ -69,26 +86,26 @@ describe('TypeORMLogger with a valid logger', () => {
 describe('TypeORMLogger with a invalid logger', () => {
   const mockedLoggerService = createMock<LoggerService>();
   const mockedEventEmitter2 = createMock<EventEmitter2>();
-  mockedLoggerService.debug = undefined as any;
-  mockedLoggerService.error = undefined as any;
-  mockedLoggerService.warn = undefined as any;
-  mockedLoggerService.log = undefined as any;
-  mockedLoggerService.verbose = undefined as any;
+  mockedLoggerService.debug = undefined;
+  mockedLoggerService.error = undefined;
+  mockedLoggerService.warn = undefined;
+  mockedLoggerService.log = undefined;
+  mockedLoggerService.verbose = undefined;
   const testLogger = new TypeORMLogger(
     mockedLoggerService,
     mockedEventEmitter2,
   );
 
   it('All che level should ignore a missing logger function ', async () => {
-    expect(() => testLogger.logQuery('aQuery')).not.toThrowError();
+    expect(() => testLogger.logQuery('aQuery')).not.toThrow();
     expect(() =>
       testLogger.logQueryError('error', 'aQuery'),
-    ).not.toThrowError();
-    expect(() => testLogger.logQuerySlow(10000, 'aQuery')).not.toThrowError();
-    expect(() => testLogger.logSchemaBuild('aQuery')).not.toThrowError();
-    expect(() => testLogger.logMigration('aQuery')).not.toThrowError();
-    expect(() => testLogger.log('log', 'aQuery')).not.toThrowError();
-    expect(() => testLogger.log('info', 'aQuery')).not.toThrowError();
-    expect(() => testLogger.log('warn', 'aQuery')).not.toThrowError();
+    ).not.toThrow();
+    expect(() => testLogger.logQuerySlow(10000, 'aQuery')).not.toThrow();
+    expect(() => testLogger.logSchemaBuild('aQuery')).not.toThrow();
+    expect(() => testLogger.logMigration('aQuery')).not.toThrow();
+    expect(() => testLogger.log('log', 'aQuery')).not.toThrow();
+    expect(() => testLogger.log('info', 'aQuery')).not.toThrow();
+    expect(() => testLogger.log('warn', 'aQuery')).not.toThrow();
   });
 });

@@ -82,6 +82,7 @@ export const CRUDGEN_OBJECT_METADATA_KEY = Symbol(
 export const CRUDGEN_FIELD_METADATA_KEY = Symbol('CRUDGEN_FIELD_METADATA_KEY');
 
 export function getPrototype(target: Record<string, unknown> | ClassType): any {
+  if (!target) return target;
   return isClass(target) || !target.prototype ? target : target.prototype;
 }
 
@@ -130,9 +131,13 @@ export const ModelField = <T = any>({
   };
 };
 
-export const getModelFieldMetadataList = (
+export type IModelFieldMetadataList<T = any> = { [key: string]: IModelFieldMetadata<T> };
+
+export const getModelFieldMetadataList = <T = any>(
   target: Record<string, unknown> | ClassType,
-): { [key: string]: IModelFieldMetadata } | undefined => {
+): IModelFieldMetadataList<T> | undefined => {
+  if (!target) return undefined;
+  if (typeof target !== 'object' && typeof target !== 'function') return undefined;
   return Reflect.getMetadata(CRUDGEN_FIELD_METADATA_KEY, getPrototype(target));
 };
 
@@ -186,13 +191,20 @@ export const ModelObject = (options?: ModelObjectOptions): ClassDecorator => {
 
 export const getModelObjectMetadata = (
   target: Record<string, unknown> | ClassType,
-): FilterOption => {
+): FilterOption | undefined => {
+  if (!target) return undefined;
+  if (typeof target !== 'object' && typeof target !== 'function') {
+    console.log('CRITICAL: target is primitive', typeof target, target);
+    return undefined; // Do not call Reflect.getMetadata on primitive
+  }
   return Reflect.getMetadata(CRUDGEN_OBJECT_METADATA_KEY, getPrototype(target));
 };
 
 export const hasModelObjectMetadata = (
   target: Record<string, unknown> | ClassType,
 ): boolean => {
+  if (!target) return false;
+  if (typeof target !== 'object' && typeof target !== 'function') return false;
   return Reflect.hasMetadata(CRUDGEN_OBJECT_METADATA_KEY, getPrototype(target));
 };
 

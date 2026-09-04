@@ -430,7 +430,7 @@ describe('AgGrid Repoository', () => {
     result = AgGridRepositoryFactory<BaseEntity>(BaseEntity);
     expect(result).toBeDefined();
 
-    expect(spiedEntityRepository).toBeCalledTimes(1);
+    expect(spiedEntityRepository).toHaveBeenCalledTimes(1);
   });
 
   it('Should check generateFilterOnPrimaryColumn with ids as number', () => {

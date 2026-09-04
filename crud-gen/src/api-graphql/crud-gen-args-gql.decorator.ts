@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Args, GqlExecutionContext } from '@nestjs/graphql';
 import { ObjectLiteral } from 'typeorm';
-import { GqlModelFieldsMapper } from '@nestjs-yalc/crud-gen/api-graphql/gqlfields.decorator.js';
+import { GqlModelFieldsMapper } from './gqlfields.decorator.js';
 import {
   crudGenParamsFactory,
   crudGenParamsNoPaginationFactory,

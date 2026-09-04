@@ -1,17 +1,13 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
-import { mockNestJSGraphql } from '@nestjs-yalc/jest';
 import {
   mockedExecutionContext,
 } from '@nestjs-yalc/jest/common-mocks.helper.js';
 import { ModelField, CrudGenObject } from '../object.decorator.js';
 
-await mockNestJSGraphql(import.meta);
-const graphql = await import('@nestjs/graphql');
-const gqlMapper = await importMockedEsm(
-  '../api-graphql/gqlmapper.decorator.js',
-  import.meta,
-);
+
+import * as graphql from '@nestjs/graphql';
+
+import * as gqlMapper from '../api-graphql/gqlmapper.decorator.js';
 
 @CrudGenObject()
 class DummyType {
@@ -46,7 +42,6 @@ describe('Graphql decorator test', () => {
   });
 
   it('Check GqlArgsGenerator with data', async () => {
-    jest.mocked(gqlMapper.GqlFieldsAsArgsWorker).mockReturnValue(fixedInfoObj);
     const testData = gqlMapper.GqlArgsGenerator(
       { fieldType: DummyType },
       mockedExecutionContext,
@@ -56,7 +51,6 @@ describe('Graphql decorator test', () => {
   });
 
   it('Check GqlArgsGenerator with data and parameters', async () => {
-    jest.mocked(gqlMapper.GqlFieldsAsArgsWorker).mockReturnValue(fixedInfoObj);
     const testData = gqlMapper.GqlArgsGenerator(
       { fieldType: DummyType, _name: 'test', gql: { name: 'test' } },
       mockedExecutionContext,
@@ -72,7 +66,7 @@ describe('Graphql decorator test', () => {
   });
 
   it('should be able to use the InputArgs to combine param decorators', () => {
-    const ArgsFunc = jest.mocked(graphql.Args);
+    const ArgsFunc = jest.spyOn(graphql, 'Args');
     const returnFunc = jest.fn().mockReturnValue('somestring');
     ArgsFunc.mockReturnValue(returnFunc);
     const decorator = gqlMapper.InputArgs({ fieldMap: {} });
@@ -82,7 +76,7 @@ describe('Graphql decorator test', () => {
   });
 
   it('should be able to use the InputArgs to combine param decorators with specified params', () => {
-    const ArgsFunc = jest.mocked(graphql.Args);
+    const ArgsFunc = jest.spyOn(graphql, 'Args');
     const returnFunc = jest.fn().mockReturnValue('somestring');
     ArgsFunc.mockReturnValue(returnFunc);
     const decorator = gqlMapper.InputArgs({

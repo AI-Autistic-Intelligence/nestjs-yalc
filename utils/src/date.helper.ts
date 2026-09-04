@@ -51,7 +51,15 @@ export class DateHelper {
     return result;
   }
 
-  static dateToSQLDateTime(date: Date): string {
+  static dateToSQLDateTime(date: Date) {
     return date.toISOString().slice(0, 19).replace('T', ' ');
+  }
+
+  static dateToPlainISO(date: Date) {
+    return date
+      .toISOString()
+      .replace(/:/g, '')
+      .replace(/-/g, '')
+      .replace(/\./g, '');
   }
 }

@@ -1,4 +1,4 @@
-export interface KafkaConfig {
+export interface IKafkaConfig {
   kafka: {
     host: string;
     sslEnabled: boolean;

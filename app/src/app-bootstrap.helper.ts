@@ -96,6 +96,7 @@ export class AppBootstrap<
 
       await this.getApp().init();
     } catch (err) {
+      console.error('App init failed:', err);
       this.closeCleanup();
       throw new Error('Process aborted');
     }

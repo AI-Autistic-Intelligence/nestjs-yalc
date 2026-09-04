@@ -1,24 +1,15 @@
 import { jest, beforeEach, describe, expect, it } from "@jest/globals";
 import { createMock } from "@golevelup/ts-jest";
 import { EventEmitter2 } from "@nestjs/event-emitter";
+import amqp from "amqplib";
+import { RabbitMqEventStrategy, RabbitMqEventStrategyProvider } from "../strategies/rabbitmq-event.strategy.js";
 
 const publish = jest.fn(() => true);
 const assertExchange = jest.fn();
 const channelClose = jest.fn();
 const connectionClose = jest.fn();
 const createChannel = jest.fn();
-const connect = jest.fn();
-
-await jest.unstable_mockModule("amqplib", () => ({
-  __esModule: true,
-  default: {
-    connect,
-  },
-}));
-
-const { RabbitMqEventStrategy, RabbitMqEventStrategyProvider } = await import(
-  "../strategies/rabbitmq-event.strategy.js"
-);
+const connect = jest.spyOn(amqp, 'connect' as never) as unknown as jest.Mock;
 
 describe("RabbitMqEventStrategy", () => {
   let eventEmitter: EventEmitter2;

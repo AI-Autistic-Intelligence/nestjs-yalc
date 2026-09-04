@@ -3,7 +3,7 @@ export const arrayGroupByField = <T, K extends string | number | symbol>(
   getKey: (item: T) => K,
 ): Record<K, T[]> => {
   return entityArray.reduce(
-    (acc, current): Record<K, T[]> => {
+    (acc, current) => {
       const property = getKey(current);
       acc[property] ??= [];
       acc[property].push(current);

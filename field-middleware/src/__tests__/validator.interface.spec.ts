@@ -1,10 +1,20 @@
-import { StringFormatEnum } from '../string-format.enum';
+import {
+  expect,
+  jest,
+  describe,
+  it,
+  beforeEach,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
+import { StringFormatEnum } from '../string-format.enum.js';
 import {
   DateCheckTypeEnum,
   IDate,
   IDateCheck,
   IStringFormatMatchCheckOptions,
-} from '../validator.interface';
+} from '../validator.interface.js';
 
 describe('validator interface test', () => {
   it('All the interfaces are defined', async () => {

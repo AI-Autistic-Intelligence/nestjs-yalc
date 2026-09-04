@@ -65,7 +65,7 @@ describe('QueryBuilderHelper', () => {
       groupBy,
     );
 
-    expect(clonedQueryBuilder1.groupBy).toBeCalledWith(groupBy.join(', '));
+    expect(clonedQueryBuilder1.groupBy).toHaveBeenCalledWith(groupBy.join(', '));
     expect(result).toStrictEqual([mockedData, mockedCount]);
   });
 
@@ -352,7 +352,7 @@ describe('QueryBuilderHelper', () => {
       release: jest.fn(),
     });
     const mockedConnection = createMock<Connection>({
-      driver: new PostgresDriver(),
+      driver: { options: { type: 'postgres' } },
       createQueryRunner: jest.fn().mockReturnValue(mockedQueryRunner),
     });
 

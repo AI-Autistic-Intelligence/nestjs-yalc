@@ -1,5 +1,16 @@
+import {
+  expect,
+  jest,
+  describe,
+  it,
+  beforeEach,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
+
 class NestLogger {
-  setLogLevels: jest.Mock<any, any>;
+  setLogLevels: jest.Mock<any>;
   static overrideLogger = jest.fn();
 }
 
@@ -8,8 +19,9 @@ jest.mock('@nestjs/common', () => ({
   Logger: NestLogger,
 }));
 
-import { LogLevelEnum, LoggerTypeEnum } from '../logger.enum';
-import { AppLoggerFactory } from '../logger.factory';
+import { LogLevelEnum, LoggerTypeEnum } from '../logger.enum.js';
+import { AppLoggerFactory } from '../logger.factory.js';
+import { PinoLogger } from '../logger-pino.service.js';
 
 describe('AppLoggerFactory', () => {
   // let mockConfigService;
@@ -29,6 +41,7 @@ describe('AppLoggerFactory', () => {
       LoggerTypeEnum.PINO,
     );
     expect(logger).toBeDefined();
+    expect(logger instanceof PinoLogger).toBeTruthy();
 
     logger = AppLoggerFactory(
       'test',

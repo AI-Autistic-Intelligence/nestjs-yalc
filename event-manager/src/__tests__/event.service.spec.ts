@@ -12,7 +12,7 @@ import { createMock } from '@golevelup/ts-jest';
 import type { YalcEventService as EventServiceType } from '../event.service.js';
 import { HttpStatus } from '@nestjs/common';
 
-jest.unstable_mockModule('../event.js', async () => {
+jest.mock('../event.js', () => {
   return {
     eventLogAsync: jest.fn(),
     eventDebugAsync: jest.fn(),
@@ -30,10 +30,11 @@ jest.unstable_mockModule('../event.js', async () => {
     getGlobalEventEmitter: jest.fn(),
     resolveLoggerOption: jest.fn(),
     isErrorOptions: jest.fn().mockReturnValue(true),
-    applyAwaitOption: (options) => options, // stupid workaround because of jest limitations with mocking esm modules
+    applyAwaitOption: (options: any) => options, // workaround
   };
 });
-const { YalcEventService } = await import('../event.service.js');
+
+const { YalcEventService } = require('../event.service.js');
 const {
   eventLogAsync,
   eventDebugAsync,
@@ -46,7 +47,8 @@ const {
   eventVerbose,
   eventWarn,
   isErrorOptions,
-} = await import('../event.js');
+  applyAwaitOption,
+} = require('../event.js');
 
 isErrorOptions;
 

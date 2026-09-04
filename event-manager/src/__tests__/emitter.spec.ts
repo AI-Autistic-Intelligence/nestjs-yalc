@@ -8,30 +8,22 @@ import {
 } from '@jest/globals';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 
-const loggerHelper = (await importMockedEsm(
-  '@nestjs-yalc/logger/logger.helper.js',
-  import.meta,
-)) as DeepMocked<typeof import('@nestjs-yalc/logger/logger.helper.js')>;
-
-const {
+import * as loggerHelper from '@nestjs-yalc/logger/logger.helper.js';
+import {
   emitEvent,
   emitFormattedEvent,
   versionedDomainActionFormatter,
   simpleDotFormatter,
   simpleFormatter,
-} = await import('../emitter.js'); // replace with your actual module path
+} from '../emitter.js';
 
 describe('Event Emitter', () => {
   let eventEmitter;
-  let spiedMaskDataInObject;
-
   beforeEach(() => {
     eventEmitter = createMock(EventEmitter2);
     jest.mocked(eventEmitter.emit).mockReturnValue(true);
     jest.mocked(eventEmitter.emitAsync).mockResolvedValue([]);
-    spiedMaskDataInObject = jest.spyOn(loggerHelper, 'maskDataInObject');
   });
 
   afterEach(() => {
@@ -49,10 +41,8 @@ describe('Event Emitter', () => {
     const payload = { data: 'test' };
     const name = 'testEvent';
     const mask = ['data'];
-    const maskedPayload = { data: '****' };
-    jest.mocked(spiedMaskDataInObject).mockReturnValueOnce(maskedPayload);
+    const maskedPayload = { data: '[REDACTED]', trace: undefined };
     await emitEvent(eventEmitter, name, payload, { mask });
-    expect(spiedMaskDataInObject).toHaveBeenCalledWith(payload, mask);
     expect(eventEmitter.emit).toHaveBeenCalledWith(name, maskedPayload);
   });
 

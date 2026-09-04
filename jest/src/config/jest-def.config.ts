@@ -163,10 +163,24 @@ const defaultConf = (
     testRegex: '.*\\.spec\\.ts$',
     transform: {
       '^.+\\.(t|j)sx?$': [
-        'ts-jest',
+        '@swc/jest',
         {
-          useESM: true,
-          ...tsJestConfig,
+          jsc: {
+            target: 'es2022',
+            parser: {
+              syntax: 'typescript',
+              decorators: true,
+              dynamicImport: true,
+            },
+            transform: {
+              legacyDecorator: true,
+              decoratorMetadata: true,
+            },
+            keepClassNames: true,
+          },
+          module: {
+            type: 'es6',
+          },
         },
       ],
     },
@@ -197,6 +211,7 @@ const defaultConf = (
       'escape-string-regexp',
       'indent-string',
       'p-map',
+      'lodash-es',
     ].join('|');
 
     config.transformIgnorePatterns = [

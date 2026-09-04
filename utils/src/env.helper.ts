@@ -7,12 +7,11 @@ export const envToArray = <T>(key: string): T[] => {
   if (process.env[key] === '') return [];
 
   return (
-    <T[]>(<unknown>process.env[key]?.split(',').map((v): string => v.trim())) ??
-    []
+    <T[]>(<unknown>process.env[key]?.split(',').map((v) => v.trim())) ?? []
   );
 };
 
-export function envIsTrue(value?: string): boolean {
+export function envIsTrue(value?: string) {
   if (!value) return false;
 
   const val = value.toLowerCase();
@@ -25,12 +24,12 @@ export function envIsTrue(value?: string): boolean {
  * @param implicitCheck enable implicit check by default
  * @returns boolean
  */
-export function isProduction(implicitCheck = true): boolean {
+export function isProduction(implicitCheck = true) {
   return (
     process.env.NODE_ENV === 'production' ||
     (implicitCheck &&
       ['test', 'pipeline', 'development'].every(
-        (v): boolean => process.env.NODE_ENV !== v,
+        (v) => process.env.NODE_ENV !== v,
       ))
   );
 }

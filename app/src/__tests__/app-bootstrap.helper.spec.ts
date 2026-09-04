@@ -1,4 +1,6 @@
 import { describe, expect, it, jest, beforeEach } from '@jest/globals';
+import '@nestjs-yalc/jest/common-mocks.helper.js';
+
 import { AppBootstrap } from '../app-bootstrap.helper.js';
 import { SYSTEM_LOGGER_SERVICE } from '../def.const.js';
 import { UnwrapResultInterceptor } from '../unwrap-result.interceptor.js';

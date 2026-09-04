@@ -1,36 +1,22 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
-import { mockNestJSGraphql } from '@nestjs-yalc/jest';
 import { createMock } from '@golevelup/ts-jest';
 import { BaseEntity, Equal } from 'typeorm';
 import { GeneralFilters, ExtraArgsStrategy, FilterType } from '../crud-gen.enum.js';
 
-await mockNestJSGraphql(import.meta);
-const graphql = await import('@nestjs/graphql');
 
-const gqlFieldsMapperMock = jest.fn().mockReturnValue({
-  keys: ['field'],
-  keysMeta: { field: {} },
-  extraInfo: {},
-});
+import * as graphql from '@nestjs/graphql';
+import { ModelField } from '../object.decorator.js';
 
-await jest.unstable_mockModule('../api-graphql/gqlfields.decorator.js', () => ({
-  __esModule: true,
-  GqlModelFieldsMapper: gqlFieldsMapperMock,
-}));
+class DummyEntity extends BaseEntity {
+  @ModelField({})
+  field: string;
+}
 
-const CrudGenHelpers = await importMockedEsm(
-  '../crud-gen.helpers.js',
-  import.meta,
-);
-const CrudGenInput = await importMockedEsm(
-  '../api-graphql/crud-gen.input.js',
-  import.meta,
-);
+import * as CrudGenHelpers from '../crud-gen.helpers.js';
+jest.mock('../api-graphql/crud-gen.input.js');
+import * as CrudGenInput from '../api-graphql/crud-gen.input.js';
 
-const crudGenArgsDecorator = await import(
-  '../api-graphql/crud-gen-args-gql.decorator.js'
-);
+import * as crudGenArgsDecorator from '../api-graphql/crud-gen-args-gql.decorator.js';
 
 const infoObj = {
   fieldNodes: [
@@ -43,7 +29,7 @@ const infoObj = {
 } as any;
 
 const fixedArgsOptions = {
-  entityType: BaseEntity,
+  entityType: DummyEntity,
   options: { maxRow: 200 },
 } as any;
 
@@ -59,13 +45,8 @@ mockCreate.mockImplementation(() => ({
 describe('Crud-gen args decorator (esm-safe)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    gqlFieldsMapperMock.mockReturnValue({
-      keys: ['field'],
-      keysMeta: { field: {} },
-      extraInfo: {},
-    });
     jest
-      .mocked(CrudGenHelpers.objectToFieldMapper)
+      .spyOn(CrudGenHelpers, 'objectToFieldMapper')
       .mockReturnValue({ field: {}, filterOption: {} } as any);
   });
 
@@ -125,9 +106,9 @@ describe('Crud-gen args decorator (esm-safe)', () => {
   });
 
   it('CrudGenCombineDecorators creates decorator', () => {
-    const argsFn = jest.spyOn(graphql, 'Args');
+    const argsFn = graphql.Args as jest.Mock;
     argsFn.mockReturnValue(jest.fn());
-    jest.mocked(CrudGenInput.agJoinArgFactory).mockReturnValue({});
+    jest.spyOn(CrudGenInput as any, 'agJoinArgFactory').mockReturnValue({});
     const decorator = crudGenArgsDecorator.CrudGenCombineDecorators(
       fixedArgsOptions,
     );

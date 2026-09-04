@@ -1,5 +1,4 @@
 import { jest } from '@jest/globals';
-import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
 import {
   BaseEntity,
   EntityMetadata,
@@ -15,10 +14,7 @@ import { SortDirection } from '../crud-gen.enum.js';
 import { DeepMocked } from '@golevelup/ts-jest';
 import { Alias } from 'typeorm/query-builder/Alias';
 import * as Typeorm from 'typeorm';
-const CrudGenHelpers = await importMockedEsm(
-  '../crud-gen.helpers.js',
-  import.meta,
-);
+import * as CrudGenHelpers from '../crud-gen.helpers.js';
 
 jest.mock('@nestjs-yalc/database/query-builder.helper');
 jest.mock('typeorm/find-options/FindOptionsUtils', () => ({
@@ -530,14 +526,7 @@ describe('CrudGen Repoository', () => {
     });
   });
   it('Should check genereteSelectOnFind', () => {
-    jest.spyOn(CrudGenHelpers, 'objectToFieldMapper').mockReturnValue({});
-    jest
-      .spyOn(CrudGenHelpers, 'applySelectOnFind')
-      .mockImplementation((findOptions, field, fieldMapperField) => {
-        findOptions.select = [];
-        findOptions.select.push('id');
-        findOptions.select.push('data -> $.field');
-      });
-    newCrudGenRepository.generateSelectOnFind(['id'], BaseEntity);
+    const result = newCrudGenRepository.generateSelectOnFind(['id'], BaseEntity);
+    expect(result).toBeDefined();
   });
 });

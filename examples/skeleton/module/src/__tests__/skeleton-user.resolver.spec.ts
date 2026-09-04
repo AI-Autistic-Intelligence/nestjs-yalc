@@ -21,12 +21,8 @@ import { type SkeletonUser } from '../skeleton-user.entity.js';
 import { type SkeletonUserType } from '../skeleton-user.dto.js';
 import { type SkeletonUserService } from '../skeleton-user.service.js';
 
-const { skeletonUserServiceFactory } = await import(
-  '../skeleton-user.service.js'
-);
-const { lowerCaseEmailMiddleware, SkeletonUserResolver } = await import(
-  '../index.js'
-);
+import { skeletonUserServiceFactory } from '../skeleton-user.service.js';
+import { lowerCaseEmailMiddleware, SkeletonUserResolver } from '../index.js';
 
 describe('Test skeleton user resolver', () => {
   let mockedRepository: DeepMocked<CrudGenRepository<SkeletonUser>>;

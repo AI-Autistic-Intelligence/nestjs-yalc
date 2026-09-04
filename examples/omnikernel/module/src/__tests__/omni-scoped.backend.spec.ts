@@ -1,33 +1,23 @@
 import { describe, expect, it } from "@jest/globals";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 
-const { OmniNamedEntity } = await import("../base/omni-named.entity.js");
-const { OmniRecordEntity } = await import("../base/omni-record.entity.js");
-const { OmniRelationEntity } = await import("../base/omni-relation.entity.js");
-const { OmniCollectionEntity } = await import("../omni-collection.entity.js");
-const { OmniDocumentEntity } = await import("../omni-document.entity.js");
-const { OmniExternalRefEntity } =
-  await import("../base/omni-external-ref.entity.js");
-const { OmniExternalRefService } =
-  await import("../omni-external-ref.service.js");
-const { OmniRelationService } = await import("../omni-relation.service.js");
-const { OmniScopedService } = await import("../omni-scoped.service.js");
-const { normalizeOmniKernelRegistrationOptions } =
-  await import("../omni-scope.js");
-const { omniScopedBackendProvidersFactory, omniBackendServiceToken } =
-  await import("../omni-scoped.backend.js");
-const { omniNamedBackendProvidersFactory } =
-  await import("../omni-named.backend.js");
-const { omniRecordBackendProvidersFactory } =
-  await import("../omni-record.backend.js");
-const { omniRelationBackendProvidersFactory } =
-  await import("../omni-relation.backend.js");
-const { omniCollectionBackendProvidersFactory } =
-  await import("../omni-collection.backend.js");
-const { omniDocumentBackendProvidersFactory } =
-  await import("../omni-document.backend.js");
-const { omniExternalRefBackendProvidersFactory } =
-  await import("../omni-external-ref.backend.js");
+import { OmniNamedEntity } from '../base/omni-named.entity.js';
+import { OmniRecordEntity } from '../base/omni-record.entity.js';
+import { OmniRelationEntity } from '../base/omni-relation.entity.js';
+import { OmniCollectionEntity } from '../omni-collection.entity.js';
+import { OmniDocumentEntity } from '../omni-document.entity.js';
+import { OmniExternalRefEntity } from '../base/omni-external-ref.entity.js';
+import { OmniExternalRefService } from '../omni-external-ref.service.js';
+import { OmniRelationService } from '../omni-relation.service.js';
+import { OmniScopedService } from '../omni-scoped.service.js';
+import { normalizeOmniKernelRegistrationOptions } from '../omni-scope.js';
+import { omniScopedBackendProvidersFactory, omniBackendServiceToken } from '../omni-scoped.backend.js';
+import { omniNamedBackendProvidersFactory } from '../omni-named.backend.js';
+import { omniRecordBackendProvidersFactory } from '../omni-record.backend.js';
+import { omniRelationBackendProvidersFactory } from '../omni-relation.backend.js';
+import { omniCollectionBackendProvidersFactory } from '../omni-collection.backend.js';
+import { omniDocumentBackendProvidersFactory } from '../omni-document.backend.js';
+import { omniExternalRefBackendProvidersFactory } from '../omni-external-ref.backend.js';
 
 const scope = {
   scopeId: "scope-alpha",

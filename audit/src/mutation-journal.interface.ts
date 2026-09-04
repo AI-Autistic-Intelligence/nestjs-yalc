@@ -14,7 +14,10 @@ export interface MutationJournalRow {
 }
 
 export type MutationJournalSkipReason =
-  'excluded' | 'blob-column' | 'virtual-table' | 'too-many-columns';
+  | 'excluded'
+  | 'blob-column'
+  | 'virtual-table'
+  | 'too-many-columns';
 
 export interface MutationJournalInstallReport {
   dataSourceName: string;

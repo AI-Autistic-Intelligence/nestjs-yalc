@@ -7,10 +7,10 @@ const mockedGraphql = await createNestJsGraphqlMock(import.meta);
 const mockedExecutionContext =
   createMock<typeof mockedGraphql.GqlExecutionContext>();
 mockedGraphql.GqlExecutionContext = mockedExecutionContext;
-jest.unstable_mockModule('@nestjs/graphql', () => mockedGraphql);
+jest.mock('@nestjs/graphql', () => mockedGraphql);
 
-const { RoleEnum } = await import('../role.guard.js');
-const roleGuard = await import('../role.guard.js');
+import { RoleEnum } from '../role.guard.js';
+import * as roleGuard from '../role.guard.js';
 
 describe('test role.guard', () => {
   it('should create the RoleGuard class', () => {

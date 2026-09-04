@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 
-const { OmniDocumentService } = await import('../omni-document.service.js');
-const { OmniDocumentEntity } = await import('../omni-document.entity.js');
-const { OmniDocumentKind } = await import('../omni-document-kind.enum.js');
+import { OmniDocumentService } from '../omni-document.service.js';
+import { OmniDocumentEntity } from '../omni-document.entity.js';
+import { OmniDocumentKind } from '../omni-document-kind.enum.js';
 
 const createRepositoryPair = () => {
   const readRepository = {

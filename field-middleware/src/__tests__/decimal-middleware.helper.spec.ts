@@ -1,6 +1,17 @@
+import {
+  expect,
+  jest,
+  describe,
+  it,
+  beforeEach,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
+
 import { createMock } from '@golevelup/ts-jest';
 import { MiddlewareContext } from '@nestjs/graphql';
-import { decimalMiddleware } from '../decimal-middleware.helper';
+import { decimalMiddleware } from '../decimal-middleware.helper.js';
 
 describe('Decimal middleware helper test', () => {
   // it('should return the value as float', async () => {

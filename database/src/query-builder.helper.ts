@@ -6,11 +6,9 @@ import {
   QueryRunner,
   SelectQueryBuilder,
 } from 'typeorm';
-import { PostgresDriver } from 'typeorm/driver/postgres/PostgresDriver';
-import { CockroachDriver } from 'typeorm/driver/cockroachdb/CockroachDriver';
 import { SortDirection } from '@nestjs-yalc/ag-grid/ag-grid.enum';
 import {
-  FieldMapper,
+  IFieldMapper,
   isFieldMapper,
 } from '@nestjs-yalc/interfaces/maps.interface';
 import { isJsonSQLRaw } from './json.helpers';
@@ -187,8 +185,8 @@ export class QueryBuilderHelper {
         }
         const { driver } = queryBuilder.connection;
         if (
-          driver instanceof PostgresDriver ||
-          driver instanceof CockroachDriver
+          driver?.options?.type === 'postgres' ||
+          driver?.options?.type === 'cockroachdb'
         ) {
           return `${aliasPath} ILIKE ${parameters[0]}`;
         }
@@ -222,17 +220,17 @@ export class QueryBuilderHelper {
 
   public static getMapper(
     fieldMap: {
-      parent: FieldMapper;
-      joined: FieldMapper | { [key: string]: FieldMapper };
+      parent: IFieldMapper;
+      joined: IFieldMapper | { [key: string]: IFieldMapper };
     },
     alias: string,
-  ): FieldMapper {
+  ): IFieldMapper {
     return isFieldMapper(fieldMap.joined)
       ? fieldMap.joined
       : fieldMap.joined[alias];
   }
 
-  public static convertFieldWithMap(field: string, map: FieldMapper) {
+  public static convertFieldWithMap(field: string, map: IFieldMapper) {
     if (field in map) {
       return map[field].dst;
     }
@@ -243,13 +241,13 @@ export class QueryBuilderHelper {
     findOptions: FindManyOptions,
     parentName: string,
     fieldMap?: {
-      parent: FieldMapper;
-      joined: FieldMapper | { [key: string]: FieldMapper };
+      parent: IFieldMapper;
+      joined: IFieldMapper | { [key: string]: IFieldMapper };
     },
   ): { key: string; operator: SortDirection }[] {
     const sortingColumns: any[] = [];
     let alias: string;
-    let mapper: FieldMapper;
+    let mapper: IFieldMapper;
     for (const key in findOptions.order as ObjectLiteral) {
       //If is a nested resource we need to change the name format into Parent__Joined_resource
       if (key.includes('.') && fieldMap) {
@@ -289,8 +287,8 @@ export class QueryBuilderHelper {
     key: string,
     alias?: string,
     fieldMap?: {
-      parent: FieldMapper;
-      joined: FieldMapper | { [key: string]: FieldMapper };
+      parent: IFieldMapper;
+      joined: IFieldMapper | { [key: string]: IFieldMapper };
     },
   ): string {
     /**

@@ -1,27 +1,38 @@
+import { envToArray } from '@nestjs-yalc/utils/env.helper.js';
 import { LogLevel } from '@nestjs/common';
-
-export function getEnvLoggerLevels(): LogLevel[] {
-  return ['log', 'error', 'warn', 'debug', 'verbose'];
-}
-
 import fastRedact from 'fast-redact';
 import { isEmpty } from 'lodash-es';
+import { LOG_LEVEL_ALL, LoggerDefContext } from './logger.enum.js';
 
-export function maskDataInObject(
-  data: any,
-  masks?: string[],
-  trace?: any,
-): any {
+export function maskDataInObject(data?: any, paths?: string[], trace?: any) {
   if (typeof data === 'string') data = { message: data };
 
-  if (!masks || !data || isEmpty(masks) || isEmpty(data)) {
+  if (!paths || !data || isEmpty(paths) || isEmpty(data)) {
     if (trace) data ? (data.trace = trace) : (data = { trace });
+
     return data;
   }
 
   const redact = fastRedact({
-    paths: masks,
+    paths,
   });
 
-  return { ...JSON.parse(redact(data) as string), trace };
+  return { ...JSON.parse(redact(data)), trace };
 }
+
+export const getEnvLoggerLevelsByContext = (context: string): LogLevel[] => {
+  return envToArray<LogLevel>(`NEST_LOGGER_LEVELS_${context.toUpperCase()}`);
+};
+
+export const getEnvLoggerLevels = (
+  context?: string,
+  def: LogLevel[] = LOG_LEVEL_ALL,
+): LogLevel[] => {
+  let levels = getEnvLoggerLevelsByContext(
+    context ?? LoggerDefContext.NEST_SYSTEM,
+  );
+
+  if (!levels.length) levels = envToArray<LogLevel>('NEST_LOGGER_LEVELS');
+
+  return levels.length ? levels : def;
+};

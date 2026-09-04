@@ -17,9 +17,9 @@ import {
   crudGenGqlInterceptorWorker,
 } from '../api-graphql/crud-gen-gql.interceptor.js';
 import { createMock } from '@golevelup/ts-jest';
+import * as graphql from '@nestjs/graphql';
 import {
   mockedExecutionContext,
-  mockedNestGraphql,
 } from '@nestjs-yalc/jest/common-mocks.helper.js';
 
 const infoObj = {
@@ -46,7 +46,7 @@ const infoObj = {
 describe('Crud-gen Interceptor test', () => {
   let crudGenInterceptor: CrudGenGqlInterceptor;
   const callHandler = createMock<CallHandler>();
-  const mockCreate = (mockedNestGraphql().GqlExecutionContext.create = jest.fn());
+  const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
   const mockGetArgs = mockCreate.mockImplementation(() => ({
     getArgs: jest.fn().mockReturnValue(infoObj),
   }));

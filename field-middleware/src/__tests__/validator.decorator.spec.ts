@@ -1,9 +1,18 @@
-import { StringFormatEnum } from '../string-format.enum';
-import * as Validator from '../validator.decorator';
-import * as ValidatorHelper from '../validator.helper';
-import * as ClassValidator from 'class-validator';
+import {
+  expect,
+  jest,
+  describe,
+  it,
+  beforeEach,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
 
-ClassValidator as jest.Mocked<typeof ClassValidator>;
+import * as Validator from '../validator.decorator.js';
+
+import { StringFormatEnum } from '../string-format.enum.js';
+
 describe('validator decorator test', () => {
   it('StringFormatMatchValidation is defined', async () => {
     let testData = Validator.StringFormatMatchValidation();
@@ -22,35 +31,27 @@ describe('validator decorator test', () => {
   });
 
   it('stringFormatMatchValidatorFactory return the correct result', async () => {
-    const spiedValidate = jest.spyOn(ValidatorHelper, 'validateStringFormat');
     const testDataFunctionMatch = Validator.stringFormatMatchValidatorFactory({
       toMatch: true,
-      pattern: StringFormatEnum.ALL,
+      pattern: '^valid$',
     });
     const testDataFunctionDontMatch =
       Validator.stringFormatMatchValidatorFactory({
         toMatch: false,
-        pattern: StringFormatEnum.ALL,
+        pattern: '^valid$',
       });
 
-    spiedValidate.mockReturnValueOnce(true);
-    expect(testDataFunctionMatch.validate('')).toEqual(true);
-    spiedValidate.mockReturnValueOnce(true);
-    expect(testDataFunctionDontMatch.validate('')).toEqual(false);
+    expect(testDataFunctionMatch.validate('valid')).toEqual(true);
+    expect(testDataFunctionDontMatch.validate('valid')).toEqual(false);
 
-    spiedValidate.mockReturnValueOnce(false);
-    expect(testDataFunctionMatch.validate('')).toEqual(false);
-    spiedValidate.mockReturnValueOnce(false);
-    expect(testDataFunctionDontMatch.validate('')).toEqual(true);
+    expect(testDataFunctionMatch.validate('invalid')).toEqual(false);
+    expect(testDataFunctionDontMatch.validate('invalid')).toEqual(true);
   });
 
   it("dateValidatorFactory return validateDate's result", async () => {
-    const spiedValidate = jest.spyOn(ValidatorHelper, 'validateDate');
     const testDataFunction = Validator.dateValidatorFactory();
 
-    spiedValidate.mockReturnValueOnce(true);
-    expect(testDataFunction.validate('')).toEqual(true);
-    spiedValidate.mockReturnValueOnce(false);
-    expect(testDataFunction.validate('')).toEqual(false);
+    expect(testDataFunction.validate('2023-01-01')).toEqual(true);
+    expect(testDataFunction.validate('not-a-date')).toEqual(false);
   });
 });

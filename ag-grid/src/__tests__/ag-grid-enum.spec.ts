@@ -1,26 +1,19 @@
-import { BaseEntity } from 'typeorm';
+import { BaseEntity, Column } from 'typeorm';
 import { entityFieldsEnumFactory } from '../ag-grid.enum';
-import * as AgGridHelpers from '../ag-grid-metadata.helper';
-import * as AgGridQueryHelpers from "../ag-grid-query.helper";
-import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
+import { AgGridField } from '../object.decorator';
 
 const fixedProperty = 'columId';
 
 class TestEntity extends BaseEntity {
+  @Column()
+  @AgGridField()
   [fixedProperty]: number;
 }
 
 describe('entityFieldsEnumFactory', () => {
-  let mockedGetMappedTypeProperties;
   let fieldsEnum;
 
   beforeEach(() => {
-    mockedGetMappedTypeProperties = jest.spyOn(
-      AgGridHelpers,
-      'getMappedTypeProperties',
-    );
-
-    mockedGetMappedTypeProperties.mockReturnValue([fixedProperty]);
     fieldsEnum = entityFieldsEnumFactory(TestEntity);
   });
 
@@ -30,13 +23,11 @@ describe('entityFieldsEnumFactory', () => {
 
   it('should return a defined enum fields not cached', () => {
     expect(fieldsEnum).toBeDefined();
-    expect(mockedGetMappedTypeProperties).toHaveBeenCalledTimes(1);
     expect(fieldsEnum[fixedProperty]).toBeDefined();
   });
 
   it('should return a define enum from cache', () => {
     const cachedFildsEnum = entityFieldsEnumFactory(TestEntity);
-    expect(mockedGetMappedTypeProperties).toHaveBeenCalledTimes(0);
     expect(cachedFildsEnum).toStrictEqual(fieldsEnum);
   });
 

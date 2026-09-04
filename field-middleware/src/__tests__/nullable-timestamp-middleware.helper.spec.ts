@@ -1,6 +1,17 @@
+import {
+  expect,
+  jest,
+  describe,
+  it,
+  beforeEach,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
+
 import { createMock } from '@golevelup/ts-jest';
 import { MiddlewareContext } from '@nestjs/graphql';
-import { nullableTimestampMiddleware } from '../nullable-timestamp-middleware.helper';
+import { nullableTimestampMiddleware } from '../nullable-timestamp-middleware.helper.js';
 
 describe('Date middleware helper test', () => {
   it('should return the value as null', async () => {

@@ -1,11 +1,9 @@
 import { describe, expect, it, jest } from "@jest/globals";
 
-const { OmniCollectionKind } = await import("../omni-collection-kind.enum.js");
-const { OmniDocumentKind } = await import("../omni-document-kind.enum.js");
-const { OmniExternalRefInternalType } =
-  await import("../omni-external-ref-internal-type.enum.js");
-const { OmniKernelQueryService } =
-  await import("../omnikernel.query.service.js");
+import { OmniCollectionKind } from '../omni-collection-kind.enum.js';
+import { OmniDocumentKind } from '../omni-document-kind.enum.js';
+import { OmniExternalRefInternalType } from '../omni-external-ref-internal-type.enum.js';
+import { OmniKernelQueryService } from '../omnikernel.query.service.js';
 
 describe("OmniKernelQueryService", () => {
   it("returns collection members from canonical contains relations", async () => {

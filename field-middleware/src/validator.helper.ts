@@ -1,6 +1,6 @@
-import { FieldErrorsEnum } from './field-error.enum';
+import { FieldErrorsEnum } from './fields-error.enum.js';
 
-export function errorTrhow(value: string | Date, message?: string): void {
+export function errorTrhow(value: string | Date, message?: string) {
   const err = message ? message : `${FieldErrorsEnum.INVALID_VALUE} ${value}`;
   throw new Error(err);
 }
@@ -12,23 +12,21 @@ export function convertIfStringToDate(date: Date | string): Date {
   return date;
 }
 
-export function stringIsInEnumOrThrow<T extends Record<string, unknown>>(
-  toCheck: string,
-  enumName: T,
-  message?: string,
-): true | void {
+export function stringIsInEnumOrThrow<
+  T extends Record<string, string | number>,
+>(toCheck: string, enumName: T, message?: string): true | void {
   if (stringIsInEnum(toCheck, enumName)) {
     return true;
   }
   errorTrhow(toCheck, message);
 }
 
-export function stringIsInEnum<T extends Record<string, unknown>>(
+export function stringIsInEnum<T extends Record<string, string | number>>(
   toCheck: string,
   enumName: T,
 ): boolean {
-  for (const enumProperty of Object.values(enumName) as string[]) {
-    if (enumProperty.toLowerCase() === toCheck.toLowerCase()) {
+  for (const enumProperty of Object.values(enumName)) {
+    if (`${enumProperty}`.toLowerCase() === toCheck.toLowerCase()) {
       return true;
     }
   }

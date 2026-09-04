@@ -8,24 +8,18 @@ import {
 } from "@jest/globals";
 import { DataSource } from "typeorm";
 
-const { OmniNamedEntity } = await import("../base/omni-named.entity.js");
-const { OmniRecordEntity } = await import("../base/omni-record.entity.js");
-const { OmniRelationEntity } = await import("../base/omni-relation.entity.js");
-const { OmniExternalRefEntity } =
-  await import("../base/omni-external-ref.entity.js");
-const { OmniRecordStatus } = await import("../omni-record-status.enum.js");
-const { OmniRelationStatus } = await import("../omni-relation-status.enum.js");
-const { OmniExternalRefInternalType } =
-  await import("../omni-external-ref-internal-type.enum.js");
-const { createOmniRelationKindContract } =
-  await import("../omni-relation-kind.contract.js");
-const { OmniRelationService } = await import("../omni-relation.service.js");
-const { OmniExternalRefService } =
-  await import("../omni-external-ref.service.js");
-const { OmniExternalRefBindingValidator } = await import(
-  '../omni-external-ref-binding.validator.js'
-);
-const { OmniScopedService } = await import("../omni-scoped.service.js");
+import { OmniNamedEntity } from '../base/omni-named.entity.js';
+import { OmniRecordEntity } from '../base/omni-record.entity.js';
+import { OmniRelationEntity } from '../base/omni-relation.entity.js';
+import { OmniExternalRefEntity } from '../base/omni-external-ref.entity.js';
+import { OmniRecordStatus } from '../omni-record-status.enum.js';
+import { OmniRelationStatus } from '../omni-relation-status.enum.js';
+import { OmniExternalRefInternalType } from '../omni-external-ref-internal-type.enum.js';
+import { createOmniRelationKindContract } from '../omni-relation-kind.contract.js';
+import { OmniRelationService } from '../omni-relation.service.js';
+import { OmniExternalRefService } from '../omni-external-ref.service.js';
+import { OmniExternalRefBindingValidator } from '../omni-external-ref-binding.validator.js';
+import { OmniScopedService } from '../omni-scoped.service.js';
 
 const alphaScope = {
   scopeId: "scope-alpha",
@@ -151,7 +145,7 @@ describe("OmniScopedService", () => {
   });
 
   it("applies scope recursively to extended subquery filters", async () => {
-    const getManyExtended = jest.fn(async () => []);
+    const getManyExtended = jest.fn(async (...args: any[]) => []);
     const service = new OmniScopedService(
       {
         getCrudGenCapabilities: () => ({
@@ -159,7 +153,7 @@ describe("OmniScopedService", () => {
           structuredGraphqlFilters: true,
         }),
         getManyExtended,
-        getManyAndCountExtended: jest.fn(async () => [[], 0]),
+        getManyAndCountExtended: jest.fn(async (...args: any[]) => [[], 0]),
       } as never,
       alphaScope,
       "tombstone",

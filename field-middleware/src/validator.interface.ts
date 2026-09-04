@@ -3,17 +3,17 @@ export enum DateCheckTypeEnum {
   MIN = 'min',
 }
 
-export interface Date {
+export interface IDate {
   year: number;
   month: number;
   date: number;
 }
 
-export interface DateCheck {
+export interface IDateCheck {
   checkType: DateCheckTypeEnum;
-  dateToAdd: Date;
+  dateToAdd: IDate;
 }
-export interface StringFormatMatchCheckOptions {
+export interface IStringFormatMatchCheckOptions {
   toMatch: boolean;
   pattern: string;
 }
