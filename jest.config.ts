@@ -8,7 +8,9 @@ import path from 'node:path';
 
 console.log('=================== LOADING JEST OPTIONS ================');
 
-import tsProjects from './tsconfig.json' with { type: 'json' };
+import fs from 'node:fs';
+
+const tsProjects = JSON.parse(fs.readFileSync('./tsconfig.json', 'utf8'));
 
 const appProjectsSettings: { [key: string]: IAppProjSetting } = {};
 
@@ -35,13 +37,13 @@ Object.keys(paths).map((k: string) => {
 
 const options: IOptions = {
   defaultConfOptions: {
-    transformEsModules: false,
+    transformEsModules: ['@faker-js', 'p-map'],
     jestConf: {
       // injectGlobals: false, -> we can't set it to false because of this issue: https://github.com/golevelup/nestjs/issues/557
     },
   },
   // TODO: re-enable everything except types
-  skipProjects: ['types', 'types-extends', 'graphql', 'kafka', 'jest'],
+  skipProjects: ['types', 'types-extends', 'jest', 'node_modules'],
   defaultCoverageThreshold: {
     branches: 100,
     functions: 100,

@@ -1,6 +1,13 @@
 /* istanbul ignore file */
 
-jest.mock('@nestjs/graphql');
+jest.mock('@fastify/cookie', () => {
+  const plugin = (fastify: any, options: any, done: any) => done();
+  (plugin as any)[Symbol.for('skip-override')] = true;
+  return {
+    __esModule: true,
+    default: plugin,
+  };
+});
 
 import * as NestGraphql from '@nestjs/graphql';
 import { ExecutionContext } from '@nestjs/common';
@@ -14,7 +21,7 @@ import { SelectQueryBuilder } from 'typeorm';
 
 export const mockedNestGraphql = NestGraphql as jest.Mocked<typeof NestGraphql>;
 export const mockedGqlCtxCreate =
-  (mockedNestGraphql.GqlExecutionContext.create = jest.fn());
+  (mockedNestGraphql.GqlExecutionContext.create as jest.Mock);
 export const mockedExecutionContext = createMock<ExecutionContext>();
 
 /**

@@ -11,7 +11,7 @@ import defaultConf, {
   IDefaultConfOptions,
   tsJestConfig,
   tsJestConfigE2E,
-} from './jest-def.config.ts';
+} from './jest-def.config';
 // import { options as jestOptionObject } from 'jest-cli/build/cli/args';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
@@ -59,8 +59,7 @@ export interface IOptions {
 const maxWorkers =
   process.env.npm_config_jestworkers ||
   process.env.JEST_WORKERS ||
-  os.cpus().length ||
-  10;
+  '50%';
 
 // eslint-disable-next-line no-console
 console.log(`Max workers: ${maxWorkers}`);
@@ -111,16 +110,14 @@ export function jestConfGenerator(
     displayName: `unit/${projName}`,
     cacheDirectory: `${cacheDirBase}/unit/${projName}`,
     rootDir: `${rootPath}/${proj.sourcePath}/`,
-    roots: [`${rootPath}/${proj.path}`],
-    maxWorkers,
+    roots: [
+      `${rootPath}/${proj.path}`,
+      `${rootPath}/__mocks__`,
+    ],
     setupFiles: [
       `${__dirname}/jest.setup.js`,
       ...(options.extraSetupFiles ?? []),
     ],
-    coverageThreshold: coverageThreshold(
-      projects,
-      options.defaultCoverageThreshold,
-    ),
     coveragePathIgnorePatterns,
   });
 
@@ -189,12 +186,12 @@ export function jestConfGenerator(
 
   projects = Array.isArray(selectedProj)
     ? Object.values(projectSets)
-        .flat()
-        .filter((value) => {
-          return selectedProj.some((projName) => {
-            return value.displayName === `unit/${projName}`;
-          });
-        })
+      .flat()
+      .filter((value) => {
+        return selectedProj.some((projName) => {
+          return value.displayName === `unit/${projName}`;
+        });
+      })
     : projectSets[selectedProj];
 
   const paths = [];
@@ -299,6 +296,7 @@ export function jestConfGenerator(
   const coverageFolder = selectedProjects.length > 1 ? '' : selectedProj;
 
   config = {
+    maxWorkers,
     coverageReporters: ['json-summary', 'json', 'lcov', 'text', 'clover'],
     rootDir: `${rootPath}`,
     coverageThreshold: coverageThreshold(
@@ -308,7 +306,7 @@ export function jestConfGenerator(
     coverageDirectory: path.join(
       rootPath,
       options.coverageOutputPath?.(coverageFolder) ??
-        `var/coverage/${coverageFolder}`,
+      `var/coverage/${coverageFolder}`,
     ),
     collectCoverageFrom: [
       `**/*.{js,ts}`,
