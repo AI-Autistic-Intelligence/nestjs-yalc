@@ -49,13 +49,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.skeletonUserServiceFactory = void 0;
-const generic_service_js_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.service.js");
+const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
 const skeleton_user_entity_js_1 = require("./skeleton-user.entity.js");
 const crypto = __importStar(require("crypto"));
 const typeorm_1 = require("@nestjs/typeorm");
-const generic_repository_js_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.repository.js");
+const generic_repository_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.repository.js");
 const common_1 = require("@nestjs/common");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const skeletonUserServiceFactory = (dbConnection) => {
     let SkeletonUserService = class SkeletonUserService extends generic_service_js_1.GenericService {
         constructor(repository) {

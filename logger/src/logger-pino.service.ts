@@ -5,7 +5,7 @@ import {
   LoggerAbstractService,
 } from './logger-abstract.service.js';
 import { maskDataInObject } from './logger.helper.js';
-import { globalPromiseTracker } from '@nestjs-yalc/utils/promise.helper.js';
+import { globalPromiseTracker } from '@nest-yalc-2/utils/promise.helper.js';
 import { SonicBoom } from 'sonic-boom';
 
 let logger: Logger;

@@ -25,7 +25,7 @@ module.exports = (options) => ({
       ? options.externals
       : [options.externals].filter(Boolean)),
     nodeExternals({
-      allowlist: [/^@nestjs-yalc\//],
+      allowlist: [/^@nest-yalc-2\//],
     }),
     ({ request }, callback) => {
       if (ignoredOptionalModules.has(request)) {
@@ -55,7 +55,7 @@ module.exports = (options) => ({
   plugins: [
     ...(options.plugins ?? []),
     new webpack.NormalModuleReplacementPlugin(
-      /^@nestjs-yalc\/.*\.js$/,
+      /^@nest-yalc-2\/.*\.js$/,
       (resource) => {
         resource.request = resource.request.replace(/\.js$/, '');
       },

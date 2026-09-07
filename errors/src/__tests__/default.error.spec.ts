@@ -17,7 +17,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { getHttpStatusDescription } from '@nestjs-yalc/utils/http.helper.js';
+import { getHttpStatusDescription } from '@nest-yalc-2/utils/http.helper.js';
 
 describe('DefaultErrorMixin', () => {
   it('should create a class that extends Error when no base class is provided', () => {

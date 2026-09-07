@@ -8,7 +8,7 @@ import {
   PROJECTION_INTEGER_MAX,
   PROJECTION_INTEGER_MIN,
   type ProjectionDialect,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import request from 'supertest';
 import type { DataSource } from 'typeorm';
 import { projectionRecordDefinition } from '../src/projection-spike/projection-spike.definition';

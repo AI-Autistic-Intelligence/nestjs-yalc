@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import type { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import type { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import {
   IsNull,
   type DeepPartial,

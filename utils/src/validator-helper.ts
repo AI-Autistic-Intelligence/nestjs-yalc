@@ -1,4 +1,4 @@
-import { ErrorsEnum } from '@nestjs-yalc/errors';
+import { ErrorsEnum } from '@nest-yalc-2/errors';
 
 export function stringIsInEnumOrThrow<
   T extends Record<string, string | number>,

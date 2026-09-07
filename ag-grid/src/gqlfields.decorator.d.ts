@@ -1,7 +1,7 @@
 import { ExecutionContext, Type } from '@nestjs/common';
 import { ReturnTypeFuncValue } from '@nestjs/graphql';
-import { FieldMapper, FieldMapperProperty } from '@nestjs-yalc/interfaces/maps.interface';
-import { ClassType } from '@nestjs-yalc/types/globals';
+import { FieldMapper, FieldMapperProperty } from '@nest-yalc-2/interfaces/maps.interface';
+import { ClassType } from '@nest-yalc-2/types/globals';
 import { GraphQLResolveInfo } from 'graphql';
 import { AgGridFieldMetadata } from './object.decorator';
 export interface GqlAgSingleParams {
@@ -18,5 +18,5 @@ export declare const GqlAgGridFieldsMapper: (data: FieldMapper | ReturnTypeFuncV
         [key: string]: KeyMeta;
     };
 };
-export declare const GqlInfoGenerator: (data: FieldMapper | ReturnTypeFuncValue | ClassType, ctx: ExecutionContext) => string[];
-export declare const GqlFieldsMap: (...dataOrPipes: any[]) => ParameterDecorator;
+export declare const GqlInfoGenerator: (data: (FieldMapper | ReturnTypeFuncValue | ClassType) | undefined, ctx: ExecutionContext) => string[];
+export declare const GqlFieldsMap: (...dataOrPipes: (ClassType | ReturnTypeFuncValue | import("@nestjs/common").PipeTransform<any, any> | Type<import("@nestjs/common").PipeTransform<any, any>> | import("@nest-yalc-2/interfaces").IFieldMapper<any> | undefined)[]) => ParameterDecorator;

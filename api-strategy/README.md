@@ -1,4 +1,4 @@
-# @nestjs-yalc/api-strategy
+# @nest-yalc-2/api-strategy
 
 Transport strategy helpers for keeping application code stable while the
 underlying call path changes.
@@ -10,7 +10,7 @@ calls, or conditional strategies through providers.
 ## Installation
 
 ```bash
-npm install @nestjs-yalc/api-strategy
+npm install @nest-yalc-2/api-strategy
 ```
 
 ## Main Exports
@@ -26,7 +26,7 @@ npm install @nestjs-yalc/api-strategy
 ## Example
 
 ```ts
-import { NestHttpCallStrategy } from '@nestjs-yalc/api-strategy';
+import { NestHttpCallStrategy } from '@nest-yalc-2/api-strategy';
 
 const usersApi = new NestHttpCallStrategy(httpService, UserDto, baseUrl);
 const users = await usersApi.get('/users');

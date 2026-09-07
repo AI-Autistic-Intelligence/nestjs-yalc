@@ -6,7 +6,7 @@ import {
   OmniExternalRefInternalType,
   OmniRelationEntity,
   OmniRelationKind,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 import { randomUUID } from 'node:crypto';
 import { Repository } from 'typeorm';
 import { AppModule } from '../app.module';

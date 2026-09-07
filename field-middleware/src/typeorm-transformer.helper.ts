@@ -1,5 +1,5 @@
-import { DateHelper } from '@nestjs-yalc/utils/date.helper.js';
-import { belongsToEnum } from '@nestjs-yalc/utils/enum.helper.js';
+import { DateHelper } from '@nest-yalc-2/utils/date.helper.js';
+import { belongsToEnum } from '@nest-yalc-2/utils/enum.helper.js';
 import { ValueTransformer } from 'typeorm';
 
 /**

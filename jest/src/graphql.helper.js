@@ -9,8 +9,7 @@ async function createNestJsGraphqlMock(importMeta) {
     class Fake {
     }
     Object.keys(mockedGraphql).forEach((key) => {
-        var _a, _b;
-        (_b = (_a = mockedGraphql[key]).mockImplementation) === null || _b === void 0 ? void 0 : _b.call(_a, () => globals_1.jest.fn());
+        mockedGraphql[key].mockImplementation?.(() => globals_1.jest.fn());
     });
     mockedGraphql.OmitType.mockImplementation((() => Fake));
     mockedGraphql.PickType.mockImplementation((() => Fake));

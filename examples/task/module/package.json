@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-yalc/task-system-module",
+  "name": "@nest-yalc-2/task-system-module",
   "version": "1.0.0",
   "type": "module",
   "description": "Real-world task system module for nestjs-yalc examples",

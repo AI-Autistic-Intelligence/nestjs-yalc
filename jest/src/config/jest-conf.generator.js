@@ -47,39 +47,47 @@ const maxWorkers = process.env.npm_config_jestworkers ||
     '50%';
 console.log(`Max workers: ${maxWorkers}`);
 function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
     const createProjectSets = (projects) => {
         const _projectSets = {};
         for (const app in appProjectsSettings) {
             _projectSets[app] = projects.filter((p) => appProjectsSettings[app].deps.some((v) => p.displayName.startsWith(`unit/${v.name}`)));
         }
-        return Object.assign(Object.assign({}, _projectSets), { all: projects });
+        return {
+            ..._projectSets,
+            all: projects,
+        };
     };
     const cacheDirBase = '/tmp/jest_rs/';
     let projects = [];
-    const confFactory = (projName, proj, projects) => {
-        var _a, _b, _c;
-        return (Object.assign(Object.assign({}, (0, jest_def_config_1.default)(`${rootPath}/`, options.defaultConfOptions, (0, jest_def_config_1.tsJestConfig)((_b = (_a = options.tsConfigPath) === null || _a === void 0 ? void 0 : _a.call(options, proj)) !== null && _b !== void 0 ? _b : `${rootPath}/${proj.path}/tsconfig.json`, options.tsJestConfig))), { globals: (0, jest_def_config_1.globals)(), displayName: `unit/${projName}`, cacheDirectory: `${cacheDirBase}/unit/${projName}`, rootDir: `${rootPath}/${proj.sourcePath}/`, roots: [
-                `${rootPath}/${proj.path}`,
-                `${rootPath}/__mocks__`,
-            ], setupFiles: [
-                `${__dirname}/jest.setup.js`,
-                ...((_c = options.extraSetupFiles) !== null && _c !== void 0 ? _c : []),
-            ], coveragePathIgnorePatterns: jest_def_config_1.coveragePathIgnorePatterns }));
-    };
+    const confFactory = (projName, proj, _projects) => ({
+        ...(0, jest_def_config_1.default)(`${rootPath}/`, options.defaultConfOptions, (0, jest_def_config_1.tsJestConfig)(options.tsConfigPath?.(proj) ?? `${rootPath}/${proj.path}/tsconfig.json`, options.tsJestConfig)),
+        globals: (0, jest_def_config_1.globals)(),
+        displayName: `unit/${projName}`,
+        cacheDirectory: `${cacheDirBase}/unit/${projName}`,
+        rootDir: `${rootPath}/${proj.sourcePath}/`,
+        roots: [
+            `${rootPath}/${proj.path}`,
+            `${rootPath}/__mocks__`,
+        ],
+        setupFiles: [
+            `${__dirname}/jest.setup.js`,
+            ...(options.extraSetupFiles ?? []),
+        ],
+        coveragePathIgnorePatterns: jest_def_config_1.coveragePathIgnorePatterns,
+    });
     for (const projName of Object.keys(projectList)) {
         const proj = projectList[projName];
-        if (!((_a = options.skipProjects) === null || _a === void 0 ? void 0 : _a.includes(projName)) && !((_b = options.skipProjects) === null || _b === void 0 ? void 0 : _b.includes(proj.path))) {
+        if (!options.skipProjects?.includes(projName) && !options.skipProjects?.includes(proj.path)) {
             let conf = confFactory(projName, proj);
-            if ((_c = appProjectsSettings[projName]) === null || _c === void 0 ? void 0 : _c.confOverride) {
-                conf = Object.assign(Object.assign({}, conf), appProjectsSettings[projName].confOverride);
+            if (appProjectsSettings[projName]?.confOverride) {
+                conf = { ...conf, ...appProjectsSettings[projName].confOverride };
             }
             if (options.confOverrides) {
                 const overrideKey = Object.keys(options.confOverrides).find((v) => projName === v && v);
                 const overrideConf = overrideKey && options.confOverrides[overrideKey]
                     ? options.confOverrides[overrideKey]
                     : {};
-                conf = Object.assign(Object.assign({}, conf), overrideConf);
+                conf = { ...conf, ...overrideConf };
             }
             projects.push(conf);
         }
@@ -113,7 +121,7 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         .showHelpOnFail(false)
         .fail(() => {
     }).argv;
-    const selectedProj = argv.proj || ((_d = process.env.npm_config_projects) === null || _d === void 0 ? void 0 : _d.split(',')) || 'all';
+    const selectedProj = argv.proj || process.env.npm_config_projects?.split(',') || 'all';
     projects = Array.isArray(selectedProj)
         ? Object.values(projectSets)
             .flat()
@@ -130,7 +138,10 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
     if (argv.paths) {
         paths.push(...argv.paths);
     }
-    const possiblePath = (_h = (_g = (_e = (paths.length > 0 ? paths : null)) !== null && _e !== void 0 ? _e : (_f = argv.testPathPattern) === null || _f === void 0 ? void 0 : _f[0]) !== null && _g !== void 0 ? _g : argv.coverage) !== null && _h !== void 0 ? _h : '';
+    const possiblePath = (paths.length > 0 ? paths : null) ??
+        argv.testPathPattern?.[0] ??
+        argv.coverage ??
+        '';
     console.debug('possiblePaths', possiblePath);
     let config = {};
     function getSubprojectPath(testPath) {
@@ -173,7 +184,7 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         if (Array.isArray(selectedProj)) {
             selectedProjects.push(...projects.filter((p) => selectedProj.some((projName) => p.displayName.startsWith(`unit/${projName}`))));
         }
-        console.debug('Subproject path:', subProjectPathList !== null && subProjectPathList !== void 0 ? subProjectPathList : ['']);
+        console.debug('Subproject path:', subProjectPathList ?? ['']);
     }
     console.debug('selectedProjects', selectedProjects.map((v) => v.displayName));
     const coverageFolder = selectedProjects.length > 1 ? '' : selectedProj;
@@ -182,7 +193,8 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         coverageReporters: ['json-summary', 'json', 'lcov', 'text', 'clover'],
         rootDir: `${rootPath}`,
         coverageThreshold: (0, jest_def_config_1.coverageThreshold)(selectedProjects, options.defaultCoverageThreshold),
-        coverageDirectory: path.join(rootPath, (_k = (_j = options.coverageOutputPath) === null || _j === void 0 ? void 0 : _j.call(options, coverageFolder)) !== null && _k !== void 0 ? _k : `var/coverage/${coverageFolder}`),
+        coverageDirectory: path.join(rootPath, options.coverageOutputPath?.(coverageFolder) ??
+            `var/coverage/${coverageFolder}`),
         collectCoverageFrom: [
             `**/*.{js,ts}`,
             '!**/node_modules/**',
@@ -193,13 +205,21 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
     return config;
 }
 const createE2EConfig = (options) => {
-    var _a;
-    let conf = Object.assign(Object.assign({}, (0, jest_def_config_1.default)(`${options.rootDirname}`, options.defaultConfOptions, (0, jest_def_config_1.tsJestConfigE2E)(path.resolve(`${options.e2eDirname}/tsconfig.json`), (_a = options.withGqlPlugins) !== null && _a !== void 0 ? _a : false, options.tsJestConfig))), { testRegex: '.*\\.e2e-spec\\.ts$', setupFilesAfterEnv: [`${options.e2eDirname}/jest.e2e-setup.ts`], roots: [`${options.e2eDirname}`], bail: 1 });
+    let conf = {
+        ...(0, jest_def_config_1.default)(`${options.rootDirname}`, options.defaultConfOptions, (0, jest_def_config_1.tsJestConfigE2E)(path.resolve(`${options.e2eDirname}/tsconfig.json`), options.withGqlPlugins ?? false, options.tsJestConfig)),
+        testRegex: '.*\\.e2e-spec\\.ts$',
+        setupFilesAfterEnv: [`${options.e2eDirname}/jest.e2e-setup.ts`],
+        roots: [`${options.e2eDirname}`],
+        bail: 1,
+    };
     if (options.alias) {
         conf.displayName = `e2e/${options.alias}`;
     }
     if (options.confOverride) {
-        conf = Object.assign(Object.assign({}, conf), options.confOverride);
+        conf = {
+            ...conf,
+            ...options.confOverride,
+        };
     }
     return conf;
 };

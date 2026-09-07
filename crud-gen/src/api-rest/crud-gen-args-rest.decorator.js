@@ -11,19 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiOkResponsePaginated = exports.CGQueryArgsNoPagination = exports.CGQueryArgs = exports.CrudGenCombineDecorators = exports.CrudGenArgsMapper = exports.CrudGenRestArgsFactory = void 0;
 exports.mapCrudGenRestParams = mapCrudGenRestParams;
-const index_js_1 = require("@nestjs-yalc/utils/index.js");
+const index_js_1 = require("@nest-yalc-2/utils/index.js");
 const common_1 = require("@nestjs/common");
 const crud_gen_args_helpers_js_1 = require("../typeorm/crud-gen-args.helpers.js");
 const crud_gen_rest_dto_js_1 = require("./crud-gen-rest.dto.js");
 const swagger_1 = require("@nestjs/swagger");
 const crud_gen_helpers_js_1 = require("../crud-gen.helpers.js");
 function getRestQueryFromContext(ctx) {
-    var _a, _b, _c, _d, _e;
-    const requestQuery = (_d = (_c = (_a = ctx.switchToHttp) === null || _a === void 0 ? void 0 : (_b = _a.call(ctx)).getRequest) === null || _c === void 0 ? void 0 : _c.call(_b)) === null || _d === void 0 ? void 0 : _d.query;
+    const requestQuery = ctx.switchToHttp?.().getRequest?.()?.query;
     if (requestQuery && typeof requestQuery === 'object') {
         return requestQuery;
     }
-    const args = (_e = ctx.getArgs) === null || _e === void 0 ? void 0 : _e.call(ctx);
+    const args = ctx.getArgs?.();
     if (args && typeof args === 'object' && !Array.isArray(args)) {
         return args;
     }
@@ -54,7 +53,7 @@ function parseRestNumberParam(value, name) {
     return parsed;
 }
 function normalizeRestCrudGenArgs(rawQuery) {
-    const args = Object.assign({}, rawQuery);
+    const args = { ...rawQuery };
     const startRow = parseRestNumberParam(rawQuery.startRow, 'startRow');
     const endRow = parseRestNumberParam(rawQuery.endRow, 'endRow');
     if (startRow !== undefined)
@@ -70,11 +69,10 @@ function normalizeRestCrudGenArgs(rawQuery) {
     return args;
 }
 function mapCrudGenRestParams(params, ctx) {
-    var _a, _b;
     const rawArgs = getRestQueryFromContext(ctx);
     const args = normalizeRestCrudGenArgs(rawArgs);
     const findParams = (0, crud_gen_args_helpers_js_1.mapCrudGenParam)(params, { keys: [], keysMeta: {} }, args, { isCount: true });
-    const fieldMapper = (_a = findParams.extra) === null || _a === void 0 ? void 0 : _a._fieldMapper;
+    const fieldMapper = findParams.extra?._fieldMapper;
     const reservedKeys = new Set(['startRow', 'endRow', 'sorting', 'filters']);
     for (const [key, value] of Object.entries(rawArgs)) {
         if (reservedKeys.has(key) ||
@@ -85,7 +83,7 @@ function mapCrudGenRestParams(params, ctx) {
             typeof value === 'object') {
             continue;
         }
-        (0, crud_gen_helpers_js_1.forceFilterWorker)(((_b = findParams.where) !== null && _b !== void 0 ? _b : (findParams.where = { filters: {} })), (0, crud_gen_helpers_js_1.columnConversion)(key, fieldMapper), value);
+        (0, crud_gen_helpers_js_1.forceFilterWorker)((findParams.where ??= { filters: {} }), (0, crud_gen_helpers_js_1.columnConversion)(key, fieldMapper), value);
     }
     return findParams;
 }
@@ -116,16 +114,14 @@ const CrudGenCombineDecorators = (params) => {
 };
 exports.CrudGenCombineDecorators = CrudGenCombineDecorators;
 const CGQueryArgs = (params) => {
-    var _a;
-    const gqlOptions = (_a = params.gql) !== null && _a !== void 0 ? _a : {};
+    const gqlOptions = params.gql ?? {};
     gqlOptions.type = (0, index_js_1.returnValue)((0, crud_gen_rest_dto_js_1.crudGenRestParamsFactory)(params.defaultValue, params.entityType));
     params.gql = gqlOptions;
     return (0, exports.CrudGenCombineDecorators)(params);
 };
 exports.CGQueryArgs = CGQueryArgs;
 const CGQueryArgsNoPagination = (params) => {
-    var _a;
-    const gqlOptions = (_a = params.gql) !== null && _a !== void 0 ? _a : {};
+    const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
         gqlOptions.type = (0, index_js_1.returnValue)((0, crud_gen_rest_dto_js_1.crudGenRestParamsNoPaginationFactory)(params.defaultValue, params.entityType));
     }
@@ -140,7 +136,9 @@ const ApiOkResponsePaginated = (dataDto, options) => {
         (0, swagger_1.ApiProperty)(),
         __metadata("design:type", crud_gen_rest_dto_js_1.PageData)
     ], ConnectionNode.prototype, "pageData", void 0);
-    return (0, common_1.applyDecorators)((0, swagger_1.ApiExtraModels)(ConnectionNode, dataDto), (0, swagger_1.ApiOkResponse)(Object.assign(Object.assign({}, options), { schema: {
+    return (0, common_1.applyDecorators)((0, swagger_1.ApiExtraModels)(ConnectionNode, dataDto), (0, swagger_1.ApiOkResponse)({
+        ...options,
+        schema: {
             allOf: [
                 { $ref: (0, swagger_1.getSchemaPath)(ConnectionNode) },
                 {
@@ -152,7 +150,8 @@ const ApiOkResponsePaginated = (dataDto, options) => {
                     },
                 },
             ],
-        } })));
+        },
+    }));
 };
 exports.ApiOkResponsePaginated = ApiOkResponsePaginated;
 //# sourceMappingURL=crud-gen-args-rest.decorator.js.map

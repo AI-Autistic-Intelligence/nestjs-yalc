@@ -21,6 +21,14 @@ export declare type AnyConstructor<A = Record<string, any>> = new (
   ...input: any[]
 ) => A;
 
+export declare type HTTPMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
+
+export declare type InstanceType<T extends AnyConstructor | ClassType> = T extends new (...args: any[]) => infer R ? R : any;
+
+export declare type ReturnOrFunctionReturnType<T = any> = T extends AnyFunction
+  ? ReturnType<T>
+  : T;
+
 export declare type Mixin<T extends AnyFunction> = InstanceType<ReturnType<T>>;
 
 // Names of properties in T with types that include undefined

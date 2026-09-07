@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-yalc/dummy-app",
+  "name": "@nest-yalc-2/dummy-app",
   "version": "1.0.0",
   "description": "Dummy application for E2E testing",
   "private": true,
@@ -16,13 +16,13 @@
     "@nestjs/typeorm": "^11.0.3",
     "typeorm": "^0.3.20",
     "sqlite3": "^6.0.1",
-    "@nestjs-yalc/graphql": "*",
-    "@nestjs-yalc/database": "*",
-    "@nestjs-yalc/ag-grid": "*",
-    "@nestjs-yalc/utils": "*",
-    "@nestjs-yalc/logger": "*",
-    "@nestjs-yalc/field-middleware": "*",
-    "@nestjs-yalc/interfaces": "*"
+    "@nest-yalc-2/graphql": "*",
+    "@nest-yalc-2/database": "*",
+    "@nest-yalc-2/ag-grid": "*",
+    "@nest-yalc-2/utils": "*",
+    "@nest-yalc-2/logger": "*",
+    "@nest-yalc-2/field-middleware": "*",
+    "@nest-yalc-2/interfaces": "*"
   },
   "devDependencies": {
     "@nestjs/testing": "^11.1.28",

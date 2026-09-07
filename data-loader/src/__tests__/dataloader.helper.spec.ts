@@ -10,8 +10,8 @@ import {
 } from '@jest/globals';
 
 import { createMock } from '@golevelup/ts-jest';
-import { SortDirection } from '@nestjs-yalc/crud-gen/crud-gen.enum.js';
-import { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/crud-gen.interface.js';
+import { SortDirection } from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
+import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/crud-gen.interface.js';
 import {
   FactoryProvider,
   NotAcceptableException,
@@ -23,7 +23,7 @@ import {
   GQLDataLoader,
 } from '../dataloader.helper.js';
 
-import { GenericService } from '@nestjs-yalc/crud-gen/generic-service.service.js';
+import { GenericService } from '@nest-yalc-2/crud-gen/generic-service.service.js';
 import { type EventEmitter2 } from '@nestjs/event-emitter';
 
 describe('GQLDataLoader class', () => {

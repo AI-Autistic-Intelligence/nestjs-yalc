@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RowDefaultValues = exports.ExtraArgsStrategy = exports.CustomWhereKeys = exports.SortDirection = exports.Operators = exports.FilterType = exports.GeneralFilters = void 0;
 exports.entityFieldsEnumFactory = entityFieldsEnumFactory;
-const class_helper_js_1 = require("@nestjs-yalc/utils/class.helper.js");
+const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
 const crud_gen_helpers_js_1 = require("./crud-gen.helpers.js");
 var GeneralFilters;
 (function (GeneralFilters) {
@@ -84,7 +84,7 @@ function entityFieldsEnumFactory(entityModel) {
         };
     const properties = {};
     (0, crud_gen_helpers_js_1.getMappedTypeProperties)(prototype).map((v) => (properties[v] = v));
-    const FieldsEnum = Object.assign({}, properties);
+    const FieldsEnum = { ...properties };
     fieldsEnumCache.set(prototype, FieldsEnum);
     return { enum: FieldsEnum, cached: false, prototype };
 }

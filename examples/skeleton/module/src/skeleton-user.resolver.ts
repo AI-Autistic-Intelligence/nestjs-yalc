@@ -1,7 +1,7 @@
-import { CrudGenDependencyFactory } from '@nestjs-yalc/crud-gen/crud-gen.helpers.js';
-import { resolverFactory } from '@nestjs-yalc/crud-gen/api-graphql/generic.resolver.js';
-import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+import { CrudGenDependencyFactory } from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
+import { resolverFactory } from '@nest-yalc-2/crud-gen/api-graphql/generic.resolver.js';
+import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import { UseGuards } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import {
@@ -20,12 +20,12 @@ import {
 import { SkeletonUser } from './skeleton-user.entity.js';
 import { RoleAuth, RoleEnum } from './role.guard.js';
 import * as skeletonUserServiceJs from './skeleton-user.service.js';
-import { InputArgs } from '@nestjs-yalc/crud-gen/api-graphql/gqlmapper.decorator.js';
+import { InputArgs } from '@nest-yalc-2/crud-gen/api-graphql/gqlmapper.decorator.js';
 import {
   ExtraArgsStrategy,
   FilterType,
   GeneralFilters,
-} from '@nestjs-yalc/crud-gen/crud-gen.enum.js';
+} from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
 
 export const lowerCaseEmailMiddleware = (
   _ctx: GqlExecutionContext,

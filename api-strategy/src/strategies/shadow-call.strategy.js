@@ -3,15 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShadowCallStrategy = void 0;
 class ShadowCallStrategy {
     constructor(primary, shadows, options = {}) {
-        var _a, _b;
         this.primary = primary;
         this.shadows = shadows;
         if (shadows.length === 0) {
             throw new Error('ShadowCallStrategy requires at least one shadow strategy.');
         }
-        this.shadowErrorMode = (_a = options.shadowErrorMode) !== null && _a !== void 0 ? _a : 'ignore';
+        this.shadowErrorMode = options.shadowErrorMode ?? 'ignore';
         this.awaitShadows =
-            (_b = options.awaitShadows) !== null && _b !== void 0 ? _b : this.shadowErrorMode === 'throw';
+            options.awaitShadows ?? this.shadowErrorMode === 'throw';
     }
     call(path, options) {
         return this.execute((strategy) => strategy.call(path, options), (strategy) => strategy.call(path, options));

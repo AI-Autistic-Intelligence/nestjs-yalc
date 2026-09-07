@@ -4,7 +4,7 @@ exports.captureOmniMigrationSnapshot = captureOmniMigrationSnapshot;
 exports.defineOmniMigrationSnapshot = defineOmniMigrationSnapshot;
 exports.createOmniMigrationPlan = createOmniMigrationPlan;
 const typeorm_1 = require("typeorm");
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
 const omni_external_ref_entity_js_1 = require("./base/omni-external-ref.entity.js");
 const omni_named_entity_js_1 = require("./base/omni-named.entity.js");
 const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
@@ -124,7 +124,6 @@ function tableSnapshots(dataSource, entities) {
     return orderTablesTopologically([...byTableName.values()].map(tableOptions));
 }
 function orderTablesTopologically(tables) {
-    var _a;
     const byName = new Map();
     for (const table of tables) {
         if (!table.name)
@@ -135,7 +134,7 @@ function orderTablesTopologically(tables) {
     for (const table of tables) {
         const tableName = table.name;
         const parents = new Set();
-        for (const foreignKey of (_a = table.foreignKeys) !== null && _a !== void 0 ? _a : []) {
+        for (const foreignKey of table.foreignKeys ?? []) {
             const parent = foreignKey.referencedTableName;
             if (!parent || parent === tableName)
                 continue;
@@ -152,7 +151,7 @@ function orderTablesTopologically(tables) {
     ]));
     const ordered = [];
     while (remaining.size > 0) {
-        const ready = tables.filter((table) => { var _a; return table.name !== undefined && ((_a = remaining.get(table.name)) === null || _a === void 0 ? void 0 : _a.size) === 0; });
+        const ready = tables.filter((table) => table.name !== undefined && remaining.get(table.name)?.size === 0);
         if (ready.length === 0) {
             throw new TypeError(`Omni migration snapshot has a cross-table foreign-key cycle: ${[
                 ...remaining.keys(),

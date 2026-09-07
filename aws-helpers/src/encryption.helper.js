@@ -11,12 +11,11 @@ var EncryptMode;
 })(EncryptMode || (exports.EncryptMode = EncryptMode = {}));
 const cachedSsmVariables = new Map();
 const decryptSsmVariable = async (toDecrypt, useCache = true) => {
-    var _a, _b, _c, _d;
     if (useCache) {
         if (cachedSsmVariables.has(toDecrypt)) {
             const cachedValue = cachedSsmVariables.get(toDecrypt);
             const value = await cachedValue;
-            return (_b = (_a = value.Parameter) === null || _a === void 0 ? void 0 : _a.Value) !== null && _b !== void 0 ? _b : '';
+            return value.Parameter?.Value ?? '';
         }
     }
     const ssm = new client_ssm_1.SSMClient();
@@ -29,7 +28,7 @@ const decryptSsmVariable = async (toDecrypt, useCache = true) => {
             cachedSsmVariables.set(toDecrypt, dataPromise);
         }
         const data = await dataPromise;
-        return (_d = (_c = data.Parameter) === null || _c === void 0 ? void 0 : _c.Value) !== null && _d !== void 0 ? _d : '';
+        return data.Parameter?.Value ?? '';
     }
     catch (err) {
         common_1.Logger.error(`Error while decrypting ssm variable ${toDecrypt} ${JSON.stringify(err)}`);

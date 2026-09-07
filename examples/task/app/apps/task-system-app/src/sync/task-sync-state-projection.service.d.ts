@@ -1,6 +1,6 @@
 import { OnApplicationBootstrap } from '@nestjs/common';
-import { ProjectionResourceService, type ProjectionDialect, type ProjectionScope } from '@nestjs-yalc/crud-gen';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { ProjectionResourceService, type ProjectionDialect, type ProjectionScope } from '@nest-yalc-2/crud-gen';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { type DataSource } from 'typeorm';
 import { TaskAppOmniExternalRefService } from '../omni-task-app/task-app-omni-external-ref.service';
 import { TaskSyncStateProjection } from './task-sync-state.projection';

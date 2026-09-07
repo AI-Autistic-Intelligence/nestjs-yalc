@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringIsInEnumOrThrow = stringIsInEnumOrThrow;
 exports.stringIsInEnum = stringIsInEnum;
-const errors_1 = require("@nestjs-yalc/errors");
+const errors_1 = require("@nest-yalc-2/errors");
 function stringIsInEnumOrThrow(toCheck, enumName, message) {
     if (stringIsInEnum(toCheck, enumName)) {
         return true;

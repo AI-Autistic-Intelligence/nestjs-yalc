@@ -15,7 +15,7 @@ module.exports = {
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
-    '^@nestjs-yalc/([^/]+)$': '<rootDir>/../../../$1/src/index.ts',
-    '^@nestjs-yalc/([^/]+)/(.*)\\.js$': '<rootDir>/../../../$1/src/$2.ts',
+    '^@nest-yalc-2/([^/]+)$': '<rootDir>/../../../$1/src/index.ts',
+    '^@nest-yalc-2/([^/]+)/(.*)\\.js$': '<rootDir>/../../../$1/src/$2.ts',
   },
 };

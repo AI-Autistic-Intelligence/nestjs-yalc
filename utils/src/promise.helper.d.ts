@@ -1,4 +1,4 @@
-import { AnyFunction } from '@nestjs-yalc/types/globals.d.js';
+import { AnyFunction } from '@nest-yalc-2/types/globals.d.js';
 import * as pMap from 'p-map';
 export declare const PROMISE_CONCURRENCY_LIMIT = 1000;
 export declare function promiseMap<Element, NewElement>(input: Iterable<Element>, mapper: pMap.Mapper<Element, NewElement>, options?: pMap.Options): Promise<NewElement[]>;

@@ -1,2 +1,2 @@
-export * from './jest-conf.generator.ts';
-export * from './jest-def.config.ts';
+export * from './jest-conf.generator.js';
+export * from './jest-def.config.js';

@@ -1,4 +1,4 @@
-import { ReturnOrFunctionReturnType } from '@nestjs-yalc/types/globals.d.js';
+import { ReturnOrFunctionReturnType } from '@nest-yalc-2/types/globals.d.js';
 
 export type ConfigTuple<K, T> = { k: K | K[]; v: T };
 

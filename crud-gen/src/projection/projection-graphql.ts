@@ -1,8 +1,8 @@
 import { InputType, Int, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
 import { Exclude, Expose } from 'class-transformer';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import {
   ModelField,
   ModelObject,

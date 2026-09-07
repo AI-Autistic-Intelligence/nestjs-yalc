@@ -1,7 +1,7 @@
 import {
   createProjectionDialect,
   type ProjectionFilter,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import type { InjectionToken, Provider } from '@nestjs/common';
 import {
   In,

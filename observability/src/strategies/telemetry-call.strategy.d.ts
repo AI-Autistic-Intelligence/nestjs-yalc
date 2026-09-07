@@ -1,4 +1,4 @@
-import type { IApiCallStrategy, ICallOptions, IObjectWithData } from '@nestjs-yalc/api-strategy/context-call.interface.js';
+import type { IApiCallStrategy, ICallOptions, IObjectWithData } from '@nest-yalc-2/api-strategy/context-call.interface.js';
 import { TelemetryService } from '../telemetry.service.js';
 export interface TelemetryCallStrategyOptions {
     name: string;

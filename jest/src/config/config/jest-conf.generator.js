@@ -40,7 +40,7 @@ exports.createE2EConfig = void 0;
 exports.jestConfGenerator = jestConfGenerator;
 const path = __importStar(require("path"));
 const os_1 = __importDefault(require("os"));
-const jest_def_config_ts_1 = __importStar(require("./jest-def.config.ts"));
+const jest_def_config_js_1 = __importStar(require("./jest-def.config.js"));
 const yargs_1 = __importDefault(require("yargs/yargs"));
 const helpers_1 = require("yargs/helpers");
 const maxWorkers = process.env.npm_config_jestworkers ||
@@ -49,36 +49,47 @@ const maxWorkers = process.env.npm_config_jestworkers ||
     10;
 console.log(`Max workers: ${maxWorkers}`);
 function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     const createProjectSets = (projects) => {
         const _projectSets = {};
         for (const app in appProjectsSettings) {
             _projectSets[app] = projects.filter((p) => appProjectsSettings[app].deps.some((v) => p.displayName.startsWith(`unit/${v.name}`)));
         }
-        return Object.assign(Object.assign({}, _projectSets), { all: projects });
+        return {
+            ..._projectSets,
+            all: projects,
+        };
     };
     const cacheDirBase = '/tmp/jest_rs/';
     let projects = [];
-    const confFactory = (projName, proj, projects) => {
-        var _a, _b, _c;
-        return (Object.assign(Object.assign({}, (0, jest_def_config_ts_1.default)(`${rootPath}/`, options.defaultConfOptions, (0, jest_def_config_ts_1.tsJestConfig)((_b = (_a = options.tsConfigPath) === null || _a === void 0 ? void 0 : _a.call(options, proj)) !== null && _b !== void 0 ? _b : `${rootPath}/${proj.path}/tsconfig.${proj.type === 'library' ? 'lib' : 'app'}.json`, options.tsJestConfig))), { globals: (0, jest_def_config_ts_1.globals)(), displayName: `unit/${projName}`, cacheDirectory: `${cacheDirBase}/unit/${projName}`, rootDir: `${rootPath}/${proj.sourcePath}/`, roots: [`${rootPath}/${proj.path}`], maxWorkers, setupFiles: [
-                `${__dirname}/jest.setup.js`,
-                ...((_c = options.extraSetupFiles) !== null && _c !== void 0 ? _c : []),
-            ], coverageThreshold: (0, jest_def_config_ts_1.coverageThreshold)(projects, options.defaultCoverageThreshold), coveragePathIgnorePatterns: jest_def_config_ts_1.coveragePathIgnorePatterns }));
-    };
+    const confFactory = (projName, proj, projects) => ({
+        ...(0, jest_def_config_js_1.default)(`${rootPath}/`, options.defaultConfOptions, (0, jest_def_config_js_1.tsJestConfig)(options.tsConfigPath?.(proj) ??
+            `${rootPath}/${proj.path}/tsconfig.${proj.type === 'library' ? 'lib' : 'app'}.json`, options.tsJestConfig)),
+        globals: (0, jest_def_config_js_1.globals)(),
+        displayName: `unit/${projName}`,
+        cacheDirectory: `${cacheDirBase}/unit/${projName}`,
+        rootDir: `${rootPath}/${proj.sourcePath}/`,
+        roots: [`${rootPath}/${proj.path}`],
+        maxWorkers,
+        setupFiles: [
+            `${__dirname}/jest.setup.js`,
+            ...(options.extraSetupFiles ?? []),
+        ],
+        coverageThreshold: (0, jest_def_config_js_1.coverageThreshold)(projects, options.defaultCoverageThreshold),
+        coveragePathIgnorePatterns: jest_def_config_js_1.coveragePathIgnorePatterns,
+    });
     for (const projName of Object.keys(projectList)) {
         const proj = projectList[projName];
-        if (!((_a = options.skipProjects) === null || _a === void 0 ? void 0 : _a.includes(proj.path))) {
+        if (!options.skipProjects?.includes(proj.path)) {
             let conf = confFactory(projName, proj);
-            if ((_b = appProjectsSettings[projName]) === null || _b === void 0 ? void 0 : _b.confOverride) {
-                conf = Object.assign(Object.assign({}, conf), appProjectsSettings[projName].confOverride);
+            if (appProjectsSettings[projName]?.confOverride) {
+                conf = { ...conf, ...appProjectsSettings[projName].confOverride };
             }
             if (options.confOverrides) {
                 const overrideKey = Object.keys(options.confOverrides).find((v) => projName === v && v);
                 const overrideConf = overrideKey && options.confOverrides[overrideKey]
                     ? options.confOverrides[overrideKey]
                     : {};
-                conf = Object.assign(Object.assign({}, conf), overrideConf);
+                conf = { ...conf, ...overrideConf };
             }
             projects.push(conf);
         }
@@ -112,7 +123,7 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         .showHelpOnFail(false)
         .fail(() => {
     }).argv;
-    const selectedProj = argv.proj || ((_c = process.env.npm_config_projects) === null || _c === void 0 ? void 0 : _c.split(',')) || 'all';
+    const selectedProj = argv.proj || process.env.npm_config_projects?.split(',') || 'all';
     projects = Array.isArray(selectedProj)
         ? Object.values(projectSets)
             .flat()
@@ -129,7 +140,10 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
     if (argv.paths) {
         paths.push(...argv.paths);
     }
-    const possiblePath = (_g = (_f = (_d = (paths.length > 0 ? paths : null)) !== null && _d !== void 0 ? _d : (_e = argv.testPathPattern) === null || _e === void 0 ? void 0 : _e[0]) !== null && _f !== void 0 ? _f : argv.coverage) !== null && _g !== void 0 ? _g : '';
+    const possiblePath = (paths.length > 0 ? paths : null) ??
+        argv.testPathPattern?.[0] ??
+        argv.coverage ??
+        '';
     console.debug('possiblePaths', possiblePath);
     let config = {};
     function getSubprojectPath(testPath) {
@@ -172,15 +186,16 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         if (Array.isArray(selectedProj)) {
             selectedProjects.push(...projects.filter((p) => selectedProj.some((projName) => p.displayName.startsWith(`unit/${projName}`))));
         }
-        console.debug('Subproject path:', subProjectPathList !== null && subProjectPathList !== void 0 ? subProjectPathList : ['']);
+        console.debug('Subproject path:', subProjectPathList ?? ['']);
     }
     console.debug('selectedProjects', selectedProjects.map((v) => v.displayName));
     const coverageFolder = selectedProjects.length > 1 ? '' : selectedProj;
     config = {
         coverageReporters: ['json-summary', 'json', 'lcov', 'text', 'clover'],
         rootDir: `${rootPath}`,
-        coverageThreshold: (0, jest_def_config_ts_1.coverageThreshold)(selectedProjects, options.defaultCoverageThreshold),
-        coverageDirectory: path.join(rootPath, (_j = (_h = options.coverageOutputPath) === null || _h === void 0 ? void 0 : _h.call(options, coverageFolder)) !== null && _j !== void 0 ? _j : `var/coverage/${coverageFolder}`),
+        coverageThreshold: (0, jest_def_config_js_1.coverageThreshold)(selectedProjects, options.defaultCoverageThreshold),
+        coverageDirectory: path.join(rootPath, options.coverageOutputPath?.(coverageFolder) ??
+            `var/coverage/${coverageFolder}`),
         collectCoverageFrom: [
             `**/*.{js,ts}`,
             '!**/node_modules/**',
@@ -191,13 +206,21 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
     return config;
 }
 const createE2EConfig = (options) => {
-    var _a;
-    let conf = Object.assign(Object.assign({}, (0, jest_def_config_ts_1.default)(`${options.rootDirname}`, options.defaultConfOptions, (0, jest_def_config_ts_1.tsJestConfigE2E)(path.resolve(`${options.e2eDirname}/tsconfig.json`), (_a = options.withGqlPlugins) !== null && _a !== void 0 ? _a : false, options.tsJestConfig))), { testRegex: '.*\\.e2e-spec\\.ts$', setupFilesAfterEnv: [`${options.e2eDirname}/jest.e2e-setup.ts`], roots: [`${options.e2eDirname}`], bail: 1 });
+    let conf = {
+        ...(0, jest_def_config_js_1.default)(`${options.rootDirname}`, options.defaultConfOptions, (0, jest_def_config_js_1.tsJestConfigE2E)(path.resolve(`${options.e2eDirname}/tsconfig.json`), options.withGqlPlugins ?? false, options.tsJestConfig)),
+        testRegex: '.*\\.e2e-spec\\.ts$',
+        setupFilesAfterEnv: [`${options.e2eDirname}/jest.e2e-setup.ts`],
+        roots: [`${options.e2eDirname}`],
+        bail: 1,
+    };
     if (options.alias) {
         conf.displayName = `e2e/${options.alias}`;
     }
     if (options.confOverride) {
-        conf = Object.assign(Object.assign({}, conf), options.confOverride);
+        conf = {
+            ...conf,
+            ...options.confOverride,
+        };
     }
     return conf;
 };

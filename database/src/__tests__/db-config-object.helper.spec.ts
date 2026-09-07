@@ -1,4 +1,4 @@
-import { envTestHelper } from '@nestjs-yalc/jest/env.helper';
+import { envTestHelper } from '@nest-yalc-2/jest/env.helper';
 import { CONN_SUFFIX } from '../conn.helper';
 import { buildDbConfigObject } from '../db-config-object.helper';
 

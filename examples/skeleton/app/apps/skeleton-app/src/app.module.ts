@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SkeletonPhone } from '@nestjs-yalc/skeleton-module/src/skeleton-phone.entity';
-import { SkeletonUser } from '@nestjs-yalc/skeleton-module/src/skeleton-user.entity';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar';
+import { SkeletonPhone } from '@nest-yalc-2/skeleton-module/src/skeleton-phone.entity';
+import { SkeletonUser } from '@nest-yalc-2/skeleton-module/src/skeleton-user.entity';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
 import { PhonesModule } from './phones/phones.module';
 import { UsersModule } from './users/users.module';
 

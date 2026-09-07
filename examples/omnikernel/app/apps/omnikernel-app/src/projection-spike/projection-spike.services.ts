@@ -3,8 +3,8 @@ import { REQUEST } from '@nestjs/core';
 import type {
   CrudGenFindManyOptions,
   ProjectionScope,
-} from '@nestjs-yalc/crud-gen';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+} from '@nest-yalc-2/crud-gen';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { FindOperator, In, type ObjectLiteral, type Repository } from 'typeorm';
 
 type ProjectionRequest = {

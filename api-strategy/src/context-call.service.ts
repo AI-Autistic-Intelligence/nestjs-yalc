@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { Injectable } from '@nestjs/common';
 import { IApiCallStrategy } from './context-call.interface.js';
 

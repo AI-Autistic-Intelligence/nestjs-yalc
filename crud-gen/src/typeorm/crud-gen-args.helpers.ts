@@ -1,5 +1,5 @@
-import { IFieldMapper } from '@nestjs-yalc/interfaces';
-import { DateHelper } from '@nestjs-yalc/utils/date.helper.js';
+import { IFieldMapper } from '@nest-yalc-2/interfaces';
+import { DateHelper } from '@nest-yalc-2/utils/date.helper.js';
 import {
   Equal,
   Like,

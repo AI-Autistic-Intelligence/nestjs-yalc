@@ -1,7 +1,7 @@
 import { Injectable, Optional } from '@nestjs/common';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
-import { AppLoggerFactory } from '@nestjs-yalc/logger/logger.factory';
-import { TasksEventsClient } from '@nestjs-yalc/task-system-module/src/events/tasks-events.client';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
+import { AppLoggerFactory } from '@nest-yalc-2/logger/logger.factory';
+import { TasksEventsClient } from '@nest-yalc-2/task-system-module/src/events/tasks-events.client';
 
 @Injectable()
 export class TasksDomainEventsService {

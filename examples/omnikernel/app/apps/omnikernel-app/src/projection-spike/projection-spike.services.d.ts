@@ -1,5 +1,5 @@
-import type { CrudGenFindManyOptions, ProjectionScope } from '@nestjs-yalc/crud-gen';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import type { CrudGenFindManyOptions, ProjectionScope } from '@nest-yalc-2/crud-gen';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { type ObjectLiteral, type Repository } from 'typeorm';
 type ProjectionRequest = {
     projectionScopeId?: string;

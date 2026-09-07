@@ -5,8 +5,8 @@ import {
   sortModelFactory,
 } from './api-graphql/crud-gen.input.js';
 import { FilterScalar } from './filter.scalar.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { RowDefaultValues } from './crud-gen.enum.js';
 import { ICrudGenBaseParams } from './api-graphql/crud-gen-gql.interface.js';
 

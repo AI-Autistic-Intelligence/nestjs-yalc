@@ -27,10 +27,9 @@ var ErrorsEnum;
     ErrorsEnum["GATEWAY_TIMEOUT"] = "Gateway timeout";
 })(ErrorsEnum || (exports.ErrorsEnum = ErrorsEnum = {}));
 const getHttpStatusNameByCode = (code) => {
-    var _a;
-    const httpStatusEnumName = (_a = Object.entries(common_1.HttpStatus).find(([, value]) => value === code)) === null || _a === void 0 ? void 0 : _a[0];
+    const httpStatusEnumName = Object.entries(common_1.HttpStatus).find(([, value]) => value === code)?.[0];
     const enumValue = ErrorsEnum[httpStatusEnumName];
-    return enumValue !== null && enumValue !== void 0 ? enumValue : 'Unknown';
+    return enumValue ?? 'Unknown';
 };
 exports.getHttpStatusNameByCode = getHttpStatusNameByCode;
 var ExceptionContextEnum;

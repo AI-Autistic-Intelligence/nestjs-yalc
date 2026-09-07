@@ -1,8 +1,8 @@
 import { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface.js';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
 import { PageData, PaginatedResultDto } from './crud-gen-rest.dto.js';
-import { ObjectMapperType } from '@nestjs-yalc/utils/object-mapper.helper.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ObjectMapperType } from '@nest-yalc-2/utils/object-mapper.helper.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { Observable } from 'rxjs';
 export declare function crudGenRestPaginationInterceptorWorker<T>(startRow?: number, endRow?: number): (data: [T, number] | T) => {
     list: T;

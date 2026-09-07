@@ -1,11 +1,11 @@
 import {
   defineProjectionResource,
   type ProjectionScope,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import {
   OmniRecordEntity,
   OmniRecordStatus,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 import { ChildEntity } from 'typeorm';
 
 export const TASK_SYNC_STATE_KIND = 'sync-state';

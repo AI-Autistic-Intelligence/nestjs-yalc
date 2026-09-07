@@ -4,9 +4,9 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 import { DeepPartial, ObjectLiteral } from 'typeorm';
 import { FindOptionsWhere } from 'typeorm';
 import { FindManyOptions } from 'typeorm';
-import { AgGridRepository } from '@nestjs-yalc/ag-grid/ag-grid.repository';
-import { AgGridFindManyOptions } from '@nestjs-yalc/ag-grid/ag-grid.interface';
-import { ClassType } from '@nestjs-yalc/types/globals';
+import { AgGridRepository } from '@nest-yalc-2/ag-grid/ag-grid.repository';
+import { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
+import { ClassType } from '@nest-yalc-2/types/globals';
 export declare function GenericServiceFactory<Entity extends ObjectLiteral>(entity: EntityClassOrSchema, connectionName: string, providedClass?: ClassType<GenericService<Entity>>, entityWrite?: EntityClassOrSchema, connectionNameWrite?: string): FactoryProvider;
 export declare function getServiceToken(entity: ClassType | string): string;
 export declare function validateSupportedError(errorClass: new (error: Error) => EntityError): (error: Error) => never;

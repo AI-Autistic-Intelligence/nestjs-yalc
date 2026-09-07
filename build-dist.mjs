@@ -45,13 +45,13 @@ const internalPackageNames = new Set([
 ]);
 
 const frameworkExcludedPackageNames = new Set([
-  '@nestjs-yalc/jest',
-  '@nestjs-yalc/jest-config',
+  '@nest-yalc-2/jest',
+  '@nest-yalc-2/jest-config',
 ]);
 
 const frameworkRuntimeExports = workspacePackages.filter(({ pkg }) => {
   return (
-    pkg.name.startsWith('@nestjs-yalc/') &&
+    pkg.name.startsWith('@nest-yalc-2/') &&
     pkg.private !== true &&
     !pkg.name.includes('/types') &&
     !frameworkExcludedPackageNames.has(pkg.name)
@@ -60,7 +60,7 @@ const frameworkRuntimeExports = workspacePackages.filter(({ pkg }) => {
 
 const frameworkTypeExports = workspacePackages.filter(({ pkg }) => {
   return (
-    pkg.name.startsWith('@nestjs-yalc/') &&
+    pkg.name.startsWith('@nest-yalc-2/') &&
     pkg.private !== true &&
     !frameworkExcludedPackageNames.has(pkg.name)
   );
@@ -218,7 +218,10 @@ for (const workspace of packages) {
 
   // Ensure source output exists for packages that only ship declaration files.
   if (!compiledIndexExists && !compiledDtsExists && fs.existsSync(srcDir)) {
-    fs.cpSync(srcDir, path.join(distDir, 'src'), { recursive: true });
+    fs.cpSync(srcDir, path.join(distDir, 'src'), {
+      recursive: true,
+      force: true,
+    });
     compiledIndexExists = fs.existsSync(compiledIndex);
     compiledDtsExists = fs.existsSync(compiledDts);
   }

@@ -8,7 +8,10 @@ class OmniCollectionService extends omni_scoped_service_js_1.OmniScopedService {
         super(repository, scopeOrRepositoryWrite, deletion);
     }
     normalizeCollectionInput(input) {
-        return Object.assign(Object.assign({}, input), { kind: omni_collection_kind_enum_js_1.OmniCollectionKind.Collection });
+        return {
+            ...input,
+            kind: omni_collection_kind_enum_js_1.OmniCollectionKind.Collection,
+        };
     }
     async createEntity(input, findOptions, returnEntity = true) {
         return super.createEntity(this.normalizeCollectionInput(input), findOptions, returnEntity);

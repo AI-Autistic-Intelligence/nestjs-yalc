@@ -1,11 +1,11 @@
-import { GenericService } from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
+import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
 import { SkeletonUser } from './skeleton-user.entity.js';
 import * as crypto from 'crypto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GenericTypeORMRepository } from '@nestjs-yalc/crud-gen/typeorm/generic.repository.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { GenericTypeORMRepository } from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { Injectable } from '@nestjs/common';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 
 export interface SkeletonUserService extends GenericService<SkeletonUser> {
   resetPassword(guid: string): Promise<string>;

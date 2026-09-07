@@ -8,8 +8,8 @@ import {
   sortModelFactory,
 } from './ag-grid.input';
 import { FilterScalar } from './filter.scalar';
-import returnValue from '@nestjs-yalc/utils/returnValue';
-import { ClassType } from '@nestjs-yalc/types';
+import returnValue from '@nest-yalc-2/utils/returnValue';
+import { ClassType } from '@nest-yalc-2/types';
 import { RowDefaultValues } from './ag-grid.enum';
 
 export interface AgQueryParams<T = unknown> {

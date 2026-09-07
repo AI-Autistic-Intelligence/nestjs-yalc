@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompositeEventStrategy = void 0;
 class CompositeEventStrategy {
     constructor(strategies, options = {}) {
-        var _a;
         this.strategies = strategies;
         if (strategies.length === 0) {
             throw new Error('CompositeEventStrategy requires at least one strategy.');
         }
-        this.errorMode = (_a = options.errorMode) !== null && _a !== void 0 ? _a : 'throw';
+        this.errorMode = options.errorMode ?? 'throw';
     }
     emit(path, payload, options) {
         const results = [];

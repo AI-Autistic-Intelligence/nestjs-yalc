@@ -1,22 +1,22 @@
 import { LogLevel } from '@nestjs/common';
-import { type ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
-import { LogLevelEnum } from '@nestjs-yalc/logger/logger.enum.js';
+import { type ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
+import { LogLevelEnum } from '@nest-yalc-2/logger/logger.enum.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { maskDataInObject } from '@nestjs-yalc/logger/logger.helper.js';
+import { maskDataInObject } from '@nest-yalc-2/logger/logger.helper.js';
 import {
   DefaultError,
   ILogErrorPayload,
   IErrorPayload,
   isDefaultErrorMixin,
-} from '@nestjs-yalc/errors/default.error.js';
+} from '@nest-yalc-2/errors/default.error.js';
 import { EventNameFormatter, emitEvent, formatName } from './emitter.js';
-import { ClassType, InstanceType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType, InstanceType } from '@nest-yalc-2/types/globals.d.js';
 import { getYalcGlobalEventEmitter } from './global-emitter.js';
-import { AppLoggerFactory } from '@nestjs-yalc/logger/logger.factory.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
-import { deepMergeWithoutArrayConcat } from '@nestjs-yalc/utils/object.helper.js';
+import { AppLoggerFactory } from '@nest-yalc-2/logger/logger.factory.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
+import { deepMergeWithoutArrayConcat } from '@nest-yalc-2/utils/object.helper.js';
 import * as _ from 'lodash-es';
-import { globalPromiseTracker } from '@nestjs-yalc/utils/promise.helper.js';
+import { globalPromiseTracker } from '@nest-yalc-2/utils/promise.helper.js';
 
 interface IEventEmitterOptions<
   TFormatter extends EventNameFormatter = EventNameFormatter,
@@ -129,7 +129,7 @@ type PickError<
   TOpt extends { errorClass: infer T }
     ? T extends boolean
       ? DefaultError
-      : InstanceType<T>
+      : InstanceType<any>
     : never
 >;
 

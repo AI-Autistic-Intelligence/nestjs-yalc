@@ -14,7 +14,7 @@ The [npm workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces) approach
 ## Unit tests
 
 The main `package.json` contains scripts to run unit tests for all the libraries of this collection.
-It uses the Jest `projects` feature in the background, configured by `jest.config.ts`, using a customized mechanism implemented in our `@nestjs-yalc/jest` library.
+It uses the Jest `projects` feature in the background, configured by `jest.config.ts`, using a customized mechanism implemented in our `@nest-yalc-2/jest` library.
 
 To run the tests with coverage, use `npm run test:cov` and then you can check the status of the tests by running `npm run test:cov:serve`.
 Then you should be able to browse the coverage reports via: [http://127.0.0.1:8080/lcov-report/](http://127.0.0.1:8080/lcov-report/)

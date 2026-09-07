@@ -1,4 +1,4 @@
-import { type CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen';
+import { type CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen';
 import { type DataSource, type DeepPartial, type FindOptionsWhere, type ObjectLiteral, type Repository } from 'typeorm';
 import { OmniRecordEntity } from './base/omni-record.entity.js';
 import { OmniRelationEntity } from './base/omni-relation.entity.js';

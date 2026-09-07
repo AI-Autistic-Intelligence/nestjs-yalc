@@ -14,15 +14,14 @@ const gqlfields_decorator_js_1 = require("./gqlfields.decorator.js");
 const crud_gen_args_js_1 = require("../crud-gen.args.js");
 const crud_gen_helpers_js_1 = require("../crud-gen.helpers.js");
 const crud_gen_input_js_1 = require("./crud-gen.input.js");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const crud_gen_args_helpers_js_1 = require("../typeorm/crud-gen-args.helpers.js");
 const crud_gen_enum_js_1 = require("../crud-gen.enum.js");
 const missing_arguments_error_js_1 = require("../missing-arguments.error.js");
 const crud_gen_gql_helpers_js_1 = require("./crud-gen-gql.helpers.js");
 function mapCrudGenGqlParams(params, ctx, args, info) {
-    var _a, _b;
-    const fieldType = (_b = (_a = params === null || params === void 0 ? void 0 : params.fieldType) !== null && _a !== void 0 ? _a : params === null || params === void 0 ? void 0 : params.fieldMap) !== null && _b !== void 0 ? _b : params === null || params === void 0 ? void 0 : params.entityType;
-    const { keys, keysMeta } = (0, gqlfields_decorator_js_1.GqlModelFieldsMapper)(fieldType !== null && fieldType !== void 0 ? fieldType : {}, ctx.getInfo());
+    const fieldType = params?.fieldType ?? params?.fieldMap ?? params?.entityType;
+    const { keys, keysMeta } = (0, gqlfields_decorator_js_1.GqlModelFieldsMapper)(fieldType ?? {}, ctx.getInfo());
     const findParams = mapCrudGenParamsGql(params, ctx.getContext(), { keys, keysMeta }, args, { isCount: (0, crud_gen_gql_helpers_js_1.isAskingForCount)(info) });
     findParams.info = info;
     return findParams;
@@ -35,13 +34,12 @@ const CrudGenArgsFactory = (data, ctx) => {
 exports.CrudGenArgsFactory = CrudGenArgsFactory;
 exports.CrudGenArgsMapper = (0, common_1.createParamDecorator)(exports.CrudGenArgsFactory);
 const CrudGenCombineDecorators = (params) => {
-    var _a, _b;
     const argDecorators = [];
     if (params.extraArgs) {
         for (const argName of Object.keys(params.extraArgs)) {
             if (params.extraArgs[argName].hidden)
                 continue;
-            argDecorators.push((0, graphql_1.Args)(argName, (_a = params.extraArgs[argName].options) !== null && _a !== void 0 ? _a : {}));
+            argDecorators.push((0, graphql_1.Args)(argName, params.extraArgs[argName].options ?? {}));
         }
     }
     let joinArg;
@@ -54,7 +52,7 @@ const CrudGenCombineDecorators = (params) => {
             });
         }
     }
-    const args = (0, graphql_1.Args)((_b = params.gql) !== null && _b !== void 0 ? _b : {});
+    const args = (0, graphql_1.Args)(params.gql ?? {});
     const mapper = (0, exports.CrudGenArgsMapper)(params);
     return function (target, key, index) {
         args(target, key, index);
@@ -65,8 +63,7 @@ const CrudGenCombineDecorators = (params) => {
 };
 exports.CrudGenCombineDecorators = CrudGenCombineDecorators;
 const CrudGenArgs = (params) => {
-    var _a;
-    const gqlOptions = (_a = params.gql) !== null && _a !== void 0 ? _a : {};
+    const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
         gqlOptions.type = (0, returnValue_js_1.default)((0, crud_gen_args_js_1.crudGenParamsFactory)(params.defaultValue, params.entityType));
     }
@@ -75,8 +72,7 @@ const CrudGenArgs = (params) => {
 };
 exports.CrudGenArgs = CrudGenArgs;
 const CrudGenArgsNoPagination = (params) => {
-    var _a;
-    const gqlOptions = (_a = params.gql) !== null && _a !== void 0 ? _a : {};
+    const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
         gqlOptions.type = (0, returnValue_js_1.default)((0, crud_gen_args_js_1.crudGenParamsNoPaginationFactory)(params.defaultValue, params.entityType));
     }
@@ -85,10 +81,9 @@ const CrudGenArgsNoPagination = (params) => {
 };
 exports.CrudGenArgsNoPagination = CrudGenArgsNoPagination;
 function CrudGenArgsSingleDecoratorMapper(params, args, info) {
-    var _a;
     const findManyOptions = {};
     if (params) {
-        const fieldType = (_a = params.fieldType) !== null && _a !== void 0 ? _a : params.entityType;
+        const fieldType = params.fieldType ?? params.entityType;
         if (fieldType) {
             const fieldMapper = (0, crud_gen_helpers_js_1.objectToFieldMapper)(fieldType);
             const { keys, keysMeta } = (0, gqlfields_decorator_js_1.GqlModelFieldsMapper)(fieldType, info);
@@ -129,10 +124,9 @@ const CrudGenArgsSingle = (params) => {
 };
 exports.CrudGenArgsSingle = CrudGenArgsSingle;
 function mapCrudGenParamsGql(params, ctx, select, args, options = {}) {
-    var _a;
     let findOptions = (0, crud_gen_args_helpers_js_1.mapCrudGenParam)(params, select, args, options);
     const extraParameter = {};
-    if (params === null || params === void 0 ? void 0 : params.extraArgs) {
+    if (params?.extraArgs) {
         const extraArgsKeys = Object.keys(params.extraArgs);
         switch (params.extraArgsStrategy) {
             case crud_gen_enum_js_1.ExtraArgsStrategy.AT_LEAST_ONE:
@@ -164,19 +158,24 @@ function mapCrudGenParamsGql(params, ctx, select, args, options = {}) {
                 descriptors: params.extraArgs[argName],
             });
         }
-        findOptions.where = (0, crud_gen_helpers_js_1.forceFilters)(findOptions.where, forcedFilters, (_a = findOptions.extra) === null || _a === void 0 ? void 0 : _a._fieldMapper);
+        findOptions.where = (0, crud_gen_helpers_js_1.forceFilters)(findOptions.where, forcedFilters, findOptions.extra?._fieldMapper);
     }
-    findOptions = Object.assign(Object.assign({}, findOptions), { extra: Object.assign(Object.assign({}, findOptions.extra), { args: extraParameter }) });
+    findOptions = {
+        ...findOptions,
+        extra: {
+            ...findOptions.extra,
+            args: extraParameter,
+        },
+    };
     return findOptions;
 }
 function mapCrudGenParams(params, ctx, args, info) {
-    var _a, _b, _c;
-    const fieldType = (_c = (_b = (_a = params === null || params === void 0 ? void 0 : params.fieldType) !== null && _a !== void 0 ? _a : params === null || params === void 0 ? void 0 : params.fieldMap) !== null && _b !== void 0 ? _b : params === null || params === void 0 ? void 0 : params.entityType) !== null && _c !== void 0 ? _c : {};
+    const fieldType = params?.fieldType ?? params?.fieldMap ?? params?.entityType ?? {};
     let mappedFields;
     try {
         mappedFields = (0, gqlfields_decorator_js_1.GqlModelFieldsMapper)(fieldType, info);
     }
-    catch (_d) {
+    catch {
         mappedFields = { keys: [], keysMeta: {} };
     }
     return mapCrudGenParamsGql(params, ctx, mappedFields, args, { isCount: (0, crud_gen_gql_helpers_js_1.isAskingForCount)(info) });

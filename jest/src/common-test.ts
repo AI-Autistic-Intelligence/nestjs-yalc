@@ -1,6 +1,8 @@
+/// <reference types="jest" />
 /* istanbul ignore file */
 
-import { ClassType, FactoryType } from '@nestjs-yalc/interfaces/common.type';
+import { FactoryType } from '@nest-yalc-2/interfaces/common.type';
+import { ClassType } from '@nest-yalc-2/types';
 import { faker } from '@faker-js/faker';
 import { getTestFilenameWithoutExtension } from './helpers';
 
@@ -32,18 +34,18 @@ export function factoriesAreDefinedTest(
         let instance = aFactory(faker);
         expect(instance).toBeDefined();
 
-        jest.spyOn(faker.datatype, 'number').mockReturnValue(0);
-        jest.spyOn(faker.datatype, 'boolean').mockReturnValue(false);
+        jest.spyOn(faker.datatype as any, 'number').mockReturnValue(0);
+        jest.spyOn(faker.datatype as any, 'boolean').mockReturnValue(false);
         instance = aFactory(faker);
         expect(instance).toBeDefined();
 
-        jest.spyOn(faker.datatype, 'number').mockReturnValue(1);
-        jest.spyOn(faker.datatype, 'boolean').mockReturnValue(true);
+        jest.spyOn(faker.datatype as any, 'number').mockReturnValue(1);
+        jest.spyOn(faker.datatype as any, 'boolean').mockReturnValue(true);
         instance = aFactory(faker);
         expect(instance).toBeDefined();
 
-        jest.spyOn(faker.datatype, 'number').mockRestore();
-        jest.spyOn(faker.datatype, 'boolean').mockRestore();
+        jest.spyOn(faker.datatype as any, 'number').mockRestore();
+        jest.spyOn(faker.datatype as any, 'boolean').mockRestore();
       }
     });
   });

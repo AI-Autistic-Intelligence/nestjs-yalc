@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.taskSyncStateProviders = exports.SyncStatesController = exports.taskSyncStateResource = void 0;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
-const generic_service_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.service");
-const data_loader_1 = require("@nestjs-yalc/data-loader");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
+const generic_service_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service");
+const data_loader_1 = require("@nest-yalc-2/data-loader");
 const crudgen_provider_compat_js_1 = require("../crudgen-provider-compat.js");
 const task_sync_state_projection_service_1 = require("./task-sync-state-projection.service");
 const task_sync_state_projection_1 = require("./task-sync-state.projection");

@@ -16,15 +16,15 @@
     ]
   },
   "moduleNameMapper": {
-    "^@nestjs-yalc/omnikernel-module$": "<rootDir>/../../../../module/src",
-    "^@nestjs-yalc/omnikernel-module/src/(.*)$": "<rootDir>/../../../../module/src/$1",
+    "^@nest-yalc-2/omnikernel-module$": "<rootDir>/../../../../module/src",
+    "^@nest-yalc-2/omnikernel-module/src/(.*)$": "<rootDir>/../../../../module/src/$1",
     "^@nestjs/(.*)$": "<rootDir>/../../../../../../node_modules/@nestjs/$1",
     "^typeorm$": "<rootDir>/../../../../../../node_modules/typeorm",
     "^p-map$": "<rootDir>/p-map.mock.ts",
     "^lodash-es$": "lodash",
-    "^@nestjs-yalc/([^/]+)/(.+?)\\.js$": "<rootDir>/../../../../../../$1/src/$2",
-    "^@nestjs-yalc/([^/]+)/(.*)$": "<rootDir>/../../../../../../$1/src/$2",
-    "^@nestjs-yalc/([^/]+)$": "<rootDir>/../../../../../../$1/src",
+    "^@nest-yalc-2/([^/]+)/(.+?)\\.js$": "<rootDir>/../../../../../../$1/src/$2",
+    "^@nest-yalc-2/([^/]+)/(.*)$": "<rootDir>/../../../../../../$1/src/$2",
+    "^@nest-yalc-2/([^/]+)$": "<rootDir>/../../../../../../$1/src",
     "^(\\.{1,2}/.*)\\.js$": "$1"
   }
 }

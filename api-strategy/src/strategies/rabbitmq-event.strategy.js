@@ -23,28 +23,29 @@ class RabbitMqEventStrategy {
         this.connection = undefined;
     }
     async publish(path, payload) {
-        var _a, _b;
         const channel = await this.getChannel();
         const body = this.serialize(payload);
-        return channel.publish(this.options.exchange, path, body, Object.assign({ contentType: (_a = this.options.contentType) !== null && _a !== void 0 ? _a : 'application/json', persistent: (_b = this.options.persistent) !== null && _b !== void 0 ? _b : true }, this.options.publishOptions));
+        return channel.publish(this.options.exchange, path, body, {
+            contentType: this.options.contentType ?? 'application/json',
+            persistent: this.options.persistent ?? true,
+            ...this.options.publishOptions,
+        });
     }
     serialize(payload) {
-        var _a, _b;
-        const serialized = (_b = (_a = this.options).serialize) === null || _b === void 0 ? void 0 : _b.call(_a, payload);
+        const serialized = this.options.serialize?.(payload);
         if (Buffer.isBuffer(serialized)) {
             return serialized;
         }
-        return Buffer.from(serialized !== null && serialized !== void 0 ? serialized : JSON.stringify(payload));
+        return Buffer.from(serialized ?? JSON.stringify(payload));
     }
     async getChannel() {
-        var _a, _b;
         if (this.channel) {
             return this.channel;
         }
         this.connection = await amqplib_1.default.connect(this.options.url);
         this.channel = await this.connection.createChannel();
-        await this.channel.assertExchange(this.options.exchange, (_a = this.options.exchangeType) !== null && _a !== void 0 ? _a : 'topic', {
-            durable: (_b = this.options.durable) !== null && _b !== void 0 ? _b : true,
+        await this.channel.assertExchange(this.options.exchange, this.options.exchangeType ?? 'topic', {
+            durable: this.options.durable ?? true,
         });
         return this.channel;
     }
@@ -53,8 +54,7 @@ exports.RabbitMqEventStrategy = RabbitMqEventStrategy;
 const RabbitMqEventStrategyProvider = (provide, options) => ({
     provide,
     useFactory: () => {
-        var _a;
-        const Strategy = (_a = options.RabbitMqStrategy) !== null && _a !== void 0 ? _a : RabbitMqEventStrategy;
+        const Strategy = options.RabbitMqStrategy ?? RabbitMqEventStrategy;
         const strategyOptions = typeof options.options === 'function'
             ? options.options()
             : options.options;
@@ -88,11 +88,10 @@ async function closeRabbitResource(resource) {
     }
 }
 function forceCloseRabbitResource(resource) {
-    var _a, _b, _c, _d;
     const connection = resource.connection;
-    (_a = connection === null || connection === void 0 ? void 0 : connection.heartbeater) === null || _a === void 0 ? void 0 : _a.clear();
-    (_b = resource.heartbeater) === null || _b === void 0 ? void 0 : _b.clear();
-    (_c = connection === null || connection === void 0 ? void 0 : connection.stream) === null || _c === void 0 ? void 0 : _c.destroy();
-    (_d = resource.stream) === null || _d === void 0 ? void 0 : _d.destroy();
+    connection?.heartbeater?.clear();
+    resource.heartbeater?.clear();
+    connection?.stream?.destroy();
+    resource.stream?.destroy();
 }
 //# sourceMappingURL=rabbitmq-event.strategy.js.map

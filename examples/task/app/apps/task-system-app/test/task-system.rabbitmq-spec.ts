@@ -9,7 +9,7 @@ import { TaskEventsAuditStore } from "../src/tasks/events/task-events-audit.stor
 import {
   TASK_CREATED_EVENT,
   TASK_STATUS_CHANGED_EVENT,
-} from "@nestjs-yalc/task-system-module/src/events/tasks-events.client";
+} from "@nest-yalc-2/task-system-module/src/events/tasks-events.client";
 
 async function waitForRabbitMq(url: string) {
   let lastError: unknown;

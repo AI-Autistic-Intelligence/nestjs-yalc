@@ -6,12 +6,12 @@ import {
   IHttpCallStrategyResponse,
 } from './http-abstract-call.strategy.js';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { InjectOptions } from 'fastify';
-import { YalcGlobalClsService } from '@nestjs-yalc/app/cls.module.js';
+import { YalcGlobalClsService } from '@nest-yalc-2/app/cls.module.js';
 import { filterHeaders } from '../header-whitelist.helper.js';
-import { AppConfigService } from '@nestjs-yalc/app/app-config.service.js';
-import { MAIN_APP_CONFIG_SERVICE } from '@nestjs-yalc/app/def.const.js';
+import { AppConfigService } from '@nest-yalc-2/app/app-config.service.js';
+import { MAIN_APP_CONFIG_SERVICE } from '@nest-yalc-2/app/def.const.js';
 
 export type NestLocalCallStrategyOptions = IHttpCallStrategyOptions & {
   internalRequestHeader?: string;

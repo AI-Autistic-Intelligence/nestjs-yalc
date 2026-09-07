@@ -1,5 +1,5 @@
 import type { LogLevel } from '@nestjs/common';
-import type { LoggerTypeEnum } from '@nestjs-yalc/logger/logger.enum.js';
+import type { LoggerTypeEnum } from '@nest-yalc-2/logger/logger.enum.js';
 
 export interface IServiceConf {
   appName: string;

@@ -12,7 +12,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { LoggerService } from '@nestjs/common';
 import { ValidationExceptionFilter } from '../filters/validation-exception.filter.js';
 import { InputValidationError } from '../index.js';
-import { CrudGenError } from '@nestjs-yalc/crud-gen/crud-gen.error.js';
+import { CrudGenError } from '@nest-yalc-2/crud-gen/crud-gen.error.js';
 
 describe('ValidationExceptionFilter', () => {
   const logger = createMock<LoggerService>();

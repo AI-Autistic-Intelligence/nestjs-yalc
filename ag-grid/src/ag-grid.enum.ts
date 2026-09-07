@@ -1,5 +1,5 @@
-import { AnyFunction, ClassType } from '@nestjs-yalc/types';
-import { isClass } from '@nestjs-yalc/utils/class.helper';
+import { AnyFunction, ClassType } from '@nest-yalc-2/types';
+import { isClass } from '@nest-yalc-2/utils/class.helper';
 import { registerEnumType } from '@nestjs/graphql';
 import { getMappedTypeProperties } from './ag-grid-metadata.helper';
 

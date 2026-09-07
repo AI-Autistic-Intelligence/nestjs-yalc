@@ -1,27 +1,27 @@
-# @nestjs-yalc/types-extends
+# @nest-yalc-2/types-extends
 
 Additional ambient type extensions for applications that use the broader
 YALC runtime stack.
 
-This package extends `@nestjs-yalc/types` with global declarations for TypeORM
+This package extends `@nest-yalc-2/types` with global declarations for TypeORM
 migration registration and selected environment variables.
 
 ## Installation
 
 ```bash
-npm install --save-dev @nestjs-yalc/types-extends
+npm install --save-dev @nest-yalc-2/types-extends
 ```
 
 ## Main Exports
 
-- Re-exports from `@nestjs-yalc/types`.
+- Re-exports from `@nest-yalc-2/types`.
 - Global TypeORM migration class registries.
 - Environment variable declarations for logger and TypeORM options.
 
 ## Example
 
 ```ts
-import '@nestjs-yalc/types-extends';
+import '@nest-yalc-2/types-extends';
 
 globalThis.TypeORM_Migration_classes = {
   default: [CreateUsersTable],

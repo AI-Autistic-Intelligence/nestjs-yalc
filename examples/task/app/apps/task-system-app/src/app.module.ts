@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MutationJournalModule } from '@nestjs-yalc/audit';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar';
+import { MutationJournalModule } from '@nest-yalc-2/audit';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
 import {
   OmniCollectionEntity,
   OmniDocumentEntity,
@@ -11,11 +11,11 @@ import {
   OmniNamedEntity,
   OmniRecordEntity,
   OmniRelationEntity,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 import {
   ObservabilityModule,
   createObservabilityOptionsFromEnv,
-} from '@nestjs-yalc/observability';
+} from '@nest-yalc-2/observability';
 import { EventsModule } from './events/events.module';
 import {
   TaskEventRelationsResolver,

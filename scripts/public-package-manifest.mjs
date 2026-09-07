@@ -109,7 +109,7 @@ const getInternalDependencyNames = (pkg, blocks = dependencyBlocks) => {
   }
 
   return Array.from(dependencyNames).filter((dependencyName) =>
-    dependencyName.startsWith('@nestjs-yalc/'),
+    dependencyName.startsWith('@nest-yalc-2/'),
   );
 };
 
@@ -364,8 +364,8 @@ export const validateDistPackage = (pkgDir) => {
   const pkg = readJson(pkgPath);
   const errors = [];
 
-  if (!pkg.name?.startsWith('@nestjs-yalc/')) {
-    errors.push(`Package name must use the @nestjs-yalc scope: ${pkg.name}`);
+  if (!pkg.name?.startsWith('@nest-yalc-2/')) {
+    errors.push(`Package name must use the @nest-yalc-2 scope: ${pkg.name}`);
   }
 
   if (pkg.private) {

@@ -1,6 +1,6 @@
-import { EventModule } from '@nestjs-yalc/event-manager/event.module.js';
-import { LoggerServiceFactory } from '@nestjs-yalc/logger/index.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { EventModule } from '@nest-yalc-2/event-manager/event.module.js';
+import { LoggerServiceFactory } from '@nest-yalc-2/logger/index.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { DynamicModule, ModuleMetadata } from '@nestjs/common';
 import { ConfigFactory, ConfigObject, ConfigFactoryKeyHost } from '@nestjs/config';
 export interface ISingletonOption {

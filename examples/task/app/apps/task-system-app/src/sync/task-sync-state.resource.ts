@@ -2,13 +2,13 @@ import {
   createProjectionDialect,
   createProjectionGraphqlTypes,
   CrudGenResourceFactory,
-} from '@nestjs-yalc/crud-gen';
-import { getServiceToken } from '@nestjs-yalc/crud-gen/typeorm/generic.service';
+} from '@nest-yalc-2/crud-gen';
+import { getServiceToken } from '@nest-yalc-2/crud-gen/typeorm/generic.service';
 import {
   GQLDataLoader,
   getDataloaderToken,
   getFn,
-} from '@nestjs-yalc/data-loader';
+} from '@nest-yalc-2/data-loader';
 import { bindGeneratedDataloaderEventEmitter } from '../crudgen-provider-compat.js';
 import {
   TASK_SYNC_STATE_PROJECTION_DIALECT,

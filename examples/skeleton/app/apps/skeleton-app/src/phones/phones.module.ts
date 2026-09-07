@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SkeletonPhone } from '@nestjs-yalc/skeleton-module';
+import { SkeletonPhone } from '@nest-yalc-2/skeleton-module';
 import { PhonesController, phonesResourceProviders } from './phones.resource';
 
 @Module({

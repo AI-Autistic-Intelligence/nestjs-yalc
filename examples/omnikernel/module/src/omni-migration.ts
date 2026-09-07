@@ -3,7 +3,7 @@ import { Table, TableForeignKey, type TableOptions } from 'typeorm';
 import {
   createProjectionDialect,
   type ProjectionResourceDefinition,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import { OmniExternalRefEntity } from './base/omni-external-ref.entity.js';
 import { OmniNamedEntity } from './base/omni-named.entity.js';
 import { OmniRecordEntity } from './base/omni-record.entity.js';

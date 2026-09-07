@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildDbConfigObject = buildDbConfigObject;
-const env_helper_1 = require("@nestjs-yalc/utils/env.helper");
+const env_helper_1 = require("@nest-yalc-2/utils/env.helper");
 const conn_helper_1 = require("./conn.helper");
 function buildDbConfigObject({ dbName, entities, seeds, sourceDir, migrationsDir, extraMigrationDirs, connectionName, __seedAsync, }) {
     let connNameTemp = connectionName;
@@ -23,20 +23,37 @@ function buildDbConfigObject({ dbName, entities, seeds, sourceDir, migrationsDir
         if (extraMigrationDirs) {
             migrationDirs.push(...extraMigrationDirs);
         }
-        return Object.assign(Object.assign({}, _getDefaultDbConnectionConfig(dbName)), { name: connName, database: noSelDb ? undefined : dbName, entities: noSelDb ? undefined : entities, seeds, factories: sourceDir && canLoad
+        return {
+            ..._getDefaultDbConnectionConfig(dbName),
+            name: connName,
+            database: noSelDb ? undefined : dbName,
+            entities: noSelDb ? undefined : entities,
+            seeds,
+            factories: sourceDir && canLoad
                 ? [`${sourceDir}/**/*.factory.{ts,js}`]
-                : undefined, migrations: migrationDirs.length > 0 && canLoad ? migrationDirs : undefined, cli: {
+                : undefined,
+            migrations: migrationDirs.length > 0 && canLoad ? migrationDirs : undefined,
+            cli: {
                 migrationsDir: canLoad ? migrationsDir : undefined,
-            }, __seedAsync });
+            },
+            __seedAsync,
+        };
     };
     dbConfObj.connName = connName;
-    dbConfObj.dbName = dbName !== null && dbName !== void 0 ? dbName : connNameTemp;
+    dbConfObj.dbName = dbName ?? connNameTemp;
     return dbConfObj;
 }
 function _getDefaultDbConnectionConfig(dbName) {
     const { TYPEORM_SYNCHRONIZE, TYPEORM_LOGGING } = process.env;
     const dbConfigParams = _makeDbConfigParams(dbName);
-    return Object.assign(Object.assign({}, dbConfigParams), { type: 'mysql', supportBigNumbers: true, bigNumberStrings: false, synchronize: (0, env_helper_1.envIsTrue)(TYPEORM_SYNCHRONIZE || 'false'), logging: (0, env_helper_1.envIsTrue)(TYPEORM_LOGGING || 'false') });
+    return {
+        ...dbConfigParams,
+        type: 'mysql',
+        supportBigNumbers: true,
+        bigNumberStrings: false,
+        synchronize: (0, env_helper_1.envIsTrue)(TYPEORM_SYNCHRONIZE || 'false'),
+        logging: (0, env_helper_1.envIsTrue)(TYPEORM_LOGGING || 'false'),
+    };
 }
 function _makeDbConfigParams(dbName) {
     const { MYSQL_TOTAL_REPLICATION_NODES } = process.env;
@@ -52,7 +69,7 @@ function _makeSingleDbConfigParams(dbName) {
         : 'jest-db-disabled';
     const port = _getDbPort(MYSQL_PORT);
     const username = MYSQL_USER || 'root';
-    const password = MYSQL_PASSWORD !== null && MYSQL_PASSWORD !== void 0 ? MYSQL_PASSWORD : MYSQL_ROOT_PASSWORD;
+    const password = MYSQL_PASSWORD ?? MYSQL_ROOT_PASSWORD;
     let result = {
         host,
         port,
@@ -60,7 +77,10 @@ function _makeSingleDbConfigParams(dbName) {
         password,
     };
     if (dbName) {
-        result = Object.assign(Object.assign({}, result), { database: dbName });
+        result = {
+            ...result,
+            database: dbName,
+        };
     }
     return result;
 }
@@ -88,7 +108,10 @@ function _getSingleDbConfigParams(totalReplicaNodes, dbName) {
             password,
         };
         if (dbName) {
-            credentialsOptions = Object.assign(Object.assign({}, credentialsOptions), { database: dbName });
+            credentialsOptions = {
+                ...credentialsOptions,
+                database: dbName,
+            };
         }
         replicas.push(credentialsOptions);
     }

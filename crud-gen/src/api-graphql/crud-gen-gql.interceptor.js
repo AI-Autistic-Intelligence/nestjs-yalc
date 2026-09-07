@@ -21,15 +21,14 @@ function crudGenGqlInterceptorWorker(startRow, endRow) {
         const [page, count] = value;
         return {
             nodes: page,
-            pageData: { count, startRow: startRow !== null && startRow !== void 0 ? startRow : 0, endRow: endRow !== null && endRow !== void 0 ? endRow : count },
+            pageData: { count, startRow: startRow ?? 0, endRow: endRow ?? count },
         };
     };
 }
 let CrudGenGqlInterceptor = class CrudGenGqlInterceptor {
     intercept(context, next) {
-        var _a, _b;
         const gqlCtx = graphql_1.GqlExecutionContext.create(context);
-        const { startRow, endRow } = (_b = (_a = gqlCtx === null || gqlCtx === void 0 ? void 0 : gqlCtx.getArgs) === null || _a === void 0 ? void 0 : _a.call(gqlCtx)) !== null && _b !== void 0 ? _b : {};
+        const { startRow, endRow } = gqlCtx?.getArgs?.() ?? {};
         return next
             .handle()
             .pipe((0, operators_1.map)(crudGenGqlInterceptorWorker(startRow, endRow)));

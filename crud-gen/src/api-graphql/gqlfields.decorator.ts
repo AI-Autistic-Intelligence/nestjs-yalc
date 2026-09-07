@@ -3,13 +3,13 @@ import { GqlExecutionContext, ReturnTypeFuncValue } from '@nestjs/graphql';
 import {
   IFieldMapper,
   FieldMapperProperty,
-} from '@nestjs-yalc/interfaces/maps.interface.js';
+} from '@nest-yalc-2/interfaces/maps.interface.js';
 import {
   columnConversion,
   formatRawSelectionWithoutAlias,
   objectToFieldMapper,
-} from '@nestjs-yalc/crud-gen/crud-gen.helpers.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+} from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { removeSymbolicSelection } from '../typeorm/crud-gen-args.helpers.js';
 import { IModelFieldAndFilterMapper } from '../object.decorator.js';

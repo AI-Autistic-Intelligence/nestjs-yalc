@@ -1,0 +1,26 @@
+import { BadGatewayException, BadRequestException, ConflictException, ForbiddenException, GatewayTimeoutException, GoneException, HttpException, HttpStatus, InternalServerErrorException, MethodNotAllowedException, MisdirectedException, NotAcceptableException, NotFoundException, NotImplementedException, PayloadTooLargeException, PreconditionFailedException, RequestTimeoutException, ServiceUnavailableException, UnauthorizedException, UnprocessableEntityException, UnsupportedMediaTypeException } from '@nestjs/common';
+export declare const HttpStatusCodes: Record<string, any>;
+export type HttpStatusCodes = (typeof HttpStatusCodes)[keyof typeof HttpStatusCodes];
+export declare const getHttpStatusDescription: (status: HttpStatusCodes, fallbackDescription?: string) => string;
+export declare const httpExceptionStatusCodes: {
+    [BadRequestException.name]: HttpStatus;
+    [UnauthorizedException.name]: HttpStatus;
+    [ForbiddenException.name]: HttpStatus;
+    [NotFoundException.name]: HttpStatus;
+    [MethodNotAllowedException.name]: HttpStatus;
+    [NotAcceptableException.name]: HttpStatus;
+    [RequestTimeoutException.name]: HttpStatus;
+    [ConflictException.name]: HttpStatus;
+    [GoneException.name]: HttpStatus;
+    [PreconditionFailedException.name]: HttpStatus;
+    [PayloadTooLargeException.name]: HttpStatus;
+    [UnsupportedMediaTypeException.name]: HttpStatus;
+    [UnprocessableEntityException.name]: HttpStatus;
+    [InternalServerErrorException.name]: HttpStatus;
+    [NotImplementedException.name]: HttpStatus;
+    [BadGatewayException.name]: HttpStatus;
+    [ServiceUnavailableException.name]: HttpStatus;
+    [GatewayTimeoutException.name]: HttpStatus;
+    [HttpException.name]: HttpStatus;
+    [MisdirectedException.name]: HttpStatus;
+};

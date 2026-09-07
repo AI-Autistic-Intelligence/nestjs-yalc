@@ -1,4 +1,4 @@
-import type { IHttpCallStrategy } from '@nestjs-yalc/api-strategy';
+import type { IHttpCallStrategy } from '@nest-yalc-2/api-strategy';
 import type { TaskProjectCreateInput, TaskProjectType } from '../task-project.dto.js';
 import type { TaskItemCreateInput, TaskItemType, TaskItemUpdateInput } from '../task-item.dto.js';
 export declare const TASKS_CLIENT_API_STRATEGY = "TASKS_CLIENT_API_STRATEGY";

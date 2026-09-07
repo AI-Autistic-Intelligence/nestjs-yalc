@@ -1,13 +1,13 @@
 import { UseGuards } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { CrudGenResourceFactory } from '@nestjs-yalc/crud-gen';
-import { InputArgs } from '@nestjs-yalc/crud-gen/api-graphql/gqlmapper.decorator.js';
+import { CrudGenResourceFactory } from '@nest-yalc-2/crud-gen';
+import { InputArgs } from '@nest-yalc-2/crud-gen/api-graphql/gqlmapper.decorator.js';
 import {
   ExtraArgsStrategy,
   FilterType,
   GeneralFilters,
-} from '@nestjs-yalc/crud-gen/crud-gen.enum.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+} from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import {
   RoleAuth,
   RoleEnum,
@@ -17,7 +17,7 @@ import {
   skeletonUserServiceFactory,
   SkeletonUserType,
   SkeletonUserUpdateInput,
-} from '@nestjs-yalc/skeleton-module';
+} from '@nest-yalc-2/skeleton-module';
 import { bindGeneratedDataloaderEventEmitter } from '../crudgen-provider-compat.js';
 
 const skeletonUserServiceToken = 'SkeletonUserGenericService';

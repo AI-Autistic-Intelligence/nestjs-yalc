@@ -5,21 +5,21 @@ import {
   type Provider,
 } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { getProviderToken } from '@nestjs-yalc/crud-gen/crud-gen.helpers.js';
+import { getProviderToken } from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
 import {
   getServiceToken,
   type GenericService,
-} from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
-import { CGExtendedRepositoryFactory } from '@nestjs-yalc/crud-gen/typeorm/generic.repository.js';
+} from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
+import { CGExtendedRepositoryFactory } from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';
 import {
   GQLDataLoader,
   getDataloaderToken,
   getFn,
-} from '@nestjs-yalc/data-loader';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
+} from '@nest-yalc-2/data-loader';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import type { ObjectLiteral } from 'typeorm';
-import type { GenericTypeORMRepository } from '@nestjs-yalc/crud-gen/typeorm/generic.repository.js';
+import type { GenericTypeORMRepository } from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';
 import {
   OMNI_KERNEL_OPTIONS,
   OmniScopeContext,

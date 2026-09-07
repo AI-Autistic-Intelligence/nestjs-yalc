@@ -1,5 +1,5 @@
-import { QueryBuilderHelper } from '@nestjs-yalc/database/query-builder.helper';
-import { FieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
+import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper';
+import { FieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
 
 import { GraphQLResolveInfo } from 'graphql';
 import { Equal, ObjectLiteral, SelectQueryBuilder } from 'typeorm';

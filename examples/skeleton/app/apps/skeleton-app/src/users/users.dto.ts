@@ -2,7 +2,7 @@ import { IsEmail, MinLength } from 'class-validator';
 import {
   DateValidation,
   StringFormatMatchValidation,
-} from '@nestjs-yalc/field-middleware/validator.decorator.js';
+} from '@nest-yalc-2/field-middleware/validator.decorator.js';
 
 export class CreateUserDto {
   @StringFormatMatchValidation(undefined, {

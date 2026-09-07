@@ -1,6 +1,6 @@
 import { BaseEntity } from 'typeorm';
 import { createMock } from '@golevelup/ts-jest';
-import { AgGridRepository } from '@nestjs-yalc/ag-grid/ag-grid.repository';
+import { AgGridRepository } from '@nest-yalc-2/ag-grid/ag-grid.repository';
 import { AgGridField, AgGridObject } from '../object.decorator';
 import { JsonTransformer } from '../transformer.helper';
 

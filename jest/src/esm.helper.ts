@@ -49,6 +49,8 @@ export async function importMockedEsm(
 
   if (moduleSpecifier.startsWith('.')) {
     const metaPath = url.fileURLToPath(new URL('./', importMeta.url));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const thisMetaPath = url.fileURLToPath(new URL('./', import.meta.url));
     const absolutePath = path.join(metaPath, moduleSpecifier);
     modulePath = path.relative(thisMetaPath, absolutePath);

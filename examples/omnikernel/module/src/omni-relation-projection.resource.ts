@@ -8,15 +8,15 @@ import {
   ModelObject,
   getServiceToken,
   type ICrudGenResourceFactoryResult,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import {
   GQLDataLoader,
   getDataloaderToken,
   getFn,
-} from '@nestjs-yalc/data-loader';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar.js';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+} from '@nest-yalc-2/data-loader';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import { Exclude, Expose } from 'class-transformer';
 import { GraphQLJSON } from 'graphql-type-json';
 import type { DataSource, ObjectLiteral } from 'typeorm';

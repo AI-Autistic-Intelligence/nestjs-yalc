@@ -1,5 +1,5 @@
-import type { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
-import { GenericService } from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
+import type { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
 import type { DeepPartial, FindOptionsWhere, ObjectLiteral } from 'typeorm';
 import type { OmniDeletePolicy, OmniScope } from './omni-scope.js';
 type ScopedEntity = ObjectLiteral & {

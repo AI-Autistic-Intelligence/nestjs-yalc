@@ -4,8 +4,8 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
-import type { IEventPayload } from '@nestjs-yalc/event-manager/event.js';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import type { IEventPayload } from '@nest-yalc-2/event-manager/event.js';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { OBSERVABILITY_OPTIONS } from '../tokens.js';
 import type { NormalizedObservabilityOptions } from '../observability-options.js';
 import { TelemetryService } from '../telemetry.service.js';

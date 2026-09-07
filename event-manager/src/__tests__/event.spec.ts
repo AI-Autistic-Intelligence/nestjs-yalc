@@ -27,8 +27,8 @@ import {
 
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { createMock } from '@golevelup/ts-jest';
-import { DefaultError } from '@nestjs-yalc/errors/default.error.js';
-import { LogLevelEnum, type ImprovedNestLogger } from '@nestjs-yalc/logger';
+import { DefaultError } from '@nest-yalc-2/errors/default.error.js';
+import { LogLevelEnum, type ImprovedNestLogger } from '@nest-yalc-2/logger';
 import { HttpException } from '@nestjs/common';
 
 describe('Event Service', () => {

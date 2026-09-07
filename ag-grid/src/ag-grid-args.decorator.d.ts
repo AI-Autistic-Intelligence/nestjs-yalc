@@ -1,7 +1,7 @@
 import { ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { FindOperator } from 'typeorm';
-import { FieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
 import { AgQueryParams } from './ag-grid.args';
 import { FilterType } from './ag-grid.enum';
 import { AgGridFindManyOptions, DateFilterModel, FilterInput, FilterModel, CombinedWhereModel, CombinedSimpleModel, SimpleFilterModel, SetFilterModel, AgGridArgsOptions, AgGridArgsSingleOptions } from './ag-grid.interface';

@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { UsersApiClient } from '@nestjs-yalc/skeleton-module';
+import { UsersApiClient } from '@nest-yalc-2/skeleton-module';
 
 @Controller('users-client')
 export class UsersClientController {

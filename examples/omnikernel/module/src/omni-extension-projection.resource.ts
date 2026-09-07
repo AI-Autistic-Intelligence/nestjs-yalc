@@ -7,14 +7,14 @@ import {
   getServiceToken,
   type ICrudGenResourceFactoryResult,
   type ProjectionGraphqlTypes,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import {
   GQLDataLoader,
   getDataloaderToken,
   getFn,
-} from '@nestjs-yalc/data-loader';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
+} from '@nest-yalc-2/data-loader';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import type { DataSource, EntityTarget, ObjectLiteral } from 'typeorm';
 import { OmniRecordEntity } from './base/omni-record.entity.js';
 import type { OmniExtensionProjectionDefinition } from './omni-extension-projection.definition.js';

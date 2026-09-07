@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserMetaDto = exports.UpdateUserDto = exports.CreateUserDto = void 0;
 const class_validator_1 = require("class-validator");
-const validator_decorator_js_1 = require("@nestjs-yalc/field-middleware/validator.decorator.js");
+const validator_decorator_js_1 = require("@nest-yalc-2/field-middleware/validator.decorator.js");
 class CreateUserDto {
 }
 exports.CreateUserDto = CreateUserDto;

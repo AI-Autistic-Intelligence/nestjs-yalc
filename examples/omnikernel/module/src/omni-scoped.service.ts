@@ -1,8 +1,8 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import type { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
-import type { IWhereCondition } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.type.js';
-import { Operators } from '@nestjs-yalc/crud-gen/crud-gen.enum.js';
-import { GenericService } from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
+import type { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import type { IWhereCondition } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.type.js';
+import { Operators } from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
+import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
 import type { DeepPartial, FindOptionsWhere, ObjectLiteral } from 'typeorm';
 import { IsNull } from 'typeorm';
 import type { OmniDeletePolicy, OmniScope } from './omni-scope.js';

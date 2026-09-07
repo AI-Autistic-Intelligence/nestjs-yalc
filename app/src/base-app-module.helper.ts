@@ -16,7 +16,7 @@ import {
 } from './def.const.js';
 import { LifeCycleHandler } from './life-cycle-handler.service.js';
 import { DynamicModule, Global, Logger, Module } from '@nestjs/common';
-import { LoggerServiceFactory } from '@nestjs-yalc/logger/logger.service.js';
+import { LoggerServiceFactory } from '@nest-yalc-2/logger/logger.service.js';
 import {
   AppConfigService,
   createAppConfigProvider,
@@ -28,13 +28,13 @@ import { AppContextModule } from './app-context.module.js';
 import { NODE_ENV } from './global.enum.js';
 import { ConfigModule, ConfigService, registerAs } from '@nestjs/config';
 import Joi from 'joi';
-import { EventModule } from '@nestjs-yalc/event-manager/index.js';
+import { EventModule } from '@nest-yalc-2/event-manager/index.js';
 import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
 import { YalcClsModule } from './cls.module.js';
 import { IYalcControllerStaticInterface } from './yalc-controller.interface.js';
 import * as _ from 'lodash-es';
 import { IGlobalOptions } from './app-bootstrap-base.helper.js';
-import { getEnvLoggerLevels } from '@nestjs-yalc/logger/logger.helper.js';
+import { getEnvLoggerLevels } from '@nest-yalc-2/logger/logger.helper.js';
 
 const singletonDynamicModules = new Map<any, any>();
 

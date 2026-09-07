@@ -11,6 +11,8 @@ const repoRoot = path.resolve(
 fs.rmSync(path.join(repoRoot, 'var', 'dist'), {
   recursive: true,
   force: true,
+  maxRetries: 10,
+  retryDelay: 100,
 });
 
 cleanLocalPackageDists();

@@ -28,7 +28,7 @@ class OmniRelationService extends omni_scoped_service_js_1.OmniScopedService {
         });
         if (!current)
             this.notFound();
-        await this.assertRelation(Object.assign(Object.assign({}, current), input));
+        await this.assertRelation({ ...current, ...input });
         return super.updateEntity(conditions, input, findOptions, returnEntity);
     }
     async assertRelation(input, recordRepository = this.recordRepository) {

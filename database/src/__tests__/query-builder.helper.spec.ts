@@ -9,7 +9,7 @@ import {
 import { QueryBuilderHelper, ReplicationMode } from '../query-builder.helper';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { PostgresDriver } from 'typeorm/driver/postgres/PostgresDriver';
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
 
 const dummyFieldMap: IFieldMapper = {
   tag: { dst: 'tag' },

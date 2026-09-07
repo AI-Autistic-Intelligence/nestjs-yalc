@@ -16,7 +16,7 @@ import {
 import {
   CrudGenArgs,
   CrudGenArgsSingle,
-} from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-args-gql.decorator.js';
+} from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-args-gql.decorator.js';
 
 import {
   applyDecorators,
@@ -25,26 +25,26 @@ import {
   type InjectionToken,
   UseInterceptors,
 } from '@nestjs/common';
-import { CrudGenGqlInterceptor } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interceptor.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+import { CrudGenGqlInterceptor } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interceptor.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import {
   IExtraArg,
   CrudGenFindManyOptions,
   IIDArg,
-} from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
+} from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import {
   GenericService,
   getServiceToken,
-} from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
-import { IDecoratorType, IFieldMapper } from '@nestjs-yalc/interfaces';
+} from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
+import { IDecoratorType, IFieldMapper } from '@nest-yalc-2/interfaces';
 import CrudGenGqlType from './crud-gen-gql.type.js';
 import {
   getDataloaderToken,
   GQLDataLoader,
-} from '@nestjs-yalc/data-loader/dataloader.helper.js';
+} from '@nest-yalc-2/data-loader/dataloader.helper.js';
 import { ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { Mutation } from '@nestjs/graphql';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import {
   filterTypeToNativeType,
   getEntityRelations,
@@ -54,9 +54,9 @@ import { getModelFieldMetadataList } from '../object.decorator.js';
 import { CrudGenError } from '../crud-gen.error.js';
 import { ExtraArgsStrategy } from '../crud-gen.enum.js';
 import { ICrudGenParams } from '../crud-gen.args.js';
-import { InputArgs } from '@nestjs-yalc/crud-gen/api-graphql/gqlmapper.decorator.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
-import { GetContext } from '@nestjs-yalc/utils/nestjs/nest.decorator.js';
+import { InputArgs } from '@nest-yalc-2/crud-gen/api-graphql/gqlmapper.decorator.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
+import { GetContext } from '@nest-yalc-2/utils/nestjs/nest.decorator.js';
 export interface IGenericResolver {
   [index: string]: any; //index signature
 }

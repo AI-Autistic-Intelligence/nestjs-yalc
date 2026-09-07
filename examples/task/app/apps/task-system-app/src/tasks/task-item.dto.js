@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskItemUpdateInput = exports.TaskItemCondition = exports.TaskItemCreateInput = exports.TaskItemType = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const object_decorator_1 = require("@nestjs-yalc/crud-gen/object.decorator");
-const uuid_scalar_1 = require("@nestjs-yalc/graphql/scalars/uuid.scalar");
-const returnValue_1 = __importDefault(require("@nestjs-yalc/utils/returnValue"));
-const task_item_entity_1 = require("@nestjs-yalc/task-system-module/src/task-item.entity");
-const task_project_entity_1 = require("@nestjs-yalc/task-system-module/src/task-project.entity");
+const object_decorator_1 = require("@nest-yalc-2/crud-gen/object.decorator");
+const uuid_scalar_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar");
+const returnValue_1 = __importDefault(require("@nest-yalc-2/utils/returnValue"));
+const task_item_entity_1 = require("@nest-yalc-2/task-system-module/src/task-item.entity");
+const task_project_entity_1 = require("@nest-yalc-2/task-system-module/src/task-project.entity");
 const task_project_dto_1 = require("../projects/task-project.dto");
 let TaskItemType = class TaskItemType extends task_item_entity_1.TaskItem {
     constructor(data) {

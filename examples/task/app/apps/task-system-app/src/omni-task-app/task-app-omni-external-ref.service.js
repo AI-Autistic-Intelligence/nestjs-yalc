@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskAppOmniExternalRefService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const event_manager_1 = require("@nestjs-yalc/event-manager");
-const omnikernel_module_1 = require("@nestjs-yalc/omnikernel-module");
+const event_manager_1 = require("@nest-yalc-2/event-manager");
+const omnikernel_module_1 = require("@nest-yalc-2/omnikernel-module");
 const typeorm_2 = require("typeorm");
 const task_app_omni_mapper_1 = require("./task-app-omni.mapper");
 let TaskAppOmniExternalRefService = class TaskAppOmniExternalRefService {

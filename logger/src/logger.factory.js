@@ -42,7 +42,6 @@ const logger_nest_service_js_1 = require("./logger-nest.service.js");
 const _ = __importStar(require("lodash-es"));
 const logger_helper_js_1 = require("./logger.helper.js");
 exports.AppLoggerFactory = _.memoize((context, loggerLevels = logger_enum_js_1.LOG_LEVEL_DEFAULT, loggerType, options) => {
-    var _a, _b;
     let logger;
     switch (loggerType) {
         case logger_enum_js_1.LoggerTypeEnum.CONSOLE:
@@ -56,11 +55,12 @@ exports.AppLoggerFactory = _.memoize((context, loggerLevels = logger_enum_js_1.L
             logger = new logger_nest_service_js_1.ImprovedNestLogger(context, {
                 timestamp: true,
             }, options);
-            (_a = logger.setLogLevels) === null || _a === void 0 ? void 0 : _a.call(logger, loggerLevels);
+            logger.setLogLevels?.(loggerLevels);
             break;
     }
     common_1.Logger.overrideLogger((0, logger_helper_js_1.getEnvLoggerLevels)());
-    (_b = common_1.Logger.debug) === null || _b === void 0 ? void 0 : _b.call(common_1.Logger, `Use Logger: ${loggerType !== null && loggerType !== void 0 ? loggerType : `not specified, fallback to default (${logger_enum_js_1.LoggerTypeEnum.NEST})`}`);
+    common_1.Logger.debug?.(`Use Logger: ${loggerType ??
+        `not specified, fallback to default (${logger_enum_js_1.LoggerTypeEnum.NEST})`}`);
     return logger;
-}, (context, loggerLevels, loggerType, options) => `${context}-${loggerLevels === null || loggerLevels === void 0 ? void 0 : loggerLevels.join('-')}-${loggerType}-${options}`);
+}, (context, loggerLevels, loggerType, options) => `${context}-${loggerLevels?.join('-')}-${loggerType}-${options}`);
 //# sourceMappingURL=logger.factory.js.map

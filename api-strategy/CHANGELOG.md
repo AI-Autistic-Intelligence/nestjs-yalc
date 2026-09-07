@@ -1,4 +1,4 @@
-# @nestjs-yalc/api-strategy
+# @nest-yalc-2/api-strategy
 
 ## 1.3.3
 

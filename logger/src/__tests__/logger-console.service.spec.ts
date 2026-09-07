@@ -14,7 +14,7 @@ import { type ConsoleLogger as TConsoleLogger } from '../logger-console.service.
  * Not sure why this is needed, but it is. Jest has reference errors when try to import the logger-console.service.js file
  * probably still caused by the ESM
  */
-jest.unstable_mockModule('@nestjs-yalc/logger/logger.factory.js', async () => {
+jest.unstable_mockModule('@nest-yalc-2/logger/logger.factory.js', async () => {
   return {
     AppLoggerFactory: jest.fn(),
   };

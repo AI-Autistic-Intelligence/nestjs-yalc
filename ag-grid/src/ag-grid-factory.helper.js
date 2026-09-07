@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isProviderOverride = isProviderOverride;
 exports.AgGridDependencyFactory = AgGridDependencyFactory;
 exports.getProviderToken = getProviderToken;
-const dataloader_helper_1 = require("@nestjs-yalc/data-loader/dataloader.helper");
+const dataloader_helper_1 = require("@nest-yalc-2/data-loader/dataloader.helper");
 const ag_grid_repository_1 = require("./ag-grid.repository");
 const generic_resolver_resolver_1 = require("./generic-resolver.resolver");
 const generic_service_service_1 = require("./generic-service.service");
@@ -12,9 +12,11 @@ function isProviderOverride(resolver) {
     return !!casted.provider;
 }
 function AgGridDependencyFactory({ entityModel, dataloader, resolver, service, repository, }) {
-    var _a, _b, _c;
     const providers = [];
-    const resolverOptions = Object.assign(Object.assign({}, (resolver !== null && resolver !== void 0 ? resolver : {})), { entityModel });
+    const resolverOptions = {
+        ...(resolver ?? {}),
+        entityModel,
+    };
     let dataLoaderToken, serviceToken;
     if (service) {
         if (isProviderOverride(service)) {
@@ -22,7 +24,7 @@ function AgGridDependencyFactory({ entityModel, dataloader, resolver, service, r
             providers.push(service.provider);
         }
         else {
-            const provider = (0, generic_service_service_1.GenericServiceFactory)((_a = service.entityModel) !== null && _a !== void 0 ? _a : entityModel, service.dbConnection, service.providerClass);
+            const provider = (0, generic_service_service_1.GenericServiceFactory)(service.entityModel ?? entityModel, service.dbConnection, service.providerClass);
             serviceToken = getProviderToken(provider.provide);
             providers.push(provider);
             if (typeof provider.provide !== 'string') {
@@ -39,8 +41,8 @@ function AgGridDependencyFactory({ entityModel, dataloader, resolver, service, r
             providers.push(dataloader.provider);
         }
         else {
-            dataLoaderToken = (0, dataloader_helper_1.getDataloaderToken)((_b = dataloader.entityModel) !== null && _b !== void 0 ? _b : entityModel);
-            providers.push((0, dataloader_helper_1.DataLoaderFactory)(dataloader.databaseKey, (_c = dataloader.entityModel) !== null && _c !== void 0 ? _c : entityModel, serviceToken));
+            dataLoaderToken = (0, dataloader_helper_1.getDataloaderToken)(dataloader.entityModel ?? entityModel);
+            providers.push((0, dataloader_helper_1.DataLoaderFactory)(dataloader.databaseKey, dataloader.entityModel ?? entityModel, serviceToken));
         }
     }
     if (resolver !== false) {
@@ -54,7 +56,7 @@ function AgGridDependencyFactory({ entityModel, dataloader, resolver, service, r
     }
     return {
         providers,
-        repository: repository !== null && repository !== void 0 ? repository : (0, ag_grid_repository_1.AgGridRepositoryFactory)(entityModel),
+        repository: repository ?? (0, ag_grid_repository_1.AgGridRepositoryFactory)(entityModel),
     };
 }
 function getProviderToken(entity) {

@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { EventModule } from '@nestjs-yalc/event-manager';
+import { EventModule } from '@nest-yalc-2/event-manager';
 
 @Global()
 @Module({

@@ -8,7 +8,7 @@ import {
   getProjectionUniqueConstraintColumnNames,
   type ProjectionDialect,
   type ProjectionResourceDefinition,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import {
   Column,
   Entity,

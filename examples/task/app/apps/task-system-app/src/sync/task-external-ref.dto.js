@@ -14,10 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskExternalRefUpdateInput = exports.TaskExternalRefCondition = exports.TaskExternalRefCreateInput = exports.TaskExternalRefType = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const object_decorator_1 = require("@nestjs-yalc/crud-gen/object.decorator");
-const uuid_scalar_1 = require("@nestjs-yalc/graphql/scalars/uuid.scalar");
-const returnValue_1 = __importDefault(require("@nestjs-yalc/utils/returnValue"));
-const task_external_ref_entity_1 = require("@nestjs-yalc/task-system-module/src/task-external-ref.entity");
+const object_decorator_1 = require("@nest-yalc-2/crud-gen/object.decorator");
+const uuid_scalar_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar");
+const returnValue_1 = __importDefault(require("@nest-yalc-2/utils/returnValue"));
+const task_external_ref_entity_1 = require("@nest-yalc-2/task-system-module/src/task-external-ref.entity");
 let TaskExternalRefType = class TaskExternalRefType extends task_external_ref_entity_1.TaskExternalRef {
     constructor(data) {
         super();

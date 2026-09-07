@@ -1,4 +1,4 @@
-import { envIsTrue } from '@nestjs-yalc/utils/env.helper';
+import { envIsTrue } from '@nest-yalc-2/utils/env.helper';
 import { EntitySchema } from 'typeorm';
 import { Seeder } from 'typeorm-seeding';
 import { DbConfObject } from './conf.interface';

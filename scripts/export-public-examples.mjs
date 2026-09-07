@@ -25,12 +25,12 @@ const examples = [
   {
     name: 'skeleton',
     source: path.join(repoRoot, 'examples', 'skeleton'),
-    localPackages: new Map([['@nestjs-yalc/skeleton-module', 'file:../module']]),
+    localPackages: new Map([['@nest-yalc-2/skeleton-module', 'file:../module']]),
   },
   {
     name: 'omnikernel',
     source: path.join(repoRoot, 'examples', 'omnikernel'),
-    localPackages: new Map([['@nestjs-yalc/omnikernel-module', 'file:../module']]),
+    localPackages: new Map([['@nest-yalc-2/omnikernel-module', 'file:../module']]),
   },
   {
     name: 'task',
@@ -42,8 +42,8 @@ const examples = [
       },
     ],
     localPackages: new Map([
-      ['@nestjs-yalc/task-system-module', 'file:../module'],
-      ['@nestjs-yalc/omnikernel-module', 'file:../omnikernel-module'],
+      ['@nest-yalc-2/task-system-module', 'file:../module'],
+      ['@nest-yalc-2/omnikernel-module', 'file:../omnikernel-module'],
     ]),
   },
 ];
@@ -150,7 +150,7 @@ function rewriteJestConfigs(rootDir, localPackages) {
       config.moduleNameMapper,
     )) {
       if (
-        pattern.startsWith('^@nestjs-yalc/') ||
+        pattern.startsWith('^@nest-yalc-2/') ||
         pattern === '^@nestjs/(.*)$' ||
         pattern === '^typeorm$' ||
         pattern === '^p-map$' ||
@@ -165,12 +165,12 @@ function rewriteJestConfigs(rootDir, localPackages) {
 
     mapper['^@nestjs/(.*)$'] = '<rootDir>/../../../../node_modules/@nestjs/$1';
     mapper['^typeorm$'] = '<rootDir>/../../../../node_modules/typeorm';
-    mapper['^@nestjs-yalc/([^/]+)/(.+?)\\.js$'] =
-      '<rootDir>/../../../../node_modules/@nestjs-yalc/$1/src/$2';
-    mapper['^@nestjs-yalc/([^/]+)/(.*)$'] =
-      '<rootDir>/../../../../node_modules/@nestjs-yalc/$1/src/$2';
-    mapper['^@nestjs-yalc/([^/]+)$'] =
-      '<rootDir>/../../../../node_modules/@nestjs-yalc/$1/src';
+    mapper['^@nest-yalc-2/([^/]+)/(.+?)\\.js$'] =
+      '<rootDir>/../../../../node_modules/@nest-yalc-2/$1/src/$2';
+    mapper['^@nest-yalc-2/([^/]+)/(.*)$'] =
+      '<rootDir>/../../../../node_modules/@nest-yalc-2/$1/src/$2';
+    mapper['^@nest-yalc-2/([^/]+)$'] =
+      '<rootDir>/../../../../node_modules/@nest-yalc-2/$1/src';
 
     if (config.moduleNameMapper['^(\\.{1,2}/.*)\\.js$']) {
       mapper['^(\\.{1,2}/.*)\\.js$'] =

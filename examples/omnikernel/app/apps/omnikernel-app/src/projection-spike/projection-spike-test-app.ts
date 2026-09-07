@@ -5,7 +5,7 @@ import { type DataSource } from 'typeorm';
 import {
   applyProjectionIndexesForBootstrap,
   type ProjectionDialect,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import { projectionRecordDefinition } from './projection-spike.definition';
 import {
   PROJECTION_SPIKE_DIALECT,

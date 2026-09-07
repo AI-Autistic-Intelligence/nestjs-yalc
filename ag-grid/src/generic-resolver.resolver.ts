@@ -6,12 +6,12 @@ import { Resolver } from '@nestjs/graphql';
 import {
   GenericService,
   getServiceToken,
-} from '@nestjs-yalc/ag-grid/generic-service.service';
+} from '@nest-yalc-2/ag-grid/generic-service.service';
 import {
   getDataloaderToken,
   GQLDataLoader,
-} from '@nestjs-yalc/data-loader/dataloader.helper';
-import returnValue from '@nestjs-yalc/utils/returnValue';
+} from '@nest-yalc-2/data-loader/dataloader.helper';
+import returnValue from '@nest-yalc-2/utils/returnValue';
 import { Inject } from '@nestjs/common';
 import { ContextId, ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { ObjectLiteral } from 'typeorm';

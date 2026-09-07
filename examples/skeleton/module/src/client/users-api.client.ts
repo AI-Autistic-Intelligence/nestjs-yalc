@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { IHttpCallStrategy } from '@nestjs-yalc/api-strategy';
+import type { IHttpCallStrategy } from '@nest-yalc-2/api-strategy';
 import type {
   SkeletonPhoneCreateInput,
   SkeletonPhoneType,

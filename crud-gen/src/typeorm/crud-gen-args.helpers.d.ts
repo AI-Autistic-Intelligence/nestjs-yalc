@@ -1,4 +1,4 @@
-import { IFieldMapper } from '@nestjs-yalc/interfaces';
+import { IFieldMapper } from '@nest-yalc-2/interfaces';
 import { FindOperator, ObjectLiteral, FindOptionsOrder } from 'typeorm';
 import { FilterType } from '../crud-gen.enum.js';
 import { FilterModel, ICombinedSimpleModel, ICombinedWhereModel, ISimpleFilterModel, DateFilterModel, ISetFilterModel, FilterInput, CrudGenFindManyOptions, ICrudGenBaseParams, ICrudGenArgsOptions, ISortModelStrict } from '../api-graphql/crud-gen-gql.interface.js';

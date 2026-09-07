@@ -23,11 +23,11 @@ const gqlfields_decorator_js_1 = require("./gqlfields.decorator.js");
 const ag_grid_args_1 = require("./ag-grid.args");
 const ag_grid_enum_1 = require("./ag-grid.enum");
 const ag_grid_error_1 = require("./ag-grid.error");
-const date_helper_1 = require("@nestjs-yalc/utils/date.helper");
+const date_helper_1 = require("@nest-yalc-2/utils/date.helper");
 const ag_grid_input_1 = require("./ag-grid.input");
-const returnValue_1 = __importDefault(require("@nestjs-yalc/utils/returnValue"));
+const returnValue_1 = __importDefault(require("@nest-yalc-2/utils/returnValue"));
 const object_decorator_1 = require("./object.decorator");
-const missing_arguments_error_1 = require("@nestjs-yalc/ag-grid/missing-arguments.error");
+const missing_arguments_error_1 = require("@nest-yalc-2/ag-grid/missing-arguments.error");
 const ag_grid_type_checker_utils_1 = require("./ag-grid-type-checker.utils");
 const ag_grid_query_helper_1 = require("./ag-grid-query.helper");
 const ag_grid_metadata_helper_1 = require("./ag-grid-metadata.helper");
@@ -82,7 +82,7 @@ function getDateFilter(filter, firstParameter, secondParameter) {
             return (0, typeorm_1.Between)(firstParameter, secondParameter);
         case ag_grid_enum_1.GeneralFilters.INDATE.toLowerCase():
             const dateFrom = new Date(firstParameter).setHours(0, 0, 0, 0);
-            const dateTo = new Date(secondParameter !== null && secondParameter !== void 0 ? secondParameter : firstParameter).setHours(23, 59, 59, 999);
+            const dateTo = new Date(secondParameter ?? firstParameter).setHours(23, 59, 59, 999);
             return (0, typeorm_1.Between)(date_helper_1.DateHelper.dateToSQLDateTime(new Date(dateFrom)), date_helper_1.DateHelper.dateToSQLDateTime(new Date(dateTo)));
         default:
             throw new ag_grid_error_1.AgGridFilterNotSupportedError(`filter: ${filter} type: DATE`);
@@ -108,7 +108,7 @@ function filterSwitch(filter, filterName) {
     if (arg1 === undefined) {
         throw new ag_grid_error_1.AgGridInvalidArgumentError();
     }
-    filterName = filterName !== null && filterName !== void 0 ? filterName : filter.type;
+    filterName = filterName ?? filter.type;
     return getFindOperator(filter.filterType, filterName, arg1, arg2);
 }
 function getFindOperator(filterType, filterName, arg1, arg2) {
@@ -167,7 +167,6 @@ function resolveFilter(filter) {
     return filterToApply;
 }
 function createWhere(filtersObject, fieldMapper, alias, where = { filters: {} }) {
-    var _a;
     if (!filtersObject) {
         return where;
     }
@@ -185,11 +184,15 @@ function createWhere(filtersObject, fieldMapper, alias, where = { filters: {} })
                 throw new Error('Expression not found! It should never happen');
             const dbFieldName = (0, ag_grid_metadata_helper_1.columnConversion)(expr.field, fieldMapper);
             const filterName = `${prefix}${dbFieldName}`;
-            filtersObjectCleared.push(Object.assign(Object.assign({}, expr), { field: filterName, filterType: exprType }));
+            filtersObjectCleared.push({
+                ...expr,
+                field: filterName,
+                filterType: exprType,
+            });
         });
     }
     where.operator = filtersObject.operator;
-    const childExpressions = (_a = where.childExpressions) !== null && _a !== void 0 ? _a : [];
+    const childExpressions = where.childExpressions ?? [];
     for (const expr of filtersObjectCleared) {
         const key = expr.field;
         if ((0, ag_grid_type_checker_utils_1.isFilterModel)(expr) || (0, ag_grid_type_checker_utils_1.isCombinedFilterModel)(expr)) {
@@ -232,17 +235,16 @@ function checkFilterScope(where, filterOption) {
     }
 }
 function mapAgGridParams(params, ctx, args, info) {
-    var _a, _b, _c, _d, _e, _f, _g;
     let filterOption;
     let fieldMapper = {};
-    const fieldType = (_b = (_a = params === null || params === void 0 ? void 0 : params.fieldType) !== null && _a !== void 0 ? _a : params === null || params === void 0 ? void 0 : params.fieldMap) !== null && _b !== void 0 ? _b : params === null || params === void 0 ? void 0 : params.entityType;
+    const fieldType = params?.fieldType ?? params?.fieldMap ?? params?.entityType;
     if (fieldType) {
         const fieldMapperAndFilter = (0, ag_grid_metadata_helper_1.objectToFieldMapper)(fieldType);
         filterOption = fieldMapperAndFilter.filterOption;
         fieldMapper = fieldMapperAndFilter.field;
     }
-    const defaultSorting = (_c = params === null || params === void 0 ? void 0 : params.defaultValue) === null || _c === void 0 ? void 0 : _c.sorting;
-    const { keys, keysMeta } = (0, gqlfields_decorator_js_1.GqlAgGridFieldsMapper)(fieldType !== null && fieldType !== void 0 ? fieldType : {}, ctx.getInfo());
+    const defaultSorting = params?.defaultValue?.sorting;
+    const { keys, keysMeta } = (0, gqlfields_decorator_js_1.GqlAgGridFieldsMapper)(fieldType ?? {}, ctx.getInfo());
     let where = args.filters
         ? createWhere(args.filters, fieldMapper)
         : { filters: {} };
@@ -250,18 +252,17 @@ function mapAgGridParams(params, ctx, args, info) {
         checkFilterScope(where, filterOption);
     }
     const order = {};
-    const sorting = (_d = args.sorting) !== null && _d !== void 0 ? _d : defaultSorting;
+    const sorting = args.sorting ?? defaultSorting;
     if (sorting) {
         sorting.forEach((sortParams) => {
-            var _a, _b;
             const colName = (0, ag_grid_metadata_helper_1.columnConversion)(String(sortParams.colId), fieldMapper);
-            const val = (_a = sortParams.sort) === null || _a === void 0 ? void 0 : _a.toUpperCase();
-            const sortDir = (_b = val) !== null && _b !== void 0 ? _b : 'ASC';
+            const val = sortParams.sort?.toUpperCase();
+            const sortDir = val ?? 'ASC';
             order[colName] = sortDir;
         });
     }
-    const maxRow = (_f = (_e = params === null || params === void 0 ? void 0 : params.options) === null || _e === void 0 ? void 0 : _e.maxRow) !== null && _f !== void 0 ? _f : ag_grid_enum_1.RowDefaultValues.MAX_ROW;
-    const skip = (_g = args.startRow) !== null && _g !== void 0 ? _g : ag_grid_enum_1.RowDefaultValues.START_ROW;
+    const maxRow = params?.options?.maxRow ?? ag_grid_enum_1.RowDefaultValues.MAX_ROW;
+    const skip = args.startRow ?? ag_grid_enum_1.RowDefaultValues.START_ROW;
     const checkMaxRow = (requestRow) => {
         if (maxRow === 0 || requestRow < maxRow) {
             return requestRow;
@@ -273,7 +274,7 @@ function mapAgGridParams(params, ctx, args, info) {
     const take = args.endRow && checkMaxRow(args.endRow - skip);
     const skipCount = !(0, ag_grid_query_helper_1.isAskingForCount)(ctx.getInfo());
     const extraParameter = {};
-    if (params === null || params === void 0 ? void 0 : params.extraArgs) {
+    if (params?.extraArgs) {
         const extraArgsKeys = Object.keys(params.extraArgs);
         switch (params.extraArgsStrategy) {
             case ag_grid_enum_1.ExtraArgsStrategy.AT_LEAST_ONE:
@@ -321,7 +322,7 @@ function mapAgGridParams(params, ctx, args, info) {
             _keysMeta: keysMeta,
         },
     };
-    if ((params === null || params === void 0 ? void 0 : params.entityType) && args.join) {
+    if (params?.entityType && args.join) {
         (0, ag_grid_query_helper_1.applyJoinArguments)(findManyOptions, params.entityType.name, args.join, fieldMapper);
     }
     return findManyOptions;
@@ -334,13 +335,12 @@ const AgGridArgsFactory = (data, ctx) => {
 exports.AgGridArgsFactory = AgGridArgsFactory;
 exports.AgGridArgsMapper = (0, common_1.createParamDecorator)(exports.AgGridArgsFactory);
 const AgGridCombineDecorators = (params) => {
-    var _a, _b;
     const argDecorators = [];
     if (params.extraArgs) {
         for (const argName of Object.keys(params.extraArgs)) {
             if (params.extraArgs[argName].hidden)
                 continue;
-            argDecorators.push((0, graphql_1.Args)(argName, (_a = params.extraArgs[argName].options) !== null && _a !== void 0 ? _a : {}));
+            argDecorators.push((0, graphql_1.Args)(argName, params.extraArgs[argName].options ?? {}));
         }
     }
     let joinArg;
@@ -353,7 +353,7 @@ const AgGridCombineDecorators = (params) => {
             });
         }
     }
-    const args = (0, graphql_1.Args)((_b = params.gql) !== null && _b !== void 0 ? _b : {});
+    const args = (0, graphql_1.Args)(params.gql ?? {});
     const mapper = (0, exports.AgGridArgsMapper)(params);
     return function (target, key, index) {
         args(target, key, index);
@@ -364,8 +364,7 @@ const AgGridCombineDecorators = (params) => {
 };
 exports.AgGridCombineDecorators = AgGridCombineDecorators;
 const AgGridArgs = (params) => {
-    var _a;
-    const gqlOptions = (_a = params.gql) !== null && _a !== void 0 ? _a : {};
+    const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
         gqlOptions.type = (0, returnValue_1.default)((0, ag_grid_args_1.agQueryParamsFactory)(params.defaultValue, params.entityType));
     }
@@ -374,8 +373,7 @@ const AgGridArgs = (params) => {
 };
 exports.AgGridArgs = AgGridArgs;
 const AgGridArgsNoPagination = (params) => {
-    var _a;
-    const gqlOptions = (_a = params.gql) !== null && _a !== void 0 ? _a : {};
+    const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
         gqlOptions.type = (0, returnValue_1.default)((0, ag_grid_args_1.agQueryParamsNoPaginationFactory)(params.defaultValue, params.entityType));
     }
@@ -384,10 +382,9 @@ const AgGridArgsNoPagination = (params) => {
 };
 exports.AgGridArgsNoPagination = AgGridArgsNoPagination;
 function AgGridArgsSingleDecoratorMapper(params, args, info) {
-    var _a;
     const findManyOptions = {};
     if (params) {
-        const fieldType = (_a = params.fieldType) !== null && _a !== void 0 ? _a : params.entityType;
+        const fieldType = params.fieldType ?? params.entityType;
         if (fieldType) {
             const fieldMapper = (0, ag_grid_metadata_helper_1.objectToFieldMapper)(fieldType);
             const { keys, keysMeta } = (0, gqlfields_decorator_js_1.GqlAgGridFieldsMapper)(fieldType, info);

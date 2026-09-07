@@ -17,7 +17,11 @@ exports.parseMutationJournalRow = parseMutationJournalRow;
 const common_1 = require("@nestjs/common");
 const mutation_journal_service_js_1 = require("./mutation-journal.service.js");
 function parseMutationJournalRow(row) {
-    return Object.assign(Object.assign({}, row), { old: row.oldRow === null ? null : JSON.parse(row.oldRow), new: row.newRow === null ? null : JSON.parse(row.newRow) });
+    return {
+        ...row,
+        old: row.oldRow === null ? null : JSON.parse(row.oldRow),
+        new: row.newRow === null ? null : JSON.parse(row.newRow),
+    };
 }
 let MutationJournalQueryService = class MutationJournalQueryService {
     constructor(mutationJournalService) {

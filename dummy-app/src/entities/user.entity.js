@@ -13,7 +13,7 @@ exports.UserEntity = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("typeorm");
 const post_entity_1 = require("./post.entity");
-const decimal_middleware_helper_1 = require("@nestjs-yalc/field-middleware/decimal-middleware.helper");
+const decimal_middleware_helper_1 = require("@nest-yalc-2/field-middleware/decimal-middleware.helper");
 let UserEntity = class UserEntity {
 };
 exports.UserEntity = UserEntity;

@@ -8,7 +8,7 @@ import {
   type Span,
 } from '@opentelemetry/api';
 import { logs, SeverityNumber } from '@opentelemetry/api-logs';
-import type { IEventPayload } from '@nestjs-yalc/event-manager/event.js';
+import type { IEventPayload } from '@nest-yalc-2/event-manager/event.js';
 import { OBSERVABILITY_OPTIONS } from './tokens.js';
 import type { NormalizedObservabilityOptions } from './observability-options.js';
 
@@ -18,9 +18,9 @@ export interface TelemetryRecordOptions {
 
 @Injectable()
 export class TelemetryService {
-  private readonly tracer = trace.getTracer('@nestjs-yalc/observability');
-  private readonly meter = metrics.getMeter('@nestjs-yalc/observability');
-  private readonly logger = logs.getLogger('@nestjs-yalc/observability');
+  private readonly tracer = trace.getTracer('@nest-yalc-2/observability');
+  private readonly meter = metrics.getMeter('@nest-yalc-2/observability');
+  private readonly logger = logs.getLogger('@nest-yalc-2/observability');
   private readonly eventCounter = this.meter.createCounter('yalc_events_total');
   private readonly errorCounter = this.meter.createCounter(
     'yalc_event_errors_total',

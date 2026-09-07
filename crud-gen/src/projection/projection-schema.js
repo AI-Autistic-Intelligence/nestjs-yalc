@@ -10,7 +10,6 @@ function typeForCodec(codec) {
     return String;
 }
 function createProjectionSchemaOptions(definition, dialect) {
-    var _a;
     (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
     const columns = {
         [definition.scope.column]: { type: String, length: 64 },
@@ -23,11 +22,15 @@ function createProjectionSchemaOptions(definition, dialect) {
     for (const field of definition.fields) {
         if (field.storage !== 'column')
             continue;
-        columns[(_a = field.column) !== null && _a !== void 0 ? _a : field.name] = Object.assign({ type: typeForCodec(field.codec), nullable: field.nullable }, (field.codec === 'string' ||
-            field.codec === 'uuid' ||
-            field.codec === 'instant'
-            ? { length: 255 }
-            : {}));
+        columns[field.column ?? field.name] = {
+            type: typeForCodec(field.codec),
+            nullable: field.nullable,
+            ...(field.codec === 'string' ||
+                field.codec === 'uuid' ||
+                field.codec === 'instant'
+                ? { length: 255 }
+                : {}),
+        };
     }
     return {
         columns,

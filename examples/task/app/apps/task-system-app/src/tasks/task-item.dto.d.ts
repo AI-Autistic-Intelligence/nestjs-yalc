@@ -1,4 +1,4 @@
-import { TaskItem } from '@nestjs-yalc/task-system-module/src/task-item.entity';
+import { TaskItem } from '@nest-yalc-2/task-system-module/src/task-item.entity';
 import { TaskProjectType } from '../projects/task-project.dto';
 export declare class TaskItemType extends TaskItem {
     constructor(data?: Partial<TaskItemType>);

@@ -1,4 +1,4 @@
-import { TaskProject } from '@nestjs-yalc/task-system-module/src/task-project.entity';
+import { TaskProject } from '@nest-yalc-2/task-system-module/src/task-project.entity';
 export declare class TaskProjectType extends TaskProject {
     constructor(data?: Partial<TaskProjectType>);
     guid: string;

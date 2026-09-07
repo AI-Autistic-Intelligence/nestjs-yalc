@@ -1,10 +1,10 @@
 import { ObjectType, Field, HideField } from '@nestjs/graphql';
 import { Type } from '@nestjs/common';
 import { FindManyOptions, FindOperator, ObjectLiteral } from 'typeorm';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import { IExtraArg, ICombinedWhereModel } from './crud-gen-gql.interface.js';
 import { Operators } from '../crud-gen.enum.js';
-import { FieldMapperProperty } from '@nestjs-yalc/interfaces';
+import { FieldMapperProperty } from '@nest-yalc-2/interfaces';
 import { IModelFieldMetadata } from '../object.decorator.js';
 import { IConnection, IPageDataCrudGen } from '../crud-gen.interface.js';
 

@@ -1,4 +1,4 @@
-# @nestjs-yalc/app
+# @nest-yalc-2/app
 
 ## 1.3.3
 

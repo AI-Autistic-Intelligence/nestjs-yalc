@@ -8,24 +8,24 @@ import {
   USERS_CLIENT_HTTP_API_STRATEGY,
   USERS_CLIENT_LOCAL_API_STRATEGY,
   UsersApiClient,
-} from '@nestjs-yalc/skeleton-module';
+} from '@nest-yalc-2/skeleton-module';
 import { UsersController, usersResourceProviders } from './users.resource';
 import { UsersErrorsController } from './users.errors.controller';
 import { UsersClientController } from './users-client.controller';
 import { UsersLoggingController } from './users.logging.controller';
 import { UsersValidationController } from './users.validation.controller';
-import type { AppConfigService } from '@nestjs-yalc/app/app-config.service.js';
+import type { AppConfigService } from '@nest-yalc-2/app/app-config.service.js';
 import {
   YalcClsModule,
   YalcGlobalClsService,
-} from '@nestjs-yalc/app/cls.module.js';
+} from '@nest-yalc-2/app/cls.module.js';
 import {
   ApiCallStrategySelectorProvider,
   NestHttpCallStrategy,
   NestLocalCallStrategy,
-} from '@nestjs-yalc/api-strategy';
+} from '@nest-yalc-2/api-strategy';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { EventModule } from '@nestjs-yalc/event-manager';
+import { EventModule } from '@nest-yalc-2/event-manager';
 
 @Module({
   imports: [

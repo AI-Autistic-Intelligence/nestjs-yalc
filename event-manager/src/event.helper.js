@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLogLevelByStatus = getLogLevelByStatus;
 exports.getLogLevelByError = getLogLevelByError;
 exports.isErrorEvent = isErrorEvent;
-const logger_enum_js_1 = require("@nestjs-yalc/logger/logger.enum.js");
-const class_helper_js_1 = require("@nestjs-yalc/utils/class.helper.js");
+const logger_enum_js_1 = require("@nest-yalc-2/logger/logger.enum.js");
+const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
 const common_1 = require("@nestjs/common");
-const error_helper_js_1 = require("@nestjs-yalc/errors/error.helper.js");
+const error_helper_js_1 = require("@nest-yalc-2/errors/error.helper.js");
 function getLogLevelByStatus(statusCode) {
     let loggerLevel;
     switch (true) {

@@ -1,5 +1,5 @@
 import type { JestConfigWithTsJest } from 'ts-jest';
-import { IDefaultConfOptions } from './jest-def.config.ts';
+import { IDefaultConfOptions } from './jest-def.config.js';
 interface IAppDep {
     name: string;
     path: string;

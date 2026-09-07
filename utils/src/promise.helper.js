@@ -38,10 +38,9 @@ exports.promiseMap = promiseMap;
 const pMap = __importStar(require("p-map"));
 exports.PROMISE_CONCURRENCY_LIMIT = 1000;
 function promiseMap(input, mapper, options) {
-    var _a, _b;
     return pMap.default(input, mapper, {
-        concurrency: (_a = options === null || options === void 0 ? void 0 : options.concurrency) !== null && _a !== void 0 ? _a : exports.PROMISE_CONCURRENCY_LIMIT,
-        stopOnError: (_b = options === null || options === void 0 ? void 0 : options.stopOnError) !== null && _b !== void 0 ? _b : true,
+        concurrency: options?.concurrency ?? exports.PROMISE_CONCURRENCY_LIMIT,
+        stopOnError: options?.stopOnError ?? true,
     });
 }
 class PromiseTracker {

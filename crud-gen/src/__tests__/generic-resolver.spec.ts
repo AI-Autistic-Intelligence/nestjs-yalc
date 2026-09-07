@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { createMock } from '@golevelup/ts-jest';
-import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper.js';
+import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper.js';
 import { ModuleRef } from '@nestjs/core';
 import {
   checkFinalId,
@@ -17,7 +17,7 @@ import {
   IGenericResolverOptions,
   resolverFactory,
 } from '../api-graphql/generic.resolver.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import { GenericService } from '../typeorm/generic.service.js';
 import {
   TestEntityRelation,

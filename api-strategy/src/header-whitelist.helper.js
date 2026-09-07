@@ -7,7 +7,7 @@ function filterHeaders(headers, whitelist = exports.headerWhitelist) {
     return headers
         ? Object.entries(headers)
             .filter(([key]) => whitelist.includes(key))
-            .reduce((acc, [key, value]) => (Object.assign(Object.assign({}, acc), { [key]: value })), {})
+            .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
         : headers;
 }
 //# sourceMappingURL=header-whitelist.helper.js.map

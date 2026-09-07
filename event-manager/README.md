@@ -1,16 +1,16 @@
-# @nestjs-yalc/event-manager
+# @nest-yalc-2/event-manager
 
 Structured event, logging, and HTTP-aware error helpers for NestJS
 applications.
 
 `YalcEventService` is the usual application entry point. It wraps lower-level
 event helpers so one call can log, emit through `EventEmitter2`, and create
-typed errors from `@nestjs-yalc/errors`.
+typed errors from `@nest-yalc-2/errors`.
 
 ## Installation
 
 ```bash
-npm install @nestjs-yalc/event-manager
+npm install @nest-yalc-2/event-manager
 ```
 
 ## Main Exports
@@ -23,7 +23,7 @@ npm install @nestjs-yalc/event-manager
 ## Example
 
 ```ts
-import { EventModule, YalcEventService } from '@nestjs-yalc/event-manager';
+import { EventModule, YalcEventService } from '@nest-yalc-2/event-manager';
 
 @Module({
   imports: [EventModule.forRootAsync({})],

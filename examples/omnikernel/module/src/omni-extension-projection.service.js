@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmniExtensionProjectionService = void 0;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
 const typeorm_1 = require("typeorm");
 const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
 const omni_projection_catalog_js_1 = require("./omni-projection.catalog.js");
@@ -9,15 +9,13 @@ function hasOwn(input, field) {
     return Object.prototype.hasOwnProperty.call(input, field);
 }
 function isUniqueConstraint(error) {
-    var _a;
     const candidate = error;
-    const code = (_a = candidate === null || candidate === void 0 ? void 0 : candidate.driverError) === null || _a === void 0 ? void 0 : _a.code;
+    const code = candidate?.driverError?.code;
     return code === 'SQLITE_CONSTRAINT' || code === '23505';
 }
 function isRetryableTransactionError(error) {
-    var _a, _b;
     const candidate = error;
-    const code = (_b = (_a = candidate === null || candidate === void 0 ? void 0 : candidate.driverError) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : candidate === null || candidate === void 0 ? void 0 : candidate.code;
+    const code = candidate?.driverError?.code ?? candidate?.code;
     return (code === '40001' ||
         code === 'SQLITE_BUSY' ||
         code === 'SQLITE_BUSY_SNAPSHOT');
@@ -34,7 +32,7 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
     async getEntity(conditions, _fields, _relations, _databaseName, options) {
         const guid = this.guidFromConditions(conditions);
         const entity = await this.readOne(guid);
-        if (!entity && (options === null || options === void 0 ? void 0 : options.failOnNull))
+        if (!entity && options?.failOnNull)
             this.notFound();
         return entity;
     }
@@ -77,14 +75,13 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         });
         try {
             return await this.mutate(async (manager) => {
-                var _a, _b;
-                await ((_b = (_a = this.lifecycle) === null || _a === void 0 ? void 0 : _a.beforeCreate) === null || _b === void 0 ? void 0 : _b.call(_a, {
+                await this.lifecycle?.beforeCreate?.({
                     definition: this.omniDefinition,
                     scope: this.scope,
                     manager,
                     readers: this.readers(manager),
                     input,
-                }));
+                });
                 await manager.getRepository(omni_record_entity_js_1.OmniRecordEntity).save(owner);
                 const saved = await manager
                     .getRepository(this.repository.target)
@@ -110,7 +107,6 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         }
         const patch = this.createValuePatch(guid, input);
         return this.mutate(async (manager) => {
-            var _a, _b;
             const owners = manager.getRepository(omni_record_entity_js_1.OmniRecordEntity);
             const extensions = manager.getRepository(this.repository.target);
             const currentOwner = await this.findOwner(guid, manager);
@@ -128,14 +124,14 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
             if (!currentExtension) {
                 throw new Error('Omni extension projection invariant failed: extension row is unavailable.');
             }
-            await ((_b = (_a = this.lifecycle) === null || _a === void 0 ? void 0 : _a.beforeUpdate) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            await this.lifecycle?.beforeUpdate?.({
                 definition: this.omniDefinition,
                 scope: this.scope,
                 manager,
                 readers: this.readers(manager),
                 input,
                 current: this.merge(currentExtension, currentOwner),
-            }));
+            });
             const result = await owners
                 .createQueryBuilder()
                 .update()
@@ -170,7 +166,6 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
     async deleteEntity(conditions) {
         const guid = this.guidFromConditions(conditions);
         await this.mutate(async (manager) => {
-            var _a, _b;
             const owner = await this.findOwner(guid, manager);
             if (!owner)
                 this.notFound();
@@ -185,14 +180,14 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
             if (!extension) {
                 throw new Error('Omni extension projection invariant failed: extension row is unavailable.');
             }
-            await ((_b = (_a = this.lifecycle) === null || _a === void 0 ? void 0 : _a.beforeDelete) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            await this.lifecycle?.beforeDelete?.({
                 definition: this.omniDefinition,
                 scope: this.scope,
                 manager,
                 readers: this.readers(manager),
                 input: {},
                 current: this.merge(extension, owner),
-            }));
+            });
             const result = await manager.getRepository(omni_record_entity_js_1.OmniRecordEntity).delete({
                 scopeId: this.scope.scopeId,
                 guid,
@@ -206,7 +201,6 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         return true;
     }
     createExtension(input) {
-        var _a;
         const extension = {
             [this.definition.scope.column]: this.scope.scopeId,
             [this.definition.payload.column]: this.createPayload(input),
@@ -220,21 +214,21 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
                 this.invalid(`Projection field ${field.name} cannot be null.`);
             }
             if (value !== undefined && field.storage === 'column') {
-                extension[(_a = field.column) !== null && _a !== void 0 ? _a : field.name] = this.normalizeValue(field, value);
+                extension[field.column ?? field.name] = this.normalizeValue(field, value);
             }
         }
         return extension;
     }
     readers(manager) {
-        var _a;
-        return ((_a = this.readerCatalog) !== null && _a !== void 0 ? _a : (0, omni_projection_catalog_js_1.createOmniProjectionReaderCatalog)([
-            {
-                type: 'extension',
-                id: this.omniDefinition.id,
-                entity: this.repository.target,
-                definition: this.omniDefinition,
-            },
-        ])).bind(manager, this.scope);
+        return (this.readerCatalog ??
+            (0, omni_projection_catalog_js_1.createOmniProjectionReaderCatalog)([
+                {
+                    type: 'extension',
+                    id: this.omniDefinition.id,
+                    entity: this.repository.target,
+                    definition: this.omniDefinition,
+                },
+            ])).bind(manager, this.scope);
     }
     async mutate(work) {
         try {
@@ -255,7 +249,6 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         }
     }
     createValuePatch(guid, input) {
-        var _a;
         const patch = {
             scopeId: this.scope.scopeId,
             guid,
@@ -273,7 +266,7 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
             }
             const normalized = this.normalizeValue(field, value);
             if (field.storage === 'column') {
-                patch.columnValues[(_a = field.column) !== null && _a !== void 0 ? _a : field.name] = normalized;
+                patch.columnValues[field.column ?? field.name] = normalized;
             }
             else {
                 patch.jsonValues.push({ field, value: normalized });
@@ -298,8 +291,7 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         return owner ? this.merge(extension, owner) : null;
     }
     async findOwner(guid, manager) {
-        var _a;
-        return ((_a = manager === null || manager === void 0 ? void 0 : manager.getRepository(omni_record_entity_js_1.OmniRecordEntity)) !== null && _a !== void 0 ? _a : this.ownerRepository).findOne({
+        return (manager?.getRepository(omni_record_entity_js_1.OmniRecordEntity) ?? this.ownerRepository).findOne({
             where: {
                 scopeId: this.scope.scopeId,
                 guid,
@@ -311,7 +303,15 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         });
     }
     merge(extension, owner) {
-        return Object.assign(Object.assign({}, this.project(extension)), { scopeId: owner.scopeId, guid: owner.guid, [this.definition.revision.column]: owner.revision, createdAt: owner.createdAt, updatedAt: owner.updatedAt, deletedAt: owner.deletedAt });
+        return {
+            ...this.project(extension),
+            scopeId: owner.scopeId,
+            guid: owner.guid,
+            [this.definition.revision.column]: owner.revision,
+            createdAt: owner.createdAt,
+            updatedAt: owner.updatedAt,
+            deletedAt: owner.deletedAt,
+        };
     }
     async throwUpdateMiss(guid, manager) {
         if (!(await this.findOwner(guid, manager)))

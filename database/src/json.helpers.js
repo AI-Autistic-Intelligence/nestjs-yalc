@@ -11,7 +11,9 @@ function isJsonSQLRaw(sql) {
 function JsonField() {
     return (target, property) => {
         const propertyName = property.toString();
-        const metadata = Object.assign({}, Reflect.getMetadata(exports.NYALC_JSON_FIELD_META_KEY, target));
+        const metadata = {
+            ...Reflect.getMetadata(exports.NYALC_JSON_FIELD_META_KEY, target),
+        };
         metadata[propertyName] = true;
         Reflect.defineMetadata(exports.NYALC_JSON_FIELD_META_KEY, metadata, target);
     };

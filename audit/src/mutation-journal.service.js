@@ -73,8 +73,7 @@ let MutationJournalService = MutationJournalService_1 = class MutationJournalSer
         };
     }
     async resolveTarget(target = {}) {
-        var _a;
-        const token = (_a = target.token) !== null && _a !== void 0 ? _a : (0, typeorm_1.getDataSourceToken)(target.dataSourceName);
+        const token = target.token ?? (0, typeorm_1.getDataSourceToken)(target.dataSourceName);
         let dataSource;
         try {
             dataSource = this.moduleRef.get(token, { strict: false });
@@ -121,8 +120,7 @@ let MutationJournalService = MutationJournalService_1 = class MutationJournalSer
         }
     }
     getTargetName(target) {
-        var _a;
-        return (_a = target.dataSourceName) !== null && _a !== void 0 ? _a : 'default';
+        return target.dataSourceName ?? 'default';
     }
     getErrorMessage(error) {
         return error instanceof Error ? error.message : String(error);

@@ -1,5 +1,5 @@
-import { FieldMapperProperty, IFieldMapper } from '@nestjs-yalc/interfaces';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { FieldMapperProperty, IFieldMapper } from '@nest-yalc-2/interfaces';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { FieldOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import 'reflect-metadata';
 import { RelationType } from 'typeorm/metadata/types/RelationTypes.js';

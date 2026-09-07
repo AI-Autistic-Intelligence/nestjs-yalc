@@ -1,5 +1,5 @@
-import { DecoratorType, FieldMapper } from '@nestjs-yalc/interfaces';
-import { ClassType } from '@nestjs-yalc/types';
+import { DecoratorType, FieldMapper } from '@nest-yalc-2/interfaces';
+import { ClassType } from '@nest-yalc-2/types';
 import { Query } from '@nestjs/common';
 import { ArgsOptions, GqlExecutionContext, Mutation, MutationOptions, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import { AgQueryParams } from './ag-grid.args';

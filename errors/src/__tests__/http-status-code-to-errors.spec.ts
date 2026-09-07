@@ -1,4 +1,4 @@
-import { HttpStatusCodes } from '@nestjs-yalc/utils/http.helper.js';
+import { HttpStatusCodes } from '@nest-yalc-2/utils/http.helper.js';
 import { httpStatusCodeToErrors } from '../http-status-code-to-errors.js';
 import {
   BadRequestError,

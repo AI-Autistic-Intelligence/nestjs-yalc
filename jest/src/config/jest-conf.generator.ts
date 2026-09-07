@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 
 import * as path from 'path';
-import os from 'os';
 
 import type { JestConfigWithTsJest } from 'ts-jest';
 import defaultConf, {
@@ -95,7 +94,7 @@ export function jestConfGenerator(
   const confFactory = (
     projName: string,
     proj: IProjectInfo,
-    projects?: any,
+    _projects?: any,
   ) => ({
     ...defaultConf(
       `${rootPath}/`,

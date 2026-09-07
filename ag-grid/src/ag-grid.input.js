@@ -151,11 +151,8 @@ function filterExpressionInputFactory(entityModel) {
         (0, graphql_1.InputType)(`${entityModel.name}FilterSetInput`)
     ], FilterSet);
     let FilterExpressionProperty = class FilterExpressionProperty {
+        static { _a = ag_grid_enum_1.FilterType.TEXT, _b = ag_grid_enum_1.FilterType.NUMBER, _c = ag_grid_enum_1.FilterType.DATE, _d = ag_grid_enum_1.FilterType.SET; }
     };
-    _a = ag_grid_enum_1.FilterType.TEXT;
-    _b = ag_grid_enum_1.FilterType.NUMBER;
-    _c = ag_grid_enum_1.FilterType.DATE;
-    _d = ag_grid_enum_1.FilterType.SET;
     __decorate([
         (0, graphql_1.Field)(() => FilterText, { nullable: true }),
         __metadata("design:type", FilterText)
@@ -232,7 +229,7 @@ function agJoinArgFactory(entityModel, defaultValues) {
             try {
                 typeClass = typeof type === 'function' ? type() : type;
             }
-            catch (_a) {
+            catch {
                 typeClass = type;
             }
             let JoinFullInput = class JoinFullInput extends (0, graphql_1.IntersectionType)(JoinInput, (0, ag_grid_args_1.agQueryParamsNoPaginationFactory)(defaultValues, typeClass)) {

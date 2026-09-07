@@ -1,7 +1,7 @@
 jest.mock('@nestjs/graphql');
 
-import { ExtendedBaseEntity } from '@nestjs-yalc/jest/extended-base-entity.entity';
-import { mockQueryBuilder } from '@nestjs-yalc/jest/common-mocks.helper';
+import { ExtendedBaseEntity } from '@nest-yalc-2/jest/extended-base-entity.entity';
+import { mockQueryBuilder } from '@nest-yalc-2/jest/common-mocks.helper';
 import * as ObjectDecorator from '../object.decorator';
 import { SelectQueryBuilderPatched } from '../query-builder.helpers';
 

@@ -1,5 +1,7 @@
-import { envToArray } from '@nestjs-yalc/utils/env.helper.js';
+import { envToArray } from '@nest-yalc-2/utils/env.helper.js';
 import { LogLevel } from '@nestjs/common';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import fastRedact from 'fast-redact';
 import { isEmpty } from 'lodash-es';
 import { LOG_LEVEL_ALL, LoggerDefContext } from './logger.enum.js';

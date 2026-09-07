@@ -7,7 +7,7 @@ import {
   beforeLogging,
 } from './logger-abstract.service.js';
 import { maskDataInObject } from './logger.helper.js';
-import { WithPluginSystem } from '@nestjs-yalc/utils/plugin.helper.js';
+import { WithPluginSystem } from '@nest-yalc-2/utils/plugin.helper.js';
 
 export class ImprovedNestLogger
   extends WithPluginSystem<ILoggerPluginMethods>(ConsoleLogger)

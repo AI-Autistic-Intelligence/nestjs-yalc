@@ -17,7 +17,7 @@ exports.PaginationDTOMixin = PaginationDTOMixin;
 const class_validator_1 = require("class-validator");
 const crud_gen_enum_js_1 = require("../crud-gen.enum.js");
 const class_transformer_1 = require("class-transformer");
-const class_transformer_helper_js_1 = require("@nestjs-yalc/field-middleware/class-transformer.helper.js");
+const class_transformer_helper_js_1 = require("@nest-yalc-2/field-middleware/class-transformer.helper.js");
 class CGQueryDto extends PaginationDTOMixin() {
 }
 exports.CGQueryDto = CGQueryDto;
@@ -49,9 +49,8 @@ function crudGenRestParamsFactory(defaultValues, entityModel) {
         : [SortModelRest];
     class CrudGenParams {
         constructor() {
-            var _a, _b;
-            this.startRow = (_a = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.startRow) !== null && _a !== void 0 ? _a : crud_gen_enum_js_1.RowDefaultValues.START_ROW;
-            this.endRow = (_b = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.endRow) !== null && _b !== void 0 ? _b : crud_gen_enum_js_1.RowDefaultValues.END_ROW;
+            this.startRow = defaultValues?.startRow ?? crud_gen_enum_js_1.RowDefaultValues.START_ROW;
+            this.endRow = defaultValues?.endRow ?? crud_gen_enum_js_1.RowDefaultValues.END_ROW;
         }
     }
     exports.typeMap.set(CrudGenParams, CrudGenParams);
@@ -63,8 +62,8 @@ function crudGenRestParamsNoPaginationFactory(defaultValues, entityModel) {
         : [SortModelRest];
     class CrudGenParams {
         constructor() {
-            this.sorting = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.sorting;
-            this.filters = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.filters;
+            this.sorting = defaultValues?.sorting;
+            this.filters = defaultValues?.filters;
         }
     }
     exports.typeMap.set(CrudGenParams, CrudGenParams);

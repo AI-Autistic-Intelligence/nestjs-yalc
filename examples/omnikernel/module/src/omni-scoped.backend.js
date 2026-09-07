@@ -4,17 +4,16 @@ exports.omniScopedBackendProvidersFactory = omniScopedBackendProvidersFactory;
 exports.omniBackendServiceToken = omniBackendServiceToken;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const crud_gen_helpers_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.helpers.js");
-const generic_service_js_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.service.js");
-const generic_repository_js_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.repository.js");
-const data_loader_1 = require("@nestjs-yalc/data-loader");
+const crud_gen_helpers_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers.js");
+const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
+const generic_repository_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.repository.js");
+const data_loader_1 = require("@nest-yalc-2/data-loader");
 const event_emitter_1 = require("@nestjs/event-emitter");
 const omni_scope_js_1 = require("./omni-scope.js");
 function omniScopedBackendProvidersFactory(options) {
-    var _a, _b, _c;
-    const serviceToken = (_a = options.serviceToken) !== null && _a !== void 0 ? _a : (0, generic_service_js_1.getServiceToken)(options.entityModel);
-    const serviceProviderToken = (_b = options.serviceProvider) !== null && _b !== void 0 ? _b : serviceToken;
-    const additionalInject = (_c = options.additionalInject) !== null && _c !== void 0 ? _c : [];
+    const serviceToken = options.serviceToken ?? (0, generic_service_js_1.getServiceToken)(options.entityModel);
+    const serviceProviderToken = options.serviceProvider ?? serviceToken;
+    const additionalInject = options.additionalInject ?? [];
     const serviceProvider = {
         provide: serviceProviderToken,
         scope: common_1.Scope.REQUEST,

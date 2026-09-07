@@ -1,15 +1,4 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.objectToFieldMapper = exports.forceFilterWorker = exports.forceFilters = exports.isSymbolic = exports.getFieldMapperSrcByDst = exports.columnConversion = void 0;
 exports.whereObjectToSqlString = whereObjectToSqlString;
@@ -30,9 +19,9 @@ exports.traverseFiltersAndApplyFunction = traverseFiltersAndApplyFunction;
 exports.formatRawSelectionWithoutAlias = formatRawSelectionWithoutAlias;
 exports.formatRawSelection = formatRawSelection;
 exports.applySelectOnFind = applySelectOnFind;
-const index_js_1 = require("@nestjs-yalc/data-loader/index.js");
-const query_builder_helper_js_1 = require("@nestjs-yalc/database/query-builder.helper.js");
-const maps_interface_js_1 = require("@nestjs-yalc/interfaces/maps.interface.js");
+const index_js_1 = require("@nest-yalc-2/data-loader/index.js");
+const query_builder_helper_js_1 = require("@nest-yalc-2/database/query-builder.helper.js");
+const maps_interface_js_1 = require("@nest-yalc-2/interfaces/maps.interface.js");
 const typeorm_1 = require("typeorm");
 const crud_gen_args_helpers_js_1 = require("./typeorm/crud-gen-args.helpers.js");
 const crud_gen_type_checker_utils_js_1 = require("./crud-gen-type-checker.utils.js");
@@ -44,9 +33,8 @@ const generic_resolver_js_1 = require("./api-graphql/generic.resolver.js");
 const generic_service_js_1 = require("./typeorm/generic.service.js");
 const object_decorator_js_1 = require("./object.decorator.js");
 const columnConversion = (key, data) => {
-    var _a, _b;
     if (data) {
-        const dst = (_b = (_a = data[key]) === null || _a === void 0 ? void 0 : _a.dst) !== null && _b !== void 0 ? _b : key;
+        const dst = data[key]?.dst ?? key;
         return getDestinationFieldName(dst);
     }
     return key;
@@ -103,21 +91,19 @@ const forceFilterWorker = (where, target, value, descriptors) => {
 };
 exports.forceFilterWorker = forceFilterWorker;
 function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
-    var _a, _b;
     let sql = '';
-    const operator = ((_a = where.operator) !== null && _a !== void 0 ? _a : crud_gen_enum_js_1.Operators.AND).toUpperCase();
+    const operator = (where.operator ?? crud_gen_enum_js_1.Operators.AND).toUpperCase();
     if (!where.filters)
         return sql;
     const connection = queryBuilder.connection;
     const escapeFn = connection.driver.escape;
     const fixParam = (param) => {
-        var _a;
         const metadata = queryBuilder.expressionMap.mainAlias.metadata;
         const databaseColumn = metadata.columns.find((column) => column.propertyName === param);
-        return escapeFn((_a = databaseColumn === null || databaseColumn === void 0 ? void 0 : databaseColumn.databaseName) !== null && _a !== void 0 ? _a : param);
+        return escapeFn(databaseColumn?.databaseName ?? param);
     };
     for (const key of Object.keys(where.filters)) {
-        const operation = (_b = where.filters[key]) !== null && _b !== void 0 ? _b : {};
+        const operation = where.filters[key] ?? {};
         if (operation.operator !== undefined) {
             if ((0, crud_gen_type_checker_utils_js_1.isCombinedWhereModel)(operation) &&
                 !(0, crud_gen_type_checker_utils_js_1.isCombinedWhereModel)(operation.filter_1) &&
@@ -158,7 +144,6 @@ function getDestinationFieldName(dst) {
 }
 const objectToFieldMapperCache = new WeakMap();
 const objectToFieldMapper = (object) => {
-    var _a;
     if ((typeof object === 'object' && object !== null) || typeof object === 'function') {
         const cached = objectToFieldMapperCache.get(object);
         if (cached) {
@@ -174,11 +159,15 @@ const objectToFieldMapper = (object) => {
         if (fieldMetadataList) {
             for (const propertyName of Object.keys(fieldMetadataList)) {
                 const fieldMetadata = fieldMetadataList[propertyName];
-                const { src, dst } = fieldMetadata, fieldMapperProperties = __rest(fieldMetadata, ["src", "dst"]);
+                const { src, dst, ...fieldMapperProperties } = fieldMetadata;
                 if (src) {
                     const newDst = dst ? getDestinationFieldName(dst) : src;
-                    fieldMapper.field[src] = Object.assign(Object.assign({ dst: newDst }, fieldMapperProperties), { _propertyName: propertyName });
-                    const gqlType = (_a = fieldMetadata.gqlType) === null || _a === void 0 ? void 0 : _a.call(fieldMetadata);
+                    fieldMapper.field[src] = {
+                        dst: newDst,
+                        ...fieldMapperProperties,
+                        _propertyName: propertyName,
+                    };
+                    const gqlType = fieldMetadata.gqlType?.();
                     if (gqlType) {
                         fieldMapper.extraInfo[src] = (0, exports.objectToFieldMapper)(gqlType);
                     }
@@ -198,7 +187,7 @@ const objectToFieldMapper = (object) => {
 };
 exports.objectToFieldMapper = objectToFieldMapper;
 function isIFieldAndFilterMapper(val) {
-    return (val === null || val === void 0 ? void 0 : val.field) !== undefined;
+    return val?.field !== undefined;
 }
 function isProviderOverride(resolver) {
     const casted = resolver;
@@ -214,7 +203,7 @@ function CrudGenDependencyFactory({ entityModel, dataloader, resolver, service, 
     const graphql = resolver !== false
         ? CrudGenGraphqlFactory({
             entityModel,
-            resolver: resolver !== null && resolver !== void 0 ? resolver : {},
+            resolver: resolver ?? {},
             serviceToken: backend.serviceToken,
             dataLoaderToken: backend.dataLoaderToken,
         })
@@ -225,7 +214,6 @@ function CrudGenDependencyFactory({ entityModel, dataloader, resolver, service, 
     };
 }
 function CrudGenBackendFactory({ entityModel, dataloader, service, repository, }) {
-    var _a, _b, _c;
     const providers = [];
     let dataLoaderToken;
     let serviceToken;
@@ -235,7 +223,7 @@ function CrudGenBackendFactory({ entityModel, dataloader, service, repository, }
             providers.push(service.provider);
         }
         else {
-            const provider = (0, generic_service_js_1.GenericServiceFactory)((_a = service.entityModel) !== null && _a !== void 0 ? _a : entityModel, service.dbConnection, service.providerClass);
+            const provider = (0, generic_service_js_1.GenericServiceFactory)(service.entityModel ?? entityModel, service.dbConnection, service.providerClass);
             serviceToken = getProviderToken(provider.provide);
             providers.push(provider);
             if (typeof provider.provide !== 'string') {
@@ -252,24 +240,31 @@ function CrudGenBackendFactory({ entityModel, dataloader, service, repository, }
             providers.push(dataloader.provider);
         }
         else {
-            dataLoaderToken = (0, index_js_1.getDataloaderToken)((_b = dataloader.entityModel) !== null && _b !== void 0 ? _b : entityModel);
-            providers.push((0, index_js_1.DataLoaderFactory)(dataloader.databaseKey, (_c = dataloader.entityModel) !== null && _c !== void 0 ? _c : entityModel, serviceToken));
+            dataLoaderToken = (0, index_js_1.getDataloaderToken)(dataloader.entityModel ?? entityModel);
+            providers.push((0, index_js_1.DataLoaderFactory)(dataloader.databaseKey, dataloader.entityModel ?? entityModel, serviceToken));
         }
     }
     return {
         providers,
-        repository: repository !== null && repository !== void 0 ? repository : (0, generic_repository_js_1.CGExtendedRepositoryFactory)(entityModel),
+        repository: repository ?? (0, generic_repository_js_1.CGExtendedRepositoryFactory)(entityModel),
         serviceToken,
         dataLoaderToken,
     };
 }
 function CrudGenGraphqlFactory({ entityModel, resolver, serviceToken, dataLoaderToken, }) {
-    var _a, _b, _c, _d;
     if (isProviderOverride(resolver)) {
         return { providers: [resolver.provider] };
     }
     const resolverConfig = resolver;
-    const resolverOptions = Object.assign(Object.assign({}, resolverConfig), { entityModel, service: Object.assign(Object.assign({}, resolverConfig.service), { serviceToken: (_b = (_a = resolverConfig.service) === null || _a === void 0 ? void 0 : _a.serviceToken) !== null && _b !== void 0 ? _b : serviceToken, dataLoaderToken: (_d = (_c = resolverConfig.service) === null || _c === void 0 ? void 0 : _c.dataLoaderToken) !== null && _d !== void 0 ? _d : dataLoaderToken }) });
+    const resolverOptions = {
+        ...resolverConfig,
+        entityModel,
+        service: {
+            ...resolverConfig.service,
+            serviceToken: resolverConfig.service?.serviceToken ?? serviceToken,
+            dataLoaderToken: resolverConfig.service?.dataLoaderToken ?? dataLoaderToken,
+        },
+    };
     return { providers: [(0, generic_resolver_js_1.resolverFactory)(resolverOptions)] };
 }
 function getProviderToken(entity) {
@@ -298,7 +293,7 @@ function getEntityRelations(entityModel, dto) {
         (entityModel.prototype instanceof v.target || entityModel === v.target));
     const joinColumns = (0, typeorm_1.getMetadataArgsStorage)().joinColumns.filter((v) => typeof v.target !== 'string' &&
         (entityModel.prototype instanceof v.target || entityModel === v.target));
-    const crudGenMetadata = (0, object_decorator_js_1.getModelFieldMetadataList)(dto !== null && dto !== void 0 ? dto : entityModel);
+    const crudGenMetadata = (0, object_decorator_js_1.getModelFieldMetadataList)(dto ?? entityModel);
     return relations.map((r) => ({
         relation: r,
         join: joinColumns.find((j) => j.propertyName === r.propertyName),
@@ -328,17 +323,15 @@ function getTypeProperties(entityModel) {
     return columns;
 }
 function getMappedTypeProperties(entityModel) {
-    var _a;
     const fieldMapper = (0, exports.objectToFieldMapper)(entityModel);
-    const fieldMetadata = (_a = (0, object_decorator_js_1.getModelFieldMetadataList)(entityModel)) !== null && _a !== void 0 ? _a : {};
+    const fieldMetadata = (0, object_decorator_js_1.getModelFieldMetadataList)(entityModel) ?? {};
     const propertyNames = new Set([
         ...getTypeProperties(entityModel).map((column) => column.propertyName),
         ...Object.keys(fieldMetadata),
     ]);
     return [...propertyNames].reduce((r, propertyName) => {
-        var _a;
         const src = (0, exports.getFieldMapperSrcByDst)(fieldMapper.field, propertyName);
-        if (!((_a = fieldMapper.field[src]) === null || _a === void 0 ? void 0 : _a.denyFilter))
+        if (!fieldMapper.field[src]?.denyFilter)
             r.push(src);
         return r;
     }, new Array());
@@ -350,7 +343,6 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
         leftJoinAndSelect: {},
     };
     Object.keys(join).forEach((table) => {
-        var _a, _b;
         const j = join[table];
         switch (j.joinType) {
             case crud_gen_gql_interface_js_1.JoinTypes.INNER_JOIN:
@@ -361,7 +353,7 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
                 _joinObject.leftJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
                 break;
         }
-        const type = (_b = (_a = fieldMapper[table]).gqlType) === null || _b === void 0 ? void 0 : _b.call(_a);
+        const type = fieldMapper[table].gqlType?.();
         const _fieldMapper = type
             ? (0, exports.objectToFieldMapper)(type)
             : { field: {} };
@@ -370,7 +362,10 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
         }
     });
     findManyOptions.join = _joinObject;
-    findManyOptions.extra = Object.assign(Object.assign({}, findManyOptions.extra), { _aliasType: _joinObject.alias });
+    findManyOptions.extra = {
+        ...findManyOptions.extra,
+        _aliasType: _joinObject.alias,
+    };
 }
 function isFilterExpressionInput(filterInput) {
     const casted = filterInput;
@@ -394,7 +389,12 @@ function formatRawSelectionWithoutAlias(selection, prefix = '') {
     return selection;
 }
 function formatRawSelection(selection, fieldName, options = {}) {
-    const { prefix, onlyAlias, escapeCharacter } = Object.assign({ prefix: '', onlyAlias: false, escapeCharacter: '' }, options);
+    const { prefix, onlyAlias, escapeCharacter } = {
+        prefix: '',
+        onlyAlias: false,
+        escapeCharacter: '',
+        ...options,
+    };
     let aliasPrefix = '';
     let _prefix = '';
     if (prefix) {
@@ -408,7 +408,6 @@ function formatRawSelection(selection, fieldName, options = {}) {
     return selection;
 }
 function applySelectOnFind(findOptions, field, fieldMapper, path = '') {
-    var _a, _b, _c;
     if (path && !path.endsWith('.'))
         path = path + '.';
     const fieldName = field.toString();
@@ -417,8 +416,8 @@ function applySelectOnFind(findOptions, field, fieldMapper, path = '') {
     if (!findOptions.extra) {
         findOptions.extra = { _keysMeta: {} };
     }
-    if (((_a = fieldMapper[fieldName]) === null || _a === void 0 ? void 0 : _a.mode) === 'derived' || path) {
-        const keysMeta = (_b = findOptions.extra._keysMeta) !== null && _b !== void 0 ? _b : {};
+    if (fieldMapper[fieldName]?.mode === 'derived' || path) {
+        const keysMeta = findOptions.extra._keysMeta ?? {};
         if (keysMeta[key])
             return;
         keysMeta[key] = {
@@ -429,7 +428,7 @@ function applySelectOnFind(findOptions, field, fieldMapper, path = '') {
         findOptions.extra._keysMeta = keysMeta;
     }
     else {
-        const selection = (_c = findOptions.select) !== null && _c !== void 0 ? _c : [];
+        const selection = findOptions.select ?? [];
         if (Array.isArray(selection))
             selection.push(key);
         findOptions.select = selection;

@@ -15,25 +15,26 @@ exports.getServiceToken = getServiceToken;
 exports.validateSupportedError = validateSupportedError;
 const conditions_error_1 = require("./conditions.error");
 const entity_error_1 = require("./entity.error");
-const conn_helper_1 = require("@nestjs-yalc/database/conn.helper");
+const conn_helper_1 = require("@nest-yalc-2/database/conn.helper");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const ag_grid_repository_1 = require("@nestjs-yalc/ag-grid/ag-grid.repository");
-const query_builder_helper_1 = require("@nestjs-yalc/database/query-builder.helper");
-const class_helper_1 = require("@nestjs-yalc/utils/class.helper");
+const ag_grid_repository_1 = require("@nest-yalc-2/ag-grid/ag-grid.repository");
+const query_builder_helper_1 = require("@nest-yalc-2/database/query-builder.helper");
+const class_helper_1 = require("@nest-yalc-2/utils/class.helper");
 const object_decorator_1 = require("./object.decorator");
 const ag_grid_factory_helper_1 = require("./ag-grid-factory.helper");
 function GenericServiceFactory(entity, connectionName, providedClass, entityWrite, connectionNameWrite) {
-    const serviceClass = providedClass !== null && providedClass !== void 0 ? providedClass : GenericService;
+    const serviceClass = providedClass ?? GenericService;
     return {
-        provide: providedClass !== null && providedClass !== void 0 ? providedClass : getServiceToken(typeof entity === 'function' ? entity.name : entity.toString()),
+        provide: providedClass ??
+            getServiceToken(typeof entity === 'function' ? entity.name : entity.toString()),
         useFactory: (repository, repositoryWrite) => {
             return new serviceClass(repository, repositoryWrite);
         },
         inject: [
             (0, typeorm_1.getRepositoryToken)(entity, connectionName),
-            (0, typeorm_1.getRepositoryToken)(entityWrite !== null && entityWrite !== void 0 ? entityWrite : entity, connectionNameWrite !== null && connectionNameWrite !== void 0 ? connectionNameWrite : connectionName),
+            (0, typeorm_1.getRepositoryToken)(entityWrite ?? entity, connectionNameWrite ?? connectionName),
         ],
     };
 }
@@ -52,7 +53,8 @@ let GenericService = class GenericService {
     constructor(repository, repositoryWrite) {
         this.repository = repository;
         this.repositoryWrite =
-            repositoryWrite !== null && repositoryWrite !== void 0 ? repositoryWrite : this.repository;
+            repositoryWrite ??
+                this.repository;
         this.entityRead = this.repository.target;
         this.entityWrite = this.repositoryWrite.target;
     }
@@ -95,7 +97,7 @@ let GenericService = class GenericService {
     async getEntity(where, fields, relations, databaseName, options) {
         if (databaseName)
             this.switchDatabaseConnection(databaseName);
-        return (options === null || options === void 0 ? void 0 : options.failOnNull) !== true
+        return options?.failOnNull !== true
             ? (await this.repository.findOne({
                 where: where,
                 select: fields,
@@ -123,7 +125,7 @@ let GenericService = class GenericService {
         const filters = this.repository.generateFilterOnPrimaryColumn(ids);
         return !returnEntity
             ? true
-            : this.repository.getOneAgGrid(Object.assign(Object.assign({}, findOptions), { where: { filters } }), true, query_builder_helper_1.ReplicationMode.MASTER);
+            : this.repository.getOneAgGrid({ ...findOptions, where: { filters } }, true, query_builder_helper_1.ReplicationMode.MASTER);
     }
     async updateEntity(conditions, input, findOptions, returnEntity = true) {
         const result = await this.validateConditions(conditions);
@@ -142,7 +144,7 @@ let GenericService = class GenericService {
         const filters = this.repository.generateFilterOnPrimaryColumn(ids);
         return !returnEntity
             ? true
-            : this.repository.getOneAgGrid(Object.assign(Object.assign({}, findOptions), { where: { filters } }), true, query_builder_helper_1.ReplicationMode.MASTER);
+            : this.repository.getOneAgGrid({ ...findOptions, where: { filters } }, true, query_builder_helper_1.ReplicationMode.MASTER);
     }
     async deleteEntity(conditions) {
         await this.validateConditions(conditions);
@@ -181,8 +183,8 @@ let GenericService = class GenericService {
         const newEntityWrite = new entity();
         const fieldMetadataList = (0, object_decorator_1.getAgGridFieldMetadataList)(this.entityRead);
         for (const propertyName of Object.keys(entityRead)) {
-            const fieldMetadata = fieldMetadataList === null || fieldMetadataList === void 0 ? void 0 : fieldMetadataList[propertyName];
-            if (!(fieldMetadata === null || fieldMetadata === void 0 ? void 0 : fieldMetadata.dst) || !(0, object_decorator_1.isDstExtended)(fieldMetadata.dst)) {
+            const fieldMetadata = fieldMetadataList?.[propertyName];
+            if (!fieldMetadata?.dst || !(0, object_decorator_1.isDstExtended)(fieldMetadata.dst)) {
                 newEntityWrite[propertyName] = entityRead[propertyName];
                 continue;
             }

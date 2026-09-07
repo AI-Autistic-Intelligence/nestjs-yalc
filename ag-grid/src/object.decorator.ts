@@ -1,6 +1,6 @@
-import { FieldMapperProperty, FieldMapper } from '@nestjs-yalc/interfaces';
-import { ClassType } from '@nestjs-yalc/types/globals';
-import { isClass } from '@nestjs-yalc/utils/class.helper';
+import { FieldMapperProperty, FieldMapper } from '@nest-yalc-2/interfaces';
+import { ClassType } from '@nest-yalc-2/types/globals';
+import { isClass } from '@nest-yalc-2/utils/class.helper';
 import {
   Field,
   FieldOptions,
@@ -107,7 +107,7 @@ export const AgGridField = <T = any>({
       if (gqlType) {
         Field(gqlType, gqlOptions)(target, property);
       } else {
-        Field(gqlOptions)(target, property);
+        Field(gqlOptions!)(target, property);
       }
     }
   };

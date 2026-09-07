@@ -19,24 +19,21 @@ class BaseProjectionDialect {
             : error;
     }
     projectionValueExpression(field, references) {
-        var _a;
         const value = field.storage === 'column'
             ? references.column
-            : this.jsonValueExpression(references.payload, (_a = field.path) !== null && _a !== void 0 ? _a : []);
+            : this.jsonValueExpression(references.payload, field.path ?? []);
         return this.codecExpression(value, field.codec);
     }
     columnExpression(alias, definition, field) {
-        var _a;
         return this.projectionValueExpression(field, {
             payload: this.reference(alias, definition.payload.column),
-            column: this.reference(alias, (_a = field.column) !== null && _a !== void 0 ? _a : field.name),
+            column: this.reference(alias, field.column ?? field.name),
         });
     }
     definitionExpression(definition, field) {
-        var _a;
         return this.projectionValueExpression(field, {
             payload: this.quote(definition.payload.column),
-            column: this.quote((_a = field.column) !== null && _a !== void 0 ? _a : field.name),
+            column: this.quote(field.column ?? field.name),
         });
     }
     codecExpression(expression, codec) {
@@ -104,7 +101,6 @@ class BaseProjectionDialect {
         return [records, count];
     }
     async patch(repository, definition, patch) {
-        var _a;
         (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
         const setValues = this.patchSetValues(definition, patch);
         const parameters = {
@@ -121,22 +117,25 @@ class BaseProjectionDialect {
             .where(`${this.quote(definition.scope.column)} = :projection_scope_id AND ${this.quote(definition.identity.column)} = :projection_guid AND ${this.quote(definition.revision.column)} = :projection_expected_revision`)
             .setParameters(parameters)
             .execute();
-        return (_a = result.affected) !== null && _a !== void 0 ? _a : 0;
+        return result.affected ?? 0;
     }
     async patchValues(repository, definition, patch) {
-        var _a;
         (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
         const result = await repository
             .createQueryBuilder()
             .update()
             .set(this.patchSetValues(definition, patch))
             .where(`${this.quote(definition.scope.column)} = :projection_scope_id AND ${this.quote(definition.identity.column)} = :projection_guid`)
-            .setParameters(Object.assign({ projection_scope_id: patch.scopeId, projection_guid: patch.guid }, this.patchParameters(definition, patch)))
+            .setParameters({
+            projection_scope_id: patch.scopeId,
+            projection_guid: patch.guid,
+            ...this.patchParameters(definition, patch),
+        })
             .execute();
-        return (_a = result.affected) !== null && _a !== void 0 ? _a : 0;
+        return result.affected ?? 0;
     }
     patchSetValues(definition, patch) {
-        const setValues = Object.assign({}, patch.columnValues);
+        const setValues = { ...patch.columnValues };
         const jsonValues = this.normalizedJsonValues(definition, patch);
         if (jsonValues.length > 0) {
             const jsonPatch = this.jsonPatchExpression(this.quote(definition.payload.column), jsonValues);
@@ -156,7 +155,11 @@ class BaseProjectionDialect {
             if (field.storage !== 'json') {
                 throw new TypeError(`Projection field ${field.name} cannot be patched as JSON.`);
             }
-            return Object.assign(Object.assign({}, change), { field, value: (0, projection_resource_js_1.normalizeProjectionCodecValue)(field, change.value) });
+            return {
+                ...change,
+                field,
+                value: (0, projection_resource_js_1.normalizeProjectionCodecValue)(field, change.value),
+            };
         });
     }
     async explainIndexedEquality(dataSource, definition, field, scopeId, value) {
@@ -194,10 +197,9 @@ class SqliteProjectionDialect extends BaseProjectionDialect {
         let expression = `COALESCE(${payloadColumn}, '{}')`;
         const parameters = {};
         changes.forEach((change, index) => {
-            var _a;
             const parameter = `projection_json_${index}`;
             parameters[parameter] = JSON.stringify(change.value);
-            expression = `json_set(${expression}, '${this.jsonPath((_a = change.field.path) !== null && _a !== void 0 ? _a : [])}', json(:${parameter}))`;
+            expression = `json_set(${expression}, '${this.jsonPath(change.field.path ?? [])}', json(:${parameter}))`;
         });
         return { expression, parameters };
     }
@@ -205,9 +207,8 @@ class SqliteProjectionDialect extends BaseProjectionDialect {
         return `$.${path.join('.')}`;
     }
     isScopedIdentityConflict(error, definition) {
-        var _a;
         const driverError = this.driverError(error);
-        const message = String((_a = driverError.message) !== null && _a !== void 0 ? _a : '');
+        const message = String(driverError.message ?? '');
         return (driverError.code === 'SQLITE_CONSTRAINT' &&
             message.includes(`${definition.tableName}.${definition.scope.column}`) &&
             message.includes(`${definition.tableName}.${definition.identity.column}`));
@@ -248,10 +249,9 @@ class PostgresProjectionDialect extends BaseProjectionDialect {
         expression = `CASE WHEN jsonb_typeof(${expression}) = 'object' THEN ${expression} ELSE '{}'::jsonb END`;
         const parameters = {};
         changes.forEach((change, index) => {
-            var _a;
             const parameter = `projection_json_${index}`;
             parameters[parameter] = JSON.stringify(change.value);
-            const path = (_a = change.field.path) !== null && _a !== void 0 ? _a : [];
+            const path = change.field.path ?? [];
             for (let depth = 1; depth < path.length; depth += 1) {
                 expression = this.jsonObjectAtPath(expression, path.slice(0, depth));
             }
@@ -274,14 +274,13 @@ class PostgresProjectionDialect extends BaseProjectionDialect {
                 `${definition.tableName}_scope_${definition.identity.column}_unique`);
     }
     async inspect(dataSource, definition) {
-        var _a, _b, _c;
         (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
         const columns = await dataSource.query('SELECT data_type FROM information_schema.columns WHERE table_name = $1 AND column_name = $2', [definition.tableName, definition.payload.column]);
         const indexes = await dataSource.query('SELECT indexname FROM pg_indexes WHERE tablename = $1', [definition.tableName]);
         return {
-            payloadStorage: (_b = (_a = columns[0]) === null || _a === void 0 ? void 0 : _a.data_type) !== null && _b !== void 0 ? _b : 'missing',
+            payloadStorage: columns[0]?.data_type ?? 'missing',
             indexes: indexes.map((row) => row.indexname),
-            validJson: ((_c = columns[0]) === null || _c === void 0 ? void 0 : _c.data_type) === 'jsonb',
+            validJson: columns[0]?.data_type === 'jsonb',
         };
     }
     async analyze(dataSource, definition) {

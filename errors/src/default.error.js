@@ -1,58 +1,52 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorToDefaultError = exports.DefaultError = exports.DefaultErrorMixin = exports.newDefaultError = exports.ON_DEFAULT_ERROR_EVENT = void 0;
 exports.formatCause = formatCause;
 exports.DefaultErrorBase = DefaultErrorBase;
 exports.isDefaultErrorMixin = isDefaultErrorMixin;
 exports.isDefaultErrorMixinClass = isDefaultErrorMixinClass;
-const event_helper_js_1 = require("@nestjs-yalc/event-manager/event.helper.js");
-const global_emitter_js_1 = require("@nestjs-yalc/event-manager/global-emitter.js");
-const logger_factory_js_1 = require("@nestjs-yalc/logger/logger.factory.js");
-const logger_helper_js_1 = require("@nestjs-yalc/logger/logger.helper.js");
-const http_helper_js_1 = require("@nestjs-yalc/utils/http.helper.js");
+const event_helper_js_1 = require("@nest-yalc-2/event-manager/event.helper.js");
+const global_emitter_js_1 = require("@nest-yalc-2/event-manager/global-emitter.js");
+const logger_factory_js_1 = require("@nest-yalc-2/logger/logger.factory.js");
+const logger_helper_js_1 = require("@nest-yalc-2/logger/logger.helper.js");
+const http_helper_js_1 = require("@nest-yalc-2/utils/http.helper.js");
 const common_1 = require("@nestjs/common");
 const error_enum_js_1 = require("./error.enum.js");
-const object_helper_js_1 = require("@nestjs-yalc/utils/object.helper.js");
-const class_helper_js_1 = require("@nestjs-yalc/utils/class.helper.js");
+const object_helper_js_1 = require("@nest-yalc-2/utils/object.helper.js");
+const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
 exports.ON_DEFAULT_ERROR_EVENT = 'onDefaultError';
 const newDefaultError = (base, options, ...args) => {
     return new ((0, exports.DefaultErrorMixin)(base))(options, ...args);
 };
 exports.newDefaultError = newDefaultError;
 function formatCause(error) {
-    var _a;
     if (!error) {
         return undefined;
     }
-    return Object.assign(Object.assign({}, error), { message: (_a = error.message) !== null && _a !== void 0 ? _a : error.toString(), stack: error.stack, parentCause: error.cause ? formatCause(error.cause) : undefined, cause: undefined });
+    return {
+        ...error,
+        message: error.message ?? error.toString(),
+        stack: error.stack,
+        parentCause: error.cause ? formatCause(error.cause) : undefined,
+        cause: undefined,
+    };
 }
 const DefaultErrorMixin = (base) => {
-    const BaseClass = base !== null && base !== void 0 ? base : common_1.HttpException;
+    const BaseClass = base ?? common_1.HttpException;
     class _AbstractDefaultError extends BaseClass {
+        static { this.defaultStatusCode = common_1.HttpStatus.INTERNAL_SERVER_ERROR; }
         constructor(options, ...args) {
-            var _a, _b, _c, _d;
             super(...args);
             this.__DefaultErrorMixin = Object.freeze(true);
-            const message = (_a = options.internalMessage) !== null && _a !== void 0 ? _a : this.message;
+            const message = options.internalMessage ?? this.message;
             this.setErrorInfo(options);
             if (options.logger) {
                 const { instance, level } = options.logger !== true
                     ? options.logger
                     : { instance: undefined, level: undefined };
                 this.logger = {
-                    instance: instance !== null && instance !== void 0 ? instance : (0, logger_factory_js_1.AppLoggerFactory)('DefaultError'),
-                    level: level !== null && level !== void 0 ? level : (0, event_helper_js_1.getLogLevelByStatus)(this.getStatus()),
+                    instance: instance ?? (0, logger_factory_js_1.AppLoggerFactory)('DefaultError'),
+                    level: level ?? (0, event_helper_js_1.getLogLevelByStatus)(this.getStatus()),
                 };
                 if (this.logger.level === 'error') {
                     this.logger.instance.error(message, this.resolvedStack, {
@@ -61,7 +55,7 @@ const DefaultErrorMixin = (base) => {
                     });
                 }
                 else {
-                    (_c = (_b = this.logger.instance) === null || _b === void 0 ? void 0 : _b[this.logger.level]) === null || _c === void 0 ? void 0 : _c.call(_b, message, {
+                    this.logger.instance?.[this.logger.level]?.(message, {
                         data: this.eventPayload,
                         stack: this.resolvedStack,
                     });
@@ -71,33 +65,42 @@ const DefaultErrorMixin = (base) => {
                 ? (0, global_emitter_js_1.getYalcGlobalEventEmitter)()
                 : options.eventEmitter;
             if (eventEmitter !== false) {
-                (_d = this.eventName) !== null && _d !== void 0 ? _d : (this.eventName = exports.ON_DEFAULT_ERROR_EVENT);
+                this.eventName ??= exports.ON_DEFAULT_ERROR_EVENT;
                 this.eventEmitter = eventEmitter;
-                this.eventEmitter.emit(this.eventName, Object.assign(Object.assign({}, this.eventPayload), { eventName: this.eventName }));
+                this.eventEmitter.emit(this.eventName, {
+                    ...this.eventPayload,
+                    eventName: this.eventName,
+                });
             }
         }
         setErrorInfo(options) {
-            var _a, _b, _c, _d, _e;
-            const stack = (_a = options.stack) !== null && _a !== void 0 ? _a : this.stack;
+            const stack = options.stack ?? this.stack;
             const errorCode = this.getStatus();
             this.cause = formatCause(this.cause);
-            this.internalMessage = (_b = options.internalMessage) !== null && _b !== void 0 ? _b : (_c = this.cause) === null || _c === void 0 ? void 0 : _c.message;
+            this.internalMessage = options.internalMessage ?? this.cause?.message;
             this.eventName = options.eventName;
             this.description =
-                (_d = options.description) !== null && _d !== void 0 ? _d : (0, http_helper_js_1.getHttpStatusDescription)(errorCode);
-            this.betterResponse = _AbstractDefaultError.buildResponse(this.message, this.description, errorCode, (_e = options === null || options === void 0 ? void 0 : options.response) !== null && _e !== void 0 ? _e : super.getResponse());
+                options.description ?? (0, http_helper_js_1.getHttpStatusDescription)(errorCode);
+            this.betterResponse = _AbstractDefaultError.buildResponse(this.message, this.description, errorCode, options?.response ?? super.getResponse());
             this.data = options.masks
                 ? (0, logger_helper_js_1.maskDataInObject)(options.data, options.masks)
                 : options.data;
             const cause = this.cause;
-            const payload = Object.assign(Object.assign({ data: this.data, eventName: this.eventName, description: this.description, internalMessage: this.internalMessage, errorName: this.name }, this.betterResponse), { stack,
-                cause });
+            const payload = {
+                data: this.data,
+                eventName: this.eventName,
+                description: this.description,
+                internalMessage: this.internalMessage,
+                errorName: this.name,
+                ...this.betterResponse,
+                stack,
+                cause,
+            };
             this.resolvedStack = stack;
             this.eventPayload = payload;
         }
         mergeErrorInfo(info) {
-            var _a;
-            const { internalMessage, description, eventName, data, stack, cause, response } = info, rest = __rest(info, ["internalMessage", "description", "eventName", "data", "stack", "cause", "response"]);
+            const { internalMessage, description, eventName, data, stack, cause, response, ...rest } = info;
             if (internalMessage)
                 this.internalMessage = internalMessage;
             if (description)
@@ -105,7 +108,7 @@ const DefaultErrorMixin = (base) => {
             if (eventName)
                 this.eventName = eventName;
             if (data)
-                this.data = (0, object_helper_js_1.deepMergeWithoutArrayConcat)((_a = this.data) !== null && _a !== void 0 ? _a : {}, data);
+                this.data = (0, object_helper_js_1.deepMergeWithoutArrayConcat)(this.data ?? {}, data);
             if (stack)
                 this.resolvedStack = stack;
             if (cause) {
@@ -113,10 +116,23 @@ const DefaultErrorMixin = (base) => {
                 this.eventPayload.cause = this.cause;
             }
             if (response) {
-                this.betterResponse = Object.assign(Object.assign({}, this.betterResponse), _AbstractDefaultError.buildResponse(this.message, this.description, this.getStatus(), response));
+                this.betterResponse = {
+                    ...this.betterResponse,
+                    ..._AbstractDefaultError.buildResponse(this.message, this.description, this.getStatus(), response),
+                };
                 this.message = this.betterResponse.message;
             }
-            this.eventPayload = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, this.eventPayload), rest), { data: this.data, eventName: this.eventName, description: this.description, internalMessage: this.internalMessage, errorName: this.name }), this.betterResponse), { stack: this.resolvedStack });
+            this.eventPayload = {
+                ...this.eventPayload,
+                ...rest,
+                data: this.data,
+                eventName: this.eventName,
+                description: this.description,
+                internalMessage: this.internalMessage,
+                errorName: this.name,
+                ...this.betterResponse,
+                stack: this.resolvedStack,
+            };
         }
         getEventPayload() {
             return this.eventPayload;
@@ -131,8 +147,7 @@ const DefaultErrorMixin = (base) => {
             return this.betterResponse;
         }
         toString() {
-            var _a;
-            return `${(_a = this.internalMessage) !== null && _a !== void 0 ? _a : this.message} -\n [INFO: ${JSON.stringify(this.eventPayload, null, 2)}]`;
+            return `${this.internalMessage ?? this.message} -\n [INFO: ${JSON.stringify(this.eventPayload, null, 2)}]`;
         }
         static buildResponse(message, codeDescription, statusCode, response) {
             let responseObj = {};
@@ -143,36 +158,37 @@ const DefaultErrorMixin = (base) => {
                 responseObj = response;
             }
             const baseBody = common_1.HttpException.createBody(message, (0, error_enum_js_1.getHttpStatusNameByCode)(statusCode), statusCode);
-            return Object.assign(Object.assign(Object.assign({ statusCodeDescription: codeDescription }, baseBody), { message }), responseObj);
+            return {
+                statusCodeDescription: codeDescription,
+                ...baseBody,
+                message,
+                ...responseObj,
+            };
         }
     }
-    _AbstractDefaultError.defaultStatusCode = common_1.HttpStatus.INTERNAL_SERVER_ERROR;
     return _AbstractDefaultError;
 };
 exports.DefaultErrorMixin = DefaultErrorMixin;
 function DefaultErrorBase(base) {
-    var _a;
-    return _a = class extends (0, exports.DefaultErrorMixin)(base !== null && base !== void 0 ? base : common_1.HttpException) {
-            constructor(internalMessage, options, ...args) {
-                super(Object.assign(Object.assign({}, (options !== null && options !== void 0 ? options : {})), { internalMessage }), ...args);
-            }
-        },
-        _a.defaultStatusCode = common_1.HttpStatus.INTERNAL_SERVER_ERROR,
-        _a;
+    return class extends (0, exports.DefaultErrorMixin)(base ?? common_1.HttpException) {
+        static { this.defaultStatusCode = common_1.HttpStatus.INTERNAL_SERVER_ERROR; }
+        constructor(internalMessage, options, ...args) {
+            super({ ...(options ?? {}), internalMessage }, ...args);
+        }
+    };
 }
 class DefaultError extends DefaultErrorBase(common_1.HttpException) {
+    static { this.defaultStatusCode = common_1.HttpStatus.INTERNAL_SERVER_ERROR; }
     constructor(internalMessage, options) {
-        const _a = options !== null && options !== void 0 ? options : {}, { description, cause, response, errorCode } = _a, defaultOptions = __rest(_a, ["description", "cause", "response", "errorCode"]);
-        super(internalMessage, Object.assign(Object.assign({}, defaultOptions), { description }), response !== null && response !== void 0 ? response : {}, errorCode !== null && errorCode !== void 0 ? errorCode : common_1.HttpStatus.INTERNAL_SERVER_ERROR, {
+        const { description, cause, response, errorCode, ...defaultOptions } = options ?? {};
+        super(internalMessage, { ...defaultOptions, description }, response ?? {}, errorCode ?? common_1.HttpStatus.INTERNAL_SERVER_ERROR, {
             description,
             cause,
         });
     }
 }
 exports.DefaultError = DefaultError;
-DefaultError.defaultStatusCode = common_1.HttpStatus.INTERNAL_SERVER_ERROR;
 const errorToDefaultError = (error, options = {}) => {
-    var _a, _b;
     try {
         if (isDefaultErrorMixin(error)) {
             return error;
@@ -182,18 +198,24 @@ const errorToDefaultError = (error, options = {}) => {
     try {
         if (error instanceof common_1.HttpException) {
             JSON.stringify(error.cause);
-            return new DefaultError(error.message, Object.assign({ errorCode: error.getStatus(), response: {
+            return new DefaultError(error.message, {
+                errorCode: error.getStatus(),
+                response: {
                     message: error.getResponse().toString(),
                     error: error.name,
                     statusCode: error.getStatus(),
                     statusCodeDescription: (0, http_helper_js_1.getHttpStatusDescription)(error.getStatus()),
-                }, stack: error.stack, cause: error.cause }, options));
+                },
+                stack: error.stack,
+                cause: error.cause,
+                ...options,
+            });
         }
     }
     catch (e) { }
     let name;
     try {
-        name = (_a = error.name) !== null && _a !== void 0 ? _a : 'UnknownError';
+        name = error.name ?? 'UnknownError';
         if (typeof name !== 'string') {
             name = 'UnknownError';
         }
@@ -203,7 +225,7 @@ const errorToDefaultError = (error, options = {}) => {
     }
     let message;
     try {
-        message = (_b = error.message) !== null && _b !== void 0 ? _b : 'UnknownError';
+        message = error.message ?? 'UnknownError';
         if (typeof message !== 'string') {
             message = 'UnknownError';
         }
@@ -224,10 +246,14 @@ const errorToDefaultError = (error, options = {}) => {
         cause = errorCause;
     }
     catch (e) { }
-    return new DefaultError(message, Object.assign({ stack,
-        cause, response: {
+    return new DefaultError(message, {
+        stack,
+        cause,
+        response: {
             error: name,
-        } }, options));
+        },
+        ...options,
+    });
 };
 exports.errorToDefaultError = errorToDefaultError;
 function isDefaultErrorMixin(error) {

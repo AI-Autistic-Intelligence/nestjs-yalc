@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QueryBuilderHelper = exports.ReplicationMode = void 0;
 const typeorm_1 = require("typeorm");
-const maps_interface_1 = require("@nestjs-yalc/interfaces/maps.interface");
+const maps_interface_1 = require("@nest-yalc-2/interfaces/maps.interface");
 const json_helpers_1 = require("./json.helpers");
 var ReplicationMode;
 (function (ReplicationMode) {
@@ -42,11 +42,10 @@ class QueryBuilderHelper {
             queryBuilder.setQueryRunner(queryRunner);
         }
         return operationFn(queryBuilder).finally(async () => {
-            await (queryRunner === null || queryRunner === void 0 ? void 0 : queryRunner.release());
+            await queryRunner?.release();
         });
     }
     static computeFindOperatorExpression(queryBuilder, operator, aliasPath, parameters) {
-        var _a, _b;
         parameters = Array.isArray(parameters) ? parameters : [parameters];
         parameters = parameters.map((v) => {
             return typeof v === 'string'
@@ -89,8 +88,8 @@ class QueryBuilderHelper {
                     throw new Error(`To use the 'ilike' filter the query builder should be defined`);
                 }
                 const { driver } = queryBuilder.connection;
-                if (((_a = driver === null || driver === void 0 ? void 0 : driver.options) === null || _a === void 0 ? void 0 : _a.type) === 'postgres' ||
-                    ((_b = driver === null || driver === void 0 ? void 0 : driver.options) === null || _b === void 0 ? void 0 : _b.type) === 'cockroachdb') {
+                if (driver?.options?.type === 'postgres' ||
+                    driver?.options?.type === 'cockroachdb') {
                     return `${aliasPath} ILIKE ${parameters[0]}`;
                 }
                 return `UPPER(${aliasPath}) LIKE UPPER(${parameters[0]})`;

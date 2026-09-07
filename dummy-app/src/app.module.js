@@ -16,7 +16,7 @@ const test_resolver_1 = require("./test.resolver");
 const user_entity_1 = require("./entities/user.entity");
 const post_entity_1 = require("./entities/post.entity");
 const user_module_1 = require("./modules/user/user.module");
-const gql_complexity_plugin_1 = require("@nestjs-yalc/graphql/plugins/gql-complexity.plugin");
+const gql_complexity_plugin_1 = require("@nest-yalc-2/graphql/plugins/gql-complexity.plugin");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;

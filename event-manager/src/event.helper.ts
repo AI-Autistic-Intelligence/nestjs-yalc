@@ -1,9 +1,9 @@
-import { LogLevelEnum } from '@nestjs-yalc/logger/logger.enum.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
+import { LogLevelEnum } from '@nest-yalc-2/logger/logger.enum.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { LogLevel } from 'typeorm';
 import { IErrorEventOptions } from './event.js';
-import { getStatusCodeFromError } from '@nestjs-yalc/errors/error.helper.js';
+import { getStatusCodeFromError } from '@nest-yalc-2/errors/error.helper.js';
 
 export function getLogLevelByStatus(statusCode: number) {
   let loggerLevel: LogLevel;

@@ -1,4 +1,4 @@
-# @nestjs-yalc/crud-gen
+# @nest-yalc-2/crud-gen
 
 Factory-driven CRUD generator for NestJS with TypeORM and GraphQL/REST helpers (resolvers/controllers, services, dataloaders, repositories, DTO/field mapping).
 
@@ -28,12 +28,12 @@ For a non-pnpm sibling application, use npm's root `overrides` field:
 ```json
 {
   "dependencies": {
-    "@nestjs-yalc/crud-gen": "file:../nestjs-yalc/crud-gen",
-    "@nestjs-yalc/omnikernel-module": "file:../nestjs-yalc/examples/omnikernel/module"
+    "@nest-yalc-2/crud-gen": "file:../nestjs-yalc/crud-gen",
+    "@nest-yalc-2/omnikernel-module": "file:../nestjs-yalc/examples/omnikernel/module"
   },
   "overrides": {
-    "@nestjs-yalc/omnikernel-module": {
-      "@nestjs-yalc/crud-gen": "$@nestjs-yalc/crud-gen"
+    "@nest-yalc-2/omnikernel-module": {
+      "@nest-yalc-2/crud-gen": "$@nest-yalc-2/crud-gen"
     }
   }
 }
@@ -45,23 +45,23 @@ then run `npm install` in the consumer to record the local package identities.
 #### pnpm sibling workspaces
 
 For an unpublished cross-repository build, pin the consumed
-`@nestjs-yalc/*` dependency closure to the materialized local packages in the
+`@nest-yalc-2/*` dependency closure to the materialized local packages in the
 consumer's workspace-root `pnpm-workspace.yaml`. This prevents a transitive
 semver dependency from silently falling back to an older registry artifact.
 Paths are relative to the workspace file:
 
 ```yaml
 overrides:
-  '@nestjs-yalc/crud-gen': 'file:../nestjs-yalc/crud-gen'
-  '@nestjs-yalc/data-loader': 'file:../nestjs-yalc/data-loader'
-  '@nestjs-yalc/database': 'file:../nestjs-yalc/database'
-  '@nestjs-yalc/errors': 'file:../nestjs-yalc/errors'
-  '@nestjs-yalc/event-manager': 'file:../nestjs-yalc/event-manager'
-  '@nestjs-yalc/field-middleware': 'file:../nestjs-yalc/field-middleware'
-  '@nestjs-yalc/graphql': 'file:../nestjs-yalc/graphql'
-  '@nestjs-yalc/interfaces': 'file:../nestjs-yalc/interfaces'
-  '@nestjs-yalc/types': 'file:../nestjs-yalc/types'
-  '@nestjs-yalc/utils': 'file:../nestjs-yalc/utils'
+  '@nest-yalc-2/crud-gen': 'file:../nestjs-yalc/crud-gen'
+  '@nest-yalc-2/data-loader': 'file:../nestjs-yalc/data-loader'
+  '@nest-yalc-2/database': 'file:../nestjs-yalc/database'
+  '@nest-yalc-2/errors': 'file:../nestjs-yalc/errors'
+  '@nest-yalc-2/event-manager': 'file:../nestjs-yalc/event-manager'
+  '@nest-yalc-2/field-middleware': 'file:../nestjs-yalc/field-middleware'
+  '@nest-yalc-2/graphql': 'file:../nestjs-yalc/graphql'
+  '@nest-yalc-2/interfaces': 'file:../nestjs-yalc/interfaces'
+  '@nest-yalc-2/types': 'file:../nestjs-yalc/types'
+  '@nest-yalc-2/utils': 'file:../nestjs-yalc/utils'
 ```
 
 Add direct local dependencies with paths relative to the consuming package:
@@ -69,15 +69,15 @@ Add direct local dependencies with paths relative to the consuming package:
 ```json
 {
   "dependencies": {
-    "@nestjs-yalc/crud-gen": "file:../../nestjs-yalc/crud-gen",
-    "@nestjs-yalc/omnikernel-module": "file:../../nestjs-yalc/examples/omnikernel/module"
+    "@nest-yalc-2/crud-gen": "file:../../nestjs-yalc/crud-gen",
+    "@nest-yalc-2/omnikernel-module": "file:../../nestjs-yalc/examples/omnikernel/module"
   }
 }
 ```
 
 After `npm run build` in this repository, run `pnpm install` from the consumer
 workspace root. The direct dependencies and workspace overrides then resolve
-to one compiled local package graph. Add any further `@nestjs-yalc/*` package
+to one compiled local package graph. Add any further `@nest-yalc-2/*` package
 used by the application to the same local override set; do not mix unpublished
 local framework changes with older registry artifacts.
 
@@ -179,7 +179,7 @@ metadata contract, generated read/write semantics, query capabilities,
 SQLite/PostgreSQL behavior, migration-oriented index DDL, promotion policy,
 limitations, and runnable verification.
 
-> Note: some helpers are imported from subpaths (e.g., `@nestjs-yalc/crud-gen/object.decorator`, `.../crud-gen.helpers`) while the top-level `src/index.ts` export surface is being finalized.
+> Note: some helpers are imported from subpaths (e.g., `@nest-yalc-2/crud-gen/object.decorator`, `.../crud-gen.helpers`) while the top-level `src/index.ts` export surface is being finalized.
 
 ## Documentation
 

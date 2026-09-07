@@ -3,22 +3,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GqlFieldsMap = exports.GqlInfoGenerator = exports.GqlModelFieldsMapper = void 0;
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
-const crud_gen_helpers_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.helpers.js");
+const crud_gen_helpers_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers.js");
 const crud_gen_args_helpers_js_1 = require("../typeorm/crud-gen-args.helpers.js");
 const GqlModelFieldsMapper = (data, info) => {
-    var _a, _b;
     const fieldMapper = (0, crud_gen_helpers_js_1.objectToFieldMapper)(data);
     let keys = [];
     const keysMeta = {};
     const processSubItems = (mapper, item, prefix = '', path = '') => {
-        var _a, _b;
         if (path && !path.endsWith('.'))
             path += '.';
         if (item.name.value === 'pageData' && item.selectionSet)
             return;
         if (item.selectionSet) {
             const relationField = mapper.field[item.name.value];
-            const sourceKey = (_a = relationField === null || relationField === void 0 ? void 0 : relationField.relation) === null || _a === void 0 ? void 0 : _a.sourceKey;
+            const sourceKey = relationField?.relation?.sourceKey;
             if (sourceKey) {
                 const normalizedPath = path ? path : '';
                 const relationKey = `${normalizedPath}${sourceKey.dst}`;
@@ -38,9 +36,8 @@ const GqlModelFieldsMapper = (data, info) => {
                 }
             }
             item.selectionSet.selections.forEach((subItem) => {
-                var _a;
                 if (subItem.selectionSet) {
-                    const extraInfo = (_a = mapper.extraInfo) === null || _a === void 0 ? void 0 : _a[subItem.name.value];
+                    const extraInfo = mapper.extraInfo?.[subItem.name.value];
                     if (extraInfo) {
                         const nestedMapper = (0, crud_gen_helpers_js_1.objectToFieldMapper)(extraInfo);
                         if (item.name.value === 'nodes') {
@@ -83,7 +80,7 @@ const GqlModelFieldsMapper = (data, info) => {
         const dst = (0, crud_gen_helpers_js_1.columnConversion)(item.name.value, mapper.field).toString();
         const key = path + dst;
         const isNested = !!path;
-        if (isNested || ((_b = mapper.field[item.name.value]) === null || _b === void 0 ? void 0 : _b.mode) === 'derived') {
+        if (isNested || mapper.field[item.name.value]?.mode === 'derived') {
             keysMeta[key] = {
                 fieldMapper: mapper.field[item.name.value],
                 isNested,
@@ -93,7 +90,7 @@ const GqlModelFieldsMapper = (data, info) => {
         }
         keys.push(key);
     };
-    (_b = (_a = info.fieldNodes) === null || _a === void 0 ? void 0 : _a[0].selectionSet) === null || _b === void 0 ? void 0 : _b.selections.forEach((item) => processSubItems(fieldMapper, item));
+    info.fieldNodes?.[0].selectionSet?.selections.forEach((item) => processSubItems(fieldMapper, item));
     Object.keys(fieldMapper.field).forEach((k) => {
         const v = fieldMapper.field[k];
         if (v.isRequired) {

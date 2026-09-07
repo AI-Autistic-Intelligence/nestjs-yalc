@@ -1,11 +1,11 @@
-import { CrudGenResourceFactory } from '@nestjs-yalc/crud-gen';
+import { CrudGenResourceFactory } from '@nest-yalc-2/crud-gen';
 import {
   SkeletonPhone,
   SkeletonPhoneCondition,
   SkeletonPhoneCreateInput,
   SkeletonPhoneType,
   SkeletonPhoneUpdateInput,
-} from '@nestjs-yalc/skeleton-module';
+} from '@nest-yalc-2/skeleton-module';
 import { bindGeneratedDataloaderEventEmitter } from '../crudgen-provider-compat.js';
 
 export const phonesResource = CrudGenResourceFactory<SkeletonPhone>({

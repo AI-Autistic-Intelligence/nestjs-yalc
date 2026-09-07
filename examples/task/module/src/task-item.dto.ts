@@ -8,9 +8,9 @@ import {
 import {
   ModelField,
   ModelObject,
-} from '@nestjs-yalc/crud-gen/object.decorator.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar.js';
+} from '@nest-yalc-2/crud-gen/object.decorator.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
 import { TaskItem } from './task-item.entity.js';
 import { TaskProjectType } from './task-project.dto.js';
 import { TaskProject } from './task-project.entity.js';

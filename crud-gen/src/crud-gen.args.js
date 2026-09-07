@@ -18,47 +18,45 @@ exports.crudGenParamsNoPaginationFactory = crudGenParamsNoPaginationFactory;
 const graphql_1 = require("@nestjs/graphql");
 const crud_gen_input_js_1 = require("./api-graphql/crud-gen.input.js");
 const filter_scalar_js_1 = require("./filter.scalar.js");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const crud_gen_enum_js_1 = require("./crud-gen.enum.js");
 exports.typeMap = new WeakMap();
 function crudGenParamsFactory(defaultValues, entityModel) {
-    var _a, _b;
     const SortType = entityModel ? [(0, crud_gen_input_js_1.sortModelFactory)(entityModel)] : [crud_gen_input_js_1.SortModel];
     const FilterType = entityModel
         ? (0, crud_gen_input_js_1.filterExpressionInputFactory)(entityModel)
         : filter_scalar_js_1.FilterScalar;
     let CrudGenParams = class CrudGenParams {
         constructor() {
-            var _a, _b;
-            this.startRow = (_a = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.startRow) !== null && _a !== void 0 ? _a : crud_gen_enum_js_1.RowDefaultValues.START_ROW;
-            this.endRow = (_b = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.endRow) !== null && _b !== void 0 ? _b : crud_gen_enum_js_1.RowDefaultValues.END_ROW;
+            this.startRow = defaultValues?.startRow ?? crud_gen_enum_js_1.RowDefaultValues.START_ROW;
+            this.endRow = defaultValues?.endRow ?? crud_gen_enum_js_1.RowDefaultValues.END_ROW;
         }
     };
     __decorate([
         (0, graphql_1.Field)(() => Number, {
             nullable: true,
-            defaultValue: (_a = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.startRow) !== null && _a !== void 0 ? _a : crud_gen_enum_js_1.RowDefaultValues.START_ROW,
+            defaultValue: defaultValues?.startRow ?? crud_gen_enum_js_1.RowDefaultValues.START_ROW,
         }),
         __metadata("design:type", Number)
     ], CrudGenParams.prototype, "startRow", void 0);
     __decorate([
         (0, graphql_1.Field)(() => Number, {
             nullable: true,
-            defaultValue: (_b = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.endRow) !== null && _b !== void 0 ? _b : crud_gen_enum_js_1.RowDefaultValues.END_ROW,
+            defaultValue: defaultValues?.endRow ?? crud_gen_enum_js_1.RowDefaultValues.END_ROW,
         }),
         __metadata("design:type", Number)
     ], CrudGenParams.prototype, "endRow", void 0);
     __decorate([
         (0, graphql_1.Field)((0, returnValue_js_1.default)(SortType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.sorting,
+            defaultValue: defaultValues?.sorting,
         }),
         __metadata("design:type", Object)
     ], CrudGenParams.prototype, "sorting", void 0);
     __decorate([
         (0, graphql_1.Field)((0, returnValue_js_1.default)(FilterType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.filters,
+            defaultValue: defaultValues?.filters,
         }),
         __metadata("design:type", Object)
     ], CrudGenParams.prototype, "filters", void 0);
@@ -78,14 +76,14 @@ function crudGenParamsNoPaginationFactory(defaultValues, entityModel) {
     __decorate([
         (0, graphql_1.Field)((0, returnValue_js_1.default)(SortType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.sorting,
+            defaultValue: defaultValues?.sorting,
         }),
         __metadata("design:type", Object)
     ], CrudGenParams.prototype, "sorting", void 0);
     __decorate([
         (0, graphql_1.Field)((0, returnValue_js_1.default)(FilterType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.filters,
+            defaultValue: defaultValues?.filters,
         }),
         __metadata("design:type", Object)
     ], CrudGenParams.prototype, "filters", void 0);

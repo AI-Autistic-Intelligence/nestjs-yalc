@@ -8,7 +8,7 @@ import {
   EntityError,
   UpdateEntityError,
 } from './entity.error';
-import { getConnectionName } from '@nestjs-yalc/database/conn.helper';
+import { getConnectionName } from '@nest-yalc-2/database/conn.helper';
 import { FactoryProvider, Injectable } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
@@ -20,11 +20,11 @@ import {
 } from 'typeorm';
 import { FindOptionsWhere } from 'typeorm';
 import { FindManyOptions } from 'typeorm';
-import { AgGridRepository } from '@nestjs-yalc/ag-grid/ag-grid.repository';
-import { AgGridFindManyOptions } from '@nestjs-yalc/ag-grid/ag-grid.interface';
-import { ClassType } from '@nestjs-yalc/types/globals';
-import { ReplicationMode } from '@nestjs-yalc/database/query-builder.helper';
-import { isClass } from '@nestjs-yalc/utils/class.helper';
+import { AgGridRepository } from '@nest-yalc-2/ag-grid/ag-grid.repository';
+import { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
+import { ClassType } from '@nest-yalc-2/types/globals';
+import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper';
+import { isClass } from '@nest-yalc-2/utils/class.helper';
 import { getAgGridFieldMetadataList, isDstExtended } from './object.decorator';
 import { getProviderToken } from './ag-grid-factory.helper';
 

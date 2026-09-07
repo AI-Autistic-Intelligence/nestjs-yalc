@@ -1,4 +1,4 @@
-import { GqlError } from '@nestjs-yalc/graphql/plugins/gql.error.js';
+import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
 export declare class CrudGenError extends GqlError {
     systemMessage?: string | undefined;
     constructor(message?: string, systemMessage?: string | undefined);

@@ -50,17 +50,17 @@ exports.yalcBaseAppModuleMetadataFactory = yalcBaseAppModuleMetadataFactory;
 const def_const_js_1 = require("./def.const.js");
 const life_cycle_handler_service_js_1 = require("./life-cycle-handler.service.js");
 const common_1 = require("@nestjs/common");
-const logger_service_js_1 = require("@nestjs-yalc/logger/logger.service.js");
+const logger_service_js_1 = require("@nest-yalc-2/logger/logger.service.js");
 const app_config_service_js_1 = require("./app-config.service.js");
 const app_context_module_js_1 = require("./app-context.module.js");
 const global_enum_js_1 = require("./global.enum.js");
 const config_1 = require("@nestjs/config");
 const joi_1 = __importDefault(require("joi"));
-const index_js_1 = require("@nestjs-yalc/event-manager/index.js");
+const index_js_1 = require("@nest-yalc-2/event-manager/index.js");
 const event_emitter_1 = require("@nestjs/event-emitter");
 const cls_module_js_1 = require("./cls.module.js");
 const _ = __importStar(require("lodash-es"));
-const logger_helper_js_1 = require("@nestjs-yalc/logger/logger.helper.js");
+const logger_helper_js_1 = require("@nest-yalc-2/logger/logger.helper.js");
 const singletonDynamicModules = new Map();
 function registerSingletonDynamicModule(isSingleton, moduleToken, module) {
     if (!isSingleton) {
@@ -105,8 +105,11 @@ const _buildEnvFilePath = _.memoize((envDir, envPath) => {
 });
 exports.buildEnvFilePath = _buildEnvFilePath;
 function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
-    var _a, _b;
-    const _options = Object.assign({ isSingleton: false, global: true }, (options !== null && options !== void 0 ? options : {}));
+    const _options = {
+        isSingleton: false,
+        global: true,
+        ...(options ?? {}),
+    };
     const { controllers, exports, imports, providers } = _options;
     const cached = getCachedModule(module, _options.isSingleton);
     if (cached) {
@@ -130,7 +133,7 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
             useExisting: 'INTERNAL_APP_EVENT_SERVICE',
         },
     ];
-    const logger = options === null || options === void 0 ? void 0 : options.logger;
+    const logger = options?.logger;
     if (logger) {
         _providers.push((logger === true ? logger_service_js_1.LoggerServiceFactory : logger)(appAlias, def_const_js_1.APP_LOGGER_SERVICE, appAlias));
         _providers.push({
@@ -153,8 +156,8 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     }
     const _imports = [];
     if (hasConfig) {
-        const envFilePath = _buildEnvFilePath(options === null || options === void 0 ? void 0 : options.envDir, options === null || options === void 0 ? void 0 : options.envPath);
-        _imports.push(YalcGlobalStaticModule, ((_a = options === null || options === void 0 ? void 0 : options.eventModuleClass) !== null && _a !== void 0 ? _a : index_js_1.EventModule).forRootAsync({
+        const envFilePath = _buildEnvFilePath(options?.envDir, options?.envPath);
+        _imports.push(YalcGlobalStaticModule, (options?.eventModuleClass ?? index_js_1.EventModule).forRootAsync({
             imports: [module],
             loggerProvider: {
                 provide: 'INTERNAL_APP_LOGGER_SERVICE',
@@ -169,11 +172,10 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
             envFilePath,
             load: [
                 (0, config_1.registerAs)(appAlias, async () => {
-                    var _a, _b;
                     await config_1.ConfigModule.envVariablesLoaded;
-                    return await ((_b = (_a = _options.configFactory) === null || _a === void 0 ? void 0 : _a.call(_options)) !== null && _b !== void 0 ? _b : {});
+                    return await (_options.configFactory?.() ?? {});
                 }),
-                ...((_b = _options.extraConfigs) !== null && _b !== void 0 ? _b : []),
+                ...(_options.extraConfigs ?? []),
             ],
             validationSchema: joi_1.default.object({
                 NODE_ENV: joi_1.default.string()
@@ -191,7 +193,7 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
         _imports.push(...imports);
     }
     const _exports = [(0, app_config_service_js_1.getAppEventToken)(appAlias)];
-    if (options === null || options === void 0 ? void 0 : options.logger) {
+    if (options?.logger) {
         _exports.push((0, app_config_service_js_1.getAppLoggerToken)(appAlias));
     }
     if (hasConfig) {
@@ -218,16 +220,23 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
 }
 class YalcBaseAppModule {
     static _forRootStandalone(appAlias, options) {
-        return this.assignDynamicProperties(yalcBaseAppModuleMetadataFactory(this, appAlias, Object.assign(Object.assign({ isStandalone: true }, this.assignDynamicProperties({})), options)), options);
+        return this.assignDynamicProperties(yalcBaseAppModuleMetadataFactory(this, appAlias, {
+            isStandalone: true,
+            ...this.assignDynamicProperties({}),
+            ...options,
+        }), options);
     }
     static _forRoot(appAlias, options) {
-        return this.assignDynamicProperties(yalcBaseAppModuleMetadataFactory(this, appAlias, Object.assign(Object.assign({ isStandalone: false }, this.assignDynamicProperties({})), options)), options);
+        return this.assignDynamicProperties(yalcBaseAppModuleMetadataFactory(this, appAlias, {
+            isStandalone: false,
+            ...this.assignDynamicProperties({}),
+            ...options,
+        }), options);
     }
     static assignDynamicProperties(config, options) {
-        var _a, _b;
         config.module = this;
-        config.global = (_a = options === null || options === void 0 ? void 0 : options.global) !== null && _a !== void 0 ? _a : true;
-        config.isSingleton = (_b = options === null || options === void 0 ? void 0 : options.isSingleton) !== null && _b !== void 0 ? _b : false;
+        config.global = options?.global ?? true;
+        config.isSingleton = options?.isSingleton ?? false;
         return config;
     }
 }
@@ -252,10 +261,9 @@ exports.YalcGlobalStaticModule = YalcGlobalStaticModule = __decorate([
 ], YalcGlobalStaticModule);
 class YalcDefaultAppModule {
     static forRoot(appAlias, imports, options) {
-        var _a;
         const _imports = [
             YalcGlobalStaticModule,
-            ((_a = options === null || options === void 0 ? void 0 : options.eventModuleClass) !== null && _a !== void 0 ? _a : index_js_1.EventModule).forRootAsync({
+            (options?.eventModuleClass ?? index_js_1.EventModule).forRootAsync({
                 loggerProvider: {
                     provide: 'INTERNAL_SYSTEM_LOGGER_SERVICE',
                     useExisting: def_const_js_1.SYSTEM_LOGGER_SERVICE,
@@ -279,8 +287,7 @@ class YalcDefaultAppModule {
         providers.push({
             provide: def_const_js_1.SYSTEM_LOGGER_SERVICE,
             useFactory: (configService, eventEmitter) => {
-                var _a;
-                const loggerFactory = (_a = options === null || options === void 0 ? void 0 : options.logger) !== null && _a !== void 0 ? _a : logger_service_js_1.LoggerServiceFactory;
+                const loggerFactory = options?.logger ?? logger_service_js_1.LoggerServiceFactory;
                 return loggerFactory(appAlias, def_const_js_1.SYSTEM_LOGGER_SERVICE, appAlias, {
                     event: {
                         eventEmitter: eventEmitter,

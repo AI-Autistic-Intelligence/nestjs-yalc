@@ -6,10 +6,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './users.dto';
-import { GenericService } from '@nestjs-yalc/crud-gen/typeorm/generic.service';
-import { SkeletonUser } from '@nestjs-yalc/skeleton-module/src/skeleton-user.entity';
+import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service';
+import { SkeletonUser } from '@nest-yalc-2/skeleton-module/src/skeleton-user.entity';
 import { Inject } from '@nestjs/common';
-import { getProviderToken } from '@nestjs-yalc/crud-gen/crud-gen.helpers';
+import { getProviderToken } from '@nest-yalc-2/crud-gen/crud-gen.helpers';
 import { BadRequestException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 

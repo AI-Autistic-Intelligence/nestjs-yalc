@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { DynamicModule, Type } from '@nestjs/common';
 import { BaseAppBootstrap, IGlobalOptions } from './app-bootstrap-base.helper.js';
 export declare function isDynamicModule(module: any): module is DynamicModule;

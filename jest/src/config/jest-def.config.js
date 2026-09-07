@@ -32,17 +32,6 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.coverageThreshold = exports.tsJestConfig = exports.tsJestConfigE2E = exports.globals = exports.coveragePathIgnorePatterns = void 0;
 const path = __importStar(require("path"));
@@ -63,10 +52,16 @@ const globals = () => {
 };
 exports.globals = globals;
 const tsJestConfigE2E = (tsConfPath = '', withGqlPlugin = true, overrideTsJestConfig) => {
-    var _a;
     const tsConfigFile = readTsConfig.getTsconfig(path.resolve(tsConfPath));
-    const _b = overrideTsJestConfig !== null && overrideTsJestConfig !== void 0 ? overrideTsJestConfig : {}, { tsconfig } = _b, restTsJest = __rest(_b, ["tsconfig"]);
-    const conf = Object.assign({ diagnostics: false, tsconfig: Object.assign(Object.assign({}, ((_a = tsConfigFile === null || tsConfigFile === void 0 ? void 0 : tsConfigFile.config.compilerOptions) !== null && _a !== void 0 ? _a : {})), (tsconfig !== null && tsconfig !== void 0 ? tsconfig : {})) }, restTsJest);
+    const { tsconfig, ...restTsJest } = overrideTsJestConfig ?? {};
+    const conf = {
+        diagnostics: false,
+        tsconfig: {
+            ...(tsConfigFile?.config.compilerOptions ?? {}),
+            ...(tsconfig ?? {}),
+        },
+        ...restTsJest,
+    };
     if (withGqlPlugin) {
         conf.astTransformers = {
             before: [path.join(__dirname, 'gql-plugin.js')],
@@ -76,13 +71,19 @@ const tsJestConfigE2E = (tsConfPath = '', withGqlPlugin = true, overrideTsJestCo
 };
 exports.tsJestConfigE2E = tsJestConfigE2E;
 const tsJestConfig = (tsConfPath = '', overrideTsJestConfig) => {
-    var _a;
     const tsConfigFile = readTsConfig.getTsconfig(path.resolve(path.dirname(tsConfPath)), path.basename(tsConfPath));
-    if ((tsConfigFile === null || tsConfigFile === void 0 ? void 0 : tsConfigFile.path) && path.resolve(tsConfigFile.path) !== path.resolve(tsConfPath)) {
+    if (tsConfigFile?.path && path.resolve(tsConfigFile.path) !== path.resolve(tsConfPath)) {
         throw new Error(`Cannot find ${tsConfPath}`);
     }
-    const _b = overrideTsJestConfig !== null && overrideTsJestConfig !== void 0 ? overrideTsJestConfig : {}, { tsconfig } = _b, restTsJest = __rest(_b, ["tsconfig"]);
-    const config = Object.assign({ tsconfig: Object.assign(Object.assign({}, ((_a = tsConfigFile === null || tsConfigFile === void 0 ? void 0 : tsConfigFile.config.compilerOptions) !== null && _a !== void 0 ? _a : {})), (tsconfig !== null && tsconfig !== void 0 ? tsconfig : {})), diagnostics: false }, restTsJest);
+    const { tsconfig, ...restTsJest } = overrideTsJestConfig ?? {};
+    const config = {
+        tsconfig: {
+            ...(tsConfigFile?.config.compilerOptions ?? {}),
+            ...(tsconfig ?? {}),
+        },
+        diagnostics: false,
+        ...restTsJest,
+    };
     return config;
 };
 exports.tsJestConfig = tsJestConfig;
@@ -93,22 +94,30 @@ const coverageThreshold = (projects = [], defaultCoverageThreshold = {
     statements: 100,
 }) => {
     const coverage = {
-        global: Object.assign({}, defaultCoverageThreshold),
+        global: {
+            ...defaultCoverageThreshold,
+        },
     };
     projects.map((project) => {
-        coverage[project.rootDir] = Object.assign({}, defaultCoverageThreshold);
-        if (project === null || project === void 0 ? void 0 : project.coverageThreshold) {
-            coverage[project.rootDir] = Object.assign(Object.assign({}, coverage[project.rootDir]), project === null || project === void 0 ? void 0 : project.coverageThreshold);
+        coverage[project.rootDir] = {
+            ...defaultCoverageThreshold,
+        };
+        if (project?.coverageThreshold) {
+            coverage[project.rootDir] = {
+                ...coverage[project.rootDir],
+                ...project?.coverageThreshold,
+            };
         }
     });
     return coverage;
 };
 exports.coverageThreshold = coverageThreshold;
-const defaultConf = (dirname, options = {}, tsJestConfig = {}) => {
-    var _a, _b;
+const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
     const tsConfigFile = readTsConfig.getTsconfig(path.join(dirname, 'tsconfig.json'));
-    const compilerOptions = (_a = tsConfigFile === null || tsConfigFile === void 0 ? void 0 : tsConfigFile.config.compilerOptions) !== null && _a !== void 0 ? _a : {};
-    const config = Object.assign({ rootDir: dirname, modulePathIgnorePatterns: [
+    const compilerOptions = tsConfigFile?.config.compilerOptions ?? {};
+    const config = {
+        rootDir: dirname,
+        modulePathIgnorePatterns: [
             '<rootDir>/var/',
             '<rootDir>/env/',
             '<rootDir>/docs/',
@@ -116,7 +125,12 @@ const defaultConf = (dirname, options = {}, tsJestConfig = {}) => {
             '<rootDir>/../dist/',
             '<rootDir>/node_modules/',
             '.*/dist/',
-        ], preset: 'ts-jest/presets/default-esm', testEnvironment: 'node', moduleFileExtensions: [...jest_config_1.defaults.moduleFileExtensions, 'ts'], testRegex: '.*\\.spec\\.ts$', transform: {
+        ],
+        preset: 'ts-jest/presets/default-esm',
+        testEnvironment: 'node',
+        moduleFileExtensions: [...jest_config_1.defaults.moduleFileExtensions, 'ts'],
+        testRegex: '.*\\.spec\\.ts$',
+        transform: {
             '^.+\\.(t|j)sx?$': [
                 '@swc/jest',
                 {
@@ -138,10 +152,19 @@ const defaultConf = (dirname, options = {}, tsJestConfig = {}) => {
                     },
                 },
             ],
-        }, moduleNameMapper: Object.assign({ 'source-map-support/register': 'identity-obj-proxy', '^(\\.{1,2}/.*)\\.js$': '$1.ts' }, (0, ts_jest_1.pathsToModuleNameMapper)((_b = compilerOptions.paths) !== null && _b !== void 0 ? _b : {}, {
-            prefix: `${dirname}/`,
-            useESM: true,
-        })), errorOnDeprecated: true, extensionsToTreatAsEsm: ['.ts'] }, options === null || options === void 0 ? void 0 : options.jestConf);
+        },
+        moduleNameMapper: {
+            'source-map-support/register': 'identity-obj-proxy',
+            '^(\\.{1,2}/.*)\\.js$': '$1.ts',
+            ...(0, ts_jest_1.pathsToModuleNameMapper)(compilerOptions.paths ?? {}, {
+                prefix: `${dirname}/`,
+                useESM: true,
+            }),
+        },
+        errorOnDeprecated: true,
+        extensionsToTreatAsEsm: ['.ts'],
+        ...options?.jestConf,
+    };
     if (options.transformEsModules) {
         const esModules = [
             ...(Array.isArray(options.transformEsModules)

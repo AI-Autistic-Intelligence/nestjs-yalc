@@ -21,9 +21,9 @@ const tokens_js_1 = require("./tokens.js");
 let TelemetryService = class TelemetryService {
     constructor(options) {
         this.options = options;
-        this.tracer = api_1.trace.getTracer('@nestjs-yalc/observability');
-        this.meter = api_1.metrics.getMeter('@nestjs-yalc/observability');
-        this.logger = api_logs_1.logs.getLogger('@nestjs-yalc/observability');
+        this.tracer = api_1.trace.getTracer('@nest-yalc-2/observability');
+        this.meter = api_1.metrics.getMeter('@nest-yalc-2/observability');
+        this.logger = api_logs_1.logs.getLogger('@nest-yalc-2/observability');
         this.eventCounter = this.meter.createCounter('yalc_events_total');
         this.errorCounter = this.meter.createCounter('yalc_event_errors_total');
         this.durationHistogram = this.meter.createHistogram('yalc_operation_duration_ms');
@@ -52,22 +52,21 @@ let TelemetryService = class TelemetryService {
             return;
         }
         this.execute(() => {
-            var _a, _b;
             const attributes = this.buildEventAttributes(eventName, payload);
             const activeSpan = api_1.trace.getActiveSpan();
-            activeSpan === null || activeSpan === void 0 ? void 0 : activeSpan.addEvent(eventName, attributes);
-            if (payload === null || payload === void 0 ? void 0 : payload.errorInfo) {
-                activeSpan === null || activeSpan === void 0 ? void 0 : activeSpan.recordException(payload.errorInfo);
-                activeSpan === null || activeSpan === void 0 ? void 0 : activeSpan.setStatus({
+            activeSpan?.addEvent(eventName, attributes);
+            if (payload?.errorInfo) {
+                activeSpan?.recordException(payload.errorInfo);
+                activeSpan?.setStatus({
                     code: api_1.SpanStatusCode.ERROR,
                     message: getErrorMessage(payload.errorInfo),
                 });
                 this.errorCounter.add(1, attributes);
             }
             this.eventCounter.add(1, attributes);
-            this.emitLogRecord(eventName, attributes, (_a = payload === null || payload === void 0 ? void 0 : payload.level) !== null && _a !== void 0 ? _a : 'info', {
-                body: (_b = payload === null || payload === void 0 ? void 0 : payload.message) !== null && _b !== void 0 ? _b : eventName,
-                exception: payload === null || payload === void 0 ? void 0 : payload.errorInfo,
+            this.emitLogRecord(eventName, attributes, payload?.level ?? 'info', {
+                body: payload?.message ?? eventName,
+                exception: payload?.errorInfo,
             });
         });
     }
@@ -76,8 +75,16 @@ let TelemetryService = class TelemetryService {
             return;
         }
         this.execute(() => {
-            this.durationHistogram.record(durationMs, Object.assign({ 'yalc.operation.name': name }, toTelemetryAttributes(attributes)));
-            this.emitLogRecord(name, Object.assign({ 'yalc.telemetry.kind': 'duration', 'yalc.operation.name': name, 'yalc.operation.duration_ms': durationMs }, toTelemetryAttributes(attributes)), 'info');
+            this.durationHistogram.record(durationMs, {
+                'yalc.operation.name': name,
+                ...toTelemetryAttributes(attributes),
+            });
+            this.emitLogRecord(name, {
+                'yalc.telemetry.kind': 'duration',
+                'yalc.operation.name': name,
+                'yalc.operation.duration_ms': durationMs,
+                ...toTelemetryAttributes(attributes),
+            }, 'info');
         });
     }
     measureWithSpan(name, operation, attributes, startedAt, span) {
@@ -106,7 +113,10 @@ let TelemetryService = class TelemetryService {
         span.end();
     }
     failSpan(name, startedAt, attributes, span, error) {
-        this.recordDuration(name, Date.now() - startedAt, Object.assign(Object.assign({}, attributes), { 'yalc.operation.error': true }));
+        this.recordDuration(name, Date.now() - startedAt, {
+            ...attributes,
+            'yalc.operation.error': true,
+        });
         span.recordException(normalizeError(error));
         span.setStatus({
             code: api_1.SpanStatusCode.ERROR,
@@ -117,27 +127,26 @@ let TelemetryService = class TelemetryService {
     buildEventAttributes(eventName, payload) {
         const attributes = {
             'yalc.event.name': eventName,
-            'yalc.event.payload_name': payload === null || payload === void 0 ? void 0 : payload.eventName,
-            'yalc.event.level': payload === null || payload === void 0 ? void 0 : payload.level,
-            'yalc.event.has_error': Boolean(payload === null || payload === void 0 ? void 0 : payload.errorInfo),
+            'yalc.event.payload_name': payload?.eventName,
+            'yalc.event.level': payload?.level,
+            'yalc.event.has_error': Boolean(payload?.errorInfo),
         };
-        if (payload === null || payload === void 0 ? void 0 : payload.errorInfo) {
+        if (payload?.errorInfo) {
             attributes['yalc.error.name'] = payload.errorInfo.errorName;
             attributes['yalc.error.message'] = getErrorMessage(payload.errorInfo);
             attributes['yalc.error.code'] = payload.errorInfo.errorCode;
         }
-        if (this.options.payload.include && (payload === null || payload === void 0 ? void 0 : payload.data)) {
+        if (this.options.payload.include && payload?.data) {
             attributes['yalc.event.payload'] = safeJsonStringify(maskObject(payload.data, this.options.payload.mask), this.options.payload.maxSize);
         }
         return toTelemetryAttributes(attributes);
     }
     emitLogRecord(name, attributes, severityText, options = {}) {
-        var _a;
         this.logger.emit({
             eventName: name,
             severityText,
             severityNumber: toSeverityNumber(severityText),
-            body: (_a = options.body) !== null && _a !== void 0 ? _a : name,
+            body: options.body ?? name,
             attributes,
             context: api_1.context.active(),
             exception: options.exception,
@@ -182,7 +191,7 @@ function safeJsonStringify(value, maxSize) {
     try {
         output = JSON.stringify(value);
     }
-    catch (_a) {
+    catch {
         output = String(value);
     }
     return output.length > maxSize ? output.slice(0, maxSize) : output;
@@ -225,7 +234,6 @@ function toSeverityNumber(level) {
     return api_logs_1.SeverityNumber.INFO;
 }
 function getErrorMessage(errorInfo) {
-    var _a;
-    return (_a = errorInfo.message) !== null && _a !== void 0 ? _a : errorInfo.internalMessage;
+    return errorInfo.message ?? errorInfo.internalMessage;
 }
 //# sourceMappingURL=telemetry.service.js.map

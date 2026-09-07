@@ -1,5 +1,5 @@
 import { IsInt, IsOptional, IsString, Min } from 'class-validator';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import {
   entityFieldsEnumFactory,
   RowDefaultValues,
@@ -14,7 +14,7 @@ import type {
 } from '../api-graphql/crud-gen-gql.interface.js';
 import { IPageDataCrudGen } from '../crud-gen.interface.js';
 import { Exclude, Expose } from 'class-transformer';
-import { ParseInt } from '@nestjs-yalc/field-middleware/class-transformer.helper.js';
+import { ParseInt } from '@nest-yalc-2/field-middleware/class-transformer.helper.js';
 
 export class CGQueryDto<T = any>
   extends PaginationDTOMixin()

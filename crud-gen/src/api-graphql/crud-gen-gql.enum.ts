@@ -1,5 +1,5 @@
-import { AnyFunction, ClassType } from '@nestjs-yalc/types/globals.d.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
+import { AnyFunction, ClassType } from '@nest-yalc-2/types/globals.d.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
 import { registerEnumType } from '@nestjs/graphql';
 import {
   GeneralFilters,

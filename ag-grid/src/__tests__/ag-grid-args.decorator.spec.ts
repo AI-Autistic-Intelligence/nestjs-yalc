@@ -21,7 +21,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import {
   mockedExecutionContext,
   mockedNestGraphql,
-} from '@nestjs-yalc/jest/common-mocks.helper';
+} from '@nest-yalc-2/jest/common-mocks.helper';
 import {
   FilterInput,
   FilterModel,
@@ -39,7 +39,7 @@ import {
   AgGridInvalidOperatorError,
   AgGridError,
 } from '../ag-grid.error';
-import { DateHelper } from '@nestjs-yalc/utils/date.helper';
+import { DateHelper } from '@nest-yalc-2/utils/date.helper';
 import { GraphQLResolveInfo } from 'graphql';
 import { createMock } from '@golevelup/ts-jest';
 import {

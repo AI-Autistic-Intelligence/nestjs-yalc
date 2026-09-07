@@ -1,4 +1,4 @@
-import { type ProjectionDialect } from '@nestjs-yalc/crud-gen';
+import { type ProjectionDialect } from '@nest-yalc-2/crud-gen';
 import { EntitySchema } from 'typeorm';
 export declare class ProjectionRecord {
     id: number;

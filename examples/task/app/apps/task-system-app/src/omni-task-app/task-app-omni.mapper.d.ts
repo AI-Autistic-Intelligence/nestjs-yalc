@@ -1,4 +1,4 @@
-import { OmniCollectionEntity, OmniExternalRefEntity, OmniExternalRefInternalType, OmniRecordEntity, OmniRecordStatus } from '@nestjs-yalc/omnikernel-module';
+import { OmniCollectionEntity, OmniExternalRefEntity, OmniExternalRefInternalType, OmniRecordEntity, OmniRecordStatus } from '@nest-yalc-2/omnikernel-module';
 import { TaskItemCreateInput, TaskItemType } from '../tasks/task-item.dto';
 import { TaskProjectCreateInput, TaskProjectType } from '../projects/task-project.dto';
 import { TaskEventCreateInput, TaskEventType } from '../events/task-event.dto';

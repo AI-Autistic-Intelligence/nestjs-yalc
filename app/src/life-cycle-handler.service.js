@@ -18,13 +18,12 @@ const def_const_js_1 = require("./def.const.js");
 const app_context_service_js_1 = require("./app-context.service.js");
 let LifeCycleHandler = class LifeCycleHandler {
     constructor(logger, moduleAlias, appContextService, options) {
-        var _a, _b, _c;
         this.logger = logger;
         this.moduleAlias = moduleAlias;
         this.appContextService = appContextService;
         this.options = options;
-        (_b = (_a = this.logger).debug) === null || _b === void 0 ? void 0 : _b.call(_a, `====================== Init ${this.moduleAlias} ======================`);
-        if (((_c = this.options) === null || _c === void 0 ? void 0 : _c.skipDuplicateAppCheck) !== true &&
+        this.logger.debug?.(`====================== Init ${this.moduleAlias} ======================`);
+        if (this.options?.skipDuplicateAppCheck !== true &&
             this.appContextService.initializedApps.has(this.moduleAlias)) {
             throw new Error(`Cannot initialize the same app (${this.moduleAlias}) twice`);
         }
@@ -32,8 +31,7 @@ let LifeCycleHandler = class LifeCycleHandler {
     }
     onModuleInit() { }
     onModuleDestroy() {
-        var _a, _b;
-        (_b = (_a = this.logger).debug) === null || _b === void 0 ? void 0 : _b.call(_a, `====================== Close ${this.moduleAlias} ======================`);
+        this.logger.debug?.(`====================== Close ${this.moduleAlias} ======================`);
         this.appContextService.initializedApps.delete(this.moduleAlias);
     }
 };

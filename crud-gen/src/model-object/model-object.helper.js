@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelFieldToDest = modelFieldToDest;
-const index_js_1 = require("@nestjs-yalc/utils/index.js");
+const index_js_1 = require("@nest-yalc-2/utils/index.js");
 const object_decorator_js_1 = require("../object.decorator.js");
 function isLikeOutputObject(input, output) {
     return (0, index_js_1.objectsHaveSameKeys)(input, output) === true;
 }
 function modelFieldToDest(inputObject, outputObject) {
-    var _a;
     if (!(0, index_js_1.isClass)(inputObject)) {
         if (!isLikeOutputObject(inputObject, outputObject))
             return inputObject;
@@ -17,8 +16,8 @@ function modelFieldToDest(inputObject, outputObject) {
     const fieldMetadataList = (0, object_decorator_js_1.getModelFieldMetadataList)(inputObject);
     const outputKeys = Object.keys(outputObject);
     for (const propertyName of Object.keys(inputObject)) {
-        const fieldMetadata = fieldMetadataList === null || fieldMetadataList === void 0 ? void 0 : fieldMetadataList[propertyName];
-        if (!(fieldMetadata === null || fieldMetadata === void 0 ? void 0 : fieldMetadata.dst)) {
+        const fieldMetadata = fieldMetadataList?.[propertyName];
+        if (!fieldMetadata?.dst) {
             if (outputKeys.includes(propertyName)) {
                 mappedObject[propertyName] = inputObject[propertyName];
             }
@@ -33,7 +32,7 @@ function modelFieldToDest(inputObject, outputObject) {
         const dst = fieldMetadata.dst;
         if (!outputKeys.includes(dst.name))
             throw new Error(`Cannot map extended property ${dst.name} into the OutputObject. Property doesn't exist in the destination`);
-        mappedObject[dst.name] = (_a = dst.transformerDst) === null || _a === void 0 ? void 0 : _a.call(dst, mappedObject, inputObject[propertyName]);
+        mappedObject[dst.name] = dst.transformerDst?.(mappedObject, inputObject[propertyName]);
     }
     return mappedObject;
 }

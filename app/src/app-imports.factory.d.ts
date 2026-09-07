@@ -1,6 +1,6 @@
 import { ModuleMetadata } from '@nestjs/common';
 import { BuildSchemaOptions } from '@nestjs/graphql';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { ApolloFederationDriverConfig } from '@nestjs/apollo';
 type ApolloServerPlugin = NonNullable<ApolloFederationDriverConfig['plugins']>[number];
 export interface IAppImportsFactory {

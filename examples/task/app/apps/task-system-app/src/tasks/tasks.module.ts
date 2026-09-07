@@ -10,17 +10,17 @@ import {
   NestLocalCallStrategy,
   NestLocalEventStrategy,
   RabbitMqEventStrategy,
-} from '@nestjs-yalc/api-strategy';
-import type { IApiCallStrategy } from '@nestjs-yalc/api-strategy/context-call.interface.js';
-import type { IEventStrategy } from '@nestjs-yalc/api-strategy/context-event.interface.js';
-import type { AppConfigService } from '@nestjs-yalc/app/app-config.service.js';
-import { YalcGlobalClsService } from '@nestjs-yalc/app/cls.module.js';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+} from '@nest-yalc-2/api-strategy';
+import type { IApiCallStrategy } from '@nest-yalc-2/api-strategy/context-call.interface.js';
+import type { IEventStrategy } from '@nest-yalc-2/api-strategy/context-event.interface.js';
+import type { AppConfigService } from '@nest-yalc-2/app/app-config.service.js';
+import { YalcGlobalClsService } from '@nest-yalc-2/app/cls.module.js';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import {
   TelemetryCallStrategy,
   TelemetryEventStrategy,
   TelemetryService,
-} from '@nestjs-yalc/observability';
+} from '@nest-yalc-2/observability';
 import { TasksDomainEventsService } from './tasks.domain-events.service';
 import { TaskEventsAuditStore } from './events/task-events-audit.store';
 import { TaskEventsLocalHandler } from './events/task-events-local.handler';
@@ -35,13 +35,13 @@ import {
   TASKS_CLIENT_HTTP_API_STRATEGY,
   TASKS_CLIENT_LOCAL_API_STRATEGY,
   TasksApiClient,
-} from '@nestjs-yalc/task-system-module/src/client/tasks-api.client';
+} from '@nest-yalc-2/task-system-module/src/client/tasks-api.client';
 import {
   TASK_EVENTS_LOCAL_STRATEGY,
   TASK_EVENTS_RABBITMQ_STRATEGY,
   TASK_EVENTS_STRATEGY,
   TasksEventsClient,
-} from '@nestjs-yalc/task-system-module/src/events/tasks-events.client';
+} from '@nest-yalc-2/task-system-module/src/events/tasks-events.client';
 import { taskItemProviders, TasksController } from './task-item.resource';
 
 @Module({

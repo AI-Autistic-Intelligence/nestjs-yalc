@@ -1,6 +1,6 @@
 import { LoggerService, LogLevel } from '@nestjs/common';
 import { type EventEmitter2 } from '@nestjs/event-emitter';
-import { PluginSystem } from '@nestjs-yalc/utils/plugin.helper.js';
+import { PluginSystem } from '@nest-yalc-2/utils/plugin.helper.js';
 import { YalcGlobalClsService } from '../../app/src/cls.module.js';
 export interface LogMethodOptions {
     message?: any;
@@ -39,9 +39,9 @@ export interface IImprovedLoggerOptions {
 declare const LoggerAbstractService_base: {
     new (...args: any[]): {
         [x: string]: any;
-        plugins: import("@nestjs-yalc/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>[];
-        registerPlugin(plugin: import("@nestjs-yalc/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
-        unregisterPlugin(plugin: import("@nestjs-yalc/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
+        plugins: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>[];
+        registerPlugin(plugin: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
+        unregisterPlugin(plugin: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
         invokePlugins(methodName: keyof ILoggerPluginMethods<any>, ...args: any[]): void;
     };
 };

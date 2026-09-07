@@ -22,9 +22,9 @@ import {
   WriteEntity,
 } from '../__mocks__/generic-service.mocks';
 
-import { getConnectionName } from '@nestjs-yalc/database/conn.helper';
+import { getConnectionName } from '@nest-yalc-2/database/conn.helper';
 import { createMock } from '@golevelup/ts-jest';
-import { AgGridRepository } from '@nestjs-yalc/ag-grid/ag-grid.repository';
+import { AgGridRepository } from '@nest-yalc-2/ag-grid/ag-grid.repository';
 import { ConnectionNotFoundError } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
 import {
@@ -36,8 +36,8 @@ import {
   NoResultsFoundError,
   ConditionsTooBroadError,
 } from '../conditions.error';
-import * as ClassHelper from '@nestjs-yalc/utils/class.helper';
-jest.mock('@nestjs-yalc/utils/class.helper', () => ({
+import * as ClassHelper from '@nest-yalc-2/utils/class.helper';
+jest.mock('@nest-yalc-2/utils/class.helper', () => ({
   isClass: jest.fn(),
 }));
 jest.mock('typeorm');

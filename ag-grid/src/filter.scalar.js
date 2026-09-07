@@ -32,14 +32,21 @@ let FilterScalar = class FilterScalar {
                 if (key === ag_grid_enum_1.CustomWhereKeys.MULTICOLUMNJOINOPTIONS &&
                     (0, ag_grid_type_checker_utils_1.isMulticolumnJoinOptions)(field)) {
                     _normalizedInput.childExpressions = [
-                        Object.assign(Object.assign({}, normalizeInput(field)), { operator: field.multiColumnJoinOperator }),
+                        {
+                            ...normalizeInput(field),
+                            operator: field.multiColumnJoinOperator,
+                        },
                     ];
                     return;
                 }
                 if (_normalizedInput.expressions &&
                     ((0, ag_grid_type_checker_utils_1.isFilterModel)(field) || (0, ag_grid_type_checker_utils_1.isCombinedFilterModel)(field))) {
                     _normalizedInput.expressions.push({
-                        [field.filterType]: Object.assign(Object.assign({}, field), { field: key, filterType: field.filterType }),
+                        [field.filterType]: {
+                            ...field,
+                            field: key,
+                            filterType: field.filterType,
+                        },
                     });
                 }
             });

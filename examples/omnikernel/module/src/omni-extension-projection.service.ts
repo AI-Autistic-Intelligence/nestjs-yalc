@@ -1,11 +1,11 @@
-import type { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen';
+import type { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen';
 import {
   PROJECTION_INTEGER_MAX,
   ProjectionResourceService,
   type ProjectionDialect,
   type ProjectionValuePatch,
-} from '@nestjs-yalc/crud-gen';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+} from '@nest-yalc-2/crud-gen';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import {
   In,
   IsNull,

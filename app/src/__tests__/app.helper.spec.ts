@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import '@nestjs-yalc/jest/common-mocks.helper.js';
+import '@nest-yalc-2/jest/common-mocks.helper.js';
 import { expect, describe, it, beforeEach, afterEach } from '@jest/globals';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { DynamicModule, INestApplicationContext, Module } from '@nestjs/common';

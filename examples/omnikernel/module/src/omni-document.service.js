@@ -8,7 +8,10 @@ class OmniDocumentService extends omni_scoped_service_js_1.OmniScopedService {
         super(repository, scopeOrRepositoryWrite, deletion);
     }
     normalizeDocumentInput(input) {
-        return Object.assign(Object.assign({}, input), { kind: omni_document_kind_enum_js_1.OmniDocumentKind.Document });
+        return {
+            ...input,
+            kind: omni_document_kind_enum_js_1.OmniDocumentKind.Document,
+        };
     }
     async createEntity(input, findOptions, returnEntity = true) {
         return super.createEntity(this.normalizeDocumentInput(input), findOptions, returnEntity);

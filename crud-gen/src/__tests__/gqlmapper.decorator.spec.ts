@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
 import {
   mockedExecutionContext,
-} from '@nestjs-yalc/jest/common-mocks.helper.js';
+} from '@nest-yalc-2/jest/common-mocks.helper.js';
 import { ModelField, CrudGenObject } from '../object.decorator.js';
 
 

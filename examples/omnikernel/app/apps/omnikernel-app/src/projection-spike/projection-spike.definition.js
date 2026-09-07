@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.projectionRelationDefinition = exports.projectionRecordDefinition = void 0;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
 exports.projectionRecordDefinition = (0, crud_gen_1.defineProjectionResource)({
     id: 'omnikernel.projection-spike.record.v1',
     tableName: 'projection_spike_record',

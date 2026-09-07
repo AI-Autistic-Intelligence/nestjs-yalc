@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { HttpService } from '@nestjs/axios';
 import {
   HttpAbstractStrategy,
@@ -7,7 +7,7 @@ import {
   IHttpCallStrategyOptions,
 } from './http-abstract-call.strategy.js';
 import { AxiosRequestConfig } from 'axios';
-import { YalcGlobalClsService } from '@nestjs-yalc/app/cls.module.js';
+import { YalcGlobalClsService } from '@nest-yalc-2/app/cls.module.js';
 import { filterHeaders } from '../header-whitelist.helper.js';
 import type { OutgoingHttpHeaders } from 'node:http2';
 

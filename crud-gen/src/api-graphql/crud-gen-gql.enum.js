@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.entityFieldsEnumGqlFactory = entityFieldsEnumGqlFactory;
-const class_helper_js_1 = require("@nestjs-yalc/utils/class.helper.js");
+const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
 const graphql_1 = require("@nestjs/graphql");
 const crud_gen_enum_js_1 = require("../crud-gen.enum.js");
 (0, graphql_1.registerEnumType)(crud_gen_enum_js_1.GeneralFilters, {

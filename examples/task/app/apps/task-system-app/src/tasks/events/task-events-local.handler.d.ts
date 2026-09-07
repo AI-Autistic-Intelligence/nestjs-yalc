@@ -1,5 +1,5 @@
 import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { TaskEventsAuditStore } from './task-events-audit.store';
 export declare class TaskEventsLocalHandler implements OnModuleInit, OnModuleDestroy {
     private readonly events;

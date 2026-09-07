@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import {
   mockedExecutionContext,
   mockedGqlCtxCreate,
-} from '@nestjs-yalc/jest/common-mocks.helper.js';
+} from '@nest-yalc-2/jest/common-mocks.helper.js';
 import { GqlGetRequest, paramDecoratorToCreate } from './gqlrequest.decorator.js';
 import { GqlExecutionContext } from '@nestjs/graphql';
 

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoggerAbstractService = exports.EVENT_LOG_DEFAULT = void 0;
 exports.beforeLogging = beforeLogging;
 const logger_enum_js_1 = require("./logger.enum.js");
-const plugin_helper_js_1 = require("@nestjs-yalc/utils/plugin.helper.js");
+const plugin_helper_js_1 = require("@nest-yalc-2/utils/plugin.helper.js");
 exports.EVENT_LOG_DEFAULT = 'EVENT_LOG_DEFAULT';
 class LoggerAbstractService extends (0, plugin_helper_js_1.WithPluginSystem)() {
     constructor(context, logLevels, methods, options = {}) {
@@ -20,9 +20,8 @@ class LoggerAbstractService extends (0, plugin_helper_js_1.WithPluginSystem)() {
         this.initializeLogger();
     }
     initializeLogger() {
-        var _a;
         const enabledLevels = {};
-        (_a = this.logLevels) === null || _a === void 0 ? void 0 : _a.forEach((level) => {
+        this.logLevels?.forEach((level) => {
             if (!(level.toUpperCase() in logger_enum_js_1.LogLevelEnum))
                 throw new Error(`ERROR: Logger Level: ${level} is not supported!`);
             enabledLevels[level] = true;
@@ -63,32 +62,30 @@ class LoggerAbstractService extends (0, plugin_helper_js_1.WithPluginSystem)() {
             };
     }
     beforeLogging(message, options) {
-        var _a;
-        this.options.event = (_a = this.options.event) !== null && _a !== void 0 ? _a : {};
+        this.options.event = this.options.event ?? {};
         this.invokePlugins('onBeforeLogging', message, options, this.options.clsService);
         return beforeLogging(message, options);
     }
 }
 exports.LoggerAbstractService = LoggerAbstractService;
 function beforeLogging(message, options = {}) {
-    var _a, _b;
     const emitter = options && options.eventEmitter;
     if (!emitter)
         return;
-    const useFallbackEvent = (_a = (options && options.useFallbackEvent)) !== null && _a !== void 0 ? _a : false;
+    const useFallbackEvent = (options && options.useFallbackEvent) ?? false;
     const defaultEventName = useFallbackEvent ? exports.EVENT_LOG_DEFAULT : false;
-    const eventName = (_b = options.event) !== null && _b !== void 0 ? _b : defaultEventName;
+    const eventName = options.event ?? defaultEventName;
     if (!eventName)
         return;
-    const { event } = require('@nestjs-yalc/event-manager/event.js');
+    const { event } = require('@nest-yalc-2/event-manager/event.js');
     event(eventName, {
         event: { emitter },
-        data: options === null || options === void 0 ? void 0 : options.data,
-        config: options === null || options === void 0 ? void 0 : options.config,
-        masks: options === null || options === void 0 ? void 0 : options.masks,
+        data: options?.data,
+        config: options?.config,
+        masks: options?.masks,
         message,
         logger: false,
-        stack: options === null || options === void 0 ? void 0 : options.stack,
+        stack: options?.stack,
     });
 }
 //# sourceMappingURL=logger-abstract.service.js.map

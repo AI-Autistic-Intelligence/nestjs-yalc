@@ -15,7 +15,7 @@ import {
   applyProjectionIndexesForBootstrap,
   createProjectionDialect,
   type ProjectionDialect,
-} from "@nestjs-yalc/crud-gen";
+} from "@nest-yalc-2/crud-gen";
 import { randomUUID } from 'node:crypto';
 import { rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';

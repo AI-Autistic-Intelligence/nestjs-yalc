@@ -1,7 +1,8 @@
+/// <reference types="jest" />
 /* istanbul ignore file */
 
 jest.mock('@fastify/cookie', () => {
-  const plugin = (fastify: any, options: any, done: any) => done();
+  const plugin = (_fastify: any, _options: any, done: any) => done();
   (plugin as any)[Symbol.for('skip-override')] = true;
   return {
     __esModule: true,

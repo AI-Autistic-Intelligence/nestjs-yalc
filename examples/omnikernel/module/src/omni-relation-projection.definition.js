@@ -24,16 +24,14 @@ function freeze(definition) {
     return definition;
 }
 function getOmniRelationProjectionAllowedKinds(definition) {
-    var _a;
-    return (_a = definition.relation.allowedKinds) !== null && _a !== void 0 ? _a : [definition.relation.kind];
+    return definition.relation.allowedKinds ?? [definition.relation.kind];
 }
 function getOmniRelationProjectionAliases(definition) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
     return {
-        kind: (_b = (_a = definition.aliases) === null || _a === void 0 ? void 0 : _a.kind) !== null && _b !== void 0 ? _b : 'kind',
-        source: (_d = (_c = definition.aliases) === null || _c === void 0 ? void 0 : _c.source) !== null && _d !== void 0 ? _d : 'sourceRecordId',
-        target: (_f = (_e = definition.aliases) === null || _e === void 0 ? void 0 : _e.target) !== null && _f !== void 0 ? _f : 'targetRecordId',
-        payload: (_h = (_g = definition.aliases) === null || _g === void 0 ? void 0 : _g.payload) !== null && _h !== void 0 ? _h : 'payload',
+        kind: definition.aliases?.kind ?? 'kind',
+        source: definition.aliases?.source ?? 'sourceRecordId',
+        target: definition.aliases?.target ?? 'targetRecordId',
+        payload: definition.aliases?.payload ?? 'payload',
     };
 }
 function defineOmniRelationProjection(definition) {
@@ -67,7 +65,7 @@ function defineOmniRelationProjection(definition) {
         assertFixedValue(relation.schema.id, 'Omni relation projection schema id', 128);
         if (!Number.isInteger(relation.schema.version) ||
             relation.schema.version < 1 ||
-            relation.schema.version > 2147483647) {
+            relation.schema.version > 2_147_483_647) {
             throw new TypeError('Omni relation projection schema version must be a positive signed 32-bit integer.');
         }
     }

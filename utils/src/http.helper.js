@@ -3,7 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.httpExceptionStatusCodes = exports.getHttpStatusDescription = exports.HttpStatusCodes = void 0;
 const common_1 = require("@nestjs/common");
 const axios_1 = require("axios");
-exports.HttpStatusCodes = Object.assign(Object.assign({}, common_1.HttpStatus), axios_1.HttpStatusCode);
+exports.HttpStatusCodes = {
+    ...common_1.HttpStatus,
+    ...axios_1.HttpStatusCode,
+};
 const httpStatusDescriptions = {
     [common_1.HttpStatus.CONTINUE]: '100: Request received, server awaiting further info.',
     [common_1.HttpStatus.SWITCHING_PROTOCOLS]: '101: Client asked server to switch protocols.',
@@ -53,8 +56,7 @@ const httpStatusDescriptions = {
     [common_1.HttpStatus.HTTP_VERSION_NOT_SUPPORTED]: "505: Server doesn't support HTTP protocol version.",
 };
 const getHttpStatusDescription = (status, fallbackDescription = 'Unknown status code') => {
-    var _a;
-    return (_a = httpStatusDescriptions[status]) !== null && _a !== void 0 ? _a : fallbackDescription;
+    return httpStatusDescriptions[status] ?? fallbackDescription;
 };
 exports.getHttpStatusDescription = getHttpStatusDescription;
 exports.httpExceptionStatusCodes = {

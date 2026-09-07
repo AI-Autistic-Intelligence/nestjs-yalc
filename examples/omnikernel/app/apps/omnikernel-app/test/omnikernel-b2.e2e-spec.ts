@@ -5,7 +5,7 @@ import {
   collectOmniKernelQueryPlanEvidence,
   OmniRecordEntity,
   OmniRelationEntity,
-} from "@nestjs-yalc/omnikernel-module";
+} from "@nest-yalc-2/omnikernel-module";
 import request from "supertest";
 import type { DataSource } from "typeorm";
 import {

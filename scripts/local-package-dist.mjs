@@ -137,6 +137,7 @@ export const materializeLocalPackageDists = () => {
 
     fs.cpSync(entry.compiledSourceDir, path.join(entry.localDistDir, 'src'), {
       recursive: true,
+      force: true,
     });
     assertLocalPackageDist(entry.packageDir);
     materialized.push(entry.name);

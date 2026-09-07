@@ -1,5 +1,5 @@
 import { OnModuleDestroy } from '@nestjs/common';
-import type { IEventStrategy } from '@nestjs-yalc/api-strategy/context-event.interface.js';
+import type { IEventStrategy } from '@nest-yalc-2/api-strategy/context-event.interface.js';
 import { TelemetryService } from '../telemetry.service.js';
 export interface TelemetryEventStrategyOptions {
     name: string;

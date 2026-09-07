@@ -14,10 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SkeletonPhoneUpdateInput = exports.SkeletonPhoneCondition = exports.SkeletonPhoneCreateInput = exports.SkeletonPhoneType = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const object_decorator_js_1 = require("@nestjs-yalc/crud-gen/object.decorator.js");
+const object_decorator_js_1 = require("@nest-yalc-2/crud-gen/object.decorator.js");
 const skeleton_phone_entity_js_1 = require("./skeleton-phone.entity.js");
-const uuid_scalar_js_1 = require("@nestjs-yalc/graphql/scalars/uuid.scalar.js");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const uuid_scalar_js_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar.js");
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const skeleton_user_dto_js_1 = require("./skeleton-user.dto.js");
 let SkeletonPhoneType = class SkeletonPhoneType extends skeleton_phone_entity_js_1.SkeletonPhone {
     constructor(data) {

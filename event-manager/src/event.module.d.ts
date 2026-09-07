@@ -1,8 +1,8 @@
 import { DynamicModule, LogLevel, Provider } from '@nestjs/common';
 import { YalcEventService, IEventServiceOptions } from './event.service.js';
-import { ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
+import { ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { AppLoggerFactory } from '@nestjs-yalc/logger/logger.factory.js';
+import { AppLoggerFactory } from '@nest-yalc-2/logger/logger.factory.js';
 import { EventNameFormatter } from './emitter.js';
 export declare const EVENT_LOGGER = "EVENT_LOGGER";
 export declare const EVENT_EMITTER = "EVENT_EMITTER";

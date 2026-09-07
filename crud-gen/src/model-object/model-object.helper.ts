@@ -1,4 +1,4 @@
-import { isClass, objectsHaveSameKeys } from '@nestjs-yalc/utils/index.js';
+import { isClass, objectsHaveSameKeys } from '@nest-yalc-2/utils/index.js';
 import {
   DstExtended,
   getModelFieldMetadataList,

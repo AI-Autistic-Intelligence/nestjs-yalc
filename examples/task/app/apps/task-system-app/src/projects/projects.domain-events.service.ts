@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
-import { AppLoggerFactory } from '@nestjs-yalc/logger/logger.factory';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
+import { AppLoggerFactory } from '@nest-yalc-2/logger/logger.factory';
 
 @Injectable()
 export class ProjectsDomainEventsService {

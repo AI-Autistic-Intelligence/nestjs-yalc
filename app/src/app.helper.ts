@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { DynamicModule, Type } from '@nestjs/common';
 import { StandaloneAppBootstrap } from './app-bootstrap-standalone.helper.js';
 import { curry } from 'lodash-es';

@@ -14,7 +14,7 @@ import {
   IsNull,
 } from 'typeorm';
 import { GqlAgGridFieldsMapper } from './gqlfields.decorator.js';
-import { FieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
 import {
   AgQueryParams,
   agQueryParamsFactory,
@@ -53,16 +53,16 @@ import {
   AgGridInvalidArgumentError,
   AgGridInvalidOperatorError,
 } from './ag-grid.error';
-import { DateHelper } from '@nestjs-yalc/utils/date.helper';
+import { DateHelper } from '@nest-yalc-2/utils/date.helper';
 
 import { agJoinArgFactory } from './ag-grid.input';
-import returnValue from '@nestjs-yalc/utils/returnValue';
+import returnValue from '@nest-yalc-2/utils/returnValue';
 import { GraphQLResolveInfo } from 'graphql';
 import { FilterOption, FilterOptionType } from './object.decorator';
 import {
   ArgumentsError,
   MissingArgumentsError,
-} from '@nestjs-yalc/ag-grid/missing-arguments.error';
+} from '@nest-yalc-2/ag-grid/missing-arguments.error';
 import {
   isCombinedFilterModel,
   isDateFilterModel,

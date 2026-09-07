@@ -167,11 +167,8 @@ function filterExpressionInputFactory(entityModel) {
         (0, graphql_1.InputType)(`${entityModel.name}FilterSetInput`)
     ], FilterSet);
     let FilterExpressionProperty = class FilterExpressionProperty {
+        static { _a = crud_gen_enum_js_1.FilterType.TEXT, _b = crud_gen_enum_js_1.FilterType.NUMBER, _c = crud_gen_enum_js_1.FilterType.DATE, _d = crud_gen_enum_js_1.FilterType.SET; }
     };
-    _a = crud_gen_enum_js_1.FilterType.TEXT;
-    _b = crud_gen_enum_js_1.FilterType.NUMBER;
-    _c = crud_gen_enum_js_1.FilterType.DATE;
-    _d = crud_gen_enum_js_1.FilterType.SET;
     __decorate([
         (0, graphql_1.Field)(() => FilterText, { nullable: true }),
         __metadata("design:type", FilterText)

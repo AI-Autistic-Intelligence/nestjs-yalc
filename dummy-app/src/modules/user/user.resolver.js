@@ -16,8 +16,8 @@ exports.UserResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const user_entity_1 = require("../../entities/user.entity");
 const user_service_1 = require("./user.service");
-const ag_grid_args_decorator_1 = require("@nestjs-yalc/ag-grid/ag-grid-args.decorator");
-const gql_error_1 = require("@nestjs-yalc/graphql/plugins/gql.error");
+const ag_grid_args_decorator_1 = require("@nest-yalc-2/ag-grid/ag-grid-args.decorator");
+const gql_error_1 = require("@nest-yalc-2/graphql/plugins/gql.error");
 let UserResolver = class UserResolver {
     constructor(userService) {
         this.userService = userService;

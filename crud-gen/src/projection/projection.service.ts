@@ -1,5 +1,5 @@
 import type { CrudGenFindManyOptions } from '../api-graphql/crud-gen-gql.interface.js';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { FindOperator, type ObjectLiteral, type Repository } from 'typeorm';
 import {
   assertProjectionPayloadValue,

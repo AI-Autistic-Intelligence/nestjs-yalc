@@ -5,17 +5,17 @@ import {
   MissingArgumentsError,
   isDefaultErrorMixin,
   formatCause,
-} from '@nestjs-yalc/errors';
+} from '@nest-yalc-2/errors';
 import {
   EntityError,
   isEntityError,
-} from '@nestjs-yalc/crud-gen/entity.error.js';
+} from '@nest-yalc-2/crud-gen/entity.error.js';
 import { FastifyReply as FResponse } from 'fastify';
-import { GqlError } from '@nestjs-yalc/graphql/plugins/gql.error.js';
+import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { getLogLevelByStatus } from '../../../event-manager/src/event.helper.js';
-import { LogLevelEnum } from '@nestjs-yalc/logger/logger.enum.js';
-import { type ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
+import { LogLevelEnum } from '@nest-yalc-2/logger/logger.enum.js';
+import { type ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
 
 type HttpErrorType =
   common.HttpException | MissingArgumentsError | GqlError | DefaultErrorMixin;

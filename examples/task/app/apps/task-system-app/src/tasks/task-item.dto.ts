@@ -8,11 +8,11 @@ import {
 import {
   ModelField,
   ModelObject,
-} from '@nestjs-yalc/crud-gen/object.decorator';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar';
-import returnValue from '@nestjs-yalc/utils/returnValue';
-import { TaskItem } from '@nestjs-yalc/task-system-module/src/task-item.entity';
-import { TaskProject } from '@nestjs-yalc/task-system-module/src/task-project.entity';
+} from '@nest-yalc-2/crud-gen/object.decorator';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
+import returnValue from '@nest-yalc-2/utils/returnValue';
+import { TaskItem } from '@nest-yalc-2/task-system-module/src/task-item.entity';
+import { TaskProject } from '@nest-yalc-2/task-system-module/src/task-project.entity';
 import { TaskProjectType } from '../projects/task-project.dto';
 
 @ObjectType()

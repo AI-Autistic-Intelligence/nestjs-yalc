@@ -1,14 +1,14 @@
-import { AppLoggerFactory } from '@nestjs-yalc/logger/logger.factory.js';
+import { AppLoggerFactory } from '@nest-yalc-2/logger/logger.factory.js';
 import { FactoryProvider, LogLevel } from '@nestjs/common';
 import type {
   IImprovedLoggerOptions,
   ImprovedLoggerService,
-} from '@nestjs-yalc/logger/logger-abstract.service.js';
-import { IServiceConf } from '@nestjs-yalc/app/conf.type.js';
+} from '@nest-yalc-2/logger/logger-abstract.service.js';
+import { IServiceConf } from '@nest-yalc-2/app/conf.type.js';
 import {
   AppConfigService,
   getAppConfigToken,
-} from '@nestjs-yalc/app/app-config.service.js';
+} from '@nest-yalc-2/app/app-config.service.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 export const LoggerServiceFactory = (

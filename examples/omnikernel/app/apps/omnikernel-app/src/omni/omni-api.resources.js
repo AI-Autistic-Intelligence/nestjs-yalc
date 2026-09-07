@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.omniApiControllers = exports.omniApiProviders = exports.omniExternalRefResource = exports.omniRelationResource = exports.omniCollectionResource = exports.omniDocumentResource = exports.omniRecordResource = exports.omniNamedResource = void 0;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
 const crudgen_provider_compat_js_1 = require("../crudgen-provider-compat.js");
-const omnikernel_module_1 = require("@nestjs-yalc/omnikernel-module");
+const omnikernel_module_1 = require("@nest-yalc-2/omnikernel-module");
 exports.omniNamedResource = (0, crud_gen_1.CrudGenResourceFactory)({
     entityModel: omnikernel_module_1.OmniNamedEntity,
     backend: false,

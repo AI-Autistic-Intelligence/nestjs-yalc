@@ -4,7 +4,7 @@ import { LoggerServiceFactory } from '../logger.service.js';
 import {
   AppConfigService,
   getAppConfigToken,
-} from '@nestjs-yalc/app/app-config.service.js';
+} from '@nest-yalc-2/app/app-config.service.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 describe('LoggerServiceFactory', () => {

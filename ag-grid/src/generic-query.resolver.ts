@@ -1,11 +1,11 @@
 import {
   GQLDataLoader,
   getDataloaderToken,
-} from '@nestjs-yalc/data-loader/dataloader.helper';
-import { ClassType } from '@nestjs-yalc/types';
-import { isClass } from '@nestjs-yalc/utils/class.helper';
-import { GetContext } from '@nestjs-yalc/utils/nest.decorator';
-import returnValue from '@nestjs-yalc/utils/returnValue';
+} from '@nest-yalc-2/data-loader/dataloader.helper';
+import { ClassType } from '@nest-yalc-2/types';
+import { isClass } from '@nest-yalc-2/utils/class.helper';
+import { GetContext } from '@nest-yalc-2/utils/nest.decorator';
+import returnValue from '@nest-yalc-2/utils/returnValue';
 import {
   ExecutionContext,
   Query,
@@ -92,7 +92,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
 
             return dataLoader.loadOneToMany(
               [joinCol, parent[parentCol]],
-              findOptions,
+              findOptions as any,
               true,
             );
           },
@@ -175,7 +175,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
               resolverInfo.join?.name ?? dataLoader.getSearchKey();
             return dataLoader.loadOne(
               [joinCol, parent[parentCol]],
-              findOptions,
+              findOptions as any,
               false,
             );
           },
@@ -245,7 +245,7 @@ export function defineGetSingleResource<Entity extends Record<string, any>>(
 
       return dataLoader.loadOne(
         [dataLoader.getSearchKey(), finalId as string],
-        findOptions,
+        findOptions as any,
         methodOptions.throwOnNotFound ?? false,
       );
     },

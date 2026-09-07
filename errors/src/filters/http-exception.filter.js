@@ -44,19 +44,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpExceptionFilter = void 0;
 const common = __importStar(require("@nestjs/common"));
-const errors_1 = require("@nestjs-yalc/errors");
-const entity_error_js_1 = require("@nestjs-yalc/crud-gen/entity.error.js");
-const gql_error_js_1 = require("@nestjs-yalc/graphql/plugins/gql.error.js");
+const errors_1 = require("@nest-yalc-2/errors");
+const entity_error_js_1 = require("@nest-yalc-2/crud-gen/entity.error.js");
+const gql_error_js_1 = require("@nest-yalc-2/graphql/plugins/gql.error.js");
 const core_1 = require("@nestjs/core");
 const event_helper_js_1 = require("../../../event-manager/src/event.helper.js");
-const logger_enum_js_1 = require("@nestjs-yalc/logger/logger.enum.js");
+const logger_enum_js_1 = require("@nest-yalc-2/logger/logger.enum.js");
 let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseExceptionFilter {
     constructor(logger, applicationRef) {
         super(applicationRef);
         this.logger = logger;
     }
     catch(error, host, { sendResponse } = { sendResponse: true }) {
-        var _a, _b, _c, _d;
         try {
             const isHttpError = this.isHttpError(error) || error instanceof common.HttpException;
             switch (true) {
@@ -70,10 +69,10 @@ let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseException
                 case (0, entity_error_js_1.isEntityError)(error):
                     {
                         const entityError = error;
-                        this.logger.error(((_a = entityError.originalError) === null || _a === void 0 ? void 0 : _a.message)
+                        this.logger.error(entityError.originalError?.message
                             ? entityError.originalError.message
-                            : error, (_b = entityError.originalError) === null || _b === void 0 ? void 0 : _b.stack, {
-                            stack: (_c = entityError.originalError) === null || _c === void 0 ? void 0 : _c.stack,
+                            : error, entityError.originalError?.stack, {
+                            stack: entityError.originalError?.stack,
                             data: {
                                 response: entityError.getResponse(),
                                 name: entityError.name,
@@ -109,7 +108,7 @@ let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseException
                     }
                     break;
                 case error instanceof gql_error_js_1.GqlError:
-                    this.logger.error((_d = error.systemMessage) !== null && _d !== void 0 ? _d : error.message);
+                    this.logger.error(error.systemMessage ?? error.message);
                     break;
                 default:
                     this.logger.error(error.message, error.stack, {

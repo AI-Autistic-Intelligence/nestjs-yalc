@@ -11,8 +11,8 @@ exports.EventModule = exports.OPTION_PROVIDER = exports.EVENT_EMITTER = exports.
 const common_1 = require("@nestjs/common");
 const event_service_js_1 = require("./event.service.js");
 const event_emitter_1 = require("@nestjs/event-emitter");
-const logger_factory_js_1 = require("@nestjs-yalc/logger/logger.factory.js");
-const nest_helper_js_1 = require("@nestjs-yalc/utils/nestjs/nest.helper.js");
+const logger_factory_js_1 = require("@nest-yalc-2/logger/logger.factory.js");
+const nest_helper_js_1 = require("@nest-yalc-2/utils/nestjs/nest.helper.js");
 exports.EVENT_LOGGER = 'EVENT_LOGGER';
 exports.EVENT_EMITTER = 'EVENT_EMITTER';
 function isImprovedLoggerService(loggerProvider) {
@@ -24,8 +24,7 @@ function isImprovedLoggerService(loggerProvider) {
 exports.OPTION_PROVIDER = 'OPTION_PROVIDER';
 let EventModule = EventModule_1 = class EventModule {
     static forRootAsync(options, optionProvider) {
-        var _a, _b;
-        const loggerProviderName = typeof (options === null || options === void 0 ? void 0 : options.loggerProvider) === 'string'
+        const loggerProviderName = typeof options?.loggerProvider === 'string'
             ? options.loggerProvider
             : options && (0, nest_helper_js_1.isProviderObject)(options.loggerProvider)
                 ? options.loggerProvider.provide
@@ -33,19 +32,19 @@ let EventModule = EventModule_1 = class EventModule {
         const emitterProviderName = options && (0, nest_helper_js_1.isProviderObject)(options.eventEmitter)
             ? options.eventEmitter.provide
             : event_emitter_1.EventEmitter2;
-        const eventProviderName = (_a = options === null || options === void 0 ? void 0 : options.eventServiceToken) !== null && _a !== void 0 ? _a : event_service_js_1.YalcEventService;
-        const imports = (_b = options === null || options === void 0 ? void 0 : options.imports) !== null && _b !== void 0 ? _b : [];
+        const eventProviderName = options?.eventServiceToken ?? event_service_js_1.YalcEventService;
+        const imports = options?.imports ?? [];
         const providers = [
             {
                 provide: eventProviderName,
                 useFactory: (logger, emitter) => {
-                    var _a, _b;
-                    return ((_b = (_a = options === null || options === void 0 ? void 0 : options.eventService) === null || _a === void 0 ? void 0 : _a.call(options, logger, emitter, options)) !== null && _b !== void 0 ? _b : new event_service_js_1.YalcEventService(logger, emitter, options));
+                    return (options?.eventService?.(logger, emitter, options) ??
+                        new event_service_js_1.YalcEventService(logger, emitter, options));
                 },
                 inject: [loggerProviderName, emitterProviderName],
             },
         ];
-        const loggerProvider = options === null || options === void 0 ? void 0 : options.loggerProvider;
+        const loggerProvider = options?.loggerProvider;
         if ((0, nest_helper_js_1.isProviderObject)(loggerProvider)) {
             providers.push(loggerProvider);
         }
@@ -53,8 +52,7 @@ let EventModule = EventModule_1 = class EventModule {
             providers.push({
                 provide: loggerProviderName,
                 useFactory: (providedOptions) => {
-                    var _a;
-                    const _options = (_a = providedOptions === null || providedOptions === void 0 ? void 0 : providedOptions.logger) !== null && _a !== void 0 ? _a : loggerProvider;
+                    const _options = providedOptions?.logger ?? loggerProvider;
                     if (isImprovedLoggerService(_options)) {
                         return _options;
                     }
@@ -69,7 +67,7 @@ let EventModule = EventModule_1 = class EventModule {
                 inject: [{ token: exports.OPTION_PROVIDER, optional: true }],
             });
         }
-        if (options === null || options === void 0 ? void 0 : options.eventEmitter) {
+        if (options?.eventEmitter) {
             providers.push(options.eventEmitter);
         }
         if (optionProvider) {

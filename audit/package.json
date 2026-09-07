@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-yalc/audit",
+  "name": "@nest-yalc-2/audit",
   "version": "1.4.0",
   "type": "module",
   "description": "Engine-level database mutation journal utilities for NestJS applications",

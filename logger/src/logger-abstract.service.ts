@@ -6,7 +6,7 @@ import { type EventEmitter2 } from '@nestjs/event-emitter';
 import {
   PluginSystem,
   WithPluginSystem,
-} from '@nestjs-yalc/utils/plugin.helper.js';
+} from '@nest-yalc-2/utils/plugin.helper.js';
 import { YalcGlobalClsService } from '../../app/src/cls.module.js';
 
 export interface LogMethodOptions {
@@ -197,7 +197,7 @@ export function beforeLogging(
 
   if (!eventName) return;
 
-  const { event } = require('@nestjs-yalc/event-manager/event.js');
+  const { event } = require('@nest-yalc-2/event-manager/event.js');
   event(eventName, {
     event: { emitter },
     data: options?.data,

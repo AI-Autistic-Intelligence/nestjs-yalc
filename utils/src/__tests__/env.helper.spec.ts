@@ -9,7 +9,7 @@ import {
 } from '@jest/globals';
 
 import { envIsTrue, envToArray, isProduction } from '../env.helper.js';
-import { envTestHelper } from '@nestjs-yalc/jest';
+import { envTestHelper } from '@nest-yalc-2/jest';
 
 describe('environment helper test', () => {
   it('should convert a comma separated list to an array', () => {

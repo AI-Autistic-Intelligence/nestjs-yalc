@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 
 @Controller('users/errors')
 export class UsersErrorsController {

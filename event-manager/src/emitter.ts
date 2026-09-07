@@ -1,6 +1,6 @@
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { maskDataInObject } from '@nestjs-yalc/logger/logger.helper.js';
-import { globalPromiseTracker } from '@nestjs-yalc/utils/promise.helper.js';
+import { maskDataInObject } from '@nest-yalc-2/logger/logger.helper.js';
+import { globalPromiseTracker } from '@nest-yalc-2/utils/promise.helper.js';
 export type EventNameFormatter = (...args: any[]) => string;
 
 export interface IEventEmitterOptions<TFormatter extends EventNameFormatter> {

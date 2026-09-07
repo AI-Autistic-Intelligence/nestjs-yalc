@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskExternalRef = void 0;
-const timestamp_entity_js_1 = require("@nestjs-yalc/database/timestamp.entity.js");
+const timestamp_entity_js_1 = require("@nest-yalc-2/database/timestamp.entity.js");
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("typeorm");
 let TaskExternalRef = class TaskExternalRef extends (0, timestamp_entity_js_1.EntityWithTimestamps)(typeorm_1.BaseEntity) {

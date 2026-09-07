@@ -1,8 +1,8 @@
 import { expect, jest, describe, it, beforeEach } from '@jest/globals';
 
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
-import { CreateEntityError } from '@nestjs-yalc/crud-gen/entity.error.js';
-import { MissingArgumentsError } from '@nestjs-yalc/crud-gen/missing-arguments.error.js';
+import { CreateEntityError } from '@nest-yalc-2/crud-gen/entity.error.js';
+import { MissingArgumentsError } from '@nest-yalc-2/crud-gen/missing-arguments.error.js';
 import {
   ArgumentsHost,
   BadRequestException,
@@ -10,7 +10,7 @@ import {
   LoggerService,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from '../filters/http-exception.filter.js';
-import { GqlError } from '@nestjs-yalc/graphql/plugins/gql.error.js';
+import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
 import { DefaultError } from '../index.js';
 import { GqlArgumentsHost } from '@nestjs/graphql';
 describe('Http exceptions filter', () => {

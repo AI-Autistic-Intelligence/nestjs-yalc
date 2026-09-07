@@ -12,8 +12,8 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskWorkflowsService = void 0;
 const common_1 = require("@nestjs/common");
-const observability_1 = require("@nestjs-yalc/observability");
-const tasks_api_client_1 = require("@nestjs-yalc/task-system-module/src/client/tasks-api.client");
+const observability_1 = require("@nest-yalc-2/observability");
+const tasks_api_client_1 = require("@nest-yalc-2/task-system-module/src/client/tasks-api.client");
 const tasks_domain_events_service_1 = require("./tasks.domain-events.service");
 let TaskWorkflowsService = class TaskWorkflowsService {
     constructor(client, events, telemetry) {

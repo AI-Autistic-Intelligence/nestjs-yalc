@@ -1,7 +1,7 @@
 import { ExecutionContext, Type } from '@nestjs/common';
 import { ReturnTypeFuncValue } from '@nestjs/graphql';
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { IKeyMeta } from './crud-gen-gql.type.js';
 export interface IGqlAgSingleParams {
@@ -14,4 +14,4 @@ export declare const GqlModelFieldsMapper: (data: IFieldMapper | ReturnTypeFuncV
     };
 };
 export declare const GqlInfoGenerator: (data: (IFieldMapper | ReturnTypeFuncValue | ClassType) | undefined, ctx: ExecutionContext) => string[];
-export declare const GqlFieldsMap: (...dataOrPipes: (import("@nestjs/common").PipeTransform<any, any> | Type<import("@nestjs/common").PipeTransform<any, any>> | ReturnTypeFuncValue | IFieldMapper<any> | ClassType | undefined)[]) => ParameterDecorator;
+export declare const GqlFieldsMap: (...dataOrPipes: (IFieldMapper<any> | ClassType | ReturnTypeFuncValue | import("@nestjs/common").PipeTransform<any, any> | Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;

@@ -15,7 +15,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MissingArgumentsError = void 0;
-var crud_gen_1 = require("@nestjs-yalc/crud-gen");
+var crud_gen_1 = require("@nest-yalc-2/crud-gen");
 Object.defineProperty(exports, "MissingArgumentsError", { enumerable: true, get: function () { return crud_gen_1.MissingArgumentsError; } });
 __exportStar(require("./error.enum.js"), exports);
 __exportStar(require("./error.class.js"), exports);

@@ -8,7 +8,7 @@ import {
   EntityError,
   UpdateEntityError,
 } from '../entity.error.js';
-import { getConnectionName } from '@nestjs-yalc/database/conn.helper.js';
+import { getConnectionName } from '@nest-yalc-2/database/conn.helper.js';
 import {
   BadRequestException,
   FactoryProvider,
@@ -27,15 +27,15 @@ import {
   type CrudGenRepositoryCapabilities,
   type GenericTypeORMRepository,
   PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES,
-} from '@nestjs-yalc/crud-gen/typeorm/generic.repository.js';
+} from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';
 import {
   CrudGenFindManyOptions,
   ICrudGenSimpleParams,
-} from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+} from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { getProviderToken } from '../crud-gen.helpers.js';
-import { ReplicationMode } from '@nestjs-yalc/database/query-builder.helper.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
+import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
 import {
   getModelFieldMetadataList,
   isDstExtended,

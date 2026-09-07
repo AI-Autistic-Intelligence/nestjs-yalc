@@ -5,7 +5,7 @@ export const buildSofaMiddleware = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: any,
   options: Parameters<typeof useSofa>[0],
-) => {
+): any => {
   return useSofa({
     ...options,
     schema,

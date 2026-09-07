@@ -41,6 +41,7 @@ for (const pkgDir of packageDirs) {
     cwd: pkgDir,
     encoding: 'utf8',
     stdio: 'inherit',
+    shell: true,
   });
 
   if (result.status !== 0) {
@@ -58,6 +59,7 @@ function packageVersionExists(pkgName, version) {
     {
       encoding: 'utf8',
       stdio: 'pipe',
+      shell: true,
     },
   );
 

@@ -2,8 +2,8 @@ import { DynamicModule, INestApplicationContext, LoggerService, Type } from '@ne
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import type { IServiceConf } from './conf.type.js';
 import { ICreateOptions, INestCreateOptions } from './app-bootstrap.helper.js';
-import { EventModule } from '@nestjs-yalc/event-manager/event.module.js';
-import { LoggerServiceFactory } from '@nestjs-yalc/logger/logger.service.js';
+import { EventModule } from '@nest-yalc-2/event-manager/event.module.js';
+import { LoggerServiceFactory } from '@nest-yalc-2/logger/logger.service.js';
 import { FastifyInstance } from 'fastify';
 export interface IGlobalOptions {
     extraImports?: NonNullable<DynamicModule['imports']>;

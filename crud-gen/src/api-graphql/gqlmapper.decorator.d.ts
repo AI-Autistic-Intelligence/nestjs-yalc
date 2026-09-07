@@ -1,5 +1,5 @@
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { ExecutionContext } from '@nestjs/common';
 import { ArgsOptions, ReturnTypeFuncValue } from '@nestjs/graphql';
 import { ObjectLiteral } from 'typeorm';

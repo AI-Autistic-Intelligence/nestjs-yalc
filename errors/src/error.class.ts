@@ -289,7 +289,7 @@ export class GatewayTimeoutError extends DefaultErrorBase(
 export class AdditionalVerificationNeededError extends DefaultErrorBase(
   HttpException,
 ) {
-  static defaultStatusCode = HttpStatusCode.UnavailableForLegalReasons;
+  static defaultStatusCode: any = HttpStatusCode.UnavailableForLegalReasons;
   constructor(internalMessage?: string, options?: IDefaultErrorBaseOptions) {
     super(
       ...buildArgsHttpException(

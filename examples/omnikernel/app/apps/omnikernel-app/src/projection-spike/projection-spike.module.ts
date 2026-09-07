@@ -18,14 +18,14 @@ import {
   ModelField,
   ModelObject,
   ProjectionResourceService,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import {
   GQLDataLoader,
   getDataloaderToken,
   getFn,
-} from '@nestjs-yalc/data-loader';
-import { EventModule, YalcEventService } from '@nestjs-yalc/event-manager';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar';
+} from '@nest-yalc-2/data-loader';
+import { EventModule, YalcEventService } from '@nest-yalc-2/event-manager';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
 import { type DataSource } from 'typeorm';
 import {
   projectionRecordDefinition,

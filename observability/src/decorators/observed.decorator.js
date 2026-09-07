@@ -4,7 +4,7 @@ exports.Observed = Observed;
 function Observed(name) {
     return (target, propertyKey, descriptor) => {
         const original = descriptor.value;
-        const operationName = name !== null && name !== void 0 ? name : `${target.constructor.name}.${String(propertyKey)}`;
+        const operationName = name ?? `${target.constructor.name}.${String(propertyKey)}`;
         descriptor.value = function (...args) {
             const telemetry = resolveTelemetryService(this);
             if (!telemetry) {
@@ -16,8 +16,7 @@ function Observed(name) {
     };
 }
 function resolveTelemetryService(instance) {
-    var _a;
     const source = instance;
-    return (_a = source.telemetry) !== null && _a !== void 0 ? _a : source.telemetryService;
+    return source.telemetry ?? source.telemetryService;
 }
 //# sourceMappingURL=observed.decorator.js.map

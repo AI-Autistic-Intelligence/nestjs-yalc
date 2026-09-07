@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NestLocalCallStrategyProvider = exports.NestLocalCallStrategy = void 0;
 const core_1 = require("@nestjs/core");
 const http_abstract_call_strategy_js_1 = require("./http-abstract-call.strategy.js");
-const cls_module_js_1 = require("@nestjs-yalc/app/cls.module.js");
+const cls_module_js_1 = require("@nest-yalc-2/app/cls.module.js");
 const header_whitelist_helper_js_1 = require("../header-whitelist.helper.js");
-const def_const_js_1 = require("@nestjs-yalc/app/def.const.js");
+const def_const_js_1 = require("@nest-yalc-2/app/def.const.js");
 class NestLocalCallStrategy extends http_abstract_call_strategy_js_1.HttpAbstractStrategy {
     constructor(adapterHost, clsService, configService, baseUrl = '', options = {}) {
-        var _a, _b, _c;
         super();
         this.adapterHost = adapterHost;
         this.clsService = clsService;
@@ -16,15 +15,18 @@ class NestLocalCallStrategy extends http_abstract_call_strategy_js_1.HttpAbstrac
         this.baseUrl = baseUrl;
         this.options = options;
         this.internalHeader =
-            (_a = options.internalRequestHeader) !== null && _a !== void 0 ? _a : 'x-internal-request-token';
+            options.internalRequestHeader ?? 'x-internal-request-token';
         this.internalToken =
-            (_b = options.internalRequestToken) !== null && _b !== void 0 ? _b : (_c = configService === null || configService === void 0 ? void 0 : configService.values) === null || _c === void 0 ? void 0 : _c.internalRequestToken;
+            options.internalRequestToken ??
+                configService?.values?.internalRequestToken;
     }
     async call(path, options) {
-        var _a;
         const instance = this.adapterHost.httpAdapter.getInstance();
         const clsHeaders = (0, header_whitelist_helper_js_1.filterHeaders)(this.clsService.get('headers'), this.options.headersWhitelist);
-        const headers = Object.assign(Object.assign({}, clsHeaders), ((_a = options === null || options === void 0 ? void 0 : options.headers) !== null && _a !== void 0 ? _a : {}));
+        const headers = {
+            ...clsHeaders,
+            ...(options?.headers ?? {}),
+        };
         if (this.internalHeader &&
             this.internalToken &&
             !headers[this.internalHeader]) {
@@ -32,11 +34,14 @@ class NestLocalCallStrategy extends http_abstract_call_strategy_js_1.HttpAbstrac
         }
         const _options = {
             headers,
-            method: options === null || options === void 0 ? void 0 : options.method,
-            payload: options === null || options === void 0 ? void 0 : options.data,
+            method: options?.method,
+            payload: options?.data,
         };
-        const args = Object.assign(Object.assign({}, _options), { url: `${this.baseUrl}${path}` });
-        if (options === null || options === void 0 ? void 0 : options.parameters) {
+        const args = {
+            ..._options,
+            url: `${this.baseUrl}${path}`,
+        };
+        if (options?.parameters) {
             args.query = Object.fromEntries(new URLSearchParams(options.parameters));
         }
         const result = await instance.inject(args);
@@ -66,7 +71,11 @@ exports.NestLocalCallStrategy = NestLocalCallStrategy;
 const NestLocalCallStrategyProvider = (provide, options = {}) => ({
     provide,
     useFactory: (httpAdapter, clsService, configService) => {
-        const _options = Object.assign({ baseUrl: '', NestLocalStrategy: NestLocalCallStrategy }, options);
+        const _options = {
+            baseUrl: '',
+            NestLocalStrategy: NestLocalCallStrategy,
+            ...options,
+        };
         return new _options.NestLocalStrategy(httpAdapter, clsService, configService, _options.baseUrl, _options);
     },
     inject: [core_1.HttpAdapterHost, cls_module_js_1.YalcGlobalClsService, def_const_js_1.MAIN_APP_CONFIG_SERVICE],

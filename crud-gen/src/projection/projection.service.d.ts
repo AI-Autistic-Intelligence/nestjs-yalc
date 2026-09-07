@@ -1,5 +1,5 @@
 import type { CrudGenFindManyOptions } from '../api-graphql/crud-gen-gql.interface.js';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { type ObjectLiteral, type Repository } from 'typeorm';
 import { type ProjectionResourceDefinition } from './projection-resource.js';
 import type { ProjectionDialect, ProjectionFilter, ProjectionSort } from './projection-dialect.js';

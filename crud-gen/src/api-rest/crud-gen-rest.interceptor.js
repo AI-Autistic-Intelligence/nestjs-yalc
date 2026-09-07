@@ -16,8 +16,8 @@ exports.buildDTOInterceptor = buildDTOInterceptor;
 const common_1 = require("@nestjs/common");
 const operators_1 = require("rxjs/operators");
 const crud_gen_rest_dto_js_1 = require("./crud-gen-rest.dto.js");
-const object_mapper_interceptor_js_1 = require("@nestjs-yalc/utils/object-mapper.interceptor.js");
-const simple_mapper_interceptor_js_1 = require("@nestjs-yalc/utils/simple-mapper.interceptor.js");
+const object_mapper_interceptor_js_1 = require("@nest-yalc-2/utils/object-mapper.interceptor.js");
+const simple_mapper_interceptor_js_1 = require("@nest-yalc-2/utils/simple-mapper.interceptor.js");
 const transformers_helpers_js_1 = require("../transformers.helpers.js");
 function crudGenRestPaginationInterceptorWorker(startRow, endRow) {
     return (data) => {
@@ -27,13 +27,13 @@ function crudGenRestPaginationInterceptorWorker(startRow, endRow) {
             const [page, count] = data;
             return {
                 list: page,
-                pageData: { count, startRow: startRow !== null && startRow !== void 0 ? startRow : 0, endRow: endRow !== null && endRow !== void 0 ? endRow : count },
+                pageData: { count, startRow: startRow ?? 0, endRow: endRow ?? count },
             };
         }
         const list = data;
         const count = Array.isArray(list) ? list.length : 0;
-        const start = startRow !== null && startRow !== void 0 ? startRow : 0;
-        const computedEnd = endRow !== null && endRow !== void 0 ? endRow : start + count;
+        const start = startRow ?? 0;
+        const computedEnd = endRow ?? start + count;
         return {
             list,
             pageData: { count, startRow: start, endRow: computedEnd },
@@ -42,10 +42,9 @@ function crudGenRestPaginationInterceptorWorker(startRow, endRow) {
 }
 let CrudGenRestPaginationInterceptor = class CrudGenRestPaginationInterceptor {
     intercept(context, next) {
-        var _a;
         const http = context.switchToHttp();
         const request = http.getRequest();
-        const params = (_a = request.query) !== null && _a !== void 0 ? _a : {};
+        const params = request.query ?? {};
         const { startRow, endRow } = params;
         return next
             .handle()
@@ -89,17 +88,16 @@ function buildPaginatedResultDto(dto) {
 function buildPaginatedDTOInterceptor(dto) {
     let PaginateDTOInterceptor = class PaginateDTOInterceptor {
         intercept(context, next) {
-            var _a;
             const http = context.switchToHttp();
             const request = http.getRequest();
-            const params = (_a = request.query) !== null && _a !== void 0 ? _a : {};
+            const params = request.query ?? {};
             const { startRow, endRow } = params;
             return next.handle().pipe((0, operators_1.map)(([data, count]) => {
                 const PaginatedDto = buildPaginatedResultDto(dto);
                 const res = new PaginatedDto(data, {
                     count,
-                    startRow: startRow !== null && startRow !== void 0 ? startRow : 0,
-                    endRow: endRow !== null && endRow !== void 0 ? endRow : count,
+                    startRow: startRow ?? 0,
+                    endRow: endRow ?? count,
                 });
                 return res;
             }));

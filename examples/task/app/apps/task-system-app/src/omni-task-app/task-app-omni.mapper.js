@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskAppOmniMapper = void 0;
 const common_1 = require("@nestjs/common");
-const omnikernel_module_1 = require("@nestjs-yalc/omnikernel-module");
+const omnikernel_module_1 = require("@nest-yalc-2/omnikernel-module");
 const task_item_dto_1 = require("../tasks/task-item.dto");
 const task_project_dto_1 = require("../projects/task-project.dto");
 const task_event_dto_1 = require("../events/task-event.dto");

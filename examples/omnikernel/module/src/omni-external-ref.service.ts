@@ -1,5 +1,5 @@
 import { ConflictException } from '@nestjs/common';
-import type { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import type { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import type { DeepPartial, FindOptionsWhere } from 'typeorm';
 import { OmniExternalRefEntity } from './base/omni-external-ref.entity.js';
 import { OmniExternalRefBindingValidator } from './omni-external-ref-binding.validator.js';

@@ -2,10 +2,10 @@ import { InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
 import {
   ModelField,
   ModelObject,
-} from '@nestjs-yalc/crud-gen/object.decorator.js';
+} from '@nest-yalc-2/crud-gen/object.decorator.js';
 import { SkeletonPhone } from './skeleton-phone.entity.js';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar.js';
-import returnValue from '@nestjs-yalc/utils/returnValue.js';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
+import returnValue from '@nest-yalc-2/utils/returnValue.js';
 import { SkeletonUserType } from './skeleton-user.dto.js';
 
 @ObjectType()

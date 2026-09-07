@@ -31,12 +31,14 @@ function hasFilters(findOptions) {
         (findOptions.order && Object.values(findOptions.order).length > 0));
 }
 function generateDecorators(methodFn, defaultName, typeFunc, options) {
-    var _a, _b, _c;
-    if (options === null || options === void 0 ? void 0 : options.disabled)
+    if (options?.disabled)
         return [];
     return [
-        ...((_a = options === null || options === void 0 ? void 0 : options.decorators) !== null && _a !== void 0 ? _a : []),
-        methodFn(typeFunc, Object.assign(Object.assign({}, options === null || options === void 0 ? void 0 : options.queryParams), { name: (_c = (_b = options === null || options === void 0 ? void 0 : options.queryParams) === null || _b === void 0 ? void 0 : _b.name) !== null && _c !== void 0 ? _c : defaultName })),
+        ...(options?.decorators ?? []),
+        methodFn(typeFunc, {
+            ...options?.queryParams,
+            name: options?.queryParams?.name ?? defaultName,
+        }),
     ];
 }
 //# sourceMappingURL=generic-resolver.type.js.map

@@ -28,32 +28,29 @@ let SeedService = class SeedService {
         }
     }
     async clearDatabase(connection, name) {
-        var _a, _b, _c, _d, _e, _f;
         const dbConf = this.configService.get((0, conn_helper_1.getConfNameByConnection)(connection.name));
-        if (!(dbConf === null || dbConf === void 0 ? void 0 : dbConf.seeds) || (dbConf === null || dbConf === void 0 ? void 0 : dbConf.seeds.length) === 0)
+        if (!dbConf?.seeds || dbConf?.seeds.length === 0)
             return;
         this.resetConnection();
-        (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, `Clear ${name} on connection: ${connection.name}...`);
+        this.loggerService.debug?.(`Clear ${name} on connection: ${connection.name}...`);
         const queryRunner = connection.createQueryRunner();
-        (_d = (_c = this.loggerService).debug) === null || _d === void 0 ? void 0 : _d.call(_c, `Clear ${name} tables`);
+        this.loggerService.debug?.(`Clear ${name} tables`);
         await Promise.all(connection.entityMetadatas.map(async (meta) => {
-            var _a, _b, _c, _d;
             const skipTable = await queryRunner.hasTable(meta.tableName);
             if (meta.tableType === 'view' || !skipTable) {
-                (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, `Skip truncating ${name}.${meta.tableName}`);
+                this.loggerService.debug?.(`Skip truncating ${name}.${meta.tableName}`);
                 return;
             }
-            (_d = (_c = this.loggerService).debug) === null || _d === void 0 ? void 0 : _d.call(_c, `Truncating ${name}.${meta.tableName}`);
+            this.loggerService.debug?.(`Truncating ${name}.${meta.tableName}`);
             await queryRunner.clearTable(meta.tableName);
         }));
-        (_f = (_e = this.loggerService).debug) === null || _f === void 0 ? void 0 : _f.call(_e, `Database ${name} cleared!`);
+        this.loggerService.debug?.(`Database ${name} cleared!`);
     }
     async seedDatabase(connection, name) {
-        var _a, _b, _c, _d, _e, _f;
         const dbConf = this.configService.get((0, conn_helper_1.getConfNameByConnection)(connection.name));
-        if (!(dbConf === null || dbConf === void 0 ? void 0 : dbConf.seeds) || (dbConf === null || dbConf === void 0 ? void 0 : dbConf.seeds.length) === 0)
+        if (!dbConf?.seeds || dbConf?.seeds.length === 0)
             return;
-        (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, `Seeding: ${name}`);
+        this.loggerService.debug?.(`Seeding: ${name}`);
         const option = {
             root: this.configPath,
             configName: 'ormconfig',
@@ -62,19 +59,18 @@ let SeedService = class SeedService {
         this.resetConnection();
         await (0, typeorm_seeding_1.useSeeding)(option);
         this.setConnection(connection);
-        const seeders = dbConf === null || dbConf === void 0 ? void 0 : dbConf.seeds;
+        const seeders = dbConf?.seeds;
         for (const seeder of seeders) {
             const label = `${name}.${seeder.name} execution time:`;
             console.time(label);
-            (_d = (_c = this.loggerService).debug) === null || _d === void 0 ? void 0 : _d.call(_c, `Running seeder ${seeder.name} on ${name}`);
+            this.loggerService.debug?.(`Running seeder ${seeder.name} on ${name}`);
             await new seeder().run(typeorm_seeding_1.factory, connection);
             console.timeEnd(label);
         }
-        (_f = (_e = this.loggerService).debug) === null || _f === void 0 ? void 0 : _f.call(_e, `Completed: ${name}`);
+        this.loggerService.debug?.(`Completed: ${name}`);
     }
     async seedDatabases(reseed) {
-        var _a, _b, _c, _d;
-        (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, 'Seeding db...');
+        this.loggerService.debug?.('Seeding db...');
         if (reseed) {
             await Promise.all(this.dbConnections.map(async (connection) => {
                 if (!connection.options.database)
@@ -98,7 +94,7 @@ let SeedService = class SeedService {
             }
         }
         await Promise.all(promiseList.map((fn) => fn()));
-        (_d = (_c = this.loggerService).debug) === null || _d === void 0 ? void 0 : _d.call(_c, 'Seeding completed!');
+        this.loggerService.debug?.('Seeding completed!');
     }
     resetConnection() {
         global['TypeORM_Seeding_Connection'] = {

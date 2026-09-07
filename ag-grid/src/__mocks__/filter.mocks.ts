@@ -1,4 +1,4 @@
-import { IFieldMapper } from '@nestjs-yalc/interfaces';
+import { IFieldMapper } from '@nest-yalc-2/interfaces';
 import { Equal } from 'typeorm';
 import { IAgQueryParams } from '../ag-grid.args';
 import {

@@ -23,9 +23,9 @@ import {
   CrudGenRestPaginationInterceptor,
 } from './crud-gen-rest.interceptor.js';
 import { GenericService, getServiceToken } from '../typeorm/generic.service.js';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { getProviderToken } from '../crud-gen.helpers.js';
-import type { IDecoratorType } from '@nestjs-yalc/interfaces';
+import type { IDecoratorType } from '@nest-yalc-2/interfaces';
 import {
   parseODataQueryParams,
   type ODataQueryParams,

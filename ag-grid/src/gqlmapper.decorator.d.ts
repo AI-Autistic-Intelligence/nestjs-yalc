@@ -1,5 +1,5 @@
-import { FieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
-import { ClassType } from '@nestjs-yalc/types';
+import { FieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
+import { ClassType } from '@nest-yalc-2/types';
 import { ExecutionContext } from '@nestjs/common';
 import { ArgsOptions, ReturnTypeFuncValue } from '@nestjs/graphql';
 import { ObjectLiteral } from 'typeorm';

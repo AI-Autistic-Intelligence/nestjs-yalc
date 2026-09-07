@@ -4,18 +4,17 @@ exports.simpleFormatter = exports.simpleDotFormatter = exports.versionedDomainAc
 exports.formatName = formatName;
 exports.emitEvent = emitEvent;
 exports.emitFormattedEvent = emitFormattedEvent;
-const logger_helper_js_1 = require("@nestjs-yalc/logger/logger.helper.js");
-const promise_helper_js_1 = require("@nestjs-yalc/utils/promise.helper.js");
+const logger_helper_js_1 = require("@nest-yalc-2/logger/logger.helper.js");
+const promise_helper_js_1 = require("@nest-yalc-2/utils/promise.helper.js");
 function formatName(name, formatter) {
-    var _a;
-    return (_a = formatter === null || formatter === void 0 ? void 0 : formatter(...name)) !== null && _a !== void 0 ? _a : (Array.isArray(name) ? name.join() : name);
+    return formatter?.(...name) ?? (Array.isArray(name) ? name.join() : name);
 }
 async function emitEvent(eventEmitter, name, payload, options) {
-    const data = (options === null || options === void 0 ? void 0 : options.mask)
+    const data = options?.mask
         ? (0, logger_helper_js_1.maskDataInObject)(payload, options.mask)
         : payload;
-    const _name = formatName(name, options === null || options === void 0 ? void 0 : options.formatter);
-    if (!(options === null || options === void 0 ? void 0 : options.await)) {
+    const _name = formatName(name, options?.formatter);
+    if (!options?.await) {
         return eventEmitter.emit(_name, data);
     }
     else {
@@ -25,10 +24,13 @@ async function emitEvent(eventEmitter, name, payload, options) {
     }
 }
 function emitFormattedEvent(eventEmitter, name, payload, options) {
-    return emitEvent(eventEmitter, [name], payload, Object.assign(Object.assign({}, options), { formatter: exports.simpleFormatter }));
+    return emitEvent(eventEmitter, [name], payload, {
+        ...options,
+        formatter: exports.simpleFormatter,
+    });
 }
 const versionedDomainActionFormatter = (version, context, action, when) => {
-    return `${version}.${context}.${action}.${when !== null && when !== void 0 ? when : 'onProcess'}`;
+    return `${version}.${context}.${action}.${when ?? 'onProcess'}`;
 };
 exports.versionedDomainActionFormatter = versionedDomainActionFormatter;
 const simpleDotFormatter = (...args) => {

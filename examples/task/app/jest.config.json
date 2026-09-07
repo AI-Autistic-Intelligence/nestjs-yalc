@@ -13,10 +13,10 @@
     ]
   },
   "moduleNameMapper": {
-    "^@nestjs-yalc/omnikernel-module$": "<rootDir>/../../omnikernel/module/src",
-    "^@nestjs-yalc/omnikernel-module/src/(.*)$": "<rootDir>/../../omnikernel/module/src/$1",
-    "^@nestjs-yalc/task-system-module$": "<rootDir>/../module/src",
-    "^@nestjs-yalc/task-system-module/src/(.*)$": "<rootDir>/../module/src/$1",
+    "^@nest-yalc-2/omnikernel-module$": "<rootDir>/../../omnikernel/module/src",
+    "^@nest-yalc-2/omnikernel-module/src/(.*)$": "<rootDir>/../../omnikernel/module/src/$1",
+    "^@nest-yalc-2/task-system-module$": "<rootDir>/../module/src",
+    "^@nest-yalc-2/task-system-module/src/(.*)$": "<rootDir>/../module/src/$1",
     "^graphql$": "<rootDir>/node_modules/graphql",
     "^graphql/(.*)$": "<rootDir>/node_modules/graphql/$1",
     "^@nestjs/mercurius$": "<rootDir>/node_modules/@nestjs/mercurius",
@@ -24,9 +24,9 @@
     "^typeorm$": "<rootDir>/../../../node_modules/typeorm",
     "^p-map$": "<rootDir>/apps/task-system-app/test/p-map.mock.ts",
     "^lodash-es$": "lodash",
-    "^@nestjs-yalc/([^/]+)/(.+?)\\.js$": "<rootDir>/../../../$1/src/$2",
-    "^@nestjs-yalc/([^/]+)/(.*)$": "<rootDir>/../../../$1/src/$2",
-    "^@nestjs-yalc/([^/]+)$": "<rootDir>/../../../$1/src",
+    "^@nest-yalc-2/([^/]+)/(.+?)\\.js$": "<rootDir>/../../../$1/src/$2",
+    "^@nest-yalc-2/([^/]+)/(.*)$": "<rootDir>/../../../$1/src/$2",
+    "^@nest-yalc-2/([^/]+)$": "<rootDir>/../../../$1/src",
     "^(\\.{1,2}/.*)\\.js$": "$1"
   },
   "testPathIgnorePatterns": ["/node_modules/", "/dist/", ".e2e-spec.ts$"]

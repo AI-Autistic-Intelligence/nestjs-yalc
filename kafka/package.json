@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-yalc/kafka",
+  "name": "@nest-yalc-2/kafka",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",

@@ -40,6 +40,6 @@ function getTestFilenameWithoutExtension(testPath, testExtension) {
         .basename(testPath)
         .replace('.spec.ts', '')
         .replace('.e2e-spec.ts', '')
-        .replace(testExtension !== null && testExtension !== void 0 ? testExtension : '', '');
+        .replace(testExtension ?? '', '');
 }
 //# sourceMappingURL=helpers.js.map

@@ -1,4 +1,4 @@
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { SortDirection } from '../crud-gen.enum.js';
 import type { ICrudGenBaseParams, ICrudGenSimpleParams, FilterInput, ISortModel, ISortModelStrict } from '../api-graphql/crud-gen-gql.interface.js';
 import { IPageDataCrudGen } from '../crud-gen.interface.js';

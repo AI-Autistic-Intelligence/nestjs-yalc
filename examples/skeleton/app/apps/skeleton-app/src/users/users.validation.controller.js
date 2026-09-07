@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersValidationController = void 0;
 const common_1 = require("@nestjs/common");
 const users_dto_1 = require("./users.dto");
-const generic_service_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.service");
+const generic_service_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service");
 const common_2 = require("@nestjs/common");
-const crud_gen_helpers_1 = require("@nestjs-yalc/crud-gen/crud-gen.helpers");
+const crud_gen_helpers_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers");
 const common_3 = require("@nestjs/common");
 const node_crypto_1 = require("node:crypto");
 let UsersValidationController = class UsersValidationController {

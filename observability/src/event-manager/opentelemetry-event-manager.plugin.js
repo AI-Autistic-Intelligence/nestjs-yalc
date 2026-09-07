@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OpenTelemetryEventManagerPlugin = void 0;
 exports.matchesEventPattern = matchesEventPattern;
 const common_1 = require("@nestjs/common");
-const event_manager_1 = require("@nestjs-yalc/event-manager");
+const event_manager_1 = require("@nest-yalc-2/event-manager");
 const tokens_js_1 = require("../tokens.js");
 const telemetry_service_js_1 = require("../telemetry.service.js");
 let OpenTelemetryEventManagerPlugin = class OpenTelemetryEventManagerPlugin {

@@ -71,10 +71,9 @@ let DbOpsService = class DbOpsService {
         }
     }
     async sync(throwOnError = false, dropTables = false) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, 'Synchronizing db...');
+        this.loggerService.debug?.('Synchronizing db...');
         for (const v of this.dbConnections) {
-            (_d = (_c = this.loggerService).debug) === null || _d === void 0 ? void 0 : _d.call(_c, `Synchronizing ${v.dbName}...`);
+            this.loggerService.debug?.(`Synchronizing ${v.dbName}...`);
             try {
                 await v.conn.synchronize(dropTables);
             }
@@ -83,25 +82,23 @@ let DbOpsService = class DbOpsService {
                     throw e;
                 }
                 else {
-                    (_f = (_e = this.loggerService).debug) === null || _f === void 0 ? void 0 : _f.call(_e, `${v.dbName} not Synchronized`);
+                    this.loggerService.debug?.(`${v.dbName} not Synchronized`);
                 }
             }
         }
-        (_h = (_g = this.loggerService).debug) === null || _h === void 0 ? void 0 : _h.call(_g, 'Synchronze completed!');
+        this.loggerService.debug?.('Synchronze completed!');
     }
     async drop() {
-        var _a, _b;
         for (const v of this.dbConnections) {
             const queryRunner = v.conn.createQueryRunner();
-            (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, `Dropping ${v.dbName}`);
+            this.loggerService.debug?.(`Dropping ${v.dbName}`);
             await queryRunner.dropDatabase(v.dbName, true);
         }
     }
     async migrate(options) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
-        (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, 'Migrating db...');
-        if (options === null || options === void 0 ? void 0 : options.selMigrations) {
-            (_d = (_c = this.loggerService).debug) === null || _d === void 0 ? void 0 : _d.call(_c, `Selected migrations ${JSON.stringify(options.selMigrations)}`);
+        this.loggerService.debug?.('Migrating db...');
+        if (options?.selMigrations) {
+            this.loggerService.debug?.(`Selected migrations ${JSON.stringify(options.selMigrations)}`);
         }
         for (const v of this.dbConnections) {
             if (!v.conn.isConnected)
@@ -110,13 +107,13 @@ let DbOpsService = class DbOpsService {
             const migrationExecutor = new typeorm_1.MigrationExecutor(v.conn, queryRunner);
             migrationExecutor.transaction = 'all';
             const migrations = await migrationExecutor.getAllMigrations();
-            const dbName = (_e = v.conn.driver.database) !== null && _e !== void 0 ? _e : v.dbName;
+            const dbName = v.conn.driver.database ?? v.dbName;
             if (!Array.isArray(migrations) || migrations.length <= 0) {
-                (_g = (_f = this.loggerService).debug) === null || _g === void 0 ? void 0 : _g.call(_f, `No migrations available on ${dbName}`);
+                this.loggerService.debug?.(`No migrations available on ${dbName}`);
                 continue;
             }
-            if (options === null || options === void 0 ? void 0 : options.selMigrations) {
-                (_j = (_h = this.loggerService).debug) === null || _j === void 0 ? void 0 : _j.call(_h, `Executing selected migrations on ${dbName}`);
+            if (options?.selMigrations) {
+                this.loggerService.debug?.(`Executing selected migrations on ${dbName}`);
                 const pendingMigrations = await migrationExecutor.getPendingMigrations();
                 const selectedMigrations = dbName
                     ? options.selMigrations[dbName]
@@ -125,24 +122,23 @@ let DbOpsService = class DbOpsService {
                     if (selectedMigrations === true ||
                         (Array.isArray(selectedMigrations) &&
                             selectedMigrations.includes(migration.name))) {
-                        (_l = (_k = this.loggerService).debug) === null || _l === void 0 ? void 0 : _l.call(_k, `Executing migration ${migration.name} for ${dbName}`);
+                        this.loggerService.debug?.(`Executing migration ${migration.name} for ${dbName}`);
                         await migrationExecutor.executeMigration(migration);
                     }
                 }
             }
             else {
-                (_o = (_m = this.loggerService).debug) === null || _o === void 0 ? void 0 : _o.call(_m, `Executing migration for ${dbName}`);
+                this.loggerService.debug?.(`Executing migration for ${dbName}`);
                 await migrationExecutor.executePendingMigrations();
             }
         }
-        if (options === null || options === void 0 ? void 0 : options.reseed) {
+        if (options?.reseed) {
             await this.seedService.seedDatabases(true);
         }
-        (_q = (_p = this.loggerService).debug) === null || _q === void 0 ? void 0 : _q.call(_p, 'Migration completed!');
+        this.loggerService.debug?.('Migration completed!');
     }
     async generate(dbName, tables, genPath) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        (_b = (_a = this.loggerService).debug) === null || _b === void 0 ? void 0 : _b.call(_a, 'Exporting db to TypeORM entities...');
+        this.loggerService.debug?.('Exporting db to TypeORM entities...');
         const driver = Engine.createDriver('mysql');
         const mysqlConnectionOptions = [];
         this.dbConnections.forEach(({ conn: { options } }) => {
@@ -156,15 +152,26 @@ let DbOpsService = class DbOpsService {
             return;
         }
         for (const options of mysqlConnectionOptions) {
-            const connOptions = Object.assign(Object.assign({}, (0, IConnectionOptions_1.getDefaultConnectionOptions)()), { host: (_c = options.host) !== null && _c !== void 0 ? _c : '127.0.0.1', port: (_d = options.port) !== null && _d !== void 0 ? _d : 3306, password: (_e = options.password) !== null && _e !== void 0 ? _e : '', user: (_f = options.username) !== null && _f !== void 0 ? _f : '', databaseNames: options.database ? [options.database] : [], databaseType: options.type, onlyTables: tables });
-            const generationOptions = Object.assign({}, (0, IGenerationOptions_1.getDefaultGenerationOptions)());
+            const connOptions = {
+                ...(0, IConnectionOptions_1.getDefaultConnectionOptions)(),
+                host: options.host ?? '127.0.0.1',
+                port: options.port ?? 3306,
+                password: options.password ?? '',
+                user: options.username ?? '',
+                databaseNames: options.database ? [options.database] : [],
+                databaseType: options.type,
+                onlyTables: tables,
+            };
+            const generationOptions = {
+                ...(0, IGenerationOptions_1.getDefaultGenerationOptions)(),
+            };
             if (genPath) {
                 generationOptions.resultsPath = genPath;
             }
             generationOptions.resultsPath += `/${dbName}`;
             await Engine.createModelFromDatabase(driver, connOptions, generationOptions);
         }
-        (_h = (_g = this.loggerService).debug) === null || _h === void 0 ? void 0 : _h.call(_g, 'Export complete!');
+        this.loggerService.debug?.('Export complete!');
     }
 };
 exports.DbOpsService = DbOpsService;
@@ -175,13 +182,10 @@ exports.DbOpsService = DbOpsService = __decorate([
 function isMysqlConnectionOption(options) {
     return options.type === 'mysql';
 }
-const dbConnectionMap = (c) => {
-    var _a, _b;
-    return ({
-        conn: c,
-        dbName: (_b = (_a = c.options.database) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : (0, conn_helper_1.getDBNameByConnection)(c.name),
-    });
-};
+const dbConnectionMap = (c) => ({
+    conn: c,
+    dbName: c.options.database?.toString() ?? (0, conn_helper_1.getDBNameByConnection)(c.name),
+});
 exports.dbConnectionMap = dbConnectionMap;
 const DbObpsServiceFactory = (loggerServiceToken, connectionTokens) => ({
     provide: DbOpsService,

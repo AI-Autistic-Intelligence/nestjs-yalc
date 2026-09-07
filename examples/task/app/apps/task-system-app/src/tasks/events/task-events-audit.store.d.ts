@@ -1,4 +1,4 @@
-import type { TaskDomainEventPayload } from '@nestjs-yalc/task-system-module/src/events/tasks-events.client';
+import type { TaskDomainEventPayload } from '@nest-yalc-2/task-system-module/src/events/tasks-events.client';
 export interface RecordedTaskDomainEvent {
     eventName: string;
     source: 'local' | 'rabbitmq';

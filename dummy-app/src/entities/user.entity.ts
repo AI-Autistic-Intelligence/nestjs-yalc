@@ -1,7 +1,7 @@
 import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { PostEntity } from './post.entity';
-import { decimalMiddleware } from '@nestjs-yalc/field-middleware/decimal-middleware.helper';
+import { decimalMiddleware } from '@nest-yalc-2/field-middleware/decimal-middleware.helper';
 
 @ObjectType('User')
 @Entity('users')

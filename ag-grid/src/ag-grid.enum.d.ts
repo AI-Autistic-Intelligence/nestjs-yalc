@@ -1,4 +1,4 @@
-import { AnyFunction, ClassType } from '@nestjs-yalc/types';
+import { AnyFunction, ClassType } from '@nest-yalc-2/types';
 export declare enum GeneralFilters {
     NOT = "not",
     CONTAINS = "contains",

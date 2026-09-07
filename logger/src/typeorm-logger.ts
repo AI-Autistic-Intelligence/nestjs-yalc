@@ -1,5 +1,5 @@
-import { YalcEventService } from '@nestjs-yalc/event-manager/event.service.js';
-import { envIsTrue } from '@nestjs-yalc/utils';
+import { YalcEventService } from '@nest-yalc-2/event-manager/event.service.js';
+import { envIsTrue } from '@nest-yalc-2/utils';
 import { Logger } from 'typeorm';
 import { LoggerEvent } from './logger.event.js';
 

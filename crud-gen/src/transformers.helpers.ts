@@ -1,5 +1,5 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
-import { deepMerge, objectSetProp } from '@nestjs-yalc/utils/object.helper.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import { deepMerge, objectSetProp } from '@nest-yalc-2/utils/object.helper.js';
 import { plainToInstance } from 'class-transformer';
 
 export function JsonTransformer(field: string, propertyPath: string) {

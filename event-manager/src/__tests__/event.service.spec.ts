@@ -7,7 +7,7 @@ import {
   beforeAll,
 } from '@jest/globals';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
+import { ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
 import { createMock } from '@golevelup/ts-jest';
 import type { YalcEventService as EventServiceType } from '../event.service.js';
 import { HttpStatus } from '@nestjs/common';

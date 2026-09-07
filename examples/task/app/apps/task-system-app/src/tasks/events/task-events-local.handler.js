@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskEventsLocalHandler = void 0;
 const common_1 = require("@nestjs/common");
-const event_manager_1 = require("@nestjs-yalc/event-manager");
-const tasks_events_client_1 = require("@nestjs-yalc/task-system-module/src/events/tasks-events.client");
+const event_manager_1 = require("@nest-yalc-2/event-manager");
+const tasks_events_client_1 = require("@nest-yalc-2/task-system-module/src/events/tasks-events.client");
 const task_events_audit_store_1 = require("./task-events-audit.store");
 let TaskEventsLocalHandler = class TaskEventsLocalHandler {
     constructor(events, audit) {

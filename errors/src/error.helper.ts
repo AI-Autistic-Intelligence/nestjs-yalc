@@ -1,6 +1,6 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
-import { httpExceptionStatusCodes } from '@nestjs-yalc/utils/http.helper.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
+import { httpExceptionStatusCodes } from '@nest-yalc-2/utils/http.helper.js';
 import { isDefaultErrorMixinClass } from './default.error.js';
 
 /**

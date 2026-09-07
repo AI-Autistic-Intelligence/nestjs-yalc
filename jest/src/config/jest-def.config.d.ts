@@ -16,5 +16,5 @@ export interface IDefaultConfOptions {
     tsJestConf?: any;
     jestConf?: any;
 }
-declare const defaultConf: (dirname: string, options?: IDefaultConfOptions, tsJestConfig?: any) => JestConfigWithTsJest;
+declare const defaultConf: (dirname: string, options?: IDefaultConfOptions, _tsJestConfig?: any) => JestConfigWithTsJest;
 export default defaultConf;

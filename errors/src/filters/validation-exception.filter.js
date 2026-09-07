@@ -43,8 +43,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValidationExceptionFilter = void 0;
-const crud_gen_error_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.error.js");
-const uuid_validation_error_js_1 = require("@nestjs-yalc/graphql/scalars/uuid-validation.error.js");
+const crud_gen_error_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.error.js");
+const uuid_validation_error_js_1 = require("@nest-yalc-2/graphql/scalars/uuid-validation.error.js");
 const common = __importStar(require("@nestjs/common"));
 const index_js_1 = require("../index.js");
 let ValidationExceptionFilter = class ValidationExceptionFilter {
@@ -52,10 +52,9 @@ let ValidationExceptionFilter = class ValidationExceptionFilter {
         this.logger = logger;
     }
     catch(error) {
-        var _a;
         const newError = new index_js_1.InputValidationError(error.systemMessage, { response: { message: error.message } });
         newError.stack = error.stack;
-        this.logger.error((_a = error.systemMessage) !== null && _a !== void 0 ? _a : newError.message, newError.stack);
+        this.logger.error(error.systemMessage ?? newError.message, newError.stack);
         return newError;
     }
 };

@@ -2,14 +2,14 @@ import { INestApplicationContext } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 // import { GqlExceptionFilter } from '@nestjs/graphql';
 import { FastifyInstance } from 'fastify';
-import { envIsTrue } from '@nestjs-yalc/utils/env.helper.js';
+import { envIsTrue } from '@nest-yalc-2/utils/env.helper.js';
 import clc from 'cli-color';
 import {
   BaseAppBootstrap,
   IGlobalOptions,
 } from './app-bootstrap-base.helper.js';
 import { INestCreateOptions } from './app-bootstrap.helper.js';
-import { getEnvLoggerLevels } from '@nestjs-yalc/logger/logger.helper.js';
+import { getEnvLoggerLevels } from '@nest-yalc-2/logger/logger.helper.js';
 
 export class StandaloneAppBootstrap<
   TGlobalOptions extends IGlobalOptions = IGlobalOptions,

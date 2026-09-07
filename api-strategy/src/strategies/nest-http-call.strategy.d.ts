@@ -1,7 +1,7 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { HttpService } from '@nestjs/axios';
 import { HttpAbstractStrategy, IHttpCallStrategyResponse, HttpOptions, IHttpCallStrategyOptions } from './http-abstract-call.strategy.js';
-import { YalcGlobalClsService } from '@nestjs-yalc/app/cls.module.js';
+import { YalcGlobalClsService } from '@nest-yalc-2/app/cls.module.js';
 export type NestHttpCallStrategyOptions = IHttpCallStrategyOptions & {
     internalRequestHeader?: string;
     internalRequestToken?: string;

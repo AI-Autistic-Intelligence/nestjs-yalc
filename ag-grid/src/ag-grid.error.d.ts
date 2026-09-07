@@ -1,4 +1,4 @@
-import { GqlError } from '@nestjs-yalc/graphql/plugins/gql.error';
+import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error';
 export declare class AgGridError extends GqlError {
     systemMessage?: string | undefined;
     constructor(message?: string, systemMessage?: string | undefined);

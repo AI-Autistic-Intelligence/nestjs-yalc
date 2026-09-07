@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmniExternalRefUpdateInput = exports.OmniExternalRefCondition = exports.OmniExternalRefCreateInput = exports.OmniExternalRefType = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const object_decorator_js_1 = require("@nestjs-yalc/crud-gen/object.decorator.js");
-const uuid_scalar_js_1 = require("@nestjs-yalc/graphql/scalars/uuid.scalar.js");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const object_decorator_js_1 = require("@nest-yalc-2/crud-gen/object.decorator.js");
+const uuid_scalar_js_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar.js");
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const class_validator_1 = require("class-validator");
 const graphql_type_json_1 = require("graphql-type-json");
 const omni_external_ref_entity_js_1 = require("./base/omni-external-ref.entity.js");

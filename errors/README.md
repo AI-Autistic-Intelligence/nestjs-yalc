@@ -1,15 +1,15 @@
-# @nestjs-yalc/errors
+# @nest-yalc-2/errors
 
 Typed application errors and Result helpers for YALC and NestJS applications.
 
-Use this package with `@nestjs-yalc/event-manager` when you need errors that
+Use this package with `@nest-yalc-2/event-manager` when you need errors that
 can carry safe client responses, internal diagnostics, structured data, HTTP
 status codes, and logging metadata.
 
 ## Installation
 
 ```bash
-npm install @nestjs-yalc/errors
+npm install @nest-yalc-2/errors
 ```
 
 ## Main Exports
@@ -21,7 +21,7 @@ npm install @nestjs-yalc/errors
 ## Example
 
 ```ts
-import { BadRequestError } from '@nestjs-yalc/errors';
+import { BadRequestError } from '@nest-yalc-2/errors';
 
 throw new BadRequestError('user.invalidEmail', {
   response: { message: 'Invalid email address.' },

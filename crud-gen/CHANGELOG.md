@@ -1,4 +1,4 @@
-# @nestjs-yalc/crud-gen
+# @nest-yalc-2/crud-gen
 
 ## 1.5.0
 
@@ -22,17 +22,17 @@
 - d7b9575: Resolve generated GraphQL relation loaders from the active request context so
   request-scoped services and tenant-aware loader caches retain their scope.
 - ab50237: Declare the complete runtime dependency and peer graph reached by a standalone
-  CrudGen installation. This lets consumers install `@nestjs-yalc/crud-gen`
+  CrudGen installation. This lets consumers install `@nest-yalc-2/crud-gen`
   directly without relying on the aggregate framework package to hoist missing
   dependencies.
 - Updated dependencies [8d3d378]
 - Updated dependencies [ab50237]
-  - @nestjs-yalc/event-manager@1.3.4
-  - @nestjs-yalc/data-loader@1.3.4
-  - @nestjs-yalc/database@1.3.4
-  - @nestjs-yalc/field-middleware@1.3.4
-  - @nestjs-yalc/graphql@1.3.4
-  - @nestjs-yalc/utils@1.3.4
+  - @nest-yalc-2/event-manager@1.3.4
+  - @nest-yalc-2/data-loader@1.3.4
+  - @nest-yalc-2/database@1.3.4
+  - @nest-yalc-2/field-middleware@1.3.4
+  - @nest-yalc-2/graphql@1.3.4
+  - @nest-yalc-2/utils@1.3.4
 
 ## 1.4.0
 
@@ -45,10 +45,10 @@
 - Publish npm-safe README files for every package and prevent Jekyll landing-page
   markup from being copied into npm tarballs.
 - Updated dependencies
-  - @nestjs-yalc/data-loader@1.3.3
-  - @nestjs-yalc/database@1.3.3
-  - @nestjs-yalc/field-middleware@1.3.3
-  - @nestjs-yalc/graphql@1.3.3
-  - @nestjs-yalc/interfaces@1.3.3
-  - @nestjs-yalc/types@1.3.3
-  - @nestjs-yalc/utils@1.3.3
+  - @nest-yalc-2/data-loader@1.3.3
+  - @nest-yalc-2/database@1.3.3
+  - @nest-yalc-2/field-middleware@1.3.3
+  - @nest-yalc-2/graphql@1.3.3
+  - @nest-yalc-2/interfaces@1.3.3
+  - @nest-yalc-2/types@1.3.3
+  - @nest-yalc-2/utils@1.3.3

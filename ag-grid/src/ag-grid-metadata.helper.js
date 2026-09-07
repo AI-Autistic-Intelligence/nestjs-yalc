@@ -1,15 +1,4 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.objectToFieldMapper = exports.isSymbolic = exports.getFieldMapperSrcByDst = exports.columnConversion = void 0;
 exports.getDestinationFieldName = getDestinationFieldName;
@@ -17,13 +6,12 @@ exports.isIFieldAndFilterMapper = isIFieldAndFilterMapper;
 exports.getEntityRelations = getEntityRelations;
 exports.getTypeProperties = getTypeProperties;
 exports.getMappedTypeProperties = getMappedTypeProperties;
-const maps_interface_1 = require("@nestjs-yalc/interfaces/maps.interface");
+const maps_interface_1 = require("@nest-yalc-2/interfaces/maps.interface");
 const typeorm_1 = require("typeorm");
 const object_decorator_1 = require("./object.decorator");
 const columnConversion = (key, data) => {
-    var _a, _b;
     if (data) {
-        const dst = (_b = (_a = data[key]) === null || _a === void 0 ? void 0 : _a.dst) !== null && _b !== void 0 ? _b : key;
+        const dst = data[key]?.dst ?? key;
         return getDestinationFieldName(dst);
     }
     return key;
@@ -56,7 +44,6 @@ function getDestinationFieldName(dst) {
 }
 const objectToFieldMapperCache = new WeakMap();
 const objectToFieldMapper = (object) => {
-    var _a;
     if (typeof object !== 'symbol') {
         const cached = objectToFieldMapperCache.get(object);
         if (cached) {
@@ -72,11 +59,15 @@ const objectToFieldMapper = (object) => {
         if (fieldMetadataList) {
             for (const propertyName of Object.keys(fieldMetadataList)) {
                 const fieldMetadata = fieldMetadataList[propertyName];
-                const { src, dst } = fieldMetadata, fieldMapperProperties = __rest(fieldMetadata, ["src", "dst"]);
+                const { src, dst, ...fieldMapperProperties } = fieldMetadata;
                 if (src) {
                     const newDst = dst ? getDestinationFieldName(dst) : src;
-                    fieldMapper.field[src] = Object.assign(Object.assign({ dst: newDst }, fieldMapperProperties), { _propertyName: propertyName });
-                    const gqlType = (_a = fieldMetadata.gqlType) === null || _a === void 0 ? void 0 : _a.call(fieldMetadata);
+                    fieldMapper.field[src] = {
+                        dst: newDst,
+                        ...fieldMapperProperties,
+                        _propertyName: propertyName,
+                    };
+                    const gqlType = fieldMetadata.gqlType?.();
                     if (gqlType) {
                         fieldMapper.extraInfo[src] = (0, exports.objectToFieldMapper)(gqlType);
                     }
@@ -96,14 +87,14 @@ const objectToFieldMapper = (object) => {
 };
 exports.objectToFieldMapper = objectToFieldMapper;
 function isIFieldAndFilterMapper(val) {
-    return (val === null || val === void 0 ? void 0 : val.field) !== undefined;
+    return val?.field !== undefined;
 }
 function getEntityRelations(entityModel, dto) {
     const relations = (0, typeorm_1.getMetadataArgsStorage)().relations.filter((v) => typeof v.target !== 'string' &&
         (entityModel.prototype instanceof v.target || entityModel === v.target));
     const joinColumns = (0, typeorm_1.getMetadataArgsStorage)().joinColumns.filter((v) => typeof v.target !== 'string' &&
         (entityModel.prototype instanceof v.target || entityModel === v.target));
-    const agGridMetadata = (0, object_decorator_1.getAgGridFieldMetadataList)(dto !== null && dto !== void 0 ? dto : entityModel);
+    const agGridMetadata = (0, object_decorator_1.getAgGridFieldMetadataList)(dto ?? entityModel);
     return relations.map((r) => ({
         relation: r,
         join: joinColumns.find((j) => j.propertyName === r.propertyName),
@@ -135,9 +126,8 @@ function getTypeProperties(entityModel) {
 function getMappedTypeProperties(entityModel) {
     const fieldMapper = (0, exports.objectToFieldMapper)(entityModel);
     return getTypeProperties(entityModel).reduce((r, v) => {
-        var _a;
         const src = (0, exports.getFieldMapperSrcByDst)(fieldMapper.field, v.propertyName);
-        if (!((_a = fieldMapper.field[src]) === null || _a === void 0 ? void 0 : _a.denyFilter))
+        if (!fieldMapper.field[src]?.denyFilter)
             r.push(src);
         return r;
     }, new Array());

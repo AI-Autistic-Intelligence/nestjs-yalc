@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { IEventStrategy } from '@nestjs-yalc/api-strategy';
+import type { IEventStrategy } from '@nest-yalc-2/api-strategy';
 
 export const TASK_EVENTS_STRATEGY = 'TASK_EVENTS_STRATEGY';
 export const TASK_EVENTS_LOCAL_STRATEGY = 'TASK_EVENTS_LOCAL_STRATEGY';

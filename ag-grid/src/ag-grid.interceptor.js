@@ -15,7 +15,7 @@ function agGridInterceptorWorker(startRow, endRow) {
     return ([page, count]) => {
         return {
             nodes: page,
-            pageData: { count, startRow: startRow !== null && startRow !== void 0 ? startRow : 0, endRow: endRow !== null && endRow !== void 0 ? endRow : count },
+            pageData: { count, startRow: startRow ?? 0, endRow: endRow ?? count },
         };
     };
 }

@@ -166,7 +166,7 @@ handlers.
 
 ## Observability
 
-The task app is also the real-world example for `@nestjs-yalc/observability`.
+The task app is also the real-world example for `@nest-yalc-2/observability`.
 The app registers `ObservabilityModule` as an opt-in plugin. When enabled, it
 listens to EventManager events and exports OpenTelemetry telemetry for:
 

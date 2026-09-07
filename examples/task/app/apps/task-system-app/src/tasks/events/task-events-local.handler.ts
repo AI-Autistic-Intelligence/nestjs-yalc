@@ -1,10 +1,10 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import {
   TASK_CREATED_EVENT,
   TASK_STATUS_CHANGED_EVENT,
   type TaskDomainEventPayload,
-} from '@nestjs-yalc/task-system-module/src/events/tasks-events.client';
+} from '@nest-yalc-2/task-system-module/src/events/tasks-events.client';
 import { TaskEventsAuditStore } from './task-events-audit.store';
 
 @Injectable()

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeMap = exports.PageDataAgGrid = void 0;
 exports.default = AgGridGqlType;
 const graphql_1 = require("@nestjs/graphql");
-const returnValue_1 = __importDefault(require("@nestjs-yalc/utils/returnValue"));
+const returnValue_1 = __importDefault(require("@nest-yalc-2/utils/returnValue"));
 let PageDataAgGrid = class PageDataAgGrid {
 };
 exports.PageDataAgGrid = PageDataAgGrid;

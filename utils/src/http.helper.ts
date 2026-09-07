@@ -23,7 +23,7 @@ import {
 } from '@nestjs/common';
 import { HttpStatusCode } from 'axios';
 
-export const HttpStatusCodes = {
+export const HttpStatusCodes: Record<string, any> = {
   ...HttpStatus,
   ...HttpStatusCode,
 };

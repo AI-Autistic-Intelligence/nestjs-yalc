@@ -2,6 +2,8 @@ export type IFieldMapper<T = any> = {
   [k in keyof T]: FieldMapperProperty;
 };
 
+export type FieldMapper<T = any> = IFieldMapper<T>;
+
 export const isFieldMapper = (object: any): object is IFieldMapper => {
   const casted = object as IFieldMapper;
   const values = Object.values(casted);

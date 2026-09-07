@@ -7,7 +7,7 @@ import { TestResolver } from './test.resolver';
 import { UserEntity } from './entities/user.entity';
 import { PostEntity } from './entities/post.entity';
 import { UserModule } from './modules/user/user.module';
-import { GqlComplexityPlugin } from '@nestjs-yalc/graphql/plugins/gql-complexity.plugin';
+import { GqlComplexityPlugin } from '@nest-yalc-2/graphql/plugins/gql-complexity.plugin';
 
 @Module({
   imports: [

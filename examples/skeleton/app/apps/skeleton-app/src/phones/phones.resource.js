@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.phonesResourceProviders = exports.PhonesController = exports.phonesResource = void 0;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
-const skeleton_module_1 = require("@nestjs-yalc/skeleton-module");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
+const skeleton_module_1 = require("@nest-yalc-2/skeleton-module");
 const crudgen_provider_compat_js_1 = require("../crudgen-provider-compat.js");
 exports.phonesResource = (0, crud_gen_1.CrudGenResourceFactory)({
     entityModel: skeleton_module_1.SkeletonPhone,

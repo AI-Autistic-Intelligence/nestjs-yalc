@@ -1,6 +1,6 @@
 import { isClass, isES6Class } from '../class.helper.js';
 import { describe, expect, it } from '@jest/globals';
-import { DefaultError } from '@nestjs-yalc/errors/default.error.js';
+import { DefaultError } from '@nest-yalc-2/errors/default.error.js';
 
 describe('Test Class Helpers', () => {
   it('should test a class correctly', () => {

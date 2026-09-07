@@ -7,15 +7,15 @@ import {
   beforeAll,
   expect,
 } from '@jest/globals';
-import { DefaultError } from '@nestjs-yalc/errors/default.error.js';
-import { ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
+import { DefaultError } from '@nest-yalc-2/errors/default.error.js';
+import { ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { YalcEventService } from '../event.service.js';
 import {
   BadRequestError,
   InternalServerError,
-} from '@nestjs-yalc/errors/error.class.js';
-import { LogLevelEnum } from '@nestjs-yalc/logger/logger.enum.js';
+} from '@nest-yalc-2/errors/error.class.js';
+import { LogLevelEnum } from '@nest-yalc-2/logger/logger.enum.js';
 
 describe('Event errorForward', () => {
   let service: YalcEventService;

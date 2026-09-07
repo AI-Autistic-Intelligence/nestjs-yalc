@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PhonesModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const skeleton_module_1 = require("@nestjs-yalc/skeleton-module");
+const skeleton_module_1 = require("@nest-yalc-2/skeleton-module");
 const phones_resource_1 = require("./phones.resource");
 let PhonesModule = class PhonesModule {
 };

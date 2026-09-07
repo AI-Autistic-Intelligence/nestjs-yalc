@@ -20,11 +20,11 @@ exports.DataLoaderFactory = DataLoaderFactory;
 exports.getDataloaderToken = getDataloaderToken;
 const dataloader_1 = __importDefault(require("dataloader"));
 const typeorm_1 = require("typeorm");
-const crud_gen_enum_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.enum.js");
+const crud_gen_enum_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.enum.js");
 const common_1 = require("@nestjs/common");
-const generic_service_js_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.service.js");
-const crud_gen_helpers_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.helpers.js");
-const event_enum_js_1 = require("@nestjs-yalc/crud-gen/event.enum.js");
+const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
+const crud_gen_helpers_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers.js");
+const event_enum_js_1 = require("@nest-yalc-2/crud-gen/event.enum.js");
 const eventemitter2_1 = __importDefault(require("eventemitter2"));
 class _DataLoaderWithCount extends dataloader_1.default {
     constructor(batchFn, searchKey, findOptions, options) {
@@ -37,7 +37,10 @@ class _DataLoaderWithCount extends dataloader_1.default {
                     Object.keys(findOptions.where.filters).length) ||
                     findOptions.where.childExpressions)) {
                 where.childExpressions = [
-                    Object.assign({ operator: crud_gen_enum_js_1.Operators.AND }, findOptions.where),
+                    {
+                        operator: crud_gen_enum_js_1.Operators.AND,
+                        ...findOptions.where,
+                    },
                 ];
             }
             const selections = Array.isArray(findOptions.select)
@@ -52,7 +55,10 @@ class _DataLoaderWithCount extends dataloader_1.default {
                     selections.push(field);
                 }
             }
-            const findManyOptions = Object.assign(Object.assign({}, findOptions), { where });
+            const findManyOptions = {
+                ...findOptions,
+                where,
+            };
             const [entities, count] = await batchFn(findManyOptions);
             this.count = count;
             const entityMap = {};
@@ -64,7 +70,7 @@ class _DataLoaderWithCount extends dataloader_1.default {
                     entityMap[result[searchKey]].push(result);
                 }
             });
-            return keys.map((key) => { var _a; return (_a = entityMap[key]) !== null && _a !== void 0 ? _a : []; });
+            return keys.map((key) => entityMap[key] ?? []);
         }, options);
     }
     getCount() {
@@ -77,11 +83,10 @@ let GQLDataLoader = class GQLDataLoader {
         this.count = 0;
         this.dataLoaders = {};
         this.batchFn = async (findManyOptions) => {
-            var _a, _b, _c, _d;
             const randomId = Math.random();
-            void ((_a = this.eventEmitter) === null || _a === void 0 ? void 0 : _a.emitAsync(event_enum_js_1.EventCrudGen.START_TRANSACTION, (_b = findManyOptions.info) === null || _b === void 0 ? void 0 : _b.fieldName, randomId));
+            void this.eventEmitter?.emitAsync(event_enum_js_1.EventCrudGen.START_TRANSACTION, findManyOptions.info?.fieldName, randomId);
             const data = await getFn(findManyOptions);
-            void ((_c = this.eventEmitter) === null || _c === void 0 ? void 0 : _c.emitAsync(event_enum_js_1.EventCrudGen.END_TRANSACTION, (_d = findManyOptions.info) === null || _d === void 0 ? void 0 : _d.fieldName, randomId));
+            void this.eventEmitter?.emitAsync(event_enum_js_1.EventCrudGen.END_TRANSACTION, findManyOptions.info?.fieldName, randomId);
             return data;
         };
         this.searchKey = searchKey;
@@ -92,13 +97,12 @@ let GQLDataLoader = class GQLDataLoader {
         return this.searchKey;
     }
     getDataloader(findOptions, searchKey) {
-        var _a, _b, _c, _d, _e;
         let DLKey = this.keyMap.get(findOptions);
         if (!DLKey) {
-            const sort = typeof ((_a = findOptions.select) === null || _a === void 0 ? void 0 : _a.sort) === 'function'
+            const sort = typeof findOptions.select?.sort === 'function'
                 ? findOptions.select.sort().join(',')
                 : '';
-            DLKey = `${sort}|${JSON.stringify((_b = findOptions.where) !== null && _b !== void 0 ? _b : { filters: {} })}|${JSON.stringify(findOptions.subQueryFilters)}|${JSON.stringify((_c = findOptions.order) !== null && _c !== void 0 ? _c : {})}|${JSON.stringify((_d = findOptions.take) !== null && _d !== void 0 ? _d : {})}|${JSON.stringify((_e = findOptions.skip) !== null && _e !== void 0 ? _e : {})}|${searchKey.toString()}`;
+            DLKey = `${sort}|${JSON.stringify(findOptions.where ?? { filters: {} })}|${JSON.stringify(findOptions.subQueryFilters)}|${JSON.stringify(findOptions.order ?? {})}|${JSON.stringify(findOptions.take ?? {})}|${JSON.stringify(findOptions.skip ?? {})}|${searchKey.toString()}`;
             this.keyMap.set(findOptions, DLKey);
         }
         if (Object.prototype.hasOwnProperty.call(this.dataLoaders, DLKey)) {
@@ -151,7 +155,7 @@ function DataLoaderFactory(defaultSearchKey, entity, serviceToken) {
             return new GQLDataLoader((0, exports.getFn)(service), defaultSearchKey, eventEmitter);
         },
         inject: [
-            serviceToken !== null && serviceToken !== void 0 ? serviceToken : (0, generic_service_js_1.getServiceToken)(entity),
+            serviceToken ?? (0, generic_service_js_1.getServiceToken)(entity),
             eventemitter2_1.default,
         ],
         scope: common_1.Scope.REQUEST,

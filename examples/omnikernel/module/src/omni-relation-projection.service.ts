@@ -3,7 +3,7 @@ import {
   Operators,
   PROJECTION_INTEGER_MAX,
   type CrudGenFindManyOptions,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import {
   In,
   IsNull,

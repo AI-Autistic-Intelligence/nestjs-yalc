@@ -1,5 +1,5 @@
-import { type ProjectionScope } from '@nestjs-yalc/crud-gen';
-import { OmniRecordEntity, OmniRecordStatus } from '@nestjs-yalc/omnikernel-module';
+import { type ProjectionScope } from '@nest-yalc-2/crud-gen';
+import { OmniRecordEntity, OmniRecordStatus } from '@nest-yalc-2/omnikernel-module';
 export declare const TASK_SYNC_STATE_KIND = "sync-state";
 export declare const taskSyncStateProjectionScope: ProjectionScope;
 export declare const taskSyncStateProjectionDefinition: Readonly<{

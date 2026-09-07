@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseAppController = void 0;
-const def_const_js_1 = require("@nestjs-yalc/app/def.const.js");
+const def_const_js_1 = require("@nest-yalc-2/app/def.const.js");
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const base_app_service_js_1 = require("./base-app.service.js");
@@ -22,7 +22,7 @@ let BaseAppController = class BaseAppController {
     }
     getHello() {
         const conf = this.configService.get(def_const_js_1.CURAPP_CONF_ALIAS);
-        return this.appService.getHello((conf === null || conf === void 0 ? void 0 : conf.appName) || 'no-name');
+        return this.appService.getHello(conf?.appName || 'no-name');
     }
     shutdown() {
         const conf = this.configService.get(def_const_js_1.CURAPP_CONF_ALIAS);

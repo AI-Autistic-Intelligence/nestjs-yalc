@@ -1,4 +1,4 @@
-# @nestjs-yalc/types-extends
+# @nest-yalc-2/types-extends
 
 ## 1.3.3
 

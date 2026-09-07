@@ -1,15 +1,15 @@
 jest.mock('@nestjs/graphql');
-jest.mock('@nestjs-yalc/ag-grid/ag-grid.args', () => ({
+jest.mock('@nest-yalc-2/ag-grid/ag-grid.args', () => ({
   agQueryParamsFactory: jest.fn(),
 }));
 
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
 import * as $ from '../gqlfields.decorator';
 import * as AgGridHelpers from '../ag-grid-metadata.helper';
 import {
   mockedExecutionContext,
   mockedNestGraphql,
-} from '@nestjs-yalc/jest/common-mocks.helper';
+} from '@nest-yalc-2/jest/common-mocks.helper';
 import { GraphQLResolveInfo } from 'graphql';
 import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";

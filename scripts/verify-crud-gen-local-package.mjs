@@ -44,8 +44,8 @@ try {
       `file:${tarball}`,
     ]),
   );
-  npmOverrides['@nestjs-yalc/omnikernel-module'] = {
-    '@nestjs-yalc/crud-gen': '$@nestjs-yalc/crud-gen',
+  npmOverrides['@nest-yalc-2/omnikernel-module'] = {
+    '@nest-yalc-2/crud-gen': '$@nest-yalc-2/crud-gen',
   };
   const pnpmOverrides = Object.fromEntries(
     getLocalPackageDistEntries().map(({ name, packageDir }) => [
@@ -59,8 +59,8 @@ try {
     packageManager: 'npm',
     targetDir: npmConsumerDir,
     dependencies: {
-      '@nestjs-yalc/crud-gen': `file:${crudGenTarball}`,
-      '@nestjs-yalc/omnikernel-module': `file:${omniKernelTarball}`,
+      '@nest-yalc-2/crud-gen': `file:${crudGenTarball}`,
+      '@nest-yalc-2/omnikernel-module': `file:${omniKernelTarball}`,
     },
     overrides: npmOverrides,
   });
@@ -69,8 +69,8 @@ try {
     packageManager: 'pnpm',
     targetDir: pnpmConsumerDir,
     dependencies: {
-      '@nestjs-yalc/crud-gen': `file:${crudGenDir}`,
-      '@nestjs-yalc/omnikernel-module': `file:${omniKernelDir}`,
+      '@nest-yalc-2/crud-gen': `file:${crudGenDir}`,
+      '@nest-yalc-2/omnikernel-module': `file:${omniKernelDir}`,
     },
     overrides: pnpmOverrides,
   });
@@ -104,7 +104,7 @@ function packPublicPackages(destinationDir) {
 
   for (const packageDir of getPublishOrderedDistPackageDirs()) {
     const { pkg, errors } = validateDistPackage(packageDir);
-    if (pkg.name === '@nestjs-yalc/crud-gen') continue;
+    if (pkg.name === '@nest-yalc-2/crud-gen') continue;
     if (errors.length > 0) {
       throw new Error(`${pkg.name} is not packable:\n- ${errors.join('\n- ')}`);
     }
@@ -171,7 +171,7 @@ function verifyConsumer({
   );
   const installedCrudGenDir = packageDirFromEntrypoint(
     directCrudGen,
-    '@nestjs-yalc/crud-gen',
+    '@nest-yalc-2/crud-gen',
   );
   const installedCounts = inspectCompiledPackage(installedCrudGenDir);
   assertSameCompiledProjectionArtifact(
@@ -264,7 +264,7 @@ function writeConsumer({ targetDir, packageManager, dependencies, overrides }) {
   defineProjectionResource,
   ProjectionResourceService,
   type ProjectionResourceDefinition,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 
 const definition: ProjectionResourceDefinition = defineProjectionResource({
   id: 'local-package-smoke',
@@ -298,15 +298,15 @@ import { createRequire } from 'node:module';
 import {
   defineProjectionResource,
   ProjectionResourceService,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 
 const require = createRequire(import.meta.url);
-const directCrudGen = fs.realpathSync(require.resolve('@nestjs-yalc/crud-gen'));
-const omniKernelEntry = require.resolve('@nestjs-yalc/omnikernel-module');
+const directCrudGen = fs.realpathSync(require.resolve('@nest-yalc-2/crud-gen'));
+const omniKernelEntry = require.resolve('@nest-yalc-2/omnikernel-module');
 const omniKernelDir = path.resolve(path.dirname(omniKernelEntry), '../..');
 const omniKernelRequire = createRequire(path.join(omniKernelDir, 'package.json'));
 const omniKernelCrudGen = fs.realpathSync(
-  omniKernelRequire.resolve('@nestjs-yalc/crud-gen'),
+  omniKernelRequire.resolve('@nest-yalc-2/crud-gen'),
 );
 
 if (directCrudGen !== omniKernelCrudGen) {

@@ -1,4 +1,4 @@
-# @nestjs-yalc/observability
+# @nest-yalc-2/observability
 
 ## 1.3.4
 
@@ -7,4 +7,4 @@
 - Publish npm-safe README files for every package and prevent Jekyll landing-page
   markup from being copied into npm tarballs.
 - Updated dependencies
-  - @nestjs-yalc/event-manager@1.3.3
+  - @nest-yalc-2/event-manager@1.3.3

@@ -4,8 +4,7 @@ exports.EventNameBuilder = exports.EventType = void 0;
 exports.EventType = 'EventType';
 class EventNameBuilder {
     static events(domain, actions) {
-        var _a, _b;
-        const baseEvent = `${((_a = this.version) === null || _a === void 0 ? void 0 : _a.base) ? ((_b = this.version) === null || _b === void 0 ? void 0 : _b.base) + '.' : ''}${domain}`;
+        const baseEvent = `${this.version?.base ? this.version?.base + '.' : ''}${domain}`;
         const actionsWithBaseEvent = {};
         for (const [actionKey, actionValue] of Object.entries(actions)) {
             actionsWithBaseEvent[actionKey] = {

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RowDefaultValues = exports.ExtraArgsStrategy = exports.CustomWhereKeys = exports.SortDirection = exports.Operators = exports.FilterType = exports.GeneralFilters = void 0;
 exports.entityFieldsEnumFactory = entityFieldsEnumFactory;
-const class_helper_1 = require("@nestjs-yalc/utils/class.helper");
+const class_helper_1 = require("@nest-yalc-2/utils/class.helper");
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_metadata_helper_1 = require("./ag-grid-metadata.helper");
 var GeneralFilters;
@@ -93,7 +93,7 @@ function entityFieldsEnumFactory(entityModel) {
         return cached;
     const properties = {};
     (0, ag_grid_metadata_helper_1.getMappedTypeProperties)(prototype).map((v) => (properties[v] = v));
-    const FieldsEnum = Object.assign({}, properties);
+    const FieldsEnum = { ...properties };
     (0, graphql_1.registerEnumType)(FieldsEnum, {
         name: `${prototype.name}FieldEnum`,
     });

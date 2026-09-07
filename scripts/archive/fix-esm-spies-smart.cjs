@@ -44,7 +44,7 @@ for (const file of files) {
 
     if (toReplace.length > 0) {
       if (!content.includes('importMockedEsm')) {
-        content = `import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';\n` + content;
+        content = `import { importMockedEsm } from '@nest-yalc-2/jest/esm.helper.js';\n` + content;
       }
       for (const rep of toReplace) {
         content = content.replace(rep.full, `const ${rep.name} = await importMockedEsm(${rep.path}, import.meta);`);

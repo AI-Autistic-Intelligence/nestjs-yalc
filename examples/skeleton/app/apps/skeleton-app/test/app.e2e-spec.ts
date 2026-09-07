@@ -2,11 +2,11 @@ import { INestApplication, Module } from '@nestjs/common';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { NestHttpCallStrategy, NestLocalCallStrategy } from '@nestjs-yalc/api-strategy';
+import { NestHttpCallStrategy, NestLocalCallStrategy } from '@nest-yalc-2/api-strategy';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SkeletonUser } from '@nestjs-yalc/skeleton-module/src/skeleton-user.entity';
-import { SkeletonPhone } from '@nestjs-yalc/skeleton-module/src/skeleton-phone.entity';
+import { SkeletonUser } from '@nest-yalc-2/skeleton-module/src/skeleton-user.entity';
+import { SkeletonPhone } from '@nest-yalc-2/skeleton-module/src/skeleton-phone.entity';
 import { UsersModule } from '../src/users/users.module';
 import { PhonesModule } from '../src/phones/phones.module';
 

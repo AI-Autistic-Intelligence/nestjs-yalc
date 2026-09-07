@@ -1,4 +1,4 @@
-import { type ProjectionDialect, type ProjectionResourceDefinition } from '@nestjs-yalc/crud-gen';
+import { type ProjectionDialect, type ProjectionResourceDefinition } from '@nest-yalc-2/crud-gen';
 import { Table, type EntityTarget, type ObjectLiteral } from 'typeorm';
 import { OmniRecordStatus } from './omni-record-status.enum.js';
 export interface OmniExtensionProjectionDefinition extends ProjectionResourceDefinition {

@@ -31,7 +31,7 @@ let OpenTelemetrySdkService = class OpenTelemetrySdkService {
         if (!this.sdk) {
             return;
         }
-        await this.execute(() => { var _a; return (_a = this.sdk) === null || _a === void 0 ? void 0 : _a.shutdown(); });
+        await this.execute(() => this.sdk?.shutdown());
         api_logs_1.logs.disable();
         this.sdk = undefined;
     }
@@ -59,7 +59,7 @@ let OpenTelemetrySdkService = class OpenTelemetrySdkService {
                 })),
             ],
         });
-        this.execute(() => { var _a; return (_a = this.sdk) === null || _a === void 0 ? void 0 : _a.start(); });
+        this.execute(() => this.sdk?.start());
     }
     execute(operation) {
         try {

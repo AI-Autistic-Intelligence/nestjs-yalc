@@ -1,6 +1,6 @@
 import { UserEntity } from '../../entities/user.entity';
 import { UserService } from './user.service';
-import { AgGridFindManyOptions } from '@nestjs-yalc/ag-grid/ag-grid.interface';
+import { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
 export declare class UserResolver {
     private readonly userService;
     constructor(userService: UserService);

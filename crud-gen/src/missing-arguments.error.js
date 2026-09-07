@@ -11,7 +11,7 @@ class ArgumentsError extends common_1.BadRequestException {
 exports.ArgumentsError = ArgumentsError;
 class MissingArgumentsError extends ArgumentsError {
     constructor(message) {
-        super(message !== null && message !== void 0 ? message : strings_enum_js_1.CrudGenErrors.REQUIRED_ARGS);
+        super(message ?? strings_enum_js_1.CrudGenErrors.REQUIRED_ARGS);
     }
 }
 exports.MissingArgumentsError = MissingArgumentsError;

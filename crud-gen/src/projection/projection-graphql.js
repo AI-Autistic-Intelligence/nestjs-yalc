@@ -7,8 +7,8 @@ exports.createProjectionGraphqlTypes = createProjectionGraphqlTypes;
 const graphql_1 = require("@nestjs/graphql");
 const graphql_type_json_1 = require("graphql-type-json");
 const class_transformer_1 = require("class-transformer");
-const uuid_scalar_js_1 = require("@nestjs-yalc/graphql/scalars/uuid.scalar.js");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const uuid_scalar_js_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar.js");
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const object_decorator_js_1 = require("../object.decorator.js");
 const projection_resource_js_1 = require("./projection-resource.js");
 function namedClass(name) {
@@ -52,11 +52,8 @@ function createProjectionGraphqlTypes(definition, names) {
         filters: {
             type: object_decorator_js_1.FilterOptionType.INCLUDE,
             fields: projectionFields(definition)
-                .filter((field) => {
-                var _a, _b, _c, _d;
-                return ((_c = (_b = (_a = field.query) === null || _a === void 0 ? void 0 : _a.filter) === null || _b === void 0 ? void 0 : _b.length) !== null && _c !== void 0 ? _c : 0) > 0 ||
-                    ((_d = field.query) === null || _d === void 0 ? void 0 : _d.sort) === true;
-            })
+                .filter((field) => (field.query?.filter?.length ?? 0) > 0 ||
+                field.query?.sort === true)
                 .map((field) => field.name),
         },
     })(object);
@@ -85,7 +82,7 @@ function createProjectionGraphqlTypes(definition, names) {
     for (const field of projectionFields(definition)) {
         if (field.name === definition.identity.column)
             continue;
-        applyField(patch, Object.assign(Object.assign({}, field), { nullable: true }));
+        applyField(patch, { ...field, nullable: true });
     }
     applyField(patch, {
         name: 'expectedRevision',

@@ -1,6 +1,6 @@
 # OmniKernel Module
 
-`@nestjs-yalc/omnikernel-module` is the public package that provides the
+`@nest-yalc-2/omnikernel-module` is the public package that provides the
 reusable OmniKernel persistence substrate. It is built and published with the
 normal framework release pipeline.
 
@@ -16,7 +16,7 @@ compiled directory and declares only versioned internal dependencies, so a
 tarball does not depend on a consumer being adjacent to this repository.
 
 ```bash
-npm install @nestjs-yalc/omnikernel-module
+npm install @nest-yalc-2/omnikernel-module
 ```
 
 The source workspace builds into its local `dist/src`; the root release build
@@ -32,7 +32,7 @@ All generated CRUD reads, grids, mutations, relations, external references,
 repositories, and dataloader cache keys use that context.
 
 ```ts
-import { OmniKernelModule } from "@nestjs-yalc/omnikernel-module";
+import { OmniKernelModule } from "@nest-yalc-2/omnikernel-module";
 
 @Module({
   imports: [

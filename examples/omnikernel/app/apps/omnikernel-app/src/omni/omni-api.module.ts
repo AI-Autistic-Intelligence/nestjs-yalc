@@ -2,7 +2,7 @@ import { type DynamicModule, Module } from '@nestjs/common';
 import {
   OmniKernelModule,
   type OmniKernelRegistrationOptions,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 import { omniApiControllers, omniApiProviders } from './omni-api.resources';
 
 @Module({})

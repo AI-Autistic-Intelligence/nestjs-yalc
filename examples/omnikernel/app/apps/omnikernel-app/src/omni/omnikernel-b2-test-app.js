@@ -13,7 +13,7 @@ const common_1 = require("@nestjs/common");
 const event_emitter_1 = require("@nestjs/event-emitter");
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("@nestjs/typeorm");
-const uuid_scalar_1 = require("@nestjs-yalc/graphql/scalars/uuid.scalar");
+const uuid_scalar_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar");
 const omni_api_module_1 = require("./omni-api.module");
 const scopeFromAuthenticatedRequest = (request) => {
     var _a, _b;

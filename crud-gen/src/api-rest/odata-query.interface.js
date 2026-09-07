@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.parseODataQueryParams = parseODataQueryParams;
 function parseODataQueryParams(query) {
     const get = (key) => {
-        var _a;
         const value = query[key];
         if (value === undefined || value === null)
             return undefined;
         if (Array.isArray(value)) {
-            return String((_a = value[0]) !== null && _a !== void 0 ? _a : '').trim() || undefined;
+            return String(value[0] ?? '').trim() || undefined;
         }
         const str = String(value).trim();
         return str.length ? str : undefined;

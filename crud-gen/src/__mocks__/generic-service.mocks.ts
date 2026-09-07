@@ -1,6 +1,6 @@
 import { BaseEntity } from 'typeorm';
 import { createMock } from '@golevelup/ts-jest';
-import { CGExtendedRepository } from '@nestjs-yalc/crud-gen/crud-gen.repository.js';
+import { CGExtendedRepository } from '@nest-yalc-2/crud-gen/crud-gen.repository.js';
 import { ModelField, ModelObject } from '../object.decorator.js';
 import { JsonTransformer } from '../transformers.helpers.js';
 

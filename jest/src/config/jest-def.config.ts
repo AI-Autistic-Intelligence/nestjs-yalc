@@ -135,7 +135,7 @@ export interface IDefaultConfOptions {
 const defaultConf = (
   dirname: string,
   options: IDefaultConfOptions = {},
-  tsJestConfig: any = {},
+  _tsJestConfig: any = {},
 ): JestConfigWithTsJest => {
   const tsConfigFile = readTsConfig.getTsconfig(
     path.join(dirname, 'tsconfig.json'),

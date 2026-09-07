@@ -1,4 +1,4 @@
-import { AnyFunction } from '@nestjs-yalc/types/globals.d.js';
+import { AnyFunction } from '@nest-yalc-2/types/globals.d.js';
 import { MonoTypeOperatorFunction, ObservableInput, Observable, UnaryFunction } from 'rxjs';
 export declare function wrapIntoObservable<T>(input: Promise<T> | {
     (): Promise<T>;

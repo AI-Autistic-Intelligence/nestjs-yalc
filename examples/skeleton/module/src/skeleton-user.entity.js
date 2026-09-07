@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SkeletonUser = void 0;
-const object_decorator_js_1 = require("@nestjs-yalc/crud-gen/object.decorator.js");
-const timestamp_entity_js_1 = require("@nestjs-yalc/database/timestamp.entity.js");
+const object_decorator_js_1 = require("@nest-yalc-2/crud-gen/object.decorator.js");
+const timestamp_entity_js_1 = require("@nest-yalc-2/database/timestamp.entity.js");
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("typeorm");
 const skeleton_phone_entity_js_1 = require("./skeleton-phone.entity.js");

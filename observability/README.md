@@ -1,4 +1,4 @@
-# @nestjs-yalc/observability
+# @nest-yalc-2/observability
 
 OpenTelemetry integration for YALC applications.
 
@@ -10,7 +10,7 @@ application events.
 ## Installation
 
 ```bash
-npm install @nestjs-yalc/observability
+npm install @nest-yalc-2/observability
 ```
 
 Install and run an OpenTelemetry-compatible backend, such as an OTLP collector
@@ -22,7 +22,7 @@ or Grafana LGTM stack, when you want exported telemetry.
 import {
   ObservabilityModule,
   createObservabilityOptionsFromEnv,
-} from '@nestjs-yalc/observability';
+} from '@nest-yalc-2/observability';
 
 @Module({
   imports: [

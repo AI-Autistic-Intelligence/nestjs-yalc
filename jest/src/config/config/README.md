@@ -1,4 +1,4 @@
-# @nestjs-yalc/jest-config
+# @nest-yalc-2/jest-config
 
 Reusable Jest configuration generators for YALC-style TypeScript and NestJS
 projects.
@@ -10,7 +10,7 @@ used by the YALC monorepo.
 ## Installation
 
 ```bash
-npm install --save-dev @nestjs-yalc/jest-config
+npm install --save-dev @nest-yalc-2/jest-config
 ```
 
 ## Main Exports
@@ -23,7 +23,7 @@ npm install --save-dev @nestjs-yalc/jest-config
 ## Example
 
 ```ts
-import { jestConfGenerator } from '@nestjs-yalc/jest-config';
+import { jestConfGenerator } from '@nest-yalc-2/jest-config';
 
 export default jestConfGenerator(rootPath, projects, appProjects, {
   skipProjects: ['types'],

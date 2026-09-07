@@ -1,4 +1,4 @@
-# @nestjs-yalc/audit
+# @nest-yalc-2/audit
 
 ## 1.4.0
 

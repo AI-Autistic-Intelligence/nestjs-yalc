@@ -57,7 +57,7 @@ try {
   const frameworkInstallTargets =
     source === 'tarball'
       ? Array.from(tarballs.values())
-      : [`@nestjs-yalc/framework@${version}`];
+      : [`@nest-yalc-2/framework@${version}`];
 
   writeFrameworkConsumerProject(frameworkConsumerDir);
 
@@ -83,7 +83,7 @@ try {
 
   const crudGenClosure =
     source === 'tarball'
-      ? getRuntimeDependencyClosure('@nestjs-yalc/crud-gen')
+      ? getRuntimeDependencyClosure('@nest-yalc-2/crud-gen')
       : undefined;
   if (crudGenClosure?.errors.length) {
     throw new Error(
@@ -114,7 +114,7 @@ try {
 
   const omniKernelClosure =
     source === 'tarball'
-      ? getRuntimeDependencyClosure('@nestjs-yalc/omnikernel-module')
+      ? getRuntimeDependencyClosure('@nest-yalc-2/omnikernel-module')
       : undefined;
   if (omniKernelClosure?.errors.length) {
     throw new Error(
@@ -216,14 +216,14 @@ function writeFrameworkConsumerProject(targetDir) {
 
   fs.writeFileSync(
     path.join(targetDir, 'smoke-types.ts'),
-    `import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
-import type { ICrudGenBaseParams } from '@nestjs-yalc/crud-gen';
+    `import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import type { ICrudGenBaseParams } from '@nest-yalc-2/crud-gen';
 import {
   ContextCallServiceFactory,
   SortDirection,
   YalcEventService,
   yalcTypeOrmPostgresOptions,
-} from '@nestjs-yalc/framework';
+} from '@nest-yalc-2/framework';
 
 class SmokeEntity {
   id!: string;
@@ -256,12 +256,12 @@ if (runtimeReferences.length !== 6) {
 
 const crudGenPackage = JSON.parse(
   fs.readFileSync(
-    new URL('./node_modules/@nestjs-yalc/crud-gen/package.json', import.meta.url),
+    new URL('./node_modules/@nest-yalc-2/crud-gen/package.json', import.meta.url),
     'utf8',
   ),
 );
 for (const dependencyName of [
-  '@nestjs-yalc/event-manager',
+  '@nest-yalc-2/event-manager',
   'graphql-type-json',
 ]) {
   if (!crudGenPackage.dependencies?.[dependencyName]) {
@@ -272,14 +272,14 @@ for (const dependencyName of [
 }
 
 const packages = [
-  '@nestjs-yalc/framework',
-  '@nestjs-yalc/api-strategy',
-  '@nestjs-yalc/crud-gen',
-  '@nestjs-yalc/database',
-  '@nestjs-yalc/event-manager',
-  '@nestjs-yalc/kafka',
-  '@nestjs-yalc/logger',
-  '@nestjs-yalc/utils',
+  '@nest-yalc-2/framework',
+  '@nest-yalc-2/api-strategy',
+  '@nest-yalc-2/crud-gen',
+  '@nest-yalc-2/database',
+  '@nest-yalc-2/event-manager',
+  '@nest-yalc-2/kafka',
+  '@nest-yalc-2/logger',
+  '@nest-yalc-2/utils',
 ];
 
 for (const packageName of packages) {
@@ -289,7 +289,7 @@ for (const packageName of packages) {
   }
 }
 
-const framework = await import('@nestjs-yalc/framework');
+const framework = await import('@nest-yalc-2/framework');
 for (const exportName of [
   'ContextCallServiceFactory',
   'SortDirection',
@@ -315,13 +315,13 @@ function writeCrudGenConsumerProject(
 ) {
   const crudGenTarget =
     packageSource === 'tarball'
-      ? `file:${requireTarball(tarballs, '@nestjs-yalc/crud-gen')}`
+      ? `file:${requireTarball(tarballs, '@nest-yalc-2/crud-gen')}`
       : packageVersion;
   const overrides =
     packageSource === 'tarball'
       ? Object.fromEntries(
           closurePackageNames
-            .filter((packageName) => packageName !== '@nestjs-yalc/crud-gen')
+            .filter((packageName) => packageName !== '@nest-yalc-2/crud-gen')
             .map((packageName) => [
               packageName,
               `file:${requireTarball(tarballs, packageName)}`,
@@ -336,7 +336,7 @@ function writeCrudGenConsumerProject(
         private: true,
         type: 'module',
         dependencies: {
-          '@nestjs-yalc/crud-gen': crudGenTarget,
+          '@nest-yalc-2/crud-gen': crudGenTarget,
         },
         ...(overrides && Object.keys(overrides).length > 0
           ? { overrides }
@@ -372,7 +372,7 @@ function writeCrudGenConsumerProject(
   createProjectionDialect,
   defineProjectionResource,
   type ProjectionResourceDefinition,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 
 const definition: ProjectionResourceDefinition = defineProjectionResource({
   id: 'standalone-smoke',
@@ -415,14 +415,14 @@ void [definition, sqliteName, postgresName];
 import {
   createProjectionDialect,
   defineProjectionResource,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 
 const consumerPackage = JSON.parse(
   fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
 );
 if (
   Object.keys(consumerPackage.dependencies ?? {}).join(',') !==
-  '@nestjs-yalc/crud-gen'
+  '@nest-yalc-2/crud-gen'
 ) {
   throw new Error('Standalone consumer must declare only CrudGen.');
 }
@@ -481,7 +481,7 @@ function writeOmniKernelConsumerProject(
 ) {
   const omniKernelTarget =
     packageSource === 'tarball'
-      ? `file:${requireTarball(tarballs, '@nestjs-yalc/omnikernel-module')}`
+      ? `file:${requireTarball(tarballs, '@nest-yalc-2/omnikernel-module')}`
       : packageVersion;
   const overrides =
     packageSource === 'tarball'
@@ -489,7 +489,7 @@ function writeOmniKernelConsumerProject(
           closurePackageNames
             .filter(
               (packageName) =>
-                packageName !== '@nestjs-yalc/omnikernel-module',
+                packageName !== '@nest-yalc-2/omnikernel-module',
             )
             .map((packageName) => [
               packageName,
@@ -505,7 +505,7 @@ function writeOmniKernelConsumerProject(
         private: true,
         type: 'module',
         dependencies: {
-          '@nestjs-yalc/omnikernel-module': omniKernelTarget,
+          '@nest-yalc-2/omnikernel-module': omniKernelTarget,
         },
         ...(overrides && Object.keys(overrides).length > 0
           ? { overrides }
@@ -541,7 +541,7 @@ function writeOmniKernelConsumerProject(
   OmniKernelModule,
   OmniRecordEntity,
   createOmniExtensionProjectionRegistration,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 
 void [
   OmniKernelModule,
@@ -554,14 +554,14 @@ void [
   fs.writeFileSync(
     path.join(targetDir, 'smoke-runtime.mjs'),
     `import fs from 'node:fs';
-import * as omniKernel from '@nestjs-yalc/omnikernel-module';
+import * as omniKernel from '@nest-yalc-2/omnikernel-module';
 
 const consumerPackage = JSON.parse(
   fs.readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
 );
 if (
   Object.keys(consumerPackage.dependencies ?? {}).join(',') !==
-  '@nestjs-yalc/omnikernel-module'
+  '@nest-yalc-2/omnikernel-module'
 ) {
   throw new Error('Standalone consumer must declare only OmniKernel.');
 }

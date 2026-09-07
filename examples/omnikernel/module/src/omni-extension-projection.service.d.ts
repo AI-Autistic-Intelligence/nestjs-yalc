@@ -1,6 +1,6 @@
-import type { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen';
-import { ProjectionResourceService, type ProjectionDialect } from '@nestjs-yalc/crud-gen';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import type { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen';
+import { ProjectionResourceService, type ProjectionDialect } from '@nest-yalc-2/crud-gen';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { type DataSource, type ObjectLiteral, type Repository } from 'typeorm';
 import { OmniRecordEntity } from './base/omni-record.entity.js';
 import { type OmniProjectionReaderCatalog } from './omni-projection.catalog.js';

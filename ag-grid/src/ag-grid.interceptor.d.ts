@@ -1,5 +1,5 @@
 import { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { FieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
 export declare function agGridInterceptorWorker<T>(startRow: number, endRow: number): ([page, count]: [T, number]) => {
     nodes: T;
     pageData: {

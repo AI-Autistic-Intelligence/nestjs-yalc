@@ -1,11 +1,11 @@
-import { CrudGenResourceFactory } from '@nestjs-yalc/crud-gen';
-import { getServiceToken } from '@nestjs-yalc/crud-gen/typeorm/generic.service';
+import { CrudGenResourceFactory } from '@nest-yalc-2/crud-gen';
+import { getServiceToken } from '@nest-yalc-2/crud-gen/typeorm/generic.service';
 import {
   GQLDataLoader,
   getDataloaderToken,
   getFn,
-} from '@nestjs-yalc/data-loader';
-import { TaskProject } from '@nestjs-yalc/task-system-module/src/task-project.entity';
+} from '@nest-yalc-2/data-loader';
+import { TaskProject } from '@nest-yalc-2/task-system-module/src/task-project.entity';
 import { bindGeneratedDataloaderEventEmitter } from '../crudgen-provider-compat.js';
 import { TaskAppOmniProjectService } from '../omni-task-app/task-app-omni-project.service';
 import {

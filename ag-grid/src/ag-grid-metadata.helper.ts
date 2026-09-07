@@ -1,8 +1,8 @@
 import {
   FieldMapper,
   isFieldMapper,
-} from '@nestjs-yalc/interfaces/maps.interface';
-import { ClassType } from '@nestjs-yalc/types';
+} from '@nest-yalc-2/interfaces/maps.interface';
+import { ClassType } from '@nest-yalc-2/types';
 import { ReturnTypeFuncValue } from '@nestjs/graphql';
 import { getMetadataArgsStorage } from 'typeorm';
 import { JoinColumnMetadataArgs } from 'typeorm/metadata-args/JoinColumnMetadataArgs';

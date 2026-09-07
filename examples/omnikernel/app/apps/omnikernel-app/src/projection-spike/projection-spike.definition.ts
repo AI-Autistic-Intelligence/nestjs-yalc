@@ -1,4 +1,4 @@
-import { defineProjectionResource } from '@nestjs-yalc/crud-gen';
+import { defineProjectionResource } from '@nest-yalc-2/crud-gen';
 
 export const projectionRecordDefinition = defineProjectionResource({
   id: 'omnikernel.projection-spike.record.v1',

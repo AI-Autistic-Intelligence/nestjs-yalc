@@ -17,7 +17,7 @@ exports.MutationJournalCleanupService = void 0;
 const common_1 = require("@nestjs/common");
 const mutation_journal_def_js_1 = require("./mutation-journal.def.js");
 const mutation_journal_service_js_1 = require("./mutation-journal.service.js");
-const MILLISECONDS_PER_DAY = 86400000;
+const MILLISECONDS_PER_DAY = 86_400_000;
 let MutationJournalCleanupService = MutationJournalCleanupService_1 = class MutationJournalCleanupService {
     constructor(mutationJournalService, options) {
         this.mutationJournalService = mutationJournalService;
@@ -42,7 +42,6 @@ let MutationJournalCleanupService = MutationJournalCleanupService_1 = class Muta
         }
     }
     async runOnce() {
-        var _a;
         if (!this.options.enabled || this.options.retentionDays === undefined) {
             return 0;
         }
@@ -57,7 +56,7 @@ let MutationJournalCleanupService = MutationJournalCleanupService_1 = class Muta
                 deletedRows += await resolvedTarget.driver.cleanup(resolvedTarget.dataSource, this.mutationJournalService.getDriverOptions(), olderThanMs);
             }
             catch (error) {
-                this.logger.warn(`Unable to clean mutation journal for ${(_a = target.dataSourceName) !== null && _a !== void 0 ? _a : 'default'}: ${error instanceof Error ? error.message : String(error)}`);
+                this.logger.warn(`Unable to clean mutation journal for ${target.dataSourceName ?? 'default'}: ${error instanceof Error ? error.message : String(error)}`);
             }
         }
         return deletedRows;

@@ -1,2 +1,2 @@
 import { TaskSyncState } from './task-sync-state.entity.js';
-export declare const taskSyncStateProvidersFactory: (dbConnection: string) => import("@nestjs-yalc/crud-gen").IDependencyObject<TaskSyncState>;
+export declare const taskSyncStateProvidersFactory: (dbConnection: string) => import("@nest-yalc-2/crud-gen").IDependencyObject<TaskSyncState>;

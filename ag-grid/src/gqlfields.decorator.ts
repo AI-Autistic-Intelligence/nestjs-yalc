@@ -3,16 +3,16 @@ import { GqlExecutionContext, ReturnTypeFuncValue } from '@nestjs/graphql';
 import {
   FieldMapper,
   FieldMapperProperty,
-} from '@nestjs-yalc/interfaces/maps.interface';
-import { ClassType } from '@nestjs-yalc/types/globals';
+} from '@nest-yalc-2/interfaces/maps.interface';
+import { ClassType } from '@nest-yalc-2/types/globals';
 import { GraphQLResolveInfo } from 'graphql';
 import { removeSymbolicSelection } from './ag-grid-args.decorator';
 import { AgGridFieldMetadata, FieldAndFilterMapper } from './object.decorator';
-import { formatRawSelection } from '@nestjs-yalc/ag-grid/ag-grid-query.helper';
+import { formatRawSelection } from '@nest-yalc-2/ag-grid/ag-grid-query.helper';
 import {
   columnConversion,
   objectToFieldMapper,
-} from '@nestjs-yalc/ag-grid/ag-grid-metadata.helper';
+} from '@nest-yalc-2/ag-grid/ag-grid-metadata.helper';
 
 export interface GqlAgSingleParams {
   id: Type<any>;

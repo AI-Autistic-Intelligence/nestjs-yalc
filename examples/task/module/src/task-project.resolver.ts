@@ -1,4 +1,4 @@
-import { CrudGenDependencyFactory } from '@nestjs-yalc/crud-gen/crud-gen.helpers.js';
+import { CrudGenDependencyFactory } from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
 import {
   TaskProjectCondition,
   TaskProjectCreateInput,

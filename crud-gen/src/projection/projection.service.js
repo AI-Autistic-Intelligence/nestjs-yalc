@@ -36,7 +36,7 @@ class ProjectionResourceService {
                 [this.definition.identity.column]: guid,
             },
         });
-        if (!record && (options === null || options === void 0 ? void 0 : options.failOnNull))
+        if (!record && options?.failOnNull)
             this.notFound();
         return record ? this.project(record) : null;
     }
@@ -47,7 +47,6 @@ class ProjectionResourceService {
         return withCount ? [projected, count] : projected;
     }
     async createEntity(input) {
-        var _a;
         this.rejectUnknownInput(input, true);
         const entity = {
             [this.definition.scope.column]: this.scope.scopeId,
@@ -63,7 +62,7 @@ class ProjectionResourceService {
                 this.invalid(`Projection field ${field.name} cannot be null.`);
             }
             if (value !== undefined && field.storage === 'column') {
-                entity[(_a = field.column) !== null && _a !== void 0 ? _a : field.name] = this.normalizeValue(field, value);
+                entity[field.column ?? field.name] = this.normalizeValue(field, value);
             }
         }
         let saved;
@@ -83,7 +82,6 @@ class ProjectionResourceService {
         return this.project(saved);
     }
     async updateEntity(conditions, input) {
-        var _a;
         this.rejectUnknownInput(input, false);
         const guid = this.guidFromConditions(conditions);
         const expectedRevision = input.expectedRevision;
@@ -111,7 +109,7 @@ class ProjectionResourceService {
             }
             const normalized = this.normalizeValue(field, value);
             if (field.storage === 'column') {
-                patch.columnValues[(_a = field.column) !== null && _a !== void 0 ? _a : field.name] = normalized;
+                patch.columnValues[field.column ?? field.name] = normalized;
             }
             else {
                 patch.jsonValues.push({ field, value: normalized });
@@ -153,7 +151,6 @@ class ProjectionResourceService {
         return true;
     }
     createPayload(input) {
-        var _a, _b, _c, _d;
         const initial = input.payload;
         if (initial !== undefined) {
             try {
@@ -169,29 +166,32 @@ class ProjectionResourceService {
         for (const field of this.definition.fields) {
             if (field.storage !== 'json' || input[field.name] === undefined)
                 continue;
-            if ((0, projection_resource_js_1.getProjectionPathValue)(payload, (_a = field.path) !== null && _a !== void 0 ? _a : []) !== undefined) {
+            if ((0, projection_resource_js_1.getProjectionPathValue)(payload, field.path ?? []) !== undefined) {
                 this.invalid(`Projection field ${field.name} cannot be supplied both in payload and as a projected input.`);
             }
-            payload = (0, projection_resource_js_1.setProjectionPathValue)(payload, (_b = field.path) !== null && _b !== void 0 ? _b : [], this.normalizeValue(field, input[field.name]));
+            payload = (0, projection_resource_js_1.setProjectionPathValue)(payload, field.path ?? [], this.normalizeValue(field, input[field.name]));
         }
         for (const field of this.definition.fields) {
             if (field.storage !== 'json')
                 continue;
-            const value = (0, projection_resource_js_1.getProjectionPathValue)(payload, (_c = field.path) !== null && _c !== void 0 ? _c : []);
+            const value = (0, projection_resource_js_1.getProjectionPathValue)(payload, field.path ?? []);
             if (value === undefined)
                 continue;
-            payload = (0, projection_resource_js_1.setProjectionPathValue)(payload, (_d = field.path) !== null && _d !== void 0 ? _d : [], this.normalizeValue(field, value));
+            payload = (0, projection_resource_js_1.setProjectionPathValue)(payload, field.path ?? [], this.normalizeValue(field, value));
         }
         return payload;
     }
     project(record) {
-        var _a, _b;
-        const projected = Object.assign(Object.assign({}, record), { [this.definition.payload.column]: (_a = record[this.definition.payload.column]) !== null && _a !== void 0 ? _a : {} });
+        const projected = {
+            ...record,
+            [this.definition.payload.column]: record[this.definition.payload.column] ??
+                {},
+        };
         const payload = projected[this.definition.payload.column];
         for (const field of this.definition.fields) {
             if (field.storage !== 'json')
                 continue;
-            const value = (0, projection_resource_js_1.getProjectionPathValue)(payload, (_b = field.path) !== null && _b !== void 0 ? _b : []);
+            const value = (0, projection_resource_js_1.getProjectionPathValue)(payload, field.path ?? []);
             projected[field.name] =
                 value === undefined && field.nullable ? null : value;
         }
@@ -203,7 +203,6 @@ class ProjectionResourceService {
             return [];
         const filters = [];
         const visit = (current) => {
-            var _a;
             if (!current || typeof current !== 'object' || Array.isArray(current)) {
                 this.invalid('Projection filters must use an AND-only expression.');
             }
@@ -225,7 +224,7 @@ class ProjectionResourceService {
                     Array.isArray(candidate.filters))) {
                 this.invalid('Projection filters must use an AND-only expression.');
             }
-            for (const [name, condition] of Object.entries((_a = candidate.filters) !== null && _a !== void 0 ? _a : {})) {
+            for (const [name, condition] of Object.entries(candidate.filters ?? {})) {
                 const field = this.projectionField(name, 'filter');
                 if (isFindOperator(condition)) {
                     if (condition.type === 'equal') {
@@ -276,11 +275,9 @@ class ProjectionResourceService {
         return filters;
     }
     sortingFromFindOptions(findOptions) {
-        var _a;
-        return Object.entries((_a = findOptions.order) !== null && _a !== void 0 ? _a : {}).map(([name, direction]) => {
-            var _a;
+        return Object.entries(findOptions.order ?? {}).map(([name, direction]) => {
             const field = this.projectionField(name, 'sort');
-            if (!((_a = field.query) === null || _a === void 0 ? void 0 : _a.sort))
+            if (!field.query?.sort)
                 this.invalid(`Projection field ${name} is not sortable.`);
             if (direction !== 'ASC' && direction !== 'DESC') {
                 this.invalid(`Projection field ${name} has an invalid sort direction.`);
@@ -304,13 +301,12 @@ class ProjectionResourceService {
         try {
             return (0, projection_resource_js_1.getProjectionField)(this.definition, name);
         }
-        catch (_a) {
+        catch {
             this.invalid(`Projection ${purpose} field ${name} is not declared.`);
         }
     }
     assertFilterAllowed(field, operator) {
-        var _a, _b;
-        if (!((_b = (_a = field.query) === null || _a === void 0 ? void 0 : _a.filter) === null || _b === void 0 ? void 0 : _b.includes(operator))) {
+        if (!field.query?.filter?.includes(operator)) {
             this.invalid(`Projection field ${field.name} does not allow ${operator}.`);
         }
     }

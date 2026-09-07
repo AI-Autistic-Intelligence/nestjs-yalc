@@ -1,9 +1,9 @@
 import _DataLoader from 'dataloader';
-import { FindAndCountResult } from '@nestjs-yalc/database/query-builder.helper.js';
-import { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import { FindAndCountResult } from '@nest-yalc-2/database/query-builder.helper.js';
+import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import { In, ObjectLiteral } from 'typeorm';
-import { IWhereCondition } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.type.js';
-import { Operators } from '@nestjs-yalc/crud-gen/crud-gen.enum.js';
+import { IWhereCondition } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.type.js';
+import { Operators } from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
 import {
   FactoryProvider,
   InjectionToken,
@@ -15,10 +15,10 @@ import {
 import {
   GenericService,
   getServiceToken,
-} from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
-import { getProviderToken } from '@nestjs-yalc/crud-gen/crud-gen.helpers.js';
-import { EventCrudGen } from '@nestjs-yalc/crud-gen/event.enum.js';
+} from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import { getProviderToken } from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
+import { EventCrudGen } from '@nest-yalc-2/crud-gen/event.enum.js';
 import EventEmitter2Class from 'eventemitter2';
 import { type EventEmitter2 } from 'eventemitter2';
 

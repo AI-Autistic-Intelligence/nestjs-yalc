@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-yalc/types-extends",
+  "name": "@nest-yalc-2/types-extends",
   "type": "module",
   "types": "./dist/src/index.d.ts",
   "files": [

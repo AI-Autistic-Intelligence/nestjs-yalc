@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskAppEventModule = void 0;
 const common_1 = require("@nestjs/common");
 const event_emitter_1 = require("@nestjs/event-emitter");
-const event_manager_1 = require("@nestjs-yalc/event-manager");
+const event_manager_1 = require("@nest-yalc-2/event-manager");
 let TaskAppEventModule = class TaskAppEventModule {
 };
 exports.TaskAppEventModule = TaskAppEventModule;

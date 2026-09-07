@@ -17,14 +17,14 @@ import {
   type IErrorEventOptionsRequired,
   resolveLoggerOption,
 } from './event.js';
-import { type ImprovedLoggerService } from '@nestjs-yalc/logger';
+import { type ImprovedLoggerService } from '@nest-yalc-2/logger';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EventNameFormatter } from './emitter.js';
 import {
   DefaultError,
   errorToDefaultError,
   formatCause,
-} from '@nestjs-yalc/errors/default.error.js';
+} from '@nest-yalc-2/errors/default.error.js';
 import {
   BadGatewayError,
   BadRequestError,
@@ -43,12 +43,12 @@ import {
   UnauthorizedError,
   UnprocessableEntityError,
   UnsupportedMediaTypeError,
-} from '@nestjs-yalc/errors/error.class.js';
+} from '@nest-yalc-2/errors/error.class.js';
 import { getLogLevelByError, getLogLevelByStatus } from './event.helper.js';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
-import { HttpStatusCodes } from '@nestjs-yalc/utils/http.helper.js';
-import { httpStatusCodeToErrors } from '@nestjs-yalc/errors/http-status-code-to-errors.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import { HttpStatusCodes } from '@nest-yalc-2/utils/http.helper.js';
+import { httpStatusCodeToErrors } from '@nest-yalc-2/errors/http-status-code-to-errors.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
 import { err, Err, ok } from 'neverthrow';
 import { type PromiseResult } from './event-result.types.js';
 

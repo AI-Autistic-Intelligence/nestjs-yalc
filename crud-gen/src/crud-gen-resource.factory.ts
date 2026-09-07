@@ -1,6 +1,6 @@
 import type { Provider } from '@nestjs/common';
 import { getMetadataArgsStorage, type ObjectLiteral } from 'typeorm';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import {
   CrudGenBackendFactory,
   CrudGenGraphqlFactory,

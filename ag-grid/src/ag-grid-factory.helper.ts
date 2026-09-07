@@ -1,8 +1,8 @@
 import {
   DataLoaderFactory,
   getDataloaderToken,
-} from '@nestjs-yalc/data-loader/dataloader.helper';
-import { ClassType } from '@nestjs-yalc/types';
+} from '@nest-yalc-2/data-loader/dataloader.helper';
+import { ClassType } from '@nest-yalc-2/types';
 import {
   ClassProvider,
   ExistingProvider,

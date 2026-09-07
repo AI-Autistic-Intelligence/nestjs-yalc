@@ -1,20 +1,9 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OMNI_PROJECTION_READER_CATALOG = void 0;
 exports.createOmniProjectionReaderCatalog = createOmniProjectionReaderCatalog;
 exports.createOmniProjectionReaderCatalogProvider = createOmniProjectionReaderCatalogProvider;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
 const typeorm_1 = require("typeorm");
 const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
 const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
@@ -29,23 +18,26 @@ function freeze(value) {
 function validateReaderTake(take) {
     if (take === undefined)
         return undefined;
-    if (!Number.isInteger(take) || take < 1 || take > 1000) {
+    if (!Number.isInteger(take) || take < 1 || take > 1_000) {
         throw new TypeError('Omni projection reader take must be an integer from 1 to 1000.');
     }
     return take;
 }
 function relationWhere(definition) {
-    var _a;
     const relation = definition.relation;
-    return Object.assign({ kind: (0, typeorm_1.In)([...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(definition)]), status: (_a = relation.status) !== null && _a !== void 0 ? _a : omni_relation_status_enum_js_1.OmniRelationStatus.Active }, (relation.schema
-        ? {
-            payloadSchemaId: relation.schema.id,
-            payloadSchemaVersion: relation.schema.version,
-        }
-        : {
-            payloadSchemaId: (0, typeorm_1.IsNull)(),
-            payloadSchemaVersion: (0, typeorm_1.IsNull)(),
-        }));
+    return {
+        kind: (0, typeorm_1.In)([...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(definition)]),
+        status: relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+        ...(relation.schema
+            ? {
+                payloadSchemaId: relation.schema.id,
+                payloadSchemaVersion: relation.schema.version,
+            }
+            : {
+                payloadSchemaId: (0, typeorm_1.IsNull)(),
+                payloadSchemaVersion: (0, typeorm_1.IsNull)(),
+            }),
+    };
 }
 function extensionReader(manager, scope, registration) {
     const ownerWhere = {
@@ -60,14 +52,22 @@ function extensionReader(manager, scope, registration) {
     const identity = registration.definition.identity.column;
     const scopeColumn = registration.definition.scope.column;
     const project = (entity, owner) => {
-        const projected = Object.assign(Object.assign({}, entity), { scopeId: owner.scopeId, guid: owner.guid, [registration.definition.revision.column]: owner.revision, createdAt: owner.createdAt, updatedAt: owner.updatedAt, deletedAt: owner.deletedAt });
+        const projected = {
+            ...entity,
+            scopeId: owner.scopeId,
+            guid: owner.guid,
+            [registration.definition.revision.column]: owner.revision,
+            createdAt: owner.createdAt,
+            updatedAt: owner.updatedAt,
+            deletedAt: owner.deletedAt,
+        };
         return projected;
     };
     const getOwner = async (guid) => {
         const owner = await ownerRepository.findOne({
-            where: Object.assign(Object.assign({}, ownerWhere), { guid }),
+            where: { ...ownerWhere, guid },
         });
-        return owner !== null && owner !== void 0 ? owner : undefined;
+        return owner ?? undefined;
     };
     const dialect = (() => {
         const type = manager.connection.options.type;
@@ -77,11 +77,10 @@ function extensionReader(manager, scope, registration) {
         return (0, crud_gen_1.createProjectionDialect)(type);
     })();
     const filtersFor = (where) => {
-        var _a, _b;
         const filters = [];
-        for (const [fieldName, value] of Object.entries(where !== null && where !== void 0 ? where : {})) {
+        for (const [fieldName, value] of Object.entries(where ?? {})) {
             const field = registration.definition.fields.find((candidate) => candidate.name === fieldName);
-            if (!field || !((_b = (_a = field.query) === null || _a === void 0 ? void 0 : _a.filter) === null || _b === void 0 ? void 0 : _b.includes('eq'))) {
+            if (!field || !field.query?.filter?.includes('eq')) {
                 throw new TypeError(`Omni extension reader only permits declared eq fields: ${fieldName}.`);
             }
             filters.push({ field, operator: 'eq', values: [value] });
@@ -94,7 +93,7 @@ function extensionReader(manager, scope, registration) {
         const candidates = entities.map((entity) => entity[identity]);
         const guids = candidates.filter((guid) => typeof guid === 'string');
         const owners = await ownerRepository.find({
-            where: Object.assign(Object.assign({}, ownerWhere), { guid: (0, typeorm_1.In)(guids) }),
+            where: { ...ownerWhere, guid: (0, typeorm_1.In)(guids) },
         });
         const ownersByGuid = new Map(owners.map((owner) => [owner.guid, owner]));
         return entities.flatMap((entity) => {
@@ -125,14 +124,14 @@ function relationReader(manager, scope, registration) {
     return freeze({
         async get(guid) {
             const entity = await repository.findOne({
-                where: Object.assign({ scopeId: scope.scopeId, guid }, fixed),
+                where: { scopeId: scope.scopeId, guid, ...fixed },
             });
-            return entity !== null && entity !== void 0 ? entity : undefined;
+            return entity ?? undefined;
         },
         async list(options = {}) {
-            const { take } = options, conditions = __rest(options, ["take"]);
+            const { take, ...conditions } = options;
             return await repository.find({
-                where: Object.assign(Object.assign({ scopeId: scope.scopeId }, fixed), conditions),
+                where: { scopeId: scope.scopeId, ...fixed, ...conditions },
                 take: validateReaderTake(take),
             });
         },

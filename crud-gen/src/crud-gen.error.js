@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CrudGenFilterProhibited = exports.CrudGenStringWhereError = exports.CrudGenNotPossibleError = exports.CrudGenBadFilterTypeError = exports.CrudGenFilterNotSupportedError = exports.CrudGenConditionNotSupportedError = exports.CrudGenInvalidPropertyError = exports.CrudGenInvalidOperatorError = exports.CrudGenInvalidArgumentError = exports.CrudGenError = void 0;
-const gql_error_js_1 = require("@nestjs-yalc/graphql/plugins/gql.error.js");
+const gql_error_js_1 = require("@nest-yalc-2/graphql/plugins/gql.error.js");
 const strings_enum_js_1 = require("./strings.enum.js");
 class CrudGenError extends gql_error_js_1.GqlError {
     constructor(message, systemMessage) {

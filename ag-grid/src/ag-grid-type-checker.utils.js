@@ -18,7 +18,7 @@ function isFilterInputStrict(currentFilter) {
 function isFilterModel(filter) {
     const casted = filter;
     return (isSetFilterModel(casted) ||
-        ((casted === null || casted === void 0 ? void 0 : casted.type) !== undefined && casted.filterType !== undefined));
+        (casted?.type !== undefined && casted.filterType !== undefined));
 }
 function isTextFilterModel(filter) {
     if (!filter)

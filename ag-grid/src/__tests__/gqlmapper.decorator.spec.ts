@@ -10,7 +10,7 @@ import * as gqlMapper from '../gqlmapper.decorator';
 import {
   mockedExecutionContext,
   mockedNestGraphql,
-} from '@nestjs-yalc/jest/common-mocks.helper';
+} from '@nest-yalc-2/jest/common-mocks.helper';
 import * as graphql from '@nestjs/graphql';
 import { AgGridField, AgGridObject } from '../object.decorator';
 

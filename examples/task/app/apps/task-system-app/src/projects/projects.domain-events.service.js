@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectsDomainEventsService = void 0;
 const common_1 = require("@nestjs/common");
-const event_manager_1 = require("@nestjs-yalc/event-manager");
-const logger_factory_1 = require("@nestjs-yalc/logger/logger.factory");
+const event_manager_1 = require("@nest-yalc-2/event-manager");
+const logger_factory_1 = require("@nest-yalc-2/logger/logger.factory");
 let ProjectsDomainEventsService = class ProjectsDomainEventsService {
     constructor(events) {
         this.events = events;

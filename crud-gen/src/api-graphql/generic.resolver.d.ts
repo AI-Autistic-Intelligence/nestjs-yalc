@@ -1,12 +1,12 @@
 import { ArgsOptions, GqlExecutionContext, MutationOptions, Query, QueryOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import { type InjectionToken } from '@nestjs/common';
-import { IExtraArg, CrudGenFindManyOptions, IIDArg } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
-import { GenericService } from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
-import { IDecoratorType, IFieldMapper } from '@nestjs-yalc/interfaces';
-import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper.js';
+import { IExtraArg, CrudGenFindManyOptions, IIDArg } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
+import { IDecoratorType, IFieldMapper } from '@nest-yalc-2/interfaces';
+import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper.js';
 import { ModuleRef } from '@nestjs/core';
 import { Mutation } from '@nestjs/graphql';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { IRelationInfo } from '../crud-gen.helpers.js';
 import { ExtraArgsStrategy } from '../crud-gen.enum.js';
 import { ICrudGenParams } from '../crud-gen.args.js';

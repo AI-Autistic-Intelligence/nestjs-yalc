@@ -1,12 +1,12 @@
 import { expect, jest, describe, it } from '@jest/globals';
 
 import 'reflect-metadata';
-import { mockNestJSGraphql } from '@nestjs-yalc/jest';
+import { mockNestJSGraphql } from '@nest-yalc-2/jest';
 
 await mockNestJSGraphql(import.meta);
 
 const helpers = await importMockedEsm(
-  '@nestjs-yalc/crud-gen/crud-gen.helpers.js',
+  '@nest-yalc-2/crud-gen/crud-gen.helpers.js',
   import.meta,
 );
 

@@ -1,10 +1,10 @@
 import _DataLoader from 'dataloader';
-import { FindAndCountResult } from '@nestjs-yalc/database/query-builder.helper.js';
-import { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface.js';
+import { FindAndCountResult } from '@nest-yalc-2/database/query-builder.helper.js';
+import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import { ObjectLiteral } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
-import { GenericService } from '@nestjs-yalc/crud-gen/typeorm/generic.service.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { type EventEmitter2 } from 'eventemitter2';
 export type SearchKeyType<E, T = string> = [keyof E, T] | T | undefined;
 export declare class GQLDataLoader<Entity extends Record<string, any> = any> {

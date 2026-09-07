@@ -8,17 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GenericService = void 0;
 exports.GenericServiceFactory = GenericServiceFactory;
@@ -26,14 +15,14 @@ exports.getServiceToken = getServiceToken;
 exports.validateSupportedError = validateSupportedError;
 const conditions_error_js_1 = require("../conditions.error.js");
 const entity_error_js_1 = require("../entity.error.js");
-const conn_helper_js_1 = require("@nestjs-yalc/database/conn.helper.js");
+const conn_helper_js_1 = require("@nest-yalc-2/database/conn.helper.js");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const generic_repository_js_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.repository.js");
+const generic_repository_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.repository.js");
 const crud_gen_helpers_js_1 = require("../crud-gen.helpers.js");
-const query_builder_helper_js_1 = require("@nestjs-yalc/database/query-builder.helper.js");
-const class_helper_js_1 = require("@nestjs-yalc/utils/class.helper.js");
+const query_builder_helper_js_1 = require("@nest-yalc-2/database/query-builder.helper.js");
+const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
 const object_decorator_js_1 = require("../object.decorator.js");
 const crud_gen_args_helpers_js_1 = require("./crud-gen-args.helpers.js");
 const crud_gen_enum_js_1 = require("../crud-gen.enum.js");
@@ -59,14 +48,16 @@ function normalizeCrudGenWhereForPlainTypeorm(where) {
     return where;
 }
 function normalizeCrudGenWhereConditionForPlainTypeorm(where) {
-    var _a, _b;
     const directFilters = Object.fromEntries(Object.entries(where).filter(([key, value]) => !['filters', 'operator', 'childExpressions'].includes(key) &&
         value !== undefined));
-    const filters = Object.assign(Object.assign({}, directFilters), (hasObjectKeys(where.filters) ? where.filters : {}));
-    const childWheres = ((_a = where.childExpressions) !== null && _a !== void 0 ? _a : [])
+    const filters = {
+        ...directFilters,
+        ...(hasObjectKeys(where.filters) ? where.filters : {}),
+    };
+    const childWheres = (where.childExpressions ?? [])
         .map((entry) => normalizeCrudGenWhereForPlainTypeorm(entry))
         .filter(Boolean);
-    const operator = ((_b = where.operator) !== null && _b !== void 0 ? _b : crud_gen_enum_js_1.Operators.AND).toUpperCase();
+    const operator = (where.operator ?? crud_gen_enum_js_1.Operators.AND).toUpperCase();
     if (operator === crud_gen_enum_js_1.Operators.OR) {
         const orWheres = [];
         if (hasObjectKeys(filters))
@@ -87,21 +78,22 @@ function normalizeCrudGenWhereConditionForPlainTypeorm(where) {
             throw new common_1.BadRequestException('Plain TypeORM repositories cannot represent nested OR filters inside an AND expression. Use an extended CrudGen repository for this query shape.');
         }
         if (hasObjectKeys(childWhere)) {
-            mergedWhere = Object.assign(Object.assign({}, mergedWhere), childWhere);
+            mergedWhere = { ...mergedWhere, ...childWhere };
         }
     }
     return hasObjectKeys(mergedWhere) ? mergedWhere : undefined;
 }
 function GenericServiceFactory(entity, connectionName, providedClass, entityWrite, connectionNameWrite) {
-    const serviceClass = providedClass !== null && providedClass !== void 0 ? providedClass : GenericService;
+    const serviceClass = providedClass ?? GenericService;
     return {
-        provide: providedClass !== null && providedClass !== void 0 ? providedClass : getServiceToken(typeof entity === 'function' ? entity.name : entity.toString()),
+        provide: providedClass ??
+            getServiceToken(typeof entity === 'function' ? entity.name : entity.toString()),
         useFactory: (repository, repositoryWrite) => {
             return new serviceClass(repository, repositoryWrite);
         },
         inject: [
             (0, typeorm_1.getRepositoryToken)(entity, connectionName),
-            (0, typeorm_1.getRepositoryToken)(entityWrite !== null && entityWrite !== void 0 ? entityWrite : entity, connectionNameWrite !== null && connectionNameWrite !== void 0 ? connectionNameWrite : connectionName),
+            (0, typeorm_1.getRepositoryToken)(entityWrite ?? entity, connectionNameWrite ?? connectionName),
         ],
     };
 }
@@ -120,18 +112,18 @@ let GenericService = class GenericService {
     constructor(repository, repositoryWrite) {
         this.repository = repository;
         this.repositoryWrite =
-            repositoryWrite !== null && repositoryWrite !== void 0 ? repositoryWrite : this.repository;
+            repositoryWrite ??
+                this.repository;
         this.entityRead = this.repository.target;
         this.entityWrite = this.repositoryWrite.target;
     }
     buildPrimaryKeyWhere(ids) {
-        var _a, _b, _c, _d;
         if (ids && typeof ids === 'object' && !Array.isArray(ids)) {
             return ids;
         }
         const repositoryAny = this.repository;
-        const primaryColumns = (_b = (_a = repositoryAny.metadata) === null || _a === void 0 ? void 0 : _a.primaryColumns) !== null && _b !== void 0 ? _b : [];
-        const primaryColumnName = (_d = (_c = primaryColumns[0]) === null || _c === void 0 ? void 0 : _c.propertyName) !== null && _d !== void 0 ? _d : 'id';
+        const primaryColumns = repositoryAny.metadata?.primaryColumns ?? [];
+        const primaryColumnName = primaryColumns[0]?.propertyName ?? 'id';
         return { [primaryColumnName]: ids };
     }
     switchDatabaseConnection(dbName) {
@@ -159,10 +151,14 @@ let GenericService = class GenericService {
     async getEntityList(findOptions, withCount = false, databaseName) {
         if (databaseName)
             this.switchDatabaseConnection(databaseName);
-        const { sorting, startRow, endRow, select } = findOptions, rest = __rest(findOptions, ["sorting", "startRow", "endRow", "select"]);
+        const { sorting, startRow, endRow, select, ...rest } = findOptions;
         const { skip, take } = (0, crud_gen_args_helpers_js_1.mapPaginationParamsToTypeORM)(startRow, endRow);
-        const mappedFindOptions = Object.assign(Object.assign({}, rest), { order: sorting ? (0, crud_gen_args_helpers_js_1.mapSortingParamsToTypeORM)(sorting) : undefined, skip,
-            take });
+        const mappedFindOptions = {
+            ...rest,
+            order: sorting ? (0, crud_gen_args_helpers_js_1.mapSortingParamsToTypeORM)(sorting) : undefined,
+            skip,
+            take,
+        };
         return withCount
             ? this.repository.findAndCount(mappedFindOptions)
             : this.repository.find(mappedFindOptions);
@@ -175,7 +171,7 @@ let GenericService = class GenericService {
     async getEntity(where, fields, relations, databaseName, options) {
         if (databaseName)
             this.switchDatabaseConnection(databaseName);
-        return (options === null || options === void 0 ? void 0 : options.failOnNull) !== true
+        return options?.failOnNull !== true
             ? this.repository.findOne({
                 where,
                 select: fields,
@@ -208,7 +204,7 @@ let GenericService = class GenericService {
             const filters = repoAny.generateFilterOnPrimaryColumn(ids);
             return !returnEntity
                 ? true
-                : repoAny.getOneExtended(Object.assign(Object.assign({}, findOptions), { where: { filters } }), true, query_builder_helper_js_1.ReplicationMode.MASTER);
+                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, query_builder_helper_js_1.ReplicationMode.MASTER);
         }
         if (!returnEntity) {
             return true;
@@ -238,7 +234,7 @@ let GenericService = class GenericService {
             const filters = repoAny.generateFilterOnPrimaryColumn(ids);
             return !returnEntity
                 ? true
-                : repoAny.getOneExtended(Object.assign(Object.assign({}, findOptions), { where: { filters } }), true, query_builder_helper_js_1.ReplicationMode.MASTER);
+                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, query_builder_helper_js_1.ReplicationMode.MASTER);
         }
         if (!returnEntity) {
             return true;
@@ -285,9 +281,12 @@ let GenericService = class GenericService {
                 ? repo.getManyAndCountExtended(findOptions)
                 : repo.getManyExtended(findOptions);
         }
-        const { where, info, extra, subQueryFilters } = findOptions, typeormOptions = __rest(findOptions, ["where", "info", "extra", "subQueryFilters"]);
+        const { where, info, extra, subQueryFilters, ...typeormOptions } = findOptions;
         const sanitizedWhere = normalizeCrudGenWhereForPlainTypeorm(where);
-        const mappedFindOptions = Object.assign(Object.assign({}, typeormOptions), { where: sanitizedWhere });
+        const mappedFindOptions = {
+            ...typeormOptions,
+            where: sanitizedWhere,
+        };
         return withCount
             ? this.repository.findAndCount(mappedFindOptions)
             : this.repository.find(mappedFindOptions);
@@ -297,7 +296,10 @@ let GenericService = class GenericService {
         if (typeof repo.getCrudGenCapabilities === 'function') {
             const explicitCapabilities = repo.getCrudGenCapabilities();
             if (explicitCapabilities && typeof explicitCapabilities === 'object') {
-                return Object.assign(Object.assign({}, generic_repository_js_1.PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES), explicitCapabilities);
+                return {
+                    ...generic_repository_js_1.PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES,
+                    ...explicitCapabilities,
+                };
             }
         }
         const legacyExtendedSupport = typeof repo.supportsExtendedRepository === 'function'
@@ -316,15 +318,14 @@ let GenericService = class GenericService {
         return this.getCrudGenRepositoryCapabilities().structuredGraphqlFilters;
     }
     mapEntityR2W(entityRead) {
-        var _a;
         const entity = this.entityWrite;
         if (!(0, class_helper_js_1.isClass)(entity) || !(0, class_helper_js_1.isClass)(this.entityRead))
             return entityRead;
         const newEntityWrite = new entity();
         const fieldMetadataList = (0, object_decorator_js_1.getModelFieldMetadataList)(this.entityRead);
         for (const propertyName of Object.keys(entityRead)) {
-            const fieldMetadata = fieldMetadataList === null || fieldMetadataList === void 0 ? void 0 : fieldMetadataList[propertyName];
-            if (!(fieldMetadata === null || fieldMetadata === void 0 ? void 0 : fieldMetadata.dst)) {
+            const fieldMetadata = fieldMetadataList?.[propertyName];
+            if (!fieldMetadata?.dst) {
                 newEntityWrite[propertyName] = entityRead[propertyName];
                 continue;
             }
@@ -337,7 +338,7 @@ let GenericService = class GenericService {
                 continue;
             }
             const dst = fieldMetadata.dst;
-            newEntityWrite[dst.name] = (_a = dst.transformerDst) === null || _a === void 0 ? void 0 : _a.call(dst, newEntityWrite, entityRead[propertyName]);
+            newEntityWrite[dst.name] = dst.transformerDst?.(newEntityWrite, entityRead[propertyName]);
         }
         return newEntityWrite;
     }

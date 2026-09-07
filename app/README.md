@@ -1,4 +1,4 @@
-# @nestjs-yalc/app
+# @nest-yalc-2/app
 
 Application bootstrap helpers and base NestJS module utilities for YALC apps.
 
@@ -9,7 +9,7 @@ Swagger setup, and consistent bootstrap behavior.
 ## Installation
 
 ```bash
-npm install @nestjs-yalc/app
+npm install @nest-yalc-2/app
 ```
 
 Install the NestJS peer packages used by your application, such as
@@ -19,7 +19,7 @@ platform package.
 ## Import Surface
 
 The package ships helpers through subpath exports. Import the specific helper
-module you need, for example `@nestjs-yalc/app/app-bootstrap.helper.js`.
+module you need, for example `@nest-yalc-2/app/app-bootstrap.helper.js`.
 
 - `AppBootstrap` and `StandaloneAppBootstrap` for HTTP and standalone Nest app
   startup.
@@ -35,7 +35,7 @@ module you need, for example `@nestjs-yalc/app/app-bootstrap.helper.js`.
 ## Example
 
 ```ts
-import { AppBootstrap } from '@nestjs-yalc/app/app-bootstrap.helper.js';
+import { AppBootstrap } from '@nest-yalc-2/app/app-bootstrap.helper.js';
 import { AppModule } from './app.module.js';
 
 await new AppBootstrap(AppModule).bootstrap();

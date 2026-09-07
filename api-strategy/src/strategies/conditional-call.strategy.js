@@ -30,11 +30,11 @@ class ConditionalCallStrategy {
             : this.options.enabled !== false;
     }
     resolveDisabledError() {
-        var _a;
         if (typeof this.options.disabledError === 'function') {
             return this.options.disabledError();
         }
-        return ((_a = this.options.disabledError) !== null && _a !== void 0 ? _a : new Error('ConditionalCallStrategy is disabled.'));
+        return (this.options.disabledError ??
+            new Error('ConditionalCallStrategy is disabled.'));
     }
 }
 exports.ConditionalCallStrategy = ConditionalCallStrategy;

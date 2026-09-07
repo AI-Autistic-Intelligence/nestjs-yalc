@@ -13,25 +13,24 @@ exports.YalcEventService = void 0;
 const common_1 = require("@nestjs/common");
 const event_js_1 = require("./event.js");
 const event_emitter_1 = require("@nestjs/event-emitter");
-const default_error_js_1 = require("@nestjs-yalc/errors/default.error.js");
-const error_class_js_1 = require("@nestjs-yalc/errors/error.class.js");
+const default_error_js_1 = require("@nest-yalc-2/errors/default.error.js");
+const error_class_js_1 = require("@nest-yalc-2/errors/error.class.js");
 const event_helper_js_1 = require("./event.helper.js");
-const http_status_code_to_errors_js_1 = require("@nestjs-yalc/errors/http-status-code-to-errors.js");
-const class_helper_js_1 = require("@nestjs-yalc/utils/class.helper.js");
+const http_status_code_to_errors_js_1 = require("@nest-yalc-2/errors/http-status-code-to-errors.js");
+const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
 const neverthrow_1 = require("neverthrow");
 function InjectTrace() {
     return function (_target, _key, descriptor) {
         const originalMethod = descriptor.value;
         descriptor.value = function (...args) {
-            var _a, _b;
             let options = args[1];
             if (typeof options !== 'object' || options === null) {
                 options = {};
                 args[1] = options;
             }
             if (!options.stack &&
-                !((_a = options.errorClass) === null || _a === void 0 ? void 0 : _a.stack) &&
-                !((_b = options.cause) === null || _b === void 0 ? void 0 : _b.stack)) {
+                !options.errorClass?.stack &&
+                !options.cause?.stack) {
                 options.stack = new Error().stack;
             }
             return originalMethod.apply(this, args);
@@ -102,16 +101,14 @@ let YalcEventService = class YalcEventService {
         return (0, event_js_1.eventVerbose)(eventName, this.buildOptions(options));
     }
     errorHttp(eventName, errorCode, options) {
-        var _a;
         const httpCode = errorCode;
-        const selectedError = (_a = http_status_code_to_errors_js_1.httpStatusCodeToErrors[httpCode]) !== null && _a !== void 0 ? _a : error_class_js_1.InternalServerError;
+        const selectedError = http_status_code_to_errors_js_1.httpStatusCodeToErrors[httpCode] ?? error_class_js_1.InternalServerError;
         const mergedOptions = this.applyLoggerLevel((0, event_js_1.applyAwaitOption)(this.buildErrorOptions(options, selectedError)), (0, event_helper_js_1.getLogLevelByStatus)(errorCode));
         return this._error(eventName, mergedOptions);
     }
     errorHttpResult(eventName, errorCode, options) {
-        var _a;
         const httpCode = errorCode;
-        const selectedError = (_a = http_status_code_to_errors_js_1.httpStatusCodeToErrors[httpCode]) !== null && _a !== void 0 ? _a : error_class_js_1.InternalServerError;
+        const selectedError = http_status_code_to_errors_js_1.httpStatusCodeToErrors[httpCode] ?? error_class_js_1.InternalServerError;
         const mergedOptions = this.applyLoggerLevel((0, event_js_1.applyAwaitOption)(this.buildErrorOptions(options, selectedError)), (0, event_helper_js_1.getLogLevelByStatus)(errorCode));
         return (0, neverthrow_1.err)(this._error(eventName, mergedOptions));
     }
@@ -121,7 +118,9 @@ let YalcEventService = class YalcEventService {
         if (mergedOptions.logger === undefined) {
             mergedOptions = this.applyLoggerLevelByStatus(mergedOptions, rebasedError);
         }
-        return this._error(eventName, Object.assign({}, mergedOptions));
+        return this._error(eventName, {
+            ...mergedOptions,
+        });
     }
     errorForwardResult(eventName, error, options) {
         return (0, neverthrow_1.err)(this.errorForward(eventName, error, options));
@@ -401,10 +400,16 @@ let YalcEventService = class YalcEventService {
         return (0, event_helper_js_1.getLogLevelByError)(options.errorClass);
     }
     applyLoggerLevel(options, level) {
-        if ((options === null || options === void 0 ? void 0 : options.logger) === false)
+        if (options?.logger === false)
             return options;
-        const loggerOption = (0, event_js_1.resolveLoggerOption)(options === null || options === void 0 ? void 0 : options.logger);
-        return Object.assign(Object.assign({}, options), { logger: Object.assign(Object.assign({}, (loggerOption || {})), { level }) });
+        const loggerOption = (0, event_js_1.resolveLoggerOption)(options?.logger);
+        return {
+            ...options,
+            logger: {
+                ...(loggerOption || {}),
+                level,
+            },
+        };
     }
     applyLoggerLevelByStatus(options, error) {
         const level = (0, event_helper_js_1.getLogLevelByStatus)(error.getStatus());
@@ -415,17 +420,23 @@ let YalcEventService = class YalcEventService {
         return this.applyLoggerLevel(options, level);
     }
     applyCause(cause, options) {
-        return Object.assign(Object.assign({}, options), { cause });
+        return {
+            ...options,
+            cause,
+        };
     }
     buildOptions(options) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        const _options = Object.assign({}, options);
+        const _options = { ...options };
         let event;
-        if ((_options === null || _options === void 0 ? void 0 : _options.event) !== undefined || this.eventEmitter) {
+        if (_options?.event !== undefined || this.eventEmitter) {
             event =
                 _options.event === false
                     ? false
-                    : Object.assign(Object.assign({}, _options === null || _options === void 0 ? void 0 : _options.event), { emitter: (_b = (_a = _options === null || _options === void 0 ? void 0 : _options.event) === null || _a === void 0 ? void 0 : _a.emitter) !== null && _b !== void 0 ? _b : this.eventEmitter, formatter: (_d = (_c = _options === null || _options === void 0 ? void 0 : _options.event) === null || _c === void 0 ? void 0 : _c.formatter) !== null && _d !== void 0 ? _d : (_e = this.options) === null || _e === void 0 ? void 0 : _e.formatter });
+                    : {
+                        ..._options?.event,
+                        emitter: _options?.event?.emitter ?? this.eventEmitter,
+                        formatter: _options?.event?.formatter ?? this.options?.formatter,
+                    };
         }
         if ((0, event_js_1.isErrorOptions)(_options)) {
             const _errorOptions = _options;
@@ -433,25 +444,31 @@ let YalcEventService = class YalcEventService {
                 _errorOptions.errorClass !== true &&
                 !(0, class_helper_js_1.isClass)(_errorOptions.errorClass)) {
                 const error = (0, default_error_js_1.errorToDefaultError)(_errorOptions.errorClass);
-                (_f = _errorOptions.stack) !== null && _f !== void 0 ? _f : (_errorOptions.stack = error.stack);
+                _errorOptions.stack ??= error.stack;
             }
             else if (_errorOptions.cause) {
                 const cause = (0, default_error_js_1.formatCause)(_errorOptions.cause);
-                (_g = _errorOptions.stack) !== null && _g !== void 0 ? _g : (_errorOptions.stack = cause === null || cause === void 0 ? void 0 : cause.stack);
+                _errorOptions.stack ??= cause?.stack;
             }
             else {
-                (_h = _errorOptions.stack) !== null && _h !== void 0 ? _h : (_errorOptions.stack = new Error().stack);
+                _errorOptions.stack ??= new Error().stack;
             }
         }
-        const loggerOption = (0, event_js_1.resolveLoggerOption)(_options === null || _options === void 0 ? void 0 : _options.logger);
-        const res = Object.assign(Object.assign({}, _options), { event, logger: (_options === null || _options === void 0 ? void 0 : _options.logger) === false
+        const loggerOption = (0, event_js_1.resolveLoggerOption)(_options?.logger);
+        const res = {
+            ..._options,
+            event,
+            logger: _options?.logger === false
                 ? false
-                : Object.assign(Object.assign({}, (loggerOption || {})), { instance: this.loggerService }) });
+                : {
+                    ...(loggerOption || {}),
+                    instance: this.loggerService,
+                },
+        };
         return res;
     }
     buildErrorOptions(options = {}, defaultClass = true) {
-        var _a;
-        (_a = options.errorClass) !== null && _a !== void 0 ? _a : (options.errorClass = defaultClass);
+        options.errorClass ??= defaultClass;
         return options;
     }
 };

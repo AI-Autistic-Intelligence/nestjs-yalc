@@ -1,6 +1,6 @@
 import type { DataSource, EntityTarget } from 'typeorm';
 import { Table, type TableOptions } from 'typeorm';
-import { type ProjectionResourceDefinition } from '@nestjs-yalc/crud-gen';
+import { type ProjectionResourceDefinition } from '@nest-yalc-2/crud-gen';
 export interface OmniMigrationSnapshot {
     readonly version: string;
     readonly dialect: 'sqlite' | 'postgres';

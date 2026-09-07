@@ -10,3 +10,5 @@ export type IDecoratorType =
   | ClassDecorator
   | MethodDecorator
   | PropertyDecorator;
+
+export type DecoratorType = IDecoratorType;

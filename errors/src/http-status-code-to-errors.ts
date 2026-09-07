@@ -16,7 +16,7 @@ import {
   UnprocessableEntityError,
   UnsupportedMediaTypeError,
 } from './error.class.js';
-import { HttpStatusCodes } from '@nestjs-yalc/utils/http.helper.js';
+import { HttpStatusCodes } from '@nest-yalc-2/utils/http.helper.js';
 import { HttpStatus } from '@nestjs/common';
 
 export const httpStatusCodeToErrors: {

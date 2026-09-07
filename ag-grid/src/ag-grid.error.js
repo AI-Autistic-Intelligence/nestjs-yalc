@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AgGridFilterProhibited = exports.AgGridStringWhereError = exports.AgGridNotPossibleError = exports.AgGridBadFilterTypeError = exports.AgGridFilterNotSupportedError = exports.AgGridConditionNotSupportedError = exports.AgGridInvalidPropertyError = exports.AgGridInvalidOperatorError = exports.AgGridInvalidArgumentError = exports.AgGridError = void 0;
-const gql_error_1 = require("@nestjs-yalc/graphql/plugins/gql.error");
+const gql_error_1 = require("@nest-yalc-2/graphql/plugins/gql.error");
 const strings_enum_1 = require("./strings.enum");
 class AgGridError extends gql_error_1.GqlError {
     constructor(message, systemMessage) {

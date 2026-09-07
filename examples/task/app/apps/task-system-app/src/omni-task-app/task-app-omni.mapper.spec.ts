@@ -1,4 +1,4 @@
-import { OmniExternalRefInternalType, OmniRecordStatus } from '@nestjs-yalc/omnikernel-module';
+import { OmniExternalRefInternalType, OmniRecordStatus } from '@nest-yalc-2/omnikernel-module';
 import { TaskAppOmniMapper } from './task-app-omni.mapper';
 
 describe('TaskAppOmniMapper', () => {

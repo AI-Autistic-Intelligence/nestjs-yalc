@@ -1,4 +1,4 @@
-import { TaskExternalRef } from '@nestjs-yalc/task-system-module/src/task-external-ref.entity';
+import { TaskExternalRef } from '@nest-yalc-2/task-system-module/src/task-external-ref.entity';
 export declare class TaskExternalRefType extends TaskExternalRef {
     constructor(data?: Partial<TaskExternalRefType>);
     guid: string;

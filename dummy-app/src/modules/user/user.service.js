@@ -16,9 +16,9 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const generic_service_service_1 = require("@nestjs-yalc/ag-grid/generic-service.service");
+const generic_service_service_1 = require("@nest-yalc-2/ag-grid/generic-service.service");
 const user_entity_1 = require("../../entities/user.entity");
-const ag_grid_repository_1 = require("@nestjs-yalc/ag-grid/ag-grid.repository");
+const ag_grid_repository_1 = require("@nest-yalc-2/ag-grid/ag-grid.repository");
 let UserService = class UserService extends generic_service_service_1.GenericService {
     constructor(userRepository) {
         super(new ag_grid_repository_1.AgGridRepository(userRepository.target, userRepository.manager, userRepository.queryRunner));

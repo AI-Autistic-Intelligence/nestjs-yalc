@@ -9,7 +9,7 @@ jest.mock('../object.decorator', () => {
 jest.mock('@nestjs/graphql');
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface';
 import { GraphQLResolveInfo } from 'graphql';
 import { BaseEntity, Equal, SelectQueryBuilder } from 'typeorm';
 import { FilterType, GeneralFilters, Operators } from '../ag-grid.enum';
@@ -62,7 +62,7 @@ import {
   TestEntityRelation,
 } from '../__mocks__/entity.mock';
 import { GenericService } from '../generic-service.service';
-import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper';
+import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper';
 import { Resolver } from '@nestjs/graphql';
 import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";

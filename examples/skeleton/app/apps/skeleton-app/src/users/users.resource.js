@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersResourceProviders = exports.UsersController = exports.usersResource = void 0;
 const common_1 = require("@nestjs/common");
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
-const crud_gen_enum_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.enum.js");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
-const skeleton_module_1 = require("@nestjs-yalc/skeleton-module");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
+const crud_gen_enum_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.enum.js");
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
+const skeleton_module_1 = require("@nest-yalc-2/skeleton-module");
 const crudgen_provider_compat_js_1 = require("../crudgen-provider-compat.js");
 const skeletonUserServiceToken = 'SkeletonUserGenericService';
 const lowerCaseEmailMiddleware = (_ctx, input, value) => {

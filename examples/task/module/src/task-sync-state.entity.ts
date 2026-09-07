@@ -1,4 +1,4 @@
-import { EntityWithTimestamps } from '@nestjs-yalc/database/timestamp.entity.js';
+import { EntityWithTimestamps } from '@nest-yalc-2/database/timestamp.entity.js';
 import { ObjectType } from '@nestjs/graphql';
 import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 

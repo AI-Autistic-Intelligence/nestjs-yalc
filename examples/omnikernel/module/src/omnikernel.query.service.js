@@ -58,7 +58,12 @@ class OmniKernelQueryService {
     }
     async getDocumentExternalRefs(documentId, provider) {
         return this.externalRefRepository.find({
-            where: Object.assign({ scopeId: this.scope.scopeId, internalType: omni_external_ref_internal_type_enum_js_1.OmniExternalRefInternalType.Document, internalId: documentId }, (provider ? { provider } : {})),
+            where: {
+                scopeId: this.scope.scopeId,
+                internalType: omni_external_ref_internal_type_enum_js_1.OmniExternalRefInternalType.Document,
+                internalId: documentId,
+                ...(provider ? { provider } : {}),
+            },
             order: {
                 createdAt: 'ASC',
             },

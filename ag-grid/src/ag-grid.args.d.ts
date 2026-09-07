@@ -1,6 +1,6 @@
 import { FilterInput } from './ag-grid.interface';
 import { SortModelStrict, JoinArgOptions } from './ag-grid.input';
-import { ClassType } from '@nestjs-yalc/types';
+import { ClassType } from '@nest-yalc-2/types';
 export interface AgQueryParams<T = unknown> {
     [index: string]: unknown;
     startRow?: number;

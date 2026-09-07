@@ -6,7 +6,7 @@ import {
   OmniExternalRefInternalType,
   OmniRecordEntity,
   OmniRecordStatus,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 import { TaskItemCreateInput, TaskItemType } from '../tasks/task-item.dto';
 import {
   TaskProjectCreateInput,

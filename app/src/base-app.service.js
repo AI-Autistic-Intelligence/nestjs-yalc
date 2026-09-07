@@ -48,7 +48,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseAppService = void 0;
 const common = __importStar(require("@nestjs/common"));
 const event_emitter_1 = require("@nestjs/event-emitter");
-const def_const_js_1 = require("@nestjs-yalc/app/def.const.js");
+const def_const_js_1 = require("@nest-yalc-2/app/def.const.js");
 const app_events_js_1 = require("./app.events.js");
 let BaseAppService = class BaseAppService {
     constructor(logger) {
@@ -58,10 +58,9 @@ let BaseAppService = class BaseAppService {
         return `Hello World from ${appName}!`;
     }
     handleBeforeAllRoutes(context) {
-        var _a, _b;
         const handlerName = context.getHandler().name;
         if (!handlerName.startsWith('_') && handlerName.includes('_'))
-            (_b = (_a = this.logger).debug) === null || _b === void 0 ? void 0 : _b.call(_a, `Running Handler: ${handlerName}`);
+            this.logger.debug?.(`Running Handler: ${handlerName}`);
     }
 };
 exports.BaseAppService = BaseAppService;

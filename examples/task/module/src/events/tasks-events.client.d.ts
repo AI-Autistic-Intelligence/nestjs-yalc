@@ -1,4 +1,4 @@
-import type { IEventStrategy } from '@nestjs-yalc/api-strategy';
+import type { IEventStrategy } from '@nest-yalc-2/api-strategy';
 export declare const TASK_EVENTS_STRATEGY = "TASK_EVENTS_STRATEGY";
 export declare const TASK_EVENTS_LOCAL_STRATEGY = "TASK_EVENTS_LOCAL_STRATEGY";
 export declare const TASK_EVENTS_RABBITMQ_STRATEGY = "TASK_EVENTS_RABBITMQ_STRATEGY";

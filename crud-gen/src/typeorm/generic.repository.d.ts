@@ -1,6 +1,6 @@
-import { ReplicationMode } from '@nestjs-yalc/database/query-builder.helper.js';
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type.js';
 import { ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';
 import { CrudGenFindManyOptions } from '../api-graphql/crud-gen-gql.interface.js';

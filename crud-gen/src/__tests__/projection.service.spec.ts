@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { Between, Equal, In } from 'typeorm';
-import type { YalcEventService } from '@nestjs-yalc/event-manager';
+import type { YalcEventService } from '@nest-yalc-2/event-manager';
 import type { Repository } from 'typeorm';
 import { createProjectionDialect } from '../projection/projection-dialect.js';
 import type { ProjectionDialect } from '../projection/projection-dialect.js';

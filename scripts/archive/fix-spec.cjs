@@ -13,7 +13,7 @@ content = content.replace(/import \* as agGridArgsDecorator from '\.\.\/ag-grid-
 content = content.replace(/import \* as AgGridInput from '\.\.\/ag-grid\.input';\n/g, '');
 
 // 3. Add unstable_mockModule calls for the modules we want to mock
-const mocks = `import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';
+const mocks = `import { importMockedEsm } from '@nest-yalc-2/jest/esm.helper.js';
 
 const mockArgs = jest.fn();
 const mockCreate = jest.fn();
@@ -46,7 +46,7 @@ const AgGridInput = await import('../ag-grid.input.js');
 const agGridArgsDecorator = await import('../ag-grid-args.decorator.js');
 `;
 
-content = content.replace(/import \{ importMockedEsm \} from '@nestjs-yalc\/jest\/esm\.helper\.js';\n/g, mocks);
+content = content.replace(/import \{ importMockedEsm \} from '@nest-yalc-2\/jest\/esm\.helper\.js';\n/g, mocks);
 
 // 4. Fix GqlExecutionContext usages
 content = content.replace(/jest\.spyOn\(GqlExecutionContext, 'create'\)/g, "jest.spyOn(graphql.GqlExecutionContext, 'create')");

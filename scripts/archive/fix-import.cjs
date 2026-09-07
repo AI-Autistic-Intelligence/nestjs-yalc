@@ -10,7 +10,7 @@ function replaceInDir(dir) {
     } else if (fullPath.endsWith('.ts')) {
       let content = fs.readFileSync(fullPath, 'utf8');
       if (content.includes('importMockedEsm')) {
-        content = content.replace(/import\s*\{\s*importMockedEsm\s*\}\s*from\s*['"]@nestjs-yalc\/jest\/esm\.helper\.js['"];\r?\n?/g, '');
+        content = content.replace(/import\s*\{\s*importMockedEsm\s*\}\s*from\s*['"]@nest-yalc-2\/jest\/esm\.helper\.js['"];\r?\n?/g, '');
         // Replace `await importMockedEsm(\n  'module',\n  import.meta\n)` with `await import('module')`
         content = content.replace(/await\s+importMockedEsm\s*\([\s\S]*?(['"][^'"]+['"])[\s\S]*?(?:,\s*import\.meta\s*)?\)/g, 'await import($1)');
         fs.writeFileSync(fullPath, content);

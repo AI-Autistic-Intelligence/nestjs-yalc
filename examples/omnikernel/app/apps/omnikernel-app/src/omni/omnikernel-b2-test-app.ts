@@ -7,7 +7,7 @@ import {
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
 import { OmniApiModule } from './omni-api.module';
 
 export type OmniKernelB2Dialect = 'sqlite' | 'postgres';

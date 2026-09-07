@@ -34,27 +34,8 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mockQueryBuilder = exports.mockChainingObject = exports.mockedExecutionContext = exports.mockedGqlCtxCreate = exports.mockedNestGraphql = void 0;
-console.log('EXECUTING COMMON MOCKS HELPER');
-jest.mock('@nestjs/graphql', () => {
-    console.log('EXECUTING GLOBAL FACTORY MOCK FOR @nestjs/graphql');
-    const actual = jest.requireActual('@nestjs/graphql');
-    const mockedModule = Object.assign({}, actual);
-    const decorators = [
-        'Args', 'Field', 'Query', 'Mutation', 'Resolver', 'InputType', 'ObjectType',
-        'InterfaceType', 'ResolveField', 'HideField', 'Directive', 'registerEnumType', 'IntersectionType'
-    ];
-    for (const name of decorators) {
-        if (actual[name]) {
-            mockedModule[name] = jest.fn().mockImplementation((...args) => {
-                return actual[name](...args);
-            });
-        }
-    }
-    mockedModule.GqlExecutionContext = Object.assign(Object.assign({}, actual.GqlExecutionContext), { create: jest.fn() });
-    return mockedModule;
-});
 jest.mock('@fastify/cookie', () => {
-    const plugin = (fastify, options, done) => done();
+    const plugin = (_fastify, _options, done) => done();
     plugin[Symbol.for('skip-override')] = true;
     return {
         __esModule: true,

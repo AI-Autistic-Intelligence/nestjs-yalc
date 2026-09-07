@@ -1,4 +1,4 @@
-import { YalcEventService } from '@nestjs-yalc/event-manager/event.service.js';
+import { YalcEventService } from '@nest-yalc-2/event-manager/event.service.js';
 import { Logger } from 'typeorm';
 export declare class TypeORMLogger implements Logger {
     private event;

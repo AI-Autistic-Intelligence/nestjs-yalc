@@ -1,4 +1,4 @@
-# @nestjs-yalc/omnikernel-module
+# @nest-yalc-2/omnikernel-module
 
 ## 1.1.0
 
@@ -21,8 +21,8 @@
 - Updated dependencies [b3b3597]
 - Updated dependencies [ab50237]
 - Updated dependencies [4363633]
-  - @nestjs-yalc/crud-gen@1.5.0
-  - @nestjs-yalc/event-manager@1.3.4
-  - @nestjs-yalc/data-loader@1.3.4
-  - @nestjs-yalc/graphql@1.3.4
-  - @nestjs-yalc/utils@1.3.4
+  - @nest-yalc-2/crud-gen@1.5.0
+  - @nest-yalc-2/event-manager@1.3.4
+  - @nest-yalc-2/data-loader@1.3.4
+  - @nest-yalc-2/graphql@1.3.4
+  - @nest-yalc-2/utils@1.3.4

@@ -13,9 +13,9 @@ import {
 import {
   createProjectionDialect,
   CrudGenResourceFactory,
-} from "@nestjs-yalc/crud-gen";
-import { EventModule } from '@nestjs-yalc/event-manager';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar.js';
+} from "@nest-yalc-2/crud-gen";
+import { EventModule } from '@nest-yalc-2/event-manager';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
 import request from 'supertest';
 import { DataSource } from "typeorm";
 import type { OmniMigrationRunner } from '../omni-migration.js';

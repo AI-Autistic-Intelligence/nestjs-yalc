@@ -7,8 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskSyncStateProjection = exports.TaskSyncStateProjectionApi = exports.taskSyncStateProjectionDefinition = exports.taskSyncStateProjectionScope = exports.TASK_SYNC_STATE_KIND = void 0;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
-const omnikernel_module_1 = require("@nestjs-yalc/omnikernel-module");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
+const omnikernel_module_1 = require("@nest-yalc-2/omnikernel-module");
 const typeorm_1 = require("typeorm");
 exports.TASK_SYNC_STATE_KIND = 'sync-state';
 exports.taskSyncStateProjectionScope = {

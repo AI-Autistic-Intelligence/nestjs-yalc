@@ -1,5 +1,5 @@
-import { DateHelper } from '@nestjs-yalc/utils/date.helper';
-import { belongsToEnum } from '@nestjs-yalc/utils/enum.helper';
+import { DateHelper } from '@nest-yalc-2/utils/date.helper';
+import { belongsToEnum } from '@nest-yalc-2/utils/enum.helper';
 import { ValueTransformer } from 'typeorm';
 
 /**
@@ -7,7 +7,7 @@ import { ValueTransformer } from 'typeorm';
  * @param enumName: enum object for checking if the column value belongs to it
  * @returns ValueTransformer object
  */
-export const enumTransformer = <T extends Record<string, unknown>>(
+export const enumTransformer = <T extends Record<string, any>>(
   enumName: T,
 ): ValueTransformer => {
   const transformer = (value: string | number): string | number | null => {

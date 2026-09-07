@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types';
+import { ClassType } from '@nest-yalc-2/types';
 import { RelationInfo } from './ag-grid-factory.helper';
 import { GenericResolver, GenericResolverQueryOptions } from './generic-resolver.type';
 export declare function defineFieldResolver<Entity extends Record<string, any> = any>(resolverInfoList: RelationInfo[], resolver: ClassType<GenericResolver>): void;

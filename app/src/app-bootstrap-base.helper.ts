@@ -12,11 +12,11 @@ import type { IServiceConf } from './conf.type.js';
 import { SYSTEM_LOGGER_SERVICE } from './def.const.js';
 import { YalcDefaultAppModule } from './base-app-module.helper.js';
 import { ICreateOptions, INestCreateOptions } from './app-bootstrap.helper.js';
-import { EventModule } from '@nestjs-yalc/event-manager/event.module.js';
-import { LoggerServiceFactory } from '@nestjs-yalc/logger/logger.service.js';
+import { EventModule } from '@nest-yalc-2/event-manager/event.module.js';
+import { LoggerServiceFactory } from '@nest-yalc-2/logger/logger.service.js';
 import { FastifyInstance } from 'fastify';
-import { getEnvLoggerLevels } from '@nestjs-yalc/logger/logger.helper.js';
-import { globalPromiseTracker } from '@nestjs-yalc/utils/promise.helper.js';
+import { getEnvLoggerLevels } from '@nest-yalc-2/logger/logger.helper.js';
+import { globalPromiseTracker } from '@nest-yalc-2/utils/promise.helper.js';
 
 /**
  * Side effect to be executed as soon as the module is imported

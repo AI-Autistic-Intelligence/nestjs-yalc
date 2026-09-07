@@ -4,7 +4,7 @@ const fs = require('fs');
 const srcFile = 'ag-grid/src/ag-grid-args.decorator.ts';
 let srcCode = fs.readFileSync(srcFile, 'utf8');
 srcCode = srcCode.replace(
-  /import \{ GqlAgGridFieldsMapper \} from '@nestjs-yalc\/ag-grid\/gqlfields\.decorator';/,
+  /import \{ GqlAgGridFieldsMapper \} from '@nest-yalc-2\/ag-grid\/gqlfields\.decorator';/,
   'import { GqlAgGridFieldsMapper } from \\'./gqlfields.decorator\\';'
 );
 fs.writeFileSync(srcFile, srcCode);
@@ -15,7 +15,7 @@ let specCode = fs.readFileSync(specFile, 'utf8');
 
 // Put back jest.mock('@nestjs/graphql') at the top
 if (!specCode.includes('jest.mock(\\'@nestjs/graphql\\');')) {
-  specCode = specCode.replace(/import \{ importMockedEsm \} from '@nestjs-yalc\/jest\/esm\.helper\.js';\r?\n/, 'import { importMockedEsm } from \\'@nestjs-yalc/jest/esm.helper.js\\';\njest.mock(\\'@nestjs/graphql\\');\n');
+  specCode = specCode.replace(/import \{ importMockedEsm \} from '@nest-yalc-2\/jest\/esm\.helper\.js';\r?\n/, 'import { importMockedEsm } from \\'@nest-yalc-2/jest/esm.helper.js\\';\njest.mock(\\'@nestjs/graphql\\');\n');
 }
 
 // Add static import of graphql
@@ -25,7 +25,7 @@ if (!specCode.includes('import * as graphql from \\'@nestjs/graphql\\';')) {
 
 // Change importMockedEsm back to relative path for GqlAgGridDecorator
 specCode = specCode.replace(
-  /const GqlAgGridDecorator = await importMockedEsm\('@nestjs-yalc\/ag-grid\/gqlfields\.decorator', import\.meta\);/,
+  /const GqlAgGridDecorator = await importMockedEsm\('@nest-yalc-2\/ag-grid\/gqlfields\.decorator', import\.meta\);/,
   'const GqlAgGridDecorator = await importMockedEsm(\\'../gqlfields.decorator.js\\', import.meta);'
 );
 

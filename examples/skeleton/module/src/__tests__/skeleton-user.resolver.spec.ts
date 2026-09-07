@@ -9,12 +9,12 @@ import {
   afterEach,
 } from '@jest/globals';
 
-import { mockNestJSGraphql } from '@nestjs-yalc/jest';
+import { mockNestJSGraphql } from '@nest-yalc-2/jest';
 await mockNestJSGraphql(import.meta);
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { CrudGenRepository } from '@nestjs-yalc/crud-gen/crud-gen.repository.js';
-import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper.js';
+import { CrudGenRepository } from '@nest-yalc-2/crud-gen/crud-gen.repository.js';
+import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper.js';
 import { ModuleRef } from '@nestjs/core';
 import 'reflect-metadata';
 import { type SkeletonUser } from '../skeleton-user.entity.js';

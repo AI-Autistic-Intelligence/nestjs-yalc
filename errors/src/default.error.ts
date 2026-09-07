@@ -1,10 +1,10 @@
-import { getLogLevelByStatus } from '@nestjs-yalc/event-manager/event.helper.js';
-import { getYalcGlobalEventEmitter } from '@nestjs-yalc/event-manager/global-emitter.js';
-import type { ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
-import { AppLoggerFactory } from '@nestjs-yalc/logger/logger.factory.js';
-import { maskDataInObject } from '@nestjs-yalc/logger/logger.helper.js';
-import { ClassType, Mixin } from '@nestjs-yalc/types/globals.d.js';
-import { getHttpStatusDescription } from '@nestjs-yalc/utils/http.helper.js';
+import { getLogLevelByStatus } from '@nest-yalc-2/event-manager/event.helper.js';
+import { getYalcGlobalEventEmitter } from '@nest-yalc-2/event-manager/global-emitter.js';
+import type { ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
+import { AppLoggerFactory } from '@nest-yalc-2/logger/logger.factory.js';
+import { maskDataInObject } from '@nest-yalc-2/logger/logger.helper.js';
+import { ClassType, Mixin } from '@nest-yalc-2/types/globals.d.js';
+import { getHttpStatusDescription } from '@nest-yalc-2/utils/http.helper.js';
 import {
   HttpException,
   HttpExceptionOptions,
@@ -13,8 +13,8 @@ import {
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { getHttpStatusNameByCode } from './error.enum.js';
-import { deepMergeWithoutArrayConcat } from '@nestjs-yalc/utils/object.helper.js';
-import { isClass } from '@nestjs-yalc/utils/class.helper.js';
+import { deepMergeWithoutArrayConcat } from '@nest-yalc-2/utils/object.helper.js';
+import { isClass } from '@nest-yalc-2/utils/class.helper.js';
 
 export const ON_DEFAULT_ERROR_EVENT = 'onDefaultError';
 

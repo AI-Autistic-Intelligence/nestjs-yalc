@@ -6,11 +6,11 @@ import {
   QueryRunner,
   SelectQueryBuilder,
 } from 'typeorm';
-import { SortDirection } from '@nestjs-yalc/ag-grid/ag-grid.enum';
+import { SortDirection } from '@nest-yalc-2/ag-grid/ag-grid.enum';
 import {
   IFieldMapper,
   isFieldMapper,
-} from '@nestjs-yalc/interfaces/maps.interface';
+} from '@nest-yalc-2/interfaces/maps.interface';
 import { isJsonSQLRaw } from './json.helpers';
 // import {
 //   IJsonVirtualFieldOptions,

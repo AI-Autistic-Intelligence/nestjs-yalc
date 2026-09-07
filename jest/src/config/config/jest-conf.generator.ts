@@ -11,7 +11,7 @@ import defaultConf, {
   IDefaultConfOptions,
   tsJestConfig,
   tsJestConfigE2E,
-} from './jest-def.config.ts';
+} from './jest-def.config.js';
 // import { options as jestOptionObject } from 'jest-cli/build/cli/args';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';

@@ -3,7 +3,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
 import {
   OmniCollectionEntity,
   OmniDocumentEntity,
@@ -11,7 +11,7 @@ import {
   OmniNamedEntity,
   OmniRecordEntity,
   OmniRelationEntity,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 import { OmniApiModule } from './omni/omni-api.module';
 
 @Module({

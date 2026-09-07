@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmniScopedService = void 0;
 const common_1 = require("@nestjs/common");
-const crud_gen_enum_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.enum.js");
-const generic_service_js_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.service.js");
+const crud_gen_enum_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.enum.js");
+const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
 const typeorm_1 = require("typeorm");
 function hasOwn(input, key) {
     return Object.prototype.hasOwnProperty.call(input, key);
@@ -22,11 +22,15 @@ class OmniScopedService extends generic_service_js_1.GenericService {
     }
     scopedConditions(conditions) {
         this.rejectClientScope(conditions);
-        return Object.assign(Object.assign(Object.assign({}, conditions), { scopeId: this.scopeId }), (this.deletion === 'tombstone' ? { deletedAt: (0, typeorm_1.IsNull)() } : {}));
+        return {
+            ...conditions,
+            scopeId: this.scopeId,
+            ...(this.deletion === 'tombstone' ? { deletedAt: (0, typeorm_1.IsNull)() } : {}),
+        };
     }
     async getEntity(conditions, fields, relations, databaseName, options) {
         const entity = await super.getEntity(this.scopedWhere(conditions), fields, relations, databaseName, { failOnNull: false });
-        if (!entity && (options === null || options === void 0 ? void 0 : options.failOnNull))
+        if (!entity && options?.failOnNull)
             this.notFound();
         return entity;
     }
@@ -44,17 +48,25 @@ class OmniScopedService extends generic_service_js_1.GenericService {
         filters.scopeId = this.scopeId;
         if (this.deletion === 'tombstone')
             filters.deletedAt = (0, typeorm_1.IsNull)();
-        const where = Object.assign({ operator: crud_gen_enum_js_1.Operators.AND, filters }, (userWhere ? { childExpressions: [userWhere] } : {}));
-        return Object.assign(Object.assign(Object.assign({}, findOptions), { where }), (findOptions.subQueryFilters
-            ? {
-                subQueryFilters: this.scopeFindOptions(findOptions.subQueryFilters),
-            }
-            : {}));
+        const where = {
+            operator: crud_gen_enum_js_1.Operators.AND,
+            filters,
+            ...(userWhere ? { childExpressions: [userWhere] } : {}),
+        };
+        return {
+            ...findOptions,
+            where,
+            ...(findOptions.subQueryFilters
+                ? {
+                    subQueryFilters: this.scopeFindOptions(findOptions.subQueryFilters),
+                }
+                : {}),
+        };
     }
     async createEntity(input, findOptions, returnEntity = true) {
         this.rejectServerFields(input);
         this.validatePayloadContract(input);
-        return super.createEntity(Object.assign(Object.assign({}, input), { scopeId: this.scopeId }), findOptions, returnEntity);
+        return super.createEntity({ ...input, scopeId: this.scopeId }, findOptions, returnEntity);
     }
     async updateEntity(conditions, input, findOptions, returnEntity = true) {
         this.rejectServerFields(input);
@@ -62,7 +74,7 @@ class OmniScopedService extends generic_service_js_1.GenericService {
         if (hasOwn(input, 'guid')) {
             throw new common_1.BadRequestException('guid is immutable.');
         }
-        return super.updateEntity(this.scopedConditions(conditions), Object.assign(Object.assign({}, input), { scopeId: this.scopeId }), findOptions, returnEntity);
+        return super.updateEntity(this.scopedConditions(conditions), { ...input, scopeId: this.scopeId }, findOptions, returnEntity);
     }
     async deleteEntity(conditions) {
         const scoped = this.scopedConditions(conditions);
@@ -111,7 +123,7 @@ class OmniScopedService extends generic_service_js_1.GenericService {
         if (typeof candidate.payloadSchemaVersion !== 'number' ||
             !Number.isInteger(candidate.payloadSchemaVersion) ||
             candidate.payloadSchemaVersion < 1 ||
-            candidate.payloadSchemaVersion > 2147483647) {
+            candidate.payloadSchemaVersion > 2_147_483_647) {
             throw new common_1.BadRequestException('payloadSchemaVersion must be a positive signed 32-bit integer.');
         }
     }

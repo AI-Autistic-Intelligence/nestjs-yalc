@@ -9,7 +9,7 @@ import {
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
 
-import * as loggerHelper from '@nestjs-yalc/logger/logger.helper.js';
+import * as loggerHelper from '@nest-yalc-2/logger/logger.helper.js';
 import {
   emitEvent,
   emitFormattedEvent,

@@ -17,7 +17,11 @@ exports.NestLocalEventStrategy = NestLocalEventStrategy;
 const NestLocalEventStrategyProvider = (provide, options = {}) => ({
     provide,
     useFactory: (eventEmitter) => {
-        const _options = Object.assign({ baseUrl: '', NestLocalStrategy: NestLocalEventStrategy }, options);
+        const _options = {
+            baseUrl: '',
+            NestLocalStrategy: NestLocalEventStrategy,
+            ...options,
+        };
         return new _options.NestLocalStrategy(eventEmitter);
     },
     inject: [event_emitter_1.EventEmitter2],

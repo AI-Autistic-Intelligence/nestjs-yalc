@@ -7,7 +7,7 @@ import {
   MutationJournalQueryService,
   MutationJournalService,
   type MutationJournalRow,
-} from '@nestjs-yalc/audit';
+} from '@nest-yalc-2/audit';
 import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { DataSource } from 'typeorm';

@@ -5,7 +5,7 @@ import {
   OmniExternalRefEntity,
   OmniRecordEntity,
   OmniRelationEntity,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 import { TaskAppOmniEventService } from './task-app-omni-event.service';
 import { TaskAppOmniExternalRefService } from './task-app-omni-external-ref.service';
 import { TaskAppOmniMapper } from './task-app-omni.mapper';

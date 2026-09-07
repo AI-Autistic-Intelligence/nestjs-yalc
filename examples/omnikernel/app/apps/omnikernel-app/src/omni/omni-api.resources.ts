@@ -1,4 +1,4 @@
-import { CrudGenResourceFactory } from '@nestjs-yalc/crud-gen';
+import { CrudGenResourceFactory } from '@nest-yalc-2/crud-gen';
 import { bindGeneratedDataloaderEventEmitter } from '../crudgen-provider-compat.js';
 import {
   OmniCollectionCondition,
@@ -34,7 +34,7 @@ import {
   OmniRelationEntity,
   OmniRelationType,
   OmniRelationUpdateInput,
-} from '@nestjs-yalc/omnikernel-module';
+} from '@nest-yalc-2/omnikernel-module';
 
 export const omniNamedResource = CrudGenResourceFactory<OmniNamedEntity>({
   entityModel: OmniNamedEntity,

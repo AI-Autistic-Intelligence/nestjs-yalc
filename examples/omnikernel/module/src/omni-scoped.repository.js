@@ -10,7 +10,10 @@ class OmniScopedRepository {
         if ('scopeId' in where) {
             throw new TypeError('Omni scopeId is derived from server context.');
         }
-        return Object.assign(Object.assign({}, where), { scopeId: this.scope.scopeId });
+        return {
+            ...where,
+            scopeId: this.scope.scopeId,
+        };
     }
     findOneByGuid(guid) {
         return this.repository.findOne({ where: this.where({ guid }) });

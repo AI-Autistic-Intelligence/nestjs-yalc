@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "@jest/globals";
 import {
   compileProjectionUniqueConstraintPredicate,
   createProjectionDialect,
-} from "@nestjs-yalc/crud-gen";
+} from "@nest-yalc-2/crud-gen";
 import { DataSource } from "typeorm";
 
 import { OmniNamedEntity } from '../base/omni-named.entity.js';

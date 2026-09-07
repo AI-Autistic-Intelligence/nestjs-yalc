@@ -27,7 +27,7 @@ exports.defaultOmniDeletionPolicies = {
 };
 function normalizeOmniDeletionPolicies(deletion) {
     const knownResources = new Set(Object.keys(exports.defaultOmniDeletionPolicies));
-    for (const [resource, policy] of Object.entries(deletion !== null && deletion !== void 0 ? deletion : {})) {
+    for (const [resource, policy] of Object.entries(deletion ?? {})) {
         if (!knownResources.has(resource)) {
             throw new TypeError(`Unknown OmniKernel deletion policy resource: ${resource}.`);
         }
@@ -35,10 +35,12 @@ function normalizeOmniDeletionPolicies(deletion) {
             throw new TypeError(`OmniKernel deletion policy for ${resource} must be hard or tombstone.`);
         }
     }
-    return Object.assign(Object.assign({}, exports.defaultOmniDeletionPolicies), deletion);
+    return {
+        ...exports.defaultOmniDeletionPolicies,
+        ...deletion,
+    };
 }
 function normalizeOmniKernelRegistrationOptions(options) {
-    var _a, _b, _c;
     const candidate = typeof options === 'string' ? { dbConnection: options } : options;
     if (!candidate.dbConnection) {
         throw new TypeError('OmniKernelModule requires a database connection name.');
@@ -48,7 +50,7 @@ function normalizeOmniKernelRegistrationOptions(options) {
             candidate.defaultScopeId.length > 64)) {
         throw new TypeError('OmniKernel defaultScopeId must be 1-64 characters.');
     }
-    const reservedRecordKinds = (_a = candidate.reservedRecordKinds) !== null && _a !== void 0 ? _a : [];
+    const reservedRecordKinds = candidate.reservedRecordKinds ?? [];
     if (!Array.isArray(reservedRecordKinds) ||
         reservedRecordKinds.some((kind) => typeof kind !== 'string' ||
             kind.trim().length === 0 ||
@@ -56,12 +58,17 @@ function normalizeOmniKernelRegistrationOptions(options) {
         new Set(reservedRecordKinds).size !== reservedRecordKinds.length) {
         throw new TypeError('OmniKernel reservedRecordKinds must be unique 1-64 character strings.');
     }
-    return Object.assign(Object.assign({}, candidate), { defaultScopeId: (_b = candidate.defaultScopeId) !== null && _b !== void 0 ? _b : 'default', relationKinds: (_c = candidate.relationKinds) !== null && _c !== void 0 ? _c : [], reservedRecordKinds: Object.freeze([...reservedRecordKinds]), deletion: normalizeOmniDeletionPolicies(candidate.deletion) });
+    return {
+        ...candidate,
+        defaultScopeId: candidate.defaultScopeId ?? 'default',
+        relationKinds: candidate.relationKinds ?? [],
+        reservedRecordKinds: Object.freeze([...reservedRecordKinds]),
+        deletion: normalizeOmniDeletionPolicies(candidate.deletion),
+    };
 }
 let OmniScopeContext = class OmniScopeContext {
     constructor(request, options) {
-        var _a;
-        const requestForResolver = (_a = request === null || request === void 0 ? void 0 : request.req) !== null && _a !== void 0 ? _a : request;
+        const requestForResolver = request?.req ?? request;
         const scopeId = options.resolveScope
             ? options.resolveScope(requestForResolver)
             : options.defaultScopeId;

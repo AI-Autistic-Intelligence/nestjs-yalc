@@ -6,6 +6,7 @@ export interface DbConfType extends MysqlConnectionOptions {
         new (): Seeder;
     }[];
 }
+export type IDbConfType = DbConfType;
 export interface DbConfObject {
     (): DbConfType;
     connName: string;

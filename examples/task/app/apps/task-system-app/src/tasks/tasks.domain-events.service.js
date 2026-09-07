@@ -15,9 +15,9 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksDomainEventsService = void 0;
 const common_1 = require("@nestjs/common");
-const event_manager_1 = require("@nestjs-yalc/event-manager");
-const logger_factory_1 = require("@nestjs-yalc/logger/logger.factory");
-const tasks_events_client_1 = require("@nestjs-yalc/task-system-module/src/events/tasks-events.client");
+const event_manager_1 = require("@nest-yalc-2/event-manager");
+const logger_factory_1 = require("@nest-yalc-2/logger/logger.factory");
+const tasks_events_client_1 = require("@nest-yalc-2/task-system-module/src/events/tasks-events.client");
 let TasksDomainEventsService = class TasksDomainEventsService {
     constructor(events, taskEvents) {
         this.events = events;

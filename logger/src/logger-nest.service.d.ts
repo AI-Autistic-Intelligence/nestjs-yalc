@@ -3,9 +3,9 @@ import { IImprovedLoggerOptions, ILoggerPluginMethods, ImprovedLoggerService, Lo
 declare const ImprovedNestLogger_base: {
     new (...args: any[]): {
         [x: string]: any;
-        plugins: import("@nestjs-yalc/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>[];
-        registerPlugin(plugin: import("@nestjs-yalc/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
-        unregisterPlugin(plugin: import("@nestjs-yalc/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
+        plugins: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>[];
+        registerPlugin(plugin: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
+        unregisterPlugin(plugin: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
         invokePlugins(methodName: keyof ILoggerPluginMethods<any>, ...args: any[]): void;
     };
 };

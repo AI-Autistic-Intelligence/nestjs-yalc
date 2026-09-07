@@ -1,5 +1,5 @@
-import { YalcEventService } from '@nestjs-yalc/event-manager';
-import { TasksEventsClient } from '@nestjs-yalc/task-system-module/src/events/tasks-events.client';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
+import { TasksEventsClient } from '@nest-yalc-2/task-system-module/src/events/tasks-events.client';
 export declare class TasksDomainEventsService {
     private readonly events;
     private readonly taskEvents?;

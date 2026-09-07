@@ -1,20 +1,9 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilterOptionType = exports.hasAgGridObjectMetadata = exports.getAgGridObjectMetadata = exports.AgGridObject = exports.hasAgGridFieldMetadata = exports.getAgGridFieldMetadata = exports.hasAgGridFieldMetadataList = exports.getAgGridFieldMetadataList = exports.AgGridField = exports.AGGRID_FIELD_METADATA_KEY = exports.AGGRID_OBJECT_METADATA_KEY = void 0;
 exports.isDstExtended = isDstExtended;
 exports.getPrototype = getPrototype;
-const class_helper_1 = require("@nestjs-yalc/utils/class.helper");
+const class_helper_1 = require("@nest-yalc-2/utils/class.helper");
 const graphql_1 = require("@nestjs/graphql");
 require("reflect-metadata");
 function isDstExtended(dst) {
@@ -26,16 +15,20 @@ exports.AGGRID_FIELD_METADATA_KEY = Symbol('AGGRID_FIELD_METADATA_KEY');
 function getPrototype(target) {
     return (0, class_helper_1.isClass)(target) || !target.prototype ? target : target.prototype;
 }
-const AgGridField = (_a = {}) => {
-    var { gqlType, gqlOptions } = _a, options = __rest(_a, ["gqlType", "gqlOptions"]);
+const AgGridField = ({ gqlType, gqlOptions, ...options } = {}) => {
     return (target, property) => {
-        var _a;
         const classConstructor = target.constructor;
         const propertyName = property.toString();
         const metadata = Reflect.getMetadata(exports.AGGRID_FIELD_METADATA_KEY, classConstructor) || {};
-        const newMetadata = Object.assign({}, metadata);
-        newMetadata[propertyName] = Object.assign(Object.assign({ dst: propertyName, src: (_a = gqlOptions === null || gqlOptions === void 0 ? void 0 : gqlOptions.name) !== null && _a !== void 0 ? _a : propertyName, gqlType,
-            gqlOptions }, options), { _propertyName: propertyName });
+        const newMetadata = { ...metadata };
+        newMetadata[propertyName] = {
+            dst: propertyName,
+            src: gqlOptions?.name ?? propertyName,
+            gqlType,
+            gqlOptions,
+            ...options,
+            _propertyName: propertyName,
+        };
         Reflect.defineMetadata(exports.AGGRID_FIELD_METADATA_KEY, newMetadata, classConstructor);
         if (gqlOptions || gqlType) {
             if (gqlType) {
@@ -71,11 +64,11 @@ const hasAgGridFieldMetadata = (target, propertyName) => {
 exports.hasAgGridFieldMetadata = hasAgGridFieldMetadata;
 const AgGridObject = (options) => {
     return (target) => {
-        let metadata = options !== null && options !== void 0 ? options : {};
+        let metadata = options ?? {};
         if (metadata.copyFrom) {
             const copyFrom = metadata.copyFrom;
-            metadata = Object.assign(Object.assign({}, metadata), (0, exports.getAgGridObjectMetadata)(copyFrom));
-            const fieldMetadata = Object.assign({}, (0, exports.getAgGridFieldMetadataList)(copyFrom));
+            metadata = { ...metadata, ...(0, exports.getAgGridObjectMetadata)(copyFrom) };
+            const fieldMetadata = { ...(0, exports.getAgGridFieldMetadataList)(copyFrom) };
             Reflect.defineMetadata(exports.AGGRID_FIELD_METADATA_KEY, fieldMetadata, target);
         }
         Reflect.defineMetadata(exports.AGGRID_OBJECT_METADATA_KEY, metadata, target);

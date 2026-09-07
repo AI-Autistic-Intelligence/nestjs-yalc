@@ -4,24 +4,21 @@ exports.GqlFieldsMap = exports.GqlInfoGenerator = exports.GqlAgGridFieldsMapper 
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_args_decorator_1 = require("./ag-grid-args.decorator");
-const ag_grid_query_helper_1 = require("@nestjs-yalc/ag-grid/ag-grid-query.helper");
-const ag_grid_metadata_helper_1 = require("@nestjs-yalc/ag-grid/ag-grid-metadata.helper");
+const ag_grid_query_helper_1 = require("@nest-yalc-2/ag-grid/ag-grid-query.helper");
+const ag_grid_metadata_helper_1 = require("@nest-yalc-2/ag-grid/ag-grid-metadata.helper");
 const GqlAgGridFieldsMapper = (data, info) => {
-    var _a, _b;
     const fieldMapper = (0, ag_grid_metadata_helper_1.objectToFieldMapper)(data);
     let keys = [];
     const keysMeta = {};
     const processSubItems = (mapper, item, prefix = '', path = '') => {
-        var _a;
         if (path && !path.endsWith('.'))
             path += '.';
         if (item.name.value === 'pageData' && item.selectionSet)
             return;
         if (item.selectionSet) {
             item.selectionSet.selections.forEach((subItem) => {
-                var _a;
                 if (subItem.selectionSet) {
-                    const extraInfo = (_a = mapper.extraInfo) === null || _a === void 0 ? void 0 : _a[subItem.name.value];
+                    const extraInfo = mapper.extraInfo?.[subItem.name.value];
                     if (extraInfo) {
                         const nestedMapper = (0, ag_grid_metadata_helper_1.objectToFieldMapper)(extraInfo);
                         if (item.name.value === 'nodes') {
@@ -64,7 +61,7 @@ const GqlAgGridFieldsMapper = (data, info) => {
         const dst = (0, ag_grid_metadata_helper_1.columnConversion)(item.name.value, mapper.field).toString();
         const key = path + dst;
         const isNested = !!path;
-        if (isNested || ((_a = mapper.field[item.name.value]) === null || _a === void 0 ? void 0 : _a.mode) === 'derived') {
+        if (isNested || mapper.field[item.name.value]?.mode === 'derived') {
             keysMeta[key] = {
                 fieldMapper: mapper.field[item.name.value],
                 isNested,
@@ -74,7 +71,7 @@ const GqlAgGridFieldsMapper = (data, info) => {
         }
         keys.push(key);
     };
-    (_b = (_a = info.fieldNodes) === null || _a === void 0 ? void 0 : _a[0].selectionSet) === null || _b === void 0 ? void 0 : _b.selections.forEach((item) => processSubItems(fieldMapper, item));
+    info.fieldNodes?.[0].selectionSet?.selections.forEach((item) => processSubItems(fieldMapper, item));
     Object.keys(fieldMapper.field).forEach((k) => {
         const v = fieldMapper.field[k];
         if (v.isRequired) {

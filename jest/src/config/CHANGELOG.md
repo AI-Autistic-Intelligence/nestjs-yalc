@@ -1,4 +1,4 @@
-# @nestjs-yalc/jest-config
+# @nest-yalc-2/jest-config
 
 ## 1.3.3
 

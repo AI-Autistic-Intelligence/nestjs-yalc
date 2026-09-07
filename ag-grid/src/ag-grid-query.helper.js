@@ -8,7 +8,7 @@ exports.isFilterExpressionInput = isFilterExpressionInput;
 exports.traverseFiltersAndApplyFunction = traverseFiltersAndApplyFunction;
 exports.formatRawSelection = formatRawSelection;
 exports.applySelectOnFind = applySelectOnFind;
-const query_builder_helper_1 = require("@nestjs-yalc/database/query-builder.helper");
+const query_builder_helper_1 = require("@nest-yalc-2/database/query-builder.helper");
 const typeorm_1 = require("typeorm");
 const ag_grid_args_decorator_1 = require("./ag-grid-args.decorator");
 const ag_grid_metadata_helper_1 = require("./ag-grid-metadata.helper");
@@ -48,9 +48,8 @@ const forceFilterWorker = (where, target, value, descriptors) => {
 };
 exports.forceFilterWorker = forceFilterWorker;
 function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
-    var _a;
     let sql = '';
-    const operator = ((_a = where.operator) !== null && _a !== void 0 ? _a : ag_grid_enum_1.Operators.AND).toUpperCase();
+    const operator = (where.operator ?? ag_grid_enum_1.Operators.AND).toUpperCase();
     if (Array.isArray(where.childExpressions)) {
         where.childExpressions.forEach((childExpression) => {
             const generatedSql = whereObjectToSqlString(queryBuilder, childExpression, alias);
@@ -88,13 +87,12 @@ function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
     return sql;
 }
 const isAskingForCount = (info) => {
-    var _a, _b, _c;
     try {
-        return ((_c = (_b = (_a = info.fieldNodes) === null || _a === void 0 ? void 0 : _a[0].selectionSet) === null || _b === void 0 ? void 0 : _b.selections.some((item) => {
+        return (info.fieldNodes?.[0].selectionSet?.selections.some((item) => {
             return (item.name.value === 'pageData' &&
                 item.selectionSet &&
                 item.selectionSet.selections.some((subItem) => subItem.name.value === 'count'));
-        })) !== null && _c !== void 0 ? _c : false);
+        }) ?? false);
     }
     catch (e) {
         return false;
@@ -121,7 +119,6 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
         leftJoinAndSelect: {},
     };
     Object.keys(join).forEach((table) => {
-        var _a, _b;
         const j = join[table];
         switch (j.joinType) {
             case ag_grid_input_1.JoinTypes.INNER_JOIN:
@@ -132,7 +129,7 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
                 _joinObject.leftJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
                 break;
         }
-        const type = (_b = (_a = fieldMapper[table]).gqlType) === null || _b === void 0 ? void 0 : _b.call(_a);
+        const type = fieldMapper[table].gqlType?.();
         const _fieldMapper = type
             ? (0, ag_grid_metadata_helper_1.objectToFieldMapper)(type)
             : { field: {} };
@@ -141,7 +138,10 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
         }
     });
     findManyOptions.join = _joinObject;
-    findManyOptions.extra = Object.assign(Object.assign({}, findManyOptions.extra), { _aliasType: _joinObject.alias });
+    findManyOptions.extra = {
+        ...findManyOptions.extra,
+        _aliasType: _joinObject.alias,
+    };
 }
 function isFilterExpressionInput(filterInput) {
     const casted = filterInput;
@@ -170,7 +170,6 @@ function formatRawSelection(selection, fieldName, prefix = '', onlyAlias = false
     return selection;
 }
 function applySelectOnFind(findOptions, field, fieldMapper, alias = '', path = '') {
-    var _a, _b, _c;
     if (path && !path.endsWith('.'))
         path = path + '.';
     const fieldName = field.toString();
@@ -179,8 +178,8 @@ function applySelectOnFind(findOptions, field, fieldMapper, alias = '', path = '
     if (!findOptions.extra) {
         findOptions.extra = { _keysMeta: {} };
     }
-    if (((_a = fieldMapper[fieldName]) === null || _a === void 0 ? void 0 : _a.mode) === 'derived' || path) {
-        const keysMeta = (_b = findOptions.extra._keysMeta) !== null && _b !== void 0 ? _b : {};
+    if (fieldMapper[fieldName]?.mode === 'derived' || path) {
+        const keysMeta = findOptions.extra._keysMeta ?? {};
         if (keysMeta[key])
             return;
         keysMeta[key] = {
@@ -191,7 +190,7 @@ function applySelectOnFind(findOptions, field, fieldMapper, alias = '', path = '
         findOptions.extra._keysMeta = keysMeta;
     }
     else {
-        const selection = (_c = findOptions.select) !== null && _c !== void 0 ? _c : [];
+        const selection = findOptions.select ?? [];
         selection.push(key);
         findOptions.select = selection;
     }

@@ -14,18 +14,17 @@ function objectMapperInterceptor(mapper, options = {}) {
     let ObjectMapperInterceptor = class ObjectMapperInterceptor {
         intercept(_context, next) {
             return next.handle().pipe((0, rxjs_1.map)((data) => {
-                var _a, _b, _c, _d;
                 const _data = options.transformData
                     ? options.transformData(data)
                     : data;
                 if (Array.isArray(_data)) {
                     const result = _data.map((item) => (0, object_mapper_helper_js_1.objectMapper)(item, mapper));
-                    return (_b = (_a = options.callback) === null || _a === void 0 ? void 0 : _a.call(options, data, result)) !== null && _b !== void 0 ? _b : result;
+                    return options.callback?.(data, result) ?? result;
                 }
                 const result = (0, object_mapper_helper_js_1.objectMapper)(_data, mapper, {
                     copyNonMappedProperties: options.copyNonMappedProperties,
                 });
-                return (_d = (_c = options.callback) === null || _c === void 0 ? void 0 : _c.call(options, data, result)) !== null && _d !== void 0 ? _d : result;
+                return options.callback?.(data, result) ?? result;
             }));
         }
     };

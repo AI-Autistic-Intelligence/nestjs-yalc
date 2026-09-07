@@ -2,7 +2,7 @@ import {
   createProjectionDialect,
   createProjectionSchemaOptions,
   type ProjectionDialect,
-} from '@nestjs-yalc/crud-gen';
+} from '@nest-yalc-2/crud-gen';
 import { EntitySchema } from 'typeorm';
 import { projectionRecordDefinition } from './projection-spike.definition';
 

@@ -30,7 +30,10 @@ class OmniRecordService extends omni_scoped_service_js_1.OmniScopedService {
     nonReservedConditions(conditions) {
         if (this.reservedKinds.size === 0)
             return conditions;
-        return Object.assign(Object.assign({}, conditions), { kind: (0, typeorm_1.Not)((0, typeorm_1.In)([...this.reservedKinds])) });
+        return {
+            ...conditions,
+            kind: (0, typeorm_1.Not)((0, typeorm_1.In)([...this.reservedKinds])),
+        };
     }
     rejectReservedKind(kind) {
         if (typeof kind === 'string' && this.reservedKinds.has(kind)) {

@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityWithTimestamps = void 0;
-const returnValue_1 = __importDefault(require("@nestjs-yalc/utils/returnValue"));
+const returnValue_1 = __importDefault(require("@nest-yalc-2/utils/returnValue"));
 const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("typeorm");
 const EntityWithTimestamps = (base) => {

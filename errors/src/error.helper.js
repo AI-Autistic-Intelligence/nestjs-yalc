@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStatusCodeFromError = getStatusCodeFromError;
-const class_helper_js_1 = require("@nestjs-yalc/utils/class.helper.js");
-const http_helper_js_1 = require("@nestjs-yalc/utils/http.helper.js");
+const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
+const http_helper_js_1 = require("@nest-yalc-2/utils/http.helper.js");
 const default_error_js_1 = require("./default.error.js");
 function getStatusCodeFromError(error) {
     if (!(0, class_helper_js_1.isClass)(error)) {

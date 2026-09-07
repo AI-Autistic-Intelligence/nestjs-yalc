@@ -1,7 +1,7 @@
-import { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
-import { OmniRecordEntity, OmniRelationEntity } from '@nestjs-yalc/omnikernel-module';
-import { TaskEvent } from '@nestjs-yalc/task-system-module/src/task-event.entity';
+import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
+import { OmniRecordEntity, OmniRelationEntity } from '@nest-yalc-2/omnikernel-module';
+import { TaskEvent } from '@nest-yalc-2/task-system-module/src/task-event.entity';
 import { DeepPartial, Repository } from 'typeorm';
 import { TaskAppOmniMapper, type TaskOmniPageQuery } from './task-app-omni.mapper';
 import { TaskEventCreateInput, TaskEventType } from '../events/task-event.dto';

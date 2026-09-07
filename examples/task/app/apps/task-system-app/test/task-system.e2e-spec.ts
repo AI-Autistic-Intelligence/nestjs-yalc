@@ -9,11 +9,11 @@ import request from 'supertest';
 import { type DataSource } from 'typeorm';
 import {
   NestHttpCallStrategy,
-} from '@nestjs-yalc/api-strategy/strategies/nest-http-call.strategy.js';
+} from '@nest-yalc-2/api-strategy/strategies/nest-http-call.strategy.js';
 import {
   NestLocalCallStrategy,
-} from '@nestjs-yalc/api-strategy/strategies/nest-local-call.strategy.js';
-import { ObservabilityModule } from '@nestjs-yalc/observability';
+} from '@nest-yalc-2/api-strategy/strategies/nest-local-call.strategy.js';
+import { ObservabilityModule } from '@nest-yalc-2/observability';
 import {
   OmniCollectionEntity,
   OmniDocumentEntity,
@@ -21,8 +21,8 @@ import {
   OmniNamedEntity,
   OmniRecordEntity,
   OmniRelationEntity,
-} from '@nestjs-yalc/omnikernel-module';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+} from '@nest-yalc-2/omnikernel-module';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import { EventsModule } from '../src/events/events.module';
 import { OmniTaskAppModule } from '../src/omni-task-app/omni-task-app.module';
 import { ProjectsModule } from '../src/projects/projects.module';

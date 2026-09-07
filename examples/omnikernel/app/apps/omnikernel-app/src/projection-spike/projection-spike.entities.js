@@ -4,7 +4,7 @@ exports.ProjectionRelation = exports.ProjectionRecord = void 0;
 exports.createProjectionRecordSchema = createProjectionRecordSchema;
 exports.createProjectionRelationSchema = createProjectionRelationSchema;
 exports.createProjectionSpikeDialect = createProjectionSpikeDialect;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
 const typeorm_1 = require("typeorm");
 const projection_spike_definition_1 = require("./projection-spike.definition");
 class ProjectionRecord {

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeMap = exports.PageDataCrudGenGql = void 0;
 exports.default = CrudGenGqlType;
 const graphql_1 = require("@nestjs/graphql");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 let PageDataCrudGenGql = class PageDataCrudGenGql {
 };
 exports.PageDataCrudGenGql = PageDataCrudGenGql;

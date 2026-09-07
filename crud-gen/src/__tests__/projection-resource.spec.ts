@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar.js';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
 import { createProjectionDialect } from '../projection/projection-dialect.js';
 import { createProjectionGraphqlTypes } from '../projection/projection-graphql.js';
 import { createProjectionSchemaOptions } from '../projection/projection-schema.js';

@@ -49,10 +49,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.skeletonUserProvidersFactory = exports.SkeletonUserResolver = exports.lowerCaseEmailMiddleware = void 0;
-const crud_gen_helpers_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.helpers.js");
-const generic_resolver_js_1 = require("@nestjs-yalc/crud-gen/api-graphql/generic.resolver.js");
-const dataloader_helper_js_1 = require("@nestjs-yalc/data-loader/dataloader.helper.js");
-const returnValue_js_1 = __importDefault(require("@nestjs-yalc/utils/returnValue.js"));
+const crud_gen_helpers_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers.js");
+const generic_resolver_js_1 = require("@nest-yalc-2/crud-gen/api-graphql/generic.resolver.js");
+const dataloader_helper_js_1 = require("@nest-yalc-2/data-loader/dataloader.helper.js");
+const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const graphql_1 = require("@nestjs/graphql");
@@ -60,8 +60,8 @@ const skeleton_user_dto_js_1 = require("./skeleton-user.dto.js");
 const skeleton_user_entity_js_1 = require("./skeleton-user.entity.js");
 const role_guard_js_1 = require("./role.guard.js");
 const skeletonUserServiceJs = __importStar(require("./skeleton-user.service.js"));
-const gqlmapper_decorator_js_1 = require("@nestjs-yalc/crud-gen/api-graphql/gqlmapper.decorator.js");
-const crud_gen_enum_js_1 = require("@nestjs-yalc/crud-gen/crud-gen.enum.js");
+const gqlmapper_decorator_js_1 = require("@nest-yalc-2/crud-gen/api-graphql/gqlmapper.decorator.js");
+const crud_gen_enum_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.enum.js");
 const lowerCaseEmailMiddleware = (_ctx, input, value) => {
     if (value === true) {
         input.email = input.email.toLowerCase();

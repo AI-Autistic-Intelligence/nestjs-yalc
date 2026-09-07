@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types';
+import { ClassType } from '@nest-yalc-2/types';
 import { AgQueryParams } from './ag-grid.args';
 import { SortDirection } from './ag-grid.enum';
 export interface SortModel<T = any> {

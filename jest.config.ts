@@ -51,7 +51,7 @@ const options: IOptions = {
     statements: 100,
   },
   confOverrides: {
-    '@nestjs-yalc/app': {
+    '@nest-yalc-2/app': {
       coverageThreshold: {
         statements: 85,
         branches: 80,
@@ -59,7 +59,7 @@ const options: IOptions = {
         lines: 85,
       },
     },
-    '@nestjs-yalc/logger': {
+    '@nest-yalc-2/logger': {
       coverageThreshold: {
         statements: 99,
         branches: 95,
@@ -67,7 +67,7 @@ const options: IOptions = {
         lines: 99,
       },
     },
-    '@nestjs-yalc/observability': {
+    '@nest-yalc-2/observability': {
       coverageThreshold: {
         statements: 75,
         branches: 70,
@@ -75,7 +75,7 @@ const options: IOptions = {
         lines: 75,
       },
     },
-    '@nestjs-yalc/utils': {
+    '@nest-yalc-2/utils': {
       coverageThreshold: {
         statements: 99,
         branches: 98,
@@ -83,7 +83,7 @@ const options: IOptions = {
         lines: 99,
       },
     },
-    '@nestjs-yalc/database': {
+    '@nest-yalc-2/database': {
       coverageThreshold: {
         statements: 98,
         branches: 95,
@@ -91,7 +91,7 @@ const options: IOptions = {
         lines: 98,
       },
     },
-    '@nestjs-yalc/data-loader': {
+    '@nest-yalc-2/data-loader': {
       coverageThreshold: {
         statements: 98,
         branches: 95,
@@ -99,7 +99,7 @@ const options: IOptions = {
         lines: 98,
       },
     },
-    '@nestjs-yalc/errors': {
+    '@nest-yalc-2/errors': {
       coverageThreshold: {
         statements: 98,
         branches: 95,
@@ -107,7 +107,7 @@ const options: IOptions = {
         lines: 98,
       },
     },
-    '@nestjs-yalc/event-manager': {
+    '@nest-yalc-2/event-manager': {
       coverageThreshold: {
         statements: 95,
         branches: 80,
@@ -115,7 +115,7 @@ const options: IOptions = {
         lines: 95,
       },
     },
-    '@nestjs-yalc/crud-gen': {
+    '@nest-yalc-2/crud-gen': {
       coverageThreshold: {
         statements: 84,
         branches: 80,
@@ -123,7 +123,7 @@ const options: IOptions = {
         lines: 84,
       },
     },
-    '@nestjs-yalc/skeleton-module': {
+    '@nest-yalc-2/skeleton-module': {
       coverageThreshold: {
         statements: 80,
         branches: 70,
@@ -131,7 +131,7 @@ const options: IOptions = {
         lines: 75,
       },
     },
-    '@nestjs-yalc/omnikernel-module': {
+    '@nest-yalc-2/omnikernel-module': {
       coverageThreshold: {
         statements: 80,
         branches: 70,

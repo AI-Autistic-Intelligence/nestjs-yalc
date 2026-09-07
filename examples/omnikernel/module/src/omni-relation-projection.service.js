@@ -1,19 +1,8 @@
 "use strict";
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmniRelationProjectionService = void 0;
 const common_1 = require("@nestjs/common");
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
 const typeorm_1 = require("typeorm");
 const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
 const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
@@ -25,9 +14,8 @@ function hasOwn(input, key) {
     return Object.prototype.hasOwnProperty.call(input, key);
 }
 function isRetryableTransactionError(error) {
-    var _a, _b;
     const candidate = error;
-    const code = (_b = (_a = candidate === null || candidate === void 0 ? void 0 : candidate.driverError) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : candidate === null || candidate === void 0 ? void 0 : candidate.code;
+    const code = candidate?.driverError?.code ?? candidate?.code;
     return (code === '40001' ||
         code === 'SQLITE_BUSY' ||
         code === 'SQLITE_BUSY_SNAPSHOT');
@@ -61,23 +49,29 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
             return typeof result === 'boolean' ? result : this.publicEntity(result);
         }
         const result = await this.mutate(async (manager) => {
-            var _a, _b;
             await this.assertRelation(created, manager.getRepository(omni_record_entity_js_1.OmniRecordEntity));
-            await ((_b = (_a = this.lifecycle).beforeCreate) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            await this.lifecycle.beforeCreate?.({
                 definition: this.definition,
                 scope: this.scope,
                 manager,
                 readers: this.readers(manager),
                 input: this.publicInput(normalized),
-            }));
+            });
             const repository = manager.getRepository(omni_relation_entity_js_1.OmniRelationEntity);
-            const entity = Object.assign(Object.assign({}, created), { scopeId: this.scopeId });
+            const entity = {
+                ...created,
+                scopeId: this.scopeId,
+            };
             const guid = this.requiredIdentifier(entity.guid, 'guid');
             await repository.insert(entity);
             if (!returnEntity)
                 return true;
             return repository.findOneOrFail({
-                where: Object.assign({ scopeId: this.scopeId, guid }, this.definitionFilters()),
+                where: {
+                    scopeId: this.scopeId,
+                    guid,
+                    ...this.definitionFilters(),
+                },
             });
         });
         return typeof result === 'boolean' ? result : this.publicEntity(result);
@@ -88,12 +82,16 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
     }
     async getEntityListExtended(findOptions = {}, withCount = false, relations, databaseName) {
         this.rejectFixedFilters(findOptions.where);
-        const where = Object.assign({ operator: crud_gen_1.Operators.AND, filters: this.definitionFilters() }, (findOptions.where ? { childExpressions: [findOptions.where] } : {}));
+        const where = {
+            operator: crud_gen_1.Operators.AND,
+            filters: this.definitionFilters(),
+            ...(findOptions.where ? { childExpressions: [findOptions.where] } : {}),
+        };
         if (withCount) {
-            const result = await super.getEntityListExtended(Object.assign(Object.assign({}, findOptions), { where }), true, relations, databaseName);
+            const result = await super.getEntityListExtended({ ...findOptions, where }, true, relations, databaseName);
             return [result[0].map((entity) => this.publicEntity(entity)), result[1]];
         }
-        const result = await super.getEntityListExtended(Object.assign(Object.assign({}, findOptions), { where }), false, relations, databaseName);
+        const result = await super.getEntityListExtended({ ...findOptions, where }, false, relations, databaseName);
         return result.map((entity) => this.publicEntity(entity));
     }
     async updateEntity(conditions, input, _findOptions, returnEntity = true) {
@@ -109,12 +107,11 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
             throw new common_1.BadRequestException(`expectedRevision must be an integer between 1 and ${crud_gen_1.PROJECTION_INTEGER_MAX - 1}.`);
         }
         const fixedConditions = this.withDefinitionConditions(this.normalizeConditions(conditions));
-        const { expectedRevision: _expectedRevision } = normalized, changes = __rest(normalized, ["expectedRevision"]);
+        const { expectedRevision: _expectedRevision, ...changes } = normalized;
         if (Object.keys(changes).length === 0) {
             throw new common_1.BadRequestException('Omni relation update requires metadata.');
         }
         const result = await this.mutate(async (manager) => {
-            var _a, _b, _c;
             const repository = manager.getRepository(omni_relation_entity_js_1.OmniRelationEntity);
             const current = await repository.findOne({ where: fixedConditions });
             if (!current)
@@ -122,19 +119,19 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
             if (current.revision !== expectedRevision) {
                 throw new common_1.ConflictException('Omni relation revision conflict.');
             }
-            await this.assertRelation(Object.assign(Object.assign({}, current), changes), manager.getRepository(omni_record_entity_js_1.OmniRecordEntity));
-            await ((_b = (_a = this.lifecycle) === null || _a === void 0 ? void 0 : _a.beforeUpdate) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            await this.assertRelation({ ...current, ...changes }, manager.getRepository(omni_record_entity_js_1.OmniRecordEntity));
+            await this.lifecycle?.beforeUpdate?.({
                 definition: this.definition,
                 scope: this.scope,
                 manager,
                 readers: this.readers(manager),
                 input: this.publicInput(normalized),
                 current,
-            }));
+            });
             const result = await repository
                 .createQueryBuilder()
                 .update()
-                .set(Object.assign(Object.assign({}, changes), { revision: () => '"revision" + 1' }))
+                .set({ ...changes, revision: () => '"revision" + 1' })
                 .where('"scopeId" = :scopeId', { scopeId: this.scopeId })
                 .andWhere('"guid" = :guid', { guid: current.guid })
                 .andWhere('"revision" = :expectedRevision', { expectedRevision })
@@ -142,7 +139,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
                 kinds: [...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(this.definition)],
             })
                 .andWhere('"status" = :status', {
-                status: (_c = this.definition.relation.status) !== null && _c !== void 0 ? _c : omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+                status: this.definition.relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
             })
                 .andWhere(this.definition.relation.schema
                 ? '"payloadSchemaId" = :schemaId AND "payloadSchemaVersion" = :schemaVersion'
@@ -170,19 +167,18 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         if (!this.lifecycle)
             return super.deleteEntity(fixedConditions);
         return this.mutate(async (manager) => {
-            var _a, _b;
             const repository = manager.getRepository(omni_relation_entity_js_1.OmniRelationEntity);
             const current = await repository.findOne({ where: fixedConditions });
             if (!current)
                 this.notFound();
-            await ((_b = (_a = this.lifecycle).beforeDelete) === null || _b === void 0 ? void 0 : _b.call(_a, {
+            await this.lifecycle.beforeDelete?.({
                 definition: this.definition,
                 scope: this.scope,
                 manager,
                 readers: this.readers(manager),
                 input: {},
                 current,
-            }));
+            });
             const result = this.relationDeletion === 'hard'
                 ? await repository.delete(fixedConditions)
                 : await repository.update(fixedConditions, { deletedAt: new Date() });
@@ -198,27 +194,37 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         }
     }
     createValues(input) {
-        var _a;
-        return Object.assign(Object.assign(Object.assign({}, input), { kind: input.kind, status: (_a = this.definition.relation.status) !== null && _a !== void 0 ? _a : omni_relation_status_enum_js_1.OmniRelationStatus.Active }), (this.definition.relation.schema
-            ? {
-                payloadSchemaId: this.definition.relation.schema.id,
-                payloadSchemaVersion: this.definition.relation.schema.version,
-            }
-            : {}));
+        return {
+            ...input,
+            kind: input.kind,
+            status: this.definition.relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+            ...(this.definition.relation.schema
+                ? {
+                    payloadSchemaId: this.definition.relation.schema.id,
+                    payloadSchemaVersion: this.definition.relation.schema.version,
+                }
+                : {}),
+        };
     }
     publicEntity(entity) {
         const aliases = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAliases)(this.definition);
-        return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, entity), (aliases.kind === 'kind' ? {} : { [aliases.kind]: entity.kind })), (aliases.source === 'sourceRecordId'
-            ? {}
-            : { [aliases.source]: entity.sourceRecordId })), (aliases.target === 'targetRecordId'
-            ? {}
-            : { [aliases.target]: entity.targetRecordId })), (aliases.payload === 'payload'
-            ? {}
-            : { [aliases.payload]: entity.payload }));
+        return {
+            ...entity,
+            ...(aliases.kind === 'kind' ? {} : { [aliases.kind]: entity.kind }),
+            ...(aliases.source === 'sourceRecordId'
+                ? {}
+                : { [aliases.source]: entity.sourceRecordId }),
+            ...(aliases.target === 'targetRecordId'
+                ? {}
+                : { [aliases.target]: entity.targetRecordId }),
+            ...(aliases.payload === 'payload'
+                ? {}
+                : { [aliases.payload]: entity.payload }),
+        };
     }
     publicInput(input) {
         const aliases = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAliases)(this.definition);
-        const output = Object.assign({}, input);
+        const output = { ...input };
         for (const [field, alias] of [
             ['kind', aliases.kind],
             ['sourceRecordId', aliases.source],
@@ -246,7 +252,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         }
     }
     normalizeInput(input) {
-        const normalized = Object.assign({}, input);
+        const normalized = { ...input };
         const aliases = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAliases)(this.definition);
         for (const [alias, field] of [
             [aliases.kind, 'kind'],
@@ -297,26 +303,29 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
     }
     withDefinitionConditions(conditions) {
         if (typeof conditions === 'string') {
-            return Object.assign({ guid: conditions }, this.definitionFilters());
+            return { guid: conditions, ...this.definitionFilters() };
         }
         if (Array.isArray(conditions)) {
             return conditions.map((condition) => this.withDefinitionConditions(condition));
         }
         this.assertFixedConditions(conditions);
-        return Object.assign(Object.assign({}, conditions), this.definitionFilters());
+        return { ...conditions, ...this.definitionFilters() };
     }
     definitionFilters() {
-        var _a;
         const relation = this.definition.relation;
-        return Object.assign({ kind: (0, typeorm_1.In)([...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(this.definition)]), status: (_a = relation.status) !== null && _a !== void 0 ? _a : omni_relation_status_enum_js_1.OmniRelationStatus.Active }, (relation.schema
-            ? {
-                payloadSchemaId: relation.schema.id,
-                payloadSchemaVersion: relation.schema.version,
-            }
-            : {
-                payloadSchemaId: (0, typeorm_1.IsNull)(),
-                payloadSchemaVersion: (0, typeorm_1.IsNull)(),
-            }));
+        return {
+            kind: (0, typeorm_1.In)([...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(this.definition)]),
+            status: relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+            ...(relation.schema
+                ? {
+                    payloadSchemaId: relation.schema.id,
+                    payloadSchemaVersion: relation.schema.version,
+                }
+                : {
+                    payloadSchemaId: (0, typeorm_1.IsNull)(),
+                    payloadSchemaVersion: (0, typeorm_1.IsNull)(),
+                }),
+        };
     }
     assertFixedConditions(conditions) {
         for (const field of Object.keys(this.definitionFilters())) {
@@ -346,14 +355,14 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         }
     }
     readers(manager) {
-        var _a;
-        return ((_a = this.readerCatalog) !== null && _a !== void 0 ? _a : (0, omni_projection_catalog_js_1.createOmniProjectionReaderCatalog)([
-            {
-                type: 'relation',
-                id: this.definition.id,
-                definition: this.definition,
-            },
-        ])).bind(manager, this.scope);
+        return (this.readerCatalog ??
+            (0, omni_projection_catalog_js_1.createOmniProjectionReaderCatalog)([
+                {
+                    type: 'relation',
+                    id: this.definition.id,
+                    definition: this.definition,
+                },
+            ])).bind(manager, this.scope);
     }
     async mutate(work) {
         if (!this.lifecycle)

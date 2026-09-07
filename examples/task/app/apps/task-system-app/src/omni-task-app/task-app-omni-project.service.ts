@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CrudGenFindManyOptions } from '@nestjs-yalc/crud-gen/api-graphql/crud-gen-gql.interface';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import {
   OmniCollectionEntity,
   OmniCollectionKind,
   OmniRelationEntity,
-} from '@nestjs-yalc/omnikernel-module';
-import { TaskProject } from '@nestjs-yalc/task-system-module/src/task-project.entity';
+} from '@nest-yalc-2/omnikernel-module';
+import { TaskProject } from '@nest-yalc-2/task-system-module/src/task-project.entity';
 import { DeepPartial, FindOperator, In, Repository } from 'typeorm';
 import {
   TaskAppOmniMapper,

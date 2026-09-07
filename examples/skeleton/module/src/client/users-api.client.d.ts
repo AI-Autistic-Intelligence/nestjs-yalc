@@ -1,4 +1,4 @@
-import type { IHttpCallStrategy } from '@nestjs-yalc/api-strategy';
+import type { IHttpCallStrategy } from '@nest-yalc-2/api-strategy';
 import type { SkeletonPhoneCreateInput, SkeletonPhoneType } from '../skeleton-phone.dto.js';
 import type { SkeletonUserCreateInput, SkeletonUserType } from '../skeleton-user.dto.js';
 export declare const USERS_CLIENT_API_STRATEGY = "USERS_CLIENT_API_STRATEGY";

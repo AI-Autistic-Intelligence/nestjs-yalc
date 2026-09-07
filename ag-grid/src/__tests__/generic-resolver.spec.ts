@@ -12,7 +12,7 @@ jest.mock('../ag-grid-metadata.helper', () => {
   };
 });
 
-import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper';
+import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper';
 import { ModuleRef } from '@nestjs/core';
 import {
   checkFinalId,
@@ -29,7 +29,7 @@ import {
   IGenericResolverOptions,
   resolverFactory,
 } from '../generic-resolver.resolver';
-import returnValue from '@nestjs-yalc/utils/returnValue';
+import returnValue from '@nest-yalc-2/utils/returnValue';
 
 import { GenericService } from '../generic-service.service';
 import {

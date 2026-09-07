@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { IApiCallStrategy } from './context-call.interface.js';
 export interface IApiCallService<Strategy extends IApiCallStrategy> {
     setStrategy(strategy: Strategy): void;

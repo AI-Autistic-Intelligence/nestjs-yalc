@@ -9,7 +9,7 @@ var OmniApiModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmniApiModule = void 0;
 const common_1 = require("@nestjs/common");
-const omnikernel_module_1 = require("@nestjs-yalc/omnikernel-module");
+const omnikernel_module_1 = require("@nest-yalc-2/omnikernel-module");
 const omni_api_resources_1 = require("./omni-api.resources");
 let OmniApiModule = OmniApiModule_1 = class OmniApiModule {
     static register(registration) {

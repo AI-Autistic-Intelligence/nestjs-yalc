@@ -31,7 +31,7 @@ exports.YalcClsModule = YalcClsModule = __decorate([
                         cls.set('headers', req.headers);
                     },
                     generateId: true,
-                    idGenerator: async (req) => { var _a, _b; return (_b = (_a = req.headers['X-Request-Id']) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : (0, node_crypto_1.randomUUID)(); },
+                    idGenerator: async (req) => req.headers['X-Request-Id']?.toString() ?? (0, node_crypto_1.randomUUID)(),
                 },
             }),
         ],

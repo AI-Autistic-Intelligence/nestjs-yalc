@@ -1,8 +1,8 @@
 import { HttpAdapterHost } from '@nestjs/core';
 import { HttpAbstractStrategy, HttpOptions, IHttpCallStrategyOptions, IHttpCallStrategyResponse } from './http-abstract-call.strategy.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
-import { YalcGlobalClsService } from '@nestjs-yalc/app/cls.module.js';
-import { AppConfigService } from '@nestjs-yalc/app/app-config.service.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import { YalcGlobalClsService } from '@nest-yalc-2/app/cls.module.js';
+import { AppConfigService } from '@nest-yalc-2/app/app-config.service.js';
 export type NestLocalCallStrategyOptions = IHttpCallStrategyOptions & {
     internalRequestHeader?: string;
     internalRequestToken?: string;

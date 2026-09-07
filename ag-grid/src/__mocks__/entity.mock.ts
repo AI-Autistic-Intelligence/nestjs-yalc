@@ -1,4 +1,4 @@
-import { returnProperty } from '@nestjs-yalc/utils/returnValue';
+import { returnProperty } from '@nest-yalc-2/utils/returnValue';
 import {
   BaseEntity,
   Entity,

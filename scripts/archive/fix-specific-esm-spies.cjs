@@ -13,7 +13,7 @@ for (const {p, find, mod} of files) {
   if (m) {
     c = c.replace(m[0], `const ${m[1]} = await importMockedEsm('${mod}', import.meta);`);
     if (!c.includes('importMockedEsm')) {
-       c = "import { importMockedEsm } from '@nestjs-yalc/jest/esm.helper.js';\n" + c;
+       c = "import { importMockedEsm } from '@nest-yalc-2/jest/esm.helper.js';\n" + c;
     }
     fs.writeFileSync(p, c);
     console.log('Fixed ' + p);

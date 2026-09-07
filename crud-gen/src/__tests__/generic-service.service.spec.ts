@@ -21,14 +21,14 @@ import {
   ReadEntity,
   WriteEntity,
 } from '../__mocks__/generic-service.mocks.js';
-import { getConnectionName } from '@nestjs-yalc/database/conn.helper.js';
+import { getConnectionName } from '@nest-yalc-2/database/conn.helper.js';
 import { createMock } from '@golevelup/ts-jest';
 import { CGExtendedRepository } from '../typeorm/generic.repository.js';
 import { ConnectionNotFoundError } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
-import * as ClassHelper from '@nestjs-yalc/utils/class.helper.js';
+import * as ClassHelper from '@nest-yalc-2/utils/class.helper.js';
 
-jest.mock('@nestjs-yalc/utils/class.helper.js', () => ({
+jest.mock('@nest-yalc-2/utils/class.helper.js', () => ({
   isClass: jest.fn(),
 }));
 import {
@@ -41,8 +41,8 @@ import {
   ConditionsTooBroadError,
 } from '../conditions.error.js';
 import { Operators } from '../crud-gen.enum.js';
-jest.mock('@nestjs-yalc/utils/class.helper.js');
-import * as ClassHelper from '@nestjs-yalc/utils/class.helper.js';
+jest.mock('@nest-yalc-2/utils/class.helper.js');
+import * as ClassHelper from '@nest-yalc-2/utils/class.helper.js';
 jest.mock('typeorm');
 
 describe('GenericService', () => {

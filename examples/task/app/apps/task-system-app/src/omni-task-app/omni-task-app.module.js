@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OmniTaskAppModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const omnikernel_module_1 = require("@nestjs-yalc/omnikernel-module");
+const omnikernel_module_1 = require("@nest-yalc-2/omnikernel-module");
 const task_app_omni_event_service_1 = require("./task-app-omni-event.service");
 const task_app_omni_external_ref_service_1 = require("./task-app-omni-external-ref.service");
 const task_app_omni_mapper_1 = require("./task-app-omni.mapper");

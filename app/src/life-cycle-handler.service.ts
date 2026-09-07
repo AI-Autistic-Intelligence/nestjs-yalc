@@ -1,4 +1,4 @@
-import { type ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
+import { type ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
 import {
   Injectable,
   Inject,

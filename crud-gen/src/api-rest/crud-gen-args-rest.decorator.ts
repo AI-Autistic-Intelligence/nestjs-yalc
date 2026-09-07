@@ -1,4 +1,4 @@
-import { returnValue } from '@nestjs-yalc/utils/index.js';
+import { returnValue } from '@nest-yalc-2/utils/index.js';
 import {
   applyDecorators,
   BadRequestException,
@@ -25,7 +25,7 @@ import {
   ApiOkResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import type { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { IConnection } from '../crud-gen.interface.js';
 import { columnConversion, forceFilterWorker } from '../crud-gen.helpers.js';
 

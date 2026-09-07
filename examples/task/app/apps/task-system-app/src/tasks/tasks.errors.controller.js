@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksErrorsController = void 0;
 const common_1 = require("@nestjs/common");
-const event_manager_1 = require("@nestjs-yalc/event-manager");
+const event_manager_1 = require("@nest-yalc-2/event-manager");
 let TasksErrorsController = class TasksErrorsController {
     constructor(events) {
         this.events = events;

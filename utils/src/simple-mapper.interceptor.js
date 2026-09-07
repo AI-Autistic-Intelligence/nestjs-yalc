@@ -13,12 +13,11 @@ function buildSimpleMapperInterceptor(Dto, options) {
     let SimpleMapper = class SimpleMapper {
         intercept(_context, next) {
             return next.handle().pipe((0, rxjs_1.map)((data) => {
-                var _a, _b, _c, _d;
-                const tData = (_b = (_a = options === null || options === void 0 ? void 0 : options.transformer) === null || _a === void 0 ? void 0 : _a.call(options, data)) !== null && _b !== void 0 ? _b : data;
+                const tData = options?.transformer?.(data) ?? data;
                 const mappedData = Array.isArray(tData)
                     ? tData.map((d) => new Dto(d))
                     : new Dto(tData);
-                return (_d = (_c = options === null || options === void 0 ? void 0 : options.callback) === null || _c === void 0 ? void 0 : _c.call(options, data, mappedData)) !== null && _d !== void 0 ? _d : mappedData;
+                return options?.callback?.(data, mappedData) ?? mappedData;
             }));
         }
     };

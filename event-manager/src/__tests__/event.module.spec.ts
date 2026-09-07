@@ -1,8 +1,8 @@
 import { describe, it, expect } from '@jest/globals';
 import { Test } from '@nestjs/testing';
 import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
-import { ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
-import { AppLoggerFactory, ImprovedNestLogger } from '@nestjs-yalc/logger';
+import { ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
+import { AppLoggerFactory, ImprovedNestLogger } from '@nest-yalc-2/logger';
 import {
   EventModule,
   EVENT_LOGGER,

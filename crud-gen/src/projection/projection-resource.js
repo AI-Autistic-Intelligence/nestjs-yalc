@@ -63,14 +63,13 @@ function pathsOverlap(left, right) {
         .every((segment, index) => segment === right[index]);
 }
 function assertFieldQueryCapabilities(field) {
-    var _a, _b, _c, _d, _e;
-    const filters = (_b = (_a = field.query) === null || _a === void 0 ? void 0 : _a.filter) !== null && _b !== void 0 ? _b : [];
+    const filters = field.query?.filter ?? [];
     if (!Array.isArray(filters) ||
         filters.some((filter) => filter !== 'eq' && filter !== 'range')) {
         throw new TypeError(`Projection field ${field.name} has an unsupported filter.`);
     }
     if (field.codec === 'json') {
-        if (((_d = (_c = field.query) === null || _c === void 0 ? void 0 : _c.filter) === null || _d === void 0 ? void 0 : _d.length) || ((_e = field.query) === null || _e === void 0 ? void 0 : _e.sort) || field.index) {
+        if (field.query?.filter?.length || field.query?.sort || field.index) {
             throw new TypeError(`Projection JSON field ${field.name} cannot be filtered, sorted, or indexed.`);
         }
         return;
@@ -109,14 +108,13 @@ function assertDistinctFieldNames(fields, label) {
     }
 }
 function assertProjectionReferences(definition, indexNames) {
-    var _a, _b, _c, _d;
-    const references = (_a = definition.references) !== null && _a !== void 0 ? _a : [];
+    const references = definition.references ?? [];
     if (!Array.isArray(references)) {
         throw new TypeError('Projection references must be an array.');
     }
     const referenceNames = new Set();
     for (const reference of references) {
-        assertSchemaIdentifier(reference === null || reference === void 0 ? void 0 : reference.name, 'Projection reference name');
+        assertSchemaIdentifier(reference?.name, 'Projection reference name');
         if (referenceNames.has(reference.name)) {
             throw new TypeError(`Projection reference ${reference.name} is declared twice.`);
         }
@@ -128,9 +126,9 @@ function assertProjectionReferences(definition, indexNames) {
         indexNames.add(childIndexName);
         assertDistinctFieldNames(reference.fields, `Projection reference ${reference.name}`);
         const localFields = reference.fields.map((fieldName) => promotedColumnField(definition, fieldName, `Projection reference ${reference.name} field ${fieldName}`));
-        assertSchemaIdentifier((_b = reference.target) === null || _b === void 0 ? void 0 : _b.tableName, `Projection reference ${reference.name} target table`);
-        assertSchemaIdentifier((_c = reference.target) === null || _c === void 0 ? void 0 : _c.scopeColumn, `Projection reference ${reference.name} target scope column`);
-        if (!Array.isArray((_d = reference.target) === null || _d === void 0 ? void 0 : _d.identityColumns) ||
+        assertSchemaIdentifier(reference.target?.tableName, `Projection reference ${reference.name} target table`);
+        assertSchemaIdentifier(reference.target?.scopeColumn, `Projection reference ${reference.name} target scope column`);
+        if (!Array.isArray(reference.target?.identityColumns) ||
             reference.target.identityColumns.length === 0) {
             throw new TypeError(`Projection reference ${reference.name} requires target identity columns.`);
         }
@@ -154,14 +152,13 @@ function assertProjectionReferences(definition, indexNames) {
     }
 }
 function assertProjectionUniqueConstraints(definition, indexNames) {
-    var _a;
-    const constraints = (_a = definition.uniqueConstraints) !== null && _a !== void 0 ? _a : [];
+    const constraints = definition.uniqueConstraints ?? [];
     if (!Array.isArray(constraints)) {
         throw new TypeError('Projection unique constraints must be an array.');
     }
     const constraintNames = new Set();
     for (const constraint of constraints) {
-        assertSchemaIdentifier(constraint === null || constraint === void 0 ? void 0 : constraint.name, 'Projection unique constraint name');
+        assertSchemaIdentifier(constraint?.name, 'Projection unique constraint name');
         if (constraintNames.has(constraint.name) ||
             indexNames.has(constraint.name)) {
             throw new TypeError(`Projection unique constraint ${constraint.name} collides with another index or constraint.`);
@@ -192,7 +189,6 @@ function assertProjectionUniqueConstraints(definition, indexNames) {
     }
 }
 function assertProjectionResourceDefinition(definition) {
-    var _a, _b, _c, _d, _e, _f;
     assertIdentifier(definition.id, 'Projection resource id');
     assertIdentifier(definition.tableName, 'Projection table name');
     assertIdentifier(definition.identity.column, 'Projection identity column');
@@ -275,9 +271,9 @@ function assertProjectionResourceDefinition(definition) {
             if (field.column) {
                 throw new TypeError(`JSON projection field ${field.name} cannot declare a column.`);
             }
-            assertProjectionPath((_a = field.path) !== null && _a !== void 0 ? _a : [], `Projection field ${field.name}`);
+            assertProjectionPath(field.path ?? [], `Projection field ${field.name}`);
             for (const existing of jsonFields) {
-                if (pathsOverlap((_b = existing.path) !== null && _b !== void 0 ? _b : [], (_c = field.path) !== null && _c !== void 0 ? _c : [])) {
+                if (pathsOverlap(existing.path ?? [], field.path ?? [])) {
                     throw new TypeError(`Projection JSON path for ${field.name} overlaps ${existing.name}.`);
                 }
             }
@@ -293,7 +289,7 @@ function assertProjectionResourceDefinition(definition) {
             throw new TypeError(`Projection JSON field ${field.name} must use JSON storage.`);
         }
         assertFieldQueryCapabilities(field);
-        if (((_d = field.query) === null || _d === void 0 ? void 0 : _d.sort) !== undefined &&
+        if (field.query?.sort !== undefined &&
             typeof field.query.sort !== 'boolean') {
             throw new TypeError(`Projection field ${field.name} sort capability must be a boolean.`);
         }
@@ -320,8 +316,8 @@ function assertProjectionResourceDefinition(definition) {
     assertProjectionReferences(definition, indexNames);
     assertProjectionUniqueConstraints(definition, indexNames);
     const declaredConstraintNames = [
-        ...((_e = definition.references) !== null && _e !== void 0 ? _e : []).map((reference) => reference.name),
-        ...((_f = definition.uniqueConstraints) !== null && _f !== void 0 ? _f : []).map((constraint) => constraint.name),
+        ...(definition.references ?? []).map((reference) => reference.name),
+        ...(definition.uniqueConstraints ?? []).map((constraint) => constraint.name),
     ];
     if (new Set(declaredConstraintNames).size !== declaredConstraintNames.length) {
         throw new TypeError('Projection reference and unique constraint names must be distinct.');
@@ -371,12 +367,11 @@ function compileProjectionPredicateLiteral(field, value, dialect) {
     throw new TypeError(`Projection unique predicates cannot use ${field.codec} field ${field.name}.`);
 }
 function compileProjectionUniqueConstraintPredicate(definition, constraint, dialect) {
-    var _a;
     assertProjectionResourceDefinition(definition);
     if (dialect !== 'sqlite' && dialect !== 'postgres') {
         throw new TypeError(`Unsupported projection predicate dialect ${dialect}.`);
     }
-    const declared = (_a = definition.uniqueConstraints) === null || _a === void 0 ? void 0 : _a.find((candidate) => candidate.name === constraint.name);
+    const declared = definition.uniqueConstraints?.find((candidate) => candidate.name === constraint.name);
     if (!declared) {
         throw new TypeError(`Projection unique constraint ${constraint.name} is not declared by the resource.`);
     }

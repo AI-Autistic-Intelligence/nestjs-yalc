@@ -7,10 +7,10 @@ import {
   AgGridRepository,
   AgGridRepositoryFactory,
 } from '../ag-grid.repository';
-import { QueryBuilderHelper } from '@nestjs-yalc/database/query-builder.helper';
+import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper';
 import { SortDirection } from '../ag-grid.enum';
 import { DeepMocked } from '@golevelup/ts-jest';
-import { mockQueryBuilder } from '@nestjs-yalc/jest/common-mocks.helper';
+import { mockQueryBuilder } from '@nest-yalc-2/jest/common-mocks.helper';
 import { Alias } from 'typeorm/query-builder/Alias';
 import * as Typeorm from 'typeorm';
 import * as AgGridHelpers from '../ag-grid-metadata.helper';
@@ -18,7 +18,7 @@ import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
 
 jest.mock('typeorm');
-jest.mock('@nestjs-yalc/database/query-builder.helper');
+jest.mock('@nest-yalc-2/database/query-builder.helper');
 
 const fakeFindOptions = {
   take: 5,

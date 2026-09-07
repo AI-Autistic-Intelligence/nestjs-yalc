@@ -1,5 +1,5 @@
-import type { ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
-import { ClassType, Mixin } from '@nestjs-yalc/types/globals.d.js';
+import type { ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
+import { ClassType, Mixin } from '@nest-yalc-2/types/globals.d.js';
 import { HttpException, HttpExceptionOptions, HttpStatus, LogLevel } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 export declare const ON_DEFAULT_ERROR_EVENT = "onDefaultError";

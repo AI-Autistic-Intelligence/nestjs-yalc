@@ -3,7 +3,7 @@ const file = 'ag-grid/src/__tests__/ag-grid-args.decorator.spec.ts';
 let code = fs.readFileSync(file, 'utf8');
 
 // 1. Add jest import and importMockedEsm
-code = 'import { jest, describe, it, expect, beforeEach, afterEach } from \'@jest/globals\';\nimport { importMockedEsm } from \'@nestjs-yalc/jest/esm.helper.js\';\n' + code;
+code = 'import { jest, describe, it, expect, beforeEach, afterEach } from \'@jest/globals\';\nimport { importMockedEsm } from \'@nest-yalc-2/jest/esm.helper.js\';\n' + code;
 
 // 2. Remove static imports for SUT and local ESM modules that we will mock
 code = code.replace(/import \* as agGridArgsDecorator from '\.\.\/ag-grid-args\.decorator';\r?\n/, '');

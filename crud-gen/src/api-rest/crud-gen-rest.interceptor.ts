@@ -5,16 +5,16 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { map } from 'rxjs/operators';
-import { IFieldMapper } from '@nestjs-yalc/interfaces/maps.interface.js';
+import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
 import {
   CGQueryDto,
   PageData,
   PaginatedResultDto,
 } from './crud-gen-rest.dto.js';
-import { objectMapperInterceptor } from '@nestjs-yalc/utils/object-mapper.interceptor.js';
-import { ObjectMapperType } from '@nestjs-yalc/utils/object-mapper.helper.js';
-import { buildSimpleMapperInterceptor } from '@nestjs-yalc/utils/simple-mapper.interceptor.js';
-import { ClassType } from '@nestjs-yalc/types/globals.d.js';
+import { objectMapperInterceptor } from '@nest-yalc-2/utils/object-mapper.interceptor.js';
+import { ObjectMapperType } from '@nest-yalc-2/utils/object-mapper.helper.js';
+import { buildSimpleMapperInterceptor } from '@nest-yalc-2/utils/simple-mapper.interceptor.js';
+import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 import { Observable } from 'rxjs';
 import { yalcPlainToInstance } from '../transformers.helpers.js';
 

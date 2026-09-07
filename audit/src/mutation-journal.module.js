@@ -33,7 +33,7 @@ let MutationJournalModule = MutationJournalModule_1 = class MutationJournalModul
             optionsProvider,
             {
                 provide: mutation_journal_def_js_1.MUTATION_JOURNAL_DRIVERS,
-                useFactory: (options) => { var _a; return (_a = options.drivers) !== null && _a !== void 0 ? _a : [new sqlite_trigger_journal_driver_js_1.SqliteTriggerJournalDriver()]; },
+                useFactory: (options) => options.drivers ?? [new sqlite_trigger_journal_driver_js_1.SqliteTriggerJournalDriver()],
                 inject: [mutation_journal_def_js_1.MUTATION_JOURNAL_OPTIONS],
             },
             mutation_journal_service_js_1.MutationJournalService,
@@ -54,17 +54,21 @@ let MutationJournalModule = MutationJournalModule_1 = class MutationJournalModul
         };
     }
     static normalizeOptions(options) {
-        var _a, _b, _c;
         if (options.cleanupIntervalMs !== undefined &&
             options.retentionDays === undefined) {
             throw new Error('cleanupIntervalMs requires retentionDays.');
         }
-        return Object.assign(Object.assign({}, options), { targets: (_a = options.targets) !== null && _a !== void 0 ? _a : [{}], excludedTables: [
+        return {
+            ...options,
+            targets: options.targets ?? [{}],
+            excludedTables: [
                 ...new Set([
                     ...mutation_journal_def_js_1.BUILTIN_EXCLUDED_TABLES,
-                    ...((_b = options.excludedTables) !== null && _b !== void 0 ? _b : []),
+                    ...(options.excludedTables ?? []),
                 ]),
-            ], journalTableName: (_c = options.journalTableName) !== null && _c !== void 0 ? _c : mutation_journal_def_js_1.DEFAULT_JOURNAL_TABLE });
+            ],
+            journalTableName: options.journalTableName ?? mutation_journal_def_js_1.DEFAULT_JOURNAL_TABLE,
+        };
     }
 };
 exports.MutationJournalModule = MutationJournalModule;

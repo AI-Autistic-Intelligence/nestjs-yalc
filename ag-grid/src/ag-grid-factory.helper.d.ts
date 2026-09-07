@@ -1,4 +1,4 @@
-import { ClassType } from '@nestjs-yalc/types';
+import { ClassType } from '@nest-yalc-2/types';
 import { ClassProvider, ExistingProvider, FactoryProvider, Provider, ValueProvider } from '@nestjs/common';
 import { ObjectLiteral } from 'typeorm';
 import { JoinColumnMetadataArgs } from 'typeorm/metadata-args/JoinColumnMetadataArgs';

@@ -1,5 +1,5 @@
-import { TelemetryService } from '@nestjs-yalc/observability';
-import { TasksApiClient } from '@nestjs-yalc/task-system-module/src/client/tasks-api.client';
+import { TelemetryService } from '@nest-yalc-2/observability';
+import { TasksApiClient } from '@nest-yalc-2/task-system-module/src/client/tasks-api.client';
 import type { TaskProjectCreateInput } from '../projects/task-project.dto';
 import type { TaskItemCreateInput } from './task-item.dto';
 import { TasksDomainEventsService } from './tasks.domain-events.service';

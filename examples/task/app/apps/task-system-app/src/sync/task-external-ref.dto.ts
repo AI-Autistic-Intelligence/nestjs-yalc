@@ -8,10 +8,10 @@ import {
 import {
   ModelField,
   ModelObject,
-} from '@nestjs-yalc/crud-gen/object.decorator';
-import { UUIDScalar } from '@nestjs-yalc/graphql/scalars/uuid.scalar';
-import returnValue from '@nestjs-yalc/utils/returnValue';
-import { TaskExternalRef } from '@nestjs-yalc/task-system-module/src/task-external-ref.entity';
+} from '@nest-yalc-2/crud-gen/object.decorator';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
+import returnValue from '@nest-yalc-2/utils/returnValue';
+import { TaskExternalRef } from '@nest-yalc-2/task-system-module/src/task-external-ref.entity';
 
 @ObjectType()
 @ModelObject()

@@ -7,7 +7,7 @@ const belongsToEnum = (enumObj, value) => {
 exports.belongsToEnum = belongsToEnum;
 const mergeEnums = (...enums) => {
     let merged = {};
-    enums.forEach((e) => (merged = Object.assign(Object.assign({}, merged), e)));
+    enums.forEach((e) => (merged = { ...merged, ...e }));
     return merged;
 };
 exports.mergeEnums = mergeEnums;

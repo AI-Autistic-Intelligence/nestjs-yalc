@@ -1,8 +1,8 @@
 export * from './generic-mutation.resolver';
 export * from './generic-query.resolver';
 export * from './generic-resolver.type';
-import { GenericService } from '@nestjs-yalc/ag-grid/generic-service.service';
-import { GQLDataLoader } from '@nestjs-yalc/data-loader/dataloader.helper';
+import { GenericService } from '@nest-yalc-2/ag-grid/generic-service.service';
+import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper';
 import { ModuleRef } from '@nestjs/core';
 import { ObjectLiteral } from 'typeorm';
 import { GenericResolver, GenericResolverOptions } from './generic-resolver.type';

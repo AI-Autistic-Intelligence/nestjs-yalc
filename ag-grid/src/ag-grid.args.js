@@ -18,7 +18,7 @@ exports.agQueryParamsNoPaginationFactory = agQueryParamsNoPaginationFactory;
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_input_1 = require("./ag-grid.input");
 const filter_scalar_1 = require("./filter.scalar");
-const returnValue_1 = __importDefault(require("@nestjs-yalc/utils/returnValue"));
+const returnValue_1 = __importDefault(require("@nest-yalc-2/utils/returnValue"));
 const ag_grid_enum_1 = require("./ag-grid.enum");
 exports.typeMap = new WeakMap();
 function agQueryParamsFactory(defaultValues, entityModel) {
@@ -28,22 +28,21 @@ function agQueryParamsFactory(defaultValues, entityModel) {
         : filter_scalar_1.FilterScalar;
     let AgQueryParamsClass = class AgQueryParamsClass {
         constructor() {
-            var _a, _b;
-            this.startRow = (_a = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.startRow) !== null && _a !== void 0 ? _a : ag_grid_enum_1.RowDefaultValues.START_ROW;
-            this.endRow = (_b = defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.endRow) !== null && _b !== void 0 ? _b : ag_grid_enum_1.RowDefaultValues.END_ROW;
+            this.startRow = defaultValues?.startRow ?? ag_grid_enum_1.RowDefaultValues.START_ROW;
+            this.endRow = defaultValues?.endRow ?? ag_grid_enum_1.RowDefaultValues.END_ROW;
         }
     };
     __decorate([
         (0, graphql_1.Field)((0, returnValue_1.default)(SortType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.sorting,
+            defaultValue: defaultValues?.sorting,
         }),
         __metadata("design:type", Object)
     ], AgQueryParamsClass.prototype, "sorting", void 0);
     __decorate([
         (0, graphql_1.Field)((0, returnValue_1.default)(FilterType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.filters,
+            defaultValue: defaultValues?.filters,
         }),
         __metadata("design:type", Object)
     ], AgQueryParamsClass.prototype, "filters", void 0);
@@ -63,14 +62,14 @@ function agQueryParamsNoPaginationFactory(defaultValues, entityModel) {
     __decorate([
         (0, graphql_1.Field)((0, returnValue_1.default)(SortType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.sorting,
+            defaultValue: defaultValues?.sorting,
         }),
         __metadata("design:type", Object)
     ], AgQueryParamsNoPaginationClass.prototype, "sorting", void 0);
     __decorate([
         (0, graphql_1.Field)((0, returnValue_1.default)(FilterType), {
             nullable: true,
-            defaultValue: defaultValues === null || defaultValues === void 0 ? void 0 : defaultValues.filters,
+            defaultValue: defaultValues?.filters,
         }),
         __metadata("design:type", Object)
     ], AgQueryParamsNoPaginationClass.prototype, "filters", void 0);

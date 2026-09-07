@@ -12,7 +12,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersClientController = void 0;
 const common_1 = require("@nestjs/common");
-const skeleton_module_1 = require("@nestjs-yalc/skeleton-module");
+const skeleton_module_1 = require("@nest-yalc-2/skeleton-module");
 let UsersClientController = class UsersClientController {
     constructor(client) {
         this.client = client;

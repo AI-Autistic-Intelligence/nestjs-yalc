@@ -32,14 +32,21 @@ let FilterScalar = class FilterScalar {
                 if (key === crud_gen_enum_js_1.CustomWhereKeys.MULTICOLUMNJOINOPTIONS &&
                     (0, crud_gen_type_checker_utils_js_1.isMulticolumnJoinOptions)(field)) {
                     _normalizedInput.childExpressions = [
-                        Object.assign(Object.assign({}, normalizeInput(field)), { operator: field.multiColumnJoinOperator }),
+                        {
+                            ...normalizeInput(field),
+                            operator: field.multiColumnJoinOperator,
+                        },
                     ];
                     return;
                 }
                 if (_normalizedInput.expressions &&
                     ((0, crud_gen_type_checker_utils_js_1.isFilterModel)(field) || (0, crud_gen_type_checker_utils_js_1.isCombinedFilterModel)(field))) {
                     _normalizedInput.expressions.push({
-                        [field.filterType]: Object.assign(Object.assign({}, field), { field: key, filterType: field.filterType }),
+                        [field.filterType]: {
+                            ...field,
+                            field: key,
+                            filterType: field.filterType,
+                        },
                     });
                 }
             });
@@ -54,7 +61,7 @@ let FilterScalar = class FilterScalar {
         if (typeof value === 'string')
             return value;
         if (typeof value !== 'object' || value === null) {
-            return String(value !== null && value !== void 0 ? value : '');
+            return String(value ?? '');
         }
         const memoized = this.resultMemoizeInverse.get(value);
         if (typeof memoized === 'string') {

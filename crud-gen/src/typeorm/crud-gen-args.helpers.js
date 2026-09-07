@@ -13,7 +13,7 @@ exports.checkFilterScope = checkFilterScope;
 exports.mapCrudGenParam = mapCrudGenParam;
 exports.mapPaginationParamsToTypeORM = mapPaginationParamsToTypeORM;
 exports.mapSortingParamsToTypeORM = mapSortingParamsToTypeORM;
-const date_helper_js_1 = require("@nestjs-yalc/utils/date.helper.js");
+const date_helper_js_1 = require("@nest-yalc-2/utils/date.helper.js");
 const typeorm_1 = require("typeorm");
 const crud_gen_type_checker_utils_js_1 = require("../crud-gen-type-checker.utils.js");
 const crud_gen_enum_js_1 = require("../crud-gen.enum.js");
@@ -71,7 +71,7 @@ function getDateFilter(filter, firstParameter, secondParameter) {
             return (0, typeorm_1.Between)(firstParameter, secondParameter);
         case crud_gen_enum_js_1.GeneralFilters.INDATE.toLowerCase(): {
             const dateFrom = new Date(firstParameter).setHours(0, 0, 0, 0);
-            const dateTo = new Date(secondParameter !== null && secondParameter !== void 0 ? secondParameter : firstParameter).setHours(23, 59, 59, 999);
+            const dateTo = new Date(secondParameter ?? firstParameter).setHours(23, 59, 59, 999);
             return (0, typeorm_1.Between)(date_helper_js_1.DateHelper.dateToSQLDateTime(new Date(dateFrom)), date_helper_js_1.DateHelper.dateToSQLDateTime(new Date(dateTo)));
         }
         default:
@@ -98,7 +98,7 @@ function filterSwitch(filter, filterName) {
     if (arg1 === undefined) {
         throw new crud_gen_error_js_1.CrudGenInvalidArgumentError();
     }
-    filterName = filterName !== null && filterName !== void 0 ? filterName : filter.type;
+    filterName = filterName ?? filter.type;
     return getFindOperator(filter.filterType, filterName, arg1, arg2);
 }
 function getFindOperator(filterType, filterName, arg1, arg2) {
@@ -157,7 +157,6 @@ function resolveFilter(filter) {
     return filterToApply;
 }
 function createWhere(filtersObject, fieldMapper, alias, where = { filters: {} }) {
-    var _a;
     if (!filtersObject) {
         return where;
     }
@@ -175,11 +174,15 @@ function createWhere(filtersObject, fieldMapper, alias, where = { filters: {} })
                 throw new Error('Expression not found! It should never happen');
             const dbFieldName = (0, crud_gen_helpers_js_1.columnConversion)(expr.field, fieldMapper);
             const filterName = `${prefix}${dbFieldName}`;
-            filtersObjectCleared.push(Object.assign(Object.assign({}, expr), { field: filterName, filterType: exprType }));
+            filtersObjectCleared.push({
+                ...expr,
+                field: filterName,
+                filterType: exprType,
+            });
         });
     }
     where.operator = filtersObject.operator;
-    const childExpressions = (_a = where.childExpressions) !== null && _a !== void 0 ? _a : [];
+    const childExpressions = where.childExpressions ?? [];
     for (const expr of filtersObjectCleared) {
         const key = expr.field;
         if ((0, crud_gen_type_checker_utils_js_1.isFilterModel)(expr) || (0, crud_gen_type_checker_utils_js_1.isCombinedFilterModel)(expr)) {
@@ -222,26 +225,24 @@ function checkFilterScope(where, filterOption) {
     }
 }
 function mapCrudGenParam(params, select, args, options = {}) {
-    var _a, _b, _c, _d, _e, _f;
     let filterOption;
     let fieldMapper = {};
-    const fieldType = (_b = (_a = params === null || params === void 0 ? void 0 : params.fieldType) !== null && _a !== void 0 ? _a : params === null || params === void 0 ? void 0 : params.fieldMap) !== null && _b !== void 0 ? _b : params === null || params === void 0 ? void 0 : params.entityType;
+    const fieldType = params?.fieldType ?? params?.fieldMap ?? params?.entityType;
     if (fieldType) {
         const fieldMapperAndFilter = (0, crud_gen_helpers_js_1.objectToFieldMapper)(fieldType);
         filterOption = fieldMapperAndFilter.filterOption;
         fieldMapper = fieldMapperAndFilter.field;
     }
-    const defaultSorting = (_c = params === null || params === void 0 ? void 0 : params.defaultValue) === null || _c === void 0 ? void 0 : _c.sorting;
+    const defaultSorting = params?.defaultValue?.sorting;
     const where = args.filters
         ? createWhere(args.filters, fieldMapper)
         : { filters: {} };
     if (filterOption) {
         checkFilterScope(where, filterOption);
     }
-    const order = mapSortingParamsToTypeORM((_e = (_d = args.sorting) !== null && _d !== void 0 ? _d : defaultSorting) !== null && _e !== void 0 ? _e : [], (col) => {
-        var _a;
+    const order = mapSortingParamsToTypeORM(args.sorting ?? defaultSorting ?? [], (col) => {
         let colName = col.toString();
-        if (((_a = fieldMapper[colName]) === null || _a === void 0 ? void 0 : _a.mode) === 'derived') {
+        if (fieldMapper[colName]?.mode === 'derived') {
             colName = (0, crud_gen_helpers_js_1.formatRawSelectionWithoutAlias)((0, crud_gen_helpers_js_1.getDestinationFieldName)(fieldMapper[colName].dst));
         }
         else {
@@ -249,7 +250,7 @@ function mapCrudGenParam(params, select, args, options = {}) {
         }
         return colName;
     });
-    const { take, skip } = mapPaginationParamsToTypeORM(args.startRow, args.endRow, (_f = params === null || params === void 0 ? void 0 : params.options) === null || _f === void 0 ? void 0 : _f.maxRow);
+    const { take, skip } = mapPaginationParamsToTypeORM(args.startRow, args.endRow, params?.options?.maxRow);
     const skipCount = !options.isCount;
     const findManyOptions = {
         skip,
@@ -263,14 +264,14 @@ function mapCrudGenParam(params, select, args, options = {}) {
             _keysMeta: select.keysMeta,
         },
     };
-    if ((params === null || params === void 0 ? void 0 : params.entityType) && args.join) {
+    if (params?.entityType && args.join) {
         (0, crud_gen_helpers_js_1.applyJoinArguments)(findManyOptions, params.entityType.name, args.join, fieldMapper);
     }
     return findManyOptions;
 }
 function mapPaginationParamsToTypeORM(startRow, endRow, maxRow) {
-    const max = maxRow !== null && maxRow !== void 0 ? maxRow : crud_gen_enum_js_1.RowDefaultValues.MAX_ROW;
-    const skip = startRow !== null && startRow !== void 0 ? startRow : crud_gen_enum_js_1.RowDefaultValues.START_ROW;
+    const max = maxRow ?? crud_gen_enum_js_1.RowDefaultValues.MAX_ROW;
+    const skip = startRow ?? crud_gen_enum_js_1.RowDefaultValues.START_ROW;
     const checkMaxRow = (requestRow) => {
         if (max === 0 || requestRow < max) {
             return requestRow;
@@ -288,11 +289,10 @@ function mapSortingParamsToTypeORM(sorting, transform) {
     const order = {};
     if (Array.isArray(sorting)) {
         sorting.forEach((sortParams) => {
-            var _a, _b, _c;
             const col = sortParams.colId;
-            const colName = (_a = transform === null || transform === void 0 ? void 0 : transform(col)) !== null && _a !== void 0 ? _a : col;
-            const val = (_b = sortParams.sort) === null || _b === void 0 ? void 0 : _b.toUpperCase();
-            const sortDir = (_c = val) !== null && _c !== void 0 ? _c : 'ASC';
+            const colName = transform?.(col) ?? col;
+            const val = sortParams.sort?.toUpperCase();
+            const sortDir = val ?? 'ASC';
             order[colName] = sortDir;
         });
     }

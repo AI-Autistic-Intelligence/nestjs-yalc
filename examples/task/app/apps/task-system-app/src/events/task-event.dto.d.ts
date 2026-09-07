@@ -1,4 +1,4 @@
-import { TaskEvent } from '@nestjs-yalc/task-system-module/src/task-event.entity';
+import { TaskEvent } from '@nest-yalc-2/task-system-module/src/task-event.entity';
 export declare class TaskEventType extends TaskEvent {
     constructor(data?: Partial<TaskEventType>);
     guid: string;

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.taskExternalRefProviders = exports.ExternalRefsController = exports.taskExternalRefResource = void 0;
-const crud_gen_1 = require("@nestjs-yalc/crud-gen");
-const generic_service_1 = require("@nestjs-yalc/crud-gen/typeorm/generic.service");
-const data_loader_1 = require("@nestjs-yalc/data-loader");
-const task_external_ref_entity_1 = require("@nestjs-yalc/task-system-module/src/task-external-ref.entity");
+const crud_gen_1 = require("@nest-yalc-2/crud-gen");
+const generic_service_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service");
+const data_loader_1 = require("@nest-yalc-2/data-loader");
+const task_external_ref_entity_1 = require("@nest-yalc-2/task-system-module/src/task-external-ref.entity");
 const crudgen_provider_compat_js_1 = require("../crudgen-provider-compat.js");
 const task_app_omni_external_ref_service_1 = require("../omni-task-app/task-app-omni-external-ref.service");
 const task_external_ref_dto_1 = require("./task-external-ref.dto");

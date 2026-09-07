@@ -1,5 +1,5 @@
-import { ModelField } from '@nestjs-yalc/crud-gen/object.decorator.js';
-import { EntityWithTimestamps } from '@nestjs-yalc/database/timestamp.entity.js';
+import { ModelField } from '@nest-yalc-2/crud-gen/object.decorator.js';
+import { EntityWithTimestamps } from '@nest-yalc-2/database/timestamp.entity.js';
 import { ObjectType } from '@nestjs/graphql';
 import {
   AfterLoad,

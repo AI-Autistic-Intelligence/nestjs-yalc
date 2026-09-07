@@ -16,9 +16,8 @@ function WithPluginSystem(Base = DefaultBase) {
             this.plugins = this.plugins.filter((p) => p !== plugin);
         }
         invokePlugins(methodName, ...args) {
-            var _a, _b;
             for (const plugin of this.plugins) {
-                (_b = (_a = plugin.pluginMethods)[methodName]) === null || _b === void 0 ? void 0 : _b.call(_a, ...args);
+                plugin.pluginMethods[methodName]?.(...args);
             }
         }
     }

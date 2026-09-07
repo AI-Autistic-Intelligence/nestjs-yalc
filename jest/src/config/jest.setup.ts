@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 /* istanbul ignore file */
 
 process.env.NODE_ENV = 'test';

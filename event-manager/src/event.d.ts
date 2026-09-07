@@ -1,9 +1,9 @@
 import { LogLevel } from '@nestjs/common';
-import { type ImprovedLoggerService } from '@nestjs-yalc/logger/logger-abstract.service.js';
+import { type ImprovedLoggerService } from '@nest-yalc-2/logger/logger-abstract.service.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { DefaultError, IErrorPayload } from '@nestjs-yalc/errors/default.error.js';
+import { DefaultError, IErrorPayload } from '@nest-yalc-2/errors/default.error.js';
 import { EventNameFormatter } from './emitter.js';
-import { ClassType, InstanceType } from '@nestjs-yalc/types/globals.d.js';
+import { ClassType, InstanceType } from '@nest-yalc-2/types/globals.d.js';
 interface IEventEmitterOptions<TFormatter extends EventNameFormatter = EventNameFormatter> {
     emitter?: EventEmitter2;
     formatter?: TFormatter;
@@ -50,7 +50,7 @@ type ReturnType<T> = T extends {
 } ? boolean | any[] | undefined : Error | DefaultError;
 type PickError<TFormatter extends EventNameFormatter = EventNameFormatter, TOpt extends IErrorEventOptions<TFormatter> = IErrorEventOptions<TFormatter>> = NonNullable<TOpt extends {
     errorClass: infer T;
-} ? T extends boolean ? DefaultError : InstanceType<T> : never>;
+} ? T extends boolean ? DefaultError : InstanceType<any> : never>;
 type eventErrorReturnType<TFormatter extends EventNameFormatter = EventNameFormatter, TOpt extends IErrorEventOptions<TFormatter> = IErrorEventOptions<TFormatter>> = TOpt extends {
     errorClass: false;
 } ? TOpt extends {

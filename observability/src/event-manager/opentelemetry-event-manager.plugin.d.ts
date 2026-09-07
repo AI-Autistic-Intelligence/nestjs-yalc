@@ -1,5 +1,5 @@
 import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { YalcEventService } from '@nestjs-yalc/event-manager';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
 import type { NormalizedObservabilityOptions } from '../observability-options.js';
 import { TelemetryService } from '../telemetry.service.js';
 export declare class OpenTelemetryEventManagerPlugin implements OnModuleInit, OnModuleDestroy {

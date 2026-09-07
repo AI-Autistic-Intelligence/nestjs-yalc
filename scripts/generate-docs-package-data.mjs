@@ -11,7 +11,7 @@ const tempOutputPath = path.join(
   repoRoot,
   'var/tmp/public_packages.expected.json',
 );
-const scopePrefix = '@nestjs-yalc/';
+const scopePrefix = '@nest-yalc-2/';
 const frameworkPackage = `${scopePrefix}framework`;
 
 const args = new Set(process.argv.slice(2));

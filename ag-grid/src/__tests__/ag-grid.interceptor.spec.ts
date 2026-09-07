@@ -11,7 +11,7 @@ import { createMock } from '@golevelup/ts-jest';
 import {
   mockedExecutionContext,
   mockedNestGraphql,
-} from '@nestjs-yalc/jest/common-mocks.helper';
+} from '@nest-yalc-2/jest/common-mocks.helper';
 
 const infoObj = {
   fieldNodes: [

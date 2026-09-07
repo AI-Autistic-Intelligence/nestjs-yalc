@@ -1,6 +1,6 @@
 import * as common from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { APP_LOGGER_SERVICE } from '@nestjs-yalc/app/def.const.js';
+import { APP_LOGGER_SERVICE } from '@nest-yalc-2/app/def.const.js';
 import { AppEvents } from './app.events.js';
 
 /**
