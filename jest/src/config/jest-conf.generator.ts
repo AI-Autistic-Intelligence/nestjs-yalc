@@ -308,7 +308,8 @@ export function jestConfGenerator(
       `var/coverage/${coverageFolder}`,
     ),
     collectCoverageFrom: [
-      `**/*.{js,ts}`,
+      `**/*.ts`,
+      `!**/*.d.ts`,
       '!**/node_modules/**',
       '!**/.warmup/**',
     ],

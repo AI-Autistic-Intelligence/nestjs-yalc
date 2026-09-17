@@ -1,0 +1,33 @@
+{
+  "name": "@nest-yalc-2/audit",
+  "version": "1.4.0",
+  "type": "module",
+  "description": "Engine-level database mutation journal utilities for NestJS applications",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./*.js": "./src/*.js",
+    "./*": "./src/*"
+  },
+  "author": "",
+  "license": "MIT",
+  "types": "./src/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "tslib": "^2.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nek97/nestjs-yalc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nek97/nestjs-yalc/issues"
+  },
+  "homepage": "https://github.com/Nek97/nestjs-yalc#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

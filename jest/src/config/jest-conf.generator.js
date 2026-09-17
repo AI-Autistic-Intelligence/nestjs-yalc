@@ -196,7 +196,8 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         coverageDirectory: path.join(rootPath, options.coverageOutputPath?.(coverageFolder) ??
             `var/coverage/${coverageFolder}`),
         collectCoverageFrom: [
-            `**/*.{js,ts}`,
+            `**/*.ts`,
+            `!**/*.d.ts`,
             '!**/node_modules/**',
             '!**/.warmup/**',
         ],
