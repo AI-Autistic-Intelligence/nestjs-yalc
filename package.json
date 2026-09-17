@@ -80,7 +80,9 @@
     "utils",
     "examples/omnikernel/module",
     "ag-grid",
-    "dummy-app"
+    "dummy-app",
+    "ferrox-node",
+    "apps/ferrox-saas-backend"
   ],
   "peerDependencies": {
     "@nestjs/apollo": "^13.2.5",
