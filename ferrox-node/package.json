@@ -4,6 +4,9 @@
   "description": "Ferrox-Node: Standalone Enterprise Security & Web Framework for Node.js / TypeScript with Dual Fastify & Express Engine Support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "ferrox": "./bin/ferrox.js"
+  },
   "license": "MIT",
   "scripts": {
     "build": "tsc --project tsconfig.json"
