@@ -62,6 +62,8 @@
       "@nest-yalc-2/errors/*": ["./errors/src/*"],
       "@nest-yalc-2/types-extends": ["./types-extends/src"],
       "@nest-yalc-2/types-extends/*": ["./types-extends/src/*"],
+      "@nest-yalc-2/sentinel": ["./sentinel/src"],
+      "@nest-yalc-2/sentinel/*": ["./sentinel/src/*"],
       "@nest-yalc-2/omnikernel-module": ["./examples/omnikernel/module/src"],
       "@nest-yalc-2/omnikernel-module/*": ["./examples/omnikernel/module/src/*"],
       "nestjs-yalc": ["./types/src"],
