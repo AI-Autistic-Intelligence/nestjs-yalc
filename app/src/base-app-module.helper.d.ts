@@ -15,9 +15,9 @@ export declare class YalcGlobalStaticModule {
 }
 export declare class YalcDefaultAppModule {
     static forRoot(appAlias: string, imports: NonNullable<DynamicModule['imports']>, options?: IGlobalOptions): {
-        exports: (string | symbol | Function | DynamicModule | import("@nestjs/common").ForwardReference<any> | import("@nestjs/common").Provider | import("@nestjs/common").Abstract<any>)[];
+        exports: (string | symbol | Function | import("@nestjs/common").Provider | import("@nestjs/common").Abstract<any> | import("@nestjs/common").ForwardReference<any> | DynamicModule)[];
         providers: import("@nestjs/common").Provider[];
-        imports: (import("@nestjs/common").Type<any> | DynamicModule | Promise<DynamicModule> | import("@nestjs/common").ForwardReference<any>)[];
+        imports: (import("@nestjs/common").Type<any> | import("@nestjs/common").ForwardReference<any> | DynamicModule | Promise<DynamicModule>)[];
         module: typeof YalcDefaultAppModule;
         global: boolean;
     };

@@ -15,7 +15,7 @@ export declare function whereObjectToSqlString<Entity extends ObjectLiteral>(que
     };
 }): string;
 export declare const isAskingForCount: (info: GraphQLResolveInfo) => boolean;
-export declare function filterTypeToNativeType(type: FilterType): DateConstructor | ArrayConstructor | StringConstructor | NumberConstructor;
+export declare function filterTypeToNativeType(type: FilterType): ArrayConstructor | NumberConstructor | DateConstructor | StringConstructor;
 export declare function applyJoinArguments(findManyOptions: AgGridFindManyOptions, alias: string, join: {
     [index: string]: JoinArgOptions;
 }, fieldMapper: {

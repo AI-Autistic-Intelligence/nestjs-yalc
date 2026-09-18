@@ -42,6 +42,7 @@ tslib_1.__decorate([
 ], BaseAppController.prototype, "shutdown", null);
 exports.BaseAppController = BaseAppController = tslib_1.__decorate([
     (0, common_1.Controller)(),
-    tslib_1.__metadata("design:paramtypes", [base_app_service_js_1.BaseAppService, config_1.ConfigService])
+    tslib_1.__metadata("design:paramtypes", [base_app_service_js_1.BaseAppService,
+        config_1.ConfigService])
 ], BaseAppController);
 //# sourceMappingURL=base-app.controller.js.map

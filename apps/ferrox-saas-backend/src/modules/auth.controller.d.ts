@@ -10,15 +10,15 @@ export declare class AuthController {
     };
     login(req: any): {
         tokenType: string;
-        token: string;
+        token: any;
         expiresIn: number;
     };
     totpSetup(req: any): {
-        secret: string;
-        otpAuthUri: string;
+        secret: any;
+        otpAuthUri: any;
     };
     totpVerify(req: any): {
-        isValid: boolean;
+        isValid: any;
         status: string;
     };
 }

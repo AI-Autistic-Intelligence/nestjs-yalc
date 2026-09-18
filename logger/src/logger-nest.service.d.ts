@@ -1,13 +1,6 @@
 import { ConsoleLoggerOptions } from '@nestjs/common';
-import { IImprovedLoggerOptions, ILoggerPluginMethods, ImprovedLoggerService, LogMethodOptions } from './logger-abstract.service.js';
-declare const ImprovedNestLogger_base: {
-    new (): {
-        plugins: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>[];
-        registerPlugin(plugin: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
-        unregisterPlugin(plugin: import("@nest-yalc-2/utils/plugin.helper.js").Plugin<ILoggerPluginMethods<any>>): void;
-        invokePlugins(methodName: keyof ILoggerPluginMethods<any>, ...args: any[]): void;
-    };
-};
+import { IImprovedLoggerOptions, ImprovedLoggerService, LogMethodOptions } from './logger-abstract.service.js';
+declare const ImprovedNestLogger_base: any;
 export declare class ImprovedNestLogger extends ImprovedNestLogger_base implements ImprovedLoggerService {
     protected _options: IImprovedLoggerOptions;
     readonly isImprovedLoggerService = true;

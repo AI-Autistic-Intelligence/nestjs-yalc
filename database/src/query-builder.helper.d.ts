@@ -22,7 +22,7 @@ export declare class QueryBuilderHelper {
             [key: string]: IFieldMapper;
         };
     }, alias: string): IFieldMapper;
-    static convertFieldWithMap(field: string, map: IFieldMapper): string;
+    static convertFieldWithMap(field: string, map: IFieldMapper): any;
     static applyOrderToJoinedQueryBuilder(findOptions: FindManyOptions, parentName: string, fieldMap?: {
         parent: IFieldMapper;
         joined: IFieldMapper | {

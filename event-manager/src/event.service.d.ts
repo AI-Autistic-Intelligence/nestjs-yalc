@@ -104,7 +104,7 @@ export declare class YalcEventService<TFormatter extends EventNameFormatter = Ev
     errorGatewayTimeout(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): any;
     errorGatewayTimeoutResult(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): Err<never, GatewayTimeoutError>;
     errorGatewayTimeoutFromFn<T>(eventName: Parameters<TFormatter> | string, cb: () => PromiseLike<T> | T, options?: IErrorBasedMethodOptions<TErrorOptions>): PromiseResult<T, GatewayTimeoutError>;
-    protected getLoggerLevelByOptions(options: IErrorEventOptions<TFormatter>): "log" | "error" | "warn" | import("@nest-yalc-2/logger").LogLevelEnum.LOG | import("@nest-yalc-2/logger").LogLevelEnum.ERROR;
+    protected getLoggerLevelByOptions(options: IErrorEventOptions<TFormatter>): "error" | "log" | "warn" | import("@nest-yalc-2/logger/logger.enum.js").LogLevelEnum.LOG | import("@nest-yalc-2/logger/logger.enum.js").LogLevelEnum.ERROR;
     protected applyLoggerLevel<TOpt extends IEventOptions<TFormatter> | IErrorEventOptions<TFormatter>>(options: TOpt, level: LogLevel): TOpt;
     protected applyLoggerLevelByStatus<TOpts extends IErrorEventOptions<TFormatter>>(options: TOpts, error: DefaultError): TOpts;
     protected applyLoggerLevelByError<TOpts extends IErrorEventOptions<TFormatter> | IEventOptions<TFormatter>>(options: TOpts): TOpts;

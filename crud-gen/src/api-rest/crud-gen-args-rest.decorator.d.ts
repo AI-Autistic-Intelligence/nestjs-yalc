@@ -5,7 +5,7 @@ import { ApiResponseOptions } from '@nestjs/swagger';
 import type { ClassType } from '@nest-yalc-2/types/globals.d.js';
 export declare function mapCrudGenRestParams<Entity extends ObjectLiteral>(params: ICrudGenGqlArgsOptions | undefined, ctx: ExecutionContext): CrudGenFindManyOptions;
 export declare const CrudGenRestArgsFactory: <T extends ObjectLiteral>(data: ICrudGenGqlArgsOptions | undefined, ctx: ExecutionContext) => CrudGenFindManyOptions<T>;
-export declare const CrudGenArgsMapper: <T extends ObjectLiteral>(...dataOrPipes: (import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | ICrudGenGqlArgsOptions | undefined)[]) => ParameterDecorator;
+export declare const CrudGenArgsMapper: <T extends ObjectLiteral>(...dataOrPipes: (ICrudGenGqlArgsOptions | import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;
 export declare const CrudGenCombineDecorators: (params: ICrudGenGqlArgsOptions) => (target: any, key: string, index: number) => void;
 export declare const CGQueryArgs: (params: ICrudGenGqlArgsOptions) => (target: any, key: string, index: number) => void;
 export declare const CGQueryArgsNoPagination: (params: ICrudGenGqlArgsOptions) => (target: any, key: string, index: number) => void;

@@ -1,1 +1,1 @@
-export declare function bootstrap(engine?: 'fastify' | 'express', port?: number): Promise<import("node:http").Server<typeof import("node:http").IncomingMessage, typeof import("node:http").ServerResponse>>;
+export declare function bootstrap(engine?: 'fastify' | 'express', port?: number): Promise<any>;

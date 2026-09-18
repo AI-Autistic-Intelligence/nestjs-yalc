@@ -78,7 +78,7 @@ export declare function CrudGenGraphqlFactory<Entity extends Record<string, any>
     providers: Provider[];
 };
 export declare function getProviderToken(entity: ClassType | Provider | string | symbol | Function): any;
-export declare function filterTypeToNativeType(type: FilterType): DateConstructor | ArrayConstructor | StringConstructor | NumberConstructor;
+export declare function filterTypeToNativeType(type: FilterType): ArrayConstructor | NumberConstructor | DateConstructor | StringConstructor;
 export interface IRelationInfo {
     relation: RelationMetadataArgs;
     join: JoinColumnMetadataArgs | undefined;
