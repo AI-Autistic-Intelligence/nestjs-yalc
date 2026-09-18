@@ -1,6 +1,6 @@
 /* istanbul ignore file */ // this is just an example file, there no need to test it
 
-import { ClassType } from '@nest-yalc-2/types/globals.d.js';
+import { ClassType } from '@node-yalc/types/globals';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 

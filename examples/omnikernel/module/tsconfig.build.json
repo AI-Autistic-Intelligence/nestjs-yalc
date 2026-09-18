@@ -1,48 +1,190 @@
 {
-  "extends": "../../../tsconfig.json",
-  "compilerOptions": {
-    "composite": false,
-    "incremental": false,
-    "declaration": false,
-    "rootDir": "../../..",
-    "outDir": "./dist",
-    "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
-    "paths": {
-      "@nest-yalc-2/ag-grid": ["../../../var/dist/ag-grid/src/index.d.ts"],
-      "@nest-yalc-2/ag-grid/*": ["../../../var/dist/ag-grid/src/*"],
-      "@nest-yalc-2/api-strategy": ["../../../var/dist/api-strategy/src/index.d.ts"],
-      "@nest-yalc-2/api-strategy/*": ["../../../var/dist/api-strategy/src/*"],
-      "@nest-yalc-2/app": ["../../../var/dist/app/src/index.d.ts"],
-      "@nest-yalc-2/app/*": ["../../../var/dist/app/src/*"],
-      "@nest-yalc-2/aws-helpers": ["../../../var/dist/aws-helpers/src/index.d.ts"],
-      "@nest-yalc-2/aws-helpers/*": ["../../../var/dist/aws-helpers/src/*"],
-      "@nest-yalc-2/crud-gen": ["../../../var/dist/crud-gen/src/index.d.ts"],
-      "@nest-yalc-2/crud-gen/*": ["../../../var/dist/crud-gen/src/*"],
-      "@nest-yalc-2/data-loader": ["../../../var/dist/data-loader/src/index.d.ts"],
-      "@nest-yalc-2/data-loader/*": ["../../../var/dist/data-loader/src/*"],
-      "@nest-yalc-2/database": ["../../../var/dist/database/src/index.d.ts"],
-      "@nest-yalc-2/database/*": ["../../../var/dist/database/src/*"],
-      "@nest-yalc-2/errors": ["../../../var/dist/errors/src/index.d.ts"],
-      "@nest-yalc-2/errors/*": ["../../../var/dist/errors/src/*"],
-      "@nest-yalc-2/event-manager": ["../../../var/dist/event-manager/src/index.d.ts"],
-      "@nest-yalc-2/event-manager/*": ["../../../var/dist/event-manager/src/*"],
-      "@nest-yalc-2/field-middleware": ["../../../var/dist/field-middleware/src/index.d.ts"],
-      "@nest-yalc-2/field-middleware/*": ["../../../var/dist/field-middleware/src/*"],
-      "@nest-yalc-2/graphql": ["../../../var/dist/graphql/src/index.d.ts"],
-      "@nest-yalc-2/graphql/*": ["../../../var/dist/graphql/src/*"],
-      "@nest-yalc-2/interfaces": ["../../../var/dist/interfaces/src/index.d.ts"],
-      "@nest-yalc-2/interfaces/*": ["../../../var/dist/interfaces/src/*"],
-      "@nest-yalc-2/logger": ["../../../var/dist/logger/src/index.d.ts"],
-      "@nest-yalc-2/logger/*": ["../../../var/dist/logger/src/*"],
-      "@nest-yalc-2/observability": ["../../../var/dist/observability/src/index.d.ts"],
-      "@nest-yalc-2/observability/*": ["../../../var/dist/observability/src/*"],
-      "@nest-yalc-2/types": ["../../../types/src/index.d.ts"],
-      "@nest-yalc-2/types/*": ["../../../types/src/*"],
-      "@nest-yalc-2/utils": ["../../../var/dist/utils/src/index.d.ts"],
-      "@nest-yalc-2/utils/*": ["../../../var/dist/utils/src/*"]
-    }
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "src/__tests__", "var"]
+    "extends":  "../../../tsconfig.json",
+    "compilerOptions":  {
+                            "composite":  false,
+                            "incremental":  false,
+                            "declaration":  false,
+                            "rootDir":  "../../..",
+                            "outDir":  "./dist",
+                            "ignoreDeprecations":  "6.0",
+                            "baseUrl":  ".",
+                            "paths":  {
+                                          "@nest-yalc-2/ag-grid":  [
+                                                                       "../../../var/dist/ag-grid/src/index.d.ts"
+                                                                   ],
+                                          "@nest-yalc-2/ag-grid/*":  [
+                                                                         "../../../var/dist/ag-grid/src/*"
+                                                                     ],
+                                          "@nest-yalc-2/api-strategy":  [
+                                                                            "../../../var/dist/api-strategy/src/index.d.ts"
+                                                                        ],
+                                          "@nest-yalc-2/api-strategy/*":  [
+                                                                              "../../../var/dist/api-strategy/src/*"
+                                                                          ],
+                                          "@nest-yalc-2/app":  [
+                                                                   "../../../var/dist/app/src/index.d.ts"
+                                                               ],
+                                          "@nest-yalc-2/app/*":  [
+                                                                     "../../../var/dist/app/src/*"
+                                                                 ],
+                                          "@nest-yalc-2/aws-helpers":  [
+                                                                           "../../../var/dist/aws-helpers/src/index.d.ts"
+                                                                       ],
+                                          "@nest-yalc-2/aws-helpers/*":  [
+                                                                             "../../../var/dist/aws-helpers/src/*"
+                                                                         ],
+                                          "@nest-yalc-2/crud-gen":  [
+                                                                        "../../../var/dist/crud-gen/src/index.d.ts"
+                                                                    ],
+                                          "@nest-yalc-2/crud-gen/*":  [
+                                                                          "../../../var/dist/crud-gen/src/*"
+                                                                      ],
+                                          "@nest-yalc-2/data-loader":  [
+                                                                           "../../../var/dist/data-loader/src/index.d.ts"
+                                                                       ],
+                                          "@nest-yalc-2/data-loader/*":  [
+                                                                             "../../../var/dist/data-loader/src/*"
+                                                                         ],
+                                          "@nest-yalc-2/database":  [
+                                                                        "../../../var/dist/database/src/index.d.ts"
+                                                                    ],
+                                          "@nest-yalc-2/database/*":  [
+                                                                          "../../../var/dist/database/src/*"
+                                                                      ],
+                                          "@nest-yalc-2/errors":  [
+                                                                      "../../../var/dist/errors/src/index.d.ts"
+                                                                  ],
+                                          "@nest-yalc-2/errors/*":  [
+                                                                        "../../../var/dist/errors/src/*"
+                                                                    ],
+                                          "@nest-yalc-2/event-manager":  [
+                                                                             "../../../var/dist/event-manager/src/index.d.ts"
+                                                                         ],
+                                          "@nest-yalc-2/event-manager/*":  [
+                                                                               "../../../var/dist/event-manager/src/*"
+                                                                           ],
+                                          "@nest-yalc-2/field-middleware":  [
+                                                                                "../../../var/dist/field-middleware/src/index.d.ts"
+                                                                            ],
+                                          "@nest-yalc-2/field-middleware/*":  [
+                                                                                  "../../../var/dist/field-middleware/src/*"
+                                                                              ],
+                                          "@nest-yalc-2/graphql":  [
+                                                                       "../../../var/dist/graphql/src/index.d.ts"
+                                                                   ],
+                                          "@nest-yalc-2/graphql/*":  [
+                                                                         "../../../var/dist/graphql/src/*"
+                                                                     ],
+                                          "@nest-yalc-2/interfaces":  [
+                                                                          "../../../var/dist/interfaces/src/index.d.ts"
+                                                                      ],
+                                          "@nest-yalc-2/interfaces/*":  [
+                                                                            "../../../var/dist/interfaces/src/*"
+                                                                        ],
+                                          "@nest-yalc-2/logger":  [
+                                                                      "../../../var/dist/logger/src/index.d.ts"
+                                                                  ],
+                                          "@nest-yalc-2/logger/*":  [
+                                                                        "../../../var/dist/logger/src/*"
+                                                                    ],
+                                          "@nest-yalc-2/observability":  [
+                                                                             "../../../var/dist/observability/src/index.d.ts"
+                                                                         ],
+                                          "@nest-yalc-2/observability/*":  [
+                                                                               "../../../var/dist/observability/src/*"
+                                                                           ],
+                                          "@nest-yalc-2/types":  [
+                                                                     "../../../types/src/index.d.ts"
+                                                                 ],
+                                          "@nest-yalc-2/types/*":  [
+                                                                       "../../../types/src/*"
+                                                                   ],
+                                          "@nest-yalc-2/utils":  [
+                                                                     "../../../var/dist/utils/src/index.d.ts"
+                                                                 ],
+                                          "@nest-yalc-2/utils/*":  [
+                                                                       "../../../var/dist/utils/src/*"
+                                                                   ],
+                                          "@node-yalc/audit":  [
+                                                                   "../../../node-yalc/audit/src"
+                                                               ],
+                                          "@node-yalc/audit/*":  [
+                                                                     "../../../node-yalc/audit/src/*"
+                                                                 ],
+                                          "@node-yalc/api-strategy":  [
+                                                                          "../../../node-yalc/api-strategy/src"
+                                                                      ],
+                                          "@node-yalc/api-strategy/*":  [
+                                                                            "../../../node-yalc/api-strategy/src/*"
+                                                                        ],
+                                          "@node-yalc/kafka":  [
+                                                                   "../../../node-yalc/kafka/src"
+                                                               ],
+                                          "@node-yalc/kafka/*":  [
+                                                                     "../../../node-yalc/kafka/src/*"
+                                                                 ],
+                                          "@node-yalc/sentinel":  [
+                                                                      "../../../node-yalc/sentinel/src"
+                                                                  ],
+                                          "@node-yalc/sentinel/*":  [
+                                                                        "../../../node-yalc/sentinel/src/*"
+                                                                    ],
+                                          "@node-yalc/utils":  [
+                                                                   "../../../node-yalc/utils/src"
+                                                               ],
+                                          "@node-yalc/utils/*":  [
+                                                                     "../../../node-yalc/utils/src/*"
+                                                                 ],
+                                          "@node-yalc/types":  [
+                                                                   "../../../node-yalc/types/src"
+                                                               ],
+                                          "@node-yalc/types/*":  [
+                                                                     "../../../node-yalc/types/src/*"
+                                                                 ],
+                                          "@node-yalc/database":  [
+                                                                      "../../../node-yalc/database/src"
+                                                                  ],
+                                          "@node-yalc/database/*":  [
+                                                                        "../../../node-yalc/database/src/*"
+                                                                    ],
+                                          "@node-yalc/ag-grid":  [
+                                                                     "../../../node-yalc/ag-grid/src"
+                                                                 ],
+                                          "@node-yalc/ag-grid/*":  [
+                                                                       "../../../node-yalc/ag-grid/src/*"
+                                                                   ],
+                                          "@node-yalc/interfaces":  [
+                                                                        "../../../node-yalc/interfaces/src"
+                                                                    ],
+                                          "@node-yalc/interfaces/*":  [
+                                                                          "../../../node-yalc/interfaces/src/*"
+                                                                      ],
+                                          "@node-yalc/logger":  [
+                                                                    "../../../node-yalc/logger/src"
+                                                                ],
+                                          "@node-yalc/logger/*":  [
+                                                                      "../../../node-yalc/logger/src/*"
+                                                                  ],
+                                          "@node-yalc/event-manager":  [
+                                                                           "../../../node-yalc/event-manager/src"
+                                                                       ],
+                                          "@node-yalc/event-manager/*":  [
+                                                                             "../../../node-yalc/event-manager/src/*"
+                                                                         ],
+                                          "@node-yalc/errors":  [
+                                                                    "../../../node-yalc/errors/src"
+                                                                ],
+                                          "@node-yalc/errors/*":  [
+                                                                      "../../../node-yalc/errors/src/*"
+                                                                  ]
+                                      }
+                        },
+    "include":  [
+                    "src/**/*.ts"
+                ],
+    "exclude":  [
+                    "node_modules",
+                    "src/__tests__",
+                    "var"
+                ]
 }

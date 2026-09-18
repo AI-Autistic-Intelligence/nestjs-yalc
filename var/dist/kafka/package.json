@@ -1,0 +1,29 @@
+{
+  "name": "@nest-yalc-2/kafka",
+  "version": "2.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "exports": {
+    "./": "./src/"
+  },
+  "author": "",
+  "license": "AGPL-3.0-or-later",
+  "types": "./src/index.d.ts",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nek97/nestjs-yalc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nek97/nestjs-yalc/issues"
+  },
+  "homepage": "https://github.com/Nek97/nestjs-yalc#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  }
+}

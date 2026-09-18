@@ -1,0 +1,22 @@
+{
+  "name": "@nest-yalc-2/jest-config",
+  "version": "2.0.0",
+  "description": "",
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./*": "./*.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "types": "./index.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "tslib": "^2.6.3"
+  }
+}

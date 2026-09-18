@@ -9,7 +9,7 @@ import {
   ModelField,
   ModelObject,
 } from '@nest-yalc-2/crud-gen/object.decorator.js';
-import returnValue from '@nest-yalc-2/utils/returnValue.js';
+import returnValue from '@node-yalc/utils/returnValue';
 import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
 import { TaskEventType } from './task-event.dto.js';
 import { TaskEvent } from './task-event.entity.js';

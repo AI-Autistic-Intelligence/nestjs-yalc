@@ -1,4 +1,1 @@
-export enum EventAgGrid {
-  START_TRANSACTION = 'START_TRANSACTION',
-  END_TRANSACTION = 'END_TRANSACTION',
-}
+export * from '@node-yalc/ag-grid/event.enum';

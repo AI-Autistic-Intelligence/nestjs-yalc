@@ -1,0 +1,30 @@
+{
+  "name": "ferrox-saas-backend",
+  "version": "2.0.0",
+  "description": "Ferrox Enterprise SaaS Backend (Node.js Port) powered by @ferrox/node framework",
+  "main": "./dist/main.js",
+  "license": "MIT",
+  "dependencies": {
+    "@ferrox/node": "^0.6.0",
+    "@nest-yalc-2/sentinel": "^2.0.0",
+    "tslib": "^2.8.1"
+  },
+  "exports": {
+    ".": "./dist/main.js",
+    "./*": "./src/*"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nek97/nestjs-yalc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nek97/nestjs-yalc/issues"
+  },
+  "homepage": "https://github.com/Nek97/nestjs-yalc#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,31 @@
+import {
+  expect,
+  jest,
+  describe,
+  it,
+  beforeEach,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
+import { createMock } from '@golevelup/ts-jest';
+import { LoggerService } from '@nestjs/common';
+import { ValidationExceptionFilter } from '../filters/validation-exception.filter.js';
+import { InputValidationError } from '../index.js';
+import { CrudGenError } from '@nest-yalc-2/crud-gen/crud-gen.error.js';
+
+describe('ValidationExceptionFilter', () => {
+  const logger = createMock<LoggerService>();
+  it('should received error to InputValidationError', () => {
+    const filter = new ValidationExceptionFilter(logger);
+    const result = filter.catch(new Error());
+    expect(result).toBeInstanceOf(InputValidationError);
+  });
+
+  it('should received error to CrudGenError', () => {
+    const error: CrudGenError = new CrudGenError('message', 'systemMessage');
+    const filter = new ValidationExceptionFilter(logger);
+    filter.catch(error);
+    expect(logger.error).toHaveBeenCalledWith(error.systemMessage, error.stack);
+  });
+});

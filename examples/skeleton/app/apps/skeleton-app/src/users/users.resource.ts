@@ -7,7 +7,7 @@ import {
   FilterType,
   GeneralFilters,
 } from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
-import returnValue from '@nest-yalc-2/utils/returnValue.js';
+import returnValue from '@node-yalc/utils/returnValue';
 import {
   RoleAuth,
   RoleEnum,

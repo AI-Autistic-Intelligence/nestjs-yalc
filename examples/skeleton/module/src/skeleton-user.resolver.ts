@@ -1,7 +1,7 @@
 import { CrudGenDependencyFactory } from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
 import { resolverFactory } from '@nest-yalc-2/crud-gen/api-graphql/generic.resolver.js';
 import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper.js';
-import returnValue from '@nest-yalc-2/utils/returnValue.js';
+import returnValue from '@node-yalc/utils/returnValue';
 import { UseGuards } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import {
