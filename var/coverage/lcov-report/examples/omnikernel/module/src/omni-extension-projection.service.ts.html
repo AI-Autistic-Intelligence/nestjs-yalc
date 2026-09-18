@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.19% </span>
+                <span class="strong">88.8% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>120/249</span>
+                <span class='fraction'>119/134</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.78% </span>
+                <span class="strong">71.11% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>64/174</span>
+                <span class='fraction'>64/90</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.34% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>25/46</span>
+                <span class='fraction'>25/25</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -992,22 +992,22 @@ import type { OmniExtensionProjectionDefinition } from './omni-extension-project
 import type { OmniProjectionLifecycle } from './omni-projection.lifecycle.js';
 import type { OmniScope } from './omni-scope.js';
 &nbsp;
-function <span class="fstat-no" title="function not covered" >hasOwn(i</span>nput: Record&lt;string, unknown&gt;, field: string): boolean {
-<span class="cstat-no" title="statement not covered" >  return Object.prototype.hasOwnProperty.call(input, field);</span>
+function hasOwn(input: Record&lt;string, unknown&gt;, field: string): boolean {
+  return Object.prototype.hasOwnProperty.call(input, field);
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >isUniqueConstraint(e</span>rror: unknown): boolean {
-  const candidate = <span class="cstat-no" title="statement not covered" >error as { driverError?: { code?: unknown } } | undefined;</span>
-  const code = <span class="cstat-no" title="statement not covered" >candidate?.driverError?.code;</span>
-<span class="cstat-no" title="statement not covered" >  return code === 'SQLITE_CONSTRAINT' || code === '23505';</span>
+function isUniqueConstraint(error: unknown): boolean {
+  const candidate = error as { driverError?: { code?: unknown } } | undefined;
+  const code = candidate?.driverError?.code;
+  return code === 'SQLITE_CONSTRAINT' || code === '23505';
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >isRetryableTransactionError(e</span>rror: unknown): boolean {
+function isRetryableTransactionError(error: unknown): boolean {
   const candidate = error as {
     code?: unknown;
     driverError?: { code?: unknown };
   };
-  const code = <span class="cstat-no" title="statement not covered" >candidate?.driverError?.code ?? candidate?.code;</span>
+  const code = candidate?.driverError?.code ?? candidate?.code;
   return (
     code === '40001' ||
     code === 'SQLITE_BUSY' ||
@@ -1037,23 +1037,23 @@ export class OmniExtensionProjectionService&lt;
     &gt;,
     private readonly readerCatalog?: OmniProjectionReaderCatalog,
   ) {
-<span class="cstat-no" title="statement not covered" >    super(extensionRepository, scope, dialect, events, omniDefinition);</span>
+    super(extensionRepository, scope, dialect, events, omniDefinition);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async g</span>etEntity(
+  override async getEntity(
     conditions: Record&lt;string, unknown&gt;,
     _fields?: string[],
     _relations?: string[],
     _databaseName?: string,
     options?: { failOnNull?: boolean },
   ): Promise&lt;Extension | null&gt; {
-    const guid = <span class="cstat-no" title="statement not covered" >this.guidFromConditions(conditions);</span>
-    const entity = <span class="cstat-no" title="statement not covered" >await this.readOne(guid);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!entity &amp;&amp; options?.failOnNull) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >    return entity;</span>
+    const guid = this.guidFromConditions(conditions);
+    const entity = await this.readOne(guid);
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!entity &amp;&amp; options?.failOnNull) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+    return entity;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async g</span>etEntityListExtended(
+  override async getEntityListExtended(
     findOptions: CrudGenFindManyOptions&lt;Extension&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span>
     withCount = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
   ): Promise&lt;Extension[] | [Extension[], number]&gt; {
@@ -1068,11 +1068,11 @@ export class OmniExtensionProjectionService&lt;
     const guidColumn = this.definition.identity.column;
     const guids = extensions.map(
       (extension) =&gt;
-<span class="cstat-no" title="statement not covered" >        (extension as Record&lt;string, unknown&gt;)[guidColumn] </span>as string,
+        (extension as Record&lt;string, unknown&gt;)[guidColumn] as string,
     );
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (guids.length === 0) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >return withCount ? [[], count] : [];</span></span></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (guids.length === 0) <span class="cstat-no" title="statement not covered" >return withCount ? [[], count] : [];</span>
 &nbsp;
-    const owners = <span class="cstat-no" title="statement not covered" >await this.ownerRepository.find({</span>
+    const owners = await this.ownerRepository.find({
       where: {
         scopeId: this.scope.scopeId,
         guid: In(guids),
@@ -1082,25 +1082,25 @@ export class OmniExtensionProjectionService&lt;
         deletedAt: IsNull(),
       },
     });
-    const ownersByGuid = <span class="cstat-no" title="statement not covered" >new Map(owners.map((owner) =&gt; <span class="cstat-no" title="statement not covered" >[owner.guid, owner]));</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (ownersByGuid.size !== extensions.length) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new Error(</span></span>
+    const ownersByGuid = new Map(owners.map((owner) =&gt; [owner.guid, owner]));
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (ownersByGuid.size !== extensions.length) {
+<span class="cstat-no" title="statement not covered" >      throw new Error(</span>
         'Omni extension projection invariant failed: an extension owner is unavailable.',
       );
     }
     const projected = extensions.map((extension) =&gt;
-<span class="cstat-no" title="statement not covered" >      this.merge(extension, ownersByGuid.get((extension as any)[guidColumn])!),</span>
+      this.merge(extension, ownersByGuid.get((extension as any)[guidColumn])!),
     );
-<span class="cstat-no" title="statement not covered" >    return withCount ? [projected, count] : <span class="branch-1 cbranch-no" title="branch not covered" >projected;</span></span>
+    return withCount ? [projected, count] : <span class="branch-1 cbranch-no" title="branch not covered" >projected;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async c</span>reateEntity(
+  override async createEntity(
     input: Record&lt;string, unknown&gt;,
   ): Promise&lt;Extension&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectUnknownInput(input, true);</span>
-    const extension = <span class="cstat-no" title="statement not covered" >this.createExtension(input);</span>
-    const guid = <span class="cstat-no" title="statement not covered" >extension[this.definition.identity.column] </span>as string;
-    const owner = <span class="cstat-no" title="statement not covered" >this.ownerRepository.create({</span>
+    this.rejectUnknownInput(input, true);
+    const extension = this.createExtension(input);
+    const guid = extension[this.definition.identity.column] as string;
+    const owner = this.ownerRepository.create({
       scopeId: this.scope.scopeId,
       guid,
       title: this.omniDefinition.owner.title,
@@ -1111,66 +1111,66 @@ export class OmniExtensionProjectionService&lt;
       payloadSchemaVersion: this.omniDefinition.owner.schema.version,
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      return await this.mutate(<span class="fstat-no" title="function not covered" >async (m</span>anager) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        await this.lifecycle?.beforeCreate?.({</span>
+    try {
+      return await this.mutate(async (manager) =&gt; {
+        await this.lifecycle?.beforeCreate?.({
           definition: this.omniDefinition,
           scope: this.scope,
           manager,
           readers: this.readers(manager),
           input,
         });
-<span class="cstat-no" title="statement not covered" >        await manager.getRepository(OmniRecordEntity).save(owner);</span>
-        const saved = <span class="cstat-no" title="statement not covered" >await manager</span>
+        await manager.getRepository(OmniRecordEntity).save(owner);
+        const saved = await manager
           .getRepository(this.repository.target)
           .save(extension as Extension);
-<span class="cstat-no" title="statement not covered" >        return this.merge(saved, owner);</span>
+        return this.merge(saved, owner);
       });
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      if (isUniqueConstraint(error)) <span class="cstat-no" title="statement not covered" >this.identityConflict();</span></span>
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
+      if (isUniqueConstraint(error)) this.identityConflict();
+      throw error;
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async u</span>pdateEntity(
+  override async updateEntity(
     conditions: Record&lt;string, unknown&gt;,
     input: Record&lt;string, unknown&gt;,
   ): Promise&lt;Extension&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectUnknownInput(input, false);</span>
-    const guid = <span class="cstat-no" title="statement not covered" >this.guidFromConditions(conditions);</span>
+    this.rejectUnknownInput(input, false);
+    const guid = this.guidFromConditions(conditions);
     const expectedRevision = input.expectedRevision;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
       typeof expectedRevision !== 'number' ||
       !Number.isInteger(expectedRevision) ||
       expectedRevision &lt; 1 ||
       expectedRevision &gt;= PROJECTION_INTEGER_MAX
     ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      this.invalid(</span></span>
+<span class="cstat-no" title="statement not covered" >      this.invalid(</span>
         `expectedRevision must be an integer between 1 and ${PROJECTION_INTEGER_MAX - 1}.`,
       );
     }
-    const patch = <span class="cstat-no" title="statement not covered" >this.createValuePatch(guid, input);</span>
+    const patch = this.createValuePatch(guid, input);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.mutate(<span class="fstat-no" title="function not covered" >async (m</span>anager) =&gt; {</span>
-      const owners = <span class="cstat-no" title="statement not covered" >manager.getRepository(OmniRecordEntity);</span>
-      const extensions = <span class="cstat-no" title="statement not covered" >manager.getRepository(this.repository.target);</span>
-      const currentOwner = <span class="cstat-no" title="statement not covered" >await this.findOwner(guid, manager);</span>
-      const currentExtension = <span class="cstat-no" title="statement not covered" >await extensions.findOne({</span>
+    return this.mutate(async (manager) =&gt; {
+      const owners = manager.getRepository(OmniRecordEntity);
+      const extensions = manager.getRepository(this.repository.target);
+      const currentOwner = await this.findOwner(guid, manager);
+      const currentExtension = await extensions.findOne({
         where: {
           [this.definition.scope.column]: this.scope.scopeId,
           [this.definition.identity.column]: guid,
         } as any,
       });
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!currentOwner) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >      if (currentOwner.revision !== expectedRevision) {</span>
-<span class="cstat-no" title="statement not covered" >        await this.throwUpdateMiss(guid, manager);</span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!currentOwner) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+      if (currentOwner.revision !== expectedRevision) {
+        await this.throwUpdateMiss(guid, manager);
       }
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!currentExtension) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new Error(</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!currentExtension) {
+<span class="cstat-no" title="statement not covered" >        throw new Error(</span>
           'Omni extension projection invariant failed: extension row is unavailable.',
         );
       }
-<span class="cstat-no" title="statement not covered" >      await this.lifecycle?.beforeUpdate?.({</span>
+      await this.lifecycle?.beforeUpdate?.({
         definition: this.omniDefinition,
         scope: this.scope,
         manager,
@@ -1178,10 +1178,10 @@ export class OmniExtensionProjectionService&lt;
         input,
         current: this.merge(currentExtension, currentOwner),
       });
-      const result = <span class="cstat-no" title="statement not covered" >await owners</span>
+      const result = await owners
         .createQueryBuilder()
         .update()
-        .set({ revision: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >'</span>"revision" + 1' }</span>)
+        .set({ revision: () =&gt; '"revision" + 1' })
         .where(
           '"scopeId" = :scopeId AND "guid" = :guid AND "revision" = :expectedRevision AND "kind" = :kind AND "payloadSchemaId" = :schemaId AND "payloadSchemaVersion" = :schemaVersion AND "deletedAt" IS NULL',
           {
@@ -1194,39 +1194,39 @@ export class OmniExtensionProjectionService&lt;
           },
         )
         .execute();
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!result.affected) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >await this.throwUpdateMiss(guid, manager);</span></span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!result.affected) <span class="cstat-no" title="statement not covered" >await this.throwUpdateMiss(guid, manager);</span>
 &nbsp;
       const patched = await this.dialect.patchValues(
         extensions,
         this.definition,
         patch,
       );
-<span class="cstat-no" title="statement not covered" >      if (patched !== 1) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new Error(</span>
+      if (patched !== 1) {
+        throw new Error(
           'Omni extension projection invariant failed: extension row is unavailable.',
         );
       }
-      const extension = <span class="cstat-no" title="statement not covered" >await extensions.findOneOrFail({</span>
+      const extension = await extensions.findOneOrFail({
         where: {
           [this.definition.scope.column]: this.scope.scopeId,
           [this.definition.identity.column]: guid,
         } as any,
       });
-      const owner = <span class="cstat-no" title="statement not covered" >await owners.findOneOrFail({</span>
+      const owner = await owners.findOneOrFail({
         where: { scopeId: this.scope.scopeId, guid },
       });
-<span class="cstat-no" title="statement not covered" >      return this.merge(extension, owner);</span>
+      return this.merge(extension, owner);
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async d</span>eleteEntity(
+  override async deleteEntity(
     conditions: Record&lt;string, unknown&gt;,
   ): Promise&lt;boolean&gt; {
-    const guid = <span class="cstat-no" title="statement not covered" >this.guidFromConditions(conditions);</span>
-<span class="cstat-no" title="statement not covered" >    await this.mutate(<span class="fstat-no" title="function not covered" >async (m</span>anager) =&gt; {</span>
-      const owner = <span class="cstat-no" title="statement not covered" >await this.findOwner(guid, manager);</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!owner) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-      const extension = <span class="cstat-no" title="statement not covered" >await manager</span>
+    const guid = this.guidFromConditions(conditions);
+    await this.mutate(async (manager) =&gt; {
+      const owner = await this.findOwner(guid, manager);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!owner) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+      const extension = await manager
         .getRepository(this.repository.target)
         .findOne({
           where: {
@@ -1234,12 +1234,12 @@ export class OmniExtensionProjectionService&lt;
             [this.definition.identity.column]: guid,
           } as any,
         });
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!extension) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new Error(</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!extension) {
+<span class="cstat-no" title="statement not covered" >        throw new Error(</span>
           'Omni extension projection invariant failed: extension row is unavailable.',
         );
       }
-<span class="cstat-no" title="statement not covered" >      await this.lifecycle?.beforeDelete?.({</span>
+      await this.lifecycle?.beforeDelete?.({
         definition: this.omniDefinition,
         scope: this.scope,
         manager,
@@ -1247,45 +1247,45 @@ export class OmniExtensionProjectionService&lt;
         input: {},
         current: this.merge(extension, owner),
       });
-      const result = <span class="cstat-no" title="statement not covered" >await manager.getRepository(OmniRecordEntity).delete({</span>
+      const result = await manager.getRepository(OmniRecordEntity).delete({
         scopeId: this.scope.scopeId,
         guid,
         kind: this.omniDefinition.owner.kind,
         payloadSchemaId: this.omniDefinition.owner.schema.id,
         payloadSchemaVersion: this.omniDefinition.owner.schema.version,
       });
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!result.affected) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!result.affected) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
     });
-<span class="cstat-no" title="statement not covered" >    return true;</span>
+    return true;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >createExtension(</span>
+  private createExtension(
     input: Record&lt;string, unknown&gt;,
   ): Record&lt;string, unknown&gt; {
-    const extension: Record&lt;string, unknown&gt; = <span class="cstat-no" title="statement not covered" >{</span>
+    const extension: Record&lt;string, unknown&gt; = {
       [this.definition.scope.column]: this.scope.scopeId,
       [this.definition.payload.column]: this.createPayload(input),
     };
-<span class="cstat-no" title="statement not covered" >    for (const field of this.definition.fields) {</span>
+    for (const field of this.definition.fields) {
       const value = input[field.name];
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (field.requiredOnCreate &amp;&amp; (value === undefined || value === null)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        this.invalid(`Projection field ${field.name} is required on create.`);</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (field.requiredOnCreate &amp;&amp; (value === undefined || value === null)) {
+<span class="cstat-no" title="statement not covered" >        this.invalid(`Projection field ${field.name} is required on create.`);</span>
       }
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (value === null &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!field.nullable)</span> {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        this.invalid(`Projection field ${field.name} cannot be null.`);</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (value === null &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!field.nullable)</span> {
+<span class="cstat-no" title="statement not covered" >        this.invalid(`Projection field ${field.name} cannot be null.`);</span>
       }
-<span class="cstat-no" title="statement not covered" >      if (value !== undefined &amp;&amp; field.storage === 'column') {</span>
-<span class="cstat-no" title="statement not covered" >        extension[field.column ?? <span class="branch-1 cbranch-no" title="branch not covered" >field.name]</span> = this.normalizeValue(</span>
+      if (value !== undefined &amp;&amp; field.storage === 'column') {
+        extension[field.column ?? <span class="branch-1 cbranch-no" title="branch not covered" >field.name]</span> = this.normalizeValue(
           field,
           value,
         );
       }
     }
-<span class="cstat-no" title="statement not covered" >    return extension;</span>
+    return extension;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >readers(m</span>anager: EntityManager) {
-<span class="cstat-no" title="statement not covered" >    return (</span>
+  private readers(manager: EntityManager) {
+    return (
       this.readerCatalog ??
       createOmniProjectionReaderCatalog([
         {
@@ -1298,17 +1298,17 @@ export class OmniExtensionProjectionService&lt;
     ).bind(manager, this.scope);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async m</span>utate&lt;T&gt;(
+  private async mutate&lt;T&gt;(
     work: (manager: EntityManager) =&gt; Promise&lt;T&gt;,
   ): Promise&lt;T&gt; {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      if (this.lifecycle) {</span>
-<span class="cstat-no" title="statement not covered" >        return await this.dataSource.transaction('SERIALIZABLE', work);</span>
+    try {
+      if (this.lifecycle) {
+        return await this.dataSource.transaction('SERIALIZABLE', work);
       }
-<span class="cstat-no" title="statement not covered" >      return await this.dataSource.transaction(work);</span>
+      return await this.dataSource.transaction(work);
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      if (isRetryableTransactionError(error)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw this.events.errorConflict(</span>
+      if (isRetryableTransactionError(error)) {
+        throw this.events.errorConflict(
           'projection.concurrent.write.conflict',
           {
             response: {
@@ -1318,64 +1318,64 @@ export class OmniExtensionProjectionService&lt;
           },
         );
       }
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
+      throw error;
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >createValuePatch(</span>
+  private createValuePatch(
     guid: string,
     input: Record&lt;string, unknown&gt;,
   ): ProjectionValuePatch {
-    const patch: ProjectionValuePatch = <span class="cstat-no" title="statement not covered" >{</span>
+    const patch: ProjectionValuePatch = {
       scopeId: this.scope.scopeId,
       guid,
       columnValues: {},
       jsonValues: [],
     };
-<span class="cstat-no" title="statement not covered" >    for (const field of this.definition.fields) {</span>
-<span class="cstat-no" title="statement not covered" >      if (</span>
+    for (const field of this.definition.fields) {
+      if (
         field.name === this.definition.identity.column ||
         !hasOwn(input, field.name)
       ) {
-<span class="cstat-no" title="statement not covered" >        continue;</span>
+        continue;
       }
       const value = input[field.name];
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (value === null &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!field.nullable)</span> {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        this.invalid(`Projection field ${field.name} cannot be null.`);</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (value === null &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!field.nullable)</span> {
+<span class="cstat-no" title="statement not covered" >        this.invalid(`Projection field ${field.name} cannot be null.`);</span>
       }
-      const normalized = <span class="cstat-no" title="statement not covered" >this.normalizeValue(field, value);</span>
-<span class="cstat-no" title="statement not covered" >      if (field.storage === 'column') {</span>
-<span class="cstat-no" title="statement not covered" >        patch.columnValues[field.column ?? <span class="branch-1 cbranch-no" title="branch not covered" >field.name]</span> = normalized;</span>
+      const normalized = this.normalizeValue(field, value);
+      if (field.storage === 'column') {
+        patch.columnValues[field.column ?? <span class="branch-1 cbranch-no" title="branch not covered" >field.name]</span> = normalized;
       } else {
-<span class="cstat-no" title="statement not covered" >        patch.jsonValues.push({ field, value: normalized });</span>
+        patch.jsonValues.push({ field, value: normalized });
       }
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
       Object.keys(patch.columnValues).length === 0 &amp;&amp;
 <span class="branch-1 cbranch-no" title="branch not covered" >      patch.jsonValues.length === 0</span>
     ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      this.invalid('Projection update requires at least one writable field.');</span></span>
+<span class="cstat-no" title="statement not covered" >      this.invalid('Projection update requires at least one writable field.');</span>
     }
-<span class="cstat-no" title="statement not covered" >    return patch;</span>
+    return patch;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async r</span>eadOne(guid: string): Promise&lt;Extension | null&gt; {
-    const extension = <span class="cstat-no" title="statement not covered" >await this.repository.findOne({</span>
+  private async readOne(guid: string): Promise&lt;Extension | null&gt; {
+    const extension = await this.repository.findOne({
       where: {
         [this.definition.scope.column]: this.scope.scopeId,
         [this.definition.identity.column]: guid,
       } as any,
     });
-<span class="cstat-no" title="statement not covered" >    if (!extension) <span class="cstat-no" title="statement not covered" >return null;</span></span>
-    const owner = <span class="cstat-no" title="statement not covered" >await this.findOwner(guid);</span>
-<span class="cstat-no" title="statement not covered" >    return owner ? this.merge(extension, owner) : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span></span>
+    if (!extension) return null;
+    const owner = await this.findOwner(guid);
+    return owner ? this.merge(extension, owner) : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async f</span>indOwner(
+  private async findOwner(
     guid: string,
     manager?: EntityManager,
   ): Promise&lt;OmniRecordEntity | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
       manager?.getRepository(OmniRecordEntity) ?? this.ownerRepository
     ).findOne({
       where: {
@@ -1389,8 +1389,8 @@ export class OmniExtensionProjectionService&lt;
     });
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >merge(e</span>xtension: Extension, owner: OmniRecordEntity): Extension {
-<span class="cstat-no" title="statement not covered" >    return {</span>
+  private merge(extension: Extension, owner: OmniRecordEntity): Extension {
+    return {
       ...(this.project(extension) as Record&lt;string, unknown&gt;),
       scopeId: owner.scopeId,
       guid: owner.guid,
@@ -1401,18 +1401,18 @@ export class OmniExtensionProjectionService&lt;
     } as unknown as Extension;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async t</span>hrowUpdateMiss(
+  private async throwUpdateMiss(
     guid: string,
     manager: EntityManager,
   ): Promise&lt;never&gt; {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!(await this.findOwner(guid, manager))) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >    throw this.events.errorConflict('projection.revision.conflict', {</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!(await this.findOwner(guid, manager))) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+    throw this.events.errorConflict('projection.revision.conflict', {
       response: { message: 'Projection resource revision is stale.' },
     });
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >identityConflict(): never {</span>
-<span class="cstat-no" title="statement not covered" >    throw this.events.errorConflict('projection.identity.conflict', {</span>
+  private identityConflict(): never {
+    throw this.events.errorConflict('projection.identity.conflict', {
       response: {
         message: 'Projection identity already exists in this scope.',
       },
@@ -1426,7 +1426,7 @@ export class OmniExtensionProjectionService&lt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

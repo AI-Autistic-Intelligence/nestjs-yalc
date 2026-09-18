@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.51% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>94/179</span>
+                <span class='fraction'>93/93</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>45/90</span>
+                <span class='fraction'>45/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>14/24</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -670,241 +670,241 @@ interface SqliteChangesRow {
 }
 &nbsp;
 export class SqliteTriggerJournalDriver implements IMutationJournalDriver {
-  public readonly engine = <span class="cstat-no" title="statement not covered" >'sqlite';</span>
+  public readonly engine = 'sqlite';
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >supports(d</span>ataSource: DataSource): boolean {
+  public supports(dataSource: DataSource): boolean {
     return (
       dataSource.options.type === 'sqlite' ||
       dataSource.options.type === 'better-sqlite3'
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async i</span>nstall(
+  public async install(
     dataSource: DataSource,
     options: MutationJournalDriverInstallOptions,
   ): Promise&lt;MutationJournalInstallReport&gt; {
-    const queryRunner = <span class="cstat-no" title="statement not covered" >dataSource.createQueryRunner();</span>
+    const queryRunner = dataSource.createQueryRunner();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await queryRunner.connect();</span>
-<span class="cstat-no" title="statement not covered" >      await queryRunner.startTransaction();</span>
-<span class="cstat-no" title="statement not covered" >      await this.dropJournalTriggers(queryRunner);</span>
-<span class="cstat-no" title="statement not covered" >      await this.createJournalTable(queryRunner, options.journalTableName);</span>
+    try {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+      await this.dropJournalTriggers(queryRunner);
+      await this.createJournalTable(queryRunner, options.journalTableName);
 &nbsp;
-      const report: MutationJournalInstallReport = <span class="cstat-no" title="statement not covered" >{</span>
+      const report: MutationJournalInstallReport = {
         dataSourceName: dataSource.name,
         engine: this.engine,
         journaledTables: [],
         skippedTables: [],
       };
-      const tables = (<span class="cstat-no" title="statement not covered" >await queryRunner.query(</span>
+      const tables = (await queryRunner.query(
         "SELECT name, sql FROM sqlite_master WHERE type = 'table'",
       )) as SqliteTable[];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      for (const table of tables) {</span>
-        const skipReason = <span class="cstat-no" title="statement not covered" >this.getTableSkipReason(table, options);</span>
-<span class="cstat-no" title="statement not covered" >        if (skipReason) {</span>
-<span class="cstat-no" title="statement not covered" >          report.skippedTables.push({</span>
+      for (const table of tables) {
+        const skipReason = this.getTableSkipReason(table, options);
+        if (skipReason) {
+          report.skippedTables.push({
             tableName: table.name,
             reason: skipReason,
           });
-<span class="cstat-no" title="statement not covered" >          continue;</span>
+          continue;
         }
 &nbsp;
-        const columns = (<span class="cstat-no" title="statement not covered" >await queryRunner.query(</span>
+        const columns = (await queryRunner.query(
           `PRAGMA table_info(${quoteSqliteIdentifier(table.name)})`,
         )) as SqliteColumn[];
-        const columnSkipReason = <span class="cstat-no" title="statement not covered" >this.getColumnSkipReason(columns);</span>
-<span class="cstat-no" title="statement not covered" >        if (columnSkipReason) {</span>
-<span class="cstat-no" title="statement not covered" >          report.skippedTables.push({</span>
+        const columnSkipReason = this.getColumnSkipReason(columns);
+        if (columnSkipReason) {
+          report.skippedTables.push({
             tableName: table.name,
             reason: columnSkipReason,
           });
-<span class="cstat-no" title="statement not covered" >          continue;</span>
+          continue;
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        await this.createJournalTriggers(</span>
+        await this.createJournalTriggers(
           queryRunner,
           table.name,
           columns.map((column) =&gt; column.name),
           options.journalTableName,
         );
-<span class="cstat-no" title="statement not covered" >        report.journaledTables.push(table.name);</span>
+        report.journaledTables.push(table.name);
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      await queryRunner.commitTransaction();</span>
-<span class="cstat-no" title="statement not covered" >      return report;</span>
+      await queryRunner.commitTransaction();
+      return report;
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      if (queryRunner.isTransactionActive) {</span>
-<span class="cstat-no" title="statement not covered" >        await queryRunner.rollbackTransaction();</span>
+      if (queryRunner.isTransactionActive) {
+        await queryRunner.rollbackTransaction();
       }
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
+      throw error;
     } finally {
-<span class="cstat-no" title="statement not covered" >      if (!queryRunner.isReleased) {</span>
-<span class="cstat-no" title="statement not covered" >        await queryRunner.release();</span>
+      if (!queryRunner.isReleased) {
+        await queryRunner.release();
       }
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async u</span>ninstall(
+  public async uninstall(
     dataSource: DataSource,
     _options: MutationJournalDriverInstallOptions,
   ): Promise&lt;void&gt; {
-    const queryRunner = <span class="cstat-no" title="statement not covered" >dataSource.createQueryRunner();</span>
+    const queryRunner = dataSource.createQueryRunner();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await queryRunner.connect();</span>
-<span class="cstat-no" title="statement not covered" >      await this.dropJournalTriggers(queryRunner);</span>
+    try {
+      await queryRunner.connect();
+      await this.dropJournalTriggers(queryRunner);
     } finally {
-<span class="cstat-no" title="statement not covered" >      await queryRunner.release();</span>
+      await queryRunner.release();
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async c</span>leanup(
+  public async cleanup(
     dataSource: DataSource,
     options: MutationJournalDriverInstallOptions,
     olderThanMs: number,
   ): Promise&lt;number&gt; {
-    const queryRunner = <span class="cstat-no" title="statement not covered" >dataSource.createQueryRunner();</span>
+    const queryRunner = dataSource.createQueryRunner();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await queryRunner.connect();</span>
-<span class="cstat-no" title="statement not covered" >      await queryRunner.query(</span>
+    try {
+      await queryRunner.connect();
+      await queryRunner.query(
         `DELETE FROM ${quoteSqliteIdentifier(options.journalTableName)} WHERE ${quoteSqliteIdentifier('occurredAt')} &lt; ?`,
         [olderThanMs],
       );
-      const rows = (<span class="cstat-no" title="statement not covered" >await queryRunner.query(</span>
+      const rows = (await queryRunner.query(
         'SELECT changes() AS changes',
       )) as SqliteChangesRow[];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return rows[0]?.changes ?? 0;</span>
+      return rows[0]?.changes ?? 0;
     } finally {
-<span class="cstat-no" title="statement not covered" >      await queryRunner.release();</span>
+      await queryRunner.release();
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async r</span>ead(
+  public async read(
     dataSource: DataSource,
     options: MutationJournalDriverInstallOptions,
     filter: MutationJournalReadFilter,
   ): Promise&lt;MutationJournalRow[]&gt; {
-    const queryRunner = <span class="cstat-no" title="statement not covered" >dataSource.createQueryRunner();</span>
+    const queryRunner = dataSource.createQueryRunner();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await queryRunner.connect();</span>
+    try {
+      await queryRunner.connect();
       const predicates: string[] = [];
       const parameters: unknown[] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (filter.tableName !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        predicates.push(`${quoteSqliteIdentifier('tableName')} = ?`);</span>
-<span class="cstat-no" title="statement not covered" >        parameters.push(filter.tableName);</span>
+      if (filter.tableName !== undefined) {
+        predicates.push(`${quoteSqliteIdentifier('tableName')} = ?`);
+        parameters.push(filter.tableName);
       }
-<span class="cstat-no" title="statement not covered" >      if (filter.action !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        predicates.push(`${quoteSqliteIdentifier('action')} = ?`);</span>
-<span class="cstat-no" title="statement not covered" >        parameters.push(filter.action);</span>
+      if (filter.action !== undefined) {
+        predicates.push(`${quoteSqliteIdentifier('action')} = ?`);
+        parameters.push(filter.action);
       }
-<span class="cstat-no" title="statement not covered" >      if (filter.sinceMs !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        predicates.push(`${quoteSqliteIdentifier('occurredAt')} &gt;= ?`);</span>
-<span class="cstat-no" title="statement not covered" >        parameters.push(filter.sinceMs);</span>
+      if (filter.sinceMs !== undefined) {
+        predicates.push(`${quoteSqliteIdentifier('occurredAt')} &gt;= ?`);
+        parameters.push(filter.sinceMs);
       }
-<span class="cstat-no" title="statement not covered" >      if (filter.untilMs !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        predicates.push(`${quoteSqliteIdentifier('occurredAt')} &lt; ?`);</span>
-<span class="cstat-no" title="statement not covered" >        parameters.push(filter.untilMs);</span>
+      if (filter.untilMs !== undefined) {
+        predicates.push(`${quoteSqliteIdentifier('occurredAt')} &lt; ?`);
+        parameters.push(filter.untilMs);
       }
 &nbsp;
-      const limit = <span class="cstat-no" title="statement not covered" >filter.limit ?? DEFAULT_READ_LIMIT;</span>
-      const offset = <span class="cstat-no" title="statement not covered" >filter.offset ?? 0;</span>
-<span class="cstat-no" title="statement not covered" >      parameters.push(limit, offset);</span>
+      const limit = filter.limit ?? DEFAULT_READ_LIMIT;
+      const offset = filter.offset ?? 0;
+      parameters.push(limit, offset);
       const whereClause =
-<span class="cstat-no" title="statement not covered" >        predicates.length &gt; 0 ? ` WHERE ${predicates.join(' AND ')}` : '';</span>
+        predicates.length &gt; 0 ? ` WHERE ${predicates.join(' AND ')}` : '';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return (await queryRunner.query(</span>
+      return (await queryRunner.query(
         `SELECT ${quoteSqliteIdentifier('id')}, ${quoteSqliteIdentifier('occurredAt')}, ${quoteSqliteIdentifier('tableName')}, ${quoteSqliteIdentifier('action')}, ${quoteSqliteIdentifier('oldRow')}, ${quoteSqliteIdentifier('newRow')}, ${quoteSqliteIdentifier('actor')} FROM ${quoteSqliteIdentifier(options.journalTableName)}${whereClause} ORDER BY ${quoteSqliteIdentifier('id')} DESC LIMIT ? OFFSET ?`,
         parameters,
       )) as MutationJournalRow[];
     } finally {
-<span class="cstat-no" title="statement not covered" >      await queryRunner.release();</span>
+      await queryRunner.release();
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >getTableSkipReason(</span>
+  private getTableSkipReason(
     table: SqliteTable,
     options: MutationJournalDriverInstallOptions,
   ): MutationJournalSkipReason | undefined {
-<span class="cstat-no" title="statement not covered" >    if (</span>
+    if (
       table.name.startsWith('sqlite_') ||
       table.name === options.journalTableName ||
       options.excludedTables.includes(table.name)
     ) {
-<span class="cstat-no" title="statement not covered" >      return 'excluded';</span>
+      return 'excluded';
     }
-<span class="cstat-no" title="statement not covered" >    if (/^CREATE VIRTUAL TABLE/i.test(table.sql ?? '')) {</span>
-<span class="cstat-no" title="statement not covered" >      return 'virtual-table';</span>
+    if (/^CREATE VIRTUAL TABLE/i.test(table.sql ?? '')) {
+      return 'virtual-table';
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return undefined;</span>
+    return undefined;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >getColumnSkipReason(</span>
+  private getColumnSkipReason(
     columns: SqliteColumn[],
   ): MutationJournalSkipReason | undefined {
-<span class="cstat-no" title="statement not covered" >    if (columns.length &gt; 400) {</span>
-<span class="cstat-no" title="statement not covered" >      return 'too-many-columns';</span>
+    if (columns.length &gt; 400) {
+      return 'too-many-columns';
     }
-<span class="cstat-no" title="statement not covered" >    if (</span>
+    if (
       columns.some(
-        (column) =&gt; <span class="cstat-no" title="statement not covered" >!column.type?.trim() || /BLOB/i.test(column.type),</span>
+        (column) =&gt; !column.type?.trim() || /BLOB/i.test(column.type),
       )
     ) {
-<span class="cstat-no" title="statement not covered" >      return 'blob-column';</span>
+      return 'blob-column';
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return undefined;</span>
+    return undefined;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async d</span>ropJournalTriggers(queryRunner: QueryRunner): Promise&lt;void&gt; {
-    const triggers = (<span class="cstat-no" title="statement not covered" >await queryRunner.query(</span>
+  private async dropJournalTriggers(queryRunner: QueryRunner): Promise&lt;void&gt; {
+    const triggers = (await queryRunner.query(
       "SELECT name FROM sqlite_master WHERE type = 'trigger' AND name LIKE '\\_mj\\_%' ESCAPE '\\'",
     )) as SqliteTrigger[];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const trigger of triggers) {</span>
-<span class="cstat-no" title="statement not covered" >      await queryRunner.query(</span>
+    for (const trigger of triggers) {
+      await queryRunner.query(
         `DROP TRIGGER IF EXISTS ${quoteSqliteIdentifier(trigger.name)}`,
       );
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async c</span>reateJournalTable(
+  private async createJournalTable(
     queryRunner: QueryRunner,
     journalTableName: string,
   ): Promise&lt;void&gt; {
-    const table = <span class="cstat-no" title="statement not covered" >quoteSqliteIdentifier(journalTableName);</span>
-    const column = <span class="cstat-no" title="statement not covered" >(name: string) =&gt; <span class="cstat-no" title="statement not covered" >quoteSqliteIdentifier(name);</span></span>
+    const table = quoteSqliteIdentifier(journalTableName);
+    const column = (name: string) =&gt; quoteSqliteIdentifier(name);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await queryRunner.query(</span>
+    await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS ${table} (${column('id')} INTEGER PRIMARY KEY AUTOINCREMENT, ${column('occurredAt')} INTEGER NOT NULL, ${column('tableName')} TEXT NOT NULL, ${column('action')} TEXT NOT NULL, ${column('oldRow')} TEXT, ${column('newRow')} TEXT, ${column('actor')} TEXT)`,
     );
-<span class="cstat-no" title="statement not covered" >    await queryRunner.query(</span>
+    await queryRunner.query(
       `CREATE INDEX IF NOT EXISTS ${quoteSqliteIdentifier(`idx_${journalTableName}_occurredAt`)} ON ${table} (${column('occurredAt')})`,
     );
-<span class="cstat-no" title="statement not covered" >    await queryRunner.query(</span>
+    await queryRunner.query(
       `CREATE INDEX IF NOT EXISTS ${quoteSqliteIdentifier(`idx_${journalTableName}_table`)} ON ${table} (${column('tableName')}, ${column('occurredAt')})`,
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async c</span>reateJournalTriggers(
+  private async createJournalTriggers(
     queryRunner: QueryRunner,
     tableName: string,
     columns: string[],
     journalTableName: string,
   ): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    for (const action of ['insert', 'update', 'delete'] as const) {</span>
+    for (const action of ['insert', 'update', 'delete'] as const) {
       const oldRow =
-<span class="cstat-no" title="statement not covered" >        action === 'insert'</span>
+        action === 'insert'
           ? 'NULL'
           : buildSqliteJsonObjectExpression('OLD', columns);
       const newRow =
-<span class="cstat-no" title="statement not covered" >        action === 'delete'</span>
+        action === 'delete'
           ? 'NULL'
           : buildSqliteJsonObjectExpression('NEW', columns);
       const triggerName = getSqliteMutationJournalTriggerName(
@@ -912,7 +912,7 @@ export class SqliteTriggerJournalDriver implements IMutationJournalDriver {
         tableName,
       );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      await queryRunner.query(</span>
+      await queryRunner.query(
         `CREATE TRIGGER ${quoteSqliteIdentifier(triggerName)} AFTER ${action.toUpperCase()} ON ${quoteSqliteIdentifier(tableName)} BEGIN INSERT INTO ${quoteSqliteIdentifier(journalTableName)} (${quoteSqliteIdentifier('occurredAt')}, ${quoteSqliteIdentifier('tableName')}, ${quoteSqliteIdentifier('action')}, ${quoteSqliteIdentifier('oldRow')}, ${quoteSqliteIdentifier('newRow')}, ${quoteSqliteIdentifier('actor')}) VALUES (${SQLITE_OCCURRED_AT_EXPRESSION}, ${quoteSqliteStringLiteral(tableName)}, ${quoteSqliteStringLiteral(action)}, ${oldRow}, ${newRow}, NULL); END`,
       );
     }
@@ -925,7 +925,7 @@ export class SqliteTriggerJournalDriver implements IMutationJournalDriver {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

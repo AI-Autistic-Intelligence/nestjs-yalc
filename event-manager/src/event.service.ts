@@ -5,7 +5,7 @@ import {
   eventErrorAsync,
   eventVerboseAsync,
   eventWarnAsync,
-  IEventOptions,
+  type IEventOptions,
   eventDebug,
   eventError,
   eventLog,
@@ -64,38 +64,25 @@ export type IErrorBasedMethodOptions<TErrorOptions> = Omit<
 >;
 
 /**
- * Decorator to inject a trace into the options object if it's not already set.
- * This approach reduces the amount of non-essential trace lines in the code.
+ * Helper to inject a trace into the options object if it's not already set.
  */
-function InjectTrace() {
-  return function (_target: any, _key: string, descriptor: PropertyDescriptor) {
-    const originalMethod = descriptor.value;
+export function injectTrace<T extends IEventOptions>(
+  options?: T,
+): T | undefined {
+  if (typeof options !== 'object' || options === null) {
+    options = {} as T;
+  }
 
-    descriptor.value = function (...args: any[]) {
-      // Assuming the options object is the second argument (index 1)
-      let options: IErrorEventOptions = args[1] as IErrorEventOptions;
+  if (
+    options &&
+    !(options as any).stack &&
+    !((options as any).errorClass as DefaultError)?.stack &&
+    !(options as any).cause?.stack
+  ) {
+    (options as any).stack = new Error().stack;
+  }
 
-      // Ensure options is an object, and set the trace if not present
-      if (typeof options !== 'object' || options === null) {
-        options = {};
-        args[1] = options;
-      }
-
-      // Set trace if it's not already set
-      if (
-        !options.stack &&
-        !(options.errorClass as DefaultError)?.stack &&
-        !options.cause?.stack
-      ) {
-        options.stack = new Error().stack;
-      }
-
-      // Call the original method with possibly modified arguments
-      return originalMethod.apply(this, args);
-    };
-
-    return descriptor;
-  };
+  return options;
 }
 
 @Injectable()
@@ -108,7 +95,7 @@ export class YalcEventService<
   constructor(
     protected readonly loggerService: ImprovedLoggerService,
     protected readonly eventEmitter: EventEmitter2,
-    protected options?: IEventServiceOptions<TFormatter>,
+    protected options?: any,
   ) {}
 
   get logger(): ImprovedLoggerService {
@@ -155,11 +142,12 @@ export class YalcEventService<
     );
   }
 
-  @InjectTrace()
   public error(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
   ) {
+    options = injectTrace(options) as any;
+    options = injectTrace(options) as any;
     return this._error(eventName, this.buildErrorOptions(options));
   }
 
@@ -189,11 +177,12 @@ export class YalcEventService<
     }
   }
 
-  @InjectTrace()
   public async errorAsync(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
   ) {
+    options = injectTrace(options) as any;
+    options = injectTrace(options) as any;
     return this._errorAsync(eventName, this.buildErrorOptions(options));
   }
 
@@ -336,7 +325,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 400 Bad Request error when the request could not be understood or was missing required parameters.
    */
-  @InjectTrace()
   public errorBadRequest(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -379,7 +367,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 401 Unauthorized error when authentication is required and has failed or has not yet been provided.
    */
-  @InjectTrace()
   public errorUnauthorized(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -419,7 +406,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 402 Payment Required error. This status code is reserved for future use.
    */
-  @InjectTrace()
   public errorPaymentRequired(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -433,7 +419,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 403 Forbidden error when the client does not have access rights to the content.
    */
-  @InjectTrace()
   public errorForbidden(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -473,7 +458,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 404 Not Found error when the server can not find the requested resource.
    */
-  @InjectTrace()
   public errorNotFound(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -516,7 +500,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 405 Method Not Allowed error when the HTTP method is not supported for the requested resource.
    */
-  @InjectTrace()
   public errorMethodNotAllowed(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -556,7 +539,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 406 Not Acceptable error when the server cannot produce a response matching the list of acceptable values defined in the request's headers.
    */
-  @InjectTrace()
   public errorNotAcceptable(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -596,7 +578,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 409 Conflict error when the request could not be completed due to a conflict with the current state of the target resource.
    */
-  @InjectTrace()
   public errorConflict(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -636,7 +617,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 410 Gone error when the target resource is no longer available at the origin server and no forwarding address is known.
    */
-  @InjectTrace()
   public errorGone(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -676,7 +656,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 415 Unsupported Media Type error when the request entity has a media type which the server or resource does not support.
    */
-  @InjectTrace()
   public errorUnsupportedMediaType(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -718,7 +697,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 422 Unprocessable Entity error when the server understands the content type of the request entity, but was unable to process the contained instructions.
    */
-  @InjectTrace()
   public errorUnprocessableEntity(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -760,7 +738,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 429 Too Many Requests error when the user has sent too many requests in a given amount of time.
    */
-  @InjectTrace()
   public errorTooManyRequests(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -800,7 +777,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 500 Internal Server Error when the server encountered an unexpected condition that prevented it from fulfilling the request.
    */
-  @InjectTrace()
   public errorInternalServerError(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -840,7 +816,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 501 Not Implemented error when the server does not support the functionality required to fulfill the request.
    */
-  @InjectTrace()
   public errorNotImplemented(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -880,7 +855,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 502 Bad Gateway error when one server on the internet received an invalid response from another server.
    */
-  @InjectTrace()
   public errorBadGateway(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -920,7 +894,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 503 Service Unavailable error when the server is not ready to handle the request. Common causes are a server that is down for maintenance or that is overloaded.
    */
-  @InjectTrace()
   public errorServiceUnavailable(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,
@@ -960,7 +933,6 @@ export class YalcEventService<
   /**
    * Use this method to throw a 504 Gateway Timeout error when one server did not receive a timely response from another server or some other auxiliary server it needed to access to complete the request.
    */
-  @InjectTrace()
   public errorGatewayTimeout(
     eventName: Parameters<TFormatter> | string,
     options?: IErrorBasedMethodOptions<TErrorOptions>,

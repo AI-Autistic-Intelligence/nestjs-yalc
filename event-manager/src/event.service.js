@@ -1,15 +1,8 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.YalcEventService = void 0;
+exports.injectTrace = injectTrace;
+const tslib_1 = require("tslib");
 const common_1 = require("@nestjs/common");
 const event_js_1 = require("./event.js");
 const event_emitter_1 = require("@nestjs/event-emitter");
@@ -19,24 +12,17 @@ const event_helper_js_1 = require("./event.helper.js");
 const http_status_code_to_errors_js_1 = require("@nest-yalc-2/errors/http-status-code-to-errors.js");
 const class_helper_js_1 = require("@nest-yalc-2/utils/class.helper.js");
 const neverthrow_1 = require("neverthrow");
-function InjectTrace() {
-    return function (_target, _key, descriptor) {
-        const originalMethod = descriptor.value;
-        descriptor.value = function (...args) {
-            let options = args[1];
-            if (typeof options !== 'object' || options === null) {
-                options = {};
-                args[1] = options;
-            }
-            if (!options.stack &&
-                !options.errorClass?.stack &&
-                !options.cause?.stack) {
-                options.stack = new Error().stack;
-            }
-            return originalMethod.apply(this, args);
-        };
-        return descriptor;
-    };
+function injectTrace(options) {
+    if (typeof options !== 'object' || options === null) {
+        options = {};
+    }
+    if (options &&
+        !options.stack &&
+        !options.errorClass?.stack &&
+        !options.cause?.stack) {
+        options.stack = new Error().stack;
+    }
+    return options;
 }
 let YalcEventService = class YalcEventService {
     constructor(loggerService, eventEmitter, options) {
@@ -62,6 +48,8 @@ let YalcEventService = class YalcEventService {
         return (0, event_js_1.eventErrorAsync)(eventName, this.buildOptions(options));
     }
     error(eventName, options) {
+        options = injectTrace(options);
+        options = injectTrace(options);
         return this._error(eventName, this.buildErrorOptions(options));
     }
     errorResult(eventName, options) {
@@ -77,6 +65,8 @@ let YalcEventService = class YalcEventService {
         }
     }
     async errorAsync(eventName, options) {
+        options = injectTrace(options);
+        options = injectTrace(options);
         return this._errorAsync(eventName, this.buildErrorOptions(options));
     }
     async warnAsync(eventName, options) {
@@ -473,122 +463,8 @@ let YalcEventService = class YalcEventService {
     }
 };
 exports.YalcEventService = YalcEventService;
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
-], YalcEventService.prototype, "error", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], YalcEventService.prototype, "errorAsync", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.BadRequestError)
-], YalcEventService.prototype, "errorBadRequest", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.UnauthorizedError)
-], YalcEventService.prototype, "errorUnauthorized", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.PaymentRequiredError)
-], YalcEventService.prototype, "errorPaymentRequired", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.ForbiddenError)
-], YalcEventService.prototype, "errorForbidden", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.NotFoundError)
-], YalcEventService.prototype, "errorNotFound", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.MethodNotAllowedError)
-], YalcEventService.prototype, "errorMethodNotAllowed", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.NotAcceptableError)
-], YalcEventService.prototype, "errorNotAcceptable", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.ConflictError)
-], YalcEventService.prototype, "errorConflict", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.GoneError)
-], YalcEventService.prototype, "errorGone", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.UnsupportedMediaTypeError)
-], YalcEventService.prototype, "errorUnsupportedMediaType", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.UnprocessableEntityError)
-], YalcEventService.prototype, "errorUnprocessableEntity", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.TooManyRequestsError)
-], YalcEventService.prototype, "errorTooManyRequests", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.InternalServerError)
-], YalcEventService.prototype, "errorInternalServerError", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.NotImplementedError)
-], YalcEventService.prototype, "errorNotImplemented", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.BadGatewayError)
-], YalcEventService.prototype, "errorBadGateway", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", error_class_js_1.ServiceUnavailableError)
-], YalcEventService.prototype, "errorServiceUnavailable", null);
-__decorate([
-    InjectTrace(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Object)
-], YalcEventService.prototype, "errorGatewayTimeout", null);
-exports.YalcEventService = YalcEventService = __decorate([
+exports.YalcEventService = YalcEventService = tslib_1.__decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [Object, event_emitter_1.EventEmitter2, Object])
+    tslib_1.__metadata("design:paramtypes", [Object, event_emitter_1.EventEmitter2, Object])
 ], YalcEventService);
 //# sourceMappingURL=event.service.js.map

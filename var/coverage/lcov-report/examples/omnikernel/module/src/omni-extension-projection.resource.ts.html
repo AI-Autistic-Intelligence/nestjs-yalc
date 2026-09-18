@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.53% </span>
+                <span class="strong">92.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/39</span>
+                <span class='fraction'>24/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.17% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/34</span>
+                <span class='fraction'>14/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.63% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/11</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
@@ -695,22 +695,22 @@ export interface OmniExtensionProjectionRegistration&lt;
   dataLoaderToken: string;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >dialectFor(d</span>ataSource: DataSource) {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+function dialectFor(dataSource: DataSource) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (
     dataSource.options.type !== 'sqlite' &amp;&amp;
 <span class="branch-1 cbranch-no" title="branch not covered" >    dataSource.options.type !== 'postgres'</span>
   ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError(</span></span>
+<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
       'Omni extension projections require a SQLite or PostgreSQL data source.',
     );
   }
-<span class="cstat-no" title="statement not covered" >  return createProjectionDialect(dataSource.options.type);</span>
+  return createProjectionDialect(dataSource.options.type);
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >defaultGraphqlNames(</span>
+function defaultGraphqlNames(
   apiModel: ClassType,
 ): OmniExtensionProjectionGraphqlNames {
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     object: apiModel.name,
     create: `${apiModel.name}CreateInput`,
     patch: `${apiModel.name}UpdateInput`,
@@ -724,7 +724,7 @@ function <span class="fstat-no" title="function not covered" >defaultGraphqlName
  * consumers register the returned controllers/providers alongside their
  * trusted OmniKernel scope module and TypeOrmModule.forFeature entities.
  */
-export function <span class="fstat-no" title="function not covered" >createOmniExtensionProjectionRegistration&lt;</span>
+export function createOmniExtensionProjectionRegistration&lt;
   Extension extends ObjectLiteral,
   Api extends ObjectLiteral,
 &gt;(
@@ -734,9 +734,9 @@ export function <span class="fstat-no" title="function not covered" >createOmniE
     options.definition,
     options.graphql?.names ?? defaultGraphqlNames(options.apiModel),
   );
-  const serviceToken = <span class="cstat-no" title="statement not covered" >getServiceToken(options.apiModel);</span>
-  const dataLoaderToken = <span class="cstat-no" title="statement not covered" >getDataloaderToken(options.apiModel);</span>
-  const resource = <span class="cstat-no" title="statement not covered" >CrudGenResourceFactory&lt;Api&gt;({</span>
+  const serviceToken = getServiceToken(options.apiModel);
+  const dataLoaderToken = getDataloaderToken(options.apiModel);
+  const resource = CrudGenResourceFactory&lt;Api&gt;({
     entityModel: options.apiModel,
     backend: false,
     graphql: {
@@ -767,14 +767,14 @@ export function <span class="fstat-no" title="function not covered" >createOmniE
     },
   });
 &nbsp;
-  const reader = <span class="cstat-no" title="statement not covered" >Object.freeze({</span>
+  const reader = Object.freeze({
     type: 'extension' as const,
     id: options.definition.id,
     entity: options.entity,
     definition: options.definition,
   }) as OmniExtensionProjectionReaderRegistration&lt;Extension&gt;;
   const serviceProvider: Provider =
-<span class="cstat-no" title="statement not covered" >    options.lifecycle &amp;&amp; options.catalog</span>
+    options.lifecycle &amp;&amp; options.catalog
       ? {
           provide: serviceToken,
           scope: Scope.REQUEST,
@@ -855,7 +855,7 @@ export function <span class="fstat-no" title="function not covered" >createOmniE
               YalcEventService,
             ],
           };
-  const providers: Provider[] = <span class="cstat-no" title="statement not covered" >[</span>
+  const providers: Provider[] = [
     serviceProvider,
     {
       provide: dataLoaderToken,
@@ -864,15 +864,15 @@ export function <span class="fstat-no" title="function not covered" >createOmniE
         service: OmniExtensionProjectionService&lt;Extension&gt;,
         scope: OmniScopeContext,
       ) =&gt;
-<span class="cstat-no" title="statement not covered" >        new GQLDataLoader(getFn(service as never), 'guid', undefined, {</span>
-          cacheKeyFn: (key) =&gt; <span class="cstat-no" title="statement not covered" >scope.cacheKey(key),</span>
+        new GQLDataLoader(getFn(service as never), 'guid', undefined, {
+          cacheKeyFn: (key) =&gt; scope.cacheKey(key),
         }),
       inject: [serviceToken, OmniScopeContext],
     },
     ...resource.providers,
   ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return Object.freeze({</span>
+  return Object.freeze({
     definition: options.definition,
     entities: Object.freeze([options.entity]),
     reservedRecordKinds: Object.freeze([options.definition.owner.kind]),
@@ -892,7 +892,7 @@ export function <span class="fstat-no" title="function not covered" >createOmniE
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

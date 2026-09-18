@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.01% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>108/183</span>
+                <span class='fraction'>106/106</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.82% </span>
+                <span class="strong">90.16% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>55/115</span>
+                <span class='fraction'>55/61</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>15/25</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -995,70 +995,70 @@ import * as _ from 'lodash-es';
 import { IGlobalOptions } from './app-bootstrap-base.helper.js';
 import { getEnvLoggerLevels } from '@nest-yalc-2/logger/logger.helper.js';
 &nbsp;
-const singletonDynamicModules = <span class="cstat-no" title="statement not covered" >new Map&lt;any, any&gt;();</span>
+const singletonDynamicModules = new Map&lt;any, any&gt;();
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >registerSingletonDynamicModule(</span>
+export function registerSingletonDynamicModule(
   isSingleton: boolean,
   moduleToken: any,
   module: any,
 ): any | true {
-<span class="cstat-no" title="statement not covered" >  if (!isSingleton) {</span>
-<span class="cstat-no" title="statement not covered" >    return false;</span>
+  if (!isSingleton) {
+    return false;
   }
 &nbsp;
-  const cached = <span class="cstat-no" title="statement not covered" >singletonDynamicModules.get(moduleToken);</span>
-<span class="cstat-no" title="statement not covered" >  if (cached) {</span>
-<span class="cstat-no" title="statement not covered" >    return cached;</span>
+  const cached = singletonDynamicModules.get(moduleToken);
+  if (cached) {
+    return cached;
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  singletonDynamicModules.set(moduleToken, module);</span>
-<span class="cstat-no" title="statement not covered" >  return singletonDynamicModules.get(moduleToken);</span>
+  singletonDynamicModules.set(moduleToken, module);
+  return singletonDynamicModules.get(moduleToken);
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >getCachedModule(m</span>odule: any, isSingleton: boolean) {
-<span class="cstat-no" title="statement not covered" >  if (isSingleton) {</span>
-<span class="cstat-no" title="statement not covered" >    return singletonDynamicModules.get(module);</span>
+export function getCachedModule(module: any, isSingleton: boolean) {
+  if (isSingleton) {
+    return singletonDynamicModules.get(module);
   }
-<span class="cstat-no" title="statement not covered" >  return null;</span>
+  return null;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >envFilePathList(d</span>irname: string = '.') {
+export function envFilePathList(dirname: string = '.') {
   const envFilePath: string[] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  envFilePath.push(`${dirname}/.env`); /</span>/ user-defined env (git-ignored)
+  envFilePath.push(`${dirname}/.env`); // user-defined env (git-ignored)
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (process.env.NODE_ENV) {</span>
-<span class="cstat-no" title="statement not covered" >    envFilePath.push(`${dirname}/.env.${process.env.NODE_ENV}`); /</span>/ user-defined env (git-ignored)
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (process.env.NODE_ENV) {
+    envFilePath.push(`${dirname}/.env.${process.env.NODE_ENV}`); // user-defined env (git-ignored)
   }
 &nbsp;
   // .env.dist is always loaded except in production
-<span class="cstat-no" title="statement not covered" >  if (process.env.NODE_ENV !== 'production')</span>
-<span class="cstat-no" title="statement not covered" >    envFilePath.push(`${dirname}/.env.dist`);</span>
+  if (process.env.NODE_ENV !== 'production')
+    envFilePath.push(`${dirname}/.env.dist`);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return envFilePath;</span>
+  return envFilePath;
 }
 &nbsp;
 const _buildEnvFilePath = _.memoize(
   (envDir?: string, envPath?: string | string[]) =&gt; {
     const envFilePath: string[] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!envPath) {</span>
-<span class="cstat-no" title="statement not covered" >      Logger.debug(</span>
+    if (!envPath) {
+      Logger.debug(
         `Loading env from: ${envDir}, NODE_ENV: ${process.env.NODE_ENV}`,
       );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      envFilePath.push(...envFilePathList(envDir));</span>
+      envFilePath.push(...envFilePathList(envDir));
     } else {
-<span class="cstat-no" title="statement not covered" >      envFilePath.push(...(Array.isArray(envPath) ? envPath : <span class="branch-1 cbranch-no" title="branch not covered" >[envPath]))</span>;</span>
+      envFilePath.push(...(Array.isArray(envPath) ? envPath : <span class="branch-1 cbranch-no" title="branch not covered" >[envPath])</span>);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    Logger.debug(`Using env file paths: ${envFilePath}`);</span>
+    Logger.debug(`Using env file paths: ${envFilePath}`);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return envFilePath;</span>
+    return envFilePath;
   },
   // Since memoize use the first argument as the key, we need to generate a unique key based on both arguments
   (envDir = '', envPath = '') =&gt; {
-<span class="cstat-no" title="statement not covered" >    return `${envDir}-${Array.isArray(envPath) ? envPath.join(',') : envPath}`;</span>
+    return `${envDir}-${Array.isArray(envPath) ? envPath.join(',') : envPath}`;
   },
 );
 &nbsp;
@@ -1066,33 +1066,33 @@ const _buildEnvFilePath = _.memoize(
  * For some strange reason, the memoize doesn't work well with exporting the const at the same time
  * and re-use it in the same file
  */
-export const buildEnvFilePath = <span class="cstat-no" title="statement not covered" >_buildEnvFilePath;</span>
+export const buildEnvFilePath = _buildEnvFilePath;
 &nbsp;
 /**
  * Used for applications with controller/resolver support
  * you should override it
  */
-export function <span class="fstat-no" title="function not covered" >yalcBaseAppModuleMetadataFactory(</span>
+export function yalcBaseAppModuleMetadataFactory(
   module: any,
   appAlias: string,
   options?: Omit&lt;IYalcBaseAppOptions, 'module'&gt;,
 ): IYalcBaseStaticModule {
-  const _options = <span class="cstat-no" title="statement not covered" >{</span>
+  const _options = {
     // default values
     isSingleton: false,
     global: true,
     // user defined values
     ...(options ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
   };
-  const { controllers, exports, imports, providers } = <span class="cstat-no" title="statement not covered" >_options;</span>
+  const { controllers, exports, imports, providers } = _options;
 &nbsp;
-  const cached = <span class="cstat-no" title="statement not covered" >getCachedModule(module, _options.isSingleton);</span>
-<span class="cstat-no" title="statement not covered" >  if (cached) {</span>
+  const cached = getCachedModule(module, _options.isSingleton);
+  if (cached) {
     // Logger.debug(`Using cached metadata for ${module.name}`);
-<span class="cstat-no" title="statement not covered" >    return cached;</span>
+    return cached;
   }
 &nbsp;
-  const _providers: Array&lt;any&gt; = <span class="cstat-no" title="statement not covered" >[</span>
+  const _providers: Array&lt;any&gt; = [
     {
       provide: MODULE_ALIAS_TOKEN,
       useValue: appAlias,
@@ -1111,9 +1111,9 @@ export function <span class="fstat-no" title="function not covered" >yalcBaseApp
     },
   ];
 &nbsp;
-  const logger = <span class="cstat-no" title="statement not covered" >options?.logger;</span>
-<span class="cstat-no" title="statement not covered" >  if (logger) {</span>
-<span class="cstat-no" title="statement not covered" >    _providers.push(</span>
+  const logger = options?.logger;
+  if (logger) {
+    _providers.push(
       (logger === true ? LoggerServiceFactory : <span class="branch-1 cbranch-no" title="branch not covered" >logger)</span>(
         appAlias,
         APP_LOGGER_SERVICE,
@@ -1121,7 +1121,7 @@ export function <span class="fstat-no" title="function not covered" >yalcBaseApp
       ),
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    _providers.push({</span>
+    _providers.push({
       provide: getAppLoggerToken(appAlias),
       useExisting: APP_LOGGER_SERVICE,
     });
@@ -1129,8 +1129,8 @@ export function <span class="fstat-no" title="function not covered" >yalcBaseApp
 &nbsp;
   const hasConfig = _options.extraConfigs || _options.configFactory;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (hasConfig) {</span>
-<span class="cstat-no" title="statement not covered" >    _providers.push(</span>
+  if (hasConfig) {
+    _providers.push(
       createAppConfigProvider(appAlias),
       /**
        * Alias
@@ -1142,25 +1142,25 @@ export function <span class="fstat-no" title="function not covered" >yalcBaseApp
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (!_options.skipDuplicateAppCheck) {</span>
-<span class="cstat-no" title="statement not covered" >    _providers.push(LifeCycleHandler);</span>
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (!_options.skipDuplicateAppCheck) {
+    _providers.push(LifeCycleHandler);
   }
 &nbsp;
   // eslint-disable-next-line @typescript-eslint/naming-convention
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (providers) {</span>
-<span class="cstat-no" title="statement not covered" >    _providers.push(...providers);</span>
+  if (providers) {
+    _providers.push(...providers);
   }
 &nbsp;
   const _imports: DynamicModule['imports'] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (hasConfig) {</span>
+  if (hasConfig) {
     const envFilePath: string[] = _buildEnvFilePath(
       options?.envDir,
       options?.envPath,
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    _imports.push(</span>
+    _imports.push(
       YalcGlobalStaticModule,
       (options?.eventModuleClass ?? EventModule).forRootAsync({
         imports: [module],
@@ -1177,13 +1177,13 @@ export function <span class="fstat-no" title="function not covered" >yalcBaseApp
       ConfigModule.forRoot({
         envFilePath,
         load: [
-          registerAs(appAlias, <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
+          registerAs(appAlias, async () =&gt; {
             /**
              * @see https://docs.nestjs.com/techniques/configuration#environment-variables-loaded-hook
              */
-<span class="cstat-no" title="statement not covered" >            await ConfigModule.envVariablesLoaded;</span>
+            await ConfigModule.envVariablesLoaded;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return await (_options.configFactory?.() ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>;</span>
+            return await (_options.configFactory?.() ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>;
           }),
           ...(_options.extraConfigs ?? []),
         ],
@@ -1211,45 +1211,45 @@ export function <span class="fstat-no" title="function not covered" >yalcBaseApp
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (imports) {</span>
-<span class="cstat-no" title="statement not covered" >    _imports.push(...imports);</span>
+  if (imports) {
+    _imports.push(...imports);
   }
 &nbsp;
-  const _exports: DynamicModule['exports'] = <span class="cstat-no" title="statement not covered" >[getAppEventToken(appAlias)];</span>
+  const _exports: DynamicModule['exports'] = [getAppEventToken(appAlias)];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (options?.logger) {</span>
-<span class="cstat-no" title="statement not covered" >    _exports.push(getAppLoggerToken(appAlias));</span>
+  if (options?.logger) {
+    _exports.push(getAppLoggerToken(appAlias));
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (hasConfig) {</span>
-<span class="cstat-no" title="statement not covered" >    _exports.push(getAppConfigToken(appAlias));</span>
+  if (hasConfig) {
+    _exports.push(getAppConfigToken(appAlias));
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (exports) {</span>
+  if (exports) {
     _exports.push(...exports);
   }
 &nbsp;
   const _controllers: DynamicModule['controllers'] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (controllers) {</span>
-<span class="cstat-no" title="statement not covered" >    _controllers.push(</span>
+  if (controllers) {
+    _controllers.push(
       ...controllers.map((c) =&gt; {
-        (<span class="cstat-no" title="statement not covered" >c as unknown as IYalcControllerStaticInterface)._appAlias = appAlias;</span>
-<span class="cstat-no" title="statement not covered" >        return c;</span>
+        (c as unknown as IYalcControllerStaticInterface)._appAlias = appAlias;
+        return c;
       }),
     );
   }
 &nbsp;
-  const config = <span class="cstat-no" title="statement not covered" >{</span>
+  const config = {
     imports: _imports,
     exports: _exports,
     controllers: _controllers,
     providers: _providers,
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  registerSingletonDynamicModule(_options.isSingleton, module, config);</span>
+  registerSingletonDynamicModule(_options.isSingleton, module, config);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return config;</span>
+  return config;
 }
 &nbsp;
 /**
@@ -1263,11 +1263,11 @@ export class YalcBaseAppModule {
    * NOTE: if you need singleton dynamic modules, you should use the `isSingleton` property
    * but in most of the cases is better to use the static module instead
    */
-<span class="fstat-no" title="function not covered" >  protected static _</span>forRootStandalone(
+  protected static _forRootStandalone(
     appAlias: string,
     options?: IYalcBaseAppOptions,
   ): IYalcBaseDynamicModule {
-<span class="cstat-no" title="statement not covered" >    return this.assignDynamicProperties(</span>
+    return this.assignDynamicProperties(
       yalcBaseAppModuleMetadataFactory(this, appAlias, {
         isStandalone: true,
         ...this.assignDynamicProperties({}),
@@ -1284,11 +1284,11 @@ export class YalcBaseAppModule {
    * NOTE: if you need singleton dynamic modules, you should use the `isSingleton` property
    * but in most of the cases is better to use the static module instead
    */
-<span class="fstat-no" title="function not covered" >  protected static _</span>forRoot(
+  protected static _forRoot(
     appAlias: string,
     options?: IYalcBaseAppOptions,
   ): IYalcBaseDynamicModule {
-<span class="cstat-no" title="statement not covered" >    return this.assignDynamicProperties(</span>
+    return this.assignDynamicProperties(
       yalcBaseAppModuleMetadataFactory(this, appAlias, {
         isStandalone: false,
         ...this.assignDynamicProperties({}),
@@ -1298,20 +1298,20 @@ export class YalcBaseAppModule {
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public static a</span>ssignDynamicProperties(
+  public static assignDynamicProperties(
     config: any,
     options?: IYalcBaseAppOptions,
   ) {
-<span class="cstat-no" title="statement not covered" >    config.module = this;</span>
-<span class="cstat-no" title="statement not covered" >    config.global = options?.global ?? true;</span>
-<span class="cstat-no" title="statement not covered" >    config.isSingleton = options?.isSingleton ?? false;</span>
+    config.module = this;
+    config.global = options?.global ?? true;
+    config.isSingleton = options?.isSingleton ?? false;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return config;</span>
+    return config;
   }
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >yalcGlobalStaticModuleFactory(): Partial&lt;IYalcBaseStaticModule&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return {</span>
+function yalcGlobalStaticModuleFactory(): Partial&lt;IYalcBaseStaticModule&gt; {
+  return {
     imports: [
       EventEmitterModule.forRoot({
         global: true,
@@ -1329,12 +1329,12 @@ export class YalcGlobalStaticModule {}
  * This class is used to create true singleton providers
  */
 export class YalcDefaultAppModule {
-<span class="fstat-no" title="function not covered" >  static f</span>orRoot(
+  static forRoot(
     appAlias: string,
     imports: NonNullable&lt;DynamicModule['imports']&gt;,
     options?: IGlobalOptions,
   ) {
-    const _imports: NonNullable&lt;DynamicModule['imports']&gt; = <span class="cstat-no" title="statement not covered" >[</span>
+    const _imports: NonNullable&lt;DynamicModule['imports']&gt; = [
       YalcGlobalStaticModule,
       (options?.eventModuleClass ?? EventModule).forRootAsync({
         loggerProvider: {
@@ -1348,7 +1348,7 @@ export class YalcDefaultAppModule {
       ...imports,
     ];
 &nbsp;
-    const providers: NonNullable&lt;DynamicModule['providers']&gt; = <span class="cstat-no" title="statement not covered" >[</span>
+    const providers: NonNullable&lt;DynamicModule['providers']&gt; = [
       {
         provide: APP_ALIAS_TOKEN,
         useValue: appAlias,
@@ -1359,13 +1359,13 @@ export class YalcDefaultAppModule {
       },
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    providers.push(</span>
+    providers.push(
       {
         provide: SYSTEM_LOGGER_SERVICE,
         useFactory: (configService, eventEmitter) =&gt; {
-          const loggerFactory = <span class="cstat-no" title="statement not covered" >options?.logger ?? LoggerServiceFactory;</span>
+          const loggerFactory = options?.logger ?? LoggerServiceFactory;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          return loggerFactory(appAlias, SYSTEM_LOGGER_SERVICE, appAlias, {</span>
+          return loggerFactory(appAlias, SYSTEM_LOGGER_SERVICE, appAlias, {
             event: {
               eventEmitter: eventEmitter,
             },
@@ -1377,7 +1377,7 @@ export class YalcDefaultAppModule {
       {
         provide: MAIN_APP_CONFIG_SERVICE,
         useFactory: (config: ConfigService) =&gt; {
-<span class="cstat-no" title="statement not covered" >          return new AppConfigService(config, appAlias);</span>
+          return new AppConfigService(config, appAlias);
         },
         inject: [ConfigService],
       },
@@ -1387,7 +1387,7 @@ export class YalcDefaultAppModule {
       },
     );
 &nbsp;
-    const exports: NonNullable&lt;DynamicModule['exports']&gt; = <span class="cstat-no" title="statement not covered" >[</span>
+    const exports: NonNullable&lt;DynamicModule['exports']&gt; = [
       APP_OPTION_TOKEN,
       APP_ALIAS_TOKEN,
       SYSTEM_LOGGER_SERVICE,
@@ -1395,7 +1395,7 @@ export class YalcDefaultAppModule {
       MAIN_APP_CONFIG_SERVICE,
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       exports,
       providers,
       imports: _imports,
@@ -1411,7 +1411,7 @@ export class YalcDefaultAppModule {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

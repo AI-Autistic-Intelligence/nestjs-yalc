@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.09% </span>
+                <span class="strong">86.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>154/327</span>
+                <span class='fraction'>153/176</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.37% </span>
+                <span class="strong">78.26% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>108/261</span>
+                <span class='fraction'>108/138</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">90.9% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>30/60</span>
+                <span class='fraction'>30/33</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -1316,16 +1316,16 @@ import { OmniRelationStatus } from './omni-relation-status.enum.js';
 import type { OmniRelationKindContract } from './omni-relation-kind.contract.js';
 import type { OmniDeletePolicy, OmniScope } from './omni-scope.js';
 &nbsp;
-function <span class="fstat-no" title="function not covered" >hasOwn(i</span>nput: object, key: string): boolean {
-<span class="cstat-no" title="statement not covered" >  return Object.prototype.hasOwnProperty.call(input, key);</span>
+function hasOwn(input: object, key: string): boolean {
+  return Object.prototype.hasOwnProperty.call(input, key);
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >isRetryableTransactionError(e</span>rror: unknown): boolean {
+function isRetryableTransactionError(error: unknown): boolean {
   const candidate = error as {
     code?: unknown;
     driverError?: { code?: unknown };
   };
-  const code = <span class="cstat-no" title="statement not covered" >candidate?.driverError?.code ?? candidate?.code;</span>
+  const code = candidate?.driverError?.code ?? candidate?.code;
   return (
     code === '40001' ||
     code === 'SQLITE_BUSY' ||
@@ -1353,12 +1353,12 @@ export class OmniRelationProjectionService extends OmniRelationService {
     &gt;,
     private readonly readerCatalog?: OmniProjectionReaderCatalog,
   ) {
-<span class="cstat-no" title="statement not covered" >    super(repository, scope, relationDeletion, recordRepository, kinds);</span>
-<span class="cstat-no" title="statement not covered" >    for (const kind of getOmniRelationProjectionAllowedKinds(definition)) {</span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-<span class="cstat-no" title="statement not covered" >        kinds.assert(kind);</span>
+    super(repository, scope, relationDeletion, recordRepository, kinds);
+    for (const kind of getOmniRelationProjectionAllowedKinds(definition)) {
+      try {
+        kinds.assert(kind);
       } catch (error) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new TypeError(</span></span>
+<span class="cstat-no" title="statement not covered" >        throw new TypeError(</span>
           error instanceof Error
             ? error.message
             : 'Omni relation projection kind is not registered.',
@@ -1377,44 +1377,44 @@ export class OmniRelationProjectionService extends OmniRelationService {
     findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniRelationEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async c</span>reateEntity(
+  override async createEntity(
     input: DeepPartial&lt;OmniRelationEntity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniRelationEntity | boolean&gt; {
-    const normalized = <span class="cstat-no" title="statement not covered" >this.normalizeInput(input as Record&lt;string, unknown&gt;);</span>
-<span class="cstat-no" title="statement not covered" >    this.rejectFixedFields(normalized, true);</span>
-<span class="cstat-no" title="statement not covered" >    this.selectCreateKind(normalized);</span>
-    const created = <span class="cstat-no" title="statement not covered" >this.createValues(normalized);</span>
-<span class="cstat-no" title="statement not covered" >    if (!this.lifecycle) {</span>
+    const normalized = this.normalizeInput(input as Record&lt;string, unknown&gt;);
+    this.rejectFixedFields(normalized, true);
+    this.selectCreateKind(normalized);
+    const created = this.createValues(normalized);
+    if (!this.lifecycle) {
       const result = await super.createEntity(
         created,
         findOptions,
         returnEntity,
       );
-<span class="cstat-no" title="statement not covered" >      return typeof result === 'boolean' ? <span class="branch-0 cbranch-no" title="branch not covered" >result </span>: this.publicEntity(result);</span>
+      return typeof result === 'boolean' ? <span class="branch-0 cbranch-no" title="branch not covered" >result </span>: this.publicEntity(result);
     }
-    const result = <span class="cstat-no" title="statement not covered" >await this.mutate(<span class="fstat-no" title="function not covered" >async (m</span>anager) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      await this.assertRelation(</span>
+    const result = await this.mutate(async (manager) =&gt; {
+      await this.assertRelation(
         created,
         manager.getRepository(OmniRecordEntity),
       );
-<span class="cstat-no" title="statement not covered" >      await this.lifecycle!.beforeCreate?.({</span>
+      await this.lifecycle!.beforeCreate?.({
         definition: this.definition,
         scope: this.scope,
         manager,
         readers: this.readers(manager),
         input: this.publicInput(normalized),
       });
-      const repository = <span class="cstat-no" title="statement not covered" >manager.getRepository(OmniRelationEntity);</span>
-      const entity = <span class="cstat-no" title="statement not covered" >{</span>
+      const repository = manager.getRepository(OmniRelationEntity);
+      const entity = {
         ...created,
         scopeId: this.scopeId,
       };
-      const guid = <span class="cstat-no" title="statement not covered" >this.requiredIdentifier(entity.guid, 'guid');</span>
-<span class="cstat-no" title="statement not covered" >      await repository.insert(entity as never);</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!returnEntity) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >return true;</span></span></span>
-<span class="cstat-no" title="statement not covered" >      return repository.findOneOrFail({</span>
+      const guid = this.requiredIdentifier(entity.guid, 'guid');
+      await repository.insert(entity as never);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!returnEntity) <span class="cstat-no" title="statement not covered" >return true;</span>
+      return repository.findOneOrFail({
         where: {
           scopeId: this.scopeId,
           guid,
@@ -1422,7 +1422,7 @@ export class OmniRelationProjectionService extends OmniRelationService {
         } as FindOptionsWhere&lt;OmniRelationEntity&gt;,
       });
     });
-<span class="cstat-no" title="statement not covered" >    return typeof result === 'boolean' ? <span class="branch-0 cbranch-no" title="branch not covered" >result </span>: this.publicEntity(result);</span>
+    return typeof result === 'boolean' ? <span class="branch-0 cbranch-no" title="branch not covered" >result </span>: this.publicEntity(result);
   }
 &nbsp;
   override async getEntity(
@@ -1447,7 +1447,7 @@ export class OmniRelationProjectionService extends OmniRelationService {
     databaseName?: string,
     options?: { failOnNull?: boolean },
   ): Promise&lt;OmniRelationEntity&gt;;
-<span class="fstat-no" title="function not covered" >  override async g</span>etEntity(
+  override async getEntity(
     conditions:
       | FindOptionsWhere&lt;OmniRelationEntity&gt;[]
       | FindOptionsWhere&lt;OmniRelationEntity&gt;
@@ -1465,7 +1465,7 @@ export class OmniRelationProjectionService extends OmniRelationService {
       databaseName,
       options as never,
     );
-<span class="cstat-no" title="statement not covered" >    return entity ? <span class="branch-0 cbranch-no" title="branch not covered" >this.publicEntity(entity) </span>: entity;</span>
+    return entity ? <span class="branch-0 cbranch-no" title="branch not covered" >this.publicEntity(entity) </span>: entity;
   }
 &nbsp;
   override async getEntityListExtended(
@@ -1480,26 +1480,26 @@ export class OmniRelationProjectionService extends OmniRelationService {
     relations?: string[],
     databaseName?: string,
   ): Promise&lt;[OmniRelationEntity[], number]&gt;;
-<span class="fstat-no" title="function not covered" >  override async g</span>etEntityListExtended(
+  override async getEntityListExtended(
     findOptions: CrudGenFindManyOptions&lt;OmniRelationEntity&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span>
     withCount = false,
     relations?: string[],
     databaseName?: string,
   ): Promise&lt;OmniRelationEntity[] | [OmniRelationEntity[], number]&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectFixedFilters(findOptions.where);</span>
-    const where = <span class="cstat-no" title="statement not covered" >{</span>
+    this.rejectFixedFilters(findOptions.where);
+    const where = {
       operator: Operators.AND,
       filters: this.definitionFilters(),
       ...(findOptions.where ? { childExpressions: [findOptions.where] } : {}),
     };
-<span class="cstat-no" title="statement not covered" >    if (withCount) {</span>
+    if (withCount) {
       const result = await super.getEntityListExtended(
         { ...findOptions, where },
         true,
         relations,
         databaseName,
       );
-<span class="cstat-no" title="statement not covered" >      return [result[0].map((entity) =&gt; <span class="cstat-no" title="statement not covered" >this.publicEntity(entity)), r</span>esult[1]];</span>
+      return [result[0].map((entity) =&gt; this.publicEntity(entity)), result[1]];
     }
     const result = await super.getEntityListExtended(
       { ...findOptions, where },
@@ -1507,7 +1507,7 @@ export class OmniRelationProjectionService extends OmniRelationService {
       relations,
       databaseName,
     );
-<span class="cstat-no" title="statement not covered" >    return result.map((entity) =&gt; <span class="cstat-no" title="statement not covered" >this.publicEntity(entity));</span></span>
+    return result.map((entity) =&gt; this.publicEntity(entity));
   }
 &nbsp;
   override async updateEntity(
@@ -1522,46 +1522,46 @@ export class OmniRelationProjectionService extends OmniRelationService {
     _findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniRelationEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async u</span>pdateEntity(
+  override async updateEntity(
     conditions: FindOptionsWhere&lt;OmniRelationEntity&gt;,
     input: DeepPartial&lt;OmniRelationEntity&gt;,
     _findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniRelationEntity | boolean&gt; {
-    const normalized = <span class="cstat-no" title="statement not covered" >this.normalizeInput(input as Record&lt;string, unknown&gt;);</span>
-<span class="cstat-no" title="statement not covered" >    this.rejectFixedFields(normalized);</span>
-<span class="cstat-no" title="statement not covered" >    this.rejectImmutableEndpoints(normalized);</span>
-<span class="cstat-no" title="statement not covered" >    this.validatePayload(normalized);</span>
+    const normalized = this.normalizeInput(input as Record&lt;string, unknown&gt;);
+    this.rejectFixedFields(normalized);
+    this.rejectImmutableEndpoints(normalized);
+    this.validatePayload(normalized);
     const expectedRevision = normalized.expectedRevision;
-<span class="cstat-no" title="statement not covered" >    if (</span>
+    if (
       typeof expectedRevision !== 'number' ||
       !Number.isInteger(expectedRevision) ||
       expectedRevision &lt; 1 ||
       expectedRevision &gt;= PROJECTION_INTEGER_MAX
     ) {
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+      throw new BadRequestException(
         `expectedRevision must be an integer between 1 and ${PROJECTION_INTEGER_MAX - 1}.`,
       );
     }
     const fixedConditions = this.withDefinitionConditions(
       this.normalizeConditions(conditions),
     ) as FindOptionsWhere&lt;OmniRelationEntity&gt;;
-    const { expectedRevision: _expectedRevision, ...changes } = <span class="cstat-no" title="statement not covered" >normalized;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(changes).length === 0) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new BadRequestException('Omni relation update requires metadata.');</span></span>
+    const { expectedRevision: _expectedRevision, ...changes } = normalized;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(changes).length === 0) {
+<span class="cstat-no" title="statement not covered" >      throw new BadRequestException('Omni relation update requires metadata.');</span>
     }
-    const result = <span class="cstat-no" title="statement not covered" >await this.mutate(<span class="fstat-no" title="function not covered" >async (m</span>anager) =&gt; {</span>
-      const repository = <span class="cstat-no" title="statement not covered" >manager.getRepository(OmniRelationEntity);</span>
-      const current = <span class="cstat-no" title="statement not covered" >await repository.findOne({ where: fixedConditions });</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!current) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >      if (current.revision !== expectedRevision) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new ConflictException('Omni relation revision conflict.');</span>
+    const result = await this.mutate(async (manager) =&gt; {
+      const repository = manager.getRepository(OmniRelationEntity);
+      const current = await repository.findOne({ where: fixedConditions });
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!current) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+      if (current.revision !== expectedRevision) {
+        throw new ConflictException('Omni relation revision conflict.');
       }
-<span class="cstat-no" title="statement not covered" >      await this.assertRelation(</span>
+      await this.assertRelation(
         { ...current, ...changes },
         manager.getRepository(OmniRecordEntity),
       );
-<span class="cstat-no" title="statement not covered" >      await this.lifecycle?.beforeUpdate?.({</span>
+      await this.lifecycle?.beforeUpdate?.({
         definition: this.definition,
         scope: this.scope,
         manager,
@@ -1569,10 +1569,10 @@ export class OmniRelationProjectionService extends OmniRelationService {
         input: this.publicInput(normalized),
         current,
       });
-      const result = <span class="cstat-no" title="statement not covered" >await repository</span>
+      const result = await repository
         .createQueryBuilder()
         .update()
-        .set({ ...changes, revision: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >'</span>"revision" + 1' }</span> as never)
+        .set({ ...changes, revision: () =&gt; '"revision" + 1' } as never)
         .where('"scopeId" = :scopeId', { scopeId: this.scopeId })
         .andWhere('"guid" = :guid', { guid: current.guid })
         .andWhere('"revision" = :expectedRevision', { expectedRevision })
@@ -1594,29 +1594,29 @@ export class OmniRelationProjectionService extends OmniRelationService {
             : <span class="branch-1 cbranch-no" title="branch not covered" >{},</span>
         )
         .execute();
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (result.affected !== 1) {</span>
-        const existing = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >await repository.findOne({ where: fixedConditions });</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        if (!existing) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new ConflictException('Omni relation revision conflict.');</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (result.affected !== 1) {
+        const existing = <span class="cstat-no" title="statement not covered" >await repository.findOne({ where: fixedConditions });</span>
+<span class="cstat-no" title="statement not covered" >        if (!existing) <span class="cstat-no" title="statement not covered" >this.notFound();</span></span>
+<span class="cstat-no" title="statement not covered" >        throw new ConflictException('Omni relation revision conflict.');</span>
       }
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!returnEntity) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >return true;</span></span></span>
-<span class="cstat-no" title="statement not covered" >      return repository.findOneOrFail({ where: fixedConditions });</span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!returnEntity) <span class="cstat-no" title="statement not covered" >return true;</span>
+      return repository.findOneOrFail({ where: fixedConditions });
     });
-<span class="cstat-no" title="statement not covered" >    return typeof result === 'boolean' ? <span class="branch-0 cbranch-no" title="branch not covered" >result </span>: this.publicEntity(result);</span>
+    return typeof result === 'boolean' ? <span class="branch-0 cbranch-no" title="branch not covered" >result </span>: this.publicEntity(result);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async d</span>eleteEntity(
+  override async deleteEntity(
     conditions: FindOptionsWhere&lt;OmniRelationEntity&gt;,
   ): Promise&lt;boolean&gt; {
     const fixedConditions = this.withDefinitionConditions(
       this.normalizeConditions(conditions),
     ) as FindOptionsWhere&lt;OmniRelationEntity&gt;;
-<span class="cstat-no" title="statement not covered" >    if (!this.lifecycle) <span class="cstat-no" title="statement not covered" >return super.deleteEntity(fixedConditions);</span></span>
-<span class="cstat-no" title="statement not covered" >    return this.mutate(<span class="fstat-no" title="function not covered" >async (m</span>anager) =&gt; {</span>
-      const repository = <span class="cstat-no" title="statement not covered" >manager.getRepository(OmniRelationEntity);</span>
-      const current = <span class="cstat-no" title="statement not covered" >await repository.findOne({ where: fixedConditions });</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!current) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >      await this.lifecycle!.beforeDelete?.({</span>
+    if (!this.lifecycle) return super.deleteEntity(fixedConditions);
+    return this.mutate(async (manager) =&gt; {
+      const repository = manager.getRepository(OmniRelationEntity);
+      const current = await repository.findOne({ where: fixedConditions });
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!current) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+      await this.lifecycle!.beforeDelete?.({
         definition: this.definition,
         scope: this.scope,
         manager,
@@ -1625,32 +1625,32 @@ export class OmniRelationProjectionService extends OmniRelationService {
         current,
       });
       const result =
-<span class="cstat-no" title="statement not covered" >        this.relationDeletion === 'hard'</span>
+        this.relationDeletion === 'hard'
           ? await repository.delete(fixedConditions)
           : <span class="branch-1 cbranch-no" title="branch not covered" >await repository.update(fixedConditions, { deletedAt: new Date() });</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (result.affected !== 1) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >      return true;</span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (result.affected !== 1) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+      return true;
     });
   }
 &nbsp;
-  protected override <span class="fstat-no" title="function not covered" >assertEndpointKinds(</span>
+  protected override assertEndpointKinds(
     source: OmniRecordEntity,
     target: OmniRecordEntity,
   ): void {
-<span class="cstat-no" title="statement not covered" >    if (</span>
+    if (
       source.kind !== this.definition.relation.sourceKind ||
       target.kind !== this.definition.relation.targetKind
     ) {
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+      throw new BadRequestException(
         'Omni relation endpoints do not match the registered resource kinds.',
       );
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >createValues(</span>
+  private createValues(
     input: Record&lt;string, unknown&gt;,
   ): DeepPartial&lt;OmniRelationEntity&gt; {
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       ...input,
       kind: input.kind as string,
       status: this.definition.relation.status ?? OmniRelationStatus.Active,
@@ -1663,9 +1663,9 @@ export class OmniRelationProjectionService extends OmniRelationService {
     } as DeepPartial&lt;OmniRelationEntity&gt;;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >publicEntity(e</span>ntity: OmniRelationEntity): OmniRelationEntity {
-    const aliases = <span class="cstat-no" title="statement not covered" >getOmniRelationProjectionAliases(this.definition);</span>
-<span class="cstat-no" title="statement not covered" >    return {</span>
+  private publicEntity(entity: OmniRelationEntity): OmniRelationEntity {
+    const aliases = getOmniRelationProjectionAliases(this.definition);
+    return {
       ...entity,
       ...(aliases.kind === 'kind' ? {} : { [aliases.kind]: entity.kind }),
       ...(aliases.source === 'sourceRecordId'
@@ -1681,109 +1681,109 @@ export class OmniRelationProjectionService extends OmniRelationService {
   }
 &nbsp;
   /** Keeps lifecycle policies transport-neutral by exposing definition aliases. */
-<span class="fstat-no" title="function not covered" >  private publicInput(</span>
+  private publicInput(
     input: Readonly&lt;Record&lt;string, unknown&gt;&gt;,
   ): Readonly&lt;Record&lt;string, unknown&gt;&gt; {
-    const aliases = <span class="cstat-no" title="statement not covered" >getOmniRelationProjectionAliases(this.definition);</span>
-    const output = <span class="cstat-no" title="statement not covered" >{ ...input };</span>
-<span class="cstat-no" title="statement not covered" >    for (const [field, alias] of [</span>
+    const aliases = getOmniRelationProjectionAliases(this.definition);
+    const output = { ...input };
+    for (const [field, alias] of [
       ['kind', aliases.kind],
       ['sourceRecordId', aliases.source],
       ['targetRecordId', aliases.target],
       ['payload', aliases.payload],
     ] as const) {
-<span class="cstat-no" title="statement not covered" >      if (field === alias || !hasOwn(output, field)) <span class="cstat-no" title="statement not covered" >continue;</span></span>
-<span class="cstat-no" title="statement not covered" >      output[alias] = output[field];</span>
-<span class="cstat-no" title="statement not covered" >      delete output[field];</span>
+      if (field === alias || !hasOwn(output, field)) continue;
+      output[alias] = output[field];
+      delete output[field];
     }
-<span class="cstat-no" title="statement not covered" >    return output;</span>
+    return output;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >selectCreateKind(i</span>nput: Record&lt;string, unknown&gt;): void {
-    const allowed = <span class="cstat-no" title="statement not covered" >getOmniRelationProjectionAllowedKinds(this.definition);</span>
-<span class="cstat-no" title="statement not covered" >    if (allowed.length === 1) {</span>
-<span class="cstat-no" title="statement not covered" >      if (input.kind !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new BadRequestException('Omni relation kind is server-owned.');</span>
+  private selectCreateKind(input: Record&lt;string, unknown&gt;): void {
+    const allowed = getOmniRelationProjectionAllowedKinds(this.definition);
+    if (allowed.length === 1) {
+      if (input.kind !== undefined) {
+        throw new BadRequestException('Omni relation kind is server-owned.');
       }
-<span class="cstat-no" title="statement not covered" >      input.kind = allowed[0];</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+      input.kind = allowed[0];
+      return;
     }
-<span class="cstat-no" title="statement not covered" >    if (typeof input.kind !== 'string' || !allowed.includes(input.kind)) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+    if (typeof input.kind !== 'string' || !allowed.includes(input.kind)) {
+      throw new BadRequestException(
         'Omni relation kind is not allowed by this resource.',
       );
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >normalizeInput(</span>
+  private normalizeInput(
     input: Record&lt;string, unknown&gt;,
   ): Record&lt;string, unknown&gt; {
-    const normalized = <span class="cstat-no" title="statement not covered" >{ ...input };</span>
-    const aliases = <span class="cstat-no" title="statement not covered" >getOmniRelationProjectionAliases(this.definition);</span>
-<span class="cstat-no" title="statement not covered" >    for (const [alias, field] of [</span>
+    const normalized = { ...input };
+    const aliases = getOmniRelationProjectionAliases(this.definition);
+    for (const [alias, field] of [
       [aliases.kind, 'kind'],
       [aliases.source, 'sourceRecordId'],
       [aliases.target, 'targetRecordId'],
       [aliases.payload, 'payload'],
     ] as const) {
-<span class="cstat-no" title="statement not covered" >      if (alias === field) <span class="cstat-no" title="statement not covered" >continue;</span></span>
-<span class="cstat-no" title="statement not covered" >      if (!hasOwn(normalized, alias)) <span class="cstat-no" title="statement not covered" >continue;</span></span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (hasOwn(normalized, field)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new BadRequestException(</span></span>
+      if (alias === field) continue;
+      if (!hasOwn(normalized, alias)) continue;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (hasOwn(normalized, field)) {
+<span class="cstat-no" title="statement not covered" >        throw new BadRequestException(</span>
           `Omni relation ${alias} conflicts with ${field}.`,
         );
       }
-<span class="cstat-no" title="statement not covered" >      normalized[field] = normalized[alias];</span>
-<span class="cstat-no" title="statement not covered" >      delete normalized[alias];</span>
+      normalized[field] = normalized[alias];
+      delete normalized[alias];
     }
-<span class="cstat-no" title="statement not covered" >    return normalized;</span>
+    return normalized;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >normalizeConditions(</span>
+  private normalizeConditions(
     conditions: FindOptionsWhere&lt;OmniRelationEntity&gt;,
   ): FindOptionsWhere&lt;OmniRelationEntity&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.normalizeInput(</span>
+    return this.normalizeInput(
       conditions as Record&lt;string, unknown&gt;,
     ) as FindOptionsWhere&lt;OmniRelationEntity&gt;;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >rejectFixedFields(</span>
+  private rejectFixedFields(
     input: Record&lt;string, unknown&gt;,
     allowKind = false,
   ): void {
-<span class="cstat-no" title="statement not covered" >    for (const field of [</span>
+    for (const field of [
       ...(allowKind ? [] : ['kind']),
       'status',
       'payloadSchemaId',
       'payloadSchemaVersion',
     ]) {
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (hasOwn(input, field)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new BadRequestException(</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (hasOwn(input, field)) {
+<span class="cstat-no" title="statement not covered" >        throw new BadRequestException(</span>
           `Omni relation ${field} is server-owned.`,
         );
       }
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >rejectImmutableEndpoints(i</span>nput: Record&lt;string, unknown&gt;): void {
-<span class="cstat-no" title="statement not covered" >    for (const field of ['guid', 'sourceRecordId', 'targetRecordId']) {</span>
-<span class="cstat-no" title="statement not covered" >      if (hasOwn(input, field)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new BadRequestException(`Omni relation ${field} is immutable.`);</span>
+  private rejectImmutableEndpoints(input: Record&lt;string, unknown&gt;): void {
+    for (const field of ['guid', 'sourceRecordId', 'targetRecordId']) {
+      if (hasOwn(input, field)) {
+        throw new BadRequestException(`Omni relation ${field} is immutable.`);
       }
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >validatePayload(i</span>nput: Record&lt;string, unknown&gt;): void {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+  private validatePayload(input: Record&lt;string, unknown&gt;): void {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
       hasOwn(input, 'payload') &amp;&amp;
       input.payload !== null &amp;&amp;
       (typeof input.payload !== 'object' || Array.isArray(input.payload))
     ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new BadRequestException('payload must be a JSON object or null.');</span></span>
+<span class="cstat-no" title="statement not covered" >      throw new BadRequestException('payload must be a JSON object or null.');</span>
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >withDefinitionConditions(</span>
+  private withDefinitionConditions(
     conditions:
       | FindOptionsWhere&lt;OmniRelationEntity&gt;[]
       | FindOptionsWhere&lt;OmniRelationEntity&gt;
@@ -1793,24 +1793,24 @@ export class OmniRelationProjectionService extends OmniRelationService {
     | FindOptionsWhere&lt;OmniRelationEntity&gt;[]
     | FindOptionsWhere&lt;OmniRelationEntity&gt;
     | ObjectLiteral {
-<span class="cstat-no" title="statement not covered" >    if (typeof conditions === 'string') {</span>
-<span class="cstat-no" title="statement not covered" >      return { guid: conditions, ...this.definitionFilters() };</span>
+    if (typeof conditions === 'string') {
+      return { guid: conditions, ...this.definitionFilters() };
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(conditions)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return conditions.map(</span></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(conditions)) {
+<span class="cstat-no" title="statement not covered" >      return conditions.map(</span>
 <span class="fstat-no" title="function not covered" >        (c</span>ondition) =&gt;
 <span class="cstat-no" title="statement not covered" >          this.withDefinitionConditions(</span>
             condition,
           ) as FindOptionsWhere&lt;OmniRelationEntity&gt;,
       );
     }
-<span class="cstat-no" title="statement not covered" >    this.assertFixedConditions(conditions);</span>
-<span class="cstat-no" title="statement not covered" >    return { ...conditions, ...this.definitionFilters() };</span>
+    this.assertFixedConditions(conditions);
+    return { ...conditions, ...this.definitionFilters() };
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >definitionFilters(): Record&lt;string, unknown&gt; {</span>
+  private definitionFilters(): Record&lt;string, unknown&gt; {
     const relation = this.definition.relation;
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       kind: In([...getOmniRelationProjectionAllowedKinds(this.definition)]),
       status: relation.status ?? OmniRelationStatus.Active,
       ...(relation.schema
@@ -1825,42 +1825,42 @@ export class OmniRelationProjectionService extends OmniRelationService {
     };
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >assertFixedConditions(c</span>onditions: ObjectLiteral): void {
-<span class="cstat-no" title="statement not covered" >    for (const field of Object.keys(this.definitionFilters())) {</span>
-<span class="cstat-no" title="statement not covered" >      if (hasOwn(conditions, field)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new BadRequestException(</span>
+  private assertFixedConditions(conditions: ObjectLiteral): void {
+    for (const field of Object.keys(this.definitionFilters())) {
+      if (hasOwn(conditions, field)) {
+        throw new BadRequestException(
           `Omni relation ${field} is server-owned.`,
         );
       }
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >rejectFixedFilters(w</span>here: unknown): void {
-<span class="cstat-no" title="statement not covered" >    if (!where || typeof where !== 'object') <span class="cstat-no" title="statement not covered" >return;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(where)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      where.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntry) =&gt; <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.rejectFixedFilters(entry))</span>;</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+  private rejectFixedFilters(where: unknown): void {
+    if (!where || typeof where !== 'object') return;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(where)) {
+<span class="cstat-no" title="statement not covered" >      where.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntry) =&gt; <span class="cstat-no" title="statement not covered" >this.rejectFixedFilters(entry))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    const candidate = <span class="cstat-no" title="statement not covered" >where as Record&lt;string, unknown&gt;;</span>
-<span class="cstat-no" title="statement not covered" >    for (const field of Object.keys(this.definitionFilters())) {</span>
-<span class="cstat-no" title="statement not covered" >      if (hasOwn(candidate, field)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new BadRequestException(</span>
+    const candidate = where as Record&lt;string, unknown&gt;;
+    for (const field of Object.keys(this.definitionFilters())) {
+      if (hasOwn(candidate, field)) {
+        throw new BadRequestException(
           `Omni relation ${field} is server-owned.`,
         );
       }
     }
-<span class="cstat-no" title="statement not covered" >    if (candidate.filters &amp;&amp; typeof candidate.filters === 'object') {</span>
-<span class="cstat-no" title="statement not covered" >      this.rejectFixedFilters(candidate.filters);</span>
+    if (candidate.filters &amp;&amp; typeof candidate.filters === 'object') {
+      this.rejectFixedFilters(candidate.filters);
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(candidate.childExpressions)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      candidate.childExpressions.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntry) =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        this.rejectFixedFilters(entry),</span></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(candidate.childExpressions)) {
+<span class="cstat-no" title="statement not covered" >      candidate.childExpressions.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntry) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >        this.rejectFixedFilters(entry),</span>
       );
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >readers(m</span>anager: EntityManager) {
-<span class="cstat-no" title="statement not covered" >    return (</span>
+  private readers(manager: EntityManager) {
+    return (
       this.readerCatalog ??
 <span class="branch-1 cbranch-no" title="branch not covered" >      createOmniProjectionReaderCatalog([</span>
         {
@@ -1872,24 +1872,24 @@ export class OmniRelationProjectionService extends OmniRelationService {
     ).bind(manager, this.scope);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async m</span>utate&lt;T&gt;(
+  private async mutate&lt;T&gt;(
     work: (manager: EntityManager) =&gt; Promise&lt;T&gt;,
   ): Promise&lt;T&gt; {
-<span class="cstat-no" title="statement not covered" >    if (!this.lifecycle) <span class="cstat-no" title="statement not covered" >return work(this.getRepositoryWrite().manager);</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.dataSource) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new TypeError(</span></span>
+    if (!this.lifecycle) return work(this.getRepositoryWrite().manager);
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.dataSource) {
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
         'Omni relation lifecycle requires a DataSource for serializable mutations.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      return await this.dataSource.transaction('SERIALIZABLE', work);</span>
+    try {
+      return await this.dataSource.transaction('SERIALIZABLE', work);
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (isRetryableTransactionError(error)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new ConflictException(</span></span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (isRetryableTransactionError(error)) {
+<span class="cstat-no" title="statement not covered" >        throw new ConflictException(</span>
           'Omni projection concurrent write conflict; retry the mutation.',
         );
       }
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
+      throw error;
     }
   }
 }
@@ -1900,7 +1900,7 @@ export class OmniRelationProjectionService extends OmniRelationService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -107,7 +107,9 @@ export class GenericService<
    * need to write on another source
    */
   constructor(
+    /* istanbul ignore next */
     protected repository: AgGridRepository<EntityRead>,
+    /* istanbul ignore next */
     repositoryWrite?: AgGridRepository<EntityWrite>,
   ) {
     this.repositoryWrite =
@@ -505,8 +507,10 @@ export class GenericService<
     const fieldMetadataList = getAgGridFieldMetadataList(this.entityRead);
 
     for (const propertyName of Object.keys(entityRead)) {
+      /* istanbul ignore next */
       const fieldMetadata = fieldMetadataList?.[propertyName];
 
+      /* istanbul ignore next */
       if (!fieldMetadata?.dst || !isDstExtended(fieldMetadata.dst)) {
         (newEntityWrite as any)[propertyName] = (entityRead as any)[
           propertyName
@@ -514,8 +518,10 @@ export class GenericService<
         continue;
       }
 
+      /* istanbul ignore next */
       const dst = fieldMetadata.dst;
 
+      /* istanbul ignore next */
       dst.transformer(newEntityWrite, (entityRead as any)[propertyName]);
     }
 

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.17% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/29</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -105,11 +105,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -117,19 +117,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Spread } from '@nest-yalc-2/types/globals.d.js';
 &nbsp;
@@ -139,7 +139,7 @@
  * @param value
  * @returns `boolean`
  */
-export const belongsToEnum = <span class="cstat-no" title="statement not covered" >&lt;T extends Record&lt;string, string | number&gt;&gt;(</span>
+export const <span class="cstat-no" title="statement not covered" >belongsToEnum = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >&lt;</span>T extends Record&lt;string, string | number&gt;&gt;(</span></span>
   enumObj: T,
   value: string | number,
 ): boolean =&gt; {
@@ -151,18 +151,18 @@ type Merge&lt;T extends readonly any[]&gt; = T extends readonly [infer H, ...inf
   : // eslint-disable-next-line @typescript-eslint/ban-types
     {};
 &nbsp;
-export const mergeEnums = <span class="cstat-no" title="statement not covered" >&lt;T extends any[]&gt;(...enums: T) =&gt; {</span>
+export const <span class="cstat-no" title="statement not covered" >mergeEnums = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >&lt;</span>T extends any[]&gt;(.</span>..enums: T) =&gt; {</span>
   let merged = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >  enums.forEach((e) =&gt; (<span class="cstat-no" title="statement not covered" >merged = { ...merged, ...e }));</span></span>
+<span class="cstat-no" title="statement not covered" >  enums.forEach(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; (<span class="cstat-no" title="statement not covered" >merged = { ...merged, ...e })</span>);</span>
 <span class="cstat-no" title="statement not covered" >  return merged as any as Merge&lt;T&gt;;</span>
 };
 &nbsp;
-export const getEnumValueByEnumKey = <span class="cstat-no" title="statement not covered" >&lt;T extends { [index: string]: string }&gt;(</span>
+export const <span class="cstat-no" title="statement not covered" >getEnumValueByEnumKey = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >&lt;</span>T extends { [index: string]: string }&gt;(</span></span>
   myEnum: T,
   enumKey: string | undefined,
 ): any | null =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!enumKey) <span class="cstat-no" title="statement not covered" >return undefined;</span></span>
-  const idx = <span class="cstat-no" title="statement not covered" >Object.keys(myEnum).find((x) =&gt; <span class="cstat-no" title="statement not covered" >x === enumKey);</span></span>
+  const idx = <span class="cstat-no" title="statement not covered" >Object.keys(myEnum).find(<span class="fstat-no" title="function not covered" >(x</span>) =&gt; <span class="cstat-no" title="statement not covered" >x === enumKey)</span>;</span>
 <span class="cstat-no" title="statement not covered" >  return idx ? myEnum[idx] : undefined;</span>
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -172,7 +172,7 @@ export const getEnumValueByEnumKey = <span class="cstat-no" title="statement not
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

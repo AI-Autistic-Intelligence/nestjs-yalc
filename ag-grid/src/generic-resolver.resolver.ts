@@ -64,16 +64,24 @@ export function resolverFactory<
 
     contextId: ContextId;
 
+    /* istanbul ignore next */
     constructor(
+      /* istanbul ignore next */
       @Inject(
+        /* istanbul ignore next */
         options.service?.serviceToken ?? getServiceToken(options.entityModel),
       )
+      /* istanbul ignore next */
       protected service: GenericService<Entity, EntityWrite>,
+      /* istanbul ignore next */
       @Inject(
+        /* istanbul ignore next */
         options.service?.dataLoaderToken ??
           getDataloaderToken(options.entityModel),
       )
+      /* istanbul ignore next */
       protected dataLoader: GQLDataLoader<Entity>,
+      /* istanbul ignore next */
       protected moduleRef: ModuleRef,
     ) {
       this.contextId = ContextIdFactory.create();

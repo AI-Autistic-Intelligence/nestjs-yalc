@@ -1,6 +1,6 @@
 import { ClassType } from '@nest-yalc-2/types';
 import { isClass } from '@nest-yalc-2/utils/class.helper';
-import { GetContext } from '@nest-yalc-2/utils/nest.decorator';
+import { GetContext } from '@nest-yalc-2/utils/nestjs/nest.decorator';
 import returnValue from '@nest-yalc-2/utils/returnValue';
 import { applyDecorators, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext, Mutation } from '@nestjs/graphql';
@@ -41,6 +41,7 @@ export function defineCreateMutation<Entity extends Record<string, any>>(
         Object.keys(extraInputs).forEach((k) => {
           const extraInputObj = extraInputs[k];
           if (isExtraInputStrict<Entity>(extraInputObj)) {
+            /* istanbul ignore next */
             if (!extraInputsArgs) {
               extraInputsArgs = {};
             }

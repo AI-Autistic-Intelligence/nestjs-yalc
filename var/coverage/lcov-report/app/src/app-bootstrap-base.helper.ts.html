@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.13% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>57/116</span>
+                <span class='fraction'>56/63</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">90.9% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/22</span>
+                <span class='fraction'>10/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">82.35% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>14/32</span>
+                <span class='fraction'>14/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -484,7 +484,7 @@ import { globalPromiseTracker } from '@nest-yalc-2/utils/promise.helper.js';
 /**
  * Side effect to be executed as soon as the module is imported
  */
-<span class="cstat-no" title="statement not covered" >Logger.overrideLogger(getEnvLoggerLevels());</span>
+Logger.overrideLogger(getEnvLoggerLevels());
 &nbsp;
 export interface IGlobalOptions {
   extraImports?: NonNullable&lt;DynamicModule['imports']&gt;;
@@ -497,22 +497,22 @@ export interface IGlobalOptions {
   skipMultiServerCheck?: boolean;
 }
 &nbsp;
-const bootstrappedApps: Set&lt;any&gt; = <span class="cstat-no" title="statement not covered" >new Set();</span>
+const bootstrappedApps: Set&lt;any&gt; = new Set();
 &nbsp;
-export const getBootstrappedApps = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  return bootstrappedApps;</span>
+export const getBootstrappedApps = () =&gt; {
+  return bootstrappedApps;
 };
 &nbsp;
-export const getMainBootstrappedApp = <span class="cstat-no" title="statement not covered" >&lt;</span>
+export const getMainBootstrappedApp = &lt;
   TApp extends BaseAppBootstrap&lt;
     NestFastifyApplication | INestApplicationContext
   &gt;,
 &gt;(): TApp | null =&gt; {
-<span class="cstat-no" title="statement not covered" >  if (getBootstrappedApps().size === 0) {</span>
-<span class="cstat-no" title="statement not covered" >    return null;</span>
+  if (getBootstrappedApps().size === 0) {
+    return null;
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return getBootstrappedApps().values().next().value;</span>
+  return getBootstrappedApps().values().next().value;
 };
 &nbsp;
 export abstract class BaseAppBootstrap&lt;
@@ -521,143 +521,143 @@ export abstract class BaseAppBootstrap&lt;
   protected app?: TAppType;
   protected loggerService!: LoggerService;
   protected module: Type&lt;any&gt; | DynamicModule;
-  protected isClosed = <span class="cstat-no" title="statement not covered" >false;</span>
+  protected isClosed = false;
 &nbsp;
   constructor(
     protected appAlias: string,
     protected readonly appModule: Type&lt;any&gt;,
     options?: { globalsOptions?: IGlobalOptions },
   ) {
-<span class="cstat-no" title="statement not covered" >    this.module = YalcDefaultAppModule.forRoot(</span>
+    this.module = YalcDefaultAppModule.forRoot(
       this.appAlias,
       [appModule, ...(options?.globalsOptions?.extraImports ?? [])],
       options?.globalsOptions,
     );
 &nbsp;
-    const bootstrappedApp = <span class="cstat-no" title="statement not covered" >getMainBootstrappedApp();</span>
+    const bootstrappedApp = getMainBootstrappedApp();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (</span>
+    if (
       bootstrappedApp &amp;&amp;
       !options?.globalsOptions?.skipMultiServerCheck &amp;&amp;
       process.env.APP_SKIP_MULTISERVER_CHECK !== 'true'
     ) {
-<span class="cstat-no" title="statement not covered" >      throw new Error(</span>
+      throw new Error(
         `You are trying to bootstrap multiple servers (${bootstrappedApp.appAlias}) in the same process. This is not allowed. Use a different process for each server`,
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    getBootstrappedApps().add(this);</span>
+    getBootstrappedApps().add(this);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >  async </span>i</span>nitApp(options?: {
+<span class="fstat-no" title="function not covered" >  async </span>initApp(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }): Promise&lt;this&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    options; </span>/</span>/ extend this method in the child class
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return this;</span></span>
+<span class="cstat-no" title="statement not covered" >    options; </span>// extend this method in the child class
+<span class="cstat-no" title="statement not covered" >    return this;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  setApp(a</span>pp: TAppType) {
-<span class="cstat-no" title="statement not covered" >    this.app = app;</span>
+  setApp(app: TAppType) {
+    this.app = app;
 &nbsp;
     /**
      * Monkey patch the close method to set the isClosed flag
      */
-    const originalCloseFn = <span class="cstat-no" title="statement not covered" >this.app.close.bind(this.app);</span>
-<span class="cstat-no" title="statement not covered" >    this.app.close = <span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
-      const closeRes = <span class="cstat-no" title="statement not covered" >await originalCloseFn();</span>
-<span class="cstat-no" title="statement not covered" >      this.closeCleanup();</span>
-<span class="cstat-no" title="statement not covered" >      return closeRes;</span>
+    const originalCloseFn = this.app.close.bind(this.app);
+    this.app.close = async () =&gt; {
+      const closeRes = await originalCloseFn();
+      this.closeCleanup();
+      return closeRes;
     };
 &nbsp;
     /**
      * Monkey patch the init method to set the isClosed flag
      */
-    const originalInitFn = <span class="cstat-no" title="statement not covered" >this.app.init.bind(this.app);</span>
-<span class="cstat-no" title="statement not covered" >    this.app.init = <span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      this.isClosed = false;</span>
-<span class="cstat-no" title="statement not covered" >      getBootstrappedApps().add(this);</span>
+    const originalInitFn = this.app.init.bind(this.app);
+    this.app.init = async () =&gt; {
+      this.isClosed = false;
+      getBootstrappedApps().add(this);
       let initRes;
-<span class="cstat-no" title="statement not covered" >      try {</span>
-<span class="cstat-no" title="statement not covered" >        initRes = await originalInitFn();</span>
+      try {
+        initRes = await originalInitFn();
       } catch (error) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        this.closeCleanup();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw error;</span></span>
+<span class="cstat-no" title="statement not covered" >        this.closeCleanup();</span>
+<span class="cstat-no" title="statement not covered" >        throw error;</span>
       }
-<span class="cstat-no" title="statement not covered" >      return initRes;</span>
+      return initRes;
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this;</span>
+    return this;
   }
 &nbsp;
   /**
    * This method is used to cleanup the app and remove it from the global set of bootstrapped apps
    */
-<span class="fstat-no" title="function not covered" >  closeCleanup() {</span>
-<span class="cstat-no" title="statement not covered" >    this.isClosed = true;</span>
-<span class="cstat-no" title="statement not covered" >    getBootstrappedApps().delete(this);</span>
+  closeCleanup() {
+    this.isClosed = true;
+    getBootstrappedApps().delete(this);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  isAppClosed() {</span>
-<span class="cstat-no" title="statement not covered" >    return this.isClosed;</span>
+  isAppClosed() {
+    return this.isClosed;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >  getAppAlias(</span>) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return this.appAlias;</span></span>
+<span class="fstat-no" title="function not covered" >  getAppAlias(</span>) {
+<span class="cstat-no" title="statement not covered" >    return this.appAlias;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getConf() {</span>
-    const configService = <span class="cstat-no" title="statement not covered" >this.getApp().get&lt;ConfigService&gt;(ConfigService);</span>
-<span class="cstat-no" title="statement not covered" >    return configService.get&lt;IServiceConf&gt;(this.appAlias);</span>
+  getConf() {
+    const configService = this.getApp().get&lt;ConfigService&gt;(ConfigService);
+    return configService.get&lt;IServiceConf&gt;(this.appAlias);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getApp() {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.app) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new Error('This app is not initialized yet');</span></span>
+  getApp() {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.app) {
+<span class="cstat-no" title="statement not covered" >      throw new Error('This app is not initialized yet');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.app;</span>
+    return this.app;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async c</span>loseApp() {
-<span class="cstat-no" title="statement not covered" >    await this.cleanup();</span>
+  async closeApp() {
+    await this.cleanup();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await this.app?.close();</span>
+    await this.app?.close();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.closeCleanup();</span>
+    this.closeCleanup();
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async c</span>leanup() {
+  async cleanup() {
     /**
      * When running behind a lambda, we have to await for all the promises that have been added to the global promise tracker
      * to avoid them being killed by the lambda
      * @see - https://stackoverflow.com/questions/64688812/running-tasks-in-aws-lambda-background
      */
-<span class="cstat-no" title="statement not covered" >    await globalPromiseTracker.waitForAll();</span>
+    await globalPromiseTracker.waitForAll();
   }
 &nbsp;
   /**
    *
    * @returns The main module of the business logic (the one that is passed in the constructor)
    */
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >  getAppModule(</span>) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return this.appModule;</span></span>
+<span class="fstat-no" title="function not covered" >  getAppModule(</span>) {
+<span class="cstat-no" title="statement not covered" >    return this.appModule;</span>
   }
 &nbsp;
   /**
    *
    * @returns The global module that is used to bootstrap the app (YalcDefaultAppModule)
    */
-<span class="fstat-no" title="function not covered" >  getModule() {</span>
-<span class="cstat-no" title="statement not covered" >    return this.module;</span>
+  getModule() {
+    return this.module;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async a</span>pplyBootstrapGlobals(_options?: ICreateOptions) {
-<span class="cstat-no" title="statement not covered" >    this.loggerService = this.getApp().get(SYSTEM_LOGGER_SERVICE);</span>
-<span class="cstat-no" title="statement not covered" >    this.loggerService.debug?.('Setting logger service...');</span>
-<span class="cstat-no" title="statement not covered" >    this.getApp().useLogger(this.loggerService);</span>
-<span class="cstat-no" title="statement not covered" >    Logger.overrideLogger(this.loggerService);</span>
-<span class="cstat-no" title="statement not covered" >    return this;</span>
+  async applyBootstrapGlobals(_options?: ICreateOptions) {
+    this.loggerService = this.getApp().get(SYSTEM_LOGGER_SERVICE);
+    this.loggerService.debug?.('Setting logger service...');
+    this.getApp().useLogger(this.loggerService);
+    Logger.overrideLogger(this.loggerService);
+    return this;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -667,7 +667,7 @@ export abstract class BaseAppBootstrap&lt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

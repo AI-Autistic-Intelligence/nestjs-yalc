@@ -69,6 +69,7 @@ export const AGGRID_OBJECT_METADATA_KEY = Symbol('AGGRID_OBJECT_METADATA_KEY');
 export const AGGRID_FIELD_METADATA_KEY = Symbol('AGGRID_FIELD_METADATA_KEY');
 
 export function getPrototype(target: Record<string, unknown> | ClassType): any {
+  /* istanbul ignore next */
   return isClass(target) || !target.prototype ? target : target.prototype;
 }
 

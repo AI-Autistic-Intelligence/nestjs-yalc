@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.19% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>59/105</span>
+                <span class='fraction'>59/59</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.21% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>21/41</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>15/27</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -477,8 +477,8 @@ interface MutationJournalModuleRef {
 &nbsp;
 @Injectable()
 export class MutationJournalService implements OnApplicationBootstrap {
-  private readonly logger = <span class="cstat-no" title="statement not covered" >new Logger(MutationJournalService.name);</span>
-  private reports: MutationJournalInstallReport[] = <span class="cstat-no" title="statement not covered" >[];</span>
+  private readonly logger = new Logger(MutationJournalService.name);
+  private reports: MutationJournalInstallReport[] = [];
 &nbsp;
   public constructor(
     @Inject(ModuleRef)
@@ -489,46 +489,46 @@ export class MutationJournalService implements OnApplicationBootstrap {
     private readonly drivers: IMutationJournalDriver[],
   ) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async o</span>nApplicationBootstrap(): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    if (!this.options.enabled) {</span>
-<span class="cstat-no" title="statement not covered" >      if (this.options.uninstallWhenDisabled) {</span>
-<span class="cstat-no" title="statement not covered" >        await this.uninstall();</span>
+  public async onApplicationBootstrap(): Promise&lt;void&gt; {
+    if (!this.options.enabled) {
+      if (this.options.uninstallWhenDisabled) {
+        await this.uninstall();
       }
-<span class="cstat-no" title="statement not covered" >      return;</span>
+      return;
     }
-<span class="cstat-no" title="statement not covered" >    if (this.options.installOnBootstrap !== false) {</span>
-<span class="cstat-no" title="statement not covered" >      await this.install();</span>
+    if (this.options.installOnBootstrap !== false) {
+      await this.install();
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async i</span>nstall(): Promise&lt;MutationJournalInstallReport[]&gt; {
+  public async install(): Promise&lt;MutationJournalInstallReport[]&gt; {
     const reports = await Promise.all(
-      this.options.targets.map((target) =&gt; <span class="cstat-no" title="statement not covered" >this.installTarget(target)),</span>
+      this.options.targets.map((target) =&gt; this.installTarget(target)),
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.reports = reports;</span>
-<span class="cstat-no" title="statement not covered" >    return reports;</span>
+    this.reports = reports;
+    return reports;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async r</span>efresh(): Promise&lt;MutationJournalInstallReport[]&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.install();</span>
+  public async refresh(): Promise&lt;MutationJournalInstallReport[]&gt; {
+    return this.install();
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async u</span>ninstall(): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    await Promise.all(</span>
-      this.options.targets.map(<span class="fstat-no" title="function not covered" >async (t</span>arget) =&gt; {
-        const resolvedTarget = <span class="cstat-no" title="statement not covered" >await this.resolveTarget(target);</span>
-<span class="cstat-no" title="statement not covered" >        if (!resolvedTarget) {</span>
-<span class="cstat-no" title="statement not covered" >          return;</span>
+  public async uninstall(): Promise&lt;void&gt; {
+    await Promise.all(
+      this.options.targets.map(async (target) =&gt; {
+        const resolvedTarget = await this.resolveTarget(target);
+        if (!resolvedTarget) {
+          return;
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        try {</span>
-<span class="cstat-no" title="statement not covered" >          await resolvedTarget.driver.uninstall(</span>
+        try {
+          await resolvedTarget.driver.uninstall(
             resolvedTarget.dataSource,
             this.getDriverOptions(),
           );
         } catch (error) {
-<span class="cstat-no" title="statement not covered" >          this.logger.warn(</span>
+          this.logger.warn(
             `Unable to uninstall mutation journal for ${this.getTargetName(target)}: ${this.getErrorMessage(error)}`,
           );
         }
@@ -536,63 +536,63 @@ export class MutationJournalService implements OnApplicationBootstrap {
     );
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >getReports(): MutationJournalInstallReport[] {</span>
-<span class="cstat-no" title="statement not covered" >    return [...this.reports];</span>
+  public getReports(): MutationJournalInstallReport[] {
+    return [...this.reports];
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >getTargets(): MutationJournalTargetRef[] {</span>
-<span class="cstat-no" title="statement not covered" >    return this.options.targets;</span>
+  public getTargets(): MutationJournalTargetRef[] {
+    return this.options.targets;
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >getDriverOptions(): MutationJournalDriverInstallOptions {</span>
-<span class="cstat-no" title="statement not covered" >    return {</span>
+  public getDriverOptions(): MutationJournalDriverInstallOptions {
+    return {
       journalTableName: this.options.journalTableName,
       excludedTables: this.options.excludedTables,
       actorSetting: this.options.actorSetting,
     };
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async r</span>esolveTarget(
+  public async resolveTarget(
     target: MutationJournalTargetRef = {},
   ): Promise&lt;ResolvedMutationJournalTarget | undefined&gt; {
-    const token = <span class="cstat-no" title="statement not covered" >target.token ?? getDataSourceToken(target.dataSourceName);</span>
+    const token = target.token ?? getDataSourceToken(target.dataSourceName);
     let dataSource: DataSource | undefined;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      dataSource = this.moduleRef.get&lt;DataSource&gt;(token, { strict: false });</span>
-<span class="cstat-no" title="statement not covered" >      if (!dataSource) {</span>
-<span class="cstat-no" title="statement not covered" >        this.logger.warn(</span>
+    try {
+      dataSource = this.moduleRef.get&lt;DataSource&gt;(token, { strict: false });
+      if (!dataSource) {
+        this.logger.warn(
           `Unable to resolve mutation journal target ${this.getTargetName(target)}.`,
         );
-<span class="cstat-no" title="statement not covered" >        return undefined;</span>
+        return undefined;
       }
 &nbsp;
-      const resolvedDataSource = <span class="cstat-no" title="statement not covered" >dataSource;</span>
+      const resolvedDataSource = dataSource;
       const driver = this.drivers.find((candidate) =&gt;
-<span class="cstat-no" title="statement not covered" >        candidate.supports(resolvedDataSource),</span>
+        candidate.supports(resolvedDataSource),
       );
-<span class="cstat-no" title="statement not covered" >      if (!driver) {</span>
-<span class="cstat-no" title="statement not covered" >        this.logger.warn(</span>
+      if (!driver) {
+        this.logger.warn(
           `No mutation journal driver supports ${this.getTargetName(target)}.`,
         );
-<span class="cstat-no" title="statement not covered" >        return undefined;</span>
+        return undefined;
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return { dataSource: resolvedDataSource, driver, target };</span>
+      return { dataSource: resolvedDataSource, driver, target };
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      this.logger.warn(</span>
+      this.logger.warn(
         `Unable to resolve mutation journal target ${this.getTargetName(target)}: ${this.getErrorMessage(error)}`,
       );
-<span class="cstat-no" title="statement not covered" >      return undefined;</span>
+      return undefined;
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async i</span>nstallTarget(
+  private async installTarget(
     target: MutationJournalTargetRef,
   ): Promise&lt;MutationJournalInstallReport&gt; {
-    const resolvedTarget = <span class="cstat-no" title="statement not covered" >await this.resolveTarget(target);</span>
-<span class="cstat-no" title="statement not covered" >    if (!resolvedTarget) {</span>
-<span class="cstat-no" title="statement not covered" >      return {</span>
+    const resolvedTarget = await this.resolveTarget(target);
+    if (!resolvedTarget) {
+      return {
         dataSourceName: this.getTargetName(target),
         engine: 'unknown',
         journaledTables: [],
@@ -600,20 +600,20 @@ export class MutationJournalService implements OnApplicationBootstrap {
       };
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
+    try {
       const report = await resolvedTarget.driver.install(
         resolvedTarget.dataSource,
         this.getDriverOptions(),
       );
-<span class="cstat-no" title="statement not covered" >      this.logger.log(</span>
+      this.logger.log(
         `Installed mutation journal for ${this.getTargetName(target)} (${report.journaledTables.length} tables).`,
       );
-<span class="cstat-no" title="statement not covered" >      return report;</span>
+      return report;
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      this.logger.warn(</span>
+      this.logger.warn(
         `Unable to install mutation journal for ${this.getTargetName(target)}: ${this.getErrorMessage(error)}`,
       );
-<span class="cstat-no" title="statement not covered" >      return {</span>
+      return {
         dataSourceName: this.getTargetName(target),
         engine: resolvedTarget.driver.engine,
         journaledTables: [],
@@ -622,12 +622,12 @@ export class MutationJournalService implements OnApplicationBootstrap {
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >getTargetName(t</span>arget: MutationJournalTargetRef): string {
-<span class="cstat-no" title="statement not covered" >    return target.dataSourceName ?? 'default';</span>
+  private getTargetName(target: MutationJournalTargetRef): string {
+    return target.dataSourceName ?? 'default';
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >getErrorMessage(e</span>rror: unknown): string {
-<span class="cstat-no" title="statement not covered" >    return error instanceof Error ? error.message : String(error);</span>
+  private getErrorMessage(error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -637,7 +637,7 @@ export class MutationJournalService implements OnApplicationBootstrap {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

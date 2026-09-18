@@ -1,5 +1,6 @@
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import * as common from '@nestjs/common';
+import type { HttpServer } from '@nestjs/common';
 import {
   DefaultErrorMixin,
   MissingArgumentsError,
@@ -31,7 +32,7 @@ export class HttpExceptionFilter
 {
   constructor(
     protected logger: ImprovedLoggerService,
-    applicationRef?: common.HttpServer,
+    applicationRef?: HttpServer,
   ) {
     super(applicationRef);
   }

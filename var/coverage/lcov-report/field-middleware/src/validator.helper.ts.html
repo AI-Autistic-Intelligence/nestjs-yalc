@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.18% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/49</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/28</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/14</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -187,64 +187,64 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FieldErrorsEnum } from './fields-error.enum.js';
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >errorTrhow(v</span>alue: string | Date, message?: string) {
+export function errorTrhow(value: string | Date, message?: string) {
   const err = message ? message : `${FieldErrorsEnum.INVALID_VALUE} ${value}`;
-<span class="cstat-no" title="statement not covered" >  throw new Error(err);</span>
+  throw new Error(err);
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >convertIfStringToDate(d</span>ate: Date | string): Date {
-<span class="cstat-no" title="statement not covered" >  if (typeof date === 'string') {</span>
-<span class="cstat-no" title="statement not covered" >    date = new Date(date);</span>
+export function convertIfStringToDate(date: Date | string): Date {
+  if (typeof date === 'string') {
+    date = new Date(date);
   }
-<span class="cstat-no" title="statement not covered" >  return date;</span>
+  return date;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >stringIsInEnumOrThrow&lt;</span>
+export function stringIsInEnumOrThrow&lt;
   T extends Record&lt;string, string | number&gt;,
 &gt;(toCheck: string, enumName: T, message?: string): true | void {
-<span class="cstat-no" title="statement not covered" >  if (stringIsInEnum(toCheck, enumName)) {</span>
-<span class="cstat-no" title="statement not covered" >    return true;</span>
+  if (stringIsInEnum(toCheck, enumName)) {
+    return true;
   }
-<span class="cstat-no" title="statement not covered" >  errorTrhow(toCheck, message);</span>
+  errorTrhow(toCheck, message);
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >stringIsInEnum&lt;T extends Record&lt;string, string | number&gt;&gt;(</span>
+export function stringIsInEnum&lt;T extends Record&lt;string, string | number&gt;&gt;(
   toCheck: string,
   enumName: T,
 ): boolean {
-<span class="cstat-no" title="statement not covered" >  for (const enumProperty of Object.values(enumName)) {</span>
-<span class="cstat-no" title="statement not covered" >    if (`${enumProperty}`.toLowerCase() === toCheck.toLowerCase()) {</span>
-<span class="cstat-no" title="statement not covered" >      return true;</span>
+  for (const enumProperty of Object.values(enumName)) {
+    if (`${enumProperty}`.toLowerCase() === toCheck.toLowerCase()) {
+      return true;
     }
   }
-<span class="cstat-no" title="statement not covered" >  return false;</span>
+  return false;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >validateDate(d</span>ate: Date | string): boolean {
-<span class="cstat-no" title="statement not covered" >  date = convertIfStringToDate(date);</span>
-<span class="cstat-no" title="statement not covered" >  if (Object.prototype.toString.call(date) === '[object Date]') {</span>
-<span class="cstat-no" title="statement not covered" >    if (!isNaN(date.getTime())) {</span>
-<span class="cstat-no" title="statement not covered" >      return true;</span>
+export function validateDate(date: Date | string): boolean {
+  date = convertIfStringToDate(date);
+  if (Object.prototype.toString.call(date) === '[object Date]') {
+    if (!isNaN(date.getTime())) {
+      return true;
     }
   }
-<span class="cstat-no" title="statement not covered" >  return false;</span>
+  return false;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >validateDateOrThrow(</span>
+export function validateDateOrThrow(
   date: Date | string,
   message?: string,
 ): true | void {
-<span class="cstat-no" title="statement not covered" >  if (validateDate(date)) {</span>
-<span class="cstat-no" title="statement not covered" >    return true;</span>
+  if (validateDate(date)) {
+    return true;
   }
-<span class="cstat-no" title="statement not covered" >  errorTrhow(date, message);</span>
+  errorTrhow(date, message);
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >validateStringFormat(</span>
+export function validateStringFormat(
   str: string,
   stringFormat: string,
 ): boolean {
-<span class="cstat-no" title="statement not covered" >  return str.match(stringFormat) !== null;</span>
+  return str.match(stringFormat) !== null;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -253,7 +253,7 @@ export function <span class="fstat-no" title="function not covered" >validateStr
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

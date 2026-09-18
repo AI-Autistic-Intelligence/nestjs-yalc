@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/54</span>
+                <span class='fraction'>32/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/20</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.84% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/13</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -183,56 +183,56 @@ import { Kind, ValueNode } from 'graphql';
 &nbsp;
 @Scalar('UUID')
 export class UUIDScalar implements CustomScalar&lt;string, string&gt; {
-  description = <span class="cstat-no" title="statement not covered" >'UUID Scalar Type';</span>
+  description = 'UUID Scalar Type';
 &nbsp;
-<span class="fstat-no" title="function not covered" >  parseValue(v</span>alue: unknown): string {
-<span class="cstat-no" title="statement not covered" >    if (!validateUUID(value as string))</span>
-<span class="cstat-no" title="statement not covered" >      throw new UUIDValidationError(formatValueErrorMessage(value as string));</span>
-<span class="cstat-no" title="statement not covered" >    return value as string;</span>
+  parseValue(value: unknown): string {
+    if (!validateUUID(value as string))
+      throw new UUIDValidationError(formatValueErrorMessage(value as string));
+    return value as string;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  serialize(v</span>alue: unknown): string {
-<span class="cstat-no" title="statement not covered" >    return value as string;</span>
+  serialize(value: unknown): string {
+    return value as string;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  parseLiteral(a</span>st: ValueNode): string {
-<span class="cstat-no" title="statement not covered" >    if (ast.kind === Kind.STRING) {</span>
+  parseLiteral(ast: ValueNode): string {
+    if (ast.kind === Kind.STRING) {
       const id = ast.value;
-<span class="cstat-no" title="statement not covered" >      return this.parseValue(id);</span>
+      return this.parseValue(id);
     }
-<span class="cstat-no" title="statement not covered" >    throw new UUIDValidationError(formatKindErrorMessage(ast.kind));</span>
+    throw new UUIDValidationError(formatKindErrorMessage(ast.kind));
   }
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >formatValueErrorMessage(i</span>d: string) {
-<span class="cstat-no" title="statement not covered" >  return `"${id}" is not a valid UUID`;</span>
+export function formatValueErrorMessage(id: string) {
+  return `"${id}" is not a valid UUID`;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >formatKindErrorMessage(k</span>ind: string) {
-<span class="cstat-no" title="statement not covered" >  return `A string were expected for the UUID Type, received ${kind}`;</span>
+export function formatKindErrorMessage(kind: string) {
+  return `A string were expected for the UUID Type, received ${kind}`;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >validateUUID(u</span>uid: string) {
+export function validateUUID(uuid: string) {
   //012345678901234567890123456798012345
   //xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx
-  const uuidCopy = <span class="cstat-no" title="statement not covered" >[...uuid];</span>
-  const dashPosition = <span class="cstat-no" title="statement not covered" >[23, 18, 13, 8];</span>
+  const uuidCopy = [...uuid];
+  const dashPosition = [23, 18, 13, 8];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (uuidCopy.length !== 36) {</span>
-<span class="cstat-no" title="statement not covered" >    return false;</span>
+  if (uuidCopy.length !== 36) {
+    return false;
   }
-<span class="cstat-no" title="statement not covered" >  for (const i of dashPosition) {</span>
-<span class="cstat-no" title="statement not covered" >    if (uuidCopy[i] !== '-') {</span>
-<span class="cstat-no" title="statement not covered" >      return false;</span>
+  for (const i of dashPosition) {
+    if (uuidCopy[i] !== '-') {
+      return false;
     }
-<span class="cstat-no" title="statement not covered" >    delete uuidCopy[i];</span>
+    delete uuidCopy[i];
   }
-<span class="cstat-no" title="statement not covered" >  for (const char of uuidCopy) {</span>
-<span class="cstat-no" title="statement not covered" >    if (char === '-') {</span>
-<span class="cstat-no" title="statement not covered" >      return false;</span>
+  for (const char of uuidCopy) {
+    if (char === '-') {
+      return false;
     }
   }
-<span class="cstat-no" title="statement not covered" >  return true;</span>
+  return true;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -241,7 +241,7 @@ export function <span class="fstat-no" title="function not covered" >validateUUI
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

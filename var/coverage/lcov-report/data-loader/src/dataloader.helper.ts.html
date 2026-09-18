@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.84% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>83/146</span>
+                <span class='fraction'>80/80</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.06% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>52/98</span>
+                <span class='fraction'>52/52</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.71% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>17/28</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>79/80</span>
+                <span class='fraction'>78/78</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -399,7 +399,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -489,29 +489,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
@@ -529,9 +529,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -719,22 +719,22 @@ class _DataLoaderWithCount&lt;
     findOptions: CrudGenFindManyOptions&lt;Entity&gt;,
     options?: _DataLoader.Options&lt;string, Entity[], string&gt;,
   ) {
-<span class="cstat-no" title="statement not covered" >    super(<span class="fstat-no" title="function not covered" >async (k</span>eys: Readonly&lt;string[]&gt;): Promise&lt;Entity[][]&gt; =&gt; {</span>
+    super(async (keys: Readonly&lt;string[]&gt;): Promise&lt;Entity[][]&gt; =&gt; {
       // we force the filter based on dataloader keys
-      const where: IWhereCondition = <span class="cstat-no" title="statement not covered" >{</span>
+      const where: IWhereCondition = {
         filters: { [searchKey]: In([...keys]) },
       };
 &nbsp;
       // then, we apply the filters selected by the user with the AND operator
       // but we first must be sure that the filters or the childExpressions
       // are specified, otherwise we will have an empty where condition and a SQL error
-<span class="cstat-no" title="statement not covered" >      if (</span>
+      if (
         findOptions.where &amp;&amp;
         ((findOptions.where.filters &amp;&amp;
           Object.keys(findOptions.where.filters).length) ||
           findOptions.where.childExpressions)
       ) {
-<span class="cstat-no" title="statement not covered" >        where.childExpressions = [</span>
+        where.childExpressions = [
           {
             operator: Operators.AND,
             ...findOptions.where,
@@ -748,46 +748,46 @@ class _DataLoaderWithCount&lt;
         ? findOptions.select
         : [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (selections.indexOf(searchKey) === -1) {</span>
-<span class="cstat-no" title="statement not covered" >        selections.push(searchKey);</span>
-<span class="cstat-no" title="statement not covered" >        findOptions.select = selections;</span>
+      if (selections.indexOf(searchKey) === -1) {
+        selections.push(searchKey);
+        findOptions.select = selections;
       }
 &nbsp;
       // this is needed for joined and nested queries
-<span class="cstat-no" title="statement not covered" >      for (const field in findOptions.order) {</span>
-<span class="cstat-no" title="statement not covered" >        if (selections.indexOf(field) === -1) {</span>
-<span class="cstat-no" title="statement not covered" >          selections.push(field);</span>
+      for (const field in findOptions.order) {
+        if (selections.indexOf(field) === -1) {
+          selections.push(field);
         }
       }
 &nbsp;
-      const findManyOptions: CrudGenFindManyOptions = <span class="cstat-no" title="statement not covered" >{</span>
+      const findManyOptions: CrudGenFindManyOptions = {
         ...findOptions,
         where,
       };
 &nbsp;
-      const [entities, count] = <span class="cstat-no" title="statement not covered" >await batchFn(findManyOptions);</span>
+      const [entities, count] = await batchFn(findManyOptions);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.count = count;</span>
+      this.count = count;
 &nbsp;
       // this loop is needed to associate the result of the query with the
       // keys of the dataloader.
       // the dataloader only accepts a result expressed as: &lt;key, elements[]&gt;[]
       // following the order of the requested keys
-      const entityMap: { [key: string]: Entity[] } = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >      entities.forEach((result) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (typeof entityMap[result[searchKey]] === 'undefined') {</span>
-<span class="cstat-no" title="statement not covered" >          entityMap[result[searchKey]] = [result];</span>
+      const entityMap: { [key: string]: Entity[] } = {};
+      entities.forEach((result) =&gt; {
+        if (typeof entityMap[result[searchKey]] === 'undefined') {
+          entityMap[result[searchKey]] = [result];
         } else {
-<span class="cstat-no" title="statement not covered" >          entityMap[result[searchKey]].push(result);</span>
+          entityMap[result[searchKey]].push(result);
         }
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return keys.map((key) =&gt; entityMap[key] ?? []);</span>
+      return keys.map((key) =&gt; entityMap[key] ?? []);
     }, options);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getCount() {</span>
-<span class="cstat-no" title="statement not covered" >    return this.count;</span>
+  getCount() {
+    return this.count;
   }
 }
 &nbsp;
@@ -796,7 +796,7 @@ class _DataLoaderWithCount&lt;
  * in order to support GraphQL aliases
  */
 export class GQLDataLoader&lt;Entity extends Record&lt;string, any&gt; = any&gt; {
-  private count = <span class="cstat-no" title="statement not covered" >0;</span>
+  private count = 0;
   private batchFn: (
     findManyOptions: CrudGenFindManyOptions&lt;Entity&gt;,
   ) =&gt; Promise&lt;FindAndCountResult&lt;Entity&gt;&gt;;
@@ -804,7 +804,7 @@ export class GQLDataLoader&lt;Entity extends Record&lt;string, any&gt; = any&gt;
   private options;
   private dataLoaders: {
     [key: string]: _DataLoaderWithCount&lt;Entity&gt;;
-  } = <span class="cstat-no" title="statement not covered" >{};</span>
+  } = {};
   /**
    * to cache generated dataloader keys
    */
@@ -815,50 +815,50 @@ export class GQLDataLoader&lt;Entity extends Record&lt;string, any&gt; = any&gt;
       findManyOptions: CrudGenFindManyOptions&lt;Entity&gt;,
     ) =&gt; Promise&lt;FindAndCountResult&lt;Entity&gt;&gt;,
     searchKey: keyof Entity,
-    @Optional() private readonly eventEmitter?: EventEmitter2,
+    private readonly eventEmitter?: EventEmitter2,
     options?: _DataLoader.Options&lt;string, Entity[], string&gt;,
   ) {
-<span class="cstat-no" title="statement not covered" >    this.batchFn = <span class="fstat-no" title="function not covered" >async (f</span>indManyOptions: CrudGenFindManyOptions&lt;Entity&gt;) =&gt; {</span>
-      const randomId = <span class="cstat-no" title="statement not covered" >Math.random();</span>
+    this.batchFn = async (findManyOptions: CrudGenFindManyOptions&lt;Entity&gt;) =&gt; {
+      const randomId = Math.random();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      void this.eventEmitter?.emitAsync(</span>
+      void this.eventEmitter?.emitAsync(
         EventCrudGen.START_TRANSACTION,
         findManyOptions.info?.fieldName,
         randomId,
       );
 &nbsp;
-      const data = <span class="cstat-no" title="statement not covered" >await getFn(findManyOptions);</span>
-<span class="cstat-no" title="statement not covered" >      void this.eventEmitter?.emitAsync(</span>
+      const data = await getFn(findManyOptions);
+      void this.eventEmitter?.emitAsync(
         EventCrudGen.END_TRANSACTION,
         findManyOptions.info?.fieldName,
         randomId,
       );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return data;</span>
+      return data;
     };
-<span class="cstat-no" title="statement not covered" >    this.searchKey = searchKey;</span>
-<span class="cstat-no" title="statement not covered" >    this.options = options;</span>
-<span class="cstat-no" title="statement not covered" >    this.keyMap = new WeakMap();</span>
+    this.searchKey = searchKey;
+    this.options = options;
+    this.keyMap = new WeakMap();
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >getSearchKey() {</span>
-<span class="cstat-no" title="statement not covered" >    return this.searchKey;</span>
+  public getSearchKey() {
+    return this.searchKey;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >getDataloader(</span>
+  private getDataloader(
     findOptions: CrudGenFindManyOptions&lt;Entity&gt;,
     searchKey: keyof Entity,
   ): _DataLoaderWithCount&lt;Entity&gt; {
-    let DLKey = <span class="cstat-no" title="statement not covered" >this.keyMap.get(findOptions);</span>
+    let DLKey = this.keyMap.get(findOptions);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!DLKey) {</span>
+    if (!DLKey) {
       const sort =
-<span class="cstat-no" title="statement not covered" >        typeof findOptions.select?.sort === 'function'</span>
+        typeof findOptions.select?.sort === 'function'
           ? findOptions.select.sort().join(',')
           : '';
 &nbsp;
       // concat different information to create a proper dataloader key
-<span class="cstat-no" title="statement not covered" >      DLKey = `${sort}|${JSON.stringify(</span>
+      DLKey = `${sort}|${JSON.stringify(
         findOptions.where ?? { filters: {} },
       )}|${JSON.stringify(findOptions.subQueryFilters)}|${JSON.stringify(
         findOptions.order ?? {},
@@ -866,11 +866,11 @@ export class GQLDataLoader&lt;Entity extends Record&lt;string, any&gt; = any&gt;
         findOptions.skip ?? {},
       )}|${searchKey.toString()}`;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.keyMap.set(findOptions, DLKey);</span>
+      this.keyMap.set(findOptions, DLKey);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (Object.prototype.hasOwnProperty.call(this.dataLoaders, DLKey)) {</span>
-<span class="cstat-no" title="statement not covered" >      return this.dataLoaders[DLKey];</span>
+    if (Object.prototype.hasOwnProperty.call(this.dataLoaders, DLKey)) {
+      return this.dataLoaders[DLKey];
     }
 &nbsp;
     const dataLoader = new _DataLoaderWithCount(
@@ -880,13 +880,13 @@ export class GQLDataLoader&lt;Entity extends Record&lt;string, any&gt; = any&gt;
       this.options,
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.dataLoaders[DLKey] = dataLoader;</span>
+    this.dataLoaders[DLKey] = dataLoader;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return dataLoader;</span>
+    return dataLoader;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  getCount() {</span>
-<span class="cstat-no" title="statement not covered" >    return this.count;</span>
+  getCount() {
+    return this.count;
   }
 &nbsp;
   async loadOne(
@@ -899,26 +899,26 @@ export class GQLDataLoader&lt;Entity extends Record&lt;string, any&gt; = any&gt;
     findOptions: CrudGenFindManyOptions&lt;Entity&gt;,
     throwOnNotFound?: false,
   ): Promise&lt;Entity | null&gt;;
-<span class="fstat-no" title="function not covered" >  async l</span>oadOne(
+  async loadOne(
     key: SearchKeyType&lt;Entity&gt;,
     findOptions: CrudGenFindManyOptions&lt;Entity&gt;,
     throwOnNotFound = false,
   ): Promise&lt;Entity | null&gt; {
-    const result = <span class="cstat-no" title="statement not covered" >await this.loadOneToMany(key, findOptions, false);</span>
+    const result = await this.loadOneToMany(key, findOptions, false);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!Array.isArray(result) || result.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >      if (throwOnNotFound)</span>
-<span class="cstat-no" title="statement not covered" >        throw new NotFoundException(`Resource with key ${key} was not found`);</span>
-      else <span class="cstat-no" title="statement not covered" >return null;</span>
+    if (!Array.isArray(result) || result.length === 0) {
+      if (throwOnNotFound)
+        throw new NotFoundException(`Resource with key ${key} was not found`);
+      else return null;
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (result.length &gt; 1) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new NotAcceptableException(</span>
+    if (result.length &gt; 1) {
+      throw new NotAcceptableException(
         `Resource with key ${key} has more than one association`,
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return result[0];</span>
+    return result[0];
   }
 &nbsp;
   async loadOneToMany(
@@ -931,43 +931,43 @@ export class GQLDataLoader&lt;Entity extends Record&lt;string, any&gt; = any&gt;
     findOptions: CrudGenFindManyOptions&lt;Entity&gt;,
     withCount?: true,
   ): Promise&lt;FindAndCountResult&lt;Entity&gt;&gt;;
-<span class="fstat-no" title="function not covered" >  async l</span>oadOneToMany(
+  async loadOneToMany(
     key: SearchKeyType&lt;Entity&gt;,
     findOptions: CrudGenFindManyOptions&lt;Entity&gt;,
     withCount = true,
   ): Promise&lt;FindAndCountResult&lt;Entity&gt; | Entity[]&gt; {
-    const keyValue = <span class="cstat-no" title="statement not covered" >Array.isArray(key) ? key[1] : key;</span>
+    const keyValue = Array.isArray(key) ? key[1] : key;
     const keyName = Array.isArray(key) ? key[0] : this.searchKey;
 &nbsp;
     // check if null or undefined
-<span class="cstat-no" title="statement not covered" >    if (keyValue === undefined || keyValue === null) <span class="cstat-no" title="statement not covered" >return [];</span></span>
+    if (keyValue === undefined || keyValue === null) return [];
 &nbsp;
-    const dataloader = <span class="cstat-no" title="statement not covered" >this.getDataloader(findOptions, keyName);</span>
-<span class="cstat-no" title="statement not covered" >    if (withCount)</span>
-<span class="cstat-no" title="statement not covered" >      return [await dataloader.load(keyValue), dataloader.getCount()];</span>
+    const dataloader = this.getDataloader(findOptions, keyName);
+    if (withCount)
+      return [await dataloader.load(keyValue), dataloader.getCount()];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return dataloader.load(keyValue);</span>
+    return dataloader.load(keyValue);
   }
 }
 &nbsp;
 export const getFn =
-<span class="cstat-no" title="statement not covered" >  &lt;Entity extends ObjectLiteral&gt;(service: GenericService&lt;Entity&gt;) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  async (f</span>indManyOptions: CrudGenFindManyOptions) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return service.getEntityListExtended(findManyOptions, true);</span>
+  &lt;Entity extends ObjectLiteral&gt;(service: GenericService&lt;Entity&gt;) =&gt;
+  async (findManyOptions: CrudGenFindManyOptions) =&gt; {
+    return service.getEntityListExtended(findManyOptions, true);
   };
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >DataLoaderFactory&lt;Entity extends Record&lt;string, any&gt;&gt;(</span>
+export function DataLoaderFactory&lt;Entity extends Record&lt;string, any&gt;&gt;(
   defaultSearchKey: keyof Entity,
   entity: ClassType,
   serviceToken?: string,
 ): FactoryProvider {
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     provide: getDataloaderToken(entity.name),
     useFactory: (
       service: GenericService&lt;Entity&gt;,
       eventEmitter: EventEmitter2,
     ) =&gt; {
-<span class="cstat-no" title="statement not covered" >      return new GQLDataLoader&lt;Entity&gt;(</span>
+      return new GQLDataLoader&lt;Entity&gt;(
         getFn&lt;Entity&gt;(service),
         defaultSearchKey,
         eventEmitter,
@@ -981,8 +981,8 @@ export function <span class="fstat-no" title="function not covered" >DataLoaderF
   };
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >getDataloaderToken(e</span>ntity: ClassType | string) {
-<span class="cstat-no" title="statement not covered" >  return `${getProviderToken(entity)}Dataloader`;</span>
+export function getDataloaderToken(entity: ClassType | string) {
+  return `${getProviderToken(entity)}Dataloader`;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -991,7 +991,7 @@ export function <span class="fstat-no" title="function not covered" >getDataload
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

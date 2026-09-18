@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.7% </span>
+                <span class="strong">93.54% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/54</span>
+                <span class='fraction'>29/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">90.9% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>38/76</span>
+                <span class='fraction'>40/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -424,9 +424,9 @@ export interface OmniDeletionPolicies {
   externalRef: OmniDeletePolicy;
 }
 &nbsp;
-export const OMNI_KERNEL_OPTIONS = <span class="cstat-no" title="statement not covered" >Symbol('OMNI_KERNEL_OPTIONS');</span>
+export const OMNI_KERNEL_OPTIONS = Symbol('OMNI_KERNEL_OPTIONS');
 &nbsp;
-export const defaultOmniDeletionPolicies: OmniDeletionPolicies = <span class="cstat-no" title="statement not covered" >{</span>
+export const defaultOmniDeletionPolicies: OmniDeletionPolicies = {
   named: 'hard',
   record: 'tombstone',
   document: 'tombstone',
@@ -435,29 +435,29 @@ export const defaultOmniDeletionPolicies: OmniDeletionPolicies = <span class="cs
   externalRef: 'hard',
 };
 &nbsp;
-function <span class="fstat-no" title="function not covered" >normalizeOmniDeletionPolicies(</span>
+function normalizeOmniDeletionPolicies(
   deletion: Partial&lt;OmniDeletionPolicies&gt; | undefined,
 ): OmniDeletionPolicies {
-  const knownResources = <span class="cstat-no" title="statement not covered" >new Set(Object.keys(defaultOmniDeletionPolicies));</span>
-<span class="cstat-no" title="statement not covered" >  for (const [resource, policy] of Object.entries(deletion ?? {})) {</span>
-<span class="cstat-no" title="statement not covered" >    if (!knownResources.has(resource)) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
+  const knownResources = new Set(Object.keys(defaultOmniDeletionPolicies));
+  for (const [resource, policy] of Object.entries(deletion ?? {})) {
+    if (!knownResources.has(resource)) {
+      throw new TypeError(
         `Unknown OmniKernel deletion policy resource: ${resource}.`,
       );
     }
-<span class="cstat-no" title="statement not covered" >    if (policy !== 'hard' &amp;&amp; policy !== 'tombstone') {</span>
-<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
+    if (policy !== 'hard' &amp;&amp; policy !== 'tombstone') {
+      throw new TypeError(
         `OmniKernel deletion policy for ${resource} must be hard or tombstone.`,
       );
     }
   }
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     ...defaultOmniDeletionPolicies,
     ...deletion,
   };
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >normalizeOmniKernelRegistrationOptions(</span>
+export function normalizeOmniKernelRegistrationOptions(
   options: string | OmniKernelRegistrationOptions,
 ): Required&lt;
   Pick&lt;
@@ -477,36 +477,36 @@ export function <span class="fstat-no" title="function not covered" >normalizeOm
     deletion: OmniDeletionPolicies;
   } {
   const candidate =
-<span class="cstat-no" title="statement not covered" >    typeof options === 'string' ? { dbConnection: options } : options;</span>
-<span class="cstat-no" title="statement not covered" >  if (!candidate.dbConnection) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
+    typeof options === 'string' ? { dbConnection: options } : options;
+  if (!candidate.dbConnection) {
+    throw new TypeError(
       'OmniKernelModule requires a database connection name.',
     );
   }
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (
     candidate.defaultScopeId !== undefined &amp;&amp;
     (candidate.defaultScopeId.trim().length === 0 ||
       candidate.defaultScopeId.length &gt; 64)
   ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError('OmniKernel defaultScopeId must be 1-64 characters.');</span></span>
+<span class="cstat-no" title="statement not covered" >    throw new TypeError('OmniKernel defaultScopeId must be 1-64 characters.');</span>
   }
   const reservedRecordKinds = candidate.reservedRecordKinds ?? [];
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (
     !Array.isArray(reservedRecordKinds) ||
     reservedRecordKinds.some(
       (kind) =&gt;
-<span class="cstat-no" title="statement not covered" >        typeof kind !== 'string' ||</span>
+        typeof kind !== 'string' ||
         kind.trim().length === 0 ||
         kind.length &gt; 64,
     ) ||
     new Set(reservedRecordKinds).size !== reservedRecordKinds.length
   ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError(</span></span>
+<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
       'OmniKernel reservedRecordKinds must be unique 1-64 character strings.',
     );
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     ...candidate,
     defaultScopeId: candidate.defaultScopeId ?? 'default',
     relationKinds: candidate.relationKinds ?? [],
@@ -529,21 +529,21 @@ export class OmniScopeContext implements OmniScope {
   constructor(
     @Inject(REQUEST) request: unknown,
     @Inject(OMNI_KERNEL_OPTIONS)
-    options: ReturnType&lt;typeof normalizeOmniKernelRegistrationOptions&gt;,
+    options: <span class="branch-1 cbranch-no" title="branch not covered" >ReturnType<span class="branch-0 cbranch-no" title="branch not covered" >&lt;</span>typeof normalizeOmniKernelRegistrationOptions&gt;,</span>
   ) {
     const requestForResolver =
-<span class="cstat-no" title="statement not covered" >      (request as RequestEnvelope | undefined)?.req ?? request;</span>
+      (request as RequestEnvelope | undefined)?.req ?? request;
     const scopeId = options.resolveScope
       ? options.resolveScope(requestForResolver)
       : options.defaultScopeId;
-<span class="cstat-no" title="statement not covered" >    if (!scopeId || scopeId.trim().length === 0 || scopeId.length &gt; 64) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new TypeError('Omni scope context is unavailable.');</span>
+    if (!scopeId || scopeId.trim().length === 0 || scopeId.length &gt; 64) {
+      throw new TypeError('Omni scope context is unavailable.');
     }
-<span class="cstat-no" title="statement not covered" >    this.scopeId = scopeId;</span>
+    this.scopeId = scopeId;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  cacheKey(k</span>ey: string): string {
-<span class="cstat-no" title="statement not covered" >    return `${this.scopeId}:${key}`;</span>
+  cacheKey(key: string): string {
+    return `${this.scopeId}:${key}`;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -553,7 +553,7 @@ export class OmniScopeContext implements OmniScope {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -1,148 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1789680421485" clover="3.2.0">
-  <project timestamp="1789680421486" name="All files">
-    <metrics statements="104" coveredstatements="104" conditionals="41" coveredconditionals="41" methods="23" coveredmethods="23" elements="168" coveredelements="168" complexity="0" loc="104" ncloc="104" packages="4" files="9" classes="9"/>
+<coverage generated="1789712857318" clover="3.2.0">
+  <project timestamp="1789712857319" name="All files">
+    <metrics statements="14" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0" elements="24" coveredelements="0" complexity="0" loc="14" ncloc="14" packages="2" files="2" classes="2"/>
     <package name="src">
-      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="index.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\index.ts">
-        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-      </file>
-      <file name="sofa.helper.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\sofa.helper.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.decorators">
-      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="gqlrequest.decorator.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\decorators\gqlrequest.decorator.ts">
-        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
+      <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <file name="kafka.controller.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\kafka\src\kafka.controller.ts">
+        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.plugins">
-      <metrics statements="62" coveredstatements="62" conditionals="31" coveredconditionals="31" methods="13" coveredmethods="13"/>
-      <file name="gql-ast.helper.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\plugins\gql-ast.helper.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="5" count="16" type="stmt"/>
-        <line num="9" count="33" type="stmt"/>
-      </file>
-      <file name="gql-complexity.helper.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\plugins\gql-complexity.helper.ts">
-        <metrics statements="47" coveredstatements="47" conditionals="29" coveredconditionals="29" methods="7" coveredmethods="7"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="26" count="2" type="stmt"/>
-        <line num="35" count="5" type="stmt"/>
-        <line num="38" count="5" type="stmt"/>
-        <line num="40" count="5" type="stmt"/>
-        <line num="41" count="5" type="stmt"/>
-        <line num="43" count="5" type="stmt"/>
-        <line num="46" count="5" type="stmt"/>
-        <line num="47" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="48" count="1" type="stmt"/>
-        <line num="51" count="4" type="stmt"/>
-        <line num="52" count="4" type="stmt"/>
-        <line num="58" count="7" type="cond" truecount="2" falsecount="0"/>
-        <line num="59" count="1" type="stmt"/>
-        <line num="62" count="6" type="stmt"/>
-        <line num="63" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="64" count="2" type="stmt"/>
-        <line num="67" count="4" type="stmt"/>
-        <line num="71" count="4" type="stmt"/>
-        <line num="72" count="8" type="stmt"/>
-        <line num="81" count="17" type="stmt"/>
-        <line num="82" count="17" type="stmt"/>
-        <line num="83" count="17" type="stmt"/>
-        <line num="89" count="17" type="cond" truecount="3" falsecount="0"/>
-        <line num="92" count="17" type="cond" truecount="2" falsecount="0"/>
-        <line num="93" count="3" type="stmt"/>
-        <line num="97" count="14" type="cond" truecount="2" falsecount="0"/>
-        <line num="98" count="14" type="cond" truecount="4" falsecount="0"/>
-        <line num="99" count="1" type="stmt"/>
-        <line num="102" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="104" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="105" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="107" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="108" count="1" type="stmt"/>
-        <line num="111" count="8" type="stmt"/>
-        <line num="120" count="4" type="stmt"/>
-        <line num="121" count="4" type="stmt"/>
-        <line num="123" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="124" count="2" type="stmt"/>
-        <line num="127" count="4" type="stmt"/>
-        <line num="135" count="9" type="stmt"/>
-        <line num="136" count="9" type="stmt"/>
-      </file>
-      <file name="gql-complexity.plugin.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\plugins\gql-complexity.plugin.ts">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-      </file>
-      <file name="gql.error.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\plugins\gql.error.ts">
-        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
-        <line num="1" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="7" count="3" type="stmt"/>
-        <line num="10" count="7" type="stmt"/>
-        <line num="12" count="7" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.scalars">
-      <metrics statements="32" coveredstatements="32" conditionals="10" coveredconditionals="10" methods="8" coveredmethods="8"/>
-      <file name="uuid-validation.error.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\scalars\uuid-validation.error.ts">
-        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="3" count="8" type="stmt"/>
-      </file>
-      <file name="uuid.scalar.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\graphql\src\scalars\uuid.scalar.ts">
-        <metrics statements="30" coveredstatements="30" conditionals="10" coveredconditionals="10" methods="7" coveredmethods="7"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="10" count="9" type="cond" truecount="2" falsecount="0"/>
-        <line num="11" count="5" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="20" count="10" type="cond" truecount="2" falsecount="0"/>
-        <line num="21" count="8" type="stmt"/>
-        <line num="22" count="8" type="stmt"/>
-        <line num="24" count="2" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
-        <line num="29" count="10" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="4" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="39" count="14" type="stmt"/>
-        <line num="40" count="14" type="stmt"/>
-        <line num="42" count="14" type="cond" truecount="2" falsecount="0"/>
-        <line num="43" count="7" type="stmt"/>
-        <line num="45" count="7" type="stmt"/>
-        <line num="46" count="28" type="cond" truecount="2" falsecount="0"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="49" count="27" type="stmt"/>
-        <line num="51" count="6" type="stmt"/>
-        <line num="52" count="209" type="cond" truecount="2" falsecount="0"/>
-        <line num="53" count="1" type="stmt"/>
-        <line num="56" count="5" type="stmt"/>
+    <package name="src.plugin">
+      <metrics statements="7" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="avro-deserializer.ts" path="C:\Users\nn\Desktop\code\nestjs-yalc\kafka\src\plugin\avro-deserializer.ts">
+        <metrics statements="7" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="45" count="0" type="stmt"/>
       </file>
     </package>
   </project>

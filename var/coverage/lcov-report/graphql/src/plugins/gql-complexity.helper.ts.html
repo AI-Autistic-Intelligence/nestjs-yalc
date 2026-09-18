@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.17% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>50/89</span>
+                <span class='fraction'>49/49</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.78% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>29/56</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/12</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -351,11 +351,11 @@
 import { GqlASTHelper } from './gql-ast.helper.js';
 import { GqlError, GqlErrorMsgs } from './gql.error.js';
 &nbsp;
-const MAX_EXECUTABLE_DEFINITIONS = <span class="cstat-no" title="statement not covered" >50;</span>
-const MAX_DEPTH = <span class="cstat-no" title="statement not covered" >3;</span>
+const MAX_EXECUTABLE_DEFINITIONS = 50;
+const MAX_DEPTH = 3;
 &nbsp;
 // GraphQL Object Type returned by queries/mutations/fields that might have a circular dependency.
-const returnTypeMap: { [key: string]: string } = <span class="cstat-no" title="statement not covered" >{</span>
+const returnTypeMap: { [key: string]: string } = {
   ManageUser_getUser: 'UserType',
   ManageUser_getUserGrid: 'UserGrid',
   User: 'UserType', // Temporary solution for wrong type returned by the 'User' in UserEmail object type.
@@ -374,56 +374,56 @@ export class GqlComplexityHelper {
 &nbsp;
   static customMaxDepth: number;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static p</span>rocessDocumentAST(document: DocumentNode, schema?: GraphQLSchema) {
-<span class="cstat-no" title="statement not covered" >    document.definitions</span>
+  static processDocumentAST(document: DocumentNode, schema?: GraphQLSchema) {
+    document.definitions
       .filter(isExecutableDefinitionNode)
       .forEach((operation) =&gt; {
-        const { selectionSet } = <span class="cstat-no" title="statement not covered" >operation;</span>
+        const { selectionSet } = operation;
 &nbsp;
-        const { name } = <span class="cstat-no" title="statement not covered" >selectionSet.selections[0] </span>as FieldNode;
+        const { name } = selectionSet.selections[0] as FieldNode;
         const queryContext = schema?.getQueryType()?.getFields()[name.value];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        GqlComplexityHelper.customMaxDepth =</span>
+        GqlComplexityHelper.customMaxDepth =
           (queryContext?.extensions?.complexity as number) ?? MAX_DEPTH;
 &nbsp;
         const totalOperations = selectionSet.selections.length;
-<span class="cstat-no" title="statement not covered" >        if (totalOperations &gt; MAX_EXECUTABLE_DEFINITIONS) {</span>
-<span class="cstat-no" title="statement not covered" >          throw new GqlError(GqlErrorMsgs.MAX_OPERATIONS);</span>
+        if (totalOperations &gt; MAX_EXECUTABLE_DEFINITIONS) {
+          throw new GqlError(GqlErrorMsgs.MAX_OPERATIONS);
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        selectionSet.selections.forEach((selectionNode: SelectionNode) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          GqlComplexityHelper.hasInvalidNode(selectionNode);</span>
+        selectionSet.selections.forEach((selectionNode: SelectionNode) =&gt; {
+          GqlComplexityHelper.hasInvalidNode(selectionNode);
         });
       });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static h</span>asInvalidNode(selectionNode: SelectionNode) {
-<span class="cstat-no" title="statement not covered" >    if (!GqlASTHelper.isFieldNode(selectionNode)) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+  static hasInvalidNode(selectionNode: SelectionNode) {
+    if (!GqlASTHelper.isFieldNode(selectionNode)) {
+      return;
     }
 &nbsp;
-    const selections = <span class="cstat-no" title="statement not covered" >selectionNode.selectionSet?.selections?.concat();</span>
-<span class="cstat-no" title="statement not covered" >    if (selections === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+    const selections = selectionNode.selectionSet?.selections?.concat();
+    if (selections === undefined) {
+      return;
     }
 &nbsp;
     const defaultVisitedNodes = GqlComplexityHelper.getDefaultVisitedNodes(
       selectionNode.name.value,
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const node of GqlASTHelper.filterFieldNodes(selections)) {</span>
-<span class="cstat-no" title="statement not covered" >      GqlComplexityHelper.findInvalidNode(node, defaultVisitedNodes, 1);</span>
+    for (const node of GqlASTHelper.filterFieldNodes(selections)) {
+      GqlComplexityHelper.findInvalidNode(node, defaultVisitedNodes, 1);
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static f</span>indInvalidNode(
+  static findInvalidNode(
     node: FieldNode,
     visitedNodes: { [key: string]: IVisitedNode },
     depth: number,
   ) {
-    const { name, selectionSet } = <span class="cstat-no" title="statement not covered" >node;</span>
-    const { value: fieldName } = <span class="cstat-no" title="statement not covered" >name;</span>
-    const notNodesField = <span class="cstat-no" title="statement not covered" >fieldName !== 'nodes';</span>
+    const { name, selectionSet } = node;
+    const { value: fieldName } = name;
+    const notNodesField = fieldName !== 'nodes';
 &nbsp;
     // Process non-captilized request resources should not be supported
     // It's still necessary to visit the selectionSet inside 'nodes' (CrudGen).
@@ -432,26 +432,26 @@ export class GqlComplexityHelper {
       fieldName === 'ID' ||
       (notNodesField &amp;&amp; fieldName[0] !== fieldName.toUpperCase()[0]);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (shouldSkipFieldName) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+    if (shouldSkipFieldName) {
+      return;
     }
 &nbsp;
     const foundVisitedNode =
       visitedNodes[fieldName] ?? visitedNodes[returnTypeMap[fieldName]];
-<span class="cstat-no" title="statement not covered" >    if (foundVisitedNode &amp;&amp; foundVisitedNode.depth !== depth) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new GqlError(GqlErrorMsgs.CIRCULAR_DEPENDENCY_FOUND);</span>
+    if (foundVisitedNode &amp;&amp; foundVisitedNode.depth !== depth) {
+      throw new GqlError(GqlErrorMsgs.CIRCULAR_DEPENDENCY_FOUND);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (notNodesField) <span class="cstat-no" title="statement not covered" >visitedNodes[fieldName] = { depth };</span></span>
+    if (notNodesField) visitedNodes[fieldName] = { depth };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (selectionSet) {</span>
-<span class="cstat-no" title="statement not covered" >      if (notNodesField) <span class="cstat-no" title="statement not covered" >depth++;</span></span>
+    if (selectionSet) {
+      if (notNodesField) depth++;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (depth &gt; GqlComplexityHelper.customMaxDepth) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new GqlError(GqlErrorMsgs.MAX_DEPTH);</span>
+      if (depth &gt; GqlComplexityHelper.customMaxDepth) {
+        throw new GqlError(GqlErrorMsgs.MAX_DEPTH);
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return GqlComplexityHelper.processSelectionNodes(</span>
+      return GqlComplexityHelper.processSelectionNodes(
         selectionSet.selections.concat(),
         visitedNodes,
         depth,
@@ -459,24 +459,24 @@ export class GqlComplexityHelper {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static g</span>etDefaultVisitedNodes(key: string): { [key: string]: IVisitedNode } {
-    const result: { [key: string]: IVisitedNode } = <span class="cstat-no" title="statement not covered" >{};</span>
+  static getDefaultVisitedNodes(key: string): { [key: string]: IVisitedNode } {
+    const result: { [key: string]: IVisitedNode } = {};
     const operationReturnType: string | undefined = returnTypeMap[key];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (operationReturnType) {</span>
-<span class="cstat-no" title="statement not covered" >      result[operationReturnType] = { depth: 0 };</span>
+    if (operationReturnType) {
+      result[operationReturnType] = { depth: 0 };
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return result;</span>
+    return result;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static p</span>rocessSelectionNodes(
+  static processSelectionNodes(
     selections: SelectionNode[],
     visitedNodes: { [key: string]: IVisitedNode },
     depth: number,
   ) {
-<span class="cstat-no" title="statement not covered" >    for (const node of GqlASTHelper.filterFieldNodes(selections)) {</span>
-<span class="cstat-no" title="statement not covered" >      GqlComplexityHelper.findInvalidNode(node, visitedNodes, depth);</span>
+    for (const node of GqlASTHelper.filterFieldNodes(selections)) {
+      GqlComplexityHelper.findInvalidNode(node, visitedNodes, depth);
     }
   }
 }
@@ -487,7 +487,7 @@ export class GqlComplexityHelper {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

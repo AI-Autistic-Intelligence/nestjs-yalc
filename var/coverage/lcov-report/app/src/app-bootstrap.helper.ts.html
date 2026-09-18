@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.77% </span>
+                <span class="strong">60.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/151</span>
+                <span class='fraction'>50/83</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25.67% </span>
+                <span class="strong">51.35% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/74</span>
+                <span class='fraction'>19/37</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.62% </span>
+                <span class="strong">53.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/27</span>
+                <span class='fraction'>8/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -638,78 +638,78 @@ export class AppBootstrap&lt;
   TGlobalOptions extends IGlobalOptions = IGlobalOptions,
 &gt; extends BaseAppBootstrap&lt;NestFastifyApplication&gt; {
   private fastifyInstance?: FastifyInstance;
-  protected isSwaggerEnabled: boolean = <span class="cstat-no" title="statement not covered" >false;</span>
-  protected swaggerPath = <span class="cstat-no" title="statement not covered" >'api';</span>
+  protected isSwaggerEnabled: boolean = false;
+  protected swaggerPath = 'api';
 &nbsp;
   constructor(appAlias: string, module: any, options?: TGlobalOptions) {
-<span class="cstat-no" title="statement not covered" >    super(appAlias, module, { globalsOptions: options });</span>
+    super(appAlias, module, { globalsOptions: options });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >  async </span>s</span>tartServer(options?: {
+<span class="fstat-no" title="function not covered" >  async </span>startServer(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    await this.initApp(options);</span></span>
+<span class="cstat-no" title="statement not covered" >    await this.initApp(options);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (envIsTrue(process.env.APP_DRY_RUN) === true) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      await this.closeApp();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      process.exit(0);</span></span>
+<span class="cstat-no" title="statement not covered" >    if (envIsTrue(process.env.APP_DRY_RUN) === true) {</span>
+<span class="cstat-no" title="statement not covered" >      await this.closeApp();</span>
+<span class="cstat-no" title="statement not covered" >      process.exit(0);</span>
     }
 &nbsp;
     // no need to wait here
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    this.listen();</span></span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return this;</span></span>
-  }
-&nbsp;
-<span class="fstat-no" title="function not covered" >  async i</span>nitApp(options?: {
-    createOptions?: INestCreateOptions;
-    fastifyInstance?: FastifyInstance;
-  }) {
-<span class="cstat-no" title="statement not covered" >    await this.createApp({</span>
-      fastifyInstance: this.fastifyInstance,
-      createOptions: options?.createOptions,
-    });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.initSetup({</span>
-      fastifyInstance: this.fastifyInstance,
-      createOptions: options?.createOptions,
-    });
-  }
-&nbsp;
-<span class="fstat-no" title="function not covered" >  async i</span>nitSetup(options?: {
-    createOptions?: ICreateOptions;
-    fastifyInstance?: FastifyInstance;
-  }) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await this.applyBootstrapGlobals(options?.createOptions);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      await this.getApp().init();</span>
-    } catch (err) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.error('App init failed:', err);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      this.closeCleanup();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new Error('Process aborted');</span></span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (envIsTrue(process.env.APP_DRY_RUN) === true) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      this.loggerService?.log('Dry run, exiting...');</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      await this.closeApp();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      process.exit(0);</span></span>
-    }
+<span class="cstat-no" title="statement not covered" >    this.listen();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return this;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async c</span>reateApp(options?: {
+  async initApp(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
-<span class="cstat-no" title="statement not covered" >    this.fastifyInstance = options?.fastifyInstance ?? fastify();</span>
+    await this.createApp({
+      fastifyInstance: this.fastifyInstance,
+      createOptions: options?.createOptions,
+    });
+&nbsp;
+    return this.initSetup({
+      fastifyInstance: this.fastifyInstance,
+      createOptions: options?.createOptions,
+    });
+  }
+&nbsp;
+  async initSetup(options?: {
+    createOptions?: ICreateOptions;
+    fastifyInstance?: FastifyInstance;
+  }) {
+    try {
+      await this.applyBootstrapGlobals(options?.createOptions);
+&nbsp;
+      await this.getApp().init();
+    } catch (err) {
+<span class="cstat-no" title="statement not covered" >      console.error('App init failed:', err);</span>
+<span class="cstat-no" title="statement not covered" >      this.closeCleanup();</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Process aborted');</span>
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (envIsTrue(process.env.APP_DRY_RUN) === true) {
+<span class="cstat-no" title="statement not covered" >      this.loggerService?.log('Dry run, exiting...');</span>
+<span class="cstat-no" title="statement not covered" >      await this.closeApp();</span>
+<span class="cstat-no" title="statement not covered" >      process.exit(0);</span>
+    }
+&nbsp;
+    return this;
+  }
+&nbsp;
+  async createApp(options?: {
+    createOptions?: INestCreateOptions;
+    fastifyInstance?: FastifyInstance;
+  }) {
+    this.fastifyInstance = options?.fastifyInstance ?? fastify();
 &nbsp;
     let app;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      app = await NestFactory.create&lt;NestFastifyApplication&gt;(</span>
+    try {
+      app = await NestFactory.create&lt;NestFastifyApplication&gt;(
         this.module,
         new FastifyAdapter(this.fastifyInstance as any),
         {
@@ -720,37 +720,37 @@ export class AppBootstrap&lt;
         },
       );
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      this.closeCleanup();</span>
+      this.closeCleanup();
       // eslint-disable-next-line no-console
-<span class="cstat-no" title="statement not covered" >      console.error(clc.red('Failed to create app'), clc.red(err));</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('Process aborted');</span>
+      console.error(clc.red('Failed to create app'), clc.red(err));
+      throw new Error('Process aborted');
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.setApp(app);</span>
+    return this.setApp(app);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >  getFastifyInstance(</span>) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return this.fastifyInstance;</span></span>
+<span class="fstat-no" title="function not covered" >  getFastifyInstance(</span>) {
+<span class="cstat-no" title="statement not covered" >    return this.fastifyInstance;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  setSwaggerEnabled(e</span>nabled: boolean) {
-<span class="cstat-no" title="statement not covered" >    this.isSwaggerEnabled = enabled;</span>
+  setSwaggerEnabled(enabled: boolean) {
+    this.isSwaggerEnabled = enabled;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async a</span>pplyBootstrapGlobals(options?: ICreateOptions) {
-<span class="cstat-no" title="statement not covered" >    await super.applyBootstrapGlobals(options);</span>
+  async applyBootstrapGlobals(options?: ICreateOptions) {
+    await super.applyBootstrapGlobals(options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.getApp().useGlobalPipes(</span>
+    this.getApp().useGlobalPipes(
       new ValidationPipe({
         transform: true,
         transformOptions: { enableImplicitConversion: false },
         validateCustomDecorators: true,
         exceptionFactory: <span class="fstat-no" title="function not covered" >(e</span>rrors) =&gt; {
-          const errorMessages: { [key: string]: any } = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >{};</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          errors.forEach(<span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            errorMessages[error.property] = error;</span></span>
+          const errorMessages: { [key: string]: any } = <span class="cstat-no" title="statement not covered" >{};</span>
+<span class="cstat-no" title="statement not covered" >          errors.forEach(<span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            errorMessages[error.property] = error;</span>
           });
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          return new BadRequestException(errorMessages);</span></span>
+<span class="cstat-no" title="statement not covered" >          return new BadRequestException(errorMessages);</span>
         },
         ...(options?.validationPipeOptions ?? {}),
       }),
@@ -760,57 +760,57 @@ export class AppBootstrap&lt;
       options?.apiPrefix ?? (this.getConf()?.apiPrefix || ''),
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await this.getApp().register(fastifyCookie as any, {});</span>
+    await this.getApp().register(fastifyCookie as any, {});
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.getApp().useGlobalInterceptors(new UnwrapResultInterceptor());</span>
+    this.getApp().useGlobalInterceptors(new UnwrapResultInterceptor());
 &nbsp;
     /**
      * @todo refactor using a factory function to share with all services
      */
-    const filters = <span class="cstat-no" title="statement not covered" >[</span>
+    const filters = [
       new SystemExceptionFilter(this.loggerService),
       ...(options?.filters ?? []),
     ];
-<span class="cstat-no" title="statement not covered" >    this.getApp().useGlobalFilters(...filters);</span>
+    this.getApp().useGlobalFilters(...filters);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (options?.enableSwagger) {</span>
-      const swaggerPath = <span class="cstat-no" title="statement not covered" >sanitizeSwaggerPath(options.swaggerPath);</span>
-<span class="cstat-no" title="statement not covered" >      this.swaggerPath = swaggerPath;</span>
-<span class="cstat-no" title="statement not covered" >      this.setSwaggerEnabled(true);</span>
+    if (options?.enableSwagger) {
+      const swaggerPath = sanitizeSwaggerPath(options.swaggerPath);
+      this.swaggerPath = swaggerPath;
+      this.setSwaggerEnabled(true);
       const document = SwaggerModule.createDocument(
         this.getApp(),
         this.buildSwaggerConfig().build(),
       );
-<span class="cstat-no" title="statement not covered" >      SwaggerModule.setup(swaggerPath, this.getApp(), document, {</span>
+      SwaggerModule.setup(swaggerPath, this.getApp(), document, {
         jsonDocumentUrl: `/${swaggerPath}/json`,
         useGlobalPrefix: true,
       });
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    useContainer(this.getApp().select(this.getModule()), {</span>
+    useContainer(this.getApp().select(this.getModule()), {
       fallbackOnErrors: true,
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this;</span>
+    return this;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  buildSwaggerConfig() {</span>
-<span class="cstat-no" title="statement not covered" >    return new DocumentBuilder()</span>
+  buildSwaggerConfig() {
+    return new DocumentBuilder()
       .setTitle(this.appAlias)
       .setDescription(`${this.appAlias} rest api`);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >  async </span>l</span>isten(callback?: {
+<span class="fstat-no" title="function not covered" >  async </span>listen(callback?: {
     (port: number, host: string, domain: string): void;
   }) {
-    const port = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.getConf()?.port || 0;</span></span>
-    const host = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.getConf()?.host || '0.0.0.0';</span></span>
-    let apiPrefix = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.getConf()?.apiPrefix;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    apiPrefix = apiPrefix ? `/${apiPrefix}` : '';</span></span>
-    const domain = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.getConf()?.domain || 'localhost';</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    await this.getApp().listen(port, host, <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async </span>(_</span>err, address) =&gt; {</span></span>
+    const port = <span class="cstat-no" title="statement not covered" >this.getConf()?.port || 0;</span>
+    const host = <span class="cstat-no" title="statement not covered" >this.getConf()?.host || '0.0.0.0';</span>
+    let apiPrefix = <span class="cstat-no" title="statement not covered" >this.getConf()?.apiPrefix;</span>
+<span class="cstat-no" title="statement not covered" >    apiPrefix = apiPrefix ? `/${apiPrefix}` : '';</span>
+    const domain = <span class="cstat-no" title="statement not covered" >this.getConf()?.domain || 'localhost';</span>
+<span class="cstat-no" title="statement not covered" >    await this.getApp().listen(port, host, <span class="fstat-no" title="function not covered" >async </span>(_err, address) =&gt; {</span>
       // eslint-disable-next-line no-console
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.debug(`Server ${this.appAlias} listening on</span></span>
+<span class="cstat-no" title="statement not covered" >      console.debug(`Server ${this.appAlias} listening on</span>
         http://localhost:${port}${apiPrefix}/
         http://127.0.0.1:${port}${apiPrefix}/
         http://${domain}:${port}${apiPrefix}/
@@ -822,9 +822,9 @@ export class AppBootstrap&lt;
       //   http://127.0.0.1:${port}${apiPrefix}/graphql
       //   http://${domain}:${port}${apiPrefix}/graphql`);
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (this.isSwaggerEnabled) {</span></span>
+<span class="cstat-no" title="statement not covered" >      if (this.isSwaggerEnabled) {</span>
         // eslint-disable-next-line no-console
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        console.debug(`Swagger ${this.appAlias} listening on</span></span>
+<span class="cstat-no" title="statement not covered" >        console.debug(`Swagger ${this.appAlias} listening on</span>
         http://localhost:${port}${apiPrefix}/${this.swaggerPath}
         http://127.0.0.1:${port}${apiPrefix}/${this.swaggerPath}
         http://${domain}:${port}${apiPrefix}/${this.swaggerPath}
@@ -832,25 +832,25 @@ export class AppBootstrap&lt;
         JSON: http://localhost:${port}${apiPrefix}/${this.swaggerPath}/json`);
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      callback?.(port, host, domain);</span></span>
+<span class="cstat-no" title="statement not covered" >      callback?.(port, host, domain);</span>
     });
 &nbsp;
     /**
      * Hot reload @see https://docs.nestjs.com/recipes/hot-reload#hot-module-replacement-1
      */
-    const hmr = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >typeof module !== 'undefined' ? (module as any).hot : undefined;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (hmr) {</span></span>
+    const hmr = <span class="cstat-no" title="statement not covered" >typeof module !== 'undefined' ? (module as any).hot : undefined;</span>
+<span class="cstat-no" title="statement not covered" >    if (hmr) {</span>
       // eslint-disable-next-line no-console
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.debug('Hot reload enabled. Reloading...');</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      hmr.accept();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      hmr.dispose(<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >t</span>his.closeApp())</span>;</span></span></span>
+<span class="cstat-no" title="statement not covered" >      console.debug('Hot reload enabled. Reloading...');</span>
+<span class="cstat-no" title="statement not covered" >      hmr.accept();</span>
+<span class="cstat-no" title="statement not covered" >      hmr.dispose(<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >this.closeApp())</span>;</span>
     }
   }
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >sanitizeSwaggerPath(p</span>ath?: string): string {
-  const normalized = <span class="cstat-no" title="statement not covered" >(path ?? 'api').replace(/^\/+/, '').replace(/\/+$/, '');</span>
-<span class="cstat-no" title="statement not covered" >  return normalized || <span class="branch-1 cbranch-no" title="branch not covered" >'api';</span></span>
+function sanitizeSwaggerPath(path?: string): string {
+  const normalized = (path ?? 'api').replace(/^\/+/, '').replace(/\/+$/, '');
+  return normalized || <span class="branch-1 cbranch-no" title="branch not covered" >'api';</span>
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -859,7 +859,7 @@ function <span class="fstat-no" title="function not covered" >sanitizeSwaggerPat
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

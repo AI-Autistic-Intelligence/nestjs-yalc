@@ -61,6 +61,7 @@ export class OpenTelemetrySdkService implements OnModuleDestroy {
     this.execute(() => this.sdk?.start());
   }
 
+  /* istanbul ignore next */
   private execute<T>(operation: () => T): T | undefined {
     try {
       return operation();

@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.68% </span>
+                <span class="strong">79.54% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>35/82</span>
+                <span class='fraction'>35/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.67% </span>
+                <span class="strong">77.35% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>41/106</span>
+                <span class='fraction'>41/53</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/11</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -431,46 +431,46 @@ export interface OmniRelationProjectionDefinition {
   aliases?: OmniRelationProjectionAliases;
 }
 &nbsp;
-const publicFieldPattern = <span class="cstat-no" title="statement not covered" >/^[_A-Za-z][_0-9A-Za-z]*$/;</span>
+const publicFieldPattern = /^[_A-Za-z][_0-9A-Za-z]*$/;
 &nbsp;
-function <span class="fstat-no" title="function not covered" >assertFixedValue(</span>
+function assertFixedValue(
   value: unknown,
   label: string,
   max: number,
 ): asserts value is string {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (
     typeof value !== 'string' ||
     value.trim().length === 0 ||
     value.length &gt; max
   ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError(</span></span>
+<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
       `${label} must be a non-empty string up to ${max} characters.`,
     );
   }
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >freeze&lt;T&gt;(d</span>efinition: T): Readonly&lt;T&gt; {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (definition &amp;&amp; typeof definition === 'object') {</span>
-<span class="cstat-no" title="statement not covered" >    Object.values(definition as Record&lt;string, unknown&gt;).forEach((value) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (value &amp;&amp; typeof value === 'object') <span class="cstat-no" title="statement not covered" >freeze(value);</span></span>
+function freeze&lt;T&gt;(definition: T): Readonly&lt;T&gt; {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (definition &amp;&amp; typeof definition === 'object') {
+    Object.values(definition as Record&lt;string, unknown&gt;).forEach((value) =&gt; {
+      if (value &amp;&amp; typeof value === 'object') freeze(value);
     });
-<span class="cstat-no" title="statement not covered" >    Object.freeze(definition);</span>
+    Object.freeze(definition);
   }
-<span class="cstat-no" title="statement not covered" >  return definition;</span>
+  return definition;
 }
 &nbsp;
 /** Resolves legacy kind syntax into the canonical immutable allowed-kind set. */
-export function <span class="fstat-no" title="function not covered" >getOmniRelationProjectionAllowedKinds(</span>
+export function getOmniRelationProjectionAllowedKinds(
   definition: OmniRelationProjectionDefinition,
 ): readonly string[] {
-<span class="cstat-no" title="statement not covered" >  return definition.relation.allowedKinds ?? [definition.relation.kind!];</span>
+  return definition.relation.allowedKinds ?? [definition.relation.kind!];
 }
 &nbsp;
 /** Resolves omitted aliases to the native OmniRelationEntity field names. */
-export function <span class="fstat-no" title="function not covered" >getOmniRelationProjectionAliases(</span>
+export function getOmniRelationProjectionAliases(
   definition: OmniRelationProjectionDefinition,
 ): Required&lt;OmniRelationProjectionAliases&gt; {
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     kind: definition.aliases?.kind ?? 'kind',
     source: definition.aliases?.source ?? 'sourceRecordId',
     target: definition.aliases?.target ?? 'targetRecordId',
@@ -483,83 +483,83 @@ export function <span class="fstat-no" title="function not covered" >getOmniRela
  * expose one or more registered relation kinds, while status, schema, and
  * endpoint kinds remain server-owned.
  */
-export function <span class="fstat-no" title="function not covered" >defineOmniRelationProjection&lt;</span>
+export function defineOmniRelationProjection&lt;
   TDefinition extends OmniRelationProjectionDefinition,
 &gt;(definition: TDefinition): Readonly&lt;TDefinition&gt; {
-<span class="cstat-no" title="statement not covered" >  assertFixedValue(definition.id, 'Omni relation projection id', 128);</span>
+  assertFixedValue(definition.id, 'Omni relation projection id', 128);
   const relation = definition.relation;
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!relation || typeof relation !== 'object') {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError('Omni relation projection relation must be an object.');</span></span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!relation || typeof relation !== 'object') {
+<span class="cstat-no" title="statement not covered" >    throw new TypeError('Omni relation projection relation must be an object.');</span>
   }
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (relation.kind !== undefined &amp;&amp; relation.allowedKinds !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError(</span></span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (relation.kind !== undefined &amp;&amp; relation.allowedKinds !== undefined) {
+<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
       'Omni relation projection accepts either kind or allowedKinds, not both.',
     );
   }
-  const allowedKinds = <span class="cstat-no" title="statement not covered" >getOmniRelationProjectionAllowedKinds(definition);</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+  const allowedKinds = getOmniRelationProjectionAllowedKinds(definition);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (
     !Array.isArray(allowedKinds) ||
     allowedKinds.length === 0 ||
     new Set(allowedKinds).size !== allowedKinds.length
   ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError(</span></span>
+<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
       'Omni relation projection allowedKinds must be a non-empty unique list.',
     );
   }
-<span class="cstat-no" title="statement not covered" >  for (const kind of allowedKinds) {</span>
-<span class="cstat-no" title="statement not covered" >    assertFixedValue(kind, 'Omni relation projection kind', 64);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!omniRelationKindPattern.test(kind)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new TypeError(</span></span>
+  for (const kind of allowedKinds) {
+    assertFixedValue(kind, 'Omni relation projection kind', 64);
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!omniRelationKindPattern.test(kind)) {
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
         'Omni relation projection kind must use lowercase letters, digits, and underscores.',
       );
     }
   }
-<span class="cstat-no" title="statement not covered" >  assertFixedValue(</span>
+  assertFixedValue(
     relation.sourceKind,
     'Omni relation projection source kind',
     64,
   );
-<span class="cstat-no" title="statement not covered" >  assertFixedValue(</span>
+  assertFixedValue(
     relation.targetKind,
     'Omni relation projection target kind',
     64,
   );
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (
     relation.status !== undefined &amp;&amp;
 <span class="branch-1 cbranch-no" title="branch not covered" >    !Object.values(OmniRelationStatus).includes(relation.status)</span>
   ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError(</span></span>
+<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
       'Omni relation projection status must be an Omni relation status.',
     );
   }
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (relation.schema) {</span>
-<span class="cstat-no" title="statement not covered" >    assertFixedValue(</span>
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (relation.schema) {
+    assertFixedValue(
       relation.schema.id,
       'Omni relation projection schema id',
       128,
     );
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
       !Number.isInteger(relation.schema.version) ||
       relation.schema.version &lt; 1 ||
       relation.schema.version &gt; 2_147_483_647
     ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new TypeError(</span></span>
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
         'Omni relation projection schema version must be a positive signed 32-bit integer.',
       );
     }
   }
-  const aliases = <span class="cstat-no" title="statement not covered" >getOmniRelationProjectionAliases(definition);</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (new Set(Object.values(aliases)).size !== Object.keys(aliases).length) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    throw new TypeError('Omni relation projection aliases must be unique.');</span></span>
+  const aliases = getOmniRelationProjectionAliases(definition);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (new Set(Object.values(aliases)).size !== Object.keys(aliases).length) {
+<span class="cstat-no" title="statement not covered" >    throw new TypeError('Omni relation projection aliases must be unique.');</span>
   }
-<span class="cstat-no" title="statement not covered" >  for (const [role, alias] of Object.entries(aliases)) {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!publicFieldPattern.test(alias)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new TypeError(</span></span>
+  for (const [role, alias] of Object.entries(aliases)) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!publicFieldPattern.test(alias)) {
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
         `Omni relation projection ${role} alias must be a GraphQL-safe field name.`,
       );
     }
   }
-<span class="cstat-no" title="statement not covered" >  return freeze(definition);</span>
+  return freeze(definition);
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -568,7 +568,7 @@ export function <span class="fstat-no" title="function not covered" >defineOmniR
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

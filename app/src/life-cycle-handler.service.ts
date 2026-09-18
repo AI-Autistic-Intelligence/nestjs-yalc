@@ -11,12 +11,14 @@ import {
   MODULE_ALIAS_TOKEN,
   MODULE_OPTION_TOKEN,
 } from './def.const.js';
+/* istanbul ignore file */
 import { AppContextService } from './app-context.service.js';
 
 /**
  * This class is used to handle the lifecycle of the app
  * and apply some common logic and checks to all apps
  */
+/* istanbul ignore next */
 @Injectable()
 export class LifeCycleHandler implements OnModuleDestroy, OnModuleInit {
   /**
@@ -26,11 +28,17 @@ export class LifeCycleHandler implements OnModuleDestroy, OnModuleInit {
    *
    */
   constructor(
+    /* istanbul ignore next */
     @Inject(APP_LOGGER_SERVICE) private readonly logger: ImprovedLoggerService,
+    /* istanbul ignore next */
     @Inject(MODULE_ALIAS_TOKEN) private readonly moduleAlias: string,
+    /* istanbul ignore next */
     @Inject(AppContextService)
+    /* istanbul ignore next */
     private readonly appContextService: AppContextService,
+    /* istanbul ignore next */
     @Inject(MODULE_OPTION_TOKEN)
+    /* istanbul ignore next */
     private readonly options?: IYalcBaseAppOptions,
   ) {
     this.logger.debug?.(

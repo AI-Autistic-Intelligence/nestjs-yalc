@@ -1,7 +1,7 @@
 import {
   createObservabilityOptionsFromEnv,
   normalizeObservabilityOptions,
-} from "../observability-options.js";
+} from "../observability-options";
 
 describe("observability options", () => {
   afterEach(() => {
@@ -58,6 +58,24 @@ describe("observability options", () => {
         mask: ["token", "password"],
       },
       failureMode: "throw",
+    });
+  });
+
+  it("builds options from environment variables with missing values", () => {
+    expect(createObservabilityOptionsFromEnv("fallback")).toEqual({
+      enabled: false,
+      serviceName: "fallback",
+      otlpEndpoint: undefined,
+      eventManager: {
+        enabled: true,
+        listenTo: undefined,
+        ignore: undefined,
+      },
+      payload: {
+        include: false,
+        mask: undefined,
+      },
+      failureMode: "ignore",
     });
   });
 });

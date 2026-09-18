@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.82% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/17</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -107,7 +107,6 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,28 +123,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ClassType } from '@nest-yalc-2/types/globals.d.js';
 &nbsp;
@@ -166,21 +166,21 @@ export interface PluginSystem&lt;T extends PluginMethods&gt; {
   invokePlugins(methodName: keyof T, ...args: any[]): void;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >WithPluginSystem&lt;U extends PluginMethods&gt;(</span>
-  Base: ClassType = DefaultBase,
+<span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >W</span>ithPluginSystem&lt;</span>U extends PluginMethods&gt;(
+  Base: ClassType = <span class="branch-0 cbranch-no" title="branch not covered" >DefaultBase,</span>
 ) {
-  class PluginSystemWrapper extends Base implements PluginSystem&lt;U&gt; {
-    plugins: Plugin&lt;U&gt;[] = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="fstat-no" title="function not covered" >  class P</span>luginSystemWrapper extends Base implements PluginSystem&lt;U&gt; {
+<span class="cstat-no" title="statement not covered" >    plugins: Plugin&lt;U&gt;[] = [];</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >    registerPlugin(p</span>lugin: Plugin&lt;U&gt;) {
+<span class="fstat-no" title="function not covered" >    registerPlugin(</span>plugin: Plugin&lt;U&gt;) {
 <span class="cstat-no" title="statement not covered" >      this.plugins.push(plugin);</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    unregisterPlugin(p</span>lugin: Plugin&lt;U&gt;) {
-<span class="cstat-no" title="statement not covered" >      this.plugins = this.plugins.filter((p) =&gt; <span class="cstat-no" title="statement not covered" >p !== plugin);</span></span>
+<span class="fstat-no" title="function not covered" >    unregisterPlugin(</span>plugin: Plugin&lt;U&gt;) {
+<span class="cstat-no" title="statement not covered" >      this.plugins = this.plugins.filter(<span class="fstat-no" title="function not covered" >(p</span>) =&gt; <span class="cstat-no" title="statement not covered" >p !== plugin)</span>;</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    invokePlugins(m</span>ethodName: keyof U, ...args: any[]) {
+<span class="fstat-no" title="function not covered" >    invokePlugins(</span>methodName: keyof U, ...args: any[]) {
 <span class="cstat-no" title="statement not covered" >      for (const plugin of this.plugins) {</span>
 <span class="cstat-no" title="statement not covered" >        plugin.pluginMethods[methodName]?.(...args);</span>
       }
@@ -196,7 +196,7 @@ export function <span class="fstat-no" title="function not covered" >WithPluginS
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

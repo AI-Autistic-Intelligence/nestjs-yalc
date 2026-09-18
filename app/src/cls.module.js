@@ -1,12 +1,7 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.YalcClsModule = exports.YalcAlsService = exports.YalcGlobalClsService = void 0;
+const tslib_1 = require("tslib");
 const common_1 = require("@nestjs/common");
 const nestjs_cls_1 = require("nestjs-cls");
 const node_async_hooks_1 = require("node:async_hooks");
@@ -20,7 +15,7 @@ exports.YalcAlsService = YalcAlsService;
 let YalcClsModule = class YalcClsModule {
 };
 exports.YalcClsModule = YalcClsModule;
-exports.YalcClsModule = YalcClsModule = __decorate([
+exports.YalcClsModule = YalcClsModule = tslib_1.__decorate([
     (0, common_1.Module)({
         imports: [
             nestjs_cls_1.ClsModule.forRoot({
@@ -31,7 +26,9 @@ exports.YalcClsModule = YalcClsModule = __decorate([
                         cls.set('headers', req.headers);
                     },
                     generateId: true,
-                    idGenerator: async (req) => req.headers['X-Request-Id']?.toString() ?? (0, node_crypto_1.randomUUID)(),
+                    idGenerator: async (req) => {
+                        return req.headers['X-Request-Id']?.toString() ?? (0, node_crypto_1.randomUUID)();
+                    },
                 },
             }),
         ],

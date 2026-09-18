@@ -1,22 +1,20 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.defineFieldResolver = defineFieldResolver;
 exports.defineGetSingleResource = defineGetSingleResource;
 exports.defineGetGridResource = defineGetGridResource;
+const tslib_1 = require("tslib");
 const dataloader_helper_1 = require("@nest-yalc-2/data-loader/dataloader.helper");
 const class_helper_1 = require("@nest-yalc-2/utils/class.helper");
-const nest_decorator_1 = require("@nest-yalc-2/utils/nest.decorator");
-const returnValue_1 = __importDefault(require("@nest-yalc-2/utils/returnValue"));
+const nest_decorator_1 = require("@nest-yalc-2/utils/nestjs/nest.decorator");
+const returnValue_1 = tslib_1.__importDefault(require("@nest-yalc-2/utils/returnValue"));
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_args_decorator_1 = require("./ag-grid-args.decorator");
 const ag_grid_query_helper_1 = require("./ag-grid-query.helper");
 const ag_grid_error_1 = require("./ag-grid.error");
 const ag_grid_interceptor_1 = require("./ag-grid.interceptor");
-const ag_grid_type_1 = __importDefault(require("./ag-grid.type"));
+const ag_grid_type_1 = tslib_1.__importDefault(require("./ag-grid.type"));
 const generic_resolver_type_1 = require("./generic-resolver.type");
 function defineFieldResolver(resolverInfoList, resolver) {
     for (const resolverInfo of resolverInfoList) {

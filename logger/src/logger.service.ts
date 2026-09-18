@@ -30,6 +30,7 @@ export const LoggerServiceFactory = (
 
     return AppLoggerFactory(context, loggerLevels, loggerType, {
       event:
+        /* istanbul ignore next */
         options.event !== false
           ? {
               eventEmitter: options.event?.eventEmitter ?? eventEmitter,

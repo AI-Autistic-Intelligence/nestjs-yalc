@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>31/50</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.72% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>15/29</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>14/18</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -398,14 +398,14 @@ import { SonicBoom } from 'sonic-boom';
 let logger: Logger;
 let destination: SonicBoom;
 &nbsp;
-export const FLUSH_INTERVAL = <span class="cstat-no" title="statement not covered" >10000;</span>
+export const FLUSH_INTERVAL = 10000;
 &nbsp;
 export class PinoLogger
   extends LoggerAbstractService
   implements OnApplicationShutdown
 {
-<span class="fstat-no" title="function not covered" >  getLogger(): Logger {</span>
-<span class="cstat-no" title="statement not covered" >    return logger;</span>
+  getLogger(): Logger {
+    return logger;
   }
 &nbsp;
   constructor(
@@ -413,7 +413,7 @@ export class PinoLogger
     logLevels: LogLevel[],
     options: IImprovedLoggerOptions = {},
   ) {
-<span class="cstat-no" title="statement not covered" >    super(</span>
+    super(
       context,
       logLevels,
       {
@@ -428,7 +428,7 @@ export class PinoLogger
             message,
           ),
         error: (message, trace, options) =&gt; {
-<span class="cstat-no" title="statement not covered" >          logger.error(</span>
+          logger.error(
             {
               context: options?.context ?? context,
               ...maskDataInObject(options?.data, options?.masks),
@@ -472,9 +472,9 @@ export class PinoLogger
       options,
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!logger) {</span>
-<span class="cstat-no" title="statement not covered" >      destination = pino.destination({ sync: false });</span>
-<span class="cstat-no" title="statement not covered" >      logger = pino(</span>
+    if (!logger) {
+      destination = pino.destination({ sync: false });
+      logger = pino(
         {
           // base: {
           //   memorySize: process.env.AWS_LAMBDA_FUNCTION_MEMORY_SIZE,
@@ -486,21 +486,21 @@ export class PinoLogger
           // level: process.env.LOG_LEVEL || 'info',
           formatters: {
             level: (label: string) =&gt; {
-<span class="cstat-no" title="statement not covered" >              return { level: label };</span>
+              return { level: label };
             },
           },
-          timestamp: <span class="fstat-no" title="function not covered" >() =&gt; `</span>,"timestamp":"${new Date().toISOString()}"`,
+          timestamp: () =&gt; `,"timestamp":"${new Date().toISOString()}"`,
         },
         destination,
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    logger.level = 'trace'; /</span>/ enable all. Levels are handled by the Service.
+    logger.level = 'trace'; // enable all. Levels are handled by the Service.
 &nbsp;
     // asynchronously flush every 10 seconds to keep the buffer empty
     // in periods of low activity
-<span class="cstat-no" title="statement not covered" >    setInterval(function () {</span>
-<span class="cstat-no" title="statement not covered" >      logger.flush();</span>
+    setInterval(function () {
+      logger.flush();
     }, FLUSH_INTERVAL).unref();
 &nbsp;
     // TODO: remove it if it's not needed anymore (https://github.com/pinojs/pino/pull/1240/files)
@@ -522,11 +522,11 @@ export class PinoLogger
     // process.on('SIGQUIT', () =&gt; handler(null, 'SIGQUIT'));
     // process.on('SIGTERM', () =&gt; handler(null, 'SIGTERM'));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    globalPromiseTracker.addDeferred(flush);</span>
+    globalPromiseTracker.addDeferred(flush);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async o</span>nApplicationShutdown() {
-<span class="cstat-no" title="statement not covered" >    await flush();</span>
+  async onApplicationShutdown() {
+    await flush();
   }
 }
 &nbsp;
@@ -534,14 +534,14 @@ export class PinoLogger
  * We keep this function outside of the class such that we do not rely
  * on the class instance that might be destroyed before the flush is called.
  */
-export function <span class="fstat-no" title="function not covered" >flush() {</span>
-<span class="cstat-no" title="statement not covered" >  destination?.flushSync();</span>
-<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    logger.flush((err) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (err) {</span>
-<span class="cstat-no" title="statement not covered" >        reject(err);</span>
+export function flush() {
+  destination?.flushSync();
+  return new Promise((resolve, reject) =&gt; {
+    logger.flush((err) =&gt; {
+      if (err) {
+        reject(err);
       } else {
-<span class="cstat-no" title="statement not covered" >        resolve('Logger flushed successfully');</span>
+        resolve('Logger flushed successfully');
       }
     });
   });
@@ -553,7 +553,7 @@ export function <span class="fstat-no" title="function not covered" >flush() {</
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

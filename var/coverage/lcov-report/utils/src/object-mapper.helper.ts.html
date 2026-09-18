@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.72% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/55</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.35% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/37</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -285,7 +285,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -395,7 +395,7 @@ export type ObjectMapperType&lt;
   TOutputObject extends Record&lt;string, any&gt;,
 &gt; = ObjectType&lt;TInputObject, TOutputObject&gt;;
 &nbsp;
-function <span class="fstat-no" title="function not covered" >setMappedProperty&lt;</span>
+function setMappedProperty&lt;
   TInputObject extends Record&lt;string, any&gt;,
   TOutputObject extends Record&lt;string, any&gt;,
   TPropertyDest extends keyof TOutputObject,
@@ -414,15 +414,15 @@ function <span class="fstat-no" title="function not covered" >setMappedProperty&
     TPropertyDest
   &gt;;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (mapProperty === true) {</span>
-<span class="cstat-no" title="statement not covered" >    options = {};</span>
+  if (mapProperty === true) {
+    options = {};
   } else {
-<span class="cstat-no" title="statement not covered" >    options = mapProperty;</span>
+    options = mapProperty;
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (options.exclude === true) <span class="cstat-no" title="statement not covered" >return; /</span></span>/ do not map
+  if (options.exclude === true) return; // do not map
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  outputObject[outputKey] = options.transformer</span>
+  outputObject[outputKey] = options.transformer
     ? (options.transformer(inputObject, propertyName) as any)
     : inputObject[propertyName];
 }
@@ -433,7 +433,7 @@ function <span class="fstat-no" title="function not covered" >setMappedProperty&
  * that limit the mapping to a single destination, by allowing any mapping combinations.
  *
  */
-export function <span class="fstat-no" title="function not covered" >objectMapper&lt;</span>
+export function objectMapper&lt;
   TInputObject extends Record&lt;string, any&gt;,
   TOutputObject extends Record&lt;string, any&gt;,
 &gt;(
@@ -443,47 +443,47 @@ export function <span class="fstat-no" title="function not covered" >objectMappe
     copyNonMappedProperties?: boolean;
   } = {},
 ): TOutputObject {
-  const outputObject: TOutputObject = <span class="cstat-no" title="statement not covered" >{} as TOutputObject;</span>
-<span class="cstat-no" title="statement not covered" >  for (const propertyName in inputObject) {</span>
-<span class="cstat-no" title="statement not covered" >    if (propertyName === '$transformer') {</span>
-      const transformer = <span class="cstat-no" title="statement not covered" >inputObject[propertyName] </span>as (
+  const outputObject: TOutputObject = {} as TOutputObject;
+  for (const propertyName in inputObject) {
+    if (propertyName === '$transformer') {
+      const transformer = inputObject[propertyName] as (
         inputObject: TInputObject,
         outputObject: TOutputObject,
       ) =&gt; void;
-<span class="cstat-no" title="statement not covered" >      transformer(inputObject, outputObject);</span>
-<span class="cstat-no" title="statement not covered" >      continue;</span>
+      transformer(inputObject, outputObject);
+      continue;
     }
 &nbsp;
     const mapProperty = mapper[propertyName];
 &nbsp;
     // handle mapping when properties are not specified but the option is enabled
-<span class="cstat-no" title="statement not covered" >    if (mapProperty === undefined) {</span>
+    if (mapProperty === undefined) {
       // TODO: use an option to enable this  behaviour
       // if (!Object.keys(outputObject).includes(propertyName))
       //   throw new Error(
       //     `Cannot map property ${propertyName} into the OutputObject. Property doesn't exist in the destination`,
       //   );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (options.copyNonMappedProperties === true)</span>
-<span class="cstat-no" title="statement not covered" >        outputObject[propertyName as keyof TOutputObject] = inputObject[</span>
+      if (options.copyNonMappedProperties === true)
+        outputObject[propertyName as keyof TOutputObject] = inputObject[
           propertyName
         ] as any;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      continue;</span>
+      continue;
     }
 &nbsp;
     // handle excluded properties
-<span class="cstat-no" title="statement not covered" >    if (mapProperty === false) <span class="cstat-no" title="statement not covered" >continue; /</span></span>/ do not map
+    if (mapProperty === false) continue; // do not map
 &nbsp;
     // handle simple mapping with a string
-<span class="cstat-no" title="statement not covered" >    if (typeof mapProperty !== 'object') {</span>
-<span class="cstat-no" title="statement not covered" >      outputObject[mapProperty as keyof TOutputObject] = inputObject[</span>
+    if (typeof mapProperty !== 'object') {
+      outputObject[mapProperty as keyof TOutputObject] = inputObject[
         propertyName
       ] as any;
-<span class="cstat-no" title="statement not covered" >      continue;</span>
+      continue;
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    Object.keys(mapProperty).forEach((mapPropertyKey) =&gt; {</span>
+    Object.keys(mapProperty).forEach((mapPropertyKey) =&gt; {
       // if (typeof mapProperty === 'boolean') {
       //   outputObject[mapPropertyKey as keyof TOutputObject] = inputObject[
       //     propertyName
@@ -493,9 +493,9 @@ export function <span class="fstat-no" title="function not covered" >objectMappe
 &nbsp;
       const mapPropertyItem = mapProperty[mapPropertyKey];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (!mapPropertyItem) <span class="cstat-no" title="statement not covered" >return; /</span></span>/ do not map (should not happen)
+      if (!mapPropertyItem) return; // do not map (should not happen)
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      setMappedProperty(</span>
+      setMappedProperty(
         mapPropertyItem,
         inputObject,
         outputObject,
@@ -505,7 +505,7 @@ export function <span class="fstat-no" title="function not covered" >objectMappe
     });
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return outputObject;</span>
+  return outputObject;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -514,7 +514,7 @@ export function <span class="fstat-no" title="function not covered" >objectMappe
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

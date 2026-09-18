@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/37</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.45% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/22</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -139,7 +139,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -195,68 +195,68 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { MutationJournalAction } from '../mutation-journal.interface.js';
 &nbsp;
-const SQLITE_JSON_OBJECT_COLUMN_CHUNK_SIZE = <span class="cstat-no" title="statement not covered" >40;</span>
+const SQLITE_JSON_OBJECT_COLUMN_CHUNK_SIZE = 40;
 &nbsp;
-const SQLITE_TRIGGER_ACTION_SUFFIX: Record&lt;MutationJournalAction, string&gt; = <span class="cstat-no" title="statement not covered" >{</span>
+const SQLITE_TRIGGER_ACTION_SUFFIX: Record&lt;MutationJournalAction, string&gt; = {
   insert: 'ai',
   update: 'au',
   delete: 'ad',
 };
 &nbsp;
 export const SQLITE_OCCURRED_AT_EXPRESSION =
-<span class="cstat-no" title="statement not covered" >  "CAST(ROUND((julianday('now') - 2440587.5) * 86400000) AS INTEGER)";</span>
+  "CAST(ROUND((julianday('now') - 2440587.5) * 86400000) AS INTEGER)";
 &nbsp;
 export type SqliteTriggerRowReference = 'OLD' | 'NEW';
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >quoteSqliteIdentifier(v</span>alue: string): string {
-<span class="cstat-no" title="statement not covered" >  return `"${value.replaceAll('"', '""')}"`;</span>
+export function quoteSqliteIdentifier(value: string): string {
+  return `"${value.replaceAll('"', '""')}"`;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >quoteSqliteStringLiteral(v</span>alue: string): string {
-<span class="cstat-no" title="statement not covered" >  return `'${value.replaceAll("'", "''")}'`;</span>
+export function quoteSqliteStringLiteral(value: string): string {
+  return `'${value.replaceAll("'", "''")}'`;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >buildSqliteJsonObjectExpression(</span>
+export function buildSqliteJsonObjectExpression(
   rowReference: SqliteTriggerRowReference,
   columns: readonly string[],
 ): string {
   const chunks: string[] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (</span>
-    let index = <span class="cstat-no" title="statement not covered" >0;</span>
+  for (
+    let index = 0;
     index &lt; columns.length;
     index += SQLITE_JSON_OBJECT_COLUMN_CHUNK_SIZE
   ) {
-    const pairs = <span class="cstat-no" title="statement not covered" >columns</span>
+    const pairs = columns
       .slice(index, index + SQLITE_JSON_OBJECT_COLUMN_CHUNK_SIZE)
-      .flatMap((column) =&gt; <span class="cstat-no" title="statement not covered" >[</span>
+      .flatMap((column) =&gt; [
         quoteSqliteStringLiteral(column),
         `${rowReference}.${quoteSqliteIdentifier(column)}`,
       ]);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    chunks.push(`json_object(${pairs.join(', ')})`);</span>
+    chunks.push(`json_object(${pairs.join(', ')})`);
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (chunks.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >    return 'json_object()';</span>
+  if (chunks.length === 0) {
+    return 'json_object()';
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (chunks.length === 1) {</span>
-<span class="cstat-no" title="statement not covered" >    return chunks[0];</span>
+  if (chunks.length === 1) {
+    return chunks[0];
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return `(</span>
+  return `(
     SELECT json_group_object(entry.key, entry.value)
     FROM json_each(json_array(${chunks.join(', ')})) AS chunk
     CROSS JOIN json_each(chunk.value) AS entry
   )`;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >getSqliteMutationJournalTriggerName(</span>
+export function getSqliteMutationJournalTriggerName(
   action: MutationJournalAction,
   tableName: string,
 ): string {
-<span class="cstat-no" title="statement not covered" >  return `_mj_${SQLITE_TRIGGER_ACTION_SUFFIX[action]}__${tableName}`;</span>
+  return `_mj_${SQLITE_TRIGGER_ACTION_SUFFIX[action]}__${tableName}`;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -265,7 +265,7 @@ export function <span class="fstat-no" title="function not covered" >getSqliteMu
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

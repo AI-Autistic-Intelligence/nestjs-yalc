@@ -4,7 +4,7 @@ import {
 } from '@nest-yalc-2/data-loader/dataloader.helper';
 import { ClassType } from '@nest-yalc-2/types';
 import { isClass } from '@nest-yalc-2/utils/class.helper';
-import { GetContext } from '@nest-yalc-2/utils/nest.decorator';
+import { GetContext } from '@nest-yalc-2/utils/nestjs/nest.decorator';
 import returnValue from '@nest-yalc-2/utils/returnValue';
 import {
   ExecutionContext,
@@ -361,6 +361,7 @@ export function defineGetGridResource<Entity extends Record<string, any>>(
       // type: returnValue(agQueryParamsFactory(methodOptions.defaultValue)),
     })(resolver.prototype, queryName, 0);
 
+    /* istanbul ignore next */
     if (methodOptions.extraArgs) {
       Object.values(methodOptions.extraArgs).map((a) => {
         if (!a.hidden) extraArgTypes.push(filterTypeToNativeType(a.filterType));

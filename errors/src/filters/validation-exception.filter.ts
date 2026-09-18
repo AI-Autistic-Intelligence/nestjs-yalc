@@ -4,9 +4,11 @@ import * as common from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import { InputValidationError } from '../index.js';
 
+import type { LoggerService } from '@nestjs/common';
+
 @common.Catch(UUIDValidationError, CrudGenError)
 export class ValidationExceptionFilter implements GqlExceptionFilter {
-  constructor(private logger: common.LoggerService) {}
+  constructor(private logger: LoggerService) {}
 
   catch(error: Error) {
     const newError = new InputValidationError(

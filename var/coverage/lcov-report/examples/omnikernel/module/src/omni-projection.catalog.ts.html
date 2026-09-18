@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.95% </span>
+                <span class="strong">84.61% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>77/164</span>
+                <span class='fraction'>77/91</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.77% </span>
+                <span class="strong">60.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>34/107</span>
+                <span class='fraction'>34/56</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.21% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>21/41</span>
+                <span class='fraction'>21/24</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -844,30 +844,30 @@ export interface OmniProjectionReaderCatalogSource {
 }
 &nbsp;
 /** Default token for a composed set of generated Omni projection resources. */
-export const OMNI_PROJECTION_READER_CATALOG = <span class="cstat-no" title="statement not covered" >Symbol(</span>
+export const OMNI_PROJECTION_READER_CATALOG = Symbol(
   'OMNI_PROJECTION_READER_CATALOG',
 );
 &nbsp;
-function <span class="fstat-no" title="function not covered" >freeze&lt;T&gt;(v</span>alue: T): Readonly&lt;T&gt; {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (value &amp;&amp; typeof value === 'object') <span class="cstat-no" title="statement not covered" >Object.freeze(value);</span></span>
-<span class="cstat-no" title="statement not covered" >  return value;</span>
+function freeze&lt;T&gt;(value: T): Readonly&lt;T&gt; {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (value &amp;&amp; typeof value === 'object') Object.freeze(value);
+  return value;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >validateReaderTake(t</span>ake: number | undefined): number | undefined {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (take === undefined) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >return undefined;</span></span></span>
-<span class="cstat-no" title="statement not covered" >  if (!Number.isInteger(take) || take &lt; 1 || take &gt; 1_000) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
+function validateReaderTake(take: number | undefined): number | undefined {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (take === undefined) <span class="cstat-no" title="statement not covered" >return undefined;</span>
+  if (!Number.isInteger(take) || take &lt; 1 || take &gt; 1_000) {
+    throw new TypeError(
       'Omni projection reader take must be an integer from 1 to 1000.',
     );
   }
-<span class="cstat-no" title="statement not covered" >  return take;</span>
+  return take;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >relationWhere(</span>
+function relationWhere(
   definition: OmniRelationProjectionDefinition,
 ): Record&lt;string, unknown&gt; {
   const relation = definition.relation;
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     kind: In([...getOmniRelationProjectionAllowedKinds(definition)]),
     status: relation.status ?? OmniRelationStatus.Active,
     ...(relation.schema
@@ -882,25 +882,25 @@ function <span class="fstat-no" title="function not covered" >relationWhere(</sp
   };
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >extensionReader&lt;Entity extends ObjectLiteral&gt;(</span>
+function extensionReader&lt;Entity extends ObjectLiteral&gt;(
   manager: EntityManager,
   scope: OmniScope,
   registration: OmniExtensionProjectionReaderRegistration&lt;Entity&gt;,
 ): OmniExtensionProjectionReader&lt;Entity&gt; {
-  const ownerWhere = <span class="cstat-no" title="statement not covered" >{</span>
+  const ownerWhere = {
     scopeId: scope.scopeId,
     kind: registration.definition.owner.kind,
     payloadSchemaId: registration.definition.owner.schema.id,
     payloadSchemaVersion: registration.definition.owner.schema.version,
     deletedAt: IsNull(),
   };
-  const extensionRepository = <span class="cstat-no" title="statement not covered" >manager.getRepository(registration.entity);</span>
-  const ownerRepository = <span class="cstat-no" title="statement not covered" >manager.getRepository(OmniRecordEntity);</span>
+  const extensionRepository = manager.getRepository(registration.entity);
+  const ownerRepository = manager.getRepository(OmniRecordEntity);
   const identity = registration.definition.identity.column;
   const scopeColumn = registration.definition.scope.column;
 &nbsp;
-  const project = <span class="cstat-no" title="statement not covered" >(entity: Entity, owner: OmniRecordEntity): Entity =&gt; {</span>
-    const projected = <span class="cstat-no" title="statement not covered" >{</span>
+  const project = (entity: Entity, owner: OmniRecordEntity): Entity =&gt; {
+    const projected = {
       ...entity,
       scopeId: owner.scopeId,
       guid: owner.guid,
@@ -909,76 +909,76 @@ function <span class="fstat-no" title="function not covered" >extensionReader&lt
       updatedAt: owner.updatedAt,
       deletedAt: owner.deletedAt,
     } as Entity;
-<span class="cstat-no" title="statement not covered" >    return projected;</span>
+    return projected;
   };
 &nbsp;
-  const getOwner = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async </span>(</span></span>
+  const getOwner = <span class="fstat-no" title="function not covered" >async </span>(
     guid: string,
   ): Promise&lt;OmniRecordEntity | undefined&gt; =&gt; {
-    const owner = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >await ownerRepository.findOne({</span></span>
+    const owner = <span class="cstat-no" title="statement not covered" >await ownerRepository.findOne({</span>
       where: { ...ownerWhere, guid },
     });
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return owner ?? undefined;</span></span>
+<span class="cstat-no" title="statement not covered" >    return owner ?? undefined;</span>
   };
 &nbsp;
-  const dialect = <span class="cstat-no" title="statement not covered" >(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+  const dialect = (() =&gt; {
     const type = manager.connection.options.type;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type !== 'sqlite' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >type !== 'postgres')</span> {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new TypeError(</span></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (type !== 'sqlite' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >type !== 'postgres')</span> {
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
         'Omni projection readers require SQLite or PostgreSQL.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    return createProjectionDialect(type);</span>
+    return createProjectionDialect(type);
   })();
 &nbsp;
-  const filtersFor = <span class="cstat-no" title="statement not covered" >(</span>
+  const filtersFor = (
     where: Readonly&lt;Record&lt;string, unknown&gt;&gt; | undefined,
   ): ProjectionFilter[] =&gt; {
     const filters: ProjectionFilter[] = [];
-<span class="cstat-no" title="statement not covered" >    for (const [fieldName, value] of Object.entries(where ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>) {</span>
+    for (const [fieldName, value] of Object.entries(where ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>) {
       const field = registration.definition.fields.find(
-        (candidate) =&gt; <span class="cstat-no" title="statement not covered" >candidate.name === fieldName,</span>
+        (candidate) =&gt; candidate.name === fieldName,
       );
-<span class="cstat-no" title="statement not covered" >      if (!field || !field.query?.filter?.includes('eq')) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new TypeError(</span>
+      if (!field || !field.query?.filter?.includes('eq')) {
+        throw new TypeError(
           `Omni extension reader only permits declared eq fields: ${fieldName}.`,
         );
       }
-<span class="cstat-no" title="statement not covered" >      filters.push({ field, operator: 'eq', values: [value] });</span>
+      filters.push({ field, operator: 'eq', values: [value] });
     }
-<span class="cstat-no" title="statement not covered" >    return filters;</span>
+    return filters;
   };
 &nbsp;
-  const projectMany = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>ntities: Entity[]): Promise&lt;Entity[]&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (entities.length === 0) <span class="cstat-no" title="statement not covered" >return [];</span></span>
+  const projectMany = async (entities: Entity[]): Promise&lt;Entity[]&gt; =&gt; {
+    if (entities.length === 0) return [];
     const candidates: unknown[] = entities.map(
-      (entity) =&gt; <span class="cstat-no" title="statement not covered" >entity[identity as keyof Entity] </span>as unknown,
+      (entity) =&gt; entity[identity as keyof Entity] as unknown,
     );
     const guids = candidates.filter(
-      (guid): guid is string =&gt; <span class="cstat-no" title="statement not covered" >typeof guid === 'string',</span>
+      (guid): guid is string =&gt; typeof guid === 'string',
     );
-    const owners = <span class="cstat-no" title="statement not covered" >await ownerRepository.find({</span>
+    const owners = await ownerRepository.find({
       where: { ...ownerWhere, guid: In(guids) },
     });
-    const ownersByGuid = <span class="cstat-no" title="statement not covered" >new Map(owners.map((owner) =&gt; <span class="cstat-no" title="statement not covered" >[owner.guid, owner]));</span></span>
-<span class="cstat-no" title="statement not covered" >    return entities.flatMap((entity) =&gt; {</span>
+    const ownersByGuid = new Map(owners.map((owner) =&gt; [owner.guid, owner]));
+    return entities.flatMap((entity) =&gt; {
       const guid = entity[identity as keyof Entity];
       const owner =
-<span class="cstat-no" title="statement not covered" >        typeof guid === 'string' ? ownersByGuid.get(guid) : <span class="branch-1 cbranch-no" title="branch not covered" >undefined;</span></span>
-<span class="cstat-no" title="statement not covered" >      return owner ? [project(entity, owner)] : <span class="branch-1 cbranch-no" title="branch not covered" >[];</span></span>
+        typeof guid === 'string' ? ownersByGuid.get(guid) : <span class="branch-1 cbranch-no" title="branch not covered" >undefined;</span>
+      return owner ? [project(entity, owner)] : <span class="branch-1 cbranch-no" title="branch not covered" >[];</span>
     });
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return freeze({</span>
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >    async </span>g</span>et(guid: string): Promise&lt;Entity | undefined&gt; {
-      const entity = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >await extensionRepository.findOne({</span></span>
+  return freeze({
+<span class="fstat-no" title="function not covered" >    async </span>get(guid: string): Promise&lt;Entity | undefined&gt; {
+      const entity = <span class="cstat-no" title="statement not covered" >await extensionRepository.findOne({</span>
         where: { [scopeColumn]: scope.scopeId, [identity]: guid } as never,
       });
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (!entity) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >return undefined;</span></span></span></span>
-      const owner = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >await getOwner(guid);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return owner ? project(entity, owner) : undefined;</span></span>
+<span class="cstat-no" title="statement not covered" >      if (!entity) <span class="cstat-no" title="statement not covered" >return undefined;</span></span>
+      const owner = <span class="cstat-no" title="statement not covered" >await getOwner(guid);</span>
+<span class="cstat-no" title="statement not covered" >      return owner ? project(entity, owner) : undefined;</span>
     },
-<span class="fstat-no" title="function not covered" >    async l</span>ist(
+    async list(
       options: {
         where?: Readonly&lt;Record&lt;string, unknown&gt;&gt;;
         take?: number;
@@ -992,34 +992,34 @@ function <span class="fstat-no" title="function not covered" >extensionReader&lt
         [],
         { take: validateReaderTake(options.take) },
       );
-<span class="cstat-no" title="statement not covered" >      return projectMany(entities);</span>
+      return projectMany(entities);
     },
   });
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >relationReader(</span>
+function relationReader(
   manager: EntityManager,
   scope: OmniScope,
   registration: OmniRelationProjectionReaderRegistration,
 ): OmniRelationProjectionReader {
-  const repository = <span class="cstat-no" title="statement not covered" >manager.getRepository(OmniRelationEntity);</span>
-  const fixed = <span class="cstat-no" title="statement not covered" >relationWhere(registration.definition);</span>
-<span class="cstat-no" title="statement not covered" >  return freeze({</span>
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >    async </span>g</span>et(guid: string): Promise&lt;OmniRelationEntity | undefined&gt; {
-      const entity = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >await repository.findOne({</span></span>
+  const repository = manager.getRepository(OmniRelationEntity);
+  const fixed = relationWhere(registration.definition);
+  return freeze({
+<span class="fstat-no" title="function not covered" >    async </span>get(guid: string): Promise&lt;OmniRelationEntity | undefined&gt; {
+      const entity = <span class="cstat-no" title="statement not covered" >await repository.findOne({</span>
         where: { scopeId: scope.scopeId, guid, ...fixed } as never,
       });
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return entity ?? undefined;</span></span>
+<span class="cstat-no" title="statement not covered" >      return entity ?? undefined;</span>
     },
-<span class="fstat-no" title="function not covered" >    async l</span>ist(
+    async list(
       options: {
         sourceRecordId?: string;
         targetRecordId?: string;
         take?: number;
       } = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span>
     ): Promise&lt;OmniRelationEntity[]&gt; {
-      const { take, ...conditions } = <span class="cstat-no" title="statement not covered" >options;</span>
-<span class="cstat-no" title="statement not covered" >      return await repository.find({</span>
+      const { take, ...conditions } = options;
+      return await repository.find({
         where: { scopeId: scope.scopeId, ...fixed, ...conditions } as never,
         take: validateReaderTake(take),
       });
@@ -1031,51 +1031,51 @@ function <span class="fstat-no" title="function not covered" >relationReader(</s
  * Creates an immutable catalog from resource registrations. It has no global
  * state: each hook binds the catalog to its active transaction manager.
  */
-export function <span class="fstat-no" title="function not covered" >createOmniProjectionReaderCatalog(</span>
+export function createOmniProjectionReaderCatalog(
   registrations: readonly (
     OmniProjectionReaderRegistration | OmniProjectionReaderCatalogSource
   )[],
 ): OmniProjectionReaderCatalog {
-  const byId = <span class="cstat-no" title="statement not covered" >new Map&lt;string, OmniProjectionReaderRegistration&gt;();</span>
-<span class="cstat-no" title="statement not covered" >  for (const source of registrations) {</span>
-    const registration = <span class="cstat-no" title="statement not covered" >'reader' in source ? source.reader : source;</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!registration.id || byId.has(registration.id)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new TypeError(</span></span>
+  const byId = new Map&lt;string, OmniProjectionReaderRegistration&gt;();
+  for (const source of registrations) {
+    const registration = 'reader' in source ? source.reader : source;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!registration.id || byId.has(registration.id)) {
+<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
         'Omni projection reader registrations must have unique non-empty ids.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    byId.set(registration.id, registration);</span>
+    byId.set(registration.id, registration);
   }
-  const snapshot = <span class="cstat-no" title="statement not covered" >freeze(new Map(byId));</span>
-<span class="cstat-no" title="statement not covered" >  return freeze({</span>
-<span class="fstat-no" title="function not covered" >    bind(</span>
+  const snapshot = freeze(new Map(byId));
+  return freeze({
+    bind(
       manager: EntityManager,
       scope: OmniScope,
     ): OmniProjectionTransactionReaders {
-<span class="cstat-no" title="statement not covered" >      return freeze({</span>
-<span class="fstat-no" title="function not covered" >        extension&lt;Entity extends ObjectLiteral = ObjectLiteral&gt;(</span>
+      return freeze({
+        extension&lt;Entity extends ObjectLiteral = ObjectLiteral&gt;(
           id: string,
         ): OmniExtensionProjectionReader&lt;Entity&gt; {
-          const registration = <span class="cstat-no" title="statement not covered" >snapshot.get(id);</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!registration || registration.type !== 'extension') {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            throw new TypeError(</span></span>
+          const registration = snapshot.get(id);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (!registration || registration.type !== 'extension') {
+<span class="cstat-no" title="statement not covered" >            throw new TypeError(</span>
               `Omni extension projection reader is not registered: ${id}.`,
             );
           }
-<span class="cstat-no" title="statement not covered" >          return extensionReader(</span>
+          return extensionReader(
             manager,
             scope,
             registration,
           ) as OmniExtensionProjectionReader&lt;Entity&gt;;
         },
-<span class="fstat-no" title="function not covered" >        relation(i</span>d: string): OmniRelationProjectionReader {
-          const registration = <span class="cstat-no" title="statement not covered" >snapshot.get(id);</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!registration || registration.type !== 'relation') {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            throw new TypeError(</span></span>
+        relation(id: string): OmniRelationProjectionReader {
+          const registration = snapshot.get(id);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (!registration || registration.type !== 'relation') {
+<span class="cstat-no" title="statement not covered" >            throw new TypeError(</span>
               `Omni relation projection reader is not registered: ${id}.`,
             );
           }
-<span class="cstat-no" title="statement not covered" >          return relationReader(manager, scope, registration);</span>
+          return relationReader(manager, scope, registration);
         },
       });
     },
@@ -1087,13 +1087,13 @@ export function <span class="fstat-no" title="function not covered" >createOmniP
  * Call it after creating the individual resource registrations, passing those
  * registrations directly; the catalog captures their immutable reader entries.
  */
-export function <span class="fstat-no" title="function not covered" >createOmniProjectionReaderCatalogProvider(</span>
+export function createOmniProjectionReaderCatalogProvider(
   registrations: readonly (
     OmniProjectionReaderRegistration | OmniProjectionReaderCatalogSource
   )[],
   token: InjectionToken&lt;OmniProjectionReaderCatalog&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >OMNI_PROJECTION_READER_CATALOG,</span>
 ): Provider {
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     provide: token,
     useValue: createOmniProjectionReaderCatalog(registrations),
   };
@@ -1105,7 +1105,7 @@ export function <span class="fstat-no" title="function not covered" >createOmniP
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

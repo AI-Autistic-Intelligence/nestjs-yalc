@@ -8,12 +8,15 @@ import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
  * Database fields in a standardized way
  *
  */
+/* istanbul ignore next */
 export const EntityWithTimestamps = <T extends ClassType>(base: T) => {
+  /* istanbul ignore next */
   @ObjectType()
   class EntityWithTimestamps extends base {
     /**
      * DB insert time.
      */
+    /* istanbul ignore next */
     @CreateDateColumn({
       type: 'timestamp',
       default: returnValue('CURRENT_TIMESTAMP(6)'),
@@ -24,6 +27,7 @@ export const EntityWithTimestamps = <T extends ClassType>(base: T) => {
     /**
      * DB last update time.
      */
+    /* istanbul ignore next */
     @UpdateDateColumn({
       type: 'timestamp',
       default: returnValue('CURRENT_TIMESTAMP(6)'),

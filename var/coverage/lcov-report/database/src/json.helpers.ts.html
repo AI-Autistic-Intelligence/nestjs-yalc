@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/18</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/11</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,7 +101,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -131,11 +131,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const NYALC_JSON_FIELD_META_KEY = <span class="cstat-no" title="statement not covered" >Symbol(</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const NYALC_JSON_FIELD_META_KEY = Symbol(
   'nestjs_yalc_json_field_meta_key',
 );
 export const NYALC_JSON_VIRTUAL_FIELD_META_KEY =
-<span class="cstat-no" title="statement not covered" >  'nestjs_yalc_json_virtual_field_meta_key';</span>
+  'nestjs_yalc_json_virtual_field_meta_key';
 &nbsp;
 /**
  * Check if the passed SQL contains a JSON selector syntax
@@ -143,8 +143,8 @@ export const NYALC_JSON_VIRTUAL_FIELD_META_KEY =
  * @param sql
  * @returns
  */
-export function <span class="fstat-no" title="function not covered" >isJsonSQLRaw(s</span>ql: string): boolean {
-<span class="cstat-no" title="statement not covered" >  return sql.includes('-&gt;') &amp;&amp; sql.includes('$.');</span>
+export function isJsonSQLRaw(sql: string): boolean {
+  return sql.includes('-&gt;') &amp;&amp; sql.includes('$.');
 }
 &nbsp;
 /**
@@ -152,17 +152,17 @@ export function <span class="fstat-no" title="function not covered" >isJsonSQLRa
  * should be handled as JSON
  * @returns Decorator function
  */
-export function <span class="fstat-no" title="function not covered" >JsonField() {</span>
-<span class="cstat-no" title="statement not covered" >  return (target: any, property: string | symbol) =&gt; {</span>
-    const propertyName = <span class="cstat-no" title="statement not covered" >property.toString();</span>
+export function JsonField() {
+  return (target: any, property: string | symbol) =&gt; {
+    const propertyName = property.toString();
 &nbsp;
-    const metadata: { [key: string]: boolean } = <span class="cstat-no" title="statement not covered" >{</span>
+    const metadata: { [key: string]: boolean } = {
       ...Reflect.getMetadata(NYALC_JSON_FIELD_META_KEY, target),
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    metadata[propertyName] = true;</span>
+    metadata[propertyName] = true;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    Reflect.defineMetadata(NYALC_JSON_FIELD_META_KEY, metadata, target);</span>
+    Reflect.defineMetadata(NYALC_JSON_FIELD_META_KEY, metadata, target);
   };
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -172,7 +172,7 @@ export function <span class="fstat-no" title="function not covered" >JsonField()
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

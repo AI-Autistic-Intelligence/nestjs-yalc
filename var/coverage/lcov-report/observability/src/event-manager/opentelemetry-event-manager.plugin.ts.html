@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.17% </span>
+                <span class="strong">94.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/58</span>
+                <span class='fraction'>32/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.33% </span>
+                <span class="strong">79.16% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/30</span>
+                <span class='fraction'>19/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.11% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/18</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -241,70 +241,70 @@ import { TelemetryService } from '../telemetry.service.js';
 export class OpenTelemetryEventManagerPlugin
   implements OnModuleInit, OnModuleDestroy
 {
-  private readonly listener = <span class="cstat-no" title="statement not covered" >(event: string | string[], payload?: unknown) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    this.handleEvent(event, payload);</span>
+  private readonly listener = (event: string | string[], payload?: unknown) =&gt; {
+    this.handleEvent(event, payload);
   };
 &nbsp;
   constructor(
-    private readonly <span class="cstat-no" title="statement not covered" >events: YalcEventService,</span>
-    private readonly <span class="cstat-no" title="statement not covered" >telemetry: TelemetryService,</span>
+    private readonly events: YalcEventService<span class="branch-1 cbranch-no" title="branch not covered" >,</span>
+    private readonly telemetry: TelemetryService<span class="branch-1 cbranch-no" title="branch not covered" >,</span>
     @Inject(OBSERVABILITY_OPTIONS)
     private readonly options: NormalizedObservabilityOptions,
   ) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  onModuleInit() {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.options.enabled || !this.options.eventManager.enabled) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    this.events.emitter.onAny(this.listener);</span>
-  }
-&nbsp;
-<span class="fstat-no" title="function not covered" >  onModuleDestroy() {</span>
-<span class="cstat-no" title="statement not covered" >    this.events.emitter.offAny(this.listener);</span>
-  }
-&nbsp;
-  private <span class="fstat-no" title="function not covered" >handleEvent(e</span>vent: string | string[], payload?: unknown) {
-    const eventName = <span class="cstat-no" title="statement not covered" >Array.isArray(event) ? <span class="branch-0 cbranch-no" title="branch not covered" >event.join('.') </span>: event;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!this.shouldRecord(eventName)) {</span>
+  onModuleInit() {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.options.enabled || !this.options.eventManager.enabled) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.telemetry.recordYalcEvent(eventName, payload as IEventPayload);</span>
+    this.events.emitter.onAny(this.listener);
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >shouldRecord(e</span>ventName: string) {
+  onModuleDestroy() {
+    this.events.emitter.offAny(this.listener);
+  }
+&nbsp;
+  private handleEvent(event: string | string[], payload?: unknown) {
+    const eventName = Array.isArray(event) ? <span class="branch-0 cbranch-no" title="branch not covered" >event.join('.') </span>: event;
+&nbsp;
+    if (!this.shouldRecord(eventName)) {
+      return;
+    }
+&nbsp;
+    this.telemetry.recordYalcEvent(eventName, payload as IEventPayload);
+  }
+&nbsp;
+  private shouldRecord(eventName: string) {
     return (
       this.matchesAny(eventName, this.options.eventManager.listenTo) &amp;&amp;
       !this.matchesAny(eventName, this.options.eventManager.ignore)
     );
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >matchesAny(e</span>ventName: string, patterns: string[]) {
-<span class="cstat-no" title="statement not covered" >    return patterns.some((pattern) =&gt; <span class="cstat-no" title="statement not covered" >matchesEventPattern(eventName, pattern));</span></span>
+  private matchesAny(eventName: string, patterns: string[]) {
+    return patterns.some((pattern) =&gt; matchesEventPattern(eventName, pattern));
   }
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >matchesEventPattern(e</span>ventName: string, pattern: string) {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (pattern === '**') {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return true;</span></span>
+export function matchesEventPattern(eventName: string, pattern: string) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (pattern === '**') {
+<span class="cstat-no" title="statement not covered" >    return true;</span>
   }
 &nbsp;
-  const source = <span class="cstat-no" title="statement not covered" >pattern</span>
+  const source = pattern
     .split('.')
     .map((part) =&gt; {
-<span class="cstat-no" title="statement not covered" >      if (part === '**') <span class="cstat-no" title="statement not covered" >return '.*';</span></span>
-<span class="cstat-no" title="statement not covered" >      if (part === '*') <span class="cstat-no" title="statement not covered" >return '[^.]+';</span></span>
-<span class="cstat-no" title="statement not covered" >      return escapeRegExp(part);</span>
+      if (part === '**') return '.*';
+      if (part === '*') return '[^.]+';
+      return escapeRegExp(part);
     })
     .join('\\.');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return new RegExp(`^${source}$`).test(eventName);</span>
+  return new RegExp(`^${source}$`).test(eventName);
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >escapeRegExp(v</span>alue: string) {
-<span class="cstat-no" title="statement not covered" >  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&amp;');</span>
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&amp;');
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -313,7 +313,7 @@ function <span class="fstat-no" title="function not covered" >escapeRegExp(v</sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

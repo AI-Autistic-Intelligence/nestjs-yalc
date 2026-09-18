@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.11% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/18</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/12</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/11</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -106,29 +106,29 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,33 +164,33 @@ import { Observable, map } from 'rxjs';
  * This is useful when the data is not in the correct format to be mapped to the DTO.
  * @returns
  */
-export function <span class="fstat-no" title="function not covered" >buildSimpleMapperInterceptor&lt;T, R&gt;(</span>
+export function buildSimpleMapperInterceptor&lt;T, R&gt;(
   Dto: new (data: T) =&gt; R,
   options?: {
     transformer?: (data: T) =&gt; T;
     callback?: { (inputData: any, outputData: any): any };
   },
 ): new () =&gt; NestInterceptor&lt;T, R&gt; {
-<span class="cstat-no" title="statement not covered" >  @Injectable()</span>
+  @Injectable()
   class SimpleMapper implements NestInterceptor&lt;T, R&gt; {
-<span class="fstat-no" title="function not covered" >    intercept(</span>
+    intercept(
       _context: ExecutionContext,
       next: CallHandler&lt;T&gt;,
     ): Observable&lt;any&gt; {
-<span class="cstat-no" title="statement not covered" >      return next.handle().pipe(</span>
+      return next.handle().pipe(
         map((data) =&gt; {
-          const tData = <span class="cstat-no" title="statement not covered" >options?.transformer?.(data) ?? data;</span>
-          const mappedData = <span class="cstat-no" title="statement not covered" >Array.isArray(tData)</span>
-            ? tData.map((d) =&gt; <span class="cstat-no" title="statement not covered" >new Dto(d))</span>
+          const tData = options?.transformer?.(data) ?? data;
+          const mappedData = Array.isArray(tData)
+            ? tData.map((d) =&gt; new Dto(d))
             : new Dto(tData);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          return options?.callback?.(data, mappedData) ?? mappedData;</span>
+          return options?.callback?.(data, mappedData) ?? mappedData;
         }),
       );
     }
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return SimpleMapper;</span>
+  return SimpleMapper;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -199,7 +199,7 @@ export function <span class="fstat-no" title="function not covered" >buildSimple
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

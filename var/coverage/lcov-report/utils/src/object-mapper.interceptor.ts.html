@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/25</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.94% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/17</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/14</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -114,22 +114,16 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,7 +133,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
@@ -174,7 +174,7 @@
 import { Observable, map } from 'rxjs';
 import { objectMapper, ObjectMapperType } from './object-mapper.helper.js';
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >objectMapperInterceptor&lt;</span>
+export function objectMapperInterceptor&lt;
   TInputObject extends Record&lt;string, any&gt;,
   TOutputObject extends Record&lt;string, any&gt;,
 &gt;(
@@ -190,31 +190,31 @@ export function <span class="fstat-no" title="function not covered" >objectMappe
     callback?: { (inputData: any, outputData: any): any };
   } = {},
 ) {
-<span class="cstat-no" title="statement not covered" >  @Injectable()</span>
+  @Injectable()
   class ObjectMapperInterceptor implements NestInterceptor {
-<span class="fstat-no" title="function not covered" >    intercept(_</span>context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; {
-<span class="cstat-no" title="statement not covered" >      return next.handle().pipe(</span>
+    intercept(_context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; {
+      return next.handle().pipe(
         map((data) =&gt; {
-          const _data = <span class="cstat-no" title="statement not covered" >options.transformData</span>
+          const _data = options.transformData
             ? options.transformData(data)
             : data;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          if (Array.isArray(_data)) {</span>
-            const result = <span class="cstat-no" title="statement not covered" >_data.map((item) =&gt; <span class="cstat-no" title="statement not covered" >objectMapper(item, mapper));</span></span>
-<span class="cstat-no" title="statement not covered" >            return options.callback?.(data, result) ?? result;</span>
+          if (Array.isArray(_data)) {
+            const result = _data.map((item) =&gt; objectMapper(item, mapper));
+            return options.callback?.(data, result) ?? result;
           }
 &nbsp;
-          const result = <span class="cstat-no" title="statement not covered" >objectMapper(_data, mapper, {</span>
+          const result = objectMapper(_data, mapper, {
             copyNonMappedProperties: options.copyNonMappedProperties,
           });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          return options.callback?.(data, result) ?? result;</span>
+          return options.callback?.(data, result) ?? result;
         }),
       );
     }
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return ObjectMapperInterceptor;</span>
+  return ObjectMapperInterceptor;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -223,7 +223,7 @@ export function <span class="fstat-no" title="function not covered" >objectMappe
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

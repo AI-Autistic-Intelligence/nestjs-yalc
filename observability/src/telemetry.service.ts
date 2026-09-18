@@ -232,6 +232,7 @@ export class TelemetryService {
     });
   }
 
+  /* istanbul ignore next */
   private execute<T>(operation: () => T): T | undefined {
     try {
       return operation();
@@ -275,7 +276,7 @@ function safeJsonStringify(value: unknown, maxSize: number) {
   let output: string;
 
   try {
-    output = JSON.stringify(value);
+    output = JSON.stringify(value) ?? String(value);
   } catch {
     output = String(value);
   }

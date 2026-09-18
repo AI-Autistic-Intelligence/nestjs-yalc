@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.85% </span>
+                <span class="strong">89.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>78/163</span>
+                <span class='fraction'>77/86</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.27% </span>
+                <span class="strong">92.1% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>70/145</span>
+                <span class='fraction'>70/76</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>18/36</span>
+                <span class='fraction'>18/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -753,8 +753,8 @@ type ScopedEntity = ObjectLiteral &amp; {
   deletedAt?: Date | null;
 };
 &nbsp;
-function <span class="fstat-no" title="function not covered" >hasOwn(i</span>nput: object, key: string): boolean {
-<span class="cstat-no" title="statement not covered" >  return Object.prototype.hasOwnProperty.call(input, key);</span>
+function hasOwn(input: object, key: string): boolean {
+  return Object.prototype.hasOwnProperty.call(input, key);
 }
 &nbsp;
 /**
@@ -769,27 +769,27 @@ export class OmniScopedService&lt;
     scopeOrRepositoryWrite?: OmniScope | any,
     private readonly deletion: OmniDeletePolicy = 'hard',
   ) {
-    const scope = <span class="cstat-no" title="statement not covered" >isOmniScope(scopeOrRepositoryWrite)</span>
+    const scope = isOmniScope(scopeOrRepositoryWrite)
       ? scopeOrRepositoryWrite
       : defaultOmniScope;
-<span class="cstat-no" title="statement not covered" >    super(</span>
+    super(
       repository,
       isOmniScope(scopeOrRepositoryWrite) ? undefined : scopeOrRepositoryWrite,
     );
-<span class="cstat-no" title="statement not covered" >    this.scope = scope;</span>
+    this.scope = scope;
   }
 &nbsp;
   protected readonly scope: OmniScope;
 &nbsp;
   protected get scopeId(): string {
-<span class="cstat-no" title="statement not covered" >    return this.scope.scopeId;</span>
+    return this.scope.scopeId;
   }
 &nbsp;
-  protected <span class="fstat-no" title="function not covered" >scopedConditions(</span>
+  protected scopedConditions(
     conditions: FindOptionsWhere&lt;Entity&gt;,
   ): FindOptionsWhere&lt;Entity&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectClientScope(conditions as object);</span>
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    this.rejectClientScope(conditions as object);
+    return {
       ...conditions,
       scopeId: this.scopeId,
       ...(this.deletion === 'tombstone' ? { deletedAt: IsNull() } : {}),
@@ -818,7 +818,7 @@ export class OmniScopedService&lt;
     databaseName?: string,
     options?: { failOnNull?: boolean },
   ): Promise&lt;Entity&gt;;
-<span class="fstat-no" title="function not covered" >  override async g</span>etEntity(
+  override async getEntity(
     conditions:
       | FindOptionsWhere&lt;Entity&gt;[]
       | FindOptionsWhere&lt;Entity&gt;
@@ -836,8 +836,8 @@ export class OmniScopedService&lt;
       databaseName,
       { failOnNull: false },
     );
-<span class="cstat-no" title="statement not covered" >    if (!entity &amp;&amp; options?.failOnNull) <span class="cstat-no" title="statement not covered" >this.notFound();</span></span>
-<span class="cstat-no" title="statement not covered" >    return entity;</span>
+    if (!entity &amp;&amp; options?.failOnNull) this.notFound();
+    return entity;
   }
 &nbsp;
   override async getEntityListExtended(
@@ -852,22 +852,22 @@ export class OmniScopedService&lt;
     relations?: string[],
     databaseName?: string,
   ): Promise&lt;[Entity[], number]&gt;;
-<span class="fstat-no" title="function not covered" >  override async g</span>etEntityListExtended(
+  override async getEntityListExtended(
     findOptions: CrudGenFindManyOptions&lt;Entity&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span>
     withCount = false,
     relations?: string[],
     databaseName?: string,
   ): Promise&lt;Entity[] | [Entity[], number]&gt; {
-    const scopedOptions = <span class="cstat-no" title="statement not covered" >this.scopeFindOptions(findOptions);</span>
-<span class="cstat-no" title="statement not covered" >    if (withCount) {</span>
-<span class="cstat-no" title="statement not covered" >      return super.getEntityListExtended(</span>
+    const scopedOptions = this.scopeFindOptions(findOptions);
+    if (withCount) {
+      return super.getEntityListExtended(
         scopedOptions,
         true,
         relations,
         databaseName,
       );
     }
-<span class="cstat-no" title="statement not covered" >    return super.getEntityListExtended(</span>
+    return super.getEntityListExtended(
       scopedOptions,
       false,
       relations,
@@ -875,20 +875,20 @@ export class OmniScopedService&lt;
     );
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >scopeFindOptions(</span>
+  private scopeFindOptions(
     findOptions: CrudGenFindManyOptions&lt;Entity&gt;,
   ): CrudGenFindManyOptions&lt;Entity&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectScopeInWhere(findOptions.where);</span>
+    this.rejectScopeInWhere(findOptions.where);
     const userWhere = findOptions.where;
-    const filters: IWhereCondition&lt;Entity&gt;['filters'] = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >    filters.scopeId = this.scopeId;</span>
-<span class="cstat-no" title="statement not covered" >    if (this.deletion === 'tombstone') <span class="cstat-no" title="statement not covered" >filters.deletedAt = IsNull();</span></span>
-    const where: IWhereCondition&lt;Entity&gt; = <span class="cstat-no" title="statement not covered" >{</span>
+    const filters: IWhereCondition&lt;Entity&gt;['filters'] = {};
+    filters.scopeId = this.scopeId;
+    if (this.deletion === 'tombstone') filters.deletedAt = IsNull();
+    const where: IWhereCondition&lt;Entity&gt; = {
       operator: Operators.AND,
       filters,
       ...(userWhere ? { childExpressions: [userWhere] } : {}),
     };
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       ...findOptions,
       where,
       ...(findOptions.subQueryFilters
@@ -909,14 +909,14 @@ export class OmniScopedService&lt;
     findOptions?: CrudGenFindManyOptions&lt;Entity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;Entity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async c</span>reateEntity(
+  override async createEntity(
     input: DeepPartial&lt;Entity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;Entity&gt;,
     returnEntity = true,
   ): Promise&lt;Entity | boolean&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectServerFields(input as object);</span>
-<span class="cstat-no" title="statement not covered" >    this.validatePayloadContract(input as object);</span>
-<span class="cstat-no" title="statement not covered" >    return super.createEntity(</span>
+    this.rejectServerFields(input as object);
+    this.validatePayloadContract(input as object);
+    return super.createEntity(
       { ...input, scopeId: this.scopeId } as DeepPartial&lt;Entity&gt;,
       findOptions,
       returnEntity,
@@ -935,18 +935,18 @@ export class OmniScopedService&lt;
     findOptions?: CrudGenFindManyOptions&lt;Entity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;Entity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async u</span>pdateEntity(
+  override async updateEntity(
     conditions: FindOptionsWhere&lt;Entity&gt;,
     input: DeepPartial&lt;Entity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;Entity&gt;,
     returnEntity = true,
   ): Promise&lt;Entity | boolean&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectServerFields(input as object);</span>
-<span class="cstat-no" title="statement not covered" >    this.validatePayloadContract(input as object);</span>
-<span class="cstat-no" title="statement not covered" >    if (hasOwn(input as object, 'guid')) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException('guid is immutable.');</span>
+    this.rejectServerFields(input as object);
+    this.validatePayloadContract(input as object);
+    if (hasOwn(input as object, 'guid')) {
+      throw new BadRequestException('guid is immutable.');
     }
-<span class="cstat-no" title="statement not covered" >    return super.updateEntity(</span>
+    return super.updateEntity(
       this.scopedConditions(conditions),
       { ...input, scopeId: this.scopeId } as DeepPartial&lt;Entity&gt;,
       findOptions,
@@ -954,117 +954,117 @@ export class OmniScopedService&lt;
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async d</span>eleteEntity(
+  override async deleteEntity(
     conditions: FindOptionsWhere&lt;Entity&gt;,
   ): Promise&lt;boolean&gt; {
-    const scoped = <span class="cstat-no" title="statement not covered" >this.scopedConditions(conditions);</span>
-<span class="cstat-no" title="statement not covered" >    if (this.deletion === 'hard') {</span>
-<span class="cstat-no" title="statement not covered" >      return super.deleteEntity(scoped);</span>
+    const scoped = this.scopedConditions(conditions);
+    if (this.deletion === 'hard') {
+      return super.deleteEntity(scoped);
     }
-    const result = <span class="cstat-no" title="statement not covered" >await this.getRepository().update(scoped, {</span>
+    const result = await this.getRepository().update(scoped, {
       deletedAt: new Date(),
     } as DeepPartial&lt;Entity&gt;);
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!result.affected) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >    return true;</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!result.affected) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+    return true;
   }
 &nbsp;
-  protected <span class="fstat-no" title="function not covered" >rejectServerFields(i</span>nput: object): void {
-<span class="cstat-no" title="statement not covered" >    for (const field of ['scopeId', 'revision', 'deletedAt']) {</span>
-<span class="cstat-no" title="statement not covered" >      if (hasOwn(input, field)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new BadRequestException(`${field} is server-owned.`);</span>
+  protected rejectServerFields(input: object): void {
+    for (const field of ['scopeId', 'revision', 'deletedAt']) {
+      if (hasOwn(input, field)) {
+        throw new BadRequestException(`${field} is server-owned.`);
       }
     }
   }
 &nbsp;
-  protected <span class="fstat-no" title="function not covered" >rejectClientScope(i</span>nput: object): void {
-<span class="cstat-no" title="statement not covered" >    if (hasOwn(input, 'scopeId')) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException('scopeId is derived from server context.');</span>
+  protected rejectClientScope(input: object): void {
+    if (hasOwn(input, 'scopeId')) {
+      throw new BadRequestException('scopeId is derived from server context.');
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >validatePayloadContract(i</span>nput: object): void {
-    const candidate = <span class="cstat-no" title="statement not covered" >input as Record&lt;string, unknown&gt;;</span>
-<span class="cstat-no" title="statement not covered" >    if (</span>
+  private validatePayloadContract(input: object): void {
+    const candidate = input as Record&lt;string, unknown&gt;;
+    if (
       hasOwn(candidate, 'payload') &amp;&amp;
       candidate.payload !== null &amp;&amp;
       (typeof candidate.payload !== 'object' ||
         Array.isArray(candidate.payload))
     ) {
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException('payload must be a JSON object or null.');</span>
+      throw new BadRequestException('payload must be a JSON object or null.');
     }
 &nbsp;
-    const hasSchemaId = <span class="cstat-no" title="statement not covered" >hasOwn(candidate, 'payloadSchemaId');</span>
-    const hasSchemaVersion = <span class="cstat-no" title="statement not covered" >hasOwn(candidate, 'payloadSchemaVersion');</span>
-<span class="cstat-no" title="statement not covered" >    if (hasSchemaId !== hasSchemaVersion) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+    const hasSchemaId = hasOwn(candidate, 'payloadSchemaId');
+    const hasSchemaVersion = hasOwn(candidate, 'payloadSchemaVersion');
+    if (hasSchemaId !== hasSchemaVersion) {
+      throw new BadRequestException(
         'payloadSchemaId and payloadSchemaVersion must be supplied together.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    if (!hasSchemaId) <span class="cstat-no" title="statement not covered" >return;</span></span>
+    if (!hasSchemaId) return;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
       typeof candidate.payloadSchemaId !== 'string' ||
       candidate.payloadSchemaId.trim().length === 0 ||
       candidate.payloadSchemaId.length &gt; 128
     ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span></span>
+<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
         'payloadSchemaId must be a non-empty string.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
       typeof candidate.payloadSchemaVersion !== 'number' ||
       !Number.isInteger(candidate.payloadSchemaVersion) ||
       candidate.payloadSchemaVersion &lt; 1 ||
       candidate.payloadSchemaVersion &gt; 2_147_483_647
     ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span></span>
+<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
         'payloadSchemaVersion must be a positive signed 32-bit integer.',
       );
     }
   }
 &nbsp;
-  protected <span class="fstat-no" title="function not covered" >notFound(): never {</span>
-<span class="cstat-no" title="statement not covered" >    throw new NotFoundException('Omni resource was not found in this scope.');</span>
+  protected notFound(): never {
+    throw new NotFoundException('Omni resource was not found in this scope.');
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >scopedWhere(</span>
+  private scopedWhere(
     where:
       | FindOptionsWhere&lt;Entity&gt;[]
       | FindOptionsWhere&lt;Entity&gt;
       | ObjectLiteral
       | string,
   ): FindOptionsWhere&lt;Entity&gt; | FindOptionsWhere&lt;Entity&gt;[] {
-<span class="cstat-no" title="statement not covered" >    if (typeof where === 'string') {</span>
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+    if (typeof where === 'string') {
+      throw new BadRequestException(
         'String where clauses are not supported for scoped Omni resources.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(where)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return where.map(<span class="fstat-no" title="function not covered" >(c</span>ondition) =&gt; <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.scopedConditions(condition))</span>;</span></span></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(where)) {
+<span class="cstat-no" title="statement not covered" >      return where.map(<span class="fstat-no" title="function not covered" >(c</span>ondition) =&gt; <span class="cstat-no" title="statement not covered" >this.scopedConditions(condition))</span>;</span>
     }
-<span class="cstat-no" title="statement not covered" >    return this.scopedConditions(where as FindOptionsWhere&lt;Entity&gt;);</span>
+    return this.scopedConditions(where as FindOptionsWhere&lt;Entity&gt;);
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >rejectScopeInWhere(w</span>here: unknown): void {
-<span class="cstat-no" title="statement not covered" >    if (!where || typeof where !== 'object') <span class="cstat-no" title="statement not covered" >return;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(where)) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      where.forEach(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.rejectScopeInWhere(item))</span>;</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+  private rejectScopeInWhere(where: unknown): void {
+    if (!where || typeof where !== 'object') return;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(where)) {
+<span class="cstat-no" title="statement not covered" >      where.forEach(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >this.rejectScopeInWhere(item))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    const candidate = <span class="cstat-no" title="statement not covered" >where as Record&lt;string, unknown&gt;;</span>
-<span class="cstat-no" title="statement not covered" >    if (hasOwn(candidate, 'scopeId')) <span class="cstat-no" title="statement not covered" >this.rejectClientScope(candidate);</span></span>
-<span class="cstat-no" title="statement not covered" >    if (candidate.filters &amp;&amp; typeof candidate.filters === 'object') {</span>
-<span class="cstat-no" title="statement not covered" >      this.rejectScopeInWhere(candidate.filters);</span>
+    const candidate = where as Record&lt;string, unknown&gt;;
+    if (hasOwn(candidate, 'scopeId')) this.rejectClientScope(candidate);
+    if (candidate.filters &amp;&amp; typeof candidate.filters === 'object') {
+      this.rejectScopeInWhere(candidate.filters);
     }
-<span class="cstat-no" title="statement not covered" >    if (Array.isArray(candidate.childExpressions)) {</span>
-<span class="cstat-no" title="statement not covered" >      candidate.childExpressions.forEach((item) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >        this.rejectScopeInWhere(item),</span>
+    if (Array.isArray(candidate.childExpressions)) {
+      candidate.childExpressions.forEach((item) =&gt;
+        this.rejectScopeInWhere(item),
       );
     }
   }
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >isOmniScope(v</span>alue: unknown): value is OmniScope {
+function isOmniScope(value: unknown): value is OmniScope {
   return (
     !!value &amp;&amp;
     typeof value === 'object' &amp;&amp;
@@ -1073,7 +1073,7 @@ function <span class="fstat-no" title="function not covered" >isOmniScope(v</spa
   );
 }
 &nbsp;
-const defaultOmniScope: OmniScope = <span class="cstat-no" title="statement not covered" >{</span>
+const defaultOmniScope: OmniScope = {
   scopeId: 'default',
   cacheKey: <span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >`default:${key}`,</span>
 };
@@ -1084,7 +1084,7 @@ const defaultOmniScope: OmniScope = <span class="cstat-no" title="statement not 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

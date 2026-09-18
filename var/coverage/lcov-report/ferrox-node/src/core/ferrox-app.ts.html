@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.72% </span>
+                <span class="strong">46.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/44</span>
+                <span class='fraction'>20/43</span>
             </div>
         
             
@@ -161,6 +161,7 @@
 <a name='L96'></a><a href='#L96'>96</a>
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -169,18 +170,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -310,7 +310,7 @@ export class FerroxApp {
         const routeDef: FerroxRouteDefinition = {
           method: routeMeta.method,
           path: fullPath,
-          handler: <span class="fstat-no" title="function not covered" >async (r</span>eq, res) =&gt; {
+          handler: <span class="fstat-no" title="function not covered" >async </span>(req, res) =&gt; {
             // 1. Run global guards
 <span class="cstat-no" title="statement not covered" >            for (const guard of this.globalGuards) {</span>
               const allowed = <span class="cstat-no" title="statement not covered" >await guard.canActivate(req, res);</span>
@@ -333,7 +333,7 @@ export class FerroxApp {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async s</span>tart(): Promise&lt;http.Server&gt; {
+  public <span class="fstat-no" title="function not covered" >async </span>start(): Promise&lt;http.Server&gt; {
 <span class="cstat-no" title="statement not covered" >    console.log(`\n================================================================`);</span>
 <span class="cstat-no" title="statement not covered" >    console.log(`🚀 Ferrox Enterprise Node.js / TypeScript Security Framework v0.6.0`);</span>
 <span class="cstat-no" title="statement not covered" >    console.log(`⚡ Engine: ${this.adapter.type.toUpperCase()} | Port: ${this.port}`);</span>
@@ -342,13 +342,13 @@ export class FerroxApp {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this.server = await this.adapter.listen(this.port, this.host);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    process.on('SIGINT', <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.shutdown());</span></span>
-<span class="cstat-no" title="statement not covered" >    process.on('SIGTERM', <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.shutdown());</span></span>
+<span class="cstat-no" title="statement not covered" >    process.on('SIGINT', <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >this.shutdown())</span>;</span>
+<span class="cstat-no" title="statement not covered" >    process.on('SIGTERM', <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >this.shutdown())</span>;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return this.server;</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async s</span>hutdown(): Promise&lt;void&gt; {
+  public <span class="fstat-no" title="function not covered" >async </span>shutdown(): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    console.log(`\n🛑 Gracefully shutting down Ferrox-Node Framework application...`);</span>
 <span class="cstat-no" title="statement not covered" >    await this.adapter.close();</span>
 <span class="cstat-no" title="statement not covered" >    console.log(`👋 Shutdown complete.`);</span>
@@ -361,7 +361,7 @@ export class FerroxApp {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

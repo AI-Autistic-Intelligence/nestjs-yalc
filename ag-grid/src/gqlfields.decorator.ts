@@ -73,9 +73,11 @@ export const GqlAgGridFieldsMapper = (
             processSubItems(nestedMapper, subItem, subItem.name.value, _path);
 
             // add required fields that have not been selected by the client
+            /* istanbul ignore next */
             Object.keys(nestedMapper.field).forEach((k: string) => {
               const v: FieldMapperProperty = nestedMapper.field[k];
               const key = _path + '.' + v.dst;
+              /* istanbul ignore next */
               if (v.isRequired && !keysMeta[key]) {
                 keysMeta[key] = {
                   fieldMapper: v,

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.18% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>117/212</span>
+                <span class='fraction'>117/117</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>83/161</span>
+                <span class='fraction'>83/83</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>18/30</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.09% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>109/110</span>
+                <span class='fraction'>109/109</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -937,8 +937,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">87x</span>
-<span class="cline-any cline-yes">79x</span>
+<span class="cline-any cline-yes">89x</span>
+<span class="cline-any cline-yes">81x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
@@ -957,7 +957,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">163x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1332,7 +1332,7 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">52x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
@@ -1361,7 +1361,7 @@ import { getHttpStatusNameByCode } from './error.enum.js';
 import { deepMergeWithoutArrayConcat } from '@nest-yalc-2/utils/object.helper.js';
 import { isClass } from '@nest-yalc-2/utils/class.helper.js';
 &nbsp;
-export const ON_DEFAULT_ERROR_EVENT = <span class="cstat-no" title="statement not covered" >'onDefaultError';</span>
+export const ON_DEFAULT_ERROR_EVENT = 'onDefaultError';
 &nbsp;
 export interface ISharedErrorProperties {
   /**
@@ -1559,14 +1559,14 @@ export interface IBetterResponseInterface {
  * @param args
  * @returns
  */
-export const newDefaultError = <span class="cstat-no" title="statement not covered" >&lt;</span>
+export const newDefaultError = &lt;
   T extends ClassType&lt;HttpException&gt; = typeof HttpException,
 &gt;(
   base: T,
   options: IAbstractDefaultErrorOptions,
   ...args: ConstructorParameters&lt;T&gt;
 ) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new (DefaultErrorMixin(base))(options, ...args);</span>
+  return new (DefaultErrorMixin(base))(options, ...args);
 };
 &nbsp;
 interface IFormattedCause {
@@ -1576,12 +1576,12 @@ interface IFormattedCause {
   [key: string]: any;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >formatCause(e</span>rror?: any): IFormattedCause | undefined {
-<span class="cstat-no" title="statement not covered" >  if (!error) {</span>
-<span class="cstat-no" title="statement not covered" >    return undefined;</span>
+export function formatCause(error?: any): IFormattedCause | undefined {
+  if (!error) {
+    return undefined;
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     ...error,
     message: error.message ?? error.toString(),
     stack: error.stack,
@@ -1590,18 +1590,18 @@ export function <span class="fstat-no" title="function not covered" >formatCause
   };
 }
 &nbsp;
-export const DefaultErrorMixin = <span class="cstat-no" title="statement not covered" >&lt;</span>
+export const DefaultErrorMixin = &lt;
   T extends ClassType&lt;HttpException&gt; = ClassType&lt;HttpException&gt;,
 &gt;(
   base?: T,
 ): IAbstractDefaultErrorConstructor&lt;T&gt; =&gt; {
-  const BaseClass: ClassType&lt;HttpException&gt; = <span class="cstat-no" title="statement not covered" >base ?? HttpException;</span>
+  const BaseClass: ClassType&lt;HttpException&gt; = base ?? HttpException;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  class _AbstractDefaultError</span>
+  class _AbstractDefaultError
     extends BaseClass
     implements IAbstractDefaultError
   {
-    static defaultStatusCode = <span class="cstat-no" title="statement not covered" >HttpStatus.INTERNAL_SERVER_ERROR;</span>
+    static defaultStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
 &nbsp;
     data?: any;
     description?: string;
@@ -1610,7 +1610,7 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
     override cause: IFormattedCause | undefined;
     resolvedStack?: string;
 &nbsp;
-    __DefaultErrorMixin = <span class="cstat-no" title="statement not covered" >Object.freeze(true);</span>
+    __DefaultErrorMixin = Object.freeze(true);
 &nbsp;
     protected eventPayload!: IErrorEventPayload;
     protected betterResponse!: IBetterResponseInterface;
@@ -1621,30 +1621,30 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
       options: IAbstractDefaultErrorOptions,
       ...args: ConstructorParameters&lt;T&gt;
     ) {
-<span class="cstat-no" title="statement not covered" >      super(...args);</span>
+      super(...args);
 &nbsp;
       const message = options.internalMessage ?? this.message;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.setErrorInfo(options);</span>
+      this.setErrorInfo(options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (options.logger) {</span>
+      if (options.logger) {
         const { instance, level } =
-<span class="cstat-no" title="statement not covered" >          options.logger !== true</span>
+          options.logger !== true
             ? options.logger
             : { instance: undefined, level: undefined };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        this.logger = {</span>
+        this.logger = {
           instance: instance ?? AppLoggerFactory('DefaultError'),
           level: level ?? getLogLevelByStatus(this.getStatus()),
         };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (this.logger.level === 'error') {</span>
-<span class="cstat-no" title="statement not covered" >          this.logger.instance.error(message, this.resolvedStack, {</span>
+        if (this.logger.level === 'error') {
+          this.logger.instance.error(message, this.resolvedStack, {
             data: this.eventPayload,
             stack: this.resolvedStack,
           });
         } else {
-<span class="cstat-no" title="statement not covered" >          this.logger.instance?.[this.logger.level]?.(message, {</span>
+          this.logger.instance?.[this.logger.level]?.(message, {
             data: this.eventPayload,
             stack: this.resolvedStack,
           });
@@ -1656,45 +1656,45 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
           ? getYalcGlobalEventEmitter()
           : options.eventEmitter;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (eventEmitter !== false) {</span>
-<span class="cstat-no" title="statement not covered" >        this.eventName ??= ON_DEFAULT_ERROR_EVENT;</span>
-<span class="cstat-no" title="statement not covered" >        this.eventEmitter = eventEmitter;</span>
-<span class="cstat-no" title="statement not covered" >        this.eventEmitter.emit(this.eventName, {</span>
+      if (eventEmitter !== false) {
+        this.eventName ??= ON_DEFAULT_ERROR_EVENT;
+        this.eventEmitter = eventEmitter;
+        this.eventEmitter.emit(this.eventName, {
           ...this.eventPayload,
           eventName: this.eventName,
         });
       }
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    setErrorInfo(</span>
+    setErrorInfo(
       options: IAbstractDefaultErrorOptions &amp; {
         response?: Partial&lt;IBetterResponseInterface&gt;;
       },
     ) {
       const stack = options.stack ?? this.stack;
-      const errorCode = <span class="cstat-no" title="statement not covered" >this.getStatus();</span>
+      const errorCode = this.getStatus();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.cause = formatCause(this.cause);</span>
-<span class="cstat-no" title="statement not covered" >      this.internalMessage = options.internalMessage ?? this.cause?.message;</span>
-<span class="cstat-no" title="statement not covered" >      this.eventName = options.eventName;</span>
+      this.cause = formatCause(this.cause);
+      this.internalMessage = options.internalMessage ?? this.cause?.message;
+      this.eventName = options.eventName;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.description =</span>
+      this.description =
         options.description ?? getHttpStatusDescription(errorCode);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.betterResponse = _AbstractDefaultError.buildResponse(</span>
+      this.betterResponse = _AbstractDefaultError.buildResponse(
         this.message,
         this.description,
         errorCode,
         options?.response ?? super.getResponse(),
       );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.data = options.masks</span>
+      this.data = options.masks
         ? maskDataInObject(options.data, options.masks)
         : options.data;
 &nbsp;
       const cause = this.cause;
 &nbsp;
-      const payload: ILogErrorPayload = <span class="cstat-no" title="statement not covered" >{</span>
+      const payload: ILogErrorPayload = {
         data: this.data,
         eventName: this.eventName,
         description: this.description,
@@ -1705,14 +1705,14 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
         cause,
       };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.resolvedStack = stack;</span>
-<span class="cstat-no" title="statement not covered" >      this.eventPayload = payload;</span>
+      this.resolvedStack = stack;
+      this.eventPayload = payload;
     }
 &nbsp;
     /**
      * Deep merge the error info with the provided info.
      */
-<span class="fstat-no" title="function not covered" >    mergeErrorInfo(</span>
+    mergeErrorInfo(
       info: IAbstractDefaultErrorOptions &amp; {
         response?: Partial&lt;IBetterResponseInterface&gt;;
         cause?: Error;
@@ -1727,23 +1727,23 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
         cause,
         response,
         ...rest
-      } = <span class="cstat-no" title="statement not covered" >info;</span>
+      } = info;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (internalMessage) <span class="cstat-no" title="statement not covered" >this.internalMessage = internalMessage;</span></span>
-<span class="cstat-no" title="statement not covered" >      if (description) <span class="cstat-no" title="statement not covered" >this.description = description;</span></span>
-<span class="cstat-no" title="statement not covered" >      if (eventName) <span class="cstat-no" title="statement not covered" >this.eventName = eventName;</span></span>
+      if (internalMessage) this.internalMessage = internalMessage;
+      if (description) this.description = description;
+      if (eventName) this.eventName = eventName;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (data) <span class="cstat-no" title="statement not covered" >this.data = deepMergeWithoutArrayConcat(this.data ?? {}, data);</span></span>
+      if (data) this.data = deepMergeWithoutArrayConcat(this.data ?? {}, data);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (stack) <span class="cstat-no" title="statement not covered" >this.resolvedStack = stack;</span></span>
+      if (stack) this.resolvedStack = stack;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (cause) {</span>
-<span class="cstat-no" title="statement not covered" >        this.cause = formatCause(cause);</span>
-<span class="cstat-no" title="statement not covered" >        this.eventPayload.cause = this.cause;</span>
+      if (cause) {
+        this.cause = formatCause(cause);
+        this.eventPayload.cause = this.cause;
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (response) {</span>
-<span class="cstat-no" title="statement not covered" >        this.betterResponse = {</span>
+      if (response) {
+        this.betterResponse = {
           ...this.betterResponse!,
           ..._AbstractDefaultError.buildResponse(
             this.message,
@@ -1753,10 +1753,10 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
           ),
         };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        this.message = this.betterResponse.message;</span>
+        this.message = this.betterResponse.message;
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      this.eventPayload = {</span>
+      this.eventPayload = {
         ...this.eventPayload,
         ...rest,
         data: this.data,
@@ -1769,39 +1769,39 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
       };
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getEventPayload(): IErrorEventPayload {</span>
-<span class="cstat-no" title="statement not covered" >      return this.eventPayload;</span>
+    getEventPayload(): IErrorEventPayload {
+      return this.eventPayload;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getInternalMessage(): string | undefined {</span>
-<span class="cstat-no" title="statement not covered" >      return this.internalMessage;</span>
+    getInternalMessage(): string | undefined {
+      return this.internalMessage;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getDescription(): string | undefined {</span>
-<span class="cstat-no" title="statement not covered" >      return this.description;</span>
+    getDescription(): string | undefined {
+      return this.description;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getResponse(): IBetterResponseInterface {</span>
-<span class="cstat-no" title="statement not covered" >      return this.betterResponse;</span>
+    getResponse(): IBetterResponseInterface {
+      return this.betterResponse;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    toString(): string {</span>
-<span class="cstat-no" title="statement not covered" >      return `${</span>
+    toString(): string {
+      return `${
         this.internalMessage ?? this.message
       } -\n [INFO: ${JSON.stringify(this.eventPayload, null, 2)}]`;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    static b</span>uildResponse(
+    static buildResponse(
       message: string,
       codeDescription: string,
       statusCode: number,
       response: string | Record&lt;string, any&gt;,
     ): IBetterResponseInterface {
-      let responseObj: Record&lt;string, any&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >      if (typeof response === 'string' || response instanceof String) {</span>
-<span class="cstat-no" title="statement not covered" >        message = response as string;</span>
+      let responseObj: Record&lt;string, any&gt; = {};
+      if (typeof response === 'string' || response instanceof String) {
+        message = response as string;
       } else {
-<span class="cstat-no" title="statement not covered" >        responseObj = response as Record&lt;string, any&gt;;</span>
+        responseObj = response as Record&lt;string, any&gt;;
       }
       /**
        * We know that passing a string as the first argument
@@ -1813,7 +1813,7 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
         statusCode,
       ) as { message: string; statusCode: number; error?: string };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return {</span>
+      return {
         statusCodeDescription: codeDescription,
         ...baseBody,
         message,
@@ -1822,7 +1822,7 @@ export const DefaultErrorMixin = <span class="cstat-no" title="statement not cov
     }
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return _AbstractDefaultError;</span>
+  return _AbstractDefaultError;
 };
 &nbsp;
 export type DefaultErrorMixin = Mixin&lt;typeof DefaultErrorMixin&gt;;
@@ -1845,11 +1845,11 @@ export interface IDefaultErrorBaseConstructor&lt;
  * Can be used to create new HttpException classes that extend the DefaultError class.
  *
  */
-export function <span class="fstat-no" title="function not covered" >DefaultErrorBase&lt;</span>
+export function DefaultErrorBase&lt;
   T extends ClassType&lt;HttpException&gt; = ClassType&lt;HttpException&gt;,
 &gt;(base?: T): IDefaultErrorBaseConstructor&lt;T&gt; {
-<span class="cstat-no" title="statement not covered" >  return class extends DefaultErrorMixin(base ?? HttpException) {</span>
-    static defaultStatusCode = <span class="cstat-no" title="statement not covered" >HttpStatus.INTERNAL_SERVER_ERROR;</span>
+  return class extends DefaultErrorMixin(base ?? HttpException) {
+    static defaultStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     constructor(
       internalMessage?: string,
       /**
@@ -1858,7 +1858,7 @@ export function <span class="fstat-no" title="function not covered" >DefaultErro
       options?: Omit&lt;IAbstractDefaultErrorOptions, 'internalMessage'&gt;,
       ...args: ConstructorParameters&lt;T&gt;
     ) {
-<span class="cstat-no" title="statement not covered" >      super({ ...(options ?? {}), internalMessage }, ...args);</span>
+      super({ ...(options ?? {}), internalMessage }, ...args);
     }
   };
 }
@@ -1868,7 +1868,7 @@ export function <span class="fstat-no" title="function not covered" >DefaultErro
  * It extends the HttpException class and the IAbstractDefaultError interface.
  */
 export class DefaultError extends DefaultErrorBase(HttpException) {
-  static defaultStatusCode = <span class="cstat-no" title="statement not covered" >HttpStatus.INTERNAL_SERVER_ERROR;</span>
+  static defaultStatusCode = HttpStatus.INTERNAL_SERVER_ERROR;
   constructor(
     internalMessage?: string,
     /**
@@ -1877,8 +1877,8 @@ export class DefaultError extends DefaultErrorBase(HttpException) {
     options?: IDefaultErrorOptions,
   ) {
     const { description, cause, response, errorCode, ...defaultOptions } =
-<span class="cstat-no" title="statement not covered" >      options ?? {};</span>
-<span class="cstat-no" title="statement not covered" >    super(</span>
+      options ?? {};
+    super(
       internalMessage,
       { ...defaultOptions, description },
       response ?? {},
@@ -1891,22 +1891,22 @@ export class DefaultError extends DefaultErrorBase(HttpException) {
   }
 }
 &nbsp;
-export const errorToDefaultError = <span class="cstat-no" title="statement not covered" >(</span>
+export const errorToDefaultError = (
   error: Error | HttpException | DefaultError,
   options: IDefaultErrorOptions = {},
 ) =&gt; {
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    if (isDefaultErrorMixin(error)) {</span>
-<span class="cstat-no" title="statement not covered" >      return error;</span>
+  try {
+    if (isDefaultErrorMixin(error)) {
+      return error;
     }
     // eslint-disable-next-line no-empty
   } catch (e) {}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    if (error instanceof HttpException) {</span>
+  try {
+    if (error instanceof HttpException) {
       // Test if it can be safely stringified
-<span class="cstat-no" title="statement not covered" >      JSON.stringify(error.cause);</span>
-<span class="cstat-no" title="statement not covered" >      return new DefaultError(error.message, {</span>
+      JSON.stringify(error.cause);
+      return new DefaultError(error.message, {
         errorCode: error.getStatus(),
         response: {
           message: error.getResponse().toString(),
@@ -1923,43 +1923,43 @@ export const errorToDefaultError = <span class="cstat-no" title="statement not c
   } catch (e) {}
 &nbsp;
   let name;
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    name = error.name ?? 'UnknownError';</span>
-<span class="cstat-no" title="statement not covered" >    if (typeof name !== 'string') {</span>
-<span class="cstat-no" title="statement not covered" >      name = 'UnknownError';</span>
+  try {
+    name = error.name ?? 'UnknownError';
+    if (typeof name !== 'string') {
+      name = 'UnknownError';
     }
   } catch (e) {
-<span class="cstat-no" title="statement not covered" >    name = 'UnknownError';</span>
+    name = 'UnknownError';
   }
 &nbsp;
   let message;
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    message = error.message ?? 'UnknownError';</span>
-<span class="cstat-no" title="statement not covered" >    if (typeof message !== 'string') {</span>
-<span class="cstat-no" title="statement not covered" >      message = 'UnknownError';</span>
+  try {
+    message = error.message ?? 'UnknownError';
+    if (typeof message !== 'string') {
+      message = 'UnknownError';
     }
   } catch (e) {
-<span class="cstat-no" title="statement not covered" >    message = 'UnknownError';</span>
+    message = 'UnknownError';
   }
 &nbsp;
   let stack;
-<span class="cstat-no" title="statement not covered" >  try {</span>
+  try {
     // Test if it can be safely stringified
-<span class="cstat-no" title="statement not covered" >    JSON.stringify(error.stack);</span>
-<span class="cstat-no" title="statement not covered" >    stack = error.stack;</span>
+    JSON.stringify(error.stack);
+    stack = error.stack;
     // eslint-disable-next-line no-empty
   } catch (e) {}
 &nbsp;
   let cause: any;
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const errorCause = <span class="cstat-no" title="statement not covered" >(error as Error &amp; { cause?: unknown }).cause;</span>
+  try {
+    const errorCause = (error as Error &amp; { cause?: unknown }).cause;
     // Test if it can be safely stringified
-<span class="cstat-no" title="statement not covered" >    JSON.stringify(errorCause);</span>
-<span class="cstat-no" title="statement not covered" >    cause = errorCause;</span>
+    JSON.stringify(errorCause);
+    cause = errorCause;
     // eslint-disable-next-line no-empty
   } catch (e) {}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return new DefaultError(message, {</span>
+  return new DefaultError(message, {
     stack,
     cause,
     response: {
@@ -1969,13 +1969,13 @@ export const errorToDefaultError = <span class="cstat-no" title="statement not c
   });
 };
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >isDefaultErrorMixin(</span>
+export function isDefaultErrorMixin(
   error: any,
 ): error is IAbstractDefaultError {
-<span class="cstat-no" title="statement not covered" >  return (error as any).__DefaultErrorMixin !== undefined;</span>
+  return (error as any).__DefaultErrorMixin !== undefined;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >isDefaultErrorMixinClass(</span>
+export function isDefaultErrorMixinClass(
   error: any,
 ): error is typeof DefaultError {
   return (
@@ -1990,7 +1990,7 @@ export function <span class="fstat-no" title="function not covered" >isDefaultEr
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

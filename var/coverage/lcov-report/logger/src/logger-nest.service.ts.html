@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.6% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/53</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>22/32</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.94% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/17</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/29</span>
+                <span class='fraction'>28/28</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -214,7 +214,8 @@
 <a name='L149'></a><a href='#L149'>149</a>
 <a name='L150'></a><a href='#L150'>150</a>
 <a name='L151'></a><a href='#L151'>151</a>
-<a name='L152'></a><a href='#L152'>152</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -249,7 +250,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -380,47 +382,48 @@ export class ImprovedNestLogger
   extends WithPluginSystem&lt;ILoggerPluginMethods&gt;(ConsoleLogger)
   implements ImprovedLoggerService
 {
-  public readonly isImprovedLoggerService = <span class="cstat-no" title="statement not covered" >true;</span>
+  public readonly isImprovedLoggerService = true;
 &nbsp;
   constructor(
     context: string,
     options: ConsoleLoggerOptions,
     protected _options: IImprovedLoggerOptions = {},
   ) {
-<span class="cstat-no" title="statement not covered" >    super(context, options);</span>
+    super(context, options);
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >getOptions(o</span>ptions: LogMethodOptions | any): LogMethodOptions {
-<span class="cstat-no" title="statement not covered" >    return typeof options === 'string' ? { message: options } : options;</span>
+  private getOptions(options: LogMethodOptions | any): LogMethodOptions {
+    return typeof options === 'string' ? { message: options } : options;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >composeMessage(m</span>essage: any, options: LogMethodOptions) {
-    const data = <span class="cstat-no" title="statement not covered" >{</span>
+  private composeMessage(message: any, options: LogMethodOptions) {
+    const data = {
       ...maskDataInObject(options.data, options.masks, options.stack),
       config: options.config,
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    /* istanbul ignore next */
+    return (
       (typeof message === 'string'
         ? message
-        : <span class="branch-1 cbranch-no" title="branch not covered" >JSON.stringify(message, null, 2)</span>) +
-      (data ? `\n${JSON.stringify(data, null, 2)}` : <span class="branch-1 cbranch-no" title="branch not covered" >'')</span>
+        : JSON.stringify(message, null, 2)) +
+      (data ? `\n${JSON.stringify(data, null, 2)}` : '')
     );
   }
 &nbsp;
   log(message: any): void;
   log(message: any, options: LogMethodOptions): void;
   log(message: any, ...optionalParams: any[]): void;
-<span class="fstat-no" title="function not covered" >  log(</span>
+  log(
     message: unknown,
     options: LogMethodOptions = {},
     ...rest: unknown[]
   ): void {
-    const _options = <span class="cstat-no" title="statement not covered" >this.getOptions(options);</span>
+    const _options = this.getOptions(options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.beforeLogging(message, _options);</span>
+    this.beforeLogging(message, _options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    super.log(</span>
+    super.log(
       this.composeMessage(message, _options),
       _options.context ?? this.context,
       ...rest,
@@ -434,16 +437,16 @@ export class ImprovedNestLogger
     options: LogMethodOptions,
   ): void;
   error(message: any, ...optionalParams: any[]): void;
-<span class="fstat-no" title="function not covered" >  error(</span>
+  error(
     message: unknown,
     stack?: unknown,
     options: LogMethodOptions = {},
     ...rest: unknown[]
   ): void {
-    const _options = <span class="cstat-no" title="statement not covered" >this.getOptions(options);</span>
-<span class="cstat-no" title="statement not covered" >    this.beforeLogging(message, _options);</span>
+    const _options = this.getOptions(options);
+    this.beforeLogging(message, _options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    super.error(</span>
+    super.error(
       this.composeMessage(message, _options),
       stack,
       _options.context ?? this.context,
@@ -454,15 +457,15 @@ export class ImprovedNestLogger
   debug(message: any): void;
   debug(message: any, options: LogMethodOptions): void;
   debug(message: any, ...optionalParams: any[]): void;
-<span class="fstat-no" title="function not covered" >  debug(</span>
+  debug(
     message: unknown,
     options: LogMethodOptions = {},
     ...rest: unknown[]
   ): void {
-    const _options = <span class="cstat-no" title="statement not covered" >this.getOptions(options);</span>
-<span class="cstat-no" title="statement not covered" >    this.beforeLogging(message, _options);</span>
+    const _options = this.getOptions(options);
+    this.beforeLogging(message, _options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    super.debug(</span>
+    super.debug(
       this.composeMessage(message, _options),
       _options.context ?? this.context,
       ...rest,
@@ -472,15 +475,15 @@ export class ImprovedNestLogger
   verbose(message: any): void;
   verbose(message: any, options: LogMethodOptions): void;
   verbose(message: any, ...optionalParams: any[]): void;
-<span class="fstat-no" title="function not covered" >  verbose(</span>
+  verbose(
     message: unknown,
     options: LogMethodOptions = {},
     ...rest: unknown[]
   ): void {
-    const _options = <span class="cstat-no" title="statement not covered" >this.getOptions(options);</span>
-<span class="cstat-no" title="statement not covered" >    this.beforeLogging(message, _options);</span>
+    const _options = this.getOptions(options);
+    this.beforeLogging(message, _options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    super.verbose(</span>
+    super.verbose(
       this.composeMessage(message, _options),
       _options.context ?? this.context,
       ...rest,
@@ -490,30 +493,30 @@ export class ImprovedNestLogger
   warn(message: any): void;
   warn(message: any, options: LogMethodOptions): void;
   warn(message: any, ...optionalParams: any[]): void;
-<span class="fstat-no" title="function not covered" >  warn(</span>
+  warn(
     message: unknown,
     options: LogMethodOptions = {},
     ...rest: unknown[]
   ): void {
-    const _options = <span class="cstat-no" title="statement not covered" >this.getOptions(options);</span>
-<span class="cstat-no" title="statement not covered" >    this.beforeLogging(message, _options);</span>
+    const _options = this.getOptions(options);
+    this.beforeLogging(message, _options);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    super.warn(</span>
+    super.warn(
       this.composeMessage(message, _options),
       _options.context ?? this.context,
       ...rest,
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  beforeLogging(m</span>essage: any, options: LogMethodOptions) {
-<span class="cstat-no" title="statement not covered" >    this.options.event = this.options.event ?? {};</span>
-<span class="cstat-no" title="statement not covered" >    this.invokePlugins(</span>
+  beforeLogging(message: any, options: LogMethodOptions) {
+    this.options.event = this.options.event ?? {};
+    this.invokePlugins(
       'onBeforeLogging',
       message,
       options,
       this._options.clsService,
     );
-<span class="cstat-no" title="statement not covered" >    void beforeLogging(message, options);</span>
+    void beforeLogging(message, options);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -523,7 +526,7 @@ export class ImprovedNestLogger
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

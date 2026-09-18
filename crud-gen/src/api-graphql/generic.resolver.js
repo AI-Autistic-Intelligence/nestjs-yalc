@@ -1,19 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isIDArg = isIDArg;
 exports.isExtraInputStrict = isExtraInputStrict;
@@ -29,13 +14,14 @@ exports.defineCreateMutation = defineCreateMutation;
 exports.defineUpdateMutation = defineUpdateMutation;
 exports.defineDeleteMutation = defineDeleteMutation;
 exports.resolverFactory = resolverFactory;
+const tslib_1 = require("tslib");
 const graphql_1 = require("@nestjs/graphql");
 const crud_gen_args_gql_decorator_js_1 = require("@nest-yalc-2/crud-gen/api-graphql/crud-gen-args-gql.decorator.js");
 const common_1 = require("@nestjs/common");
 const crud_gen_gql_interceptor_js_1 = require("@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interceptor.js");
-const returnValue_js_1 = __importDefault(require("@nest-yalc-2/utils/returnValue.js"));
+const returnValue_js_1 = tslib_1.__importDefault(require("@nest-yalc-2/utils/returnValue.js"));
 const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
-const crud_gen_gql_type_js_1 = __importDefault(require("./crud-gen-gql.type.js"));
+const crud_gen_gql_type_js_1 = tslib_1.__importDefault(require("./crud-gen-gql.type.js"));
 const dataloader_helper_js_1 = require("@nest-yalc-2/data-loader/dataloader.helper.js");
 const core_1 = require("@nestjs/core");
 const graphql_2 = require("@nestjs/graphql");
@@ -83,13 +69,20 @@ function defineFieldResolver(resolverInfoList, resolver) {
     for (const resolverInfo of resolverInfoList) {
         let relType = (typeof resolverInfo.relation.type === 'function'
             ? resolverInfo.relation.type()
-            : resolverInfo.relation.type) ?? resolverInfo.agField?.gqlType?.();
+            : resolverInfo.relation.type) ?? resolverInfo.relation.target;
+        if (typeof relType === 'string') {
+            relType = resolverInfo.relation.target;
+        }
         if (Array.isArray(relType)) {
             relType = relType[0];
         }
         else if (!relType) {
             throw new crud_gen_error_js_1.CrudGenError('relation type undefined');
         }
+        const agGraphType = resolverInfo.agField?.gqlType?.() ?? relType;
+        const isArrayGraphType = Array.isArray(agGraphType) ||
+            (Array.isArray(resolverInfo.agField?.gqlType) &&
+                resolverInfo.agField?.gqlType.length > 0);
         if (resolverInfo.relation.relationType === 'one-to-many' ||
             resolverInfo.relation.relationType === 'many-to-many') {
             const agGraphType = resolverInfo.agField?.gqlType?.();
@@ -394,13 +387,13 @@ function resolverFactory(options) {
             this.moduleRef;
         }
     };
-    BaseClass = __decorate([
+    BaseClass = tslib_1.__decorate([
         (0, graphql_1.Resolver)((0, returnValue_js_1.default)(returnType), { isAbstract: true }),
-        __param(0, (0, common_1.Inject)(options.service?.serviceToken ?? (0, generic_service_js_1.getServiceToken)(options.entityModel))),
-        __param(1, (0, common_1.Inject)(options.service?.dataLoaderToken ??
+        tslib_1.__param(0, (0, common_1.Inject)(options.service?.serviceToken ?? (0, generic_service_js_1.getServiceToken)(options.entityModel))),
+        tslib_1.__param(1, (0, common_1.Inject)(options.service?.dataLoaderToken ??
             (0, dataloader_helper_js_1.getDataloaderToken)(options.entityModel))),
-        __param(2, (0, common_1.Inject)(options.moduleRefToken ?? core_1.ModuleRef)),
-        __metadata("design:paramtypes", [generic_service_js_1.GenericService,
+        tslib_1.__param(2, (0, common_1.Inject)(options.moduleRefToken ?? core_1.ModuleRef)),
+        tslib_1.__metadata("design:paramtypes", [generic_service_js_1.GenericService,
             dataloader_helper_js_1.GQLDataLoader,
             core_1.ModuleRef])
     ], BaseClass);
@@ -472,7 +465,7 @@ function resolverFactory(options) {
     const deleteOptions = options.mutations?.deleteResource ?? {};
     let Mutations = class Mutations extends BaseClass {
     };
-    Mutations = __decorate([
+    Mutations = tslib_1.__decorate([
         (0, graphql_1.Resolver)((0, returnValue_js_1.default)(returnType), {
             isAbstract: true,
         })
@@ -484,7 +477,7 @@ function resolverFactory(options) {
     const getResourceGridOptions = options.queries?.getResourceGrid ?? {};
     let GenericResolver = class GenericResolver extends (options.readonly ? BaseClass : Mutations) {
     };
-    GenericResolver = __decorate([
+    GenericResolver = tslib_1.__decorate([
         (0, graphql_1.Resolver)((0, returnValue_js_1.default)(returnType))
     ], GenericResolver);
     defineGetSingleResource(`${options.prefix ?? ''}get${options.entityModel.name}`, returnType, GenericResolver, getResourceOptions);

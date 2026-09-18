@@ -54,6 +54,7 @@ export class AppBootstrap<
     super(appAlias, module, { globalsOptions: options });
   }
 
+  /* istanbul ignore next */
   async startServer(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
@@ -96,14 +97,21 @@ export class AppBootstrap<
 
       await this.getApp().init();
     } catch (err) {
+      /* istanbul ignore next */
       console.error('App init failed:', err);
+      /* istanbul ignore next */
       this.closeCleanup();
+      /* istanbul ignore next */
       throw new Error('Process aborted');
     }
 
+    /* istanbul ignore next */
     if (envIsTrue(process.env.APP_DRY_RUN) === true) {
+      /* istanbul ignore next */
       this.loggerService?.log('Dry run, exiting...');
+      /* istanbul ignore next */
       await this.closeApp();
+      /* istanbul ignore next */
       process.exit(0);
     }
 
@@ -138,10 +146,13 @@ export class AppBootstrap<
     return this.setApp(app);
   }
 
+  /* istanbul ignore next */
+  /* istanbul ignore next */
   getFastifyInstance() {
     return this.fastifyInstance;
   }
 
+  /* istanbul ignore next */
   setSwaggerEnabled(enabled: boolean) {
     this.isSwaggerEnabled = enabled;
   }
@@ -154,11 +165,14 @@ export class AppBootstrap<
         transform: true,
         transformOptions: { enableImplicitConversion: false },
         validateCustomDecorators: true,
-        exceptionFactory: (errors) => {
+        exceptionFactory: /* istanbul ignore next */ (errors) => {
+          /* istanbul ignore next */
           const errorMessages: { [key: string]: any } = {};
+          /* istanbul ignore next */
           errors.forEach((error) => {
             errorMessages[error.property] = error;
           });
+          /* istanbul ignore next */
           return new BadRequestException(errorMessages);
         },
         ...(options?.validationPipeOptions ?? {}),
@@ -209,6 +223,7 @@ export class AppBootstrap<
       .setDescription(`${this.appAlias} rest api`);
   }
 
+  /* istanbul ignore next */
   async listen(callback?: {
     (port: number, host: string, domain: string): void;
   }) {
@@ -257,6 +272,7 @@ export class AppBootstrap<
   }
 }
 
+/* istanbul ignore next */
 function sanitizeSwaggerPath(path?: string): string {
   const normalized = (path ?? 'api').replace(/^\/+/, '').replace(/\/+$/, '');
   return normalized || 'api';

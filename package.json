@@ -68,21 +68,18 @@
     "event-manager",
     "field-middleware",
     "graphql",
-    "interfaces",
     "jest",
     "jest/src/config",
     "kafka",
     "logger",
     "observability",
     "sentinel",
-    "types",
-    "types-extends",
     "utils",
     "examples/omnikernel/module",
     "ag-grid",
     "dummy-app",
-    "ferrox-node",
-    "apps/ferrox-saas-backend"
+    "apps/ferrox-saas-backend",
+    "node-yalc/*"
   ],
   "peerDependencies": {
     "@nestjs/apollo": "^13.2.5",

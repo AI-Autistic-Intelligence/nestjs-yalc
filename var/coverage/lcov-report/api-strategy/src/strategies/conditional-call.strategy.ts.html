@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.57% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/33</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.38% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/21</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.63% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/19</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -145,7 +145,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -221,50 +221,50 @@ export class ConditionalCallStrategy implements IApiCallStrategy {
     private readonly options: ConditionalCallStrategyOptions = {},
   ) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  call&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(</span>
+  call&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
     path: string,
     options?: ICallOptions&lt;TOptData, TParams&gt;,
   ): Promise&lt;IObjectWithData&lt;TResData&gt;&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.whenEnabled(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.call(path, options));</span></span>
+    return this.whenEnabled(() =&gt; this.strategy.call(path, options));
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  get&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(</span>
+  get&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
     path: string,
     options?: ICallOptions&lt;TOptData, TParams&gt;,
   ): Promise&lt;IObjectWithData&lt;TResData&gt;&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.whenEnabled(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.get(path, options));</span></span>
+    return this.whenEnabled(() =&gt; this.strategy.get(path, options));
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  post&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(</span>
+  post&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
     path: string,
     options?: ICallOptions&lt;TOptData, TParams&gt;,
   ): Promise&lt;IObjectWithData&lt;TResData&gt;&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.whenEnabled(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.post(path, options));</span></span>
+    return this.whenEnabled(() =&gt; this.strategy.post(path, options));
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async w</span>henEnabled&lt;TResData&gt;(
+  private async whenEnabled&lt;TResData&gt;(
     execute: () =&gt; Promise&lt;IObjectWithData&lt;TResData&gt;&gt;,
   ) {
-<span class="cstat-no" title="statement not covered" >    if (this.isEnabled()) {</span>
-<span class="cstat-no" title="statement not covered" >      return execute();</span>
+    if (this.isEnabled()) {
+      return execute();
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (this.options.disabledResponse) {</span>
-<span class="cstat-no" title="statement not covered" >      return this.options.disabledResponse as IObjectWithData&lt;TResData&gt;;</span>
+    if (this.options.disabledResponse) {
+      return this.options.disabledResponse as IObjectWithData&lt;TResData&gt;;
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    throw this.resolveDisabledError();</span>
+    throw this.resolveDisabledError();
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >isEnabled() {</span>
-<span class="cstat-no" title="statement not covered" >    return typeof this.options.enabled === 'function'</span>
+  private isEnabled() {
+    return typeof this.options.enabled === 'function'
       ? this.options.enabled()
       : this.options.enabled !== false;
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >resolveDisabledError() {</span>
-<span class="cstat-no" title="statement not covered" >    if (typeof this.options.disabledError === 'function') {</span>
-<span class="cstat-no" title="statement not covered" >      return this.options.disabledError();</span>
+  private resolveDisabledError() {
+    if (typeof this.options.disabledError === 'function') {
+      return this.options.disabledError();
     }
 &nbsp;
     return (
@@ -280,7 +280,7 @@ export class ConditionalCallStrategy implements IApiCallStrategy {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

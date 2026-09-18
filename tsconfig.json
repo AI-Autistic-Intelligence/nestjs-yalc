@@ -6,6 +6,7 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "strictPropertyInitialization": false,
@@ -34,16 +35,16 @@
       "@nest-yalc-2/field-middleware/*": ["./field-middleware/src/*"],
       "@nest-yalc-2/graphql": ["./graphql/src"],
       "@nest-yalc-2/graphql/*": ["./graphql/src/*"],
-      "@nest-yalc-2/interfaces": ["./interfaces/src"],
-      "@nest-yalc-2/interfaces/*": ["./interfaces/src/*"],
-      "@nest-yalc-2/logger": ["./logger/src"],
-      "@nest-yalc-2/logger/*": ["./logger/src/*"],
-      "@nest-yalc-2/utils": ["./utils/src"],
-      "@nest-yalc-2/utils/*": ["./utils/src/*"],
+      "@node-yalc/interfaces": ["./node-yalc/interfaces/src"],
+      "@node-yalc/interfaces/*": ["./node-yalc/interfaces/src/*"],
+      "@nest-yalc-2/logger": ["./logger/src"], "@node-yalc/logger": ["./node-yalc/logger/src"],
+      "@nest-yalc-2/logger/*": ["./logger/src/*"], "@node-yalc/logger/*": ["./node-yalc/logger/src/*"],
+      "@nest-yalc-2/utils": ["./utils/src"], "@node-yalc/utils": ["./node-yalc/utils/src"],
+      "@nest-yalc-2/utils/*": ["./utils/src/*"], "@node-yalc/utils/*": ["./node-yalc/utils/src/*"],
       "@nest-yalc-2/jest": ["./jest/src"],
       "@nest-yalc-2/jest/*": ["./jest/src/*"],
-      "@nest-yalc-2/types": ["./types/src"],
-      "@nest-yalc-2/types/*": ["./types/src/*"],
+      "@node-yalc/types": ["./node-yalc/types/src"],
+      "@node-yalc/types/*": ["./node-yalc/types/src/*"],
       "@nest-yalc-2/kafka": ["./kafka/src"],
       "@nest-yalc-2/kafka/*": ["./kafka/src/*"],
       "@nest-yalc-2/event-manager": ["./event-manager/src"],
@@ -60,12 +61,12 @@
       "@nest-yalc-2/crud-gen/*": ["./crud-gen/src/*"],
       "@nest-yalc-2/errors": ["./errors/src"],
       "@nest-yalc-2/errors/*": ["./errors/src/*"],
-      "@nest-yalc-2/types-extends": ["./types-extends/src"],
-      "@nest-yalc-2/types-extends/*": ["./types-extends/src/*"],
+      "@node-yalc/types-extends": ["./node-yalc/types-extends/src"],
+      "@node-yalc/types-extends/*": ["./node-yalc/types-extends/src/*"],
       "@nest-yalc-2/sentinel": ["./sentinel/src"],
       "@nest-yalc-2/sentinel/*": ["./sentinel/src/*"],
-      "@ferrox/node": ["./ferrox-node/src"],
-      "@ferrox/node/*": ["./ferrox-node/src/*"],
+      
+      
       "ferrox-saas-backend": ["./apps/ferrox-saas-backend/src"],
       "ferrox-saas-backend/*": ["./apps/ferrox-saas-backend/src/*"],
       "@nest-yalc-2/omnikernel-module": ["./examples/omnikernel/module/src"],
@@ -90,3 +91,5 @@
     "files": true
   }
 }
+
+

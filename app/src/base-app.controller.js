@@ -1,15 +1,7 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseAppController = void 0;
+const tslib_1 = require("tslib");
 const def_const_js_1 = require("@nest-yalc-2/app/def.const.js");
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
@@ -33,24 +25,23 @@ let BaseAppController = class BaseAppController {
     }
 };
 exports.BaseAppController = BaseAppController;
-__decorate([
+tslib_1.__decorate([
     (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", String)
 ], BaseAppController.prototype, "getHello", null);
-__decorate([
+tslib_1.__decorate([
     (0, swagger_1.ApiOperation)({
         description: 'Shutdown the application, only available on development and test environment',
     }),
     (0, common_1.Get)('shutdown'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", void 0)
 ], BaseAppController.prototype, "shutdown", null);
-exports.BaseAppController = BaseAppController = __decorate([
+exports.BaseAppController = BaseAppController = tslib_1.__decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [base_app_service_js_1.BaseAppService,
-        config_1.ConfigService])
+    tslib_1.__metadata("design:paramtypes", [base_app_service_js_1.BaseAppService, config_1.ConfigService])
 ], BaseAppController);
 //# sourceMappingURL=base-app.controller.js.map

@@ -136,7 +136,7 @@ export class GQLDataLoader<Entity extends Record<string, any> = any> {
       findManyOptions: CrudGenFindManyOptions<Entity>,
     ) => Promise<FindAndCountResult<Entity>>,
     searchKey: keyof Entity,
-    @Optional() private readonly eventEmitter?: EventEmitter2,
+    private readonly eventEmitter?: EventEmitter2,
     options?: _DataLoader.Options<string, Entity[], string>,
   ) {
     this.batchFn = async (findManyOptions: CrudGenFindManyOptions<Entity>) => {

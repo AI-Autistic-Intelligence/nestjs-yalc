@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.78% </span>
+                <span class="strong">90.69% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/82</span>
+                <span class='fraction'>39/43</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.01% </span>
+                <span class="strong">92.59% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>50/102</span>
+                <span class='fraction'>50/54</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.82% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/23</span>
+                <span class='fraction'>11/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -582,8 +582,8 @@ import { OmniExternalRefInternalType } from './omni-external-ref-internal-type.e
 import { OmniScopedService } from './omni-scoped.service.js';
 import type { OmniDeletePolicy, OmniScope } from './omni-scope.js';
 &nbsp;
-function <span class="fstat-no" title="function not covered" >hasOwn(i</span>nput: object, key: string): boolean {
-<span class="cstat-no" title="statement not covered" >  return Object.prototype.hasOwnProperty.call(input, key);</span>
+function hasOwn(input: object, key: string): boolean {
+  return Object.prototype.hasOwnProperty.call(input, key);
 }
 &nbsp;
 export interface OmniExternalRefLookup {
@@ -613,21 +613,21 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
     deletion: OmniDeletePolicy,
     private readonly bindingValidator: OmniExternalRefBindingValidator,
   ) {
-<span class="cstat-no" title="statement not covered" >    if (!bindingValidator) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
+    if (!bindingValidator) {
+      throw new TypeError(
         'OmniExternalRefService requires an OmniExternalRefBindingValidator.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    super(repository, scopeOrRepositoryWrite, deletion);</span>
+    super(repository, scopeOrRepositoryWrite, deletion);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async f</span>indByExternalIdentity({
+  async findByExternalIdentity({
     provider,
     externalId,
     account = null,
     container = null,
   }: OmniExternalRefLookup): Promise&lt;OmniExternalRefEntity | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.getRepository().findOne({</span>
+    return this.getRepository().findOne({
       where: {
         scopeId: this.scopeId,
         provider,
@@ -638,12 +638,12 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async f</span>indForInternalRecord(
+  async findForInternalRecord(
     internalType: OmniExternalRefInternalType,
     internalId: string,
     provider?: string,
   ): Promise&lt;OmniExternalRefEntity[]&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.getRepository().find({</span>
+    return this.getRepository().find({
       where: {
         scopeId: this.scopeId,
         internalType,
@@ -656,30 +656,30 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async u</span>psertExternalRef(
+  async upsertExternalRef(
     input: OmniExternalRefUpsertInput,
   ): Promise&lt;OmniExternalRefEntity&gt; {
-<span class="cstat-no" title="statement not covered" >    if (input.provider.trim().length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('OmniExternalRef.provider is required');</span>
+    if (input.provider.trim().length === 0) {
+      throw new Error('OmniExternalRef.provider is required');
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (input.externalId.trim().length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('OmniExternalRef.externalId is required');</span>
+    if (input.externalId.trim().length === 0) {
+      throw new Error('OmniExternalRef.externalId is required');
     }
 &nbsp;
-    const existing = <span class="cstat-no" title="statement not covered" >await this.findByExternalIdentity({</span>
+    const existing = await this.findByExternalIdentity({
       provider: input.provider,
       externalId: input.externalId,
       account: input.account ?? null,
       container: input.container ?? null,
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (existing) {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+    if (existing) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (
         existing.internalType !== input.internalType ||
         existing.internalId !== input.internalId
       ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        throw new ConflictException(</span></span>
+<span class="cstat-no" title="statement not covered" >        throw new ConflictException(</span>
           'External reference binding is immutable after creation.',
         );
       }
@@ -687,34 +687,34 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
         internalType: _internalType,
         internalId: _internalId,
         ...update
-      } = <span class="cstat-no" title="statement not covered" >this.normalizeExternalIdentity(input);</span>
-<span class="cstat-no" title="statement not covered" >      return this.updateEntity(</span>
+      } = this.normalizeExternalIdentity(input);
+      return this.updateEntity(
         { guid: existing.guid },
         update,
       ) as Promise&lt;OmniExternalRefEntity&gt;;
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.createEntity(</span>
+    return this.createEntity(
       this.normalizeExternalIdentity(input),
     ) as Promise&lt;OmniExternalRefEntity&gt;;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async s</span>yncDocumentReference(
+  async syncDocumentReference(
     internalId: string,
     input: OmniExternalRefSyncInput,
   ): Promise&lt;OmniExternalRefEntity&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.upsertExternalRef({</span>
+    return this.upsertExternalRef({
       ...input,
       internalType: OmniExternalRefInternalType.Document,
       internalId,
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >  async </span>s</span>yncCollectionReference(
+<span class="fstat-no" title="function not covered" >  async </span>syncCollectionReference(
     internalId: string,
     input: OmniExternalRefSyncInput,
   ): Promise&lt;OmniExternalRefEntity&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return this.upsertExternalRef({</span></span>
+<span class="cstat-no" title="statement not covered" >    return this.upsertExternalRef({</span>
       ...input,
       internalType: OmniExternalRefInternalType.Collection,
       internalId,
@@ -731,31 +731,31 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
     findOptions?: CrudGenFindManyOptions&lt;OmniExternalRefEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniExternalRefEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async c</span>reateEntity(
+  override async createEntity(
     input: DeepPartial&lt;OmniExternalRefEntity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;OmniExternalRefEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniExternalRefEntity | boolean&gt; {
-    const normalized = <span class="cstat-no" title="statement not covered" >this.normalizeExternalIdentity(input);</span>
-<span class="cstat-no" title="statement not covered" >    this.rejectServerFields(normalized as object);</span>
-<span class="cstat-no" title="statement not covered" >    await this.assertBinding(normalized);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="else path not taken" >E</span>if (</span>
+    const normalized = this.normalizeExternalIdentity(input);
+    this.rejectServerFields(normalized as object);
+    await this.assertBinding(normalized);
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (
       typeof normalized.provider === 'string' &amp;&amp;
       typeof normalized.externalId === 'string'
     ) {
-      const existing = <span class="cstat-no" title="statement not covered" >await this.findByExternalIdentity({</span>
+      const existing = await this.findByExternalIdentity({
         provider: normalized.provider,
         externalId: normalized.externalId,
         account: normalized.account ?? null,
         container: normalized.container ?? null,
       });
-<span class="cstat-no" title="statement not covered" >      if (existing) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new ConflictException(</span>
+      if (existing) {
+        throw new ConflictException(
           'External reference identity already exists in this scope.',
         );
       }
     }
-<span class="cstat-no" title="statement not covered" >    return super.createEntity(normalized, findOptions, returnEntity);</span>
+    return super.createEntity(normalized, findOptions, returnEntity);
   }
 &nbsp;
   override async updateEntity(
@@ -770,15 +770,15 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
     findOptions?: CrudGenFindManyOptions&lt;OmniExternalRefEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniExternalRefEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async u</span>pdateEntity(
+  override async updateEntity(
     conditions: FindOptionsWhere&lt;OmniExternalRefEntity&gt;,
     input: DeepPartial&lt;OmniExternalRefEntity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;OmniExternalRefEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniExternalRefEntity | boolean&gt; {
-    const normalized = <span class="cstat-no" title="statement not covered" >this.normalizeExternalIdentity(input);</span>
-<span class="cstat-no" title="statement not covered" >    this.rejectBindingMutation(normalized as object);</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return super.updateEntity(</span></span>
+    const normalized = this.normalizeExternalIdentity(input);
+    this.rejectBindingMutation(normalized as object);
+<span class="cstat-no" title="statement not covered" >    return super.updateEntity(</span>
       conditions,
       normalized,
       findOptions,
@@ -786,38 +786,38 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async a</span>ssertBinding(
+  private async assertBinding(
     input: DeepPartial&lt;OmniExternalRefEntity&gt;,
   ): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (
       typeof input.internalId !== 'string' ||
       input.internalType === undefined
     ) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new ConflictException(</span></span>
+<span class="cstat-no" title="statement not covered" >      throw new ConflictException(</span>
         'External reference binding requires internalType and internalId.',
       );
     }
-<span class="cstat-no" title="statement not covered" >    if (input.internalType !== OmniExternalRefInternalType.Record) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+    if (input.internalType !== OmniExternalRefInternalType.Record) {
+      return;
     }
-<span class="cstat-no" title="statement not covered" >    await this.bindingValidator.assertTarget({</span>
+    await this.bindingValidator.assertTarget({
       internalId: input.internalId,
       internalType: input.internalType,
     });
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >rejectBindingMutation(i</span>nput: object): void {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="else path not taken" >E</span>if (hasOwn(input, 'internalType') || hasOwn(input, 'internalId')) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new ConflictException(</span>
+  private rejectBindingMutation(input: object): void {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (hasOwn(input, 'internalType') || hasOwn(input, 'internalId')) {
+      throw new ConflictException(
         'External reference binding is immutable after creation.',
       );
     }
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >normalizeExternalIdentity&lt;</span>
+  private normalizeExternalIdentity&lt;
     T extends DeepPartial&lt;OmniExternalRefEntity&gt;,
   &gt;(input: T): T {
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       ...input,
       ...(Object.prototype.hasOwnProperty.call(input, 'account')
         ? { account: input.account ?? '' }
@@ -835,7 +835,7 @@ export class OmniExternalRefService extends OmniScopedService&lt;OmniExternalRef
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

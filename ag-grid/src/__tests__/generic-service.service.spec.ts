@@ -145,9 +145,11 @@ describe('GenericService', () => {
 
   it('Check getEntity', async () => {
     const spiedGetEntity = jest.spyOn(service, 'getEntity');
-    await service.getEntity('', undefined, undefined, undefined, {
+    baseEntityRepository.findOne.mockResolvedValueOnce(null as any);
+    const entity = await service.getEntity('', undefined, undefined, undefined, {
       failOnNull: false,
     });
+    expect(entity).toBeUndefined();
     expect(baseEntityRepository.findOne).toHaveBeenCalledTimes(1);
     spiedGetEntity.mockClear();
   });

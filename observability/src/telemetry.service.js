@@ -1,19 +1,8 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TelemetryService = void 0;
 exports.toTelemetryAttributes = toTelemetryAttributes;
+const tslib_1 = require("tslib");
 const common_1 = require("@nestjs/common");
 const api_1 = require("@opentelemetry/api");
 const api_logs_1 = require("@opentelemetry/api-logs");
@@ -165,10 +154,10 @@ let TelemetryService = class TelemetryService {
     }
 };
 exports.TelemetryService = TelemetryService;
-exports.TelemetryService = TelemetryService = __decorate([
+exports.TelemetryService = TelemetryService = tslib_1.__decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(tokens_js_1.OBSERVABILITY_OPTIONS)),
-    __metadata("design:paramtypes", [Object])
+    tslib_1.__param(0, (0, common_1.Inject)(tokens_js_1.OBSERVABILITY_OPTIONS)),
+    tslib_1.__metadata("design:paramtypes", [Object])
 ], TelemetryService);
 function toTelemetryAttributes(attributes = {}) {
     return Object.fromEntries(Object.entries(attributes)
@@ -189,7 +178,7 @@ function toTelemetryAttributeValue(value) {
 function safeJsonStringify(value, maxSize) {
     let output;
     try {
-        output = JSON.stringify(value);
+        output = JSON.stringify(value) ?? String(value);
     }
     catch {
         output = String(value);

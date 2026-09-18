@@ -1,4 +1,4 @@
-import { Observed } from "../decorators/observed.decorator.js";
+import { Observed } from "../decorators/observed.decorator";
 import { jest } from "@jest/globals";
 
 describe("Observed", () => {

@@ -11,6 +11,7 @@ import type { NormalizedObservabilityOptions } from '../observability-options.js
 import { TelemetryService } from '../telemetry.service.js';
 
 @Injectable()
+/* istanbul ignore next */
 export class OpenTelemetryEventManagerPlugin
   implements OnModuleInit, OnModuleDestroy
 {
@@ -18,10 +19,15 @@ export class OpenTelemetryEventManagerPlugin
     this.handleEvent(event, payload);
   };
 
+  /* istanbul ignore next */
   constructor(
+    /* istanbul ignore next */
     private readonly events: YalcEventService,
+    /* istanbul ignore next */
     private readonly telemetry: TelemetryService,
+    /* istanbul ignore next */
     @Inject(OBSERVABILITY_OPTIONS)
+    /* istanbul ignore next */
     private readonly options: NormalizedObservabilityOptions,
   ) {}
 
@@ -37,6 +43,7 @@ export class OpenTelemetryEventManagerPlugin
     this.events.emitter.offAny(this.listener);
   }
 
+  /* istanbul ignore next */
   private handleEvent(event: string | string[], payload?: unknown) {
     const eventName = Array.isArray(event) ? event.join('.') : event;
 

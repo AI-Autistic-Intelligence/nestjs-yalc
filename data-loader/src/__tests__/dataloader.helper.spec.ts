@@ -55,6 +55,24 @@ describe('GQLDataLoader class', () => {
     expect(dataLoader).toBeDefined();
   });
 
+  it('should be defined with options', () => {
+    const dl = new GQLDataLoader(
+      () => mockLoadFn(mockedFindManyOptions, false),
+      'databaseKey',
+      mockedEventEmitter,
+      {}
+    );
+    expect(dl).toBeDefined();
+
+    const dl2 = Reflect.construct(GQLDataLoader, [
+      () => mockLoadFn(mockedFindManyOptions, false),
+      'databaseKey',
+      mockedEventEmitter,
+      undefined
+    ]);
+    expect(dl2).toBeDefined();
+  });
+
   it('should getCount', () => {
     expect(dataLoader.getCount()).toBe(0);
   });

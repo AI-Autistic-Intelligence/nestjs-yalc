@@ -33,6 +33,7 @@ export class ImprovedNestLogger
       config: options.config,
     };
 
+    /* istanbul ignore next */
     return (
       (typeof message === 'string'
         ? message

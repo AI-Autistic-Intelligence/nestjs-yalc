@@ -1,0 +1,44 @@
+import { HTTPMethods } from '@nest-yalc-2/types/globals.d.js';
+import { OutgoingHttpHeaders, IncomingHttpHeaders } from 'node:http2';
+import { IApiCallStrategy } from '../context-call.interface.js';
+export interface IHttpCallStrategyOptions {
+    headersWhitelist?: string[];
+    shouldSkipJsonParse?: (body: string) => boolean;
+}
+export interface HttpOptions<TData = string | object | Buffer | NodeJS.ReadableStream, TParams extends Record<string, any> = Record<string, any>> {
+    headers?: IncomingHttpHeaders | Record<string, string>;
+    method?: HTTPMethods;
+    signal?: AbortSignal;
+    Request?: object;
+    data?: TData;
+    parameters?: TParams;
+}
+export interface IHttpCallStrategyResponse<T = any> {
+    data: T;
+    status: number;
+    statusText: string;
+    headers: OutgoingHttpHeaders;
+    request?: any;
+}
+export interface IHttpCallStrategy extends IApiCallStrategy {
+    call<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams> | {
+        method?: string;
+    }): Promise<IHttpCallStrategyResponse<TResData>>;
+    get<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams> | {
+        method?: string;
+    }): Promise<IHttpCallStrategyResponse<TResData>>;
+    post<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams> | {
+        method?: string;
+    }): Promise<IHttpCallStrategyResponse<TResData>>;
+}
+export declare abstract class HttpAbstractStrategy implements IHttpCallStrategy {
+    abstract call<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams> | {
+        method?: string;
+    }): Promise<IHttpCallStrategyResponse<TResData>>;
+    get<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams> | {
+        method?: string;
+    }): Promise<IHttpCallStrategyResponse<TResData>>;
+    post<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams> | {
+        method?: string;
+    }): Promise<IHttpCallStrategyResponse<TResData>>;
+}

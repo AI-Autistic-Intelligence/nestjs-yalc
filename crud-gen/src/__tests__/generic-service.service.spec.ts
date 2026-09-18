@@ -105,7 +105,7 @@ describe('GenericService', () => {
     expect(service.getRepositoryWrite() === writeRepo).toBeTruthy();
   });
 
-  it.skip('should call the factory function properly', () => {
+  it('should call the factory function properly', () => {
     const TrackedGenericService = createTrackedService();
 
     const result: FactoryProvider = GenericServiceFactory<BaseEntity>(
@@ -114,12 +114,13 @@ describe('GenericService', () => {
       TrackedGenericService as any,
     );
     expect(result).toBeDefined();
-    expect(result.useFactory()).toBeInstanceOf(TrackedGenericService);
+    const mockRepo = { target: { name: 'mocked' } };
+    expect(result.useFactory(mockRepo as any, mockRepo as any)).toBeInstanceOf(TrackedGenericService);
 
     expect(TrackedGenericService.ctor).toHaveBeenCalledTimes(1);
   });
 
-  it.skip('should call the factory function properly with parameters', () => {
+  it('should call the factory function properly with parameters', () => {
     const TrackedGenericService = createTrackedService();
 
     const result: FactoryProvider = GenericServiceFactory<BaseEntity>(
@@ -130,12 +131,13 @@ describe('GenericService', () => {
       'fakeWriteConnection',
     );
     expect(result).toBeDefined();
-    expect(result.useFactory()).toBeInstanceOf(TrackedGenericService);
+    const mockRepo = { target: { name: 'mocked' } };
+    expect(result.useFactory(mockRepo as any, mockRepo as any)).toBeInstanceOf(TrackedGenericService);
 
     expect(TrackedGenericService.ctor).toHaveBeenCalledTimes(1);
   });
 
-  it.skip('Check GenericServiceFactory provide object to work properly ', () => {
+  it('Check GenericServiceFactory provide object to work properly ', () => {
     const TrackedGenericService = createTrackedService();
 
     const result: FactoryProvider = GenericServiceFactory<BaseEntity>(
@@ -145,8 +147,9 @@ describe('GenericService', () => {
     );
 
     expect(result).toBeDefined();
-    expect(result.provide).toEqual('BaseEntityGenericService');
-    expect(result.useFactory()).toBeInstanceOf(TrackedGenericService);
+    expect(result.provide).toBe(TrackedGenericService);
+    const mockRepo = { target: { name: 'mocked' } };
+    expect(result.useFactory(mockRepo as any, mockRepo as any)).toBeInstanceOf(TrackedGenericService);
     expect(TrackedGenericService.ctor).toHaveBeenCalledTimes(1);
   });
 
@@ -180,11 +183,12 @@ describe('GenericService', () => {
     spiedGetEntity.mockClear();
   });
 
-  it.skip('Check getEntity with relations', async () => {
+  it('Check getEntity with relations', async () => {
     const spiedGetEntity = jest.spyOn(service, 'getEntity');
     expect(spiedGetEntity).not.toHaveBeenCalled();
     await service.getEntity({}, [], ['RelatedEntity']);
     expect(baseEntityRepository.findOne).toHaveBeenCalledWith({
+      comment: 'Generic service getEntity',
       where: {},
       select: [],
       relations: ['RelatedEntity'],
@@ -192,7 +196,7 @@ describe('GenericService', () => {
     spiedGetEntity.mockClear();
   });
 
-  it.skip('Check getEntity with specific Database', async () => {
+  it('Check getEntity with specific Database', async () => {
     const testRepository = createMock<Repository<BaseEntity>>();
     const mockedConnection = createMock<Connection>();
     mockedConnection.getRepository.mockReturnValue(testRepository);
@@ -253,22 +257,23 @@ describe('GenericService', () => {
     spiedGetEntityList.mockClear();
   });
 
-  it.skip('Check getEntityList with relations', async () => {
+  it('Check getEntityList with relations', async () => {
     const mockedList: BaseEntity[] = [new BaseEntity()];
     const spiedGetEntityList = jest.spyOn(service, 'getEntityList');
     baseEntityRepository.find.mockResolvedValue(mockedList);
     expect(spiedGetEntityList).not.toHaveBeenCalled();
-    const entityList = await service.getEntityList({}, false, [
-      'RelatedEntity',
-    ]);
+    const entityList = await service.getEntityList({ relations: ['RelatedEntity'] }, false);
     expect(baseEntityRepository.find).toHaveBeenCalledWith({
       relations: ['RelatedEntity'],
+      order: undefined,
+      skip: 0,
+      take: 200,
     });
     expect(entityList).toBe(mockedList);
     spiedGetEntityList.mockClear();
   });
 
-  it.skip('Check getEntityList with specific Database', async () => {
+  it('Check getEntityList with specific Database', async () => {
     const testRepository = createMock<CGExtendedRepository<BaseEntity>>();
     const mockedConnection = createMock<Connection>();
     mockedConnection.getRepository.mockReturnValue(testRepository);
@@ -283,7 +288,6 @@ describe('GenericService', () => {
     const entityList = await service.getEntityList(
       {},
       false,
-      [],
       'databaseName',
     );
 
@@ -491,7 +495,7 @@ describe('GenericService', () => {
     );
   });
 
-  it.skip('should not handle a differnt kind of error', async () => {
+  it('should not handle a differnt kind of error', async () => {
     jest.spyOn(service, 'validateConditions').mockImplementation(jest.fn());
     baseEntityRepository.delete.mockRejectedValueOnce(
       new ConnectionNotFoundError('Another Error'),
@@ -866,7 +870,7 @@ describe('GenericService', () => {
     expect(callArgs.take).toBe(1);
   });
 
-  it.skip('test getEntityListCrudGen with specific Database', async () => {
+  it('test getEntityListCrudGen with specific Database', async () => {
     const testRepository = createMock<CGExtendedRepository<BaseEntity>>();
     const mockedConnection = createMock<Connection>();
     mockedConnection.getRepository.mockReturnValue(testRepository);

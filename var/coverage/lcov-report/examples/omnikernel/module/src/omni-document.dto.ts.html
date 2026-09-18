@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.01% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>44/53</span>
+                <span class='fraction'>44/48</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">72.22% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>13/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
@@ -495,10 +495,10 @@ import { OmniRelationType } from './omni-relation.dto.js';
 @ObjectType()
 @ModelObject()
 export class OmniDocumentType extends OmniDocumentEntity {
-  constructor(data?: Partial&lt;OmniDocumentType&gt;) {
-<span class="cstat-no" title="statement not covered" >    super();</span>
-<span class="cstat-no" title="statement not covered" >    if (data) {</span>
-<span class="cstat-no" title="statement not covered" >      assignOmniPublicDto(this, data);</span>
+  constructor(data?: <span class="branch-1 cbranch-no" title="branch not covered" >Partial<span class="branch-0 cbranch-no" title="branch not covered" >&lt;</span>OmniDocumentType&gt;)</span> {
+    super();
+    if (data) {
+      assignOmniPublicDto(this, data);
     }
   }
 &nbsp;
@@ -535,11 +535,11 @@ export class OmniDocumentType extends OmniDocumentEntity {
 &nbsp;
   @ModelField({ gqlType: returnValue(OmniDocumentKind) })
   @IsEnum(OmniDocumentKind)
-  kind!: OmniDocumentKind;
+  kind!: OmniDocumentKind<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
 &nbsp;
   @ModelField({ gqlType: returnValue(OmniRecordStatus) })
   @IsEnum(OmniRecordStatus)
-  status!: OmniRecordStatus;
+  status!: OmniRecordStatus<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
 &nbsp;
   @ModelField({
     gqlType: returnValue(GraphQLJSONObject),
@@ -567,32 +567,32 @@ export class OmniDocumentType extends OmniDocumentEntity {
   payloadSchemaVersion?: number | null;
 &nbsp;
   @ModelField({
-    gqlType: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >[</span>OmniRelationType],</span>
+    gqlType: <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >[OmniRelationType],</span>
     gqlOptions: { nullable: true },
     relation: {
       relationType: 'one-to-many',
       sourceKey: { dst: 'guid', alias: 'guid' },
       targetKey: { dst: 'sourceRecordId', alias: 'sourceRecordId' },
-      type: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >O</span>mniRelationEntity,</span></span>
+      type: <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >OmniRelationEntity,</span>
     },
   })
   outgoingRelations?: Relation&lt;OmniRelationType[]&gt;;
 &nbsp;
   @ModelField({
-    gqlType: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >[</span>OmniRelationType],</span>
+    gqlType: <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >[OmniRelationType],</span>
     gqlOptions: { nullable: true },
     relation: {
       relationType: 'one-to-many',
       sourceKey: { dst: 'guid', alias: 'guid' },
       targetKey: { dst: 'targetRecordId', alias: 'targetRecordId' },
-      type: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >O</span>mniRelationEntity,</span></span>
+      type: <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >OmniRelationEntity,</span>
     },
   })
   incomingRelations?: Relation&lt;OmniRelationType[]&gt;;
 &nbsp;
   @ModelField({ gqlType: returnValue(OmniDocumentKind) })
   @IsEnum(OmniDocumentKind)
-  documentKind!: OmniDocumentKind;
+  documentKind!: OmniDocumentKind<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
 &nbsp;
   @ModelField({
     gqlType: returnValue(String),
@@ -664,7 +664,7 @@ export class OmniDocumentUpdateInput extends PartialType(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

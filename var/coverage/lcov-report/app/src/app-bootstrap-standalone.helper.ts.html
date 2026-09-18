@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.24% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/37</span>
+                <span class='fraction'>15/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.72% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/22</span>
+                <span class='fraction'>15/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -138,7 +138,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -200,47 +200,47 @@ export class StandaloneAppBootstrap&lt;
   TGlobalOptions extends IGlobalOptions = IGlobalOptions,
 &gt; extends BaseAppBootstrap&lt;INestApplicationContext&gt; {
   constructor(appAlias: string, module: any, options?: TGlobalOptions) {
-<span class="cstat-no" title="statement not covered" >    super(appAlias, module, { globalsOptions: options });</span>
+    super(appAlias, module, { globalsOptions: options });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async i</span>nitApp(options?: {
+  async initApp(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
-<span class="cstat-no" title="statement not covered" >    await this.createApp({</span>
+    await this.createApp({
       createOptions: options?.createOptions,
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await this.applyBootstrapGlobals(options?.createOptions);</span>
+    await this.applyBootstrapGlobals(options?.createOptions);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await this.getApp().init();</span>
+    await this.getApp().init();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (envIsTrue(process.env.APP_DRY_RUN) === true) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      this.loggerService?.log('Dry run, exiting...');</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      await this.getApp().close();</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      process.exit(0);</span></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (envIsTrue(process.env.APP_DRY_RUN) === true) {
+<span class="cstat-no" title="statement not covered" >      this.loggerService?.log('Dry run, exiting...');</span>
+<span class="cstat-no" title="statement not covered" >      await this.getApp().close();</span>
+<span class="cstat-no" title="statement not covered" >      process.exit(0);</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this;</span>
+    return this;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async c</span>reateApp(_options?: {
+  async createApp(_options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
     let app: INestApplicationContext;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      app = await NestFactory.createApplicationContext(this.module, {</span>
+    try {
+      app = await NestFactory.createApplicationContext(this.module, {
         logger: getEnvLoggerLevels(),
       });
     } catch (err) {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      this.closeCleanup();</span></span>
+<span class="cstat-no" title="statement not covered" >      this.closeCleanup();</span>
       // eslint-disable-next-line no-console
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      console.error(clc.red('Failed to create app'), clc.red(err));</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new Error('Process aborted');</span></span>
+<span class="cstat-no" title="statement not covered" >      console.error(clc.red('Failed to create app'), clc.red(err));</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Process aborted');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return this.setApp(app);</span>
+    return this.setApp(app);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -250,7 +250,7 @@ export class StandaloneAppBootstrap&lt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:39:56.964Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

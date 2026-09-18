@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.96% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/27</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -106,11 +106,15 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -155,13 +159,15 @@ import * as common from '@nestjs/common';
 import { EntityNotFoundError, ConnectionNotFoundError } from 'typeorm';
 import { ExceptionContextEnum } from '../error.enum.js';
 &nbsp;
+import type { LoggerService } from '@nestjs/common';
+&nbsp;
 @common.Catch(EntityNotFoundError, ConnectionNotFoundError)
 export class DatabaseExceptionFilter implements GqlExceptionFilter {
-<span class="fstat-no" title="function not covered" >  constructor(p</span>rivate <span class="cstat-no" title="statement not covered" >logger: common.L</span>oggerService) {}
+  constructor(private logger: LoggerService) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  catch(e</span>rror: Error, host: common.ArgumentsHost) {
-    const gqlHost = <span class="cstat-no" title="statement not covered" >GqlArgumentsHost.create(host);</span>
-<span class="cstat-no" title="statement not covered" >    gqlHost.getType();</span>
+  catch(error: Error, host: common.ArgumentsHost) {
+    const gqlHost = GqlArgumentsHost.create(host);
+    gqlHost.getType();
 &nbsp;
     // Normally transactions are for performance monitoring,
     // Op and Name reflect which operation and function we are running
@@ -172,24 +178,24 @@ export class DatabaseExceptionFilter implements GqlExceptionFilter {
     // });
 &nbsp;
     // TODO: Validate when monitoring is in place if we need an eventEmitter here instead of log
-<span class="cstat-no" title="statement not covered" >    switch (true) {</span>
+    switch (true) {
       // Re-throw a new 500 HTTP-friendly error
       // Add more TypeORM errors here, because there's no base Error class
       // @url: https://github.com/typeorm/typeorm/issues/3479
       case error instanceof EntityNotFoundError:
-<span class="cstat-no" title="statement not covered" >        this.logger.error(error, ExceptionContextEnum.DATABASE);</span>
-<span class="cstat-no" title="statement not covered" >        error = new common.InternalServerErrorException(error);</span>
+        this.logger.error(error, ExceptionContextEnum.DATABASE);
+        error = new common.InternalServerErrorException(error);
         // Sentry.captureException(error);
-<span class="cstat-no" title="statement not covered" >        break;</span>
+        break;
       // Log critically any other error, because those are not expected normally
       default:
-<span class="cstat-no" title="statement not covered" >        this.logger.error(error, error.stack, ExceptionContextEnum.DATABASE);</span>
+        this.logger.error(error, error.stack, ExceptionContextEnum.DATABASE);
         // Sentry.captureException(error);
-<span class="cstat-no" title="statement not covered" >        break;</span>
+        break;
     }
     // transaction.finish();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return error;</span>
+    return error;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -199,7 +205,7 @@ export class DatabaseExceptionFilter implements GqlExceptionFilter {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

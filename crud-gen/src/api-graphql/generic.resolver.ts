@@ -228,13 +228,22 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
     let relType =
       (typeof resolverInfo.relation.type === 'function'
         ? resolverInfo.relation.type()
-        : resolverInfo.relation.type) ?? resolverInfo.agField?.gqlType?.();
-
+        : resolverInfo.relation.type) ?? resolverInfo.relation.target;
+    // this can happen when there are circular dependencies
+    if (typeof relType === 'string') {
+      relType = resolverInfo.relation.target;
+    }
     if (Array.isArray(relType)) {
       relType = relType[0];
     } else if (!relType) {
       throw new CrudGenError('relation type undefined');
     }
+    const agGraphType = resolverInfo.agField?.gqlType?.() ?? relType;
+
+    const isArrayGraphType =
+      Array.isArray(agGraphType) ||
+      (Array.isArray(resolverInfo.agField?.gqlType) &&
+        resolverInfo.agField?.gqlType.length > 0);
 
     if (
       resolverInfo.relation.relationType === 'one-to-many' ||

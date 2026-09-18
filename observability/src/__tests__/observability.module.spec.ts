@@ -1,4 +1,7 @@
-import { ObservabilityModule } from "../observability.module.js";
+import {
+  ObservabilityModule,
+  OpenTelemetryEventManagerPluginModule,
+} from "../observability.module";
 import { OBSERVABILITY_OPTIONS } from "../tokens.js";
 import { TelemetryService } from "../telemetry.service.js";
 import { jest } from "@jest/globals";
@@ -49,5 +52,16 @@ describe("ObservabilityModule", () => {
       otlpEndpoint: "http://collector:4318",
     });
     expect(factory).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("OpenTelemetryEventManagerPluginModule", () => {
+  it("registers observability module options", () => {
+    const module = OpenTelemetryEventManagerPluginModule.forRoot({
+      enabled: true,
+      serviceName: "event-plugin",
+    });
+
+    expect(module.module).toBe(ObservabilityModule);
   });
 });

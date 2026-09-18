@@ -1,5 +1,5 @@
 import { LogLevel } from '@nestjs/common';
-import { IEventOptions, type IErrorEventOptions, type IErrorEventOptionsRequired } from './event.js';
+import { type IEventOptions, type IErrorEventOptions, type IErrorEventOptionsRequired } from './event.js';
 import { type ImprovedLoggerService } from '@nest-yalc-2/logger';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EventNameFormatter } from './emitter.js';
@@ -12,11 +12,12 @@ export interface IEventServiceOptions<TFormatter extends EventNameFormatter = Ev
     formatter?: TFormatter;
 }
 export type IErrorBasedMethodOptions<TErrorOptions> = Omit<TErrorOptions, 'errorClass'>;
+export declare function injectTrace<T extends IEventOptions>(options?: T): T | undefined;
 export declare class YalcEventService<TFormatter extends EventNameFormatter = EventNameFormatter, TEventOptions extends IEventOptions<TFormatter> = IEventOptions<TFormatter>, TErrorOptions extends IErrorEventOptions<TFormatter> = IErrorEventOptions<TFormatter>> {
     protected readonly loggerService: ImprovedLoggerService;
     protected readonly eventEmitter: EventEmitter2;
-    protected options?: IEventServiceOptions<TFormatter> | undefined;
-    constructor(loggerService: ImprovedLoggerService, eventEmitter: EventEmitter2, options?: IEventServiceOptions<TFormatter> | undefined);
+    protected options?: any | undefined;
+    constructor(loggerService: ImprovedLoggerService, eventEmitter: EventEmitter2, options?: any | undefined);
     get logger(): ImprovedLoggerService;
     get emitter(): EventEmitter2;
     emit: (eventName: Parameters<TFormatter> | string, options?: TEventOptions) => any;
@@ -29,16 +30,16 @@ export declare class YalcEventService<TFormatter extends EventNameFormatter = Ev
         await: true;
     } ? Promise<(TOpts extends infer T ? T extends TOpts ? T extends {
         errorClass: infer T_1;
-    } ? T_1 extends boolean ? DefaultError : any : never : never : never) & {}> : (TOpts extends {
+    } ? T_1 extends boolean ? DefaultError : InstanceType<any> : never : never : never) & {}> : (TOpts extends {
         errorClass: infer T_1;
-    } ? T_1 extends boolean ? DefaultError : any : never) & {};
+    } ? T_1 extends boolean ? DefaultError : InstanceType<any> : never) & {};
     logAsync(eventName: Parameters<TFormatter> | string, options?: TEventOptions): Promise<any>;
     protected _errorAsync<TOpts extends IErrorEventOptions<TFormatter>>(eventName: Parameters<TFormatter> | string, options?: TOpts): Promise<TOpts extends {
         errorClass: false;
     } ? any : (TOpts extends {
         errorClass: infer T;
-    } ? T extends boolean ? DefaultError : any : never) & {}>;
-    error(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): any;
+    } ? T extends boolean ? DefaultError : InstanceType<any> : never) & {}>;
+    error(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): boolean | any[] | undefined;
     errorResult(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): Err<never, DefaultError>;
     errorFromFn<T>(eventName: Parameters<TFormatter> | string, cb: () => PromiseLike<T> | T, options?: IErrorBasedMethodOptions<TErrorOptions>): PromiseResult<T>;
     errorAsync(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): Promise<any>;
@@ -103,7 +104,7 @@ export declare class YalcEventService<TFormatter extends EventNameFormatter = Ev
     errorGatewayTimeout(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): any;
     errorGatewayTimeoutResult(eventName: Parameters<TFormatter> | string, options?: IErrorBasedMethodOptions<TErrorOptions>): Err<never, GatewayTimeoutError>;
     errorGatewayTimeoutFromFn<T>(eventName: Parameters<TFormatter> | string, cb: () => PromiseLike<T> | T, options?: IErrorBasedMethodOptions<TErrorOptions>): PromiseResult<T, GatewayTimeoutError>;
-    protected getLoggerLevelByOptions(options: IErrorEventOptions<TFormatter>): "error" | "log" | "warn" | import("@nest-yalc-2/logger").LogLevelEnum.LOG | import("@nest-yalc-2/logger").LogLevelEnum.ERROR;
+    protected getLoggerLevelByOptions(options: IErrorEventOptions<TFormatter>): "log" | "error" | "warn" | import("@nest-yalc-2/logger").LogLevelEnum.LOG | import("@nest-yalc-2/logger").LogLevelEnum.ERROR;
     protected applyLoggerLevel<TOpt extends IEventOptions<TFormatter> | IErrorEventOptions<TFormatter>>(options: TOpt, level: LogLevel): TOpt;
     protected applyLoggerLevelByStatus<TOpts extends IErrorEventOptions<TFormatter>>(options: TOpts, error: DefaultError): TOpts;
     protected applyLoggerLevelByError<TOpts extends IErrorEventOptions<TFormatter> | IEventOptions<TFormatter>>(options: TOpts): TOpts;

@@ -4,9 +4,11 @@ import * as common from '@nestjs/common';
 import { EntityNotFoundError, ConnectionNotFoundError } from 'typeorm';
 import { ExceptionContextEnum } from '../error.enum.js';
 
+import type { LoggerService } from '@nestjs/common';
+
 @common.Catch(EntityNotFoundError, ConnectionNotFoundError)
 export class DatabaseExceptionFilter implements GqlExceptionFilter {
-  constructor(private logger: common.LoggerService) {}
+  constructor(private logger: LoggerService) {}
 
   catch(error: Error, host: common.ArgumentsHost) {
     const gqlHost = GqlArgumentsHost.create(host);

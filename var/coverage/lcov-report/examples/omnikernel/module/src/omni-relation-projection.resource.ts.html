@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.48% </span>
+                <span class="strong">97.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>74/131</span>
+                <span class='fraction'>74/76</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38% </span>
+                <span class="strong">73.07% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/50</span>
+                <span class='fraction'>19/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.25% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/16</span>
+                <span class='fraction'>9/11</span>
             </div>
         
             
@@ -877,20 +877,20 @@ export interface OmniRelationProjectionRegistration&lt;Api extends ObjectLiteral
   dataLoaderToken: string;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >namedClass(</span>
+function namedClass(
   name: string,
   outputFields?: readonly (readonly [string, string])[],
 ): RelationGraphqlClass {
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     [name]: class {
       constructor(data?: Record&lt;string, unknown&gt;) {
-<span class="cstat-no" title="statement not covered" >        if (!outputFields) {</span>
-<span class="cstat-no" title="statement not covered" >          Object.assign(this, data);</span>
-<span class="cstat-no" title="statement not covered" >          return;</span>
+        if (!outputFields) {
+          Object.assign(this, data);
+          return;
         }
-<span class="cstat-no" title="statement not covered" >        for (const [publicName, destination] of outputFields) {</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="else path not taken" >E</span>if (data &amp;&amp; Object.prototype.hasOwnProperty.call(data, destination)) {</span>
-<span class="cstat-no" title="statement not covered" >            (this as Record&lt;string, unknown&gt;)[publicName] = data[destination];</span>
+        for (const [publicName, destination] of outputFields) {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (data &amp;&amp; Object.prototype.hasOwnProperty.call(data, destination)) {
+            (this as Record&lt;string, unknown&gt;)[publicName] = data[destination];
           }
         }
       }
@@ -898,25 +898,25 @@ function <span class="fstat-no" title="function not covered" >namedClass(</span>
   }[name] as RelationGraphqlClass;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >addField(</span>
+function addField(
   target: RelationGraphqlClass,
   name: string,
   destination: string,
   type: unknown,
   nullable: boolean,
 ): void {
-<span class="cstat-no" title="statement not covered" >  ModelField({</span>
+  ModelField({
     dst: destination,
     gqlType: returnValue(type),
     gqlOptions: { nullable },
   })(target.prototype, name);
-<span class="cstat-no" title="statement not covered" >  Expose()(target.prototype, name);</span>
+  Expose()(target.prototype, name);
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >defaultGraphqlNames(</span>
+function defaultGraphqlNames(
   apiModel: ClassType,
 ): OmniRelationProjectionGraphqlNames {
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     object: apiModel.name,
     create: `${apiModel.name}CreateInput`,
     patch: `${apiModel.name}UpdateInput`,
@@ -925,66 +925,66 @@ function <span class="fstat-no" title="function not covered" >defaultGraphqlName
 }
 &nbsp;
 /** Builds aliased public types while retaining native fields inside the store. */
-export function <span class="fstat-no" title="function not covered" >createOmniRelationProjectionGraphqlTypes(</span>
+export function createOmniRelationProjectionGraphqlTypes(
   definition: OmniRelationProjectionDefinition,
   names: OmniRelationProjectionGraphqlNames,
 ): OmniRelationProjectionGraphqlTypes {
-  const aliases = <span class="cstat-no" title="statement not covered" >getOmniRelationProjectionAliases(definition);</span>
+  const aliases = getOmniRelationProjectionAliases(definition);
   const multipleKinds =
-<span class="cstat-no" title="statement not covered" >    getOmniRelationProjectionAllowedKinds(definition).length &gt; 1;</span>
-  const objectFields: Array&lt;readonly [string, string]&gt; = <span class="cstat-no" title="statement not covered" >[</span>
+    getOmniRelationProjectionAllowedKinds(definition).length &gt; 1;
+  const objectFields: Array&lt;readonly [string, string]&gt; = [
     ['guid', 'guid'],
     [aliases.source, 'sourceRecordId'],
     [aliases.target, 'targetRecordId'],
     ['revision', 'revision'],
     [aliases.payload, 'payload'],
   ];
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (multipleKinds) <span class="cstat-no" title="statement not covered" >objectFields.splice(1, 0, [aliases.kind, 'kind']);</span></span>
-  const object = <span class="cstat-no" title="statement not covered" >namedClass(names.object, objectFields);</span>
-<span class="cstat-no" title="statement not covered" >  ObjectType(names.object)(object);</span>
-<span class="cstat-no" title="statement not covered" >  ModelObject({</span>
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (multipleKinds) objectFields.splice(1, 0, [aliases.kind, 'kind']);
+  const object = namedClass(names.object, objectFields);
+  ObjectType(names.object)(object);
+  ModelObject({
     filters: { type: FilterOptionType.INCLUDE, fields: ['guid'] },
   })(object);
-<span class="cstat-no" title="statement not covered" >  Exclude()(object);</span>
-<span class="cstat-no" title="statement not covered" >  addField(object, 'guid', 'guid', UUIDScalar, false);</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (multipleKinds) {</span>
-<span class="cstat-no" title="statement not covered" >    addField(object, aliases.kind, 'kind', String, false);</span>
+  Exclude()(object);
+  addField(object, 'guid', 'guid', UUIDScalar, false);
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (multipleKinds) {
+    addField(object, aliases.kind, 'kind', String, false);
   }
-<span class="cstat-no" title="statement not covered" >  addField(object, aliases.source, 'sourceRecordId', UUIDScalar, false);</span>
-<span class="cstat-no" title="statement not covered" >  addField(object, aliases.target, 'targetRecordId', UUIDScalar, false);</span>
-<span class="cstat-no" title="statement not covered" >  addField(object, 'revision', 'revision', Int, false);</span>
-<span class="cstat-no" title="statement not covered" >  addField(object, aliases.payload, 'payload', GraphQLJSON, true);</span>
+  addField(object, aliases.source, 'sourceRecordId', UUIDScalar, false);
+  addField(object, aliases.target, 'targetRecordId', UUIDScalar, false);
+  addField(object, 'revision', 'revision', Int, false);
+  addField(object, aliases.payload, 'payload', GraphQLJSON, true);
 &nbsp;
-  const create = <span class="cstat-no" title="statement not covered" >namedClass(names.create);</span>
-<span class="cstat-no" title="statement not covered" >  InputType(names.create)(create);</span>
-<span class="cstat-no" title="statement not covered" >  ModelObject()(create);</span>
-<span class="cstat-no" title="statement not covered" >  addField(create, 'guid', 'guid', UUIDScalar, false);</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="else path not taken" >E</span>if (multipleKinds) {</span>
-<span class="cstat-no" title="statement not covered" >    addField(create, aliases.kind, 'kind', String, false);</span>
+  const create = namedClass(names.create);
+  InputType(names.create)(create);
+  ModelObject()(create);
+  addField(create, 'guid', 'guid', UUIDScalar, false);
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (multipleKinds) {
+    addField(create, aliases.kind, 'kind', String, false);
   }
-<span class="cstat-no" title="statement not covered" >  addField(create, aliases.source, 'sourceRecordId', UUIDScalar, false);</span>
-<span class="cstat-no" title="statement not covered" >  addField(create, aliases.target, 'targetRecordId', UUIDScalar, false);</span>
-<span class="cstat-no" title="statement not covered" >  addField(create, aliases.payload, 'payload', GraphQLJSON, true);</span>
+  addField(create, aliases.source, 'sourceRecordId', UUIDScalar, false);
+  addField(create, aliases.target, 'targetRecordId', UUIDScalar, false);
+  addField(create, aliases.payload, 'payload', GraphQLJSON, true);
 &nbsp;
-  const patch = <span class="cstat-no" title="statement not covered" >namedClass(names.patch);</span>
-<span class="cstat-no" title="statement not covered" >  InputType(names.patch)(patch);</span>
-<span class="cstat-no" title="statement not covered" >  ModelObject()(patch);</span>
-<span class="cstat-no" title="statement not covered" >  addField(patch, aliases.payload, 'payload', GraphQLJSON, true);</span>
-<span class="cstat-no" title="statement not covered" >  addField(patch, 'expectedRevision', 'expectedRevision', Int, false);</span>
+  const patch = namedClass(names.patch);
+  InputType(names.patch)(patch);
+  ModelObject()(patch);
+  addField(patch, aliases.payload, 'payload', GraphQLJSON, true);
+  addField(patch, 'expectedRevision', 'expectedRevision', Int, false);
 &nbsp;
-  const conditions = <span class="cstat-no" title="statement not covered" >namedClass(names.conditions);</span>
-<span class="cstat-no" title="statement not covered" >  InputType(names.conditions)(conditions);</span>
-<span class="cstat-no" title="statement not covered" >  ModelObject()(conditions);</span>
-<span class="cstat-no" title="statement not covered" >  addField(conditions, 'guid', 'guid', UUIDScalar, false);</span>
+  const conditions = namedClass(names.conditions);
+  InputType(names.conditions)(conditions);
+  ModelObject()(conditions);
+  addField(conditions, 'guid', 'guid', UUIDScalar, false);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return { object, create, patch, conditions };</span>
+  return { object, create, patch, conditions };
 }
 &nbsp;
 /**
  * Composes one generated REST/GraphQL/dataloader surface over omni-relation.
  * It never creates a relation table or a handwritten transport adapter.
  */
-export function <span class="fstat-no" title="function not covered" >createOmniRelationProjectionRegistration&lt;</span>
+export function createOmniRelationProjectionRegistration&lt;
   Api extends ObjectLiteral,
 &gt;(
   options: OmniRelationProjectionRegistrationOptions&lt;Api&gt;,
@@ -993,9 +993,9 @@ export function <span class="fstat-no" title="function not covered" >createOmniR
     options.definition,
     options.graphql?.names ?? defaultGraphqlNames(options.apiModel),
   );
-  const serviceToken = <span class="cstat-no" title="statement not covered" >getServiceToken(options.apiModel);</span>
-  const dataLoaderToken = <span class="cstat-no" title="statement not covered" >getDataloaderToken(options.apiModel);</span>
-  const resource = <span class="cstat-no" title="statement not covered" >CrudGenResourceFactory&lt;Api&gt;({</span>
+  const serviceToken = getServiceToken(options.apiModel);
+  const dataLoaderToken = getDataloaderToken(options.apiModel);
+  const resource = CrudGenResourceFactory&lt;Api&gt;({
     entityModel: options.apiModel,
     backend: false,
     graphql: {
@@ -1023,16 +1023,16 @@ export function <span class="fstat-no" title="function not covered" >createOmniR
       serviceToken,
     },
   });
-  const relationKinds = <span class="cstat-no" title="statement not covered" >Object.freeze([</span>
+  const relationKinds = Object.freeze([
     ...getOmniRelationProjectionAllowedKinds(options.definition),
   ]);
-  const reader = <span class="cstat-no" title="statement not covered" >Object.freeze({</span>
+  const reader = Object.freeze({
     type: 'relation' as const,
     id: options.definition.id,
     definition: options.definition,
   });
   const serviceProvider: Provider =
-<span class="cstat-no" title="statement not covered" >    options.lifecycle &amp;&amp; options.catalog</span>
+    options.lifecycle &amp;&amp; options.catalog
       ? {
           provide: serviceToken,
           scope: Scope.REQUEST,
@@ -1113,7 +1113,7 @@ export function <span class="fstat-no" title="function not covered" >createOmniR
               OMNI_KERNEL_OPTIONS,
             ],
           };
-  const providers: Provider[] = <span class="cstat-no" title="statement not covered" >[</span>
+  const providers: Provider[] = [
     serviceProvider,
     {
       provide: dataLoaderToken,
@@ -1122,15 +1122,15 @@ export function <span class="fstat-no" title="function not covered" >createOmniR
         service: OmniRelationProjectionService,
         scope: OmniScopeContext,
       ) =&gt;
-<span class="cstat-no" title="statement not covered" >        new GQLDataLoader(getFn(service as never), 'guid', undefined, {</span>
-          cacheKeyFn: (key) =&gt; <span class="cstat-no" title="statement not covered" >scope.cacheKey(key),</span>
+        new GQLDataLoader(getFn(service as never), 'guid', undefined, {
+          cacheKeyFn: (key) =&gt; scope.cacheKey(key),
         }),
       inject: [serviceToken, OmniScopeContext],
     },
     ...resource.providers,
   ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return Object.freeze({</span>
+  return Object.freeze({
     entities: Object.freeze([]) as readonly [],
     relationKinds,
     definition: options.definition,
@@ -1150,7 +1150,7 @@ export function <span class="fstat-no" title="function not covered" >createOmniR
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

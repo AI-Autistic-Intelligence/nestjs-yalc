@@ -62,6 +62,7 @@ export const tsJestConfig = (tsConfPath = '', overrideTsJestConfig?: any) => {
     tsconfig: {
       ...(tsConfigFile?.config.compilerOptions ?? {}),
       ...(tsconfig ?? {}),
+      importHelpers: true,
     },
     diagnostics: false,
     ...restTsJest,
@@ -163,24 +164,14 @@ const defaultConf = (
     testRegex: '.*\\.spec\\.ts$',
     transform: {
       '^.+\\.(t|j)sx?$': [
-        '@swc/jest',
+        'ts-jest',
         {
-          jsc: {
-            target: 'es2022',
-            parser: {
-              syntax: 'typescript',
-              decorators: true,
-              dynamicImport: true,
-            },
-            transform: {
-              legacyDecorator: true,
-              decoratorMetadata: true,
-            },
-            keepClassNames: true,
+          useESM: true,
+          tsconfig: {
+            ...compilerOptions,
+            importHelpers: true,
           },
-          module: {
-            type: 'es6',
-          },
+          ..._tsJestConfig,
         },
       ],
     },

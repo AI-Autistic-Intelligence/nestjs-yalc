@@ -256,12 +256,24 @@ describe('YalcEventService', () => {
             expect.anything(),
           );
           expect(err.isErr()).toBe(true);
+
+          // Test with options object
+          await service[methodName]('testEvent', () => Promise.reject(), { logger: false });
+          
+          // Test with options.stack
+          await service[methodName]('testEvent', () => Promise.reject(), { stack: 'existing stack' });
         } else {
           service[methodName]('testEvent');
           expect(eventError).toHaveBeenCalledWith(
             'testEvent',
             expect.anything(),
           );
+
+          // Test with options object
+          service[methodName]('testEvent', { logger: false });
+
+          // Test with options.stack
+          service[methodName]('testEvent', { stack: 'existing stack' });
         }
       },
     );
@@ -322,6 +334,12 @@ describe('YalcEventService', () => {
     it('should correctly merge options with logger false', () => {
       const options = service['buildOptions']({ event: false, logger: false });
       expect(options).toEqual({ event: false, logger: false });
+    });
+
+    it('should correctly merge options when eventEmitter is undefined', () => {
+      const serviceWithoutEmitter = new YalcEventService(mockLoggerService as any, undefined as any);
+      const options = serviceWithoutEmitter['buildOptions']({});
+      expect(options.event).toBeUndefined();
     });
   });
 });

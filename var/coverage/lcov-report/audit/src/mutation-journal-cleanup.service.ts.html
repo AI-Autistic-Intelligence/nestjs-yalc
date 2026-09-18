@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/52</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/34</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -273,7 +273,7 @@ import {
   type ResolvedMutationJournalTarget,
 } from './mutation-journal.service.js';
 &nbsp;
-const MILLISECONDS_PER_DAY = <span class="cstat-no" title="statement not covered" >86_400_000;</span>
+const MILLISECONDS_PER_DAY = 86_400_000;
 &nbsp;
 interface MutationJournalCleanupPort {
   getDriverOptions(): MutationJournalDriverInstallOptions;
@@ -287,7 +287,7 @@ interface MutationJournalCleanupPort {
 export class MutationJournalCleanupService
   implements OnApplicationBootstrap, OnModuleDestroy
 {
-  private readonly logger = <span class="cstat-no" title="statement not covered" >new Logger(MutationJournalCleanupService.name);</span>
+  private readonly logger = new Logger(MutationJournalCleanupService.name);
   private timer?: NodeJS.Timeout;
 &nbsp;
   public constructor(
@@ -297,58 +297,58 @@ export class MutationJournalCleanupService
     private readonly options: ResolvedMutationJournalOptions,
   ) {}
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >onApplicationBootstrap(): void {</span>
-<span class="cstat-no" title="statement not covered" >    if (</span>
+  public onApplicationBootstrap(): void {
+    if (
       !this.options.enabled ||
       this.options.retentionDays === undefined ||
       this.options.cleanupIntervalMs === undefined
     ) {
-<span class="cstat-no" title="statement not covered" >      return;</span>
+      return;
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.timer = setInterval(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      void this.runOnce();</span>
+    this.timer = setInterval(() =&gt; {
+      void this.runOnce();
     }, this.options.cleanupIntervalMs);
-<span class="cstat-no" title="statement not covered" >    this.timer.unref();</span>
+    this.timer.unref();
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >onModuleDestroy(): void {</span>
-<span class="cstat-no" title="statement not covered" >    if (this.timer) {</span>
-<span class="cstat-no" title="statement not covered" >      clearInterval(this.timer);</span>
-<span class="cstat-no" title="statement not covered" >      this.timer = undefined;</span>
+  public onModuleDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = undefined;
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async r</span>unOnce(): Promise&lt;number&gt; {
-<span class="cstat-no" title="statement not covered" >    if (!this.options.enabled || this.options.retentionDays === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      return 0;</span>
+  public async runOnce(): Promise&lt;number&gt; {
+    if (!this.options.enabled || this.options.retentionDays === undefined) {
+      return 0;
     }
 &nbsp;
     const olderThanMs =
-<span class="cstat-no" title="statement not covered" >      Date.now() - this.options.retentionDays * MILLISECONDS_PER_DAY;</span>
-    let deletedRows = <span class="cstat-no" title="statement not covered" >0;</span>
+      Date.now() - this.options.retentionDays * MILLISECONDS_PER_DAY;
+    let deletedRows = 0;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const target of this.mutationJournalService.getTargets()) {</span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
+    for (const target of this.mutationJournalService.getTargets()) {
+      try {
         const resolvedTarget =
-<span class="cstat-no" title="statement not covered" >          await this.mutationJournalService.resolveTarget(target);</span>
-<span class="cstat-no" title="statement not covered" >        if (!resolvedTarget) {</span>
-<span class="cstat-no" title="statement not covered" >          continue;</span>
+          await this.mutationJournalService.resolveTarget(target);
+        if (!resolvedTarget) {
+          continue;
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        deletedRows += await resolvedTarget.driver.cleanup(</span>
+        deletedRows += await resolvedTarget.driver.cleanup(
           resolvedTarget.dataSource,
           this.mutationJournalService.getDriverOptions(),
           olderThanMs,
         );
       } catch (error) {
-<span class="cstat-no" title="statement not covered" >        this.logger.warn(</span>
+        this.logger.warn(
           `Unable to clean mutation journal for ${target.dataSourceName ?? 'default'}: ${error instanceof Error ? error.message : String(error)}`,
         );
       }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return deletedRows;</span>
+    return deletedRows;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -358,7 +358,7 @@ export class MutationJournalCleanupService
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

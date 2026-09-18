@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql');
 
-export const mockGetEntityRelations = jest.fn();
+const mockGetEntityRelations = jest.fn(() => [] as any[]);
 
 jest.mock('../ag-grid-metadata.helper', () => {
   const actual = jest.requireActual('../ag-grid-metadata.helper') as any;
@@ -429,7 +429,7 @@ describe('Generic Resolver', () => {
 
     afterAll(() => {
       jest.restoreAllMocks();
-      mockGetEntityRelations.mockRestore();
+      mockGetEntityRelations.mockImplementation(() => [] as any[]);
     });
 
     it('Should load the entity relationship', async () => {
@@ -520,7 +520,7 @@ describe('Generic Resolver', () => {
     });
 
     afterAll(() => {
-      mockGetEntityRelations.mockRestore();
+      mockGetEntityRelations.mockImplementation(() => [] as any[]);
     });
 
     it('Should load the entity relationship with a one-to-one relationtype', async () => {

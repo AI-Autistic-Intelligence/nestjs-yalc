@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/55</span>
+                <span class='fraction'>33/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>34/68</span>
+                <span class='fraction'>34/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -349,10 +349,10 @@ import { AppLoggerFactory } from '@nest-yalc-2/logger/logger.factory.js';
 import { EventNameFormatter } from './emitter.js';
 import { isProviderObject } from '@nest-yalc-2/utils/nestjs/nest.helper.js';
 &nbsp;
-export const EVENT_LOGGER = <span class="cstat-no" title="statement not covered" >'EVENT_LOGGER';</span>
-export const EVENT_EMITTER = <span class="cstat-no" title="statement not covered" >'EVENT_EMITTER';</span>
+export const EVENT_LOGGER = 'EVENT_LOGGER';
+export const EVENT_EMITTER = 'EVENT_EMITTER';
 &nbsp;
-function <span class="fstat-no" title="function not covered" >isImprovedLoggerService(</span>
+function isImprovedLoggerService(
   loggerProvider?:
     ImprovedLoggerService | ILoggerProviderOptionsObject | string,
 ): loggerProvider is ImprovedLoggerService {
@@ -392,7 +392,7 @@ export interface IEventModuleOptions&lt;
   overrideLoggerLevels?: LogLevel[];
 }
 &nbsp;
-export const OPTION_PROVIDER = <span class="cstat-no" title="statement not covered" >'OPTION_PROVIDER';</span>
+export const OPTION_PROVIDER = 'OPTION_PROVIDER';
 &nbsp;
 export interface IProviderOptions {
   logger: ImprovedLoggerService | ILoggerProviderOptionsObject;
@@ -401,27 +401,27 @@ export interface IProviderOptions {
 &nbsp;
 @Module({})
 export class EventModule {
-<span class="fstat-no" title="function not covered" >  static f</span>orRootAsync&lt;
+  static forRootAsync&lt;
     TFormatter extends EventNameFormatter = EventNameFormatter,
   &gt;(
     options?: IEventModuleOptions&lt;TFormatter&gt;,
     optionProvider?: Provider&lt;IProviderOptions&gt;,
   ): DynamicModule {
     const loggerProviderName =
-<span class="cstat-no" title="statement not covered" >      typeof options?.loggerProvider === 'string'</span>
+      typeof options?.loggerProvider === 'string'
         ? options.loggerProvider
         : options &amp;&amp; isProviderObject(options.loggerProvider)
           ? (options.loggerProvider as any).provide
           : EVENT_LOGGER;
     const emitterProviderName =
-<span class="cstat-no" title="statement not covered" >      options &amp;&amp; isProviderObject(options.eventEmitter)</span>
+      options &amp;&amp; isProviderObject(options.eventEmitter)
         ? (options.eventEmitter as any).provide
         : EventEmitter2;
 &nbsp;
-    const eventProviderName = <span class="cstat-no" title="statement not covered" >options?.eventServiceToken ?? YalcEventService;</span>
+    const eventProviderName = options?.eventServiceToken ?? YalcEventService;
 &nbsp;
     const imports: any[] = options?.imports ?? [];
-    const providers: Provider[] = <span class="cstat-no" title="statement not covered" >[</span>
+    const providers: Provider[] = [
       {
         provide: eventProviderName,
         useFactory: (logger: ImprovedLoggerService, emitter: EventEmitter2) =&gt; {
@@ -434,25 +434,25 @@ export class EventModule {
       },
     ];
 &nbsp;
-    const loggerProvider = <span class="cstat-no" title="statement not covered" >options?.loggerProvider;</span>
-<span class="cstat-no" title="statement not covered" >    if (isProviderObject(loggerProvider)) {</span>
-<span class="cstat-no" title="statement not covered" >      providers.push(loggerProvider);</span>
+    const loggerProvider = options?.loggerProvider;
+    if (isProviderObject(loggerProvider)) {
+      providers.push(loggerProvider);
     } else {
-<span class="cstat-no" title="statement not covered" >      providers.push({</span>
+      providers.push({
         provide: loggerProviderName,
         useFactory: (providedOptions?: IProviderOptions) =&gt; {
-          const _options = <span class="cstat-no" title="statement not covered" >providedOptions?.logger ?? loggerProvider;</span>
+          const _options = providedOptions?.logger ?? loggerProvider;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          if (isImprovedLoggerService(_options)) {</span>
-<span class="cstat-no" title="statement not covered" >            return _options;</span>
+          if (isImprovedLoggerService(_options)) {
+            return _options;
           } else {
-            const defaultArgs: ILoggerProviderOptionsObject = <span class="cstat-no" title="statement not covered" >{</span>
+            const defaultArgs: ILoggerProviderOptionsObject = {
               context: 'default',
             };
             const args =
-<span class="cstat-no" title="statement not covered" >              _options &amp;&amp; typeof _options !== 'string' ? _options : defaultArgs;</span>
+              _options &amp;&amp; typeof _options !== 'string' ? _options : defaultArgs;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return AppLoggerFactory(</span>
+            return AppLoggerFactory(
               args.context,
               args.loggerLevels,
               args.loggerType,
@@ -464,15 +464,15 @@ export class EventModule {
       });
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (options?.eventEmitter) {</span>
-<span class="cstat-no" title="statement not covered" >      providers.push(options.eventEmitter);</span>
+    if (options?.eventEmitter) {
+      providers.push(options.eventEmitter);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (optionProvider) {</span>
-<span class="cstat-no" title="statement not covered" >      providers.push(optionProvider);</span>
+    if (optionProvider) {
+      providers.push(optionProvider);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return {</span>
+    return {
       module: EventModule,
       providers,
       imports,
@@ -487,7 +487,7 @@ export class EventModule {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

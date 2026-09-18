@@ -1,31 +1,17 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFn = exports.GQLDataLoader = void 0;
 exports.DataLoaderFactory = DataLoaderFactory;
 exports.getDataloaderToken = getDataloaderToken;
-const dataloader_1 = __importDefault(require("dataloader"));
+const tslib_1 = require("tslib");
+const dataloader_1 = tslib_1.__importDefault(require("dataloader"));
 const typeorm_1 = require("typeorm");
 const crud_gen_enum_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.enum.js");
 const common_1 = require("@nestjs/common");
 const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
 const crud_gen_helpers_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers.js");
 const event_enum_js_1 = require("@nest-yalc-2/crud-gen/event.enum.js");
-const eventemitter2_1 = __importDefault(require("eventemitter2"));
+const eventemitter2_1 = tslib_1.__importDefault(require("eventemitter2"));
 class _DataLoaderWithCount extends dataloader_1.default {
     constructor(batchFn, searchKey, findOptions, options) {
         super(async (keys) => {
@@ -77,7 +63,7 @@ class _DataLoaderWithCount extends dataloader_1.default {
         return this.count;
     }
 }
-let GQLDataLoader = class GQLDataLoader {
+class GQLDataLoader {
     constructor(getFn, searchKey, eventEmitter, options) {
         this.eventEmitter = eventEmitter;
         this.count = 0;
@@ -138,12 +124,8 @@ let GQLDataLoader = class GQLDataLoader {
             return [await dataloader.load(keyValue), dataloader.getCount()];
         return dataloader.load(keyValue);
     }
-};
+}
 exports.GQLDataLoader = GQLDataLoader;
-exports.GQLDataLoader = GQLDataLoader = __decorate([
-    __param(2, (0, common_1.Optional)()),
-    __metadata("design:paramtypes", [Function, Object, Function, Object])
-], GQLDataLoader);
 const getFn = (service) => async (findManyOptions) => {
     return service.getEntityListExtended(findManyOptions, true);
 };

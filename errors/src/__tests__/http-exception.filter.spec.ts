@@ -97,25 +97,78 @@ describe('Http exceptions filter', () => {
     expect(loggerServiceMock.error).toHaveBeenCalledWith(exception.message);
   });
 
-  it('should catch and log Http error with host type http', () => {
+  it('should catch and log Http error with host type http and send response', () => {
     const exception = new InternalServerErrorException();
     mockArgumentsHost.getType.mockReturnValue('http');
+    const mockResponse = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
+    };
+    mockArgumentsHost.switchToHttp.mockReturnValue({
+      getResponse: () => mockResponse,
+      getRequest: jest.fn(),
+      getNext: jest.fn(),
+    } as any);
     filter.catch(exception, mockArgumentsHost as ArgumentsHost);
     expect(loggerServiceMock.error).toHaveBeenCalledWith(
       exception.message,
       exception.stack,
       expect.anything(),
     );
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+    expect(mockResponse.send).toHaveBeenCalledWith(exception.message);
+  });
+
+  it('should catch and log Non-Http error with host type http and send response', () => {
+    const exception = new Error('test');
+    mockArgumentsHost.getType.mockReturnValue('http');
+    const mockResponse = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
+    };
+    mockArgumentsHost.switchToHttp.mockReturnValue({
+      getResponse: () => mockResponse,
+      getRequest: jest.fn(),
+      getNext: jest.fn(),
+    } as any);
+    filter.catch(exception, mockArgumentsHost as ArgumentsHost);
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+  });
+
+  it('should not send response if sendResponse is false', () => {
+    const exception = new InternalServerErrorException();
+    mockArgumentsHost.getType.mockReturnValue('http');
+    const mockResponse = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
+    };
+    mockArgumentsHost.switchToHttp.mockReturnValue({
+      getResponse: () => mockResponse,
+      getRequest: jest.fn(),
+      getNext: jest.fn(),
+    } as any);
+    filter.catch(exception, mockArgumentsHost as ArgumentsHost, { sendResponse: false });
+    expect(mockResponse.status).not.toHaveBeenCalled();
   });
 
   it('should catch and log Http log with host type http', () => {
     const exception = new BadRequestException();
     mockArgumentsHost.getType.mockReturnValue('http');
+    const mockResponse = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
+    };
+    mockArgumentsHost.switchToHttp.mockReturnValue({
+      getResponse: () => mockResponse,
+      getRequest: jest.fn(),
+      getNext: jest.fn(),
+    } as any);
     filter.catch(exception, mockArgumentsHost as ArgumentsHost);
     expect(loggerServiceMock.log).toHaveBeenCalledWith(
       exception.message,
       expect.anything(),
     );
+    expect(mockResponse.status).toHaveBeenCalledWith(400);
   });
 
   it('should catch an error with the logger itself', () => {

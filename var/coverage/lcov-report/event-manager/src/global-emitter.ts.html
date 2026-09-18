@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/20</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,22 +90,22 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">14x</span>
@@ -114,35 +114,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { EventEmitter2 } from '@nestjs/event-emitter';
 &nbsp;
 let eventEmitter: EventEmitter2;
 &nbsp;
-export const createGlobalEventEmitter = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  eventEmitter = new EventEmitter2({</span>
+export const createGlobalEventEmitter = () =&gt; {
+  eventEmitter = new EventEmitter2({
     maxListeners: 1000,
     wildcard: true,
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return eventEmitter;</span>
+  return eventEmitter;
 };
 &nbsp;
-export const yalcStaticEventEmitter = <span class="cstat-no" title="statement not covered" >createGlobalEventEmitter();</span>
+export const yalcStaticEventEmitter = createGlobalEventEmitter();
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >getYalcGlobalEventEmitter() {</span>
-<span class="cstat-no" title="statement not covered" >  if (!eventEmitter) <span class="cstat-no" title="statement not covered" >eventEmitter = yalcStaticEventEmitter;</span></span>
+export function getYalcGlobalEventEmitter() {
+  if (!eventEmitter) eventEmitter = yalcStaticEventEmitter;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return eventEmitter;</span>
+  return eventEmitter;
 }
 &nbsp;
 /**
  * Do not use this function unless you know what you are doing.
  */
-export function <span class="fstat-no" title="function not covered" >setYalcGlobalEventEmitter(_</span>eventEmitter: EventEmitter2) {
-<span class="cstat-no" title="statement not covered" >  eventEmitter = _eventEmitter;</span>
+export function setYalcGlobalEventEmitter(_eventEmitter: EventEmitter2) {
+  eventEmitter = _eventEmitter;
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -151,7 +151,7 @@ export function <span class="fstat-no" title="function not covered" >setYalcGlob
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

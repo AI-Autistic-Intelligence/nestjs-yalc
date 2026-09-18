@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.08% </span>
+                <span class="strong">10.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/91</span>
+                <span class='fraction'>9/89</span>
             </div>
         
             
@@ -595,8 +595,8 @@ export class ExpressHttpAdapter implements IFerroxHttpAdapter {
     this.routes.push(route);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async l</span>isten(port: number, host: string = <span class="branch-0 cbranch-no" title="branch not covered" >'0.0.0.0')</span>: Promise&lt;http.Server&gt; {
-<span class="cstat-no" title="statement not covered" >    this.server = http.createServer(<span class="fstat-no" title="function not covered" >async (r</span>eq, res) =&gt; {</span>
+<span class="fstat-no" title="function not covered" >  async </span>listen(port: number, host: string = <span class="branch-0 cbranch-no" title="branch not covered" >'0.0.0.0')</span>: Promise&lt;http.Server&gt; {
+<span class="cstat-no" title="statement not covered" >    this.server = http.createServer(<span class="fstat-no" title="function not covered" >async </span>(req, res) =&gt; {</span>
       const url = <span class="cstat-no" title="statement not covered" >new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);</span>
       const method = <span class="cstat-no" title="statement not covered" >req.method || 'GET';</span>
       const pathname = <span class="cstat-no" title="statement not covered" >url.pathname;</span>
@@ -615,7 +615,7 @@ export class ExpressHttpAdapter implements IFerroxHttpAdapter {
         }
       }
 &nbsp;
-      const match = <span class="cstat-no" title="statement not covered" >this.routes.find(<span class="fstat-no" title="function not covered" >(r</span>) =&gt; <span class="cstat-no" title="statement not covered" >r.method === method &amp;&amp; (r.path === pathname || r.path === pathname + '/'));</span></span>
+      const match = <span class="cstat-no" title="statement not covered" >this.routes.find(<span class="fstat-no" title="function not covered" >(r</span>) =&gt; <span class="cstat-no" title="statement not covered" >r.method === method &amp;&amp; (r.path === pathname || r.path === pathname + '/'))</span>;</span>
 &nbsp;
       const ferroxReq: FerroxHttpRequest = <span class="cstat-no" title="statement not covered" >{</span>
         method,
@@ -634,22 +634,22 @@ export class ExpressHttpAdapter implements IFerroxHttpAdapter {
       const ferroxRes: FerroxHttpResponse = <span class="cstat-no" title="statement not covered" >{</span>
         statusCode: 200,
         headers: responseHeaders,
-<span class="fstat-no" title="function not covered" >        status(c</span>ode: number) {
+<span class="fstat-no" title="function not covered" >        status(</span>code: number) {
 <span class="cstat-no" title="statement not covered" >          this.statusCode = code;</span>
 <span class="cstat-no" title="statement not covered" >          return this;</span>
         },
-<span class="fstat-no" title="function not covered" >        setHeader(n</span>ame: string, value: string | string[]) {
+<span class="fstat-no" title="function not covered" >        setHeader(</span>name: string, value: string | string[]) {
 <span class="cstat-no" title="statement not covered" >          this.headers[name] = value;</span>
 <span class="cstat-no" title="statement not covered" >          return this;</span>
         },
-<span class="fstat-no" title="function not covered" >        json(d</span>ata: any) {
+<span class="fstat-no" title="function not covered" >        json(</span>data: any) {
 <span class="cstat-no" title="statement not covered" >          res.writeHead(this.statusCode, {</span>
             'Content-Type': 'application/json; charset=utf-8',
             ...this.headers,
           });
 <span class="cstat-no" title="statement not covered" >          res.end(JSON.stringify(data));</span>
         },
-<span class="fstat-no" title="function not covered" >        send(d</span>ata: any) {
+<span class="fstat-no" title="function not covered" >        send(</span>data: any) {
 <span class="cstat-no" title="statement not covered" >          res.writeHead(this.statusCode, this.headers);</span>
 <span class="cstat-no" title="statement not covered" >          res.end(typeof data === 'string' ? data : JSON.stringify(data));</span>
         },
@@ -677,13 +677,13 @@ export class ExpressHttpAdapter implements IFerroxHttpAdapter {
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      this.server!.listen(port, host, <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>esolve(this.server!));</span></span>
+<span class="cstat-no" title="statement not covered" >      this.server!.listen(port, host, <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >resolve(this.server!))</span>;</span>
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async c</span>lose(): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  async </span>close(): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    if (this.server) {</span>
-<span class="cstat-no" title="statement not covered" >      return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; <span class="cstat-no" title="statement not covered" >this.server!.close(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>esolve()));</span></span></span>
+<span class="cstat-no" title="statement not covered" >      return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; <span class="cstat-no" title="statement not covered" >this.server!.close(<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >resolve())</span>)</span>;</span>
     }
   }
 }
@@ -697,8 +697,8 @@ export class FastifyHttpAdapter implements IFerroxHttpAdapter {
     this.routes.push(route);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async l</span>isten(port: number, host: string = <span class="branch-0 cbranch-no" title="branch not covered" >'0.0.0.0')</span>: Promise&lt;http.Server&gt; {
-<span class="cstat-no" title="statement not covered" >    this.server = http.createServer(<span class="fstat-no" title="function not covered" >async (r</span>eq, res) =&gt; {</span>
+<span class="fstat-no" title="function not covered" >  async </span>listen(port: number, host: string = <span class="branch-0 cbranch-no" title="branch not covered" >'0.0.0.0')</span>: Promise&lt;http.Server&gt; {
+<span class="cstat-no" title="statement not covered" >    this.server = http.createServer(<span class="fstat-no" title="function not covered" >async </span>(req, res) =&gt; {</span>
       const url = <span class="cstat-no" title="statement not covered" >new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);</span>
       const method = <span class="cstat-no" title="statement not covered" >req.method || 'GET';</span>
       const pathname = <span class="cstat-no" title="statement not covered" >url.pathname;</span>
@@ -717,7 +717,7 @@ export class FastifyHttpAdapter implements IFerroxHttpAdapter {
         }
       }
 &nbsp;
-      const match = <span class="cstat-no" title="statement not covered" >this.routes.find(<span class="fstat-no" title="function not covered" >(r</span>) =&gt; <span class="cstat-no" title="statement not covered" >r.method === method &amp;&amp; (r.path === pathname || r.path === pathname + '/'));</span></span>
+      const match = <span class="cstat-no" title="statement not covered" >this.routes.find(<span class="fstat-no" title="function not covered" >(r</span>) =&gt; <span class="cstat-no" title="statement not covered" >r.method === method &amp;&amp; (r.path === pathname || r.path === pathname + '/'))</span>;</span>
 &nbsp;
       const ferroxReq: FerroxHttpRequest = <span class="cstat-no" title="statement not covered" >{</span>
         method,
@@ -736,22 +736,22 @@ export class FastifyHttpAdapter implements IFerroxHttpAdapter {
       const ferroxRes: FerroxHttpResponse = <span class="cstat-no" title="statement not covered" >{</span>
         statusCode: 200,
         headers: responseHeaders,
-<span class="fstat-no" title="function not covered" >        status(c</span>ode: number) {
+<span class="fstat-no" title="function not covered" >        status(</span>code: number) {
 <span class="cstat-no" title="statement not covered" >          this.statusCode = code;</span>
 <span class="cstat-no" title="statement not covered" >          return this;</span>
         },
-<span class="fstat-no" title="function not covered" >        setHeader(n</span>ame: string, value: string | string[]) {
+<span class="fstat-no" title="function not covered" >        setHeader(</span>name: string, value: string | string[]) {
 <span class="cstat-no" title="statement not covered" >          this.headers[name] = value;</span>
 <span class="cstat-no" title="statement not covered" >          return this;</span>
         },
-<span class="fstat-no" title="function not covered" >        json(d</span>ata: any) {
+<span class="fstat-no" title="function not covered" >        json(</span>data: any) {
 <span class="cstat-no" title="statement not covered" >          res.writeHead(this.statusCode, {</span>
             'Content-Type': 'application/json; charset=utf-8',
             ...this.headers,
           });
 <span class="cstat-no" title="statement not covered" >          res.end(JSON.stringify(data));</span>
         },
-<span class="fstat-no" title="function not covered" >        send(d</span>ata: any) {
+<span class="fstat-no" title="function not covered" >        send(</span>data: any) {
 <span class="cstat-no" title="statement not covered" >          res.writeHead(this.statusCode, this.headers);</span>
 <span class="cstat-no" title="statement not covered" >          res.end(typeof data === 'string' ? data : JSON.stringify(data));</span>
         },
@@ -779,13 +779,13 @@ export class FastifyHttpAdapter implements IFerroxHttpAdapter {
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      this.server!.listen(port, host, <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>esolve(this.server!));</span></span>
+<span class="cstat-no" title="statement not covered" >      this.server!.listen(port, host, <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >resolve(this.server!))</span>;</span>
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async c</span>lose(): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  async </span>close(): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    if (this.server) {</span>
-<span class="cstat-no" title="statement not covered" >      return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; <span class="cstat-no" title="statement not covered" >this.server!.close(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>esolve()));</span></span></span>
+<span class="cstat-no" title="statement not covered" >      return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; <span class="cstat-no" title="statement not covered" >this.server!.close(<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >resolve())</span>)</span>;</span>
     }
   }
 }
@@ -796,7 +796,7 @@ export class FastifyHttpAdapter implements IFerroxHttpAdapter {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

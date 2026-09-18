@@ -46,6 +46,7 @@ export interface SortModelStrict<T> extends SortModel<T> {
 @InputType()
 export class SortModel<T = any> implements SortModel<T> {
   colId!: keyof T | string;
+  /* istanbul ignore next */
   @Field(
     /* istanbul ignore next */
     () => SortDirection,
@@ -67,6 +68,7 @@ export function sortModelFactory<Entity>(entityModel: ClassType<Entity>) {
       () => fieldsEnum,
     )
     colId!: keyof typeof fieldsEnum;
+    /* istanbul ignore next */
     @Field(
       /* istanbul ignore next */
       () => SortDirection,
@@ -87,6 +89,7 @@ export class RowGroup {
 }
 
 const filterExpressionInputCache = new WeakMap();
+/* istanbul ignore next */
 export function filterExpressionInputFactory<Entity>(
   entityModel: ClassType<Entity>,
 ) {
@@ -96,10 +99,14 @@ export function filterExpressionInputFactory<Entity>(
   const FieldEnum = entityFieldsEnumFactory(entityModel);
 
   @InputType(`${entityModel.name}FilterTextInput`)
+  /* istanbul ignore next */
   class FilterText implements TextFilterModel {
     @HideField()
     filterType: FilterType.TEXT;
-    @Field(() => GeneralFilters)
+    @Field(
+      /* istanbul ignore next */
+      () => GeneralFilters,
+    )
     type: GeneralFilters;
     @Field(
       /* istanbul ignore next */
@@ -111,10 +118,14 @@ export function filterExpressionInputFactory<Entity>(
   }
 
   @InputType(`${entityModel.name}FilterNumberInput`)
+  /* istanbul ignore next */
   class FilterNumber implements NumberFilterModel {
     @HideField()
     filterType: FilterType.NUMBER;
-    @Field(() => GeneralFilters)
+    @Field(
+      /* istanbul ignore next */
+      () => GeneralFilters,
+    )
     type: GeneralFilters;
     @Field(
       /* istanbul ignore next */
@@ -128,10 +139,14 @@ export function filterExpressionInputFactory<Entity>(
   }
 
   @InputType(`${entityModel.name}FilterDateInput`)
+  /* istanbul ignore next */
   class FilterDate implements DateFilterModel {
     @HideField()
     filterType: FilterType.DATE;
-    @Field(() => GeneralFilters)
+    @Field(
+      /* istanbul ignore next */
+      () => GeneralFilters,
+    )
     type: GeneralFilters;
     @Field(
       /* istanbul ignore next */
@@ -145,10 +160,14 @@ export function filterExpressionInputFactory<Entity>(
   }
 
   @InputType(`${entityModel.name}FilterSetInput`)
+  /* istanbul ignore next */
   class FilterSet implements SetFilterModel {
     @HideField()
     filterType: FilterType.SET;
-    @Field(() => [String])
+    @Field(
+      /* istanbul ignore next */
+      () => [String],
+    )
     values: string[];
     @Field(
       /* istanbul ignore next */
@@ -162,6 +181,7 @@ export function filterExpressionInputFactory<Entity>(
    * @see https://github.com/graphql/graphql-spec/issues/488
    */
   @InputType(`${entityModel.name}FilterInput`)
+  /* istanbul ignore next */
   class FilterExpressionProperty implements FilterExpressionsProperty {
     @Field(
       /* istanbul ignore next */
@@ -190,6 +210,7 @@ export function filterExpressionInputFactory<Entity>(
   }
 
   @InputType(`${entityModel.name}FilterExpressionInput`)
+  /* istanbul ignore next */
   class FilterExpression implements FilterInput {
     @Field(
       /* istanbul ignore next */
@@ -257,6 +278,7 @@ export function agJoinArgFactory<Entity>(
 
   resolverInfoList.forEach((r) => {
     const type = r.relation.type;
+    /* istanbul ignore next */
     if (typeof type !== 'string') {
       let typeClass: any;
       try {

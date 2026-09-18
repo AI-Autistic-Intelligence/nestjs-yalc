@@ -20,11 +20,11 @@ export declare function removeSymbolicSelection(select: string[], data: FieldMap
 export declare function checkFilterScope(where: WhereCondition, filterOption: FilterOption): void;
 export declare function mapAgGridParams(params: AgGridArgsOptions | undefined, ctx: GqlExecutionContext, args: AgQueryParams, info: GraphQLResolveInfo): AgGridFindManyOptions;
 export declare const AgGridArgsFactory: <T>(data: AgGridArgsOptions | undefined, ctx: ExecutionContext) => AgGridFindManyOptions<T>;
-export declare const AgGridArgsMapper: <T>(...dataOrPipes: (import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | AgGridArgsOptions | undefined)[]) => ParameterDecorator;
+export declare const AgGridArgsMapper: <T>(...dataOrPipes: (AgGridArgsOptions | import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;
 export declare const AgGridCombineDecorators: (params: AgGridArgsOptions) => (target: any, key: string, index: number) => void;
 export declare const AgGridArgs: (params: AgGridArgsOptions) => (target: any, key: string, index: number) => void;
 export declare const AgGridArgsNoPagination: (params: AgGridArgsOptions) => (target: any, key: string, index: number) => void;
 export declare function AgGridArgsSingleDecoratorMapper<T>(params: AgGridArgsOptions | undefined, args: AgQueryParams, info: GraphQLResolveInfo): AgGridFindManyOptions<T>;
 export declare const AgGridArgsSingleDecoratorFactory: <T>(data: AgGridArgsOptions | undefined, ctx: ExecutionContext) => AgGridFindManyOptions<T>;
-export declare const AgGridArgsSingleDecorator: <T>(...dataOrPipes: (import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | AgGridArgsOptions | undefined)[]) => ParameterDecorator;
+export declare const AgGridArgsSingleDecorator: <T>(...dataOrPipes: (AgGridArgsOptions | import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;
 export declare const AgGridArgsSingle: (params: AgGridArgsSingleOptions) => (target: any, key: string, index: number) => void;

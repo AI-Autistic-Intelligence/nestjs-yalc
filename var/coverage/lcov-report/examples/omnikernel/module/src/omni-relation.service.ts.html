@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.52% </span>
+                <span class="strong">95% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>39/69</span>
+                <span class='fraction'>38/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.15% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>18/39</span>
+                <span class='fraction'>18/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.53% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/13</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -412,7 +412,7 @@ export class OmniRelationService extends OmniScopedService&lt;OmniRelationEntity
     protected readonly recordRepository: Repository&lt;OmniRecordEntity&gt;,
     protected readonly kinds: OmniRelationKindContract,
   ) {
-<span class="cstat-no" title="statement not covered" >    super(repository, scope, deletion);</span>
+    super(repository, scope, deletion);
   }
 &nbsp;
   override async createEntity(
@@ -425,14 +425,14 @@ export class OmniRelationService extends OmniScopedService&lt;OmniRelationEntity
     findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniRelationEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async c</span>reateEntity(
+  override async createEntity(
     input: DeepPartial&lt;OmniRelationEntity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniRelationEntity | boolean&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectServerFields(input as object);</span>
-<span class="cstat-no" title="statement not covered" >    await this.assertRelation(input);</span>
-<span class="cstat-no" title="statement not covered" >    return super.createEntity(input, findOptions, returnEntity);</span>
+    this.rejectServerFields(input as object);
+    await this.assertRelation(input);
+    return super.createEntity(input, findOptions, returnEntity);
   }
 &nbsp;
   override async updateEntity(
@@ -447,15 +447,15 @@ export class OmniRelationService extends OmniScopedService&lt;OmniRelationEntity
     findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniRelationEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async u</span>pdateEntity(
+  override async updateEntity(
     conditions: FindOptionsWhere&lt;OmniRelationEntity&gt;,
     input: DeepPartial&lt;OmniRelationEntity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;OmniRelationEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniRelationEntity | boolean&gt; {
-<span class="cstat-no" title="statement not covered" >    for (const field of ['guid', 'sourceRecordId', 'targetRecordId']) {</span>
-<span class="cstat-no" title="statement not covered" >      if (Object.prototype.hasOwnProperty.call(input, field)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new BadRequestException(`Omni relation ${field} is immutable.`);</span>
+    for (const field of ['guid', 'sourceRecordId', 'targetRecordId']) {
+      if (Object.prototype.hasOwnProperty.call(input, field)) {
+        throw new BadRequestException(`Omni relation ${field} is immutable.`);
       }
     }
 &nbsp;
@@ -468,12 +468,12 @@ export class OmniRelationService extends OmniScopedService&lt;OmniRelationEntity
         failOnNull: true,
       },
     );
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!current) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >this.notFound();</span></span></span>
-<span class="cstat-no" title="statement not covered" >    await this.assertRelation({ ...current, ...input });</span>
-<span class="cstat-no" title="statement not covered" >    return super.updateEntity(conditions, input, findOptions, returnEntity);</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!current) <span class="cstat-no" title="statement not covered" >this.notFound();</span>
+    await this.assertRelation({ ...current, ...input });
+    return super.updateEntity(conditions, input, findOptions, returnEntity);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  protected async a</span>ssertRelation(
+  protected async assertRelation(
     input: DeepPartial&lt;OmniRelationEntity&gt;,
     recordRepository: Repository&lt;OmniRecordEntity&gt; = this.recordRepository,
   ): Promise&lt;void&gt; {
@@ -485,33 +485,33 @@ export class OmniRelationService extends OmniScopedService&lt;OmniRelationEntity
       input.targetRecordId,
       'targetRecordId',
     );
-    const kind = <span class="cstat-no" title="statement not covered" >this.requiredIdentifier(input.kind, 'kind');</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      this.kinds.assert(kind);</span>
+    const kind = this.requiredIdentifier(input.kind, 'kind');
+    try {
+      this.kinds.assert(kind);
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+      throw new BadRequestException(
         error instanceof Error
           ? error.message
           : <span class="branch-1 cbranch-no" title="branch not covered" >'Omni relation kind is invalid.',</span>
       );
     }
 &nbsp;
-    const records = <span class="cstat-no" title="statement not covered" >await recordRepository.find({</span>
+    const records = await recordRepository.find({
       where: [
         { scopeId: this.scopeId, guid: sourceRecordId, deletedAt: IsNull() },
         { scopeId: this.scopeId, guid: targetRecordId, deletedAt: IsNull() },
       ],
     });
-    const source = <span class="cstat-no" title="statement not covered" >records.find((record) =&gt; <span class="cstat-no" title="statement not covered" >record.guid === sourceRecordId);</span></span>
-    const target = <span class="cstat-no" title="statement not covered" >records.find((record) =&gt; <span class="cstat-no" title="statement not covered" >record.guid === targetRecordId);</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!source || !target) <span class="cstat-no" title="statement not covered" >this.notFound();</span></span>
+    const source = records.find((record) =&gt; record.guid === sourceRecordId);
+    const target = records.find((record) =&gt; record.guid === targetRecordId);
+    if (!source || !target) this.notFound();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.assertEndpointKinds(source, target);</span>
+    this.assertEndpointKinds(source, target);
 &nbsp;
     const isCanonical = canonicalOmniRelationKinds.includes(
       kind as (typeof canonicalOmniRelationKinds)[number],
     );
-<span class="cstat-no" title="statement not covered" >    if (</span>
+    if (
       isCanonical &amp;&amp;
       !isAllowedOmniRelation({
         sourceKind: source.kind,
@@ -519,25 +519,25 @@ export class OmniRelationService extends OmniScopedService&lt;OmniRelationEntity
         relationKind: kind,
       })
     ) {
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+      throw new BadRequestException(
         'Omni relation kind is not valid for these endpoint kinds.',
       );
     }
   }
 &nbsp;
   /** Resource-specific relation projections may narrow endpoint kinds. */
-<span class="fstat-no" title="function not covered" >  protected assertEndpointKinds(</span>
+  protected assertEndpointKinds(
     _source: OmniRecordEntity,
     _target: OmniRecordEntity,
   ): void {}
 &nbsp;
-  protected <span class="fstat-no" title="function not covered" >requiredIdentifier(v</span>alue: unknown, field: string): string {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof value !== 'string' || value.trim().length === 0) {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span></span>
+  protected requiredIdentifier(value: unknown, field: string): string {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof value !== 'string' || value.trim().length === 0) {
+<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
         `Omni relation ${field} must be a non-empty string.`,
       );
     }
-<span class="cstat-no" title="statement not covered" >    return value;</span>
+    return value;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -547,7 +547,7 @@ export class OmniRelationService extends OmniScopedService&lt;OmniRelationEntity
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

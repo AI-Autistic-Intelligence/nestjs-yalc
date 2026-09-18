@@ -1,6 +1,7 @@
 import { BaseEntity, Column } from 'typeorm';
 import { entityFieldsEnumFactory } from '../ag-grid.enum';
 import { AgGridField } from '../object.decorator';
+import { EventAgGrid } from '../event.enum';
 
 const fixedProperty = 'columId';
 
@@ -37,5 +38,12 @@ describe('entityFieldsEnumFactory', () => {
     }
     const result = entityFieldsEnumFactory(objectFunction);
     expect(result).toBeDefined();
+  });
+});
+
+describe('EventAgGrid', () => {
+  it('should be defined', () => {
+    expect(EventAgGrid).toBeDefined();
+    expect(EventAgGrid.START_TRANSACTION).toEqual('START_TRANSACTION');
   });
 });

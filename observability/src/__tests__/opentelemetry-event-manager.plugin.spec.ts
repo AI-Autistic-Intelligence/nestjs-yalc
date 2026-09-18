@@ -3,14 +3,15 @@ import { EventEmitter2 } from "@nestjs/event-emitter";
 import {
   OpenTelemetryEventManagerPlugin,
   matchesEventPattern,
-} from "../event-manager/opentelemetry-event-manager.plugin.js";
-import { normalizeObservabilityOptions } from "../observability-options.js";
+} from "../event-manager/opentelemetry-event-manager.plugin";
+import { normalizeObservabilityOptions } from "../observability-options";
 
 describe("OpenTelemetryEventManagerPlugin", () => {
   it("matches dot wildcard patterns", () => {
     expect(matchesEventPattern("task.created", "task.*")).toBe(true);
     expect(matchesEventPattern("task.domain.created", "task.**")).toBe(true);
     expect(matchesEventPattern("task.created", "observability.**")).toBe(false);
+    expect(matchesEventPattern("task.created", "**")).toBe(true);
   });
 
   it("records matching EventEmitter2 events", () => {
@@ -39,5 +40,21 @@ describe("OpenTelemetryEventManagerPlugin", () => {
     expect(telemetry.recordYalcEvent).toHaveBeenCalledWith("task.created", {
       eventName: "task.created",
     });
+  });
+
+  it("does not attach listeners if disabled", () => {
+    const emitter = new EventEmitter2();
+    jest.spyOn(emitter, "onAny");
+    const plugin = new OpenTelemetryEventManagerPlugin(
+      { emitter },
+      {} as any,
+      normalizeObservabilityOptions({
+        enabled: false,
+        serviceName: "test",
+      })
+    );
+
+    plugin.onModuleInit();
+    expect(emitter.onAny).not.toHaveBeenCalled();
   });
 });

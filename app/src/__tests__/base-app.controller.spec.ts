@@ -1,72 +1,90 @@
-import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals';
-import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
 import { BaseAppController } from '../base-app.controller.js';
 import { BaseAppService } from '../base-app.service.js';
+import { ConfigService } from '@nestjs/config';
+import { Controller } from '@nestjs/common';
 
+@Controller()
 class TestAppController extends BaseAppController {}
 
 describe('BaseAppController', () => {
-  const getHello = jest.fn();
-  const appService = {
-    getHello,
-  } as unknown as BaseAppService;
-
-  const configGet = jest.fn();
-  const configService = {
-    get: configGet,
-  } as unknown as ConfigService;
-
   let controller: TestAppController;
-  let exitSpy: jest.SpyInstance;
-  let logSpy: jest.SpyInstance;
+  let mockAppService: any;
+  let mockConfigService: any;
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-    controller = new TestAppController(appService, configService);
-    exitSpy = jest
-      .spyOn(process, 'exit')
-      .mockImplementation((() => undefined) as any);
-    logSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+  beforeEach(async () => {
+    mockAppService = {
+      getHello: jest.fn().mockReturnValue('Hello World'),
+    };
+    mockConfigService = {
+      get: jest.fn(),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [TestAppController],
+      providers: [
+        { provide: BaseAppService, useValue: mockAppService },
+        { provide: ConfigService, useValue: mockConfigService },
+      ],
+    }).compile();
+
+    controller = module.get<TestAppController>(TestAppController);
   });
 
-  afterEach(() => {
-    exitSpy.mockRestore();
-    logSpy.mockRestore();
+  describe('getHello', () => {
+    it('should return hello with app name', () => {
+      mockConfigService.get.mockReturnValue({ appName: 'test-app' });
+      expect(controller.getHello()).toBe('Hello World');
+      expect(mockAppService.getHello).toHaveBeenCalledWith('test-app');
+    });
+
+    it('should return hello with default name when conf is missing', () => {
+      mockConfigService.get.mockReturnValue(undefined);
+      expect(controller.getHello()).toBe('Hello World');
+      expect(mockAppService.getHello).toHaveBeenCalledWith('no-name');
+    });
   });
 
-  it('should call BaseAppService with configured app name', () => {
-    configGet.mockReturnValue({ appName: 'sample-app' });
-    getHello.mockReturnValue('Hello World from sample-app!');
+  describe('shutdown', () => {
+    let mockExit: jest.SpyInstance;
+    let mockLog: jest.SpyInstance;
 
-    const result = controller.getHello();
+    beforeEach(() => {
+      mockExit = jest.spyOn(process, 'exit').mockImplementation((() => {}) as any);
+      mockLog = jest.spyOn(console, 'log').mockImplementation((() => {}) as any);
+    });
 
-    expect(result).toBe('Hello World from sample-app!');
-    expect(getHello).toHaveBeenCalledWith('sample-app');
-  });
+    afterEach(() => {
+      mockExit.mockRestore();
+      mockLog.mockRestore();
+    });
 
-  it('should fallback to default app name when missing', () => {
-    configGet.mockReturnValue(undefined);
-    getHello.mockReturnValue('Hello World from no-name!');
+    it('should shutdown in dev mode', () => {
+      mockConfigService.get.mockReturnValue({ isDev: true });
+      controller.shutdown();
+      expect(mockExit).toHaveBeenCalledWith(0);
+      expect(mockLog).toHaveBeenCalledWith('Bye bye!');
+    });
 
-    controller.getHello();
+    it('should shutdown in test mode', () => {
+      mockConfigService.get.mockReturnValue({ isTest: true });
+      controller.shutdown();
+      expect(mockExit).toHaveBeenCalledWith(0);
+      expect(mockLog).toHaveBeenCalledWith('Bye bye!');
+    });
 
-    expect(getHello).toHaveBeenCalledWith('no-name');
-  });
+    it('should not shutdown if neither dev nor test', () => {
+      mockConfigService.get.mockReturnValue({ isDev: false, isTest: false });
+      controller.shutdown();
+      expect(mockExit).not.toHaveBeenCalled();
+      expect(mockLog).not.toHaveBeenCalled();
+    });
 
-  it('should terminate when shutdown is called in dev/test env', () => {
-    configGet.mockReturnValue({ isDev: true });
-
-    controller.shutdown();
-
-    expect(logSpy).toHaveBeenCalledWith('Bye bye!');
-    expect(exitSpy).toHaveBeenCalledWith(0);
-  });
-
-  it('should ignore shutdown when not in dev/test env', () => {
-    configGet.mockReturnValue({ isDev: false, isTest: false });
-
-    controller.shutdown();
-
-    expect(exitSpy).not.toHaveBeenCalled();
+    it('should not shutdown if conf is missing', () => {
+      mockConfigService.get.mockReturnValue(undefined);
+      controller.shutdown();
+      expect(mockExit).not.toHaveBeenCalled();
+      expect(mockLog).not.toHaveBeenCalled();
+    });
   });
 });

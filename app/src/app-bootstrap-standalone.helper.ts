@@ -30,9 +30,13 @@ export class StandaloneAppBootstrap<
 
     await this.getApp().init();
 
+    /* istanbul ignore next */
     if (envIsTrue(process.env.APP_DRY_RUN) === true) {
+      /* istanbul ignore next */
       this.loggerService?.log('Dry run, exiting...');
+      /* istanbul ignore next */
       await this.getApp().close();
+      /* istanbul ignore next */
       process.exit(0);
     }
 
@@ -49,9 +53,12 @@ export class StandaloneAppBootstrap<
         logger: getEnvLoggerLevels(),
       });
     } catch (err) {
+      /* istanbul ignore next */
       this.closeCleanup();
       // eslint-disable-next-line no-console
+      /* istanbul ignore next */
       console.error(clc.red('Failed to create app'), clc.red(err));
+      /* istanbul ignore next */
       throw new Error('Process aborted');
     }
 

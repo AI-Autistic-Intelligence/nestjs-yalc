@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.73% </span>
+                <span class="strong">76.19% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/38</span>
+                <span class='fraction'>16/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/20</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.15% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/13</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -313,8 +313,8 @@ export class OmniRecordService extends OmniScopedService&lt;OmniRecordEntity&gt;
     deletion: OmniDeletePolicy = <span class="branch-0 cbranch-no" title="branch not covered" >'tombstone',</span>
     reservedRecordKinds: readonly string[] = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
   ) {
-<span class="cstat-no" title="statement not covered" >    super(repository, scopeOrRepositoryWrite, deletion);</span>
-<span class="cstat-no" title="statement not covered" >    this.reservedKinds = new Set(reservedRecordKinds);</span>
+    super(repository, scopeOrRepositoryWrite, deletion);
+    this.reservedKinds = new Set(reservedRecordKinds);
   }
 &nbsp;
   override async createEntity(
@@ -327,13 +327,13 @@ export class OmniRecordService extends OmniScopedService&lt;OmniRecordEntity&gt;
     findOptions?: CrudGenFindManyOptions&lt;OmniRecordEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniRecordEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async c</span>reateEntity(
+  override async createEntity(
     input: DeepPartial&lt;OmniRecordEntity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;OmniRecordEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniRecordEntity | boolean&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectReservedKind(input.kind);</span>
-<span class="cstat-no" title="statement not covered" >    return super.createEntity(input, findOptions, returnEntity);</span>
+    this.rejectReservedKind(input.kind);
+    return super.createEntity(input, findOptions, returnEntity);
   }
 &nbsp;
   override async updateEntity(
@@ -348,15 +348,15 @@ export class OmniRecordService extends OmniScopedService&lt;OmniRecordEntity&gt;
     findOptions?: CrudGenFindManyOptions&lt;OmniRecordEntity&gt;,
     returnEntity?: boolean,
   ): Promise&lt;OmniRecordEntity | boolean&gt;;
-<span class="fstat-no" title="function not covered" >  override async u</span>pdateEntity(
+  override async updateEntity(
     conditions: FindOptionsWhere&lt;OmniRecordEntity&gt;,
     input: DeepPartial&lt;OmniRecordEntity&gt;,
     findOptions?: CrudGenFindManyOptions&lt;OmniRecordEntity&gt;,
     returnEntity = true,
   ): Promise&lt;OmniRecordEntity | boolean&gt; {
-<span class="cstat-no" title="statement not covered" >    this.rejectReservedKind(input.kind);</span>
-<span class="cstat-no" title="statement not covered" >    await this.assertExistingRecordIsNotReserved(conditions);</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return super.updateEntity(</span></span>
+    this.rejectReservedKind(input.kind);
+    await this.assertExistingRecordIsNotReserved(conditions);
+<span class="cstat-no" title="statement not covered" >    return super.updateEntity(</span>
       this.nonReservedConditions(conditions),
       input,
       findOptions,
@@ -364,14 +364,14 @@ export class OmniRecordService extends OmniScopedService&lt;OmniRecordEntity&gt;
     );
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  override async d</span>eleteEntity(
+  override async deleteEntity(
     conditions: FindOptionsWhere&lt;OmniRecordEntity&gt;,
   ): Promise&lt;boolean&gt; {
-<span class="cstat-no" title="statement not covered" >    await this.assertExistingRecordIsNotReserved(conditions);</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return super.deleteEntity(this.nonReservedConditions(conditions));</span></span>
+    await this.assertExistingRecordIsNotReserved(conditions);
+<span class="cstat-no" title="statement not covered" >    return super.deleteEntity(this.nonReservedConditions(conditions));</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  private async a</span>ssertExistingRecordIsNotReserved(
+  private async assertExistingRecordIsNotReserved(
     conditions: FindOptionsWhere&lt;OmniRecordEntity&gt;,
   ): Promise&lt;void&gt; {
     const record = await super.getEntity(
@@ -381,22 +381,22 @@ export class OmniRecordService extends OmniScopedService&lt;OmniRecordEntity&gt;
       undefined,
       { failOnNull: false },
     );
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="else path not taken" >E</span>if (record) <span class="cstat-no" title="statement not covered" >this.rejectReservedKind(record.kind);</span></span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (record) this.rejectReservedKind(record.kind);
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >nonReservedConditions(</span></span>
+  private <span class="fstat-no" title="function not covered" >nonReservedConditions(</span>
     conditions: FindOptionsWhere&lt;OmniRecordEntity&gt;,
   ): FindOptionsWhere&lt;OmniRecordEntity&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    if (this.reservedKinds.size === 0) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >return conditions;</span></span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (this.reservedKinds.size === 0) <span class="cstat-no" title="statement not covered" >return conditions;</span></span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
       ...conditions,
       kind: Not(In([...this.reservedKinds])),
     };
   }
 &nbsp;
-  private <span class="fstat-no" title="function not covered" >rejectReservedKind(k</span>ind: unknown): void {
-<span class="cstat-no" title="statement not covered" >    if (typeof kind === 'string' &amp;&amp; this.reservedKinds.has(kind)) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new BadRequestException(</span>
+  private rejectReservedKind(kind: unknown): void {
+    if (typeof kind === 'string' &amp;&amp; this.reservedKinds.has(kind)) {
+      throw new BadRequestException(
         'This record kind is owned by a registered extension projection.',
       );
     }
@@ -409,7 +409,7 @@ export class OmniRecordService extends OmniScopedService&lt;OmniRecordEntity&gt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

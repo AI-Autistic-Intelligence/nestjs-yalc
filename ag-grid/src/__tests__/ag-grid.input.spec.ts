@@ -1,5 +1,4 @@
-jest.mock('@nestjs/graphql');
-
+// removed jest.mock('@nestjs/graphql')
 import {
   agJoinArgFactory,
   filterExpressionInputFactory,

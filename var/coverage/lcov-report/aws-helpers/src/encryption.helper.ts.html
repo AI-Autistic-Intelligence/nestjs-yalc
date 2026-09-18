@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.4% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>31/54</span>
+                <span class='fraction'>31/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/24</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/30</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -157,7 +157,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -238,9 +238,9 @@ import {
  * @todo put this in a config file
  */
 export const staticKey =
-<span class="cstat-no" title="statement not covered" >  'be088f8bb64166cc2938b1dd0c9db8fa223edd975f48462858a41f70ebee1c5f';</span>
+  'be088f8bb64166cc2938b1dd0c9db8fa223edd975f48462858a41f70ebee1c5f';
 &nbsp;
-export enum <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >EncryptMode {</span></span></span>
+export enum EncryptMode {
   AWS,
   LOCAL,
 }
@@ -252,21 +252,21 @@ const cachedSsmVariables = new Map&lt;
   Promise&lt;GetParameterCommandOutput&gt;
 &gt;();
 &nbsp;
-export const decryptSsmVariable = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const decryptSsmVariable = async (
   toDecrypt: string,
   useCache: boolean = true,
 ): Promise&lt;string&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  if (useCache) {</span>
-<span class="cstat-no" title="statement not covered" >    if (cachedSsmVariables.has(toDecrypt)) {</span>
-      const cachedValue = <span class="cstat-no" title="statement not covered" >cachedSsmVariables.get(toDecrypt)!;</span>
+  if (useCache) {
+    if (cachedSsmVariables.has(toDecrypt)) {
+      const cachedValue = cachedSsmVariables.get(toDecrypt)!;
 &nbsp;
-      const value = <span class="cstat-no" title="statement not covered" >await cachedValue;</span>
-<span class="cstat-no" title="statement not covered" >      return value.Parameter?.Value ?? '';</span>
+      const value = await cachedValue;
+      return value.Parameter?.Value ?? '';
     }
   }
 &nbsp;
-  const ssm = <span class="cstat-no" title="statement not covered" >new SSMClient();</span>
-<span class="cstat-no" title="statement not covered" >  try {</span>
+  const ssm = new SSMClient();
+  try {
     const dataPromise: Promise&lt;GetParameterCommandOutput&gt; = ssm.send(
       new GetParameterCommand({
         Name: toDecrypt,
@@ -274,37 +274,37 @@ export const decryptSsmVariable = <span class="cstat-no" title="statement not co
       }),
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (useCache) {</span>
-<span class="cstat-no" title="statement not covered" >      cachedSsmVariables.set(toDecrypt, dataPromise);</span>
+    if (useCache) {
+      cachedSsmVariables.set(toDecrypt, dataPromise);
     }
 &nbsp;
-    const data = <span class="cstat-no" title="statement not covered" >await dataPromise;</span>
+    const data = await dataPromise;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return data.Parameter?.Value ?? '';</span>
+    return data.Parameter?.Value ?? '';
   } catch (err) {
-<span class="cstat-no" title="statement not covered" >    Logger.error(</span>
+    Logger.error(
       `Error while decrypting ssm variable ${toDecrypt} ${JSON.stringify(err)}`,
     );
-<span class="cstat-no" title="statement not covered" >    return '';</span>
+    return '';
   }
 };
 &nbsp;
-export const setEnvironmentVariablesFromSsm = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+export const setEnvironmentVariablesFromSsm = async (
   envVariableToDecrypt: Record&lt;string, string&gt;,
   useCache: boolean = true,
 ): Promise&lt;Record&lt;string, string&gt;&gt; =&gt; {
-  const ssmVars: Record&lt;string, string&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
+  const ssmVars: Record&lt;string, string&gt; = {};
   const promises = Object.entries(envVariableToDecrypt).map(
-<span class="fstat-no" title="function not covered" >    async ([</span>envVar, ssmVar]) =&gt; {
-      const value = <span class="cstat-no" title="statement not covered" >await decryptSsmVariable(ssmVar, useCache);</span>
-<span class="cstat-no" title="statement not covered" >      process.env[envVar] = ssmVars[envVar] = value;</span>
+    async ([envVar, ssmVar]) =&gt; {
+      const value = await decryptSsmVariable(ssmVar, useCache);
+      process.env[envVar] = ssmVars[envVar] = value;
 &nbsp;
       // Logger.debug(`Process env: ${envVar} set to ${process.env[envVar]}`);
     },
   );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await Promise.all(promises);</span>
-<span class="cstat-no" title="statement not covered" >  return ssmVars;</span>
+  await Promise.all(promises);
+  return ssmVars;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -313,7 +313,7 @@ export const setEnvironmentVariablesFromSsm = <span class="cstat-no" title="stat
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-09-18T05:24:09.536Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
