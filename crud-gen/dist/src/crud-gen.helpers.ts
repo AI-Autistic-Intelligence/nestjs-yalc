@@ -6,7 +6,7 @@ import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper.j
 import {
   IFieldMapper,
   isFieldMapper,
-} from '@nest-yalc-2/interfaces/maps.interface.js';
+} from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types/globals';
 import {
   ClassProvider,

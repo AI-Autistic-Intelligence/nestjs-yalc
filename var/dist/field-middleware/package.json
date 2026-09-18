@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/field-middleware",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "",
   "main": "./src/index.js",
   "exports": {

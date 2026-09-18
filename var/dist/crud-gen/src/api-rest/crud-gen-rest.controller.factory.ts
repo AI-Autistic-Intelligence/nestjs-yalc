@@ -25,7 +25,7 @@ import {
 import { GenericService, getServiceToken } from '../typeorm/generic.service.js';
 import type { ClassType } from '@node-yalc/types/globals';
 import { getProviderToken } from '../crud-gen.helpers.js';
-import type { IDecoratorType } from '@nest-yalc-2/interfaces';
+import type { IDecoratorType } from '@node-yalc/interfaces';
 import {
   parseODataQueryParams,
   type ODataQueryParams,

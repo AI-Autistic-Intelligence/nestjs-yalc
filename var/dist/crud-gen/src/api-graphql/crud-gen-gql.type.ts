@@ -4,7 +4,7 @@ import { FindManyOptions, FindOperator, ObjectLiteral } from 'typeorm';
 import returnValue from '@node-yalc/utils/returnValue';
 import { IExtraArg, ICombinedWhereModel } from './crud-gen-gql.interface.js';
 import { Operators } from '../crud-gen.enum.js';
-import { FieldMapperProperty } from '@nest-yalc-2/interfaces';
+import { FieldMapperProperty } from '@node-yalc/interfaces';
 import { IModelFieldMetadata } from '../object.decorator.js';
 import { IConnection, IPageDataCrudGen } from '../crud-gen.interface.js';
 

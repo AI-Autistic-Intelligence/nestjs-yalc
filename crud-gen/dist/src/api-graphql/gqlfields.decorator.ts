@@ -3,7 +3,7 @@ import { GqlExecutionContext, ReturnTypeFuncValue } from '@nestjs/graphql';
 import {
   IFieldMapper,
   FieldMapperProperty,
-} from '@nest-yalc-2/interfaces/maps.interface.js';
+} from '@node-yalc/interfaces/maps.interface.js';
 import {
   columnConversion,
   formatRawSelectionWithoutAlias,

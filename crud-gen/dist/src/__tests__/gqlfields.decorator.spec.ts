@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('@nestjs/graphql', () => {

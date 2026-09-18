@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/crud-gen",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "description": "",
   "main": "./src/index.js",
@@ -17,14 +17,14 @@
     "src"
   ],
   "dependencies": {
-    "@nest-yalc-2/database": "^2.0.0",
-    "@nest-yalc-2/field-middleware": "^2.0.0",
-    "@nest-yalc-2/graphql": "^2.0.0",
-    "@nest-yalc-2/interfaces": "^2.0.0",
-    "@nest-yalc-2/types": "^2.0.0",
-    "@nest-yalc-2/utils": "^2.0.0",
-    "@nest-yalc-2/data-loader": "^2.0.0",
-    "@nest-yalc-2/event-manager": "^2.0.0",
+    "@nest-yalc-2/database": "^2.1.0",
+    "@nest-yalc-2/field-middleware": "^2.1.0",
+    "@nest-yalc-2/graphql": "^2.1.0",
+    "@nest-yalc-2/interfaces": "^1.0.0",
+    "@nest-yalc-2/types": "^1.0.0",
+    "@nest-yalc-2/utils": "^2.1.0",
+    "@nest-yalc-2/data-loader": "^2.1.0",
+    "@nest-yalc-2/event-manager": "^2.1.0",
     "graphql-type-json": "^0.3.2",
     "tslib": "^2.6.3"
   },

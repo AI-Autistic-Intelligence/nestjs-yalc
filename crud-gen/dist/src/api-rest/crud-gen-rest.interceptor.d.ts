@@ -1,5 +1,5 @@
 import { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { PageData, PaginatedResultDto } from './crud-gen-rest.dto.js';
 import { ObjectMapperType } from '@node-yalc/utils/object-mapper.helper';
 import { ClassType } from '@node-yalc/types/globals';

@@ -1,4 +1,4 @@
-import { IFieldMapper } from '@nest-yalc-2/interfaces';
+import { IFieldMapper } from '@node-yalc/interfaces';
 import { Equal } from 'typeorm';
 import { ICrudGenParams } from '../crud-gen.args.js';
 import {

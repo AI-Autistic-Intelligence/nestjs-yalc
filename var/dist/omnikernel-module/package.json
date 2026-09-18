@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/omnikernel-module",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "description": "Foundational OmniKernel persistence module for nestjs-yalc",
   "main": "./src/index.js",
@@ -17,12 +17,12 @@
     "src"
   ],
   "dependencies": {
-    "@nest-yalc-2/crud-gen": "^2.0.0",
-    "@nest-yalc-2/data-loader": "^2.0.0",
-    "@nest-yalc-2/event-manager": "^2.0.0",
-    "@nest-yalc-2/graphql": "^2.0.0",
-    "@nest-yalc-2/types": "^2.0.0",
-    "@nest-yalc-2/utils": "^2.0.0",
+    "@nest-yalc-2/crud-gen": "^2.1.0",
+    "@nest-yalc-2/data-loader": "^2.1.0",
+    "@nest-yalc-2/event-manager": "^2.1.0",
+    "@nest-yalc-2/graphql": "^2.1.0",
+    "@nest-yalc-2/types": "^1.0.0",
+    "@nest-yalc-2/utils": "^2.1.0",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {

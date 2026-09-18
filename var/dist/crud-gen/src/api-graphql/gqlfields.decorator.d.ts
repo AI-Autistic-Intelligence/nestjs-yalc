@@ -1,6 +1,6 @@
 import { ExecutionContext, Type } from '@nestjs/common';
 import { ReturnTypeFuncValue } from '@nestjs/graphql';
-import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types/globals';
 import { GraphQLResolveInfo } from 'graphql';
 import { IKeyMeta } from './crud-gen-gql.type.js';

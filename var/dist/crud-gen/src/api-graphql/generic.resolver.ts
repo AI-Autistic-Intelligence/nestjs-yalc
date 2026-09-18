@@ -36,7 +36,7 @@ import {
   GenericService,
   getServiceToken,
 } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
-import { IDecoratorType, IFieldMapper } from '@nest-yalc-2/interfaces';
+import { IDecoratorType, IFieldMapper } from '@node-yalc/interfaces';
 import CrudGenGqlType from './crud-gen-gql.type.js';
 import {
   getDataloaderToken,

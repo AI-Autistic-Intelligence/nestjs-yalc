@@ -1,4 +1,4 @@
-import { IFieldMapper } from '@nest-yalc-2/interfaces';
+import { IFieldMapper } from '@node-yalc/interfaces';
 import { DateHelper } from '@node-yalc/utils/date.helper';
 import {
   Equal,

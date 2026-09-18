@@ -1,5 +1,5 @@
 import { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 export declare function crudGenGqlInterceptorWorker<T>(startRow: number, endRow: number): (value: [T, number] | T) => T | [T, number] | {
     nodes: T;
     pageData: {

@@ -2,7 +2,7 @@ import { ArgsOptions, GqlExecutionContext, MutationOptions, Query, QueryOptions,
 import { type InjectionToken } from '@nestjs/common';
 import { IExtraArg, CrudGenFindManyOptions, IIDArg } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
-import { IDecoratorType, IFieldMapper } from '@nest-yalc-2/interfaces';
+import { IDecoratorType, IFieldMapper } from '@node-yalc/interfaces';
 import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper.js';
 import { ModuleRef } from '@nestjs/core';
 import { Mutation } from '@nestjs/graphql';
@@ -85,7 +85,7 @@ export interface IGenericResolverOptions<Entity> {
         serviceToken?: string;
     };
 }
-export declare function generateDecorators(methodFn: typeof Query | typeof Mutation, defaultName: string, typeFunc: ReturnTypeFunc, options?: IGenericResolverMethodOptions): IDecoratorType[];
+export declare function generateDecorators(methodFn: typeof Query | typeof Mutation, defaultName: string, typeFunc: ReturnTypeFunc, options?: IGenericResolverMethodOptions): import("@node-yalc/interfaces").DecoratorType[];
 export declare function defineFieldResolver<Entity extends Record<string, any> = any>(resolverInfoList: IRelationInfo[], resolver: ClassType<IGenericResolver>): void;
 export declare function defineGetSingleResource<Entity>(queryName: string, returnType: ClassType, resolver: ClassType<IGenericResolver>, methodOptions: IGenericResolverQueryOptions): void;
 export declare function defineGetGridResource<Entity>(queryName: string, returnType: ClassType, resolver: ClassType<IGenericResolver>, methodOptions: IGenericResolverQueryOptions): void;

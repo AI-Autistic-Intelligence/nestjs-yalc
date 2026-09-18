@@ -5,7 +5,7 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { map } from 'rxjs/operators';
-import { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import {
   CGQueryDto,
   PageData,

@@ -1,7 +1,7 @@
 import type { CrudGenFindManyOptions, ICrudGenGqlArgsOptions } from '../api-graphql/crud-gen-gql.interface.js';
 import { GenericService } from '../typeorm/generic.service.js';
 import type { ClassType } from '@node-yalc/types/globals';
-import type { IDecoratorType } from '@nest-yalc-2/interfaces';
+import type { IDecoratorType } from '@node-yalc/interfaces';
 import { type ODataQueryParams } from './odata-query.interface.js';
 export interface CrudRestMutationOptions {
     disabled?: boolean;

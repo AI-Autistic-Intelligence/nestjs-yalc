@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
 import { SELF_DECLARED_DEPS_METADATA } from '@nestjs/common/constants';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import type { IFieldMapper } from '@nest-yalc-2/interfaces/maps.interface.js';
+import type { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { BaseEntity, Equal, SelectQueryBuilder, getMetadataArgsStorage } from 'typeorm';
 import { FilterType, GeneralFilters, Operators } from '../crud-gen.enum.js';

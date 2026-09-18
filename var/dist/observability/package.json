@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/observability",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "description": "Observability utilities and OpenTelemetry integration for nestjs-yalc",
   "exports": {
@@ -27,7 +27,7 @@
     "@opentelemetry/sdk-node": "^0.215.0",
     "@opentelemetry/sdk-trace-base": "^2.7.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",
-    "@nest-yalc-2/event-manager": "^2.0.0",
+    "@nest-yalc-2/event-manager": "^2.1.0",
     "tslib": "^2.6.3"
   },
   "repository": {

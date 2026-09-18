@@ -247,7 +247,7 @@ export function yalcBaseAppModuleMetadataFactory(
         validationOptions: {
           allowUnknown: true,
           abortEarly: true,
-        },
+        } as any,
         /**
          * It can be global because the ConfigService registers configurations by using an alias, hence there won't be any conflict
          * It allows us to use the ConfigService in any module without having to import the ConfigModule

@@ -1,4 +1,4 @@
-import { FieldMapperProperty, IFieldMapper } from '@nest-yalc-2/interfaces';
+import { FieldMapperProperty, IFieldMapper } from '@node-yalc/interfaces';
 import { ClassType } from '@node-yalc/types/globals';
 import { FieldOptions, ReturnTypeFunc } from '@nestjs/graphql';
 import 'reflect-metadata';

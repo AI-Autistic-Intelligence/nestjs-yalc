@@ -2,7 +2,7 @@ import { Type } from '@nestjs/common';
 import { FindManyOptions, FindOperator, ObjectLiteral } from 'typeorm';
 import { IExtraArg, ICombinedWhereModel } from './crud-gen-gql.interface.js';
 import { Operators } from '../crud-gen.enum.js';
-import { FieldMapperProperty } from '@nest-yalc-2/interfaces';
+import { FieldMapperProperty } from '@node-yalc/interfaces';
 import { IModelFieldMetadata } from '../object.decorator.js';
 import { IConnection, IPageDataCrudGen } from '../crud-gen.interface.js';
 export declare class PageDataCrudGenGql implements IPageDataCrudGen {
