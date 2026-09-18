@@ -61,7 +61,6 @@
     "audit",
     "crud-gen",
     "api-strategy",
-    "aws-helpers",
     "data-loader",
     "database",
     "errors",
@@ -215,3 +214,4 @@
     "dist"
   ]
 }
+
