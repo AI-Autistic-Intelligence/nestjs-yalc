@@ -7,7 +7,7 @@ sidebar_position: 2
 # 🚀 Automated GraphQL DataLoader Batching (`@nest-yalc-2/data-loader`)
 
 ## 💡 1. What It Is & Architectural Purpose
-`@nest-yalc-2/data-loader` is the automated query optimization module for GraphQL APIs in NestJS. It eliminates the **N+1 query problem** at the root, reducing database query complexity from quadratic ($\mathcal{O}(N \cdot M)$) to constant ($\mathcal{O}(1)$).
+`@nest-yalc-2/data-loader` is the automated query optimization module for GraphQL APIs in NestJS. It eliminates the **N+1 query problem** at the root, reducing database query complexity from quadratic (O(N * M)) to constant (O(1)).
 
 ---
 
@@ -40,7 +40,7 @@ sidebar_position: 2
 | Feature | 🚀 `@nest-yalc-2/data-loader` | 🐢 Manual DataLoader |
 |---|---|---|
 | **Resolver Setup** | **1 Decorator (`@UseInterceptors(YalcDataLoaderInterceptor)`)** | Manual `DataLoader` creation in GraphQL Context per Request |
-| **Database Complexity** | **$\mathcal{O}(1)$ Constant** | $\mathcal{O}(N \cdot M)$ Quadratic (If developer forgets) |
+| **Database Complexity** | **O(1) Constant** | O(N * M) Quadratic (If developer forgets) |
 | **Maintainability** | **Zero Boilerplate** | Dozens of manual loaders to maintain |
 
 ---
