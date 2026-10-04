@@ -1,54 +1,50 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.typeMap = exports.PageDataCrudGenGql = void 0;
-exports.default = CrudGenGqlType;
-const tslib_1 = require("tslib");
-const graphql_1 = require("@nestjs/graphql");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
+import { __decorate, __metadata } from "tslib";
+import { ObjectType, Field, HideField } from '@nestjs/graphql';
+import returnValue from '@node-yalc/utils/returnValue.js';
 let PageDataCrudGenGql = class PageDataCrudGenGql {
 };
-exports.PageDataCrudGenGql = PageDataCrudGenGql;
-tslib_1.__decorate([
-    (0, graphql_1.Field)(),
-    tslib_1.__metadata("design:type", Number)
+__decorate([
+    Field(),
+    __metadata("design:type", Number)
 ], PageDataCrudGenGql.prototype, "count", void 0);
-tslib_1.__decorate([
-    (0, graphql_1.Field)(),
-    tslib_1.__metadata("design:type", Number)
+__decorate([
+    Field(),
+    __metadata("design:type", Number)
 ], PageDataCrudGenGql.prototype, "startRow", void 0);
-tslib_1.__decorate([
-    (0, graphql_1.Field)(),
-    tslib_1.__metadata("design:type", Number)
+__decorate([
+    Field(),
+    __metadata("design:type", Number)
 ], PageDataCrudGenGql.prototype, "endRow", void 0);
-exports.PageDataCrudGenGql = PageDataCrudGenGql = tslib_1.__decorate([
-    (0, graphql_1.ObjectType)()
+PageDataCrudGenGql = __decorate([
+    ObjectType()
 ], PageDataCrudGenGql);
-exports.typeMap = {};
-function CrudGenGqlType(type) {
+export { PageDataCrudGenGql };
+export const typeMap = {};
+export default function CrudGenGqlType(type) {
     const { name } = type;
-    if (exports.typeMap[`${name}`])
-        return exports.typeMap[`${name}`];
+    if (typeMap[`${name}`])
+        return typeMap[`${name}`];
     let Connection = class Connection {
         constructor() {
             this.name = `${name}Connection`;
         }
     };
-    tslib_1.__decorate([
-        (0, graphql_1.HideField)(),
-        tslib_1.__metadata("design:type", Object)
+    __decorate([
+        HideField(),
+        __metadata("design:type", Object)
     ], Connection.prototype, "name", void 0);
-    tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)([type]), { nullable: true }),
-        tslib_1.__metadata("design:type", Array)
+    __decorate([
+        Field(returnValue([type]), { nullable: true }),
+        __metadata("design:type", Array)
     ], Connection.prototype, "nodes", void 0);
-    tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(PageDataCrudGenGql), { nullable: true }),
-        tslib_1.__metadata("design:type", PageDataCrudGenGql)
+    __decorate([
+        Field(returnValue(PageDataCrudGenGql), { nullable: true }),
+        __metadata("design:type", PageDataCrudGenGql)
     ], Connection.prototype, "pageData", void 0);
-    Connection = tslib_1.__decorate([
-        (0, graphql_1.ObjectType)(`${name}Connection`, { isAbstract: true })
+    Connection = __decorate([
+        ObjectType(`${name}Connection`, { isAbstract: true })
     ], Connection);
-    exports.typeMap[`${name}`] = Connection;
-    return exports.typeMap[`${name}`];
+    typeMap[`${name}`] = Connection;
+    return typeMap[`${name}`];
 }
 //# sourceMappingURL=crud-gen-gql.type.js.map

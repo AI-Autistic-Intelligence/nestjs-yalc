@@ -1,6 +1,6 @@
 import { EventModule } from '@nest-yalc-2/event-manager/event.module.js';
 import { LoggerServiceFactory } from '@nest-yalc-2/logger/index.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { DynamicModule, ModuleMetadata } from '@nestjs/common';
 import {
   ConfigFactory,

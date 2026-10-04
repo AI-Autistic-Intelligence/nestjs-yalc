@@ -1,24 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.projectionCanonicalUuidPattern = exports.projectionPathSegmentPattern = exports.PROJECTION_INTEGER_MAX = exports.PROJECTION_INTEGER_MIN = void 0;
-exports.assertProjectionPath = assertProjectionPath;
-exports.assertProjectionResourceDefinition = assertProjectionResourceDefinition;
-exports.getProjectionReferenceIndexName = getProjectionReferenceIndexName;
-exports.getProjectionReferenceColumnNames = getProjectionReferenceColumnNames;
-exports.getProjectionReferenceTargetColumnNames = getProjectionReferenceTargetColumnNames;
-exports.getProjectionUniqueConstraintColumnNames = getProjectionUniqueConstraintColumnNames;
-exports.compileProjectionUniqueConstraintPredicate = compileProjectionUniqueConstraintPredicate;
-exports.assertProjectionCodecValue = assertProjectionCodecValue;
-exports.normalizeProjectionCodecValue = normalizeProjectionCodecValue;
-exports.assertProjectionPayloadValue = assertProjectionPayloadValue;
-exports.defineProjectionResource = defineProjectionResource;
-exports.getProjectionField = getProjectionField;
-exports.getProjectionPathValue = getProjectionPathValue;
-exports.setProjectionPathValue = setProjectionPathValue;
-exports.PROJECTION_INTEGER_MIN = -(2 ** 31);
-exports.PROJECTION_INTEGER_MAX = 2 ** 31 - 1;
-exports.projectionPathSegmentPattern = /^[A-Za-z_][A-Za-z0-9_]*$/;
-exports.projectionCanonicalUuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+export const PROJECTION_INTEGER_MIN = -(2 ** 31);
+export const PROJECTION_INTEGER_MAX = 2 ** 31 - 1;
+export const projectionPathSegmentPattern = /^[A-Za-z_][A-Za-z0-9_]*$/;
+export const projectionCanonicalUuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 function freezeDeep(value) {
     if (value && typeof value === 'object' && !Object.isFrozen(value)) {
         for (const child of Object.values(value)) {
@@ -28,14 +11,14 @@ function freezeDeep(value) {
     }
     return value;
 }
-function assertProjectionPath(path, fieldName = 'Projection JSON field') {
+export function assertProjectionPath(path, fieldName = 'Projection JSON field') {
     if (path.length === 0) {
         throw new TypeError(`${fieldName} requires a non-empty path.`);
     }
     for (const segment of path) {
         if (typeof segment !== 'string' ||
-            !exports.projectionPathSegmentPattern.test(segment)) {
-            throw new TypeError(`${fieldName} has an invalid path segment. Portable paths use /${exports.projectionPathSegmentPattern.source}/.`);
+            !projectionPathSegmentPattern.test(segment)) {
+            throw new TypeError(`${fieldName} has an invalid path segment. Portable paths use /${projectionPathSegmentPattern.source}/.`);
         }
     }
 }
@@ -188,7 +171,7 @@ function assertProjectionUniqueConstraints(definition, indexNames) {
         }
     }
 }
-function assertProjectionResourceDefinition(definition) {
+export function assertProjectionResourceDefinition(definition) {
     assertIdentifier(definition.id, 'Projection resource id');
     assertIdentifier(definition.tableName, 'Projection table name');
     assertIdentifier(definition.identity.column, 'Projection identity column');
@@ -323,20 +306,20 @@ function assertProjectionResourceDefinition(definition) {
         throw new TypeError('Projection reference and unique constraint names must be distinct.');
     }
 }
-function getProjectionReferenceIndexName(reference) {
+export function getProjectionReferenceIndexName(reference) {
     return `${reference.name}_idx`;
 }
-function getProjectionReferenceColumnNames(definition, reference) {
+export function getProjectionReferenceColumnNames(definition, reference) {
     assertProjectionResourceDefinition(definition);
     return [
         definition.scope.column,
         ...reference.fields.map((fieldName) => promotedColumnField(definition, fieldName, `Projection reference ${reference.name} field ${fieldName}`).column),
     ];
 }
-function getProjectionReferenceTargetColumnNames(reference) {
+export function getProjectionReferenceTargetColumnNames(reference) {
     return [reference.target.scopeColumn, ...reference.target.identityColumns];
 }
-function getProjectionUniqueConstraintColumnNames(definition, constraint) {
+export function getProjectionUniqueConstraintColumnNames(definition, constraint) {
     assertProjectionResourceDefinition(definition);
     return [
         definition.scope.column,
@@ -366,7 +349,7 @@ function compileProjectionPredicateLiteral(field, value, dialect) {
     }
     throw new TypeError(`Projection unique predicates cannot use ${field.codec} field ${field.name}.`);
 }
-function compileProjectionUniqueConstraintPredicate(definition, constraint, dialect) {
+export function compileProjectionUniqueConstraintPredicate(definition, constraint, dialect) {
     assertProjectionResourceDefinition(definition);
     if (dialect !== 'sqlite' && dialect !== 'postgres') {
         throw new TypeError(`Unsupported projection predicate dialect ${dialect}.`);
@@ -386,7 +369,7 @@ function compileProjectionUniqueConstraintPredicate(definition, constraint, dial
     })
         .join(' AND ');
 }
-function assertProjectionCodecValue(field, value) {
+export function assertProjectionCodecValue(field, value) {
     if (value === null) {
         if (!field.nullable) {
             throw new TypeError(`Projection field ${field.name} cannot be null.`);
@@ -401,7 +384,7 @@ function assertProjectionCodecValue(field, value) {
     }
     if (field.codec === 'uuid') {
         if (typeof value !== 'string' ||
-            !exports.projectionCanonicalUuidPattern.test(value)) {
+            !projectionCanonicalUuidPattern.test(value)) {
             throw new TypeError(`Projection UUID field ${field.name} must be a canonical UUID.`);
         }
         return;
@@ -416,8 +399,8 @@ function assertProjectionCodecValue(field, value) {
     }
     if (field.codec === 'integer') {
         if (!Number.isInteger(value) ||
-            value < exports.PROJECTION_INTEGER_MIN ||
-            value > exports.PROJECTION_INTEGER_MAX) {
+            value < PROJECTION_INTEGER_MIN ||
+            value > PROJECTION_INTEGER_MAX) {
             throw new TypeError(`Projection integer field ${field.name} must be a signed 32-bit integer.`);
         }
         return;
@@ -432,7 +415,7 @@ function assertProjectionCodecValue(field, value) {
         throw new TypeError(`Projection JSON field ${field.name} must contain a JSON-compatible value.`);
     }
 }
-function normalizeProjectionCodecValue(field, value) {
+export function normalizeProjectionCodecValue(field, value) {
     if (field.codec === 'instant' && value instanceof Date) {
         if (Number.isNaN(value.getTime())) {
             throw new TypeError(`Projection instant field ${field.name} must be a valid Date.`);
@@ -467,7 +450,7 @@ function isJsonCompatible(value, seen) {
     seen.add(value);
     return Object.values(value).every((item) => isJsonCompatible(item, seen));
 }
-function assertProjectionPayloadValue(value) {
+export function assertProjectionPayloadValue(value) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
         throw new TypeError('Projection payload must be a JSON object.');
     }
@@ -475,18 +458,18 @@ function assertProjectionPayloadValue(value) {
         throw new TypeError('Projection payload must be JSON-compatible.');
     }
 }
-function defineProjectionResource(definition) {
+export function defineProjectionResource(definition) {
     assertProjectionResourceDefinition(definition);
     return freezeDeep(definition);
 }
-function getProjectionField(definition, name) {
+export function getProjectionField(definition, name) {
     const field = definition.fields.find((candidate) => candidate.name === name);
     if (!field) {
         throw new TypeError(`Unknown projection field ${name}.`);
     }
     return field;
 }
-function getProjectionPathValue(payload, path) {
+export function getProjectionPathValue(payload, path) {
     let current = payload;
     for (const part of path) {
         if (!current || typeof current !== 'object' || Array.isArray(current)) {
@@ -496,7 +479,7 @@ function getProjectionPathValue(payload, path) {
     }
     return current;
 }
-function setProjectionPathValue(payload, path, value) {
+export function setProjectionPathValue(payload, path, value) {
     assertProjectionPath(path);
     const clone = structuredClone(payload);
     let current = clone;

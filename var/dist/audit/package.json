@@ -1,15 +1,14 @@
 {
   "name": "@nest-yalc-2/audit",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "description": "Engine-level database mutation journal utilities for NestJS applications",
   "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./*.js": "./src/*.js",
     "./*": "./src/*"
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "MIT",
   "types": "./src/index.d.ts",
   "files": [

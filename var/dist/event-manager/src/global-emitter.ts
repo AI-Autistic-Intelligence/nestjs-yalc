@@ -1,1 +1,1 @@
-export * from '@node-yalc/event-manager/global-emitter';
+export * from '@node-yalc/event-manager/global-emitter.js';

@@ -1,14 +1,13 @@
 {
   "name": "@nest-yalc-2/api-strategy",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "description": "",
   "exports": {
     ".": "./src/index.js",
-    "./*.js": "./src/*.js",
     "./*": "./src/*"
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "MIT",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",

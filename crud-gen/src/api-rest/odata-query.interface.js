@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseODataQueryParams = parseODataQueryParams;
-function parseODataQueryParams(query) {
+export function parseODataQueryParams(query) {
     const get = (key) => {
         const value = query[key];
         if (value === undefined || value === null)

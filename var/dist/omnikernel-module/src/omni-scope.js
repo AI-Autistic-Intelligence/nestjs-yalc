@@ -1,12 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniScopeContext = exports.defaultOmniDeletionPolicies = exports.OMNI_KERNEL_OPTIONS = void 0;
-exports.normalizeOmniKernelRegistrationOptions = normalizeOmniKernelRegistrationOptions;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const core_1 = require("@nestjs/core");
-exports.OMNI_KERNEL_OPTIONS = Symbol('OMNI_KERNEL_OPTIONS');
-exports.defaultOmniDeletionPolicies = {
+import { __decorate, __metadata, __param } from "tslib";
+import { Inject, Injectable, Scope } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
+export const OMNI_KERNEL_OPTIONS = Symbol('OMNI_KERNEL_OPTIONS');
+export const defaultOmniDeletionPolicies = {
     named: 'hard',
     record: 'tombstone',
     document: 'tombstone',
@@ -15,7 +11,7 @@ exports.defaultOmniDeletionPolicies = {
     externalRef: 'hard',
 };
 function normalizeOmniDeletionPolicies(deletion) {
-    const knownResources = new Set(Object.keys(exports.defaultOmniDeletionPolicies));
+    const knownResources = new Set(Object.keys(defaultOmniDeletionPolicies));
     for (const [resource, policy] of Object.entries(deletion ?? {})) {
         if (!knownResources.has(resource)) {
             throw new TypeError(`Unknown OmniKernel deletion policy resource: ${resource}.`);
@@ -25,11 +21,11 @@ function normalizeOmniDeletionPolicies(deletion) {
         }
     }
     return {
-        ...exports.defaultOmniDeletionPolicies,
+        ...defaultOmniDeletionPolicies,
         ...deletion,
     };
 }
-function normalizeOmniKernelRegistrationOptions(options) {
+export function normalizeOmniKernelRegistrationOptions(options) {
     const candidate = typeof options === 'string' ? { dbConnection: options } : options;
     if (!candidate.dbConnection) {
         throw new TypeError('OmniKernelModule requires a database connection name.');
@@ -70,11 +66,11 @@ let OmniScopeContext = class OmniScopeContext {
         return `${this.scopeId}:${key}`;
     }
 };
-exports.OmniScopeContext = OmniScopeContext;
-exports.OmniScopeContext = OmniScopeContext = tslib_1.__decorate([
-    (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
-    tslib_1.__param(0, (0, common_1.Inject)(core_1.REQUEST)),
-    tslib_1.__param(1, (0, common_1.Inject)(exports.OMNI_KERNEL_OPTIONS)),
-    tslib_1.__metadata("design:paramtypes", [Object, void 0])
+OmniScopeContext = __decorate([
+    Injectable({ scope: Scope.REQUEST }),
+    __param(0, Inject(REQUEST)),
+    __param(1, Inject(OMNI_KERNEL_OPTIONS)),
+    __metadata("design:paramtypes", [Object, void 0])
 ], OmniScopeContext);
+export { OmniScopeContext };
 //# sourceMappingURL=omni-scope.js.map

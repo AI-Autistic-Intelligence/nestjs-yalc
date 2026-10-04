@@ -1,6 +1,6 @@
 import { type InjectionToken, type Provider } from '@nestjs/common';
 import { type ICrudGenResourceFactoryResult } from '@nest-yalc-2/crud-gen';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import type { ObjectLiteral } from 'typeorm';
 import { OmniRelationEntity } from './base/omni-relation.entity.js';
 import type { OmniProjectionReaderCatalogProvider, OmniRelationProjectionReaderRegistration } from './omni-projection.catalog.js';

@@ -1,7 +1,7 @@
-import { YalcEventService } from '@node-yalc/event-manager/event.service';
+import { YalcEventService } from '@node-yalc/event-manager/event.service.js';
 import { envIsTrue } from '@nest-yalc-2/utils';
 import { Logger } from 'typeorm';
-import { LoggerEvent } from '@node-yalc/logger/logger.event';
+import { LoggerEvent } from '@node-yalc/logger/logger.event.js';
 
 export class TypeORMLogger implements Logger {
   private isLoggerEnabled = false;

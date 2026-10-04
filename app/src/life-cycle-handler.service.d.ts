@@ -1,4 +1,4 @@
-import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service';
+import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service.js';
 import { OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { type IYalcBaseAppOptions } from './base-app.interface.js';
 import { AppContextService } from './app-context.service.js';

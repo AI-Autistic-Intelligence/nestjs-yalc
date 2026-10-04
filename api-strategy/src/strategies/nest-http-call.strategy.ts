@@ -1,4 +1,4 @@
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { HttpService } from '@nestjs/axios';
 import {
   HttpAbstractStrategy,

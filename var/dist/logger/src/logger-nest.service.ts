@@ -5,9 +5,9 @@ import {
   ImprovedLoggerService,
   LogMethodOptions,
   beforeLogging,
-} from '@node-yalc/logger/logger-abstract.service';
-import { maskDataInObject } from '@node-yalc/logger/logger.helper';
-import { WithPluginSystem } from '@node-yalc/utils/plugin.helper';
+} from '@node-yalc/logger/logger-abstract.service.js';
+import { maskDataInObject } from '@node-yalc/logger/logger.helper.js';
+import { WithPluginSystem } from '@node-yalc/utils/plugin.helper.js';
 
 export class ImprovedNestLogger
   extends WithPluginSystem<ILoggerPluginMethods>(ConsoleLogger)

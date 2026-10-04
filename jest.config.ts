@@ -26,7 +26,7 @@ Object.keys(paths).map((k: string) => {
     .replace(/\/index\.ts$/, '')
     .replace(/\/index\.d\.ts$/, '');
 
-  if (!k.endsWith('*')) {
+  if (!k.endsWith('*') && !pathValue.includes('node_modules/')) {
     projectList[k] = {
       path: basePath,
       sourcePath,
@@ -37,7 +37,7 @@ Object.keys(paths).map((k: string) => {
 
 const options: IOptions = {
   defaultConfOptions: {
-    transformEsModules: ['@faker-js', 'p-map'],
+    transformEsModules: ['@faker-js', 'p-map', '@node-yalc', '@nest-yalc-2'],
     jestConf: {
       // injectGlobals: false, -> we can't set it to false because of this issue: https://github.com/golevelup/nestjs/issues/557
     },

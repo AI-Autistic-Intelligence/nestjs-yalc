@@ -1,12 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.defineOmniExtensionProjection = defineOmniExtensionProjection;
-exports.createOmniExtensionProjectionEntity = createOmniExtensionProjectionEntity;
-exports.createOmniExtensionProjectionTable = createOmniExtensionProjectionTable;
-const crud_gen_1 = require("@nest-yalc-2/crud-gen");
-const typeorm_1 = require("typeorm");
-const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
-const omni_record_status_enum_js_1 = require("./omni-record-status.enum.js");
+import { compileProjectionUniqueConstraintPredicate, createProjectionSchemaOptions, defineProjectionResource, getProjectionReferenceColumnNames, getProjectionReferenceIndexName, getProjectionReferenceTargetColumnNames, getProjectionUniqueConstraintColumnNames, } from '@nest-yalc-2/crud-gen';
+import { Column, Entity, ForeignKey, Index, PrimaryColumn, Table, } from 'typeorm';
+import { OmniRecordEntity } from './base/omni-record.entity.js';
+import { OmniRecordStatus } from './omni-record-status.enum.js';
 function assertNonEmptyString(value, label, max) {
     if (typeof value !== 'string' ||
         value.trim().length === 0 ||
@@ -14,7 +9,7 @@ function assertNonEmptyString(value, label, max) {
         throw new TypeError(`${label} must be a non-empty string up to ${max} characters.`);
     }
 }
-function defineOmniExtensionProjection(definition) {
+export function defineOmniExtensionProjection(definition) {
     assertNonEmptyString(definition.owner?.kind, 'Omni extension owner kind', 64);
     assertNonEmptyString(definition.owner?.title, 'Omni extension owner title', 255);
     assertNonEmptyString(definition.owner?.schema?.id, 'Omni extension owner schema id', 128);
@@ -23,13 +18,13 @@ function defineOmniExtensionProjection(definition) {
         definition.owner.schema.version > 2_147_483_647) {
         throw new TypeError('Omni extension owner schema version must be a positive signed 32-bit integer.');
     }
-    if (!Object.values(omni_record_status_enum_js_1.OmniRecordStatus).includes(definition.owner.status)) {
+    if (!Object.values(OmniRecordStatus).includes(definition.owner.status)) {
         throw new TypeError('Omni extension owner status must be an Omni record status.');
     }
-    return (0, crud_gen_1.defineProjectionResource)(definition);
+    return defineProjectionResource(definition);
 }
 function extensionSchema(definition, dialect) {
-    const projectionSchema = (0, crud_gen_1.createProjectionSchemaOptions)(definition, dialect);
+    const projectionSchema = createProjectionSchemaOptions(definition, dialect);
     const { [definition.revision.column]: _ownerRevision, ...columns } = projectionSchema.columns;
     const scopeColumn = definition.scope.column;
     const identityColumn = definition.identity.column;
@@ -51,22 +46,22 @@ function extensionSchema(definition, dialect) {
         indices: [
             ...projectionSchema.indices,
             ...references.map((reference) => ({
-                name: (0, crud_gen_1.getProjectionReferenceIndexName)(reference),
-                columns: (0, crud_gen_1.getProjectionReferenceColumnNames)(definition, reference),
+                name: getProjectionReferenceIndexName(reference),
+                columns: getProjectionReferenceColumnNames(definition, reference),
                 unique: false,
             })),
             ...uniqueConstraints.map((constraint) => ({
                 name: constraint.name,
-                columns: (0, crud_gen_1.getProjectionUniqueConstraintColumnNames)(definition, constraint),
+                columns: getProjectionUniqueConstraintColumnNames(definition, constraint),
                 unique: true,
-                where: (0, crud_gen_1.compileProjectionUniqueConstraintPredicate)(definition, constraint, dialect.name),
+                where: compileProjectionUniqueConstraintPredicate(definition, constraint, dialect.name),
             })),
         ],
         foreignKeys: references.map((reference) => ({
             name: reference.name,
-            columnNames: (0, crud_gen_1.getProjectionReferenceColumnNames)(definition, reference),
+            columnNames: getProjectionReferenceColumnNames(definition, reference),
             referencedTableName: reference.target.tableName,
-            referencedColumnNames: (0, crud_gen_1.getProjectionReferenceTargetColumnNames)(reference),
+            referencedColumnNames: getProjectionReferenceTargetColumnNames(reference),
             onDelete: reference.onDelete,
         })),
     };
@@ -84,47 +79,47 @@ function migrationColumnType(type) {
         return type;
     throw new TypeError('Omni extension projection column type is unsupported.');
 }
-function createOmniExtensionProjectionEntity(definition, dialect) {
+export function createOmniExtensionProjectionEntity(definition, dialect) {
     const { columns, indices, foreignKeys } = extensionSchema(definition, dialect);
     const scopeColumn = definition.scope.column;
     const identityColumn = definition.identity.column;
     class OmniExtensionProjectionEntity {
     }
-    (0, typeorm_1.Entity)(definition.tableName)(OmniExtensionProjectionEntity);
+    Entity(definition.tableName)(OmniExtensionProjectionEntity);
     for (const [columnName, declared] of Object.entries(columns)) {
         const options = { ...declared };
         const primary = options.primary === true;
         delete options.primary;
         if (primary) {
-            (0, typeorm_1.PrimaryColumn)(options.type, options)(OmniExtensionProjectionEntity.prototype, columnName);
+            PrimaryColumn(options.type, options)(OmniExtensionProjectionEntity.prototype, columnName);
         }
         else if (typeof options.type === 'function') {
-            (0, typeorm_1.Column)(options)(OmniExtensionProjectionEntity.prototype, columnName);
+            Column(options)(OmniExtensionProjectionEntity.prototype, columnName);
         }
         else {
-            (0, typeorm_1.Column)(options.type, options)(OmniExtensionProjectionEntity.prototype, columnName);
+            Column(options.type, options)(OmniExtensionProjectionEntity.prototype, columnName);
         }
     }
     for (const index of indices) {
         if (!index.name || !Array.isArray(index.columns)) {
             throw new TypeError('Omni extension projection indexes require a name and column list.');
         }
-        (0, typeorm_1.Index)(index.name, index.columns, {
+        Index(index.name, index.columns, {
             unique: index.unique,
             ...(index.where ? { where: index.where } : {}),
         })(OmniExtensionProjectionEntity);
     }
     for (const foreignKey of foreignKeys) {
-        (0, typeorm_1.ForeignKey)(foreignKey.referencedTableName, foreignKey.columnNames, foreignKey.referencedColumnNames, { name: foreignKey.name, onDelete: foreignKey.onDelete })(OmniExtensionProjectionEntity);
+        ForeignKey(foreignKey.referencedTableName, foreignKey.columnNames, foreignKey.referencedColumnNames, { name: foreignKey.name, onDelete: foreignKey.onDelete })(OmniExtensionProjectionEntity);
     }
-    (0, typeorm_1.ForeignKey)(() => omni_record_entity_js_1.OmniRecordEntity, [scopeColumn, identityColumn], ['scopeId', 'guid'], { onDelete: 'CASCADE' })(OmniExtensionProjectionEntity);
+    ForeignKey(() => OmniRecordEntity, [scopeColumn, identityColumn], ['scopeId', 'guid'], { onDelete: 'CASCADE' })(OmniExtensionProjectionEntity);
     return OmniExtensionProjectionEntity;
 }
-function createOmniExtensionProjectionTable(definition, dialect) {
+export function createOmniExtensionProjectionTable(definition, dialect) {
     const { columns, indices, foreignKeys } = extensionSchema(definition, dialect);
     const scopeColumn = definition.scope.column;
     const identityColumn = definition.identity.column;
-    return new typeorm_1.Table({
+    return new Table({
         name: definition.tableName,
         columns: Object.entries(columns).map(([name, options]) => ({
             name,

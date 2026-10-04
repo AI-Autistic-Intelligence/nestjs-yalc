@@ -8,7 +8,7 @@ import {
   sortModelFactory,
 } from './ag-grid.input';
 import { FilterScalar } from './filter.scalar';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { ClassType } from '@node-yalc/types';
 import { RowDefaultValues } from './ag-grid.enum';
 

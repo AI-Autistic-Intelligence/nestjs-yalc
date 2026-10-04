@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Observed = Observed;
-function Observed(name) {
+export function Observed(name) {
     return (target, propertyKey, descriptor) => {
         const original = descriptor.value;
         const operationName = name ?? `${target.constructor.name}.${String(propertyKey)}`;

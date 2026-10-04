@@ -10,7 +10,7 @@ import {
   ModelObject,
 } from '@nest-yalc-2/crud-gen/object.decorator.js';
 import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import {
   IsDate,
   IsEnum,

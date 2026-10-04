@@ -1,4 +1,4 @@
-import { FieldMapper } from '@node-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types';
 import { ExecutionContext } from '@nestjs/common';
 import { ArgsOptions, ReturnTypeFuncValue } from '@nestjs/graphql';

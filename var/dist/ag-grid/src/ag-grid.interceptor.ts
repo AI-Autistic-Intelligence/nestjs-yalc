@@ -5,7 +5,7 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { map } from 'rxjs/operators';
-import { FieldMapper } from '@node-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 export function agGridInterceptorWorker<T>(startRow: number, endRow: number) {

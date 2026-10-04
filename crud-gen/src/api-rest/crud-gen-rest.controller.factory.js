@@ -1,20 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.crudRestControllerFactory = crudRestControllerFactory;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const crud_gen_args_rest_decorator_js_1 = require("./crud-gen-args-rest.decorator.js");
-const crud_gen_rest_interceptor_js_1 = require("./crud-gen-rest.interceptor.js");
-const generic_service_js_1 = require("../typeorm/generic.service.js");
-const crud_gen_helpers_js_1 = require("../crud-gen.helpers.js");
-const odata_query_interface_js_1 = require("./odata-query.interface.js");
-const typeorm_1 = require("typeorm");
+import { __decorate, __metadata, __param } from "tslib";
+import { Controller, Get, Inject, Param, applyDecorators, UseInterceptors, Post, Put, Delete, Body, Query, BadRequestException, ClassSerializerInterceptor, } from '@nestjs/common';
+import { CGQueryArgs } from './crud-gen-args-rest.decorator.js';
+import { buildCrudGenRestSimpleMapperInterceptor, CrudGenRestPaginationInterceptor, } from './crud-gen-rest.interceptor.js';
+import { GenericService, getServiceToken } from '../typeorm/generic.service.js';
+import { getProviderToken } from '../crud-gen.helpers.js';
+import { parseODataQueryParams, } from './odata-query.interface.js';
+import { getMetadataArgsStorage } from 'typeorm';
 const toKebabCase = (value) => value
     .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
     .replace(/_+/g, '-')
     .toLowerCase();
 function inferSinglePrimaryField(entityModel) {
-    const primaryColumns = (0, typeorm_1.getMetadataArgsStorage)().columns.filter((column) => {
+    const primaryColumns = getMetadataArgsStorage().columns.filter((column) => {
         return (typeof column.target === 'function' &&
             (column.target === entityModel ||
                 entityModel.prototype instanceof column.target) &&
@@ -24,8 +21,8 @@ function inferSinglePrimaryField(entityModel) {
         ? primaryColumns[0].propertyName
         : undefined;
 }
-function crudRestControllerFactory(options) {
-    const { entityModel, dto = entityModel, serialize = false, path = toKebabCase(entityModel.name), serviceToken = (0, generic_service_js_1.getServiceToken)(entityModel), query = { entityType: entityModel }, idField = inferSinglePrimaryField(entityModel) ??
+export function crudRestControllerFactory(options) {
+    const { entityModel, dto = entityModel, serialize = false, path = toKebabCase(entityModel.name), serviceToken = getServiceToken(entityModel), query = { entityType: entityModel }, idField = inferSinglePrimaryField(entityModel) ??
         'id', readonly: isReadonly = false, mutations, } = options;
     let CrudRestController = class CrudRestController {
         constructor(service) {
@@ -53,7 +50,7 @@ function crudRestControllerFactory(options) {
         }
         mapQuery(rawQuery, legacy) {
             if (this.hasODataParams(rawQuery)) {
-                const params = (0, odata_query_interface_js_1.parseODataQueryParams)(rawQuery);
+                const params = parseODataQueryParams(rawQuery);
                 return {
                     options: this.mapODataToFindOptions(params),
                     withCount: params.count ?? true,
@@ -96,7 +93,7 @@ function crudRestControllerFactory(options) {
                 if (allowed) {
                     const invalid = params.expand.filter((value) => !allowed.includes(value));
                     if (invalid.length) {
-                        throw new common_1.BadRequestException(`Unsupported $expand value(s): ${invalid.join(', ')}`);
+                        throw new BadRequestException(`Unsupported $expand value(s): ${invalid.join(', ')}`);
                     }
                 }
                 findOptions.relations = params.expand;
@@ -112,42 +109,42 @@ function crudRestControllerFactory(options) {
             return findOptions;
         }
     };
-    tslib_1.__decorate([
-        (0, common_1.Get)(),
-        (0, common_1.UseInterceptors)(...(serialize ? [common_1.ClassSerializerInterceptor] : []), crud_gen_rest_interceptor_js_1.CrudGenRestPaginationInterceptor, (0, crud_gen_rest_interceptor_js_1.buildCrudGenRestSimpleMapperInterceptor)(dto, true)),
-        tslib_1.__param(0, (0, common_1.Query)()),
-        tslib_1.__param(1, (0, crud_gen_args_rest_decorator_js_1.CGQueryArgs)(query)),
-        tslib_1.__metadata("design:type", Function),
-        tslib_1.__metadata("design:paramtypes", [Object, Object]),
-        tslib_1.__metadata("design:returntype", Promise)
+    __decorate([
+        Get(),
+        UseInterceptors(...(serialize ? [ClassSerializerInterceptor] : []), CrudGenRestPaginationInterceptor, buildCrudGenRestSimpleMapperInterceptor(dto, true)),
+        __param(0, Query()),
+        __param(1, CGQueryArgs(query)),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
     ], CrudRestController.prototype, "list", null);
-    tslib_1.__decorate([
-        (0, common_1.Get)(':id'),
-        (0, common_1.UseInterceptors)(...(serialize ? [common_1.ClassSerializerInterceptor] : []), (0, crud_gen_rest_interceptor_js_1.buildCrudGenRestSimpleMapperInterceptor)(dto, false)),
-        tslib_1.__param(0, (0, common_1.Param)('id')),
-        tslib_1.__metadata("design:type", Function),
-        tslib_1.__metadata("design:paramtypes", [String]),
-        tslib_1.__metadata("design:returntype", Promise)
+    __decorate([
+        Get(':id'),
+        UseInterceptors(...(serialize ? [ClassSerializerInterceptor] : []), buildCrudGenRestSimpleMapperInterceptor(dto, false)),
+        __param(0, Param('id')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Promise)
     ], CrudRestController.prototype, "getById", null);
-    tslib_1.__decorate([
-        tslib_1.__param(0, (0, common_1.Body)()),
-        tslib_1.__metadata("design:type", Function),
-        tslib_1.__metadata("design:paramtypes", [Object]),
-        tslib_1.__metadata("design:returntype", Promise)
+    __decorate([
+        __param(0, Body()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
     ], CrudRestController.prototype, "create", null);
-    tslib_1.__decorate([
-        tslib_1.__param(1, (0, common_1.Body)()),
-        tslib_1.__metadata("design:type", Function),
-        tslib_1.__metadata("design:paramtypes", [String, Object]),
-        tslib_1.__metadata("design:returntype", Promise)
+    __decorate([
+        __param(1, Body()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String, Object]),
+        __metadata("design:returntype", Promise)
     ], CrudRestController.prototype, "update", null);
-    CrudRestController = tslib_1.__decorate([
-        (0, common_1.Controller)(path),
-        tslib_1.__param(0, (0, common_1.Inject)((0, crud_gen_helpers_js_1.getProviderToken)(serviceToken))),
-        tslib_1.__metadata("design:paramtypes", [generic_service_js_1.GenericService])
+    CrudRestController = __decorate([
+        Controller(path),
+        __param(0, Inject(getProviderToken(serviceToken))),
+        __metadata("design:paramtypes", [GenericService])
     ], CrudRestController);
     if (options.decorators?.length) {
-        (0, common_1.applyDecorators)(...options.decorators)(CrudRestController);
+        applyDecorators(...options.decorators)(CrudRestController);
     }
     if (!isReadonly) {
         const proto = CrudRestController.prototype;
@@ -155,21 +152,21 @@ function crudRestControllerFactory(options) {
         if (!createDescriptor)
             throw new ReferenceError('CrudRestController.create must have a descriptor');
         if (!mutations?.create?.disabled) {
-            (0, common_1.applyDecorators)((0, common_1.Post)(), (0, common_1.UseInterceptors)(...(serialize ? [common_1.ClassSerializerInterceptor] : []), (0, crud_gen_rest_interceptor_js_1.buildCrudGenRestSimpleMapperInterceptor)(dto, false)), ...(mutations?.create?.decorators ?? []))(proto, 'create', createDescriptor);
+            applyDecorators(Post(), UseInterceptors(...(serialize ? [ClassSerializerInterceptor] : []), buildCrudGenRestSimpleMapperInterceptor(dto, false)), ...(mutations?.create?.decorators ?? []))(proto, 'create', createDescriptor);
         }
         const updateDescriptor = Object.getOwnPropertyDescriptor(proto, 'update');
         if (!updateDescriptor)
             throw new ReferenceError('CrudRestController.update must have a descriptor');
         if (!mutations?.update?.disabled) {
-            (0, common_1.applyDecorators)((0, common_1.Put)(':id'), (0, common_1.UseInterceptors)(...(serialize ? [common_1.ClassSerializerInterceptor] : []), (0, crud_gen_rest_interceptor_js_1.buildCrudGenRestSimpleMapperInterceptor)(dto, false)), ...(mutations?.update?.decorators ?? []))(proto, 'update', updateDescriptor);
-            (0, common_1.Param)('id')(proto, 'update', 0);
+            applyDecorators(Put(':id'), UseInterceptors(...(serialize ? [ClassSerializerInterceptor] : []), buildCrudGenRestSimpleMapperInterceptor(dto, false)), ...(mutations?.update?.decorators ?? []))(proto, 'update', updateDescriptor);
+            Param('id')(proto, 'update', 0);
         }
         const removeDescriptor = Object.getOwnPropertyDescriptor(proto, 'remove');
         if (!removeDescriptor)
             throw new ReferenceError('CrudRestController.remove must have a descriptor');
         if (!mutations?.delete?.disabled) {
-            (0, common_1.applyDecorators)((0, common_1.Delete)(':id'), ...(mutations?.delete?.decorators ?? []))(proto, 'remove', removeDescriptor);
-            (0, common_1.Param)('id')(proto, 'remove', 0);
+            applyDecorators(Delete(':id'), ...(mutations?.delete?.decorators ?? []))(proto, 'remove', removeDescriptor);
+            Param('id')(proto, 'remove', 0);
         }
     }
     return CrudRestController;

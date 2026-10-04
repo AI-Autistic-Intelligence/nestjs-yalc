@@ -1,5 +1,5 @@
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { ClassProvider, ExistingProvider, FactoryProvider, Provider, ValueProvider } from '@nestjs/common';
 import { ReturnTypeFuncValue } from '@nestjs/graphql';
 import { ObjectLiteral, SelectQueryBuilder } from 'typeorm';
@@ -78,7 +78,7 @@ export declare function CrudGenGraphqlFactory<Entity extends Record<string, any>
     providers: Provider[];
 };
 export declare function getProviderToken(entity: ClassType | Provider | string | symbol | Function): string;
-export declare function filterTypeToNativeType(type: FilterType): DateConstructor | ArrayConstructor | NumberConstructor | StringConstructor;
+export declare function filterTypeToNativeType(type: FilterType): ArrayConstructor | NumberConstructor | DateConstructor | StringConstructor;
 export interface IRelationInfo {
     relation: RelationMetadataArgs;
     join: JoinColumnMetadataArgs | undefined;

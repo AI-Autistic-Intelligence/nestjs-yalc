@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniRelationService = void 0;
-const common_1 = require("@nestjs/common");
-const typeorm_1 = require("typeorm");
-const omni_relation_kind_contract_js_1 = require("./omni-relation-kind.contract.js");
-const omni_relation_semantics_js_1 = require("./omni-relation-semantics.js");
-const omni_scoped_service_js_1 = require("./omni-scoped.service.js");
-class OmniRelationService extends omni_scoped_service_js_1.OmniScopedService {
+import { BadRequestException } from '@nestjs/common';
+import { IsNull, } from 'typeorm';
+import { canonicalOmniRelationKinds, } from './omni-relation-kind.contract.js';
+import { isAllowedOmniRelation } from './omni-relation-semantics.js';
+import { OmniScopedService } from './omni-scoped.service.js';
+export class OmniRelationService extends OmniScopedService {
     constructor(repository, scope, deletion, recordRepository, kinds) {
         super(repository, scope, deletion);
         this.recordRepository = recordRepository;
@@ -20,7 +17,7 @@ class OmniRelationService extends omni_scoped_service_js_1.OmniScopedService {
     async updateEntity(conditions, input, findOptions, returnEntity = true) {
         for (const field of ['guid', 'sourceRecordId', 'targetRecordId']) {
             if (Object.prototype.hasOwnProperty.call(input, field)) {
-                throw new common_1.BadRequestException(`Omni relation ${field} is immutable.`);
+                throw new BadRequestException(`Omni relation ${field} is immutable.`);
             }
         }
         const current = await super.getEntity(conditions, undefined, undefined, undefined, {
@@ -39,14 +36,14 @@ class OmniRelationService extends omni_scoped_service_js_1.OmniScopedService {
             this.kinds.assert(kind);
         }
         catch (error) {
-            throw new common_1.BadRequestException(error instanceof Error
+            throw new BadRequestException(error instanceof Error
                 ? error.message
                 : 'Omni relation kind is invalid.');
         }
         const records = await recordRepository.find({
             where: [
-                { scopeId: this.scopeId, guid: sourceRecordId, deletedAt: (0, typeorm_1.IsNull)() },
-                { scopeId: this.scopeId, guid: targetRecordId, deletedAt: (0, typeorm_1.IsNull)() },
+                { scopeId: this.scopeId, guid: sourceRecordId, deletedAt: IsNull() },
+                { scopeId: this.scopeId, guid: targetRecordId, deletedAt: IsNull() },
             ],
         });
         const source = records.find((record) => record.guid === sourceRecordId);
@@ -54,23 +51,22 @@ class OmniRelationService extends omni_scoped_service_js_1.OmniScopedService {
         if (!source || !target)
             this.notFound();
         this.assertEndpointKinds(source, target);
-        const isCanonical = omni_relation_kind_contract_js_1.canonicalOmniRelationKinds.includes(kind);
+        const isCanonical = canonicalOmniRelationKinds.includes(kind);
         if (isCanonical &&
-            !(0, omni_relation_semantics_js_1.isAllowedOmniRelation)({
+            !isAllowedOmniRelation({
                 sourceKind: source.kind,
                 targetKind: target.kind,
                 relationKind: kind,
             })) {
-            throw new common_1.BadRequestException('Omni relation kind is not valid for these endpoint kinds.');
+            throw new BadRequestException('Omni relation kind is not valid for these endpoint kinds.');
         }
     }
     assertEndpointKinds(_source, _target) { }
     requiredIdentifier(value, field) {
         if (typeof value !== 'string' || value.trim().length === 0) {
-            throw new common_1.BadRequestException(`Omni relation ${field} must be a non-empty string.`);
+            throw new BadRequestException(`Omni relation ${field} must be a non-empty string.`);
         }
         return value;
     }
 }
-exports.OmniRelationService = OmniRelationService;
 //# sourceMappingURL=omni-relation.service.js.map

@@ -1,12 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OpenTelemetryEventManagerPlugin = void 0;
-exports.matchesEventPattern = matchesEventPattern;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const event_manager_1 = require("@nest-yalc-2/event-manager");
-const tokens_js_1 = require("../tokens.js");
-const telemetry_service_js_1 = require("../telemetry.service.js");
+import { __decorate, __metadata, __param } from "tslib";
+import { Inject, Injectable, } from '@nestjs/common';
+import { YalcEventService } from '@nest-yalc-2/event-manager';
+import { OBSERVABILITY_OPTIONS } from '../tokens.js';
+import { TelemetryService } from '../telemetry.service.js';
 let OpenTelemetryEventManagerPlugin = class OpenTelemetryEventManagerPlugin {
     constructor(events, telemetry, options) {
         this.events = events;
@@ -40,14 +36,14 @@ let OpenTelemetryEventManagerPlugin = class OpenTelemetryEventManagerPlugin {
         return patterns.some((pattern) => matchesEventPattern(eventName, pattern));
     }
 };
-exports.OpenTelemetryEventManagerPlugin = OpenTelemetryEventManagerPlugin;
-exports.OpenTelemetryEventManagerPlugin = OpenTelemetryEventManagerPlugin = tslib_1.__decorate([
-    (0, common_1.Injectable)(),
-    tslib_1.__param(2, (0, common_1.Inject)(tokens_js_1.OBSERVABILITY_OPTIONS)),
-    tslib_1.__metadata("design:paramtypes", [event_manager_1.YalcEventService,
-        telemetry_service_js_1.TelemetryService, Object])
+OpenTelemetryEventManagerPlugin = __decorate([
+    Injectable(),
+    __param(2, Inject(OBSERVABILITY_OPTIONS)),
+    __metadata("design:paramtypes", [YalcEventService,
+        TelemetryService, Object])
 ], OpenTelemetryEventManagerPlugin);
-function matchesEventPattern(eventName, pattern) {
+export { OpenTelemetryEventManagerPlugin };
+export function matchesEventPattern(eventName, pattern) {
     if (pattern === '**') {
         return true;
     }

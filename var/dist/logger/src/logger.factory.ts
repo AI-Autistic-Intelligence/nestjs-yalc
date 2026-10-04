@@ -1,14 +1,14 @@
-import { ConsoleLogger } from '@node-yalc/logger/logger-console.service';
-import { PinoLogger } from '@node-yalc/logger/logger-pino.service';
+import { ConsoleLogger } from '@node-yalc/logger/logger-console.service.js';
+import { PinoLogger } from '@node-yalc/logger/logger-pino.service.js';
 import { LogLevel, Logger } from '@nestjs/common';
-import { LoggerTypeEnum, LOG_LEVEL_DEFAULT } from '@node-yalc/logger/logger.enum';
+import { LoggerTypeEnum, LOG_LEVEL_DEFAULT } from '@node-yalc/logger/logger.enum.js';
 import { ImprovedNestLogger } from './logger-nest.service.js';
 import type {
   IImprovedLoggerOptions,
   ImprovedLoggerService,
-} from '@node-yalc/logger/logger-abstract.service';
+} from '@node-yalc/logger/logger-abstract.service.js';
 import * as _ from 'lodash-es';
-import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 
 export const AppLoggerFactory: (
   context: string,

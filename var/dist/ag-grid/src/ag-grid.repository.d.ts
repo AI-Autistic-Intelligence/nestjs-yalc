@@ -1,5 +1,5 @@
 import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper';
-import { FieldMapper } from '@node-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';

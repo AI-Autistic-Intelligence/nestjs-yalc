@@ -1,1 +1,1 @@
-export * from '@node-yalc/event-manager/event.helper';
+export * from '@node-yalc/event-manager/event.helper.js';

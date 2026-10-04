@@ -1,6 +1,6 @@
 import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type.js';
 import { ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';
 import { CrudGenFindManyOptions } from '../api-graphql/crud-gen-gql.interface.js';
@@ -52,7 +52,7 @@ export declare class GenericTypeORMRepository<Entity extends ObjectLiteral> exte
     }): Promise<number>;
     getOneExtended(findOptions: CrudGenFindManyOptions<Entity>, withFail?: boolean, mode?: ReplicationMode): Promise<Entity>;
     private getOneOrFail;
-    generateFilterOnPrimaryColumn(ids: any): Partial<{ [key in keyof Entity]: import("../index.js").IWhereConditionType; }>;
+    generateFilterOnPrimaryColumn(ids: any): Partial<{ [key in keyof Entity]: import("../api-graphql/crud-gen-gql.type.js").IWhereConditionType; }>;
     generateSelectOnFind(fields: (keyof Entity)[], gqlType: ClassType<Entity>): CrudGenFindManyOptions<any>;
 }
 export declare function CGExtendedRepositoryFactory<Entity extends ObjectLiteral>(entity: ClassType<Entity>): ClassType<GenericTypeORMRepository<Entity>>;

@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContextEventServiceFactory = ContextEventServiceFactory;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-function ContextEventServiceFactory(defaultStrategy) {
+import { __decorate, __metadata } from "tslib";
+import { Injectable } from '@nestjs/common';
+export function ContextEventServiceFactory(defaultStrategy) {
     let ContextEventService = class ContextEventService {
         constructor(strategy = defaultStrategy) {
             this.strategy = strategy;
@@ -15,9 +12,9 @@ function ContextEventServiceFactory(defaultStrategy) {
             return this.strategy;
         }
     };
-    ContextEventService = tslib_1.__decorate([
-        (0, common_1.Injectable)(),
-        tslib_1.__metadata("design:paramtypes", [Object])
+    ContextEventService = __decorate([
+        Injectable(),
+        __metadata("design:paramtypes", [Object])
     ], ContextEventService);
     return ContextEventService;
 }

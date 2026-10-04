@@ -17,7 +17,7 @@ import {
   IGenericResolverOptions,
   resolverFactory,
 } from '../api-graphql/generic.resolver.js';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { GenericService } from '../typeorm/generic.service.js';
 import {
   TestEntityRelation,

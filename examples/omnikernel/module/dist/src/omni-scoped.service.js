@@ -1,14 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniScopedService = void 0;
-const common_1 = require("@nestjs/common");
-const crud_gen_enum_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.enum.js");
-const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
-const typeorm_1 = require("typeorm");
+import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { Operators } from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
+import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
+import { IsNull } from 'typeorm';
 function hasOwn(input, key) {
     return Object.prototype.hasOwnProperty.call(input, key);
 }
-class OmniScopedService extends generic_service_js_1.GenericService {
+export class OmniScopedService extends GenericService {
     constructor(repository, scopeOrRepositoryWrite, deletion = 'hard') {
         const scope = isOmniScope(scopeOrRepositoryWrite)
             ? scopeOrRepositoryWrite
@@ -25,7 +22,7 @@ class OmniScopedService extends generic_service_js_1.GenericService {
         return {
             ...conditions,
             scopeId: this.scopeId,
-            ...(this.deletion === 'tombstone' ? { deletedAt: (0, typeorm_1.IsNull)() } : {}),
+            ...(this.deletion === 'tombstone' ? { deletedAt: IsNull() } : {}),
         };
     }
     async getEntity(conditions, fields, relations, databaseName, options) {
@@ -47,9 +44,9 @@ class OmniScopedService extends generic_service_js_1.GenericService {
         const filters = {};
         filters.scopeId = this.scopeId;
         if (this.deletion === 'tombstone')
-            filters.deletedAt = (0, typeorm_1.IsNull)();
+            filters.deletedAt = IsNull();
         const where = {
-            operator: crud_gen_enum_js_1.Operators.AND,
+            operator: Operators.AND,
             filters,
             ...(userWhere ? { childExpressions: [userWhere] } : {}),
         };
@@ -72,7 +69,7 @@ class OmniScopedService extends generic_service_js_1.GenericService {
         this.rejectServerFields(input);
         this.validatePayloadContract(input);
         if (hasOwn(input, 'guid')) {
-            throw new common_1.BadRequestException('guid is immutable.');
+            throw new BadRequestException('guid is immutable.');
         }
         return super.updateEntity(this.scopedConditions(conditions), { ...input, scopeId: this.scopeId }, findOptions, returnEntity);
     }
@@ -91,13 +88,13 @@ class OmniScopedService extends generic_service_js_1.GenericService {
     rejectServerFields(input) {
         for (const field of ['scopeId', 'revision', 'deletedAt']) {
             if (hasOwn(input, field)) {
-                throw new common_1.BadRequestException(`${field} is server-owned.`);
+                throw new BadRequestException(`${field} is server-owned.`);
             }
         }
     }
     rejectClientScope(input) {
         if (hasOwn(input, 'scopeId')) {
-            throw new common_1.BadRequestException('scopeId is derived from server context.');
+            throw new BadRequestException('scopeId is derived from server context.');
         }
     }
     validatePayloadContract(input) {
@@ -106,33 +103,33 @@ class OmniScopedService extends generic_service_js_1.GenericService {
             candidate.payload !== null &&
             (typeof candidate.payload !== 'object' ||
                 Array.isArray(candidate.payload))) {
-            throw new common_1.BadRequestException('payload must be a JSON object or null.');
+            throw new BadRequestException('payload must be a JSON object or null.');
         }
         const hasSchemaId = hasOwn(candidate, 'payloadSchemaId');
         const hasSchemaVersion = hasOwn(candidate, 'payloadSchemaVersion');
         if (hasSchemaId !== hasSchemaVersion) {
-            throw new common_1.BadRequestException('payloadSchemaId and payloadSchemaVersion must be supplied together.');
+            throw new BadRequestException('payloadSchemaId and payloadSchemaVersion must be supplied together.');
         }
         if (!hasSchemaId)
             return;
         if (typeof candidate.payloadSchemaId !== 'string' ||
             candidate.payloadSchemaId.trim().length === 0 ||
             candidate.payloadSchemaId.length > 128) {
-            throw new common_1.BadRequestException('payloadSchemaId must be a non-empty string.');
+            throw new BadRequestException('payloadSchemaId must be a non-empty string.');
         }
         if (typeof candidate.payloadSchemaVersion !== 'number' ||
             !Number.isInteger(candidate.payloadSchemaVersion) ||
             candidate.payloadSchemaVersion < 1 ||
             candidate.payloadSchemaVersion > 2_147_483_647) {
-            throw new common_1.BadRequestException('payloadSchemaVersion must be a positive signed 32-bit integer.');
+            throw new BadRequestException('payloadSchemaVersion must be a positive signed 32-bit integer.');
         }
     }
     notFound() {
-        throw new common_1.NotFoundException('Omni resource was not found in this scope.');
+        throw new NotFoundException('Omni resource was not found in this scope.');
     }
     scopedWhere(where) {
         if (typeof where === 'string') {
-            throw new common_1.BadRequestException('String where clauses are not supported for scoped Omni resources.');
+            throw new BadRequestException('String where clauses are not supported for scoped Omni resources.');
         }
         if (Array.isArray(where)) {
             return where.map((condition) => this.scopedConditions(condition));
@@ -157,7 +154,6 @@ class OmniScopedService extends generic_service_js_1.GenericService {
         }
     }
 }
-exports.OmniScopedService = OmniScopedService;
 function isOmniScope(value) {
     return (!!value &&
         typeof value === 'object' &&

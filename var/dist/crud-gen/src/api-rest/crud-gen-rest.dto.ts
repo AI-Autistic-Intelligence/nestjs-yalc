@@ -1,5 +1,5 @@
 import { IsInt, IsOptional, IsString, Min } from 'class-validator';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import {
   entityFieldsEnumFactory,
   RowDefaultValues,

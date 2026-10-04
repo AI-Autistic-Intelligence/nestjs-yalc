@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniScopedRepository = void 0;
-class OmniScopedRepository {
+export class OmniScopedRepository {
     constructor(repository, scope) {
         this.repository = repository;
         this.scope = scope;
@@ -22,5 +19,4 @@ class OmniScopedRepository {
         return this.repository.find({ where: this.where(where) });
     }
 }
-exports.OmniScopedRepository = OmniScopedRepository;
 //# sourceMappingURL=omni-scoped.repository.js.map

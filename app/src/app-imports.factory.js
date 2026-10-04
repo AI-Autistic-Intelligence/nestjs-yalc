@@ -1,28 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppDependencyFactory = AppDependencyFactory;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const axios_1 = require("@nestjs/axios");
-const config_1 = require("@nestjs/config");
-const wrap_1 = require("@graphql-tools/wrap");
-const app_context_module_js_1 = require("./app-context.module.js");
-const app_context_service_js_1 = require("./app-context.service.js");
-const conn_helper_js_1 = require("@nest-yalc-2/database/conn.helper.js");
-const typeorm_1 = require("@nestjs/typeorm");
-const graphql_1 = require("@nestjs/graphql");
-const jwt_1 = require("@nestjs/jwt");
-const event_emitter_1 = require("@nestjs/event-emitter");
-const error_1 = require("graphql/error");
-const typeorm_logger_js_1 = require("@nest-yalc-2/logger/typeorm-logger.js");
-const def_const_js_1 = require("./def.const.js");
-const app_events_js_1 = require("./app.events.js");
-const gql_complexity_plugin_js_1 = require("@nest-yalc-2/graphql/plugins/gql-complexity.plugin.js");
-const class_helper_1 = require("@node-yalc/utils/class.helper");
-const apollo_1 = require("@nestjs/apollo");
-const dotenv = tslib_1.__importStar(require("dotenv"));
+import { Logger } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { wrapSchema, RenameTypes, RenameRootFields, RenameRootTypes, RenameInterfaceFields, RenameInputObjectFields, } from '@graphql-tools/wrap';
+import { AppContextModule } from './app-context.module.js';
+import { AppContextService } from './app-context.service.js';
+import { getConfNameByConnection } from '@nest-yalc-2/database/conn.helper.js';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
+import { JwtModule } from '@nestjs/jwt';
+import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
+import { GraphQLError } from 'graphql/error';
+import { TypeORMLogger } from '@nest-yalc-2/logger/typeorm-logger.js';
+import { CURAPP_CONF_ALIAS } from './def.const.js';
+import { AppEvents } from './app.events.js';
+import { GqlComplexityPlugin } from '@nest-yalc-2/graphql/plugins/gql-complexity.plugin.js';
+import { isClass } from '@node-yalc/utils/class.helper.js';
+import { ApolloFederationDriver, } from '@nestjs/apollo';
+import * as dotenv from 'dotenv';
 dotenv.config();
-function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options) {
+export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options) {
     const { setupEvents = true, setupJwt = true, keepDBConnectionAlive = false, buildSchemaOptions = {}, disablePlayground = false, } = options ?? {};
     const envPath = [];
     if (!options?.envPath) {
@@ -38,23 +34,23 @@ function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options)
             }
         }
     }
-    common_1.Logger.debug?.(`Using ${envPath}, for environment: ${process.env.NODE_ENV}`);
-    const configModule = config_1.ConfigModule.forRoot({
+    Logger.debug?.(`Using ${envPath}, for environment: ${process.env.NODE_ENV}`);
+    const configModule = ConfigModule.forRoot({
         load: confs,
         envFilePath: envPath,
     });
     const imports = [
         configModule,
-        app_context_module_js_1.AppContextModule,
-        axios_1.HttpModule,
+        AppContextModule,
+        HttpModule,
     ];
     if (dbConnNames.length) {
         dbConnNames.forEach((connName) => {
-            imports.push(typeorm_1.TypeOrmModule.forRootAsync({
-                inject: [config_1.ConfigService, typeorm_logger_js_1.TypeORMLogger],
+            imports.push(TypeOrmModule.forRootAsync({
+                inject: [ConfigService, TypeORMLogger],
                 name: connName,
                 useFactory: async (configService, logger) => {
-                    const conf = configService.get((0, conn_helper_js_1.getConfNameByConnection)(connName));
+                    const conf = configService.get(getConfNameByConnection(connName));
                     logger.log?.('log', `Connecting DB ${connName} to host: ${conf?.host}`);
                     return {
                         ...conf,
@@ -85,11 +81,11 @@ function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options)
         }
     }
     if (gqlModules.length) {
-        imports.push(graphql_1.GraphQLModule.forRootAsync({
-            driver: apollo_1.ApolloFederationDriver,
+        imports.push(GraphQLModule.forRootAsync({
+            driver: ApolloFederationDriver,
             imports: [ApolloPluginsModule.forRoot()],
             useFactory: async (configService, appContext, eventEmitter, gqlPluginList) => {
-                const conf = configService.get(def_const_js_1.CURAPP_CONF_ALIAS);
+                const conf = configService.get(CURAPP_CONF_ALIAS);
                 return {
                     autoSchemaFile: true,
                     buildSchemaOptions,
@@ -100,18 +96,18 @@ function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options)
                         const rename = (name) => {
                             if (!opPrefix || name.startsWith('_'))
                                 return name;
-                            if (options?.buildSchemaOptions?.orphanedTypes?.some((cl) => (0, class_helper_1.isClass)(cl) && cl.name === name))
+                            if (options?.buildSchemaOptions?.orphanedTypes?.some((cl) => isClass(cl) && cl.name === name))
                                 return name;
                             return `${opPrefix}_${name}`;
                         };
-                        const transformed = (0, wrap_1.wrapSchema)({
+                        const transformed = wrapSchema({
                             schema: graphQLSchema,
                             transforms: [
-                                new wrap_1.RenameInputObjectFields((_, name) => rename(name)),
-                                new wrap_1.RenameInterfaceFields((_, name) => rename(name)),
-                                new wrap_1.RenameRootTypes((name) => rename(name)),
-                                new wrap_1.RenameTypes((name) => rename(name)),
-                                new wrap_1.RenameRootFields((_operationName, name) => rename(name)),
+                                new RenameInputObjectFields((_, name) => rename(name)),
+                                new RenameInterfaceFields((_, name) => rename(name)),
+                                new RenameRootTypes((name) => rename(name)),
+                                new RenameTypes((name) => rename(name)),
+                                new RenameRootFields((_operationName, name) => rename(name)),
                             ],
                         });
                         appContext.setSchema(transformed);
@@ -120,7 +116,7 @@ function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options)
                     include: gqlModules,
                     useGlobalPrefix: true,
                     formatError: (formattedError, error) => {
-                        const graphQLError = error instanceof error_1.GraphQLError ? error : undefined;
+                        const graphQLError = error instanceof GraphQLError ? error : undefined;
                         const exception = graphQLError?.extensions?.exception;
                         const message = exception?.response?.message ||
                             graphQLError?.message ||
@@ -149,37 +145,37 @@ function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options)
                         : false,
                     debug: conf?.isDev,
                     context: async ({ request, reply, ...rest }) => {
-                        await eventEmitter.emitAsync(app_events_js_1.AppEvents.BEFORE_GQL_CONTEXT_MIDDLEWARE, request, reply);
+                        await eventEmitter.emitAsync(AppEvents.BEFORE_GQL_CONTEXT_MIDDLEWARE, request, reply);
                         return {
                             request,
                             response: reply,
                             ...rest,
                         };
                     },
-                    plugins: [new gql_complexity_plugin_js_1.GqlComplexityPlugin(), ...gqlPluginList],
+                    plugins: [new GqlComplexityPlugin(), ...gqlPluginList],
                 };
             },
             inject: [
-                config_1.ConfigService,
-                app_context_service_js_1.AppContextService,
-                event_emitter_1.EventEmitter2,
+                ConfigService,
+                AppContextService,
+                EventEmitter2,
                 'APOLLO_PLUGINS',
             ],
         }));
     }
     if (setupEvents) {
-        imports.push(event_emitter_1.EventEmitterModule.forRoot());
+        imports.push(EventEmitterModule.forRoot());
     }
     if (setupJwt) {
-        imports.push(jwt_1.JwtModule.registerAsync({
+        imports.push(JwtModule.registerAsync({
             imports: [configModule],
             useFactory: async (configService) => ({
-                secret: configService.get(def_const_js_1.CURAPP_CONF_ALIAS)?.jwtSecretPrivate,
+                secret: configService.get(CURAPP_CONF_ALIAS)?.jwtSecretPrivate,
                 signOptions: {
                     expiresIn: 3600,
                 },
             }),
-            inject: [config_1.ConfigService],
+            inject: [ConfigService],
         }));
     }
     return {

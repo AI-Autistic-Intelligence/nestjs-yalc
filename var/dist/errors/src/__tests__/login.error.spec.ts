@@ -1,5 +1,5 @@
 import { expect, describe, it } from '@jest/globals';
-import { ErrorsEnum } from '@node-yalc/errors/error.enum';
+import { ErrorsEnum } from '@node-yalc/errors/error.enum.js';
 import { LoginError } from '../index.js';
 
 describe('Login error', () => {

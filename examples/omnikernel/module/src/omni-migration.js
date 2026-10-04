@@ -1,23 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.captureOmniMigrationSnapshot = captureOmniMigrationSnapshot;
-exports.defineOmniMigrationSnapshot = defineOmniMigrationSnapshot;
-exports.createOmniMigrationPlan = createOmniMigrationPlan;
-const typeorm_1 = require("typeorm");
-const crud_gen_1 = require("@nest-yalc-2/crud-gen");
-const omni_external_ref_entity_js_1 = require("./base/omni-external-ref.entity.js");
-const omni_named_entity_js_1 = require("./base/omni-named.entity.js");
-const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
-const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
-const omni_collection_entity_js_1 = require("./omni-collection.entity.js");
-const omni_document_entity_js_1 = require("./omni-document.entity.js");
+import { Table, TableForeignKey } from 'typeorm';
+import { createProjectionDialect, } from '@nest-yalc-2/crud-gen';
+import { OmniExternalRefEntity } from './base/omni-external-ref.entity.js';
+import { OmniNamedEntity } from './base/omni-named.entity.js';
+import { OmniRecordEntity } from './base/omni-record.entity.js';
+import { OmniRelationEntity } from './base/omni-relation.entity.js';
+import { OmniCollectionEntity } from './omni-collection.entity.js';
+import { OmniDocumentEntity } from './omni-document.entity.js';
 const omniBaseEntities = [
-    omni_named_entity_js_1.OmniNamedEntity,
-    omni_record_entity_js_1.OmniRecordEntity,
-    omni_document_entity_js_1.OmniDocumentEntity,
-    omni_collection_entity_js_1.OmniCollectionEntity,
-    omni_relation_entity_js_1.OmniRelationEntity,
-    omni_external_ref_entity_js_1.OmniExternalRefEntity,
+    OmniNamedEntity,
+    OmniRecordEntity,
+    OmniDocumentEntity,
+    OmniCollectionEntity,
+    OmniRelationEntity,
+    OmniExternalRefEntity,
 ];
 function freezeDeep(value) {
     if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -114,8 +109,8 @@ function tableSnapshots(dataSource, entities) {
     const byTableName = new Map();
     for (const entity of entities) {
         const metadata = dataSource.getMetadata(entity);
-        const table = typeorm_1.Table.create(metadata, dataSource.driver);
-        table.foreignKeys = metadata.foreignKeys.map((foreignKey) => typeorm_1.TableForeignKey.create(foreignKey, dataSource.driver));
+        const table = Table.create(metadata, dataSource.driver);
+        table.foreignKeys = metadata.foreignKeys.map((foreignKey) => TableForeignKey.create(foreignKey, dataSource.driver));
         const current = byTableName.get(table.name);
         if (!current || current.columns.length < table.columns.length) {
             byTableName.set(table.name, table);
@@ -178,7 +173,7 @@ function quotedTableName(table) {
         .map(quotedIdentifier)
         .join('.');
 }
-function captureOmniMigrationSnapshot(version, dataSource, extensions = []) {
+export function captureOmniMigrationSnapshot(version, dataSource, extensions = []) {
     const dialect = dialectFor(dataSource);
     return defineOmniMigrationSnapshot({
         version,
@@ -187,10 +182,10 @@ function captureOmniMigrationSnapshot(version, dataSource, extensions = []) {
             ...omniBaseEntities,
             ...extensions.flatMap((extension) => extension.entities),
         ]),
-        indexStatements: extensions.flatMap((extension) => (0, crud_gen_1.createProjectionDialect)(dialect).compileIndexStatements(extension.definition)),
+        indexStatements: extensions.flatMap((extension) => createProjectionDialect(dialect).compileIndexStatements(extension.definition)),
     });
 }
-function defineOmniMigrationSnapshot(snapshot) {
+export function defineOmniMigrationSnapshot(snapshot) {
     if (typeof snapshot.version !== 'string' ||
         snapshot.version.trim().length === 0) {
         throw new TypeError('Omni migration snapshot version is required.');
@@ -213,17 +208,17 @@ function defineOmniMigrationSnapshot(snapshot) {
     }
     return freezeDeep(structuredClone(snapshot));
 }
-function createOmniMigrationPlan(snapshot) {
+export function createOmniMigrationPlan(snapshot) {
     const source = defineOmniMigrationSnapshot(snapshot);
     const tables = orderTablesTopologically(source.tables);
     return Object.freeze({
         version: source.version,
         tableNames: Object.freeze(tables.map((table) => table.name)),
         indexStatements: Object.freeze([...source.indexStatements]),
-        createTables: () => tables.map((table) => new typeorm_1.Table(structuredClone(table))),
+        createTables: () => tables.map((table) => new Table(structuredClone(table))),
         create: async (queryRunner) => {
             for (const table of tables) {
-                await queryRunner.createTable(new typeorm_1.Table(structuredClone(table)));
+                await queryRunner.createTable(new Table(structuredClone(table)));
             }
             for (const statement of source.indexStatements) {
                 await queryRunner.query(statement);

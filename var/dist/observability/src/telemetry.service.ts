@@ -8,7 +8,7 @@ import {
   type Span,
 } from '@opentelemetry/api';
 import { logs, SeverityNumber } from '@opentelemetry/api-logs';
-import type { IEventPayload } from '@node-yalc/event-manager/event';
+import type { IEventPayload } from '@node-yalc/event-manager/event.js';
 import { OBSERVABILITY_OPTIONS } from './tokens.js';
 import type { NormalizedObservabilityOptions } from './observability-options.js';
 

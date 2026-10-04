@@ -1,10 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOmniRelationProjectionAllowedKinds = getOmniRelationProjectionAllowedKinds;
-exports.getOmniRelationProjectionAliases = getOmniRelationProjectionAliases;
-exports.defineOmniRelationProjection = defineOmniRelationProjection;
-const omni_relation_status_enum_js_1 = require("./omni-relation-status.enum.js");
-const omni_relation_kind_contract_js_1 = require("./omni-relation-kind.contract.js");
+import { OmniRelationStatus } from './omni-relation-status.enum.js';
+import { omniRelationKindPattern } from './omni-relation-kind.contract.js';
 const publicFieldPattern = /^[_A-Za-z][_0-9A-Za-z]*$/;
 function assertFixedValue(value, label, max) {
     if (typeof value !== 'string' ||
@@ -23,10 +18,10 @@ function freeze(definition) {
     }
     return definition;
 }
-function getOmniRelationProjectionAllowedKinds(definition) {
+export function getOmniRelationProjectionAllowedKinds(definition) {
     return definition.relation.allowedKinds ?? [definition.relation.kind];
 }
-function getOmniRelationProjectionAliases(definition) {
+export function getOmniRelationProjectionAliases(definition) {
     return {
         kind: definition.aliases?.kind ?? 'kind',
         source: definition.aliases?.source ?? 'sourceRecordId',
@@ -34,7 +29,7 @@ function getOmniRelationProjectionAliases(definition) {
         payload: definition.aliases?.payload ?? 'payload',
     };
 }
-function defineOmniRelationProjection(definition) {
+export function defineOmniRelationProjection(definition) {
     assertFixedValue(definition.id, 'Omni relation projection id', 128);
     const relation = definition.relation;
     if (!relation || typeof relation !== 'object') {
@@ -51,14 +46,14 @@ function defineOmniRelationProjection(definition) {
     }
     for (const kind of allowedKinds) {
         assertFixedValue(kind, 'Omni relation projection kind', 64);
-        if (!omni_relation_kind_contract_js_1.omniRelationKindPattern.test(kind)) {
+        if (!omniRelationKindPattern.test(kind)) {
             throw new TypeError('Omni relation projection kind must use lowercase letters, digits, and underscores.');
         }
     }
     assertFixedValue(relation.sourceKind, 'Omni relation projection source kind', 64);
     assertFixedValue(relation.targetKind, 'Omni relation projection target kind', 64);
     if (relation.status !== undefined &&
-        !Object.values(omni_relation_status_enum_js_1.OmniRelationStatus).includes(relation.status)) {
+        !Object.values(OmniRelationStatus).includes(relation.status)) {
         throw new TypeError('Omni relation projection status must be an Omni relation status.');
     }
     if (relation.schema) {

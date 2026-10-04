@@ -1,20 +1,19 @@
 {
   "name": "@nest-yalc-2/omnikernel-module",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "type": "module",
   "description": "Foundational OmniKernel persistence module for nestjs-yalc",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
   "exports": {
     ".": "./dist/src/index.js",
-    "./*.js": "./dist/src/*.js",
     "./*": "./dist/src/*"
   },
   "scripts": {
     "build": "rimraf ./dist && tsc --project ./tsconfig.build.json",
     "test": "echo \"Use the root Jest projects\""
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "MIT",
   "files": [
     "dist"

@@ -15,8 +15,8 @@ import { ICreateOptions, INestCreateOptions } from './app-bootstrap.helper.js';
 import { EventModule } from '@nest-yalc-2/event-manager/event.module.js';
 import { LoggerServiceFactory } from '@nest-yalc-2/logger/logger.service.js';
 import { FastifyInstance } from 'fastify';
-import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper';
-import { globalPromiseTracker } from '@node-yalc/utils/promise.helper';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
+import { globalPromiseTracker } from '@node-yalc/utils/promise.helper.js';
 
 /**
  * Side effect to be executed as soon as the module is imported

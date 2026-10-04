@@ -4,7 +4,7 @@ import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-g
 import { ObjectLiteral } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
 import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { type EventEmitter2 } from 'eventemitter2';
 export type SearchKeyType<E, T = string> = [keyof E, T] | T | undefined;
 export declare class GQLDataLoader<Entity extends Record<string, any> = any> {

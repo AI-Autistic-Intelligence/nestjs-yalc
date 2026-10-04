@@ -1,20 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.omniKernelQueryServiceProviderFactory = exports.OmniKernelQueryService = void 0;
-const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const omni_external_ref_entity_js_1 = require("./base/omni-external-ref.entity.js");
-const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
-const omni_external_ref_internal_type_enum_js_1 = require("./omni-external-ref-internal-type.enum.js");
-const omni_relation_kind_enum_js_1 = require("./omni-relation-kind.enum.js");
-const omni_relation_status_enum_js_1 = require("./omni-relation-status.enum.js");
-const omni_relation_semantics_js_1 = require("./omni-relation-semantics.js");
-const omni_scope_js_1 = require("./omni-scope.js");
+import { Scope } from '@nestjs/common';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { OmniExternalRefEntity } from './base/omni-external-ref.entity.js';
+import { OmniRelationEntity } from './base/omni-relation.entity.js';
+import { OmniExternalRefInternalType } from './omni-external-ref-internal-type.enum.js';
+import { OmniRelationKind } from './omni-relation-kind.enum.js';
+import { OmniRelationStatus } from './omni-relation-status.enum.js';
+import { isOmniCollectionRecordKind } from './omni-relation-semantics.js';
+import { OmniScopeContext } from './omni-scope.js';
 const defaultQueryScope = {
     scopeId: 'default',
     cacheKey: (key) => `default:${key}`,
 };
-class OmniKernelQueryService {
+export class OmniKernelQueryService {
     constructor(relationRepository, externalRefRepository, scope = defaultQueryScope) {
         this.relationRepository = relationRepository;
         this.externalRefRepository = externalRefRepository;
@@ -25,8 +22,8 @@ class OmniKernelQueryService {
             where: {
                 scopeId: this.scope.scopeId,
                 sourceRecordId: collectionId,
-                kind: omni_relation_kind_enum_js_1.OmniRelationKind.Contains,
-                status: omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+                kind: OmniRelationKind.Contains,
+                status: OmniRelationStatus.Active,
             },
             relations: {
                 targetRecord: true,
@@ -42,8 +39,8 @@ class OmniKernelQueryService {
             where: {
                 scopeId: this.scope.scopeId,
                 targetRecordId: documentId,
-                kind: omni_relation_kind_enum_js_1.OmniRelationKind.Contains,
-                status: omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+                kind: OmniRelationKind.Contains,
+                status: OmniRelationStatus.Active,
             },
             relations: {
                 sourceRecord: true,
@@ -54,13 +51,13 @@ class OmniKernelQueryService {
         });
         return relations
             .map((relation) => relation.sourceRecord)
-            .filter((record) => !!record && (0, omni_relation_semantics_js_1.isOmniCollectionRecordKind)(record.kind));
+            .filter((record) => !!record && isOmniCollectionRecordKind(record.kind));
     }
     async getDocumentExternalRefs(documentId, provider) {
         return this.externalRefRepository.find({
             where: {
                 scopeId: this.scope.scopeId,
-                internalType: omni_external_ref_internal_type_enum_js_1.OmniExternalRefInternalType.Document,
+                internalType: OmniExternalRefInternalType.Document,
                 internalId: documentId,
                 ...(provider ? { provider } : {}),
             },
@@ -70,16 +67,14 @@ class OmniKernelQueryService {
         });
     }
 }
-exports.OmniKernelQueryService = OmniKernelQueryService;
-const omniKernelQueryServiceProviderFactory = (dbConnection) => ({
+export const omniKernelQueryServiceProviderFactory = (dbConnection) => ({
     provide: OmniKernelQueryService,
-    scope: common_1.Scope.REQUEST,
+    scope: Scope.REQUEST,
     useFactory: (relationRepository, externalRefRepository, scope) => new OmniKernelQueryService(relationRepository, externalRefRepository, scope),
     inject: [
-        (0, typeorm_1.getRepositoryToken)(omni_relation_entity_js_1.OmniRelationEntity, dbConnection),
-        (0, typeorm_1.getRepositoryToken)(omni_external_ref_entity_js_1.OmniExternalRefEntity, dbConnection),
-        omni_scope_js_1.OmniScopeContext,
+        getRepositoryToken(OmniRelationEntity, dbConnection),
+        getRepositoryToken(OmniExternalRefEntity, dbConnection),
+        OmniScopeContext,
     ],
 });
-exports.omniKernelQueryServiceProviderFactory = omniKernelQueryServiceProviderFactory;
 //# sourceMappingURL=omnikernel.query.service.js.map

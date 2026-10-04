@@ -1,46 +1,43 @@
-"use strict";
 var EventModule_1;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EventModule = exports.OPTION_PROVIDER = exports.EVENT_EMITTER = exports.EVENT_LOGGER = void 0;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const event_service_js_1 = require("./event.service.js");
-const event_emitter_1 = require("@nestjs/event-emitter");
-const logger_factory_1 = require("@node-yalc/logger/logger.factory");
-const nest_helper_js_1 = require("@nest-yalc-2/utils/nestjs/nest.helper.js");
-exports.EVENT_LOGGER = 'EVENT_LOGGER';
-exports.EVENT_EMITTER = 'EVENT_EMITTER';
+import { __decorate } from "tslib";
+import { Module } from '@nestjs/common';
+import { YalcEventService } from './event.service.js';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { AppLoggerFactory } from '@node-yalc/logger/logger.factory.js';
+import { isProviderObject } from '@nest-yalc-2/utils/nestjs/nest.helper.js';
+export const EVENT_LOGGER = 'EVENT_LOGGER';
+export const EVENT_EMITTER = 'EVENT_EMITTER';
 function isImprovedLoggerService(loggerProvider) {
     return (loggerProvider !== undefined &&
         typeof loggerProvider === 'object' &&
         'isImprovedLoggerService' in loggerProvider &&
         loggerProvider.isImprovedLoggerService === true);
 }
-exports.OPTION_PROVIDER = 'OPTION_PROVIDER';
+export const OPTION_PROVIDER = 'OPTION_PROVIDER';
 let EventModule = EventModule_1 = class EventModule {
     static forRootAsync(options, optionProvider) {
         const loggerProviderName = typeof options?.loggerProvider === 'string'
             ? options.loggerProvider
-            : options && (0, nest_helper_js_1.isProviderObject)(options.loggerProvider)
+            : options && isProviderObject(options.loggerProvider)
                 ? options.loggerProvider.provide
-                : exports.EVENT_LOGGER;
-        const emitterProviderName = options && (0, nest_helper_js_1.isProviderObject)(options.eventEmitter)
+                : EVENT_LOGGER;
+        const emitterProviderName = options && isProviderObject(options.eventEmitter)
             ? options.eventEmitter.provide
-            : event_emitter_1.EventEmitter2;
-        const eventProviderName = options?.eventServiceToken ?? event_service_js_1.YalcEventService;
+            : EventEmitter2;
+        const eventProviderName = options?.eventServiceToken ?? YalcEventService;
         const imports = options?.imports ?? [];
         const providers = [
             {
                 provide: eventProviderName,
                 useFactory: (logger, emitter) => {
                     return (options?.eventService?.(logger, emitter, options) ??
-                        new event_service_js_1.YalcEventService(logger, emitter, options));
+                        new YalcEventService(logger, emitter, options));
                 },
                 inject: [loggerProviderName, emitterProviderName],
             },
         ];
         const loggerProvider = options?.loggerProvider;
-        if ((0, nest_helper_js_1.isProviderObject)(loggerProvider)) {
+        if (isProviderObject(loggerProvider)) {
             providers.push(loggerProvider);
         }
         else {
@@ -56,10 +53,10 @@ let EventModule = EventModule_1 = class EventModule {
                             context: 'default',
                         };
                         const args = _options && typeof _options !== 'string' ? _options : defaultArgs;
-                        return (0, logger_factory_1.AppLoggerFactory)(args.context, args.loggerLevels, args.loggerType, args.options);
+                        return AppLoggerFactory(args.context, args.loggerLevels, args.loggerType, args.options);
                     }
                 },
-                inject: [{ token: exports.OPTION_PROVIDER, optional: true }],
+                inject: [{ token: OPTION_PROVIDER, optional: true }],
             });
         }
         if (options?.eventEmitter) {
@@ -76,8 +73,8 @@ let EventModule = EventModule_1 = class EventModule {
         };
     }
 };
-exports.EventModule = EventModule;
-exports.EventModule = EventModule = EventModule_1 = tslib_1.__decorate([
-    (0, common_1.Module)({})
+EventModule = EventModule_1 = __decorate([
+    Module({})
 ], EventModule);
+export { EventModule };
 //# sourceMappingURL=event.module.js.map

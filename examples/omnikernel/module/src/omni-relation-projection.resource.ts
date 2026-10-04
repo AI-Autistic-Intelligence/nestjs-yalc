@@ -15,8 +15,8 @@ import {
   getFn,
 } from '@nest-yalc-2/data-loader';
 import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
-import type { ClassType } from '@node-yalc/types/globals';
-import returnValue from '@node-yalc/utils/returnValue';
+import type { ClassType } from '@node-yalc/types/globals.js';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { Exclude, Expose } from 'class-transformer';
 import { GraphQLJSON } from 'graphql-type-json';
 import type { DataSource, ObjectLiteral } from 'typeorm';

@@ -2,7 +2,7 @@ import { ExecutionContext } from '@nestjs/common';
 import { ObjectLiteral } from 'typeorm';
 import { CrudGenFindManyOptions, ICrudGenGqlArgsOptions } from '../api-graphql/crud-gen-gql.interface.js';
 import { ApiResponseOptions } from '@nestjs/swagger';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 export declare function mapCrudGenRestParams<Entity extends ObjectLiteral>(params: ICrudGenGqlArgsOptions | undefined, ctx: ExecutionContext): CrudGenFindManyOptions;
 export declare const CrudGenRestArgsFactory: <T extends ObjectLiteral>(data: ICrudGenGqlArgsOptions | undefined, ctx: ExecutionContext) => CrudGenFindManyOptions<T>;
 export declare const CrudGenArgsMapper: <T extends ObjectLiteral>(...dataOrPipes: (ICrudGenGqlArgsOptions | import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;

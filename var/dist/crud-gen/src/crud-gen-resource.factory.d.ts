@@ -1,6 +1,6 @@
 import type { Provider } from '@nestjs/common';
 import { type ObjectLiteral } from 'typeorm';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import { type ICrudGenBackendFactoryOptions, type ICrudGenGraphqlFactoryOptions } from './crud-gen.helpers.js';
 import { type CrudRestControllerOptions } from './api-rest/crud-gen-rest.controller.factory.js';
 import type { GenericTypeORMRepository } from './typeorm/generic.repository.js';

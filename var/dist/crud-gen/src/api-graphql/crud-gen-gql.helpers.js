@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.isAskingForCount = void 0;
-const isAskingForCount = (info) => {
+export const isAskingForCount = (info) => {
     try {
         return (info.fieldNodes?.[0].selectionSet?.selections.some((item) => {
             return (item.name.value === 'pageData' &&
@@ -13,5 +10,4 @@ const isAskingForCount = (info) => {
         return false;
     }
 };
-exports.isAskingForCount = isAskingForCount;
 //# sourceMappingURL=crud-gen-gql.helpers.js.map

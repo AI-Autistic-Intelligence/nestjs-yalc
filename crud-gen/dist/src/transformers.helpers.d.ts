@@ -1,4 +1,4 @@
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 export declare function JsonTransformer(field: string, propertyPath: string): (dstObj: Record<any, any>, srcValue: any) => any;
 export interface IYalcTransformer<TSrc> {
     onAfterTransform?: {

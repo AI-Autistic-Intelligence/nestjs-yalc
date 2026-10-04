@@ -1,8 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeObservabilityOptions = normalizeObservabilityOptions;
-exports.createObservabilityOptionsFromEnv = createObservabilityOptionsFromEnv;
-function normalizeObservabilityOptions(options) {
+export function normalizeObservabilityOptions(options) {
     return {
         enabled: options.enabled ?? false,
         serviceName: options.serviceName,
@@ -26,7 +22,7 @@ function normalizeObservabilityOptions(options) {
         metricExportIntervalMillis: options.metricExportIntervalMillis ?? 500,
     };
 }
-function createObservabilityOptionsFromEnv(serviceName) {
+export function createObservabilityOptionsFromEnv(serviceName) {
     return {
         enabled: process.env.YALC_OBSERVABILITY_ENABLED === 'true',
         serviceName: process.env.YALC_OTEL_SERVICE_NAME?.trim() || serviceName,

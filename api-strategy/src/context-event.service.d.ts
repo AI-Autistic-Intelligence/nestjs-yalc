@@ -1,4 +1,4 @@
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { IEventStrategy } from './context-event.interface.js';
 export interface IApiMessageService<Strategy extends IEventStrategy> {
     setStrategy(strategy: Strategy): void;

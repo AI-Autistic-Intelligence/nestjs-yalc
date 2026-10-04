@@ -1,4 +1,4 @@
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { DynamicModule, Type } from '@nestjs/common';
 import { StandaloneAppBootstrap } from './app-bootstrap-standalone.helper.js';
 import { curry } from 'lodash-es';
@@ -39,14 +39,14 @@ export const curriedExecuteStandaloneFunction = async <
 >(
   module: any,
   options?: TOptions,
-) =>
+): Promise<(serviceType: any, fn: (service: any) => Promise<any>, executeOptions?: { closeApp?: boolean }) => Promise<void>> =>
   curry(executeFunctionForApp)(
     await new StandaloneAppBootstrap(
       isDynamicModule(module) ? module.module.name : module.name,
       module,
       options,
     ).initApp(),
-  );
+  ) as any;
 
 /**
  *

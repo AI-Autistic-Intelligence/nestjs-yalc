@@ -1,7 +1,7 @@
 import { ClassType } from '@node-yalc/types';
-import { isClass } from '@node-yalc/utils/class.helper';
+import { isClass } from '@node-yalc/utils/class.helper.js';
 import { GetContext } from '@nest-yalc-2/utils/nestjs/nest.decorator';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { applyDecorators, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext, Mutation } from '@nestjs/graphql';
 import { AgGridArgsSingle } from './ag-grid-args.decorator';

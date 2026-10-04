@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImprovedNestLogger = void 0;
 const common_1 = require("@nestjs/common");
-const logger_abstract_service_1 = require("@node-yalc/logger/logger-abstract.service");
-const logger_helper_1 = require("@node-yalc/logger/logger.helper");
-const plugin_helper_1 = require("@node-yalc/utils/plugin.helper");
-class ImprovedNestLogger extends (0, plugin_helper_1.WithPluginSystem)(common_1.ConsoleLogger) {
+const logger_abstract_service_js_1 = require("@node-yalc/logger/logger-abstract.service.js");
+const logger_helper_js_1 = require("@node-yalc/logger/logger.helper.js");
+const plugin_helper_js_1 = require("@node-yalc/utils/plugin.helper.js");
+class ImprovedNestLogger extends (0, plugin_helper_js_1.WithPluginSystem)(common_1.ConsoleLogger) {
     constructor(context, options, _options = {}) {
         super(context, options);
         this._options = _options;
@@ -16,7 +16,7 @@ class ImprovedNestLogger extends (0, plugin_helper_1.WithPluginSystem)(common_1.
     }
     composeMessage(message, options) {
         const data = {
-            ...(0, logger_helper_1.maskDataInObject)(options.data, options.masks, options.stack),
+            ...(0, logger_helper_js_1.maskDataInObject)(options.data, options.masks, options.stack),
             config: options.config,
         };
         return ((typeof message === 'string'
@@ -52,7 +52,7 @@ class ImprovedNestLogger extends (0, plugin_helper_1.WithPluginSystem)(common_1.
     beforeLogging(message, options) {
         this.options.event = this.options.event ?? {};
         this.invokePlugins('onBeforeLogging', message, options, this._options.clsService);
-        void (0, logger_abstract_service_1.beforeLogging)(message, options);
+        void (0, logger_abstract_service_js_1.beforeLogging)(message, options);
     }
 }
 exports.ImprovedNestLogger = ImprovedNestLogger;

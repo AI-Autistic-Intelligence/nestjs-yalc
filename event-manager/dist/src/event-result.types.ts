@@ -1,1 +1,1 @@
-export * from '@node-yalc/event-manager/event-result.types';
+export * from '@node-yalc/event-manager/event-result.types.js';

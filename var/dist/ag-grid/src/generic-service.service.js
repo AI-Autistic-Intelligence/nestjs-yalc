@@ -13,7 +13,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const ag_grid_repository_1 = require("@nest-yalc-2/ag-grid/ag-grid.repository");
 const query_builder_helper_1 = require("@nest-yalc-2/database/query-builder.helper");
-const class_helper_1 = require("@node-yalc/utils/class.helper");
+const class_helper_js_1 = require("@node-yalc/utils/class.helper.js");
 const object_decorator_1 = require("./object.decorator");
 const ag_grid_factory_helper_1 = require("./ag-grid-factory.helper");
 function GenericServiceFactory(entity, connectionName, providedClass, entityWrite, connectionNameWrite) {
@@ -104,7 +104,7 @@ let GenericService = class GenericService {
     async createEntity(input, findOptions, returnEntity = true) {
         let entityHydrated = this.mapEntityR2W(input);
         const entity = this.entityWrite;
-        if ((0, class_helper_1.isClass)(entity)) {
+        if ((0, class_helper_js_1.isClass)(entity)) {
             const inputValues = entityHydrated;
             entityHydrated = new entity();
             Object.assign(entityHydrated, inputValues);
@@ -123,7 +123,7 @@ let GenericService = class GenericService {
         const result = await this.validateConditions(conditions);
         let entityHydrated = this.mapEntityR2W(input);
         const entity = this.entityWrite;
-        if ((0, class_helper_1.isClass)(entity)) {
+        if ((0, class_helper_js_1.isClass)(entity)) {
             const _inputValues = entityHydrated;
             entityHydrated = new entity();
             Object.assign(entityHydrated, _inputValues);
@@ -170,7 +170,7 @@ let GenericService = class GenericService {
     }
     mapEntityR2W(entityRead) {
         const entity = this.entityWrite;
-        if (!(0, class_helper_1.isClass)(entity) || !(0, class_helper_1.isClass)(this.entityRead))
+        if (!(0, class_helper_js_1.isClass)(entity) || !(0, class_helper_js_1.isClass)(this.entityRead))
             return entityRead;
         const newEntityWrite = new entity();
         const fieldMetadataList = (0, object_decorator_1.getAgGridFieldMetadataList)(this.entityRead);

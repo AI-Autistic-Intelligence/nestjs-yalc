@@ -1,13 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StrategySelectorProvider = StrategySelectorProvider;
-exports.ApiCallStrategySelectorProvider = ApiCallStrategySelectorProvider;
-exports.EventStrategySelectorProvider = EventStrategySelectorProvider;
 function normalizeStrategyKey(strategy) {
     const value = strategy?.trim();
     return value ? value : undefined;
 }
-function StrategySelectorProvider(options) {
+export function StrategySelectorProvider(options) {
     const strategyEntries = Object.entries(options.strategies);
     if (strategyEntries.length === 0) {
         throw new Error('Strategy selector requires at least one strategy.');
@@ -43,10 +38,10 @@ function StrategySelectorProvider(options) {
         ],
     };
 }
-function ApiCallStrategySelectorProvider(options) {
+export function ApiCallStrategySelectorProvider(options) {
     return StrategySelectorProvider(options);
 }
-function EventStrategySelectorProvider(options) {
+export function EventStrategySelectorProvider(options) {
     return StrategySelectorProvider(options);
 }
 //# sourceMappingURL=strategy-selector.provider.js.map

@@ -114,7 +114,12 @@ const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
         },
         moduleNameMapper: {
             'source-map-support/register': 'identity-obj-proxy',
-            '^(\\.{1,2}/.*)\\.js$': '$1.ts',
+            '^(@nest-yalc-2/.*|@node-yalc/.*|\\.{1,2}/.*)\\.js$': [
+                '$1.ts',
+                '$1/index.ts',
+                '$1.js',
+                '$1',
+            ],
             ...(0, ts_jest_1.pathsToModuleNameMapper)(compilerOptions.paths ?? {}, {
                 prefix: `${dirname}/`,
                 useESM: true,
@@ -137,7 +142,7 @@ const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
             'lodash-es',
         ].join('|');
         config.transformIgnorePatterns = [
-            `[/\\\\]node_modules[/\\\\](?!${esModules}).+\\.(js|jsx)$`,
+            `[/\\\\]node_modules[/\\\\](?!${esModules}).+\\.(js|jsx|ts|tsx)$`,
         ];
     }
     return config;

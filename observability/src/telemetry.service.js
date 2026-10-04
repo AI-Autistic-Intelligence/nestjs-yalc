@@ -1,18 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TelemetryService = void 0;
-exports.toTelemetryAttributes = toTelemetryAttributes;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const api_1 = require("@opentelemetry/api");
-const api_logs_1 = require("@opentelemetry/api-logs");
-const tokens_js_1 = require("./tokens.js");
+import { __decorate, __metadata, __param } from "tslib";
+import { Inject, Injectable } from '@nestjs/common';
+import { SpanStatusCode, context, metrics, trace, } from '@opentelemetry/api';
+import { logs, SeverityNumber } from '@opentelemetry/api-logs';
+import { OBSERVABILITY_OPTIONS } from './tokens.js';
 let TelemetryService = class TelemetryService {
     constructor(options) {
         this.options = options;
-        this.tracer = api_1.trace.getTracer('@nest-yalc-2/observability');
-        this.meter = api_1.metrics.getMeter('@nest-yalc-2/observability');
-        this.logger = api_logs_1.logs.getLogger('@nest-yalc-2/observability');
+        this.tracer = trace.getTracer('@nest-yalc-2/observability');
+        this.meter = metrics.getMeter('@nest-yalc-2/observability');
+        this.logger = logs.getLogger('@nest-yalc-2/observability');
         this.eventCounter = this.meter.createCounter('yalc_events_total');
         this.errorCounter = this.meter.createCounter('yalc_event_errors_total');
         this.durationHistogram = this.meter.createHistogram('yalc_operation_duration_ms');
@@ -42,12 +38,12 @@ let TelemetryService = class TelemetryService {
         }
         this.execute(() => {
             const attributes = this.buildEventAttributes(eventName, payload);
-            const activeSpan = api_1.trace.getActiveSpan();
+            const activeSpan = trace.getActiveSpan();
             activeSpan?.addEvent(eventName, attributes);
             if (payload?.errorInfo) {
                 activeSpan?.recordException(payload.errorInfo);
                 activeSpan?.setStatus({
-                    code: api_1.SpanStatusCode.ERROR,
+                    code: SpanStatusCode.ERROR,
                     message: getErrorMessage(payload.errorInfo),
                 });
                 this.errorCounter.add(1, attributes);
@@ -98,7 +94,7 @@ let TelemetryService = class TelemetryService {
     }
     finishSpan(name, startedAt, attributes, span) {
         this.recordDuration(name, Date.now() - startedAt, attributes);
-        span.setStatus({ code: api_1.SpanStatusCode.OK });
+        span.setStatus({ code: SpanStatusCode.OK });
         span.end();
     }
     failSpan(name, startedAt, attributes, span, error) {
@@ -108,7 +104,7 @@ let TelemetryService = class TelemetryService {
         });
         span.recordException(normalizeError(error));
         span.setStatus({
-            code: api_1.SpanStatusCode.ERROR,
+            code: SpanStatusCode.ERROR,
             message: error instanceof Error ? error.message : String(error),
         });
         span.end();
@@ -137,7 +133,7 @@ let TelemetryService = class TelemetryService {
             severityNumber: toSeverityNumber(severityText),
             body: options.body ?? name,
             attributes,
-            context: api_1.context.active(),
+            context: context.active(),
             exception: options.exception,
         });
     }
@@ -153,13 +149,13 @@ let TelemetryService = class TelemetryService {
         }
     }
 };
-exports.TelemetryService = TelemetryService;
-exports.TelemetryService = TelemetryService = tslib_1.__decorate([
-    (0, common_1.Injectable)(),
-    tslib_1.__param(0, (0, common_1.Inject)(tokens_js_1.OBSERVABILITY_OPTIONS)),
-    tslib_1.__metadata("design:paramtypes", [Object])
+TelemetryService = __decorate([
+    Injectable(),
+    __param(0, Inject(OBSERVABILITY_OPTIONS)),
+    __metadata("design:paramtypes", [Object])
 ], TelemetryService);
-function toTelemetryAttributes(attributes = {}) {
+export { TelemetryService };
+export function toTelemetryAttributes(attributes = {}) {
     return Object.fromEntries(Object.entries(attributes)
         .filter(([, value]) => value !== undefined)
         .map(([key, value]) => [key, toTelemetryAttributeValue(value)]));
@@ -213,14 +209,14 @@ function isPromiseLike(value) {
 }
 function toSeverityNumber(level) {
     if (level === 'error')
-        return api_logs_1.SeverityNumber.ERROR;
+        return SeverityNumber.ERROR;
     if (level === 'warn')
-        return api_logs_1.SeverityNumber.WARN;
+        return SeverityNumber.WARN;
     if (level === 'debug')
-        return api_logs_1.SeverityNumber.DEBUG;
+        return SeverityNumber.DEBUG;
     if (level === 'verbose')
-        return api_logs_1.SeverityNumber.TRACE;
-    return api_logs_1.SeverityNumber.INFO;
+        return SeverityNumber.TRACE;
+    return SeverityNumber.INFO;
 }
 function getErrorMessage(errorInfo) {
     return errorInfo.message ?? errorInfo.internalMessage;

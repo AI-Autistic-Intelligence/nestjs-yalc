@@ -7,7 +7,7 @@ const tslib_1 = require("tslib");
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_input_1 = require("./ag-grid.input");
 const filter_scalar_1 = require("./filter.scalar");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
+const returnValue_js_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue.js"));
 const ag_grid_enum_1 = require("./ag-grid.enum");
 exports.typeMap = new WeakMap();
 function agQueryParamsFactory(defaultValues, entityModel) {
@@ -22,14 +22,14 @@ function agQueryParamsFactory(defaultValues, entityModel) {
         }
     };
     tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(SortType), {
+        (0, graphql_1.Field)((0, returnValue_js_1.default)(SortType), {
             nullable: true,
             defaultValue: defaultValues?.sorting,
         }),
         tslib_1.__metadata("design:type", Object)
     ], AgQueryParamsClass.prototype, "sorting", void 0);
     tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(FilterType), {
+        (0, graphql_1.Field)((0, returnValue_js_1.default)(FilterType), {
             nullable: true,
             defaultValue: defaultValues?.filters,
         }),
@@ -49,14 +49,14 @@ function agQueryParamsNoPaginationFactory(defaultValues, entityModel) {
     let AgQueryParamsNoPaginationClass = class AgQueryParamsNoPaginationClass {
     };
     tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(SortType), {
+        (0, graphql_1.Field)((0, returnValue_js_1.default)(SortType), {
             nullable: true,
             defaultValue: defaultValues?.sorting,
         }),
         tslib_1.__metadata("design:type", Object)
     ], AgQueryParamsNoPaginationClass.prototype, "sorting", void 0);
     tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(FilterType), {
+        (0, graphql_1.Field)((0, returnValue_js_1.default)(FilterType), {
             nullable: true,
             defaultValue: defaultValues?.filters,
         }),

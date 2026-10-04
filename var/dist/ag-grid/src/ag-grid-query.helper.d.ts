@@ -1,4 +1,4 @@
-import { FieldMapper } from '@node-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { ObjectLiteral, SelectQueryBuilder } from 'typeorm';
 import { FilterType } from './ag-grid.enum';
@@ -15,7 +15,7 @@ export declare function whereObjectToSqlString<Entity extends ObjectLiteral>(que
     };
 }): string;
 export declare const isAskingForCount: (info: GraphQLResolveInfo) => boolean;
-export declare function filterTypeToNativeType(type: FilterType): DateConstructor | ArrayConstructor | NumberConstructor | StringConstructor;
+export declare function filterTypeToNativeType(type: FilterType): ArrayConstructor | NumberConstructor | DateConstructor | StringConstructor;
 export declare function applyJoinArguments(findManyOptions: AgGridFindManyOptions, alias: string, join: {
     [index: string]: JoinArgOptions;
 }, fieldMapper: {

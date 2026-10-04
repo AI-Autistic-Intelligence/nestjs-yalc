@@ -8,7 +8,7 @@ tslib_1.__exportStar(require("./generic-resolver.type"), exports);
 const graphql_1 = require("@nestjs/graphql");
 const generic_service_service_1 = require("@nest-yalc-2/ag-grid/generic-service.service");
 const dataloader_helper_1 = require("@nest-yalc-2/data-loader/dataloader.helper");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
+const returnValue_js_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue.js"));
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const ag_grid_metadata_helper_1 = require("./ag-grid-metadata.helper");
@@ -28,7 +28,7 @@ function resolverFactory(options) {
         }
     };
     BaseClass = tslib_1.__decorate([
-        (0, graphql_1.Resolver)((0, returnValue_1.default)(returnType), { isAbstract: true }),
+        (0, graphql_1.Resolver)((0, returnValue_js_1.default)(returnType), { isAbstract: true }),
         tslib_1.__param(0, (0, common_1.Inject)(options.service?.serviceToken ?? (0, generic_service_service_1.getServiceToken)(options.entityModel))),
         tslib_1.__param(1, (0, common_1.Inject)(options.service?.dataLoaderToken ??
             (0, dataloader_helper_1.getDataloaderToken)(options.entityModel))),
@@ -105,7 +105,7 @@ function resolverFactory(options) {
     let Mutations = class Mutations extends BaseClass {
     };
     Mutations = tslib_1.__decorate([
-        (0, graphql_1.Resolver)((0, returnValue_1.default)(returnType), {
+        (0, graphql_1.Resolver)((0, returnValue_js_1.default)(returnType), {
             isAbstract: true,
         })
     ], Mutations);
@@ -117,7 +117,7 @@ function resolverFactory(options) {
     let GenericResolver = class GenericResolver extends (options.readonly ? BaseClass : Mutations) {
     };
     GenericResolver = tslib_1.__decorate([
-        (0, graphql_1.Resolver)((0, returnValue_1.default)(returnType))
+        (0, graphql_1.Resolver)((0, returnValue_js_1.default)(returnType))
     ], GenericResolver);
     (0, generic_query_resolver_1.defineGetSingleResource)(`${options.prefix ?? ''}get${options.entityModel.name}`, returnType, GenericResolver, getResourceOptions);
     (0, generic_query_resolver_1.defineGetGridResource)(`${options.prefix ?? ''}get${options.entityModel.name}Grid`, returnType, GenericResolver, getResourceGridOptions);

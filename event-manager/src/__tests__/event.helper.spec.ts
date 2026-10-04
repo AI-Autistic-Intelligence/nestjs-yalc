@@ -1,8 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { getLogLevelByStatus, isErrorEvent } from '../event.helper.js';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { DefaultError } from '@node-yalc/errors/default.error';
-import { LogLevelEnum } from '@node-yalc/logger/logger.enum';
+import { DefaultError } from '@node-yalc/errors/default.error.js';
+import { LogLevelEnum } from '@node-yalc/logger/logger.enum.js';
 
 describe('EventHelper', () => {
   it('should return the correct log level', () => {

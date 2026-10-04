@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { EntityTarget } from 'typeorm';
 import { ConnectionNotFoundError, EntityNotFoundError } from 'typeorm';
-import { ExceptionContextEnum } from '@node-yalc/errors/error.enum';
+import { ExceptionContextEnum } from '@node-yalc/errors/error.enum.js';
 import { DatabaseExceptionFilter } from '../filters/database-exception.filter.js';
 
 import { GqlArgumentsHost } from '@nestjs/graphql';

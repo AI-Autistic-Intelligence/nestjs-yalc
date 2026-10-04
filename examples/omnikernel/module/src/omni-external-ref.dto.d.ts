@@ -14,7 +14,7 @@ export declare class OmniExternalRefType extends OmniExternalRefEntity {
     payloadSchemaId?: string | null;
     payloadSchemaVersion?: number | null;
 }
-declare const OmniExternalRefCreateInput_base: import("@nestjs/common").Type<Omit<OmniExternalRefType, "createdAt" | "updatedAt" | "revision">>;
+declare const OmniExternalRefCreateInput_base: import("@nestjs/common").Type<Omit<OmniExternalRefType, "revision" | "createdAt" | "updatedAt">>;
 export declare class OmniExternalRefCreateInput extends OmniExternalRefCreateInput_base {
 }
 declare const OmniExternalRefCondition_base: import("@nestjs/common").Type<Partial<OmniExternalRefCreateInput>>;

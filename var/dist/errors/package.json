@@ -1,15 +1,14 @@
 {
   "name": "@nest-yalc-2/errors",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "description": "",
   "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./*.js": "./src/*.js",
     "./*": "./src/*"
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "MIT",
   "types": "./src/index.d.ts",
   "files": [
@@ -17,10 +16,10 @@
     "src"
   ],
   "dependencies": {
-    "@nest-yalc-2/crud-gen": "^2.1.0",
-    "@nest-yalc-2/event-manager": "^2.1.0",
-    "@nest-yalc-2/logger": "^2.1.0",
-    "@nest-yalc-2/utils": "^2.1.0",
+    "@nest-yalc-2/crud-gen": "^2.2.0",
+    "@nest-yalc-2/event-manager": "^2.2.0",
+    "@nest-yalc-2/logger": "^2.2.0",
+    "@nest-yalc-2/utils": "^2.2.0",
     "axios": "^1.15.0",
     "neverthrow": "^8.2.0",
     "tslib": "^2.6.3"

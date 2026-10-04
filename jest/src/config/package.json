@@ -1,16 +1,16 @@
 {
   "name": "@nest-yalc-2/jest-config",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "",
   "main": "./index.ts",
   "exports": {
-    ".": "./index.ts",
-    "./*": "./*.ts"
+    ".": "./dist/src/index.js",
+    "./*": "./dist/src/*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "MIT",
   "types": "./index.ts",
   "files": [

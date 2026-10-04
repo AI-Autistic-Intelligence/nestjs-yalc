@@ -8,7 +8,7 @@ import {
   afterAll,
   afterEach,
 } from '@jest/globals';
-import { ErrorsEnum, ExceptionContextEnum } from '@node-yalc/errors/error.enum';
+import { ErrorsEnum, ExceptionContextEnum } from '@node-yalc/errors/error.enum.js';
 
 describe('errors enum test', () => {
   it('ErrorsEnum should have all the values', () => {

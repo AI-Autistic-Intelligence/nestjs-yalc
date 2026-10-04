@@ -1,5 +1,5 @@
 import { type Attributes } from '@opentelemetry/api';
-import type { IEventPayload } from '@node-yalc/event-manager/event';
+import type { IEventPayload } from '@node-yalc/event-manager/event.js';
 import type { NormalizedObservabilityOptions } from './observability-options.js';
 export interface TelemetryRecordOptions {
     attributes?: Record<string, unknown>;

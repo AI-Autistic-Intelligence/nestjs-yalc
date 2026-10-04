@@ -1,7 +1,7 @@
 import {
   FieldMapper,
   isFieldMapper,
-} from '@node-yalc/interfaces/maps.interface';
+} from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types';
 import { ReturnTypeFuncValue } from '@nestjs/graphql';
 import { getMetadataArgsStorage } from 'typeorm';

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CompositeEventStrategy = void 0;
-class CompositeEventStrategy {
+export class CompositeEventStrategy {
     constructor(strategies, options = {}) {
         this.strategies = strategies;
         if (strategies.length === 0) {
@@ -42,7 +39,6 @@ class CompositeEventStrategy {
         }));
     }
 }
-exports.CompositeEventStrategy = CompositeEventStrategy;
 async function maybeDestroyStrategy(strategy) {
     const destroyable = strategy;
     if (typeof destroyable.onModuleDestroy === 'function') {

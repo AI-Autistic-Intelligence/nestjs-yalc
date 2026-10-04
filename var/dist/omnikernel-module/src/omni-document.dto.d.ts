@@ -23,7 +23,7 @@ export declare class OmniDocumentType extends OmniDocumentEntity {
     sourceUrl?: string | null;
     publishedAt?: Date | null;
 }
-declare const OmniDocumentCreateInput_base: import("@nestjs/common").Type<Omit<OmniDocumentType, "createdAt" | "updatedAt" | "revision" | "kind" | "outgoingRelations" | "incomingRelations">>;
+declare const OmniDocumentCreateInput_base: import("@nestjs/common").Type<Omit<OmniDocumentType, "revision" | "createdAt" | "updatedAt" | "kind" | "outgoingRelations" | "incomingRelations">>;
 export declare class OmniDocumentCreateInput extends OmniDocumentCreateInput_base {
 }
 declare const OmniDocumentCondition_base: import("@nestjs/common").Type<Partial<OmniDocumentCreateInput>>;

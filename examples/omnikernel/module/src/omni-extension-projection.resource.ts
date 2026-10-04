@@ -14,7 +14,7 @@ import {
   getFn,
 } from '@nest-yalc-2/data-loader';
 import { YalcEventService } from '@nest-yalc-2/event-manager';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import type { DataSource, EntityTarget, ObjectLiteral } from 'typeorm';
 import { OmniRecordEntity } from './base/omni-record.entity.js';
 import type { OmniExtensionProjectionDefinition } from './omni-extension-projection.definition.js';

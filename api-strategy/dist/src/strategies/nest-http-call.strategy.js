@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NestHttpCallStrategyProvider = exports.NestHttpCallStrategy = void 0;
-const axios_1 = require("@nestjs/axios");
-const http_abstract_call_strategy_js_1 = require("./http-abstract-call.strategy.js");
-const cls_module_js_1 = require("@nest-yalc-2/app/cls.module.js");
-const header_whitelist_helper_js_1 = require("../header-whitelist.helper.js");
-class NestHttpCallStrategy extends http_abstract_call_strategy_js_1.HttpAbstractStrategy {
+import { HttpService } from '@nestjs/axios';
+import { HttpAbstractStrategy, } from './http-abstract-call.strategy.js';
+import { YalcGlobalClsService } from '@nest-yalc-2/app/cls.module.js';
+import { filterHeaders } from '../header-whitelist.helper.js';
+export class NestHttpCallStrategy extends HttpAbstractStrategy {
     constructor(httpService, clsService, baseUrl = '', options = {}) {
         super();
         this.httpService = httpService;
@@ -17,7 +14,7 @@ class NestHttpCallStrategy extends http_abstract_call_strategy_js_1.HttpAbstract
         this.internalToken = options.internalRequestToken;
     }
     async call(path, options) {
-        const clsHeaders = (0, header_whitelist_helper_js_1.filterHeaders)(this.clsService.get('headers'), this.options.headersWhitelist);
+        const clsHeaders = filterHeaders(this.clsService.get('headers'), this.options.headersWhitelist);
         const headers = {
             ...clsHeaders,
             ...(options?.headers ?? {}),
@@ -51,8 +48,7 @@ class NestHttpCallStrategy extends http_abstract_call_strategy_js_1.HttpAbstract
         };
     }
 }
-exports.NestHttpCallStrategy = NestHttpCallStrategy;
-const NestHttpCallStrategyProvider = (provide, options = {}) => ({
+export const NestHttpCallStrategyProvider = (provide, options = {}) => ({
     provide,
     useFactory: (httpAdapter, clsService) => {
         const _options = {
@@ -62,7 +58,6 @@ const NestHttpCallStrategyProvider = (provide, options = {}) => ({
         };
         return new _options.NestHttpStrategy(httpAdapter, clsService, _options.baseUrl, _options);
     },
-    inject: [axios_1.HttpService, cls_module_js_1.YalcGlobalClsService],
+    inject: [HttpService, YalcGlobalClsService],
 });
-exports.NestHttpCallStrategyProvider = NestHttpCallStrategyProvider;
 //# sourceMappingURL=nest-http-call.strategy.js.map

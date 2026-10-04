@@ -29,8 +29,8 @@ import { TypeORMLogger } from '@nest-yalc-2/logger/typeorm-logger.js';
 import { CURAPP_CONF_ALIAS } from './def.const.js';
 import { AppEvents } from './app.events.js';
 import { GqlComplexityPlugin } from '@nest-yalc-2/graphql/plugins/gql-complexity.plugin.js';
-import { ClassType } from '@node-yalc/types/globals';
-import { isClass } from '@node-yalc/utils/class.helper';
+import { ClassType } from '@node-yalc/types/globals.js';
+import { isClass } from '@node-yalc/utils/class.helper.js';
 import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,

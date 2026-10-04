@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilterOptionType = exports.hasAgGridObjectMetadata = exports.getAgGridObjectMetadata = exports.AgGridObject = exports.hasAgGridFieldMetadata = exports.getAgGridFieldMetadata = exports.hasAgGridFieldMetadataList = exports.getAgGridFieldMetadataList = exports.AgGridField = exports.AGGRID_FIELD_METADATA_KEY = exports.AGGRID_OBJECT_METADATA_KEY = void 0;
 exports.isDstExtended = isDstExtended;
 exports.getPrototype = getPrototype;
-const class_helper_1 = require("@node-yalc/utils/class.helper");
+const class_helper_js_1 = require("@node-yalc/utils/class.helper.js");
 const graphql_1 = require("@nestjs/graphql");
 require("reflect-metadata");
 function isDstExtended(dst) {
@@ -13,7 +13,7 @@ function isDstExtended(dst) {
 exports.AGGRID_OBJECT_METADATA_KEY = Symbol('AGGRID_OBJECT_METADATA_KEY');
 exports.AGGRID_FIELD_METADATA_KEY = Symbol('AGGRID_FIELD_METADATA_KEY');
 function getPrototype(target) {
-    return (0, class_helper_1.isClass)(target) || !target.prototype ? target : target.prototype;
+    return (0, class_helper_js_1.isClass)(target) || !target.prototype ? target : target.prototype;
 }
 const AgGridField = ({ gqlType, gqlOptions, ...options } = {}) => {
     return (target, property) => {

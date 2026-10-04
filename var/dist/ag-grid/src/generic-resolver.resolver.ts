@@ -11,7 +11,7 @@ import {
   getDataloaderToken,
   GQLDataLoader,
 } from '@nest-yalc-2/data-loader/dataloader.helper';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { Inject } from '@nestjs/common';
 import { ContextId, ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { ObjectLiteral } from 'typeorm';

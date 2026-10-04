@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConditionalEventStrategy = void 0;
-class ConditionalEventStrategy {
+export class ConditionalEventStrategy {
     constructor(strategy, options = {}) {
         this.strategy = strategy;
         this.options = options;
@@ -34,5 +31,4 @@ class ConditionalEventStrategy {
         return this.options.shouldEmit?.(path, payload, options) ?? true;
     }
 }
-exports.ConditionalEventStrategy = ConditionalEventStrategy;
 //# sourceMappingURL=conditional-event.strategy.js.map

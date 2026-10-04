@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ShadowCallStrategy = void 0;
-class ShadowCallStrategy {
+export class ShadowCallStrategy {
     constructor(primary, shadows, options = {}) {
         this.primary = primary;
         this.shadows = shadows;
@@ -38,5 +35,4 @@ class ShadowCallStrategy {
         return primaryResult;
     }
 }
-exports.ShadowCallStrategy = ShadowCallStrategy;
 //# sourceMappingURL=shadow-call.strategy.js.map

@@ -1,17 +1,16 @@
 {
   "name": "@nest-yalc-2/observability",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "type": "module",
   "description": "Observability utilities and OpenTelemetry integration for nestjs-yalc",
   "exports": {
     ".": "./dist/src/index.js",
-    "./*.js": "./dist/src/*.js",
     "./*": "./dist/src/*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "MIT",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",

@@ -1,4 +1,4 @@
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { SortDirection } from '../crud-gen.enum.js';
 import { ICrudGenBaseParams, ISortModel } from './crud-gen-gql.interface.js';
 export { JoinTypes } from './crud-gen-gql.interface.js';

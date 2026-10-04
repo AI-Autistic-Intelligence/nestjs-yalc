@@ -1,12 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppConfigService = void 0;
-exports.createAppConfigProvider = createAppConfigProvider;
-exports.getAppConfigToken = getAppConfigToken;
-exports.getAppEventToken = getAppEventToken;
-exports.getAppLoggerToken = getAppLoggerToken;
-const config_1 = require("@nestjs/config");
-class AppConfigService {
+import { ConfigService } from '@nestjs/config';
+export class AppConfigService {
     constructor(service, appAlias) {
         this.service = service;
         this.appAlias = appAlias;
@@ -23,23 +16,22 @@ class AppConfigService {
         return this.values;
     }
 }
-exports.AppConfigService = AppConfigService;
-function createAppConfigProvider(appAlias) {
+export function createAppConfigProvider(appAlias) {
     return {
         provide: getAppConfigToken(appAlias),
         useFactory: (config) => {
             return new AppConfigService(config, appAlias);
         },
-        inject: [config_1.ConfigService],
+        inject: [ConfigService],
     };
 }
-function getAppConfigToken(appAlias) {
+export function getAppConfigToken(appAlias) {
     return `${appAlias}Config`;
 }
-function getAppEventToken(appAlias) {
+export function getAppEventToken(appAlias) {
     return `${appAlias}Event`;
 }
-function getAppLoggerToken(appAlias) {
+export function getAppLoggerToken(appAlias) {
     return `${appAlias}Logger`;
 }
 //# sourceMappingURL=app-config.service.js.map

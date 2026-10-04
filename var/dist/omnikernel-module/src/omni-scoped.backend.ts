@@ -16,7 +16,7 @@ import {
   getDataloaderToken,
   getFn,
 } from '@nest-yalc-2/data-loader';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import type { ObjectLiteral } from 'typeorm';
 import type { GenericTypeORMRepository } from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';

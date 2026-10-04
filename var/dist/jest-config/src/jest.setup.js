@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 process.env.NODE_ENV = 'test';
 if (!process.env.LISTENING_TO_UNHANDLED_REJECTION) {
     process.on('unhandledRejection', (err) => {

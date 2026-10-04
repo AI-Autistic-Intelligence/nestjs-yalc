@@ -1,18 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MissingArgumentsError = exports.ArgumentsError = void 0;
-const common_1 = require("@nestjs/common");
-const strings_enum_js_1 = require("./strings.enum.js");
-class ArgumentsError extends common_1.BadRequestException {
+import { BadRequestException } from '@nestjs/common';
+import { CrudGenErrors } from './strings.enum.js';
+export class ArgumentsError extends BadRequestException {
     constructor(message) {
         super(message);
     }
 }
-exports.ArgumentsError = ArgumentsError;
-class MissingArgumentsError extends ArgumentsError {
+export class MissingArgumentsError extends ArgumentsError {
     constructor(message) {
-        super(message ?? strings_enum_js_1.CrudGenErrors.REQUIRED_ARGS);
+        super(message ?? CrudGenErrors.REQUIRED_ARGS);
     }
 }
-exports.MissingArgumentsError = MissingArgumentsError;
 //# sourceMappingURL=missing-arguments.error.js.map

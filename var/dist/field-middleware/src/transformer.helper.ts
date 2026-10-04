@@ -1,5 +1,5 @@
-import { DateHelper } from '@node-yalc/utils/date.helper';
-import { belongsToEnum } from '@node-yalc/utils/enum.helper';
+import { DateHelper } from '@node-yalc/utils/date.helper.js';
+import { belongsToEnum } from '@node-yalc/utils/enum.helper.js';
 import { ValueTransformer } from 'typeorm';
 
 /**

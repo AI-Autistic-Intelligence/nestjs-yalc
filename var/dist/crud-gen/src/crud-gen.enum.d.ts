@@ -1,4 +1,4 @@
-import { AnyFunction, ClassType } from '@node-yalc/types/globals';
+import { AnyFunction, ClassType } from '@node-yalc/types/globals.js';
 export declare enum GeneralFilters {
     NOT = "not",
     CONTAINS = "contains",

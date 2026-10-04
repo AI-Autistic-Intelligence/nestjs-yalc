@@ -6,7 +6,7 @@ import {
   IHttpCallStrategyResponse,
 } from './http-abstract-call.strategy.js';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { InjectOptions } from 'fastify';
 import { YalcGlobalClsService } from '@nest-yalc-2/app/cls.module.js';
 import { filterHeaders } from '../header-whitelist.helper.js';

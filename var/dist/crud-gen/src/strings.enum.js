@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CrudGenErrors = exports.FilterErrors = void 0;
-var FilterErrors;
+export var FilterErrors;
 (function (FilterErrors) {
     FilterErrors["FILTER_NOT_SUPPORTED"] = "This filter is not supported";
     FilterErrors["BAD_FILTER_TYPE"] = "The 'filters' field must be a string";
@@ -13,9 +10,9 @@ var FilterErrors;
     FilterErrors["INVALID_PROPERTY"] = "Invalid property";
     FilterErrors["FILTER_PROHIBITED"] = "Cannot filter on property you cannot request";
     FilterErrors["BAD_FILTER"] = "This is not a valid filter";
-})(FilterErrors || (exports.FilterErrors = FilterErrors = {}));
-var CrudGenErrors;
+})(FilterErrors || (FilterErrors = {}));
+export var CrudGenErrors;
 (function (CrudGenErrors) {
     CrudGenErrors["REQUIRED_ARGS"] = "You should provide at least one of the arguments";
-})(CrudGenErrors || (exports.CrudGenErrors = CrudGenErrors = {}));
+})(CrudGenErrors || (CrudGenErrors = {}));
 //# sourceMappingURL=strings.enum.js.map

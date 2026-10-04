@@ -1,7 +1,7 @@
 import { Injectable, Inject, Optional } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { YalcEventService as NodeEventService, IEventServiceOptions } from '@node-yalc/event-manager/event.service';
-import { ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service';
+import { YalcEventService as NodeEventService, IEventServiceOptions } from '@node-yalc/event-manager/event.service.js';
+import { ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service.js';
 
 export { IEventServiceOptions };
 

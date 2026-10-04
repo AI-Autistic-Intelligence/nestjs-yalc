@@ -7,7 +7,7 @@ import {
   IFieldMapper,
   isFieldMapper,
 } from '@node-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import {
   ClassProvider,
   ExistingProvider,

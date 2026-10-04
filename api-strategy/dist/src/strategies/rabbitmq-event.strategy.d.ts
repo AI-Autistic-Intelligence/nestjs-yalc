@@ -1,5 +1,5 @@
 import { OnModuleDestroy } from '@nestjs/common';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import { Options } from 'amqplib';
 import { IEventStrategy } from '../context-event.interface.js';
 export interface RabbitMqEventStrategyOptions<P = any> {

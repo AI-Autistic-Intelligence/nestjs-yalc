@@ -1,60 +1,44 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.isIDArg = isIDArg;
-exports.isExtraInputStrict = isExtraInputStrict;
-exports.checkFinalId = checkFinalId;
-exports.isCustomSingleQueryOptions = isCustomSingleQueryOptions;
-exports.hasExtraArgs = hasExtraArgs;
-exports.hasFilters = hasFilters;
-exports.generateDecorators = generateDecorators;
-exports.defineFieldResolver = defineFieldResolver;
-exports.defineGetSingleResource = defineGetSingleResource;
-exports.defineGetGridResource = defineGetGridResource;
-exports.defineCreateMutation = defineCreateMutation;
-exports.defineUpdateMutation = defineUpdateMutation;
-exports.defineDeleteMutation = defineDeleteMutation;
-exports.resolverFactory = resolverFactory;
-const tslib_1 = require("tslib");
-const graphql_1 = require("@nestjs/graphql");
-const crud_gen_args_gql_decorator_js_1 = require("@nest-yalc-2/crud-gen/api-graphql/crud-gen-args-gql.decorator.js");
-const common_1 = require("@nestjs/common");
-const crud_gen_gql_interceptor_js_1 = require("@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interceptor.js");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
-const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.service.js");
-const crud_gen_gql_type_js_1 = tslib_1.__importDefault(require("./crud-gen-gql.type.js"));
-const dataloader_helper_js_1 = require("@nest-yalc-2/data-loader/dataloader.helper.js");
-const core_1 = require("@nestjs/core");
-const graphql_2 = require("@nestjs/graphql");
-const crud_gen_helpers_js_1 = require("../crud-gen.helpers.js");
-const object_decorator_js_1 = require("../object.decorator.js");
-const crud_gen_error_js_1 = require("../crud-gen.error.js");
-const gqlmapper_decorator_js_1 = require("@nest-yalc-2/crud-gen/api-graphql/gqlmapper.decorator.js");
-const class_helper_1 = require("@node-yalc/utils/class.helper");
-const nest_decorator_js_1 = require("@nest-yalc-2/utils/nestjs/nest.decorator.js");
-function isIDArg(arg) {
+import { __decorate, __metadata, __param } from "tslib";
+import { Args, GqlExecutionContext, Parent, Query, ResolveField, Resolver, } from '@nestjs/graphql';
+import { CrudGenArgs, CrudGenArgsSingle, } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-args-gql.decorator.js';
+import { applyDecorators, Inject, UseInterceptors, } from '@nestjs/common';
+import { CrudGenGqlInterceptor } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interceptor.js';
+import returnValue from '@node-yalc/utils/returnValue.js';
+import { GenericService, getServiceToken, } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js';
+import CrudGenGqlType from './crud-gen-gql.type.js';
+import { getDataloaderToken, GQLDataLoader, } from '@nest-yalc-2/data-loader/dataloader.helper.js';
+import { ContextIdFactory, ModuleRef } from '@nestjs/core';
+import { Mutation } from '@nestjs/graphql';
+import { filterTypeToNativeType, getEntityRelations, } from '../crud-gen.helpers.js';
+import { getModelFieldMetadataList } from '../object.decorator.js';
+import { CrudGenError } from '../crud-gen.error.js';
+import { InputArgs } from '@nest-yalc-2/crud-gen/api-graphql/gqlmapper.decorator.js';
+import { isClass } from '@node-yalc/utils/class.helper.js';
+import { GetContext } from '@nest-yalc-2/utils/nestjs/nest.decorator.js';
+export function isIDArg(arg) {
     return !!arg.name;
 }
-function isExtraInputStrict(input) {
+export function isExtraInputStrict(input) {
     const casted = input;
     return !!casted.middleware;
 }
-function checkFinalId(finalId) {
+export function checkFinalId(finalId) {
     if (typeof finalId === 'undefined') {
         throw new Error("Can't have an undefined ID");
     }
 }
-function isCustomSingleQueryOptions(option) {
+export function isCustomSingleQueryOptions(option) {
     return option.isSingleResource === true;
 }
-function hasExtraArgs(option) {
+export function hasExtraArgs(option) {
     return !!option.extraArgs;
 }
-function hasFilters(findOptions) {
+export function hasFilters(findOptions) {
     return ((findOptions.where &&
         Object.values(findOptions.where.filters).length > 0) ||
         (findOptions.order && Object.values(findOptions.order).length > 0));
 }
-function generateDecorators(methodFn, defaultName, typeFunc, options) {
+export function generateDecorators(methodFn, defaultName, typeFunc, options) {
     if (options?.disabled)
         return [];
     return [
@@ -65,7 +49,7 @@ function generateDecorators(methodFn, defaultName, typeFunc, options) {
         }),
     ];
 }
-function defineFieldResolver(resolverInfoList, resolver) {
+export function defineFieldResolver(resolverInfoList, resolver) {
     for (const resolverInfo of resolverInfoList) {
         let relType = (typeof resolverInfo.relation.type === 'function'
             ? resolverInfo.relation.type()
@@ -77,7 +61,7 @@ function defineFieldResolver(resolverInfoList, resolver) {
             relType = relType[0];
         }
         else if (!relType) {
-            throw new crud_gen_error_js_1.CrudGenError('relation type undefined');
+            throw new CrudGenError('relation type undefined');
         }
         const agGraphType = resolverInfo.agField?.gqlType?.() ?? relType;
         const isArrayGraphType = Array.isArray(agGraphType) ||
@@ -95,10 +79,10 @@ function defineFieldResolver(resolverInfoList, resolver) {
                     const parentRes = parent[resolverInfo.relation.propertyName];
                     if (parentRes !== undefined) {
                         if (hasFilters(findOptions))
-                            throw new crud_gen_error_js_1.CrudGenError('Cannot specify join arguments and resolver arguments at the same time');
+                            throw new CrudGenError('Cannot specify join arguments and resolver arguments at the same time');
                         return isArrayGraphType ? parentRes : [parentRes, -1];
                     }
-                    const dataLoader = await this.moduleRef.resolve((0, dataloader_helper_js_1.getDataloaderToken)(relType), core_1.ContextIdFactory.getByRequest(graphql_1.GqlExecutionContext.create(context).getContext(), ['req']), { strict: false });
+                    const dataLoader = await this.moduleRef.resolve(getDataloaderToken(relType), ContextIdFactory.getByRequest(GqlExecutionContext.create(context).getContext(), ['req']), { strict: false });
                     const joinCol = resolverInfo.agField?.relation?.targetKey.alias ??
                         resolverInfo.join?.referencedColumnName ??
                         dataLoader.getSearchKey();
@@ -112,19 +96,19 @@ function defineFieldResolver(resolverInfoList, resolver) {
             const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, resolverInfo.relation.propertyName);
             if (!descriptor)
                 throw new ReferenceError(`GenericResolver.${resolverInfo.relation.propertyName} must have a descriptor`);
-            (0, graphql_1.ResolveField)((0, returnValue_1.default)(isArrayGraphType ? agGraphType : (0, crud_gen_gql_type_js_1.default)(relType)), {
+            ResolveField(returnValue(isArrayGraphType ? agGraphType : CrudGenGqlType(relType)), {
                 nullable: resolverInfo.agField?.gqlOptions?.nullable,
             })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             if (!isArrayGraphType) {
-                (0, common_1.UseInterceptors)(new crud_gen_gql_interceptor_js_1.CrudGenGqlInterceptor())(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
+                UseInterceptors(new CrudGenGqlInterceptor())(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             }
-            (0, graphql_1.Parent)()(resolver.prototype, resolverInfo.relation.propertyName, 0);
-            (0, crud_gen_args_gql_decorator_js_1.CrudGenArgs)({
+            Parent()(resolver.prototype, resolverInfo.relation.propertyName, 0);
+            CrudGenArgs({
                 fieldType: relType,
                 entityType: relType,
                 defaultValue: resolverInfo.agField?.relation?.defaultValue,
             })(resolver.prototype, resolverInfo.relation.propertyName, 1);
-            (0, nest_decorator_js_1.GetContext)()(resolver.prototype, resolverInfo.relation.propertyName, 2);
+            GetContext()(resolver.prototype, resolverInfo.relation.propertyName, 2);
             Reflect.metadata('design:paramtypes', [Object, Object, Object])(resolver.prototype, resolverInfo.relation.propertyName);
         }
         else {
@@ -136,10 +120,10 @@ function defineFieldResolver(resolverInfoList, resolver) {
                     const parentRes = parent[resolverInfo.relation.propertyName];
                     if (parentRes !== undefined) {
                         if (hasFilters(findOptions))
-                            throw new crud_gen_error_js_1.CrudGenError('Cannot specify join arguments and resolver arguments at the same time');
+                            throw new CrudGenError('Cannot specify join arguments and resolver arguments at the same time');
                         return parentRes;
                     }
-                    const dataLoader = await this.moduleRef.resolve((0, dataloader_helper_js_1.getDataloaderToken)(relType), core_1.ContextIdFactory.getByRequest(graphql_1.GqlExecutionContext.create(context).getContext(), ['req']), { strict: false });
+                    const dataLoader = await this.moduleRef.resolve(getDataloaderToken(relType), ContextIdFactory.getByRequest(GqlExecutionContext.create(context).getContext(), ['req']), { strict: false });
                     const joinCol = resolverInfo.agField?.relation?.targetKey.alias ??
                         resolverInfo.join?.referencedColumnName ??
                         dataLoader.getSearchKey();
@@ -152,17 +136,17 @@ function defineFieldResolver(resolverInfoList, resolver) {
             const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, resolverInfo.relation.propertyName);
             if (!descriptor)
                 throw new ReferenceError(`GenericResolver.${resolverInfo.relation.propertyName} must have a descriptor`);
-            (0, graphql_1.ResolveField)((0, returnValue_1.default)(relType), {
+            ResolveField(returnValue(relType), {
                 nullable: resolverInfo.agField?.gqlOptions?.nullable,
             })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
-            (0, graphql_1.Parent)()(resolver.prototype, resolverInfo.relation.propertyName, 0);
-            (0, crud_gen_args_gql_decorator_js_1.CrudGenArgsSingle)({ fieldType: relType, entityType: relType })(resolver.prototype, resolverInfo.relation.propertyName, 1);
-            (0, nest_decorator_js_1.GetContext)()(resolver.prototype, resolverInfo.relation.propertyName, 2);
+            Parent()(resolver.prototype, resolverInfo.relation.propertyName, 0);
+            CrudGenArgsSingle({ fieldType: relType, entityType: relType })(resolver.prototype, resolverInfo.relation.propertyName, 1);
+            GetContext()(resolver.prototype, resolverInfo.relation.propertyName, 2);
             Reflect.metadata('design:paramtypes', [Object, Array, Object])(resolver.prototype, resolverInfo.relation.propertyName);
         }
     }
 }
-function defineGetSingleResource(queryName, returnType, resolver, methodOptions) {
+export function defineGetSingleResource(queryName, returnType, resolver, methodOptions) {
     Object.defineProperty(resolver.prototype, queryName, {
         configurable: true,
         writable: true,
@@ -184,33 +168,33 @@ function defineGetSingleResource(queryName, returnType, resolver, methodOptions)
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...generateDecorators(graphql_1.Query, queryName, methodOptions.returnType ?? (0, returnValue_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
+    applyDecorators(...generateDecorators(Query, queryName, methodOptions.returnType ?? returnValue(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !isClass(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
-    (0, crud_gen_args_gql_decorator_js_1.CrudGenArgsSingle)({
+    CrudGenArgsSingle({
         fieldType,
         entityType,
     })(resolver.prototype, queryName, 0);
-    (0, nest_decorator_js_1.GetContext)()(resolver.prototype, queryName, 1);
+    GetContext()(resolver.prototype, queryName, 1);
     if (methodOptions.idName && isIDArg(methodOptions.idName)) {
         if (!methodOptions.idName.hidden) {
-            (0, graphql_1.Args)(methodOptions.idName.name, {
+            Args(methodOptions.idName.name, {
                 nullable: false,
-                type: (0, returnValue_1.default)(String),
+                type: returnValue(String),
             })(resolver.prototype, queryName, 2);
         }
     }
     else {
-        (0, graphql_1.Args)(methodOptions.idName ?? 'ID', {
+        Args(methodOptions.idName ?? 'ID', {
             nullable: false,
-            type: (0, returnValue_1.default)(String),
+            type: returnValue(String),
         })(resolver.prototype, queryName, 2);
     }
     Reflect.metadata('design:paramtypes', [Object, Array])(resolver.prototype, queryName);
 }
-function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
+export function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
     Object.defineProperty(resolver.prototype, queryName, {
         configurable: true,
         writable: true,
@@ -228,7 +212,7 @@ function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
                 ? !!service.supportsStructuredGraphqlFilters()
                 : !!service.supportsExtendedRepository();
             if (hasStructuredFilters && !supportsStructuredGraphqlFilters) {
-                throw new crud_gen_error_js_1.CrudGenError('Structured GraphQL filters require an extended repository; plain TypeORM fallback only supports basic grid queries.');
+                throw new CrudGenError('Structured GraphQL filters require an extended repository; plain TypeORM fallback only supports basic grid queries.');
             }
             return service.getEntityListExtended(findOptions, true);
         },
@@ -236,16 +220,16 @@ function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...generateDecorators(graphql_1.Query, queryName, methodOptions.returnType ??
-        (0, returnValue_1.default)((0, crud_gen_gql_type_js_1.default)(returnType)), methodOptions))(resolver.prototype, queryName, descriptor);
-    (0, common_1.UseInterceptors)(new crud_gen_gql_interceptor_js_1.CrudGenGqlInterceptor())(resolver.prototype, queryName, descriptor);
+    applyDecorators(...generateDecorators(Query, queryName, methodOptions.returnType ??
+        returnValue(CrudGenGqlType(returnType)), methodOptions))(resolver.prototype, queryName, descriptor);
+    UseInterceptors(new CrudGenGqlInterceptor())(resolver.prototype, queryName, descriptor);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !isClass(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
     const extraArgTypes = [];
     if (hasExtraArgs(methodOptions)) {
-        (0, crud_gen_args_gql_decorator_js_1.CrudGenArgs)({
+        CrudGenArgs({
             fieldType,
             entityType,
             extraArgs: methodOptions.extraArgs,
@@ -254,25 +238,25 @@ function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
         if (methodOptions.extraArgs) {
             Object.values(methodOptions.extraArgs).map((a) => {
                 if (!a.hidden)
-                    extraArgTypes.push((0, crud_gen_helpers_js_1.filterTypeToNativeType)(a.filterType));
+                    extraArgTypes.push(filterTypeToNativeType(a.filterType));
             });
         }
     }
     else {
-        (0, crud_gen_args_gql_decorator_js_1.CrudGenArgs)({
+        CrudGenArgs({
             fieldType,
             entityType,
         })(resolver.prototype, queryName, 0);
     }
     Reflect.metadata('design:paramtypes', [Object])(resolver.prototype, queryName);
 }
-function defineCreateMutation(queryName, returnType, resolver, options, methodOptions) {
+export function defineCreateMutation(queryName, returnType, resolver, options, methodOptions) {
     const extraInputs = methodOptions.extraInputs;
     Object.defineProperty(resolver.prototype, queryName, {
         configurable: true,
         writable: true,
         value: async function (input, findOptions, ctx, extraInputsArgs) {
-            const gqlCtx = graphql_1.GqlExecutionContext.create(ctx);
+            const gqlCtx = GqlExecutionContext.create(ctx);
             if (extraInputs)
                 Object.keys(extraInputs).forEach((k) => {
                     const extraInputObj = extraInputs[k];
@@ -289,8 +273,8 @@ function defineCreateMutation(queryName, returnType, resolver, options, methodOp
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...generateDecorators(graphql_2.Mutation, queryName, methodOptions.returnType ?? (0, returnValue_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
-    (0, gqlmapper_decorator_js_1.InputArgs)({
+    applyDecorators(...generateDecorators(Mutation, queryName, methodOptions.returnType ?? returnValue(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
+    InputArgs({
         gql: {
             type: () => options.input?.create ?? returnType,
         },
@@ -298,20 +282,20 @@ function defineCreateMutation(queryName, returnType, resolver, options, methodOp
         _name: 'input',
     })(resolver.prototype, queryName, 0);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !isClass(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
-    (0, crud_gen_args_gql_decorator_js_1.CrudGenArgsSingle)({
+    CrudGenArgsSingle({
         fieldType,
         entityType,
     })(resolver.prototype, queryName, 1);
-    (0, nest_decorator_js_1.GetContext)()(resolver.prototype, queryName, 2);
+    GetContext()(resolver.prototype, queryName, 2);
     if (extraInputs) {
         Object.keys(extraInputs).forEach((k, i) => {
             const extraInputObj = extraInputs[k];
             if (!extraInputObj.gqlOptions)
                 return;
-            (0, gqlmapper_decorator_js_1.InputArgs)({
+            InputArgs({
                 gql: extraInputObj.gqlOptions,
                 fieldType: extraInputObj.gqlOptions.type,
                 _name: k,
@@ -320,7 +304,7 @@ function defineCreateMutation(queryName, returnType, resolver, options, methodOp
     }
     Reflect.metadata('design:paramtypes', [Object])(resolver.prototype, queryName);
 }
-function defineUpdateMutation(queryName, returnType, resolver, options, methodOptions) {
+export function defineUpdateMutation(queryName, returnType, resolver, options, methodOptions) {
     Object.defineProperty(resolver.prototype, queryName, {
         configurable: true,
         writable: true,
@@ -331,15 +315,15 @@ function defineUpdateMutation(queryName, returnType, resolver, options, methodOp
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...generateDecorators(graphql_2.Mutation, `${options.prefix ?? ''}update${options.entityModel.name}`, methodOptions.returnType ?? (0, returnValue_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
-    (0, gqlmapper_decorator_js_1.InputArgs)({
+    applyDecorators(...generateDecorators(Mutation, `${options.prefix ?? ''}update${options.entityModel.name}`, methodOptions.returnType ?? returnValue(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
+    InputArgs({
         fieldType: options.input?.conditions ?? returnType,
         gql: {
             type: () => options.input?.conditions ?? returnType,
         },
         _name: 'conditions',
     })(resolver.prototype, queryName, 0);
-    (0, gqlmapper_decorator_js_1.InputArgs)({
+    InputArgs({
         fieldType: options.input?.update ?? returnType,
         gql: {
             type: () => options.input?.update ?? returnType,
@@ -347,16 +331,16 @@ function defineUpdateMutation(queryName, returnType, resolver, options, methodOp
         _name: 'input',
     })(resolver.prototype, queryName, 1);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !isClass(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
-    (0, crud_gen_args_gql_decorator_js_1.CrudGenArgsSingle)({
+    CrudGenArgsSingle({
         fieldType,
         entityType,
     })(resolver.prototype, queryName, 2);
     Reflect.metadata('design:paramtypes', [Object, Object])(resolver.prototype, queryName);
 }
-function defineDeleteMutation(queryName, returnType, resolver, options, methodOptions) {
+export function defineDeleteMutation(queryName, returnType, resolver, options, methodOptions) {
     Object.defineProperty(resolver.prototype, queryName, {
         configurable: true,
         writable: true,
@@ -367,8 +351,8 @@ function defineDeleteMutation(queryName, returnType, resolver, options, methodOp
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...generateDecorators(graphql_2.Mutation, queryName, (0, returnValue_1.default)(Boolean), methodOptions))(resolver.prototype, queryName, descriptor);
-    (0, gqlmapper_decorator_js_1.InputArgs)({
+    applyDecorators(...generateDecorators(Mutation, queryName, returnValue(Boolean), methodOptions))(resolver.prototype, queryName, descriptor);
+    InputArgs({
         fieldType: options.input?.conditions ?? returnType,
         gql: {
             type: () => options.input?.conditions ?? returnType,
@@ -377,7 +361,7 @@ function defineDeleteMutation(queryName, returnType, resolver, options, methodOp
     })(resolver.prototype, queryName, 0);
     Reflect.metadata('design:paramtypes', [Object])(resolver.prototype, queryName);
 }
-function resolverFactory(options) {
+export function resolverFactory(options) {
     const returnType = options.dto ?? options.entityModel;
     let BaseClass = class BaseClass {
         constructor(service, dataLoader, moduleRef) {
@@ -387,18 +371,18 @@ function resolverFactory(options) {
             this.moduleRef;
         }
     };
-    BaseClass = tslib_1.__decorate([
-        (0, graphql_1.Resolver)((0, returnValue_1.default)(returnType), { isAbstract: true }),
-        tslib_1.__param(0, (0, common_1.Inject)(options.service?.serviceToken ?? (0, generic_service_js_1.getServiceToken)(options.entityModel))),
-        tslib_1.__param(1, (0, common_1.Inject)(options.service?.dataLoaderToken ??
-            (0, dataloader_helper_js_1.getDataloaderToken)(options.entityModel))),
-        tslib_1.__param(2, (0, common_1.Inject)(options.moduleRefToken ?? core_1.ModuleRef)),
-        tslib_1.__metadata("design:paramtypes", [generic_service_js_1.GenericService,
-            dataloader_helper_js_1.GQLDataLoader,
-            core_1.ModuleRef])
+    BaseClass = __decorate([
+        Resolver(returnValue(returnType), { isAbstract: true }),
+        __param(0, Inject(options.service?.serviceToken ?? getServiceToken(options.entityModel))),
+        __param(1, Inject(options.service?.dataLoaderToken ??
+            getDataloaderToken(options.entityModel))),
+        __param(2, Inject(options.moduleRefToken ?? ModuleRef)),
+        __metadata("design:paramtypes", [GenericService,
+            GQLDataLoader,
+            ModuleRef])
     ], BaseClass);
-    const resolverInfoList = (0, crud_gen_helpers_js_1.getEntityRelations)(options.entityModel, options.dto);
-    const fieldMetadataList = (0, object_decorator_js_1.getModelFieldMetadataList)(returnType);
+    const resolverInfoList = getEntityRelations(options.entityModel, options.dto);
+    const fieldMetadataList = getModelFieldMetadataList(returnType);
     if (fieldMetadataList) {
         Object.keys(fieldMetadataList).forEach((propertyName) => {
             const field = fieldMetadataList[propertyName];
@@ -465,8 +449,8 @@ function resolverFactory(options) {
     const deleteOptions = options.mutations?.deleteResource ?? {};
     let Mutations = class Mutations extends BaseClass {
     };
-    Mutations = tslib_1.__decorate([
-        (0, graphql_1.Resolver)((0, returnValue_1.default)(returnType), {
+    Mutations = __decorate([
+        Resolver(returnValue(returnType), {
             isAbstract: true,
         })
     ], Mutations);
@@ -477,8 +461,8 @@ function resolverFactory(options) {
     const getResourceGridOptions = options.queries?.getResourceGrid ?? {};
     let GenericResolver = class GenericResolver extends (options.readonly ? BaseClass : Mutations) {
     };
-    GenericResolver = tslib_1.__decorate([
-        (0, graphql_1.Resolver)((0, returnValue_1.default)(returnType))
+    GenericResolver = __decorate([
+        Resolver(returnValue(returnType))
     ], GenericResolver);
     defineGetSingleResource(`${options.prefix ?? ''}get${options.entityModel.name}`, returnType, GenericResolver, getResourceOptions);
     defineGetGridResource(`${options.prefix ?? ''}get${options.entityModel.name}Grid`, returnType, GenericResolver, getResourceGridOptions);

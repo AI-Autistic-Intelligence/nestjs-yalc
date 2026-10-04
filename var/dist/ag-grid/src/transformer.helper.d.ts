@@ -1,1 +1,1 @@
-export * from '@node-yalc/ag-grid/transformer.helper';
+export declare function JsonTransformer(field: string, propertyPath: string): (dstObj: Record<any, any>, srcValue: any) => void;

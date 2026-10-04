@@ -1,4 +1,4 @@
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { IApiCallStrategy } from './context-call.interface.js';
 export interface IApiCallService<Strategy extends IApiCallStrategy> {
     setStrategy(strategy: Strategy): void;

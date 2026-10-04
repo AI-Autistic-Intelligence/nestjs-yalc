@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RowDefaultValues = exports.ExtraArgsStrategy = exports.CustomWhereKeys = exports.SortDirection = exports.Operators = exports.FilterType = exports.GeneralFilters = void 0;
 exports.entityFieldsEnumFactory = entityFieldsEnumFactory;
-const class_helper_1 = require("@node-yalc/utils/class.helper");
+const class_helper_js_1 = require("@node-yalc/utils/class.helper.js");
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_metadata_helper_1 = require("./ag-grid-metadata.helper");
 var GeneralFilters;
@@ -88,7 +88,7 @@ var RowDefaultValues;
 const fieldsEnumCache = new WeakMap();
 function entityFieldsEnumFactory(entityModel) {
     let cached;
-    const prototype = !(0, class_helper_1.isClass)(entityModel) ? entityModel.prototype : entityModel;
+    const prototype = !(0, class_helper_js_1.isClass)(entityModel) ? entityModel.prototype : entityModel;
     if ((cached = fieldsEnumCache.get(prototype)))
         return cached;
     const properties = {};

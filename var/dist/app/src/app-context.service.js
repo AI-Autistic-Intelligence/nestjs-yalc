@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppContextService = void 0;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
+import { __decorate } from "tslib";
+import { Injectable } from '@nestjs/common';
 let AppContextService = class AppContextService {
     constructor() {
         this.initializedApps = new Set();
@@ -14,8 +11,8 @@ let AppContextService = class AppContextService {
         return this.graphQLSchema;
     }
 };
-exports.AppContextService = AppContextService;
-exports.AppContextService = AppContextService = tslib_1.__decorate([
-    (0, common_1.Injectable)()
+AppContextService = __decorate([
+    Injectable()
 ], AppContextService);
+export { AppContextService };
 //# sourceMappingURL=app-context.service.js.map

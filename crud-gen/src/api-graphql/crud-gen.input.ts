@@ -1,5 +1,5 @@
-import { ClassType } from '@node-yalc/types/globals';
-import { AnyFunction } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
+import { AnyFunction } from '@node-yalc/types/globals.js';
 import {
   Field,
   InputType,

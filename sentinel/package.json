@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/sentinel",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Ferrox-Node Sentinel: AI/ML Security Analytics, Prompt Injection Sanitizer, RAG Groundedness & 35 SOTA Innovations for NestJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,5 +15,10 @@
     "@nestjs/common": "^11.0.0 || ^10.0.0",
     "@nestjs/core": "^11.0.0 || ^10.0.0",
     "rxjs": "^7.0.0"
-  }
+  },
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./*": "./dist/src/*"
+  },
+  "author": "Autistic_Intelligence"
 }

@@ -3,7 +3,7 @@ jest.mock('@nest-yalc-2/ag-grid/ag-grid.args', () => ({
   agQueryParamsFactory: jest.fn(),
 }));
 
-import { IFieldMapper } from '@node-yalc/interfaces/maps.interface';
+import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import * as $ from '../gqlfields.decorator';
 import * as AgGridHelpers from '../ag-grid-metadata.helper';
 import {

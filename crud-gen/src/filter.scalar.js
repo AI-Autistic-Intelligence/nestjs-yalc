@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FilterScalar = void 0;
-const tslib_1 = require("tslib");
-const graphql_1 = require("@nestjs/graphql");
-const graphql_2 = require("graphql");
-const crud_gen_type_checker_utils_js_1 = require("./crud-gen-type-checker.utils.js");
-const crud_gen_enum_js_1 = require("./crud-gen.enum.js");
-const crud_gen_error_js_1 = require("./crud-gen.error.js");
+import { __decorate } from "tslib";
+import { Scalar } from '@nestjs/graphql';
+import { Kind } from 'graphql';
+import { isCombinedFilterModel, isFilterModel, isMulticolumnJoinOptions, } from './crud-gen-type-checker.utils.js';
+import { CustomWhereKeys } from './crud-gen.enum.js';
+import { CrudGenBadFilterTypeError } from './crud-gen.error.js';
 let FilterScalar = class FilterScalar {
     constructor() {
         this.description = 'CrudGen Filter scalar type';
@@ -24,8 +21,8 @@ let FilterScalar = class FilterScalar {
             };
             Object.keys(input).forEach((key) => {
                 const field = input[key];
-                if (key === crud_gen_enum_js_1.CustomWhereKeys.MULTICOLUMNJOINOPTIONS &&
-                    (0, crud_gen_type_checker_utils_js_1.isMulticolumnJoinOptions)(field)) {
+                if (key === CustomWhereKeys.MULTICOLUMNJOINOPTIONS &&
+                    isMulticolumnJoinOptions(field)) {
                     _normalizedInput.childExpressions = [
                         {
                             ...normalizeInput(field),
@@ -35,7 +32,7 @@ let FilterScalar = class FilterScalar {
                     return;
                 }
                 if (_normalizedInput.expressions &&
-                    ((0, crud_gen_type_checker_utils_js_1.isFilterModel)(field) || (0, crud_gen_type_checker_utils_js_1.isCombinedFilterModel)(field))) {
+                    (isFilterModel(field) || isCombinedFilterModel(field))) {
                     _normalizedInput.expressions.push({
                         [field.filterType]: {
                             ...field,
@@ -62,17 +59,17 @@ let FilterScalar = class FilterScalar {
         if (typeof memoized === 'string') {
             return memoized;
         }
-        throw new crud_gen_error_js_1.CrudGenBadFilterTypeError();
+        throw new CrudGenBadFilterTypeError();
     }
     parseLiteral(ast) {
-        if (ast.kind === graphql_2.Kind.STRING) {
+        if (ast.kind === Kind.STRING) {
             return this.parseValue(ast.value);
         }
-        throw new crud_gen_error_js_1.CrudGenBadFilterTypeError();
+        throw new CrudGenBadFilterTypeError();
     }
 };
-exports.FilterScalar = FilterScalar;
-exports.FilterScalar = FilterScalar = tslib_1.__decorate([
-    (0, graphql_1.Scalar)('FilterInput')
+FilterScalar = __decorate([
+    Scalar('FilterInput')
 ], FilterScalar);
+export { FilterScalar };
 //# sourceMappingURL=filter.scalar.js.map

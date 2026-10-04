@@ -1,9 +1,9 @@
-import { AppLoggerFactory } from '@node-yalc/logger/logger.factory';
+import { AppLoggerFactory } from '@node-yalc/logger/logger.factory.js';
 import { FactoryProvider, LogLevel } from '@nestjs/common';
 import type {
   IImprovedLoggerOptions,
   ImprovedLoggerService,
-} from '@node-yalc/logger/logger-abstract.service';
+} from '@node-yalc/logger/logger-abstract.service.js';
 import { IServiceConf } from '@nest-yalc-2/app/conf.type.js';
 import {
   AppConfigService,

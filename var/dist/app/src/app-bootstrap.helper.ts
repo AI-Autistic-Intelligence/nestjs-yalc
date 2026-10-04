@@ -15,14 +15,14 @@ import {
 import fastifyCookie from '@fastify/cookie';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { fastify, FastifyInstance } from 'fastify';
-import { envIsTrue } from '@node-yalc/utils/env.helper';
+import { envIsTrue } from '@node-yalc/utils/env.helper.js';
 import { useContainer } from 'class-validator';
 import clc from 'cli-color';
 import {
   BaseAppBootstrap,
   IGlobalOptions,
 } from './app-bootstrap-base.helper.js';
-import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 import { UnwrapResultInterceptor } from './unwrap-result.interceptor.js';
 
 export interface ICreateOptions {

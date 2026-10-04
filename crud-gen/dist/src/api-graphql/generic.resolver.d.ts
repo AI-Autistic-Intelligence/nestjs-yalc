@@ -6,7 +6,7 @@ import { IDecoratorType, IFieldMapper } from '@node-yalc/interfaces';
 import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper.js';
 import { ModuleRef } from '@nestjs/core';
 import { Mutation } from '@nestjs/graphql';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { IRelationInfo } from '../crud-gen.helpers.js';
 import { ExtraArgsStrategy } from '../crud-gen.enum.js';
 import { ICrudGenParams } from '../crud-gen.args.js';

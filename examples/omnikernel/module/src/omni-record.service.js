@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniRecordService = void 0;
-const common_1 = require("@nestjs/common");
-const typeorm_1 = require("typeorm");
-const omni_scoped_service_js_1 = require("./omni-scoped.service.js");
-class OmniRecordService extends omni_scoped_service_js_1.OmniScopedService {
+import { BadRequestException } from '@nestjs/common';
+import { In, Not } from 'typeorm';
+import { OmniScopedService } from './omni-scoped.service.js';
+export class OmniRecordService extends OmniScopedService {
     constructor(repository, scopeOrRepositoryWrite, deletion = 'tombstone', reservedRecordKinds = []) {
         super(repository, scopeOrRepositoryWrite, deletion);
         this.reservedKinds = new Set(reservedRecordKinds);
@@ -32,14 +29,13 @@ class OmniRecordService extends omni_scoped_service_js_1.OmniScopedService {
             return conditions;
         return {
             ...conditions,
-            kind: (0, typeorm_1.Not)((0, typeorm_1.In)([...this.reservedKinds])),
+            kind: Not(In([...this.reservedKinds])),
         };
     }
     rejectReservedKind(kind) {
         if (typeof kind === 'string' && this.reservedKinds.has(kind)) {
-            throw new common_1.BadRequestException('This record kind is owned by a registered extension projection.');
+            throw new BadRequestException('This record kind is owned by a registered extension projection.');
         }
     }
 }
-exports.OmniRecordService = OmniRecordService;
 //# sourceMappingURL=omni-record.service.js.map

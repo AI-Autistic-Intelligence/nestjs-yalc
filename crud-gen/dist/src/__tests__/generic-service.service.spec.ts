@@ -26,7 +26,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { CGExtendedRepository } from '../typeorm/generic.repository.js';
 import { ConnectionNotFoundError } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
-import * as ClassHelper from '@node-yalc/utils/class.helper';
+import * as ClassHelper from '@node-yalc/utils/class.helper.js';
 
 jest.mock('@node-yalc/utils/class.helper.js', () => ({
   isClass: jest.fn(),
@@ -42,7 +42,7 @@ import {
 } from '../conditions.error.js';
 import { Operators } from '../crud-gen.enum.js';
 jest.mock('@node-yalc/utils/class.helper.js');
-import * as ClassHelper from '@node-yalc/utils/class.helper';
+import * as ClassHelper from '@node-yalc/utils/class.helper.js';
 jest.mock('typeorm');
 
 describe('GenericService', () => {

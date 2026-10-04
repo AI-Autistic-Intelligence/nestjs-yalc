@@ -1,15 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniRelationProjectionService = void 0;
-const common_1 = require("@nestjs/common");
-const crud_gen_1 = require("@nest-yalc-2/crud-gen");
-const typeorm_1 = require("typeorm");
-const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
-const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
-const omni_projection_catalog_js_1 = require("./omni-projection.catalog.js");
-const omni_relation_projection_definition_js_1 = require("./omni-relation-projection.definition.js");
-const omni_relation_service_js_1 = require("./omni-relation.service.js");
-const omni_relation_status_enum_js_1 = require("./omni-relation-status.enum.js");
+import { BadRequestException, ConflictException } from '@nestjs/common';
+import { Operators, PROJECTION_INTEGER_MAX, } from '@nest-yalc-2/crud-gen';
+import { In, IsNull, } from 'typeorm';
+import { OmniRecordEntity } from './base/omni-record.entity.js';
+import { OmniRelationEntity } from './base/omni-relation.entity.js';
+import { createOmniProjectionReaderCatalog, } from './omni-projection.catalog.js';
+import { getOmniRelationProjectionAliases, getOmniRelationProjectionAllowedKinds, } from './omni-relation-projection.definition.js';
+import { OmniRelationService } from './omni-relation.service.js';
+import { OmniRelationStatus } from './omni-relation-status.enum.js';
 function hasOwn(input, key) {
     return Object.prototype.hasOwnProperty.call(input, key);
 }
@@ -20,7 +17,7 @@ function isRetryableTransactionError(error) {
         code === 'SQLITE_BUSY' ||
         code === 'SQLITE_BUSY_SNAPSHOT');
 }
-class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelationService {
+export class OmniRelationProjectionService extends OmniRelationService {
     constructor(repository, scope, relationDeletion, recordRepository, kinds, definition, dataSource, lifecycle, readerCatalog) {
         super(repository, scope, relationDeletion, recordRepository, kinds);
         this.relationDeletion = relationDeletion;
@@ -28,7 +25,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         this.dataSource = dataSource;
         this.lifecycle = lifecycle;
         this.readerCatalog = readerCatalog;
-        for (const kind of (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(definition)) {
+        for (const kind of getOmniRelationProjectionAllowedKinds(definition)) {
             try {
                 kinds.assert(kind);
             }
@@ -49,7 +46,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
             return typeof result === 'boolean' ? result : this.publicEntity(result);
         }
         const result = await this.mutate(async (manager) => {
-            await this.assertRelation(created, manager.getRepository(omni_record_entity_js_1.OmniRecordEntity));
+            await this.assertRelation(created, manager.getRepository(OmniRecordEntity));
             await this.lifecycle.beforeCreate?.({
                 definition: this.definition,
                 scope: this.scope,
@@ -57,7 +54,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
                 readers: this.readers(manager),
                 input: this.publicInput(normalized),
             });
-            const repository = manager.getRepository(omni_relation_entity_js_1.OmniRelationEntity);
+            const repository = manager.getRepository(OmniRelationEntity);
             const entity = {
                 ...created,
                 scopeId: this.scopeId,
@@ -83,7 +80,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
     async getEntityListExtended(findOptions = {}, withCount = false, relations, databaseName) {
         this.rejectFixedFilters(findOptions.where);
         const where = {
-            operator: crud_gen_1.Operators.AND,
+            operator: Operators.AND,
             filters: this.definitionFilters(),
             ...(findOptions.where ? { childExpressions: [findOptions.where] } : {}),
         };
@@ -103,23 +100,23 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         if (typeof expectedRevision !== 'number' ||
             !Number.isInteger(expectedRevision) ||
             expectedRevision < 1 ||
-            expectedRevision >= crud_gen_1.PROJECTION_INTEGER_MAX) {
-            throw new common_1.BadRequestException(`expectedRevision must be an integer between 1 and ${crud_gen_1.PROJECTION_INTEGER_MAX - 1}.`);
+            expectedRevision >= PROJECTION_INTEGER_MAX) {
+            throw new BadRequestException(`expectedRevision must be an integer between 1 and ${PROJECTION_INTEGER_MAX - 1}.`);
         }
         const fixedConditions = this.withDefinitionConditions(this.normalizeConditions(conditions));
         const { expectedRevision: _expectedRevision, ...changes } = normalized;
         if (Object.keys(changes).length === 0) {
-            throw new common_1.BadRequestException('Omni relation update requires metadata.');
+            throw new BadRequestException('Omni relation update requires metadata.');
         }
         const result = await this.mutate(async (manager) => {
-            const repository = manager.getRepository(omni_relation_entity_js_1.OmniRelationEntity);
+            const repository = manager.getRepository(OmniRelationEntity);
             const current = await repository.findOne({ where: fixedConditions });
             if (!current)
                 this.notFound();
             if (current.revision !== expectedRevision) {
-                throw new common_1.ConflictException('Omni relation revision conflict.');
+                throw new ConflictException('Omni relation revision conflict.');
             }
-            await this.assertRelation({ ...current, ...changes }, manager.getRepository(omni_record_entity_js_1.OmniRecordEntity));
+            await this.assertRelation({ ...current, ...changes }, manager.getRepository(OmniRecordEntity));
             await this.lifecycle?.beforeUpdate?.({
                 definition: this.definition,
                 scope: this.scope,
@@ -136,10 +133,10 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
                 .andWhere('"guid" = :guid', { guid: current.guid })
                 .andWhere('"revision" = :expectedRevision', { expectedRevision })
                 .andWhere('"kind" IN (:...kinds)', {
-                kinds: [...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(this.definition)],
+                kinds: [...getOmniRelationProjectionAllowedKinds(this.definition)],
             })
                 .andWhere('"status" = :status', {
-                status: this.definition.relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+                status: this.definition.relation.status ?? OmniRelationStatus.Active,
             })
                 .andWhere(this.definition.relation.schema
                 ? '"payloadSchemaId" = :schemaId AND "payloadSchemaVersion" = :schemaVersion'
@@ -154,7 +151,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
                 const existing = await repository.findOne({ where: fixedConditions });
                 if (!existing)
                     this.notFound();
-                throw new common_1.ConflictException('Omni relation revision conflict.');
+                throw new ConflictException('Omni relation revision conflict.');
             }
             if (!returnEntity)
                 return true;
@@ -167,7 +164,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         if (!this.lifecycle)
             return super.deleteEntity(fixedConditions);
         return this.mutate(async (manager) => {
-            const repository = manager.getRepository(omni_relation_entity_js_1.OmniRelationEntity);
+            const repository = manager.getRepository(OmniRelationEntity);
             const current = await repository.findOne({ where: fixedConditions });
             if (!current)
                 this.notFound();
@@ -190,14 +187,14 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
     assertEndpointKinds(source, target) {
         if (source.kind !== this.definition.relation.sourceKind ||
             target.kind !== this.definition.relation.targetKind) {
-            throw new common_1.BadRequestException('Omni relation endpoints do not match the registered resource kinds.');
+            throw new BadRequestException('Omni relation endpoints do not match the registered resource kinds.');
         }
     }
     createValues(input) {
         return {
             ...input,
             kind: input.kind,
-            status: this.definition.relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+            status: this.definition.relation.status ?? OmniRelationStatus.Active,
             ...(this.definition.relation.schema
                 ? {
                     payloadSchemaId: this.definition.relation.schema.id,
@@ -207,7 +204,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         };
     }
     publicEntity(entity) {
-        const aliases = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAliases)(this.definition);
+        const aliases = getOmniRelationProjectionAliases(this.definition);
         return {
             ...entity,
             ...(aliases.kind === 'kind' ? {} : { [aliases.kind]: entity.kind }),
@@ -223,7 +220,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         };
     }
     publicInput(input) {
-        const aliases = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAliases)(this.definition);
+        const aliases = getOmniRelationProjectionAliases(this.definition);
         const output = { ...input };
         for (const [field, alias] of [
             ['kind', aliases.kind],
@@ -239,21 +236,21 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         return output;
     }
     selectCreateKind(input) {
-        const allowed = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(this.definition);
+        const allowed = getOmniRelationProjectionAllowedKinds(this.definition);
         if (allowed.length === 1) {
             if (input.kind !== undefined) {
-                throw new common_1.BadRequestException('Omni relation kind is server-owned.');
+                throw new BadRequestException('Omni relation kind is server-owned.');
             }
             input.kind = allowed[0];
             return;
         }
         if (typeof input.kind !== 'string' || !allowed.includes(input.kind)) {
-            throw new common_1.BadRequestException('Omni relation kind is not allowed by this resource.');
+            throw new BadRequestException('Omni relation kind is not allowed by this resource.');
         }
     }
     normalizeInput(input) {
         const normalized = { ...input };
-        const aliases = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAliases)(this.definition);
+        const aliases = getOmniRelationProjectionAliases(this.definition);
         for (const [alias, field] of [
             [aliases.kind, 'kind'],
             [aliases.source, 'sourceRecordId'],
@@ -265,7 +262,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
             if (!hasOwn(normalized, alias))
                 continue;
             if (hasOwn(normalized, field)) {
-                throw new common_1.BadRequestException(`Omni relation ${alias} conflicts with ${field}.`);
+                throw new BadRequestException(`Omni relation ${alias} conflicts with ${field}.`);
             }
             normalized[field] = normalized[alias];
             delete normalized[alias];
@@ -283,14 +280,14 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
             'payloadSchemaVersion',
         ]) {
             if (hasOwn(input, field)) {
-                throw new common_1.BadRequestException(`Omni relation ${field} is server-owned.`);
+                throw new BadRequestException(`Omni relation ${field} is server-owned.`);
             }
         }
     }
     rejectImmutableEndpoints(input) {
         for (const field of ['guid', 'sourceRecordId', 'targetRecordId']) {
             if (hasOwn(input, field)) {
-                throw new common_1.BadRequestException(`Omni relation ${field} is immutable.`);
+                throw new BadRequestException(`Omni relation ${field} is immutable.`);
             }
         }
     }
@@ -298,7 +295,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         if (hasOwn(input, 'payload') &&
             input.payload !== null &&
             (typeof input.payload !== 'object' || Array.isArray(input.payload))) {
-            throw new common_1.BadRequestException('payload must be a JSON object or null.');
+            throw new BadRequestException('payload must be a JSON object or null.');
         }
     }
     withDefinitionConditions(conditions) {
@@ -314,23 +311,23 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
     definitionFilters() {
         const relation = this.definition.relation;
         return {
-            kind: (0, typeorm_1.In)([...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(this.definition)]),
-            status: relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+            kind: In([...getOmniRelationProjectionAllowedKinds(this.definition)]),
+            status: relation.status ?? OmniRelationStatus.Active,
             ...(relation.schema
                 ? {
                     payloadSchemaId: relation.schema.id,
                     payloadSchemaVersion: relation.schema.version,
                 }
                 : {
-                    payloadSchemaId: (0, typeorm_1.IsNull)(),
-                    payloadSchemaVersion: (0, typeorm_1.IsNull)(),
+                    payloadSchemaId: IsNull(),
+                    payloadSchemaVersion: IsNull(),
                 }),
         };
     }
     assertFixedConditions(conditions) {
         for (const field of Object.keys(this.definitionFilters())) {
             if (hasOwn(conditions, field)) {
-                throw new common_1.BadRequestException(`Omni relation ${field} is server-owned.`);
+                throw new BadRequestException(`Omni relation ${field} is server-owned.`);
             }
         }
     }
@@ -344,7 +341,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         const candidate = where;
         for (const field of Object.keys(this.definitionFilters())) {
             if (hasOwn(candidate, field)) {
-                throw new common_1.BadRequestException(`Omni relation ${field} is server-owned.`);
+                throw new BadRequestException(`Omni relation ${field} is server-owned.`);
             }
         }
         if (candidate.filters && typeof candidate.filters === 'object') {
@@ -356,7 +353,7 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
     }
     readers(manager) {
         return (this.readerCatalog ??
-            (0, omni_projection_catalog_js_1.createOmniProjectionReaderCatalog)([
+            createOmniProjectionReaderCatalog([
                 {
                     type: 'relation',
                     id: this.definition.id,
@@ -375,11 +372,10 @@ class OmniRelationProjectionService extends omni_relation_service_js_1.OmniRelat
         }
         catch (error) {
             if (isRetryableTransactionError(error)) {
-                throw new common_1.ConflictException('Omni projection concurrent write conflict; retry the mutation.');
+                throw new ConflictException('Omni projection concurrent write conflict; retry the mutation.');
             }
             throw error;
         }
     }
 }
-exports.OmniRelationProjectionService = OmniRelationProjectionService;
 //# sourceMappingURL=omni-relation-projection.service.js.map

@@ -5,9 +5,9 @@ exports.defineGetSingleResource = defineGetSingleResource;
 exports.defineGetGridResource = defineGetGridResource;
 const tslib_1 = require("tslib");
 const dataloader_helper_1 = require("@nest-yalc-2/data-loader/dataloader.helper");
-const class_helper_1 = require("@node-yalc/utils/class.helper");
+const class_helper_js_1 = require("@node-yalc/utils/class.helper.js");
 const nest_decorator_1 = require("@nest-yalc-2/utils/nestjs/nest.decorator");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
+const returnValue_js_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue.js"));
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_args_decorator_1 = require("./ag-grid-args.decorator");
@@ -50,7 +50,7 @@ function defineFieldResolver(resolverInfoList, resolver) {
             const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, resolverInfo.relation.propertyName);
             if (!descriptor)
                 throw new ReferenceError(`GenericResolver.${resolverInfo.relation.propertyName} must have a descriptor`);
-            (0, graphql_1.ResolveField)((0, returnValue_1.default)((0, ag_grid_type_1.default)(relType)), {
+            (0, graphql_1.ResolveField)((0, returnValue_js_1.default)((0, ag_grid_type_1.default)(relType)), {
                 nullable: resolverInfo.agField?.gqlOptions?.nullable,
             })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             (0, common_1.UseInterceptors)(new ag_grid_interceptor_1.AgGridInterceptor())(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
@@ -84,7 +84,7 @@ function defineFieldResolver(resolverInfoList, resolver) {
             const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, resolverInfo.relation.propertyName);
             if (!descriptor)
                 throw new ReferenceError(`GenericResolver.${resolverInfo.relation.propertyName} must have a descriptor`);
-            (0, graphql_1.ResolveField)((0, returnValue_1.default)(relType), {
+            (0, graphql_1.ResolveField)((0, returnValue_js_1.default)(relType), {
                 nullable: resolverInfo.agField?.gqlOptions?.nullable,
             })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             (0, graphql_1.Parent)()(resolver.prototype, resolverInfo.relation.propertyName, 0);
@@ -116,9 +116,9 @@ function defineGetSingleResource(queryName, returnType, resolver, methodOptions)
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(common_1.Query, queryName, methodOptions.returnType ?? (0, returnValue_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
+    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(common_1.Query, queryName, methodOptions.returnType ?? (0, returnValue_js_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !(0, class_helper_js_1.isClass)(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
     (0, ag_grid_args_decorator_1.AgGridArgsSingle)({
@@ -130,14 +130,14 @@ function defineGetSingleResource(queryName, returnType, resolver, methodOptions)
         if (!methodOptions.idName.hidden) {
             (0, graphql_1.Args)(methodOptions.idName.name, {
                 nullable: false,
-                type: (0, returnValue_1.default)(String),
+                type: (0, returnValue_js_1.default)(String),
             })(resolver.prototype, queryName, 2);
         }
     }
     else {
         (0, graphql_1.Args)(methodOptions.idName ?? 'ID', {
             nullable: false,
-            type: (0, returnValue_1.default)(String),
+            type: (0, returnValue_js_1.default)(String),
         })(resolver.prototype, queryName, 2);
     }
     Reflect.metadata('design:paramtypes', [Object, Array])(resolver.prototype, queryName);
@@ -154,10 +154,10 @@ function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
     (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(common_1.Query, queryName, methodOptions.returnType ??
-        (0, returnValue_1.default)((0, ag_grid_type_1.default)(returnType)), methodOptions))(resolver.prototype, queryName, descriptor);
+        (0, returnValue_js_1.default)((0, ag_grid_type_1.default)(returnType)), methodOptions))(resolver.prototype, queryName, descriptor);
     (0, common_1.UseInterceptors)(new ag_grid_interceptor_1.AgGridInterceptor())(resolver.prototype, queryName, descriptor);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !(0, class_helper_js_1.isClass)(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
     const extraArgTypes = [];

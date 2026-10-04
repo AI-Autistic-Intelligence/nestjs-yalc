@@ -21,7 +21,7 @@ async function importMockedEsm(moduleSpecifier, importMeta, skipActualMock = fal
         const absolutePath = path.join(metaPath, moduleSpecifier);
         modulePath = path.relative(thisMetaPath, absolutePath);
     }
-    const module = await Promise.resolve(`${modulePath}`).then(s => tslib_1.__importStar(require(s)));
+    const module = await import(modulePath);
     const moduleCopy = { ...module };
     forEachDeep(moduleCopy, ([prop, value], obj) => {
         if (typeof value === 'function') {

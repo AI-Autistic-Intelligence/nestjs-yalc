@@ -1,5 +1,5 @@
 import { IFieldMapper } from '@node-yalc/interfaces';
-import { DateHelper } from '@node-yalc/utils/date.helper';
+import { DateHelper } from '@node-yalc/utils/date.helper.js';
 import {
   Equal,
   Like,

@@ -1,7 +1,7 @@
 import { ObjectType, Field, HideField } from '@nestjs/graphql';
 import { Type } from '@nestjs/common';
 import { FindManyOptions, FindOperator, ObjectLiteral } from 'typeorm';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { IExtraArg, ICombinedWhereModel } from './crud-gen-gql.interface.js';
 import { Operators } from '../crud-gen.enum.js';
 import { FieldMapperProperty } from '@node-yalc/interfaces';

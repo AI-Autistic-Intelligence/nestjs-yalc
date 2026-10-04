@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniExtensionProjectionService = void 0;
-const crud_gen_1 = require("@nest-yalc-2/crud-gen");
-const typeorm_1 = require("typeorm");
-const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
-const omni_projection_catalog_js_1 = require("./omni-projection.catalog.js");
+import { PROJECTION_INTEGER_MAX, ProjectionResourceService, } from '@nest-yalc-2/crud-gen';
+import { In, IsNull, } from 'typeorm';
+import { OmniRecordEntity } from './base/omni-record.entity.js';
+import { createOmniProjectionReaderCatalog, } from './omni-projection.catalog.js';
 function hasOwn(input, field) {
     return Object.prototype.hasOwnProperty.call(input, field);
 }
@@ -20,7 +17,7 @@ function isRetryableTransactionError(error) {
         code === 'SQLITE_BUSY' ||
         code === 'SQLITE_BUSY_SNAPSHOT');
 }
-class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceService {
+export class OmniExtensionProjectionService extends ProjectionResourceService {
     constructor(extensionRepository, ownerRepository, dataSource, scope, dialect, events, omniDefinition, lifecycle, readerCatalog) {
         super(extensionRepository, scope, dialect, events, omniDefinition);
         this.ownerRepository = ownerRepository;
@@ -45,11 +42,11 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         const owners = await this.ownerRepository.find({
             where: {
                 scopeId: this.scope.scopeId,
-                guid: (0, typeorm_1.In)(guids),
+                guid: In(guids),
                 kind: this.omniDefinition.owner.kind,
                 payloadSchemaId: this.omniDefinition.owner.schema.id,
                 payloadSchemaVersion: this.omniDefinition.owner.schema.version,
-                deletedAt: (0, typeorm_1.IsNull)(),
+                deletedAt: IsNull(),
             },
         });
         const ownersByGuid = new Map(owners.map((owner) => [owner.guid, owner]));
@@ -82,7 +79,7 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
                     readers: this.readers(manager),
                     input,
                 });
-                await manager.getRepository(omni_record_entity_js_1.OmniRecordEntity).save(owner);
+                await manager.getRepository(OmniRecordEntity).save(owner);
                 const saved = await manager
                     .getRepository(this.repository.target)
                     .save(extension);
@@ -102,12 +99,12 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         if (typeof expectedRevision !== 'number' ||
             !Number.isInteger(expectedRevision) ||
             expectedRevision < 1 ||
-            expectedRevision >= crud_gen_1.PROJECTION_INTEGER_MAX) {
-            this.invalid(`expectedRevision must be an integer between 1 and ${crud_gen_1.PROJECTION_INTEGER_MAX - 1}.`);
+            expectedRevision >= PROJECTION_INTEGER_MAX) {
+            this.invalid(`expectedRevision must be an integer between 1 and ${PROJECTION_INTEGER_MAX - 1}.`);
         }
         const patch = this.createValuePatch(guid, input);
         return this.mutate(async (manager) => {
-            const owners = manager.getRepository(omni_record_entity_js_1.OmniRecordEntity);
+            const owners = manager.getRepository(OmniRecordEntity);
             const extensions = manager.getRepository(this.repository.target);
             const currentOwner = await this.findOwner(guid, manager);
             const currentExtension = await extensions.findOne({
@@ -188,7 +185,7 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
                 input: {},
                 current: this.merge(extension, owner),
             });
-            const result = await manager.getRepository(omni_record_entity_js_1.OmniRecordEntity).delete({
+            const result = await manager.getRepository(OmniRecordEntity).delete({
                 scopeId: this.scope.scopeId,
                 guid,
                 kind: this.omniDefinition.owner.kind,
@@ -221,7 +218,7 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
     }
     readers(manager) {
         return (this.readerCatalog ??
-            (0, omni_projection_catalog_js_1.createOmniProjectionReaderCatalog)([
+            createOmniProjectionReaderCatalog([
                 {
                     type: 'extension',
                     id: this.omniDefinition.id,
@@ -291,14 +288,14 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         return owner ? this.merge(extension, owner) : null;
     }
     async findOwner(guid, manager) {
-        return (manager?.getRepository(omni_record_entity_js_1.OmniRecordEntity) ?? this.ownerRepository).findOne({
+        return (manager?.getRepository(OmniRecordEntity) ?? this.ownerRepository).findOne({
             where: {
                 scopeId: this.scope.scopeId,
                 guid,
                 kind: this.omniDefinition.owner.kind,
                 payloadSchemaId: this.omniDefinition.owner.schema.id,
                 payloadSchemaVersion: this.omniDefinition.owner.schema.version,
-                deletedAt: (0, typeorm_1.IsNull)(),
+                deletedAt: IsNull(),
             },
         });
     }
@@ -328,5 +325,4 @@ class OmniExtensionProjectionService extends crud_gen_1.ProjectionResourceServic
         });
     }
 }
-exports.OmniExtensionProjectionService = OmniExtensionProjectionService;
 //# sourceMappingURL=omni-extension-projection.service.js.map

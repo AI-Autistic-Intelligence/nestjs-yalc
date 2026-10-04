@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.collectOmniKernelQueryPlanEvidence = collectOmniKernelQueryPlanEvidence;
 const recordGridIndex = 'omni_record_scope_kind_status_guid_idx';
 const relationSourceIndex = 'omni_relation_scope_source_kind_status_created_guid_idx';
-async function collectOmniKernelQueryPlanEvidence(dataSource, sample) {
+export async function collectOmniKernelQueryPlanEvidence(dataSource, sample) {
     const dialect = dataSource.options.type;
     if (dialect !== 'sqlite' && dialect !== 'postgres') {
         throw new TypeError('OmniKernel diagnostics support sqlite and postgres only.');

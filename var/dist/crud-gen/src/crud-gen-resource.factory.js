@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CrudGenResourceFactory = CrudGenResourceFactory;
-const typeorm_1 = require("typeorm");
-const crud_gen_helpers_js_1 = require("./crud-gen.helpers.js");
-const crud_gen_rest_controller_factory_js_1 = require("./api-rest/crud-gen-rest.controller.factory.js");
+import { getMetadataArgsStorage } from 'typeorm';
+import { CrudGenBackendFactory, CrudGenGraphqlFactory, } from './crud-gen.helpers.js';
+import { crudRestControllerFactory, } from './api-rest/crud-gen-rest.controller.factory.js';
 function hasProviderOverride(value) {
     return !!value && typeof value === 'object' && 'provider' in value;
 }
@@ -28,7 +25,7 @@ function hasRestServiceToken(rest) {
     return !!rest && !!rest.serviceToken;
 }
 function inferPrimaryDatabaseKey(entityModel) {
-    const primaryColumns = (0, typeorm_1.getMetadataArgsStorage)().columns.filter((column) => {
+    const primaryColumns = getMetadataArgsStorage().columns.filter((column) => {
         return (typeof column.target === 'function' &&
             (column.target === entityModel ||
                 entityModel.prototype instanceof column.target) &&
@@ -67,7 +64,7 @@ function normalizeBackendOptions(entityModel, backend, graphql, rest) {
                     : undefined),
     };
 }
-function CrudGenResourceFactory({ entityModel, backend, graphql, rest, }) {
+export function CrudGenResourceFactory({ entityModel, backend, graphql, rest, }) {
     const graphqlOptions = graphql === true ? { resolver: {} } : graphql;
     const restOptions = rest === true ? {} : rest;
     const backendOptions = backend === false
@@ -80,13 +77,13 @@ function CrudGenResourceFactory({ entityModel, backend, graphql, rest, }) {
             serviceToken: undefined,
             dataLoaderToken: undefined,
         }
-        : (0, crud_gen_helpers_js_1.CrudGenBackendFactory)({
+        : CrudGenBackendFactory({
             entityModel,
             ...backendOptions,
         });
     const graphqlProviders = graphqlOptions === false || graphqlOptions === undefined
         ? { providers: [] }
-        : (0, crud_gen_helpers_js_1.CrudGenGraphqlFactory)({
+        : CrudGenGraphqlFactory({
             entityModel,
             ...graphqlOptions,
             serviceToken: graphqlOptions.serviceToken ?? backendProviders.serviceToken,
@@ -95,7 +92,7 @@ function CrudGenResourceFactory({ entityModel, backend, graphql, rest, }) {
     const controllers = restOptions === false || restOptions === undefined
         ? []
         : [
-            (0, crud_gen_rest_controller_factory_js_1.crudRestControllerFactory)({
+            crudRestControllerFactory({
                 entityModel,
                 ...restOptions,
                 serviceToken: restOptions.serviceToken ?? backendProviders.serviceToken,

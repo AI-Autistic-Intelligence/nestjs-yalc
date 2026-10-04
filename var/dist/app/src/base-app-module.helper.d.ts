@@ -4,7 +4,7 @@ import { IGlobalOptions } from './app-bootstrap-base.helper.js';
 export declare function registerSingletonDynamicModule(isSingleton: boolean, moduleToken: any, module: any): any | true;
 export declare function getCachedModule(module: any, isSingleton: boolean): any;
 export declare function envFilePathList(dirname?: string): string[];
-export declare const buildEnvFilePath: ((envDir?: string, envPath?: string | string[]) => string[]) & import("lodash").MemoizedFunction;
+export declare const buildEnvFilePath: (envDir?: string, envPath?: string | string[]) => string[];
 export declare function yalcBaseAppModuleMetadataFactory(module: any, appAlias: string, options?: Omit<IYalcBaseAppOptions, 'module'>): IYalcBaseStaticModule;
 export declare class YalcBaseAppModule {
     protected static _forRootStandalone(appAlias: string, options?: IYalcBaseAppOptions): IYalcBaseDynamicModule;

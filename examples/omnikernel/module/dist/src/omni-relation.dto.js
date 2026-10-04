@@ -1,142 +1,139 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniRelationUpdateInput = exports.OmniRelationCondition = exports.OmniRelationCreateInput = exports.OmniRelationType = void 0;
-const tslib_1 = require("tslib");
-const graphql_1 = require("@nestjs/graphql");
-const object_decorator_js_1 = require("@nest-yalc-2/crud-gen/object.decorator.js");
-const uuid_scalar_js_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar.js");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
-const class_validator_1 = require("class-validator");
-const graphql_type_json_1 = require("graphql-type-json");
-const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
-const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
-const omni_dto_helpers_js_1 = require("./omni-dto.helpers.js");
-const omni_record_dto_js_1 = require("./omni-record.dto.js");
-const omni_relation_kind_contract_js_1 = require("./omni-relation-kind.contract.js");
-const omni_relation_status_enum_js_1 = require("./omni-relation-status.enum.js");
-let OmniRelationType = class OmniRelationType extends omni_relation_entity_js_1.OmniRelationEntity {
+import { __decorate, __metadata } from "tslib";
+import { InputType, Int, ObjectType, OmitType, PartialType, } from '@nestjs/graphql';
+import { ModelField, ModelObject, } from '@nest-yalc-2/crud-gen/object.decorator.js';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
+import returnValue from '@node-yalc/utils/returnValue.js';
+import { IsEnum, IsInt, IsObject, IsOptional, IsString, IsUUID, Matches, } from 'class-validator';
+import { GraphQLJSONObject } from 'graphql-type-json';
+import { OmniRecordEntity } from './base/omni-record.entity.js';
+import { OmniRelationEntity } from './base/omni-relation.entity.js';
+import { assignOmniPublicDto } from './omni-dto.helpers.js';
+import { OmniRecordType } from './omni-record.dto.js';
+import { omniRelationKindPattern } from './omni-relation-kind.contract.js';
+import { OmniRelationStatus } from './omni-relation-status.enum.js';
+let OmniRelationType = class OmniRelationType extends OmniRelationEntity {
     constructor(data) {
         super();
         if (data) {
-            (0, omni_dto_helpers_js_1.assignOmniPublicDto)(this, data);
+            assignOmniPublicDto(this, data);
         }
     }
 };
-exports.OmniRelationType = OmniRelationType;
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({ gqlType: (0, returnValue_1.default)(uuid_scalar_js_1.UUIDScalar), isRequired: true }),
-    (0, class_validator_1.IsUUID)(),
-    tslib_1.__metadata("design:type", String)
+__decorate([
+    ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true }),
+    IsUUID(),
+    __metadata("design:type", String)
 ], OmniRelationType.prototype, "guid", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({ gqlType: (0, returnValue_1.default)(graphql_1.Int) }),
-    (0, class_validator_1.IsInt)(),
-    tslib_1.__metadata("design:type", Number)
+__decorate([
+    ModelField({ gqlType: returnValue(Int) }),
+    IsInt(),
+    __metadata("design:type", Number)
 ], OmniRelationType.prototype, "revision", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({ gqlType: (0, returnValue_1.default)(uuid_scalar_js_1.UUIDScalar), isRequired: true }),
-    (0, class_validator_1.IsUUID)(),
-    tslib_1.__metadata("design:type", String)
+__decorate([
+    ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true }),
+    IsUUID(),
+    __metadata("design:type", String)
 ], OmniRelationType.prototype, "sourceRecordId", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({
-        gqlType: () => omni_record_dto_js_1.OmniRecordType,
+__decorate([
+    ModelField({
+        gqlType: () => OmniRecordType,
         gqlOptions: { nullable: false },
         relation: {
             relationType: 'many-to-one',
             sourceKey: { dst: 'sourceRecordId', alias: 'sourceRecordId' },
             targetKey: { dst: 'guid', alias: 'guid' },
-            type: () => omni_record_entity_js_1.OmniRecordEntity,
+            type: () => OmniRecordEntity,
         },
     }),
-    tslib_1.__metadata("design:type", Object)
+    __metadata("design:type", Object)
 ], OmniRelationType.prototype, "sourceRecord", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({ gqlType: (0, returnValue_1.default)(uuid_scalar_js_1.UUIDScalar), isRequired: true }),
-    (0, class_validator_1.IsUUID)(),
-    tslib_1.__metadata("design:type", String)
+__decorate([
+    ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true }),
+    IsUUID(),
+    __metadata("design:type", String)
 ], OmniRelationType.prototype, "targetRecordId", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({
-        gqlType: () => omni_record_dto_js_1.OmniRecordType,
+__decorate([
+    ModelField({
+        gqlType: () => OmniRecordType,
         gqlOptions: { nullable: false },
         relation: {
             relationType: 'many-to-one',
             sourceKey: { dst: 'targetRecordId', alias: 'targetRecordId' },
             targetKey: { dst: 'guid', alias: 'guid' },
-            type: () => omni_record_entity_js_1.OmniRecordEntity,
+            type: () => OmniRecordEntity,
         },
     }),
-    tslib_1.__metadata("design:type", Object)
+    __metadata("design:type", Object)
 ], OmniRelationType.prototype, "targetRecord", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({ gqlType: (0, returnValue_1.default)(String) }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Matches)(omni_relation_kind_contract_js_1.omniRelationKindPattern),
-    tslib_1.__metadata("design:type", String)
+__decorate([
+    ModelField({ gqlType: returnValue(String) }),
+    IsString(),
+    Matches(omniRelationKindPattern),
+    __metadata("design:type", String)
 ], OmniRelationType.prototype, "kind", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({ gqlType: (0, returnValue_1.default)(omni_relation_status_enum_js_1.OmniRelationStatus) }),
-    (0, class_validator_1.IsEnum)(omni_relation_status_enum_js_1.OmniRelationStatus),
-    tslib_1.__metadata("design:type", String)
+__decorate([
+    ModelField({ gqlType: returnValue(OmniRelationStatus) }),
+    IsEnum(OmniRelationStatus),
+    __metadata("design:type", String)
 ], OmniRelationType.prototype, "status", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({
-        gqlType: (0, returnValue_1.default)(graphql_type_json_1.GraphQLJSONObject),
+__decorate([
+    ModelField({
+        gqlType: returnValue(GraphQLJSONObject),
         gqlOptions: { nullable: true },
     }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsObject)(),
-    tslib_1.__metadata("design:type", Object)
+    IsOptional(),
+    IsObject(),
+    __metadata("design:type", Object)
 ], OmniRelationType.prototype, "payload", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({
-        gqlType: (0, returnValue_1.default)(String),
+__decorate([
+    ModelField({
+        gqlType: returnValue(String),
         gqlOptions: { nullable: true },
     }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    tslib_1.__metadata("design:type", Object)
+    IsOptional(),
+    IsString(),
+    __metadata("design:type", Object)
 ], OmniRelationType.prototype, "payloadSchemaId", void 0);
-tslib_1.__decorate([
-    (0, object_decorator_js_1.ModelField)({
-        gqlType: (0, returnValue_1.default)(graphql_1.Int),
+__decorate([
+    ModelField({
+        gqlType: returnValue(Int),
         gqlOptions: { nullable: true },
     }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsInt)(),
-    tslib_1.__metadata("design:type", Object)
+    IsOptional(),
+    IsInt(),
+    __metadata("design:type", Object)
 ], OmniRelationType.prototype, "payloadSchemaVersion", void 0);
-exports.OmniRelationType = OmniRelationType = tslib_1.__decorate([
-    (0, graphql_1.ObjectType)(),
-    (0, object_decorator_js_1.ModelObject)(),
-    tslib_1.__metadata("design:paramtypes", [Object])
+OmniRelationType = __decorate([
+    ObjectType(),
+    ModelObject(),
+    __metadata("design:paramtypes", [Object])
 ], OmniRelationType);
-let OmniRelationCreateInput = class OmniRelationCreateInput extends (0, graphql_1.OmitType)(OmniRelationType, [
+export { OmniRelationType };
+let OmniRelationCreateInput = class OmniRelationCreateInput extends OmitType(OmniRelationType, [
     'createdAt',
     'updatedAt',
     'revision',
     'sourceRecord',
     'targetRecord',
-], graphql_1.InputType) {
+], InputType) {
 };
-exports.OmniRelationCreateInput = OmniRelationCreateInput;
-exports.OmniRelationCreateInput = OmniRelationCreateInput = tslib_1.__decorate([
-    (0, graphql_1.InputType)(),
-    (0, object_decorator_js_1.ModelObject)()
+OmniRelationCreateInput = __decorate([
+    InputType(),
+    ModelObject()
 ], OmniRelationCreateInput);
-let OmniRelationCondition = class OmniRelationCondition extends (0, graphql_1.PartialType)(OmniRelationCreateInput, graphql_1.InputType) {
+export { OmniRelationCreateInput };
+let OmniRelationCondition = class OmniRelationCondition extends PartialType(OmniRelationCreateInput, InputType) {
 };
-exports.OmniRelationCondition = OmniRelationCondition;
-exports.OmniRelationCondition = OmniRelationCondition = tslib_1.__decorate([
-    (0, graphql_1.InputType)(),
-    (0, object_decorator_js_1.ModelObject)({ copyFrom: OmniRelationType })
+OmniRelationCondition = __decorate([
+    InputType(),
+    ModelObject({ copyFrom: OmniRelationType })
 ], OmniRelationCondition);
-let OmniRelationUpdateInput = class OmniRelationUpdateInput extends (0, graphql_1.PartialType)(OmniRelationCreateInput, graphql_1.InputType) {
+export { OmniRelationCondition };
+let OmniRelationUpdateInput = class OmniRelationUpdateInput extends PartialType(OmniRelationCreateInput, InputType) {
 };
-exports.OmniRelationUpdateInput = OmniRelationUpdateInput;
-exports.OmniRelationUpdateInput = OmniRelationUpdateInput = tslib_1.__decorate([
-    (0, graphql_1.InputType)(),
-    (0, object_decorator_js_1.ModelObject)({ copyFrom: OmniRelationType })
+OmniRelationUpdateInput = __decorate([
+    InputType(),
+    ModelObject({ copyFrom: OmniRelationType })
 ], OmniRelationUpdateInput);
+export { OmniRelationUpdateInput };
 //# sourceMappingURL=omni-relation.dto.js.map

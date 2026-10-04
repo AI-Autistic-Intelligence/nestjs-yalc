@@ -22,9 +22,9 @@ import { FindOptionsWhere } from 'typeorm';
 import { FindManyOptions } from 'typeorm';
 import { AgGridRepository } from '@nest-yalc-2/ag-grid/ag-grid.repository';
 import { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper';
-import { isClass } from '@node-yalc/utils/class.helper';
+import { isClass } from '@node-yalc/utils/class.helper.js';
 import { getAgGridFieldMetadataList, isDstExtended } from './object.decorator';
 import { getProviderToken } from './ag-grid-factory.helper';
 

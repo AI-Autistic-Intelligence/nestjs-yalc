@@ -4,9 +4,9 @@ exports.defineCreateMutation = defineCreateMutation;
 exports.defineUpdateMutation = defineUpdateMutation;
 exports.defineDeleteMutation = defineDeleteMutation;
 const tslib_1 = require("tslib");
-const class_helper_1 = require("@node-yalc/utils/class.helper");
+const class_helper_js_1 = require("@node-yalc/utils/class.helper.js");
 const nest_decorator_1 = require("@nest-yalc-2/utils/nestjs/nest.decorator");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
+const returnValue_js_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue.js"));
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const ag_grid_args_decorator_1 = require("./ag-grid-args.decorator");
@@ -35,7 +35,7 @@ function defineCreateMutation(queryName, returnType, resolver, options, methodOp
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(graphql_1.Mutation, queryName, methodOptions.returnType ?? (0, returnValue_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
+    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(graphql_1.Mutation, queryName, methodOptions.returnType ?? (0, returnValue_js_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
     (0, gqlmapper_decorator_1.InputArgs)({
         gql: {
             type: () => options.input?.create ?? returnType,
@@ -44,7 +44,7 @@ function defineCreateMutation(queryName, returnType, resolver, options, methodOp
         _name: 'input',
     })(resolver.prototype, queryName, 0);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !(0, class_helper_js_1.isClass)(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
     (0, ag_grid_args_decorator_1.AgGridArgsSingle)({
@@ -77,7 +77,7 @@ function defineUpdateMutation(queryName, returnType, resolver, options, methodOp
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(graphql_1.Mutation, `${options.prefix ?? ''}update${options.entityModel.name}`, methodOptions.returnType ?? (0, returnValue_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
+    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(graphql_1.Mutation, `${options.prefix ?? ''}update${options.entityModel.name}`, methodOptions.returnType ?? (0, returnValue_js_1.default)(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
     (0, gqlmapper_decorator_1.InputArgs)({
         fieldType: options.input?.conditions ?? returnType,
         gql: {
@@ -93,7 +93,7 @@ function defineUpdateMutation(queryName, returnType, resolver, options, methodOp
         _name: 'input',
     })(resolver.prototype, queryName, 1);
     const fieldType = methodOptions.returnType?.() ?? returnType;
-    const entityType = !(0, class_helper_1.isClass)(fieldType) && typeof fieldType === 'function'
+    const entityType = !(0, class_helper_js_1.isClass)(fieldType) && typeof fieldType === 'function'
         ? fieldType()
         : fieldType;
     (0, ag_grid_args_decorator_1.AgGridArgsSingle)({
@@ -113,7 +113,7 @@ function defineDeleteMutation(queryName, returnType, resolver, options, methodOp
     const descriptor = Object.getOwnPropertyDescriptor(resolver.prototype, queryName);
     if (!descriptor)
         throw new ReferenceError(`${resolver.name}.${queryName} must have a descriptor`);
-    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(graphql_1.Mutation, queryName, (0, returnValue_1.default)(Boolean), methodOptions))(resolver.prototype, queryName, descriptor);
+    (0, common_1.applyDecorators)(...(0, generic_resolver_type_1.generateDecorators)(graphql_1.Mutation, queryName, (0, returnValue_js_1.default)(Boolean), methodOptions))(resolver.prototype, queryName, descriptor);
     (0, gqlmapper_decorator_1.InputArgs)({
         fieldType: options.input?.conditions ?? returnType,
         gql: {

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProjectionSchemaOptions = createProjectionSchemaOptions;
-const projection_resource_js_1 = require("./projection-resource.js");
+import { assertProjectionResourceDefinition, } from './projection-resource.js';
 function typeForCodec(codec) {
     if (codec === 'integer')
         return Number;
@@ -9,8 +6,8 @@ function typeForCodec(codec) {
         return Boolean;
     return String;
 }
-function createProjectionSchemaOptions(definition, dialect) {
-    (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+export function createProjectionSchemaOptions(definition, dialect) {
+    assertProjectionResourceDefinition(definition);
     const columns = {
         [definition.scope.column]: { type: String, length: 64 },
         [definition.revision.column]: { type: Number, default: 1 },

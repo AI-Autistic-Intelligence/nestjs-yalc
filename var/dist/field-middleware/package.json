@@ -1,12 +1,13 @@
 {
   "name": "@nest-yalc-2/field-middleware",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "",
   "main": "./src/index.js",
   "exports": {
-    "./": "./src/"
+    ".": "./src/index.js",
+    "./*": "./src/*"
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "AGPL-3.0-or-later",
   "types": "./src/index.d.ts",
   "files": [

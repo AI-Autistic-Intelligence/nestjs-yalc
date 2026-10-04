@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConditionalCallStrategy = void 0;
-class ConditionalCallStrategy {
+export class ConditionalCallStrategy {
     constructor(strategy, options = {}) {
         this.strategy = strategy;
         this.options = options;
@@ -37,5 +34,4 @@ class ConditionalCallStrategy {
             new Error('ConditionalCallStrategy is disabled.'));
     }
 }
-exports.ConditionalCallStrategy = ConditionalCallStrategy;
 //# sourceMappingURL=conditional-call.strategy.js.map

@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseAppService = void 0;
-const tslib_1 = require("tslib");
-const common = tslib_1.__importStar(require("@nestjs/common"));
-const event_emitter_1 = require("@nestjs/event-emitter");
-const def_const_js_1 = require("@nest-yalc-2/app/def.const.js");
-const app_events_js_1 = require("./app.events.js");
+import { __decorate, __metadata, __param } from "tslib";
+import * as common from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
+import { APP_LOGGER_SERVICE } from '@nest-yalc-2/app/def.const.js';
+import { AppEvents } from './app.events.js';
 let BaseAppService = class BaseAppService {
     constructor(logger) {
         this.logger = logger;
@@ -19,16 +16,16 @@ let BaseAppService = class BaseAppService {
             this.logger.debug?.(`Running Handler: ${handlerName}`);
     }
 };
-exports.BaseAppService = BaseAppService;
-tslib_1.__decorate([
-    (0, event_emitter_1.OnEvent)(app_events_js_1.AppEvents.BEFORE_ALL_ROUTES),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+__decorate([
+    OnEvent(AppEvents.BEFORE_ALL_ROUTES),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], BaseAppService.prototype, "handleBeforeAllRoutes", null);
-exports.BaseAppService = BaseAppService = tslib_1.__decorate([
+BaseAppService = __decorate([
     common.Injectable(),
-    tslib_1.__param(0, common.Inject(def_const_js_1.APP_LOGGER_SERVICE)),
-    tslib_1.__metadata("design:paramtypes", [Object])
+    __param(0, common.Inject(APP_LOGGER_SERVICE)),
+    __metadata("design:paramtypes", [Object])
 ], BaseAppService);
+export { BaseAppService };
 //# sourceMappingURL=base-app.service.js.map

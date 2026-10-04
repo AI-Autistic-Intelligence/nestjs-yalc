@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NestLocalEventStrategyProvider = exports.NestLocalEventStrategy = void 0;
-const event_emitter_1 = require("@nestjs/event-emitter");
-class NestLocalEventStrategy {
+import { EventEmitter2 } from '@nestjs/event-emitter';
+export class NestLocalEventStrategy {
     constructor(eventEmitter) {
         this.eventEmitter = eventEmitter;
     }
@@ -13,8 +10,7 @@ class NestLocalEventStrategy {
         return this.eventEmitter.emitAsync(path, payload, options);
     }
 }
-exports.NestLocalEventStrategy = NestLocalEventStrategy;
-const NestLocalEventStrategyProvider = (provide, options = {}) => ({
+export const NestLocalEventStrategyProvider = (provide, options = {}) => ({
     provide,
     useFactory: (eventEmitter) => {
         const _options = {
@@ -24,7 +20,6 @@ const NestLocalEventStrategyProvider = (provide, options = {}) => ({
         };
         return new _options.NestLocalStrategy(eventEmitter);
     },
-    inject: [event_emitter_1.EventEmitter2],
+    inject: [EventEmitter2],
 });
-exports.NestLocalEventStrategyProvider = NestLocalEventStrategyProvider;
 //# sourceMappingURL=nest-local-event.strategy.js.map

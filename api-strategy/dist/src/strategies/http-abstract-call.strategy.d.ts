@@ -1,4 +1,4 @@
-import { HTTPMethods } from '@node-yalc/types/globals';
+import { HTTPMethods } from '@node-yalc/types/globals.js';
 import { OutgoingHttpHeaders, IncomingHttpHeaders } from 'node:http2';
 import { IApiCallStrategy } from '../context-call.interface.js';
 export interface IHttpCallStrategyOptions {

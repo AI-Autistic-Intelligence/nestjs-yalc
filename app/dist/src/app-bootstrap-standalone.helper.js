@@ -1,13 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StandaloneAppBootstrap = void 0;
-const tslib_1 = require("tslib");
-const core_1 = require("@nestjs/core");
-const env_helper_1 = require("@node-yalc/utils/env.helper");
-const cli_color_1 = tslib_1.__importDefault(require("cli-color"));
-const app_bootstrap_base_helper_js_1 = require("./app-bootstrap-base.helper.js");
-const logger_helper_1 = require("@node-yalc/logger/logger.helper");
-class StandaloneAppBootstrap extends app_bootstrap_base_helper_js_1.BaseAppBootstrap {
+import { NestFactory } from '@nestjs/core';
+import { envIsTrue } from '@node-yalc/utils/env.helper.js';
+import clc from 'cli-color';
+import { BaseAppBootstrap, } from './app-bootstrap-base.helper.js';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
+export class StandaloneAppBootstrap extends BaseAppBootstrap {
     constructor(appAlias, module, options) {
         super(appAlias, module, { globalsOptions: options });
     }
@@ -17,7 +13,7 @@ class StandaloneAppBootstrap extends app_bootstrap_base_helper_js_1.BaseAppBoots
         });
         await this.applyBootstrapGlobals(options?.createOptions);
         await this.getApp().init();
-        if ((0, env_helper_1.envIsTrue)(process.env.APP_DRY_RUN) === true) {
+        if (envIsTrue(process.env.APP_DRY_RUN) === true) {
             this.loggerService?.log('Dry run, exiting...');
             await this.getApp().close();
             process.exit(0);
@@ -27,17 +23,16 @@ class StandaloneAppBootstrap extends app_bootstrap_base_helper_js_1.BaseAppBoots
     async createApp(_options) {
         let app;
         try {
-            app = await core_1.NestFactory.createApplicationContext(this.module, {
-                logger: (0, logger_helper_1.getEnvLoggerLevels)(),
+            app = await NestFactory.createApplicationContext(this.module, {
+                logger: getEnvLoggerLevels(),
             });
         }
         catch (err) {
             this.closeCleanup();
-            console.error(cli_color_1.default.red('Failed to create app'), cli_color_1.default.red(err));
+            console.error(clc.red('Failed to create app'), clc.red(err));
             throw new Error('Process aborted');
         }
         return this.setApp(app);
     }
 }
-exports.StandaloneAppBootstrap = StandaloneAppBootstrap;
 //# sourceMappingURL=app-bootstrap-standalone.helper.js.map

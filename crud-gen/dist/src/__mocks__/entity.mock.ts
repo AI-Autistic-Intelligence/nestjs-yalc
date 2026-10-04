@@ -1,4 +1,4 @@
-import { returnProperty } from '@node-yalc/utils/returnValue';
+import { returnProperty } from '@node-yalc/utils/returnValue.js';
 import {
   BaseEntity,
   Entity,

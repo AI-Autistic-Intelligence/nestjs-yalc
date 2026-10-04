@@ -6,7 +6,7 @@ import { FindOptionsWhere } from 'typeorm';
 import { FindManyOptions } from 'typeorm';
 import { AgGridRepository } from '@nest-yalc-2/ag-grid/ag-grid.repository';
 import { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 export declare function GenericServiceFactory<Entity extends ObjectLiteral>(entity: EntityClassOrSchema, connectionName: string, providedClass?: ClassType<GenericService<Entity>>, entityWrite?: EntityClassOrSchema, connectionNameWrite?: string): FactoryProvider;
 export declare function getServiceToken(entity: ClassType | string): string;
 export declare function validateSupportedError(errorClass: new (error: Error) => EntityError): (error: Error) => never;

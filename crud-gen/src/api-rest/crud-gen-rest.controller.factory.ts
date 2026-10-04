@@ -23,7 +23,7 @@ import {
   CrudGenRestPaginationInterceptor,
 } from './crud-gen-rest.interceptor.js';
 import { GenericService, getServiceToken } from '../typeorm/generic.service.js';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import { getProviderToken } from '../crud-gen.helpers.js';
 import type { IDecoratorType } from '@node-yalc/interfaces';
 import {

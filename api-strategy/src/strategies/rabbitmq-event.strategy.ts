@@ -1,5 +1,5 @@
 import { OnModuleDestroy } from '@nestjs/common';
-import type { ClassType } from '@node-yalc/types/globals';
+import type { ClassType } from '@node-yalc/types/globals.js';
 import amqp, { Channel, ChannelModel, Options } from 'amqplib';
 import { IEventStrategy } from '../context-event.interface.js';
 

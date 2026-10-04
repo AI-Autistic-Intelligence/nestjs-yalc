@@ -39,7 +39,7 @@ import {
   AgGridInvalidOperatorError,
   AgGridError,
 } from '../ag-grid.error';
-import { DateHelper } from '@nest-yalc-2/utils/date.helper';
+import { DateHelper } from '@node-yalc/utils/date.helper.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { createMock } from '@golevelup/ts-jest';
 import {

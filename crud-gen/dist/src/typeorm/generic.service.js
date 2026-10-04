@@ -1,23 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GenericService = void 0;
-exports.GenericServiceFactory = GenericServiceFactory;
-exports.getServiceToken = getServiceToken;
-exports.validateSupportedError = validateSupportedError;
-const tslib_1 = require("tslib");
-const conditions_error_js_1 = require("../conditions.error.js");
-const entity_error_js_1 = require("../entity.error.js");
-const conn_helper_js_1 = require("@nest-yalc-2/database/conn.helper.js");
-const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
-const generic_repository_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.repository.js");
-const crud_gen_helpers_js_1 = require("../crud-gen.helpers.js");
-const query_builder_helper_js_1 = require("@nest-yalc-2/database/query-builder.helper.js");
-const class_helper_1 = require("@node-yalc/utils/class.helper");
-const object_decorator_js_1 = require("../object.decorator.js");
-const crud_gen_args_helpers_js_1 = require("./crud-gen-args.helpers.js");
-const crud_gen_enum_js_1 = require("../crud-gen.enum.js");
+import { __decorate, __metadata } from "tslib";
+import { ConditionsTooBroadError, NoResultsFoundError, } from '../conditions.error.js';
+import { CreateEntityError, DeleteEntityError, UpdateEntityError, } from '../entity.error.js';
+import { getConnectionName } from '@nest-yalc-2/database/conn.helper.js';
+import { BadRequestException, Injectable, } from '@nestjs/common';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { getConnection, QueryFailedError, } from 'typeorm';
+import { PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES, } from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';
+import { getProviderToken } from '../crud-gen.helpers.js';
+import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
+import { isClass } from '@node-yalc/utils/class.helper.js';
+import { getModelFieldMetadataList, isDstExtended, } from '../object.decorator.js';
+import { mapPaginationParamsToTypeORM, mapSortingParamsToTypeORM, } from './crud-gen-args.helpers.js';
+import { Operators } from '../crud-gen.enum.js';
 function hasObjectKeys(value) {
     return !!value && typeof value === 'object' && Object.keys(value).length > 0;
 }
@@ -49,8 +43,8 @@ function normalizeCrudGenWhereConditionForPlainTypeorm(where) {
     const childWheres = (where.childExpressions ?? [])
         .map((entry) => normalizeCrudGenWhereForPlainTypeorm(entry))
         .filter(Boolean);
-    const operator = (where.operator ?? crud_gen_enum_js_1.Operators.AND).toUpperCase();
-    if (operator === crud_gen_enum_js_1.Operators.OR) {
+    const operator = (where.operator ?? Operators.AND).toUpperCase();
+    if (operator === Operators.OR) {
         const orWheres = [];
         if (hasObjectKeys(filters))
             orWheres.push(filters);
@@ -67,7 +61,7 @@ function normalizeCrudGenWhereConditionForPlainTypeorm(where) {
     let mergedWhere = filters;
     for (const childWhere of childWheres) {
         if (Array.isArray(childWhere)) {
-            throw new common_1.BadRequestException('Plain TypeORM repositories cannot represent nested OR filters inside an AND expression. Use an extended CrudGen repository for this query shape.');
+            throw new BadRequestException('Plain TypeORM repositories cannot represent nested OR filters inside an AND expression. Use an extended CrudGen repository for this query shape.');
         }
         if (hasObjectKeys(childWhere)) {
             mergedWhere = { ...mergedWhere, ...childWhere };
@@ -75,7 +69,7 @@ function normalizeCrudGenWhereConditionForPlainTypeorm(where) {
     }
     return hasObjectKeys(mergedWhere) ? mergedWhere : undefined;
 }
-function GenericServiceFactory(entity, connectionName, providedClass, entityWrite, connectionNameWrite) {
+export function GenericServiceFactory(entity, connectionName, providedClass, entityWrite, connectionNameWrite) {
     const serviceClass = providedClass ?? GenericService;
     return {
         provide: providedClass ??
@@ -84,17 +78,17 @@ function GenericServiceFactory(entity, connectionName, providedClass, entityWrit
             return new serviceClass(repository, repositoryWrite);
         },
         inject: [
-            (0, typeorm_1.getRepositoryToken)(entity, connectionName),
-            (0, typeorm_1.getRepositoryToken)(entityWrite ?? entity, connectionNameWrite ?? connectionName),
+            getRepositoryToken(entity, connectionName),
+            getRepositoryToken(entityWrite ?? entity, connectionNameWrite ?? connectionName),
         ],
     };
 }
-function getServiceToken(entity) {
-    return `${(0, crud_gen_helpers_js_1.getProviderToken)(entity)}GenericService`;
+export function getServiceToken(entity) {
+    return `${getProviderToken(entity)}GenericService`;
 }
-function validateSupportedError(errorClass) {
+export function validateSupportedError(errorClass) {
     return (error) => {
-        if (error instanceof typeorm_2.QueryFailedError) {
+        if (error instanceof QueryFailedError) {
             throw new errorClass(error);
         }
         throw error;
@@ -119,8 +113,8 @@ let GenericService = class GenericService {
         return { [primaryColumnName]: ids };
     }
     switchDatabaseConnection(dbName) {
-        const connectionName = (0, conn_helper_js_1.getConnectionName)(dbName);
-        const connection = (0, typeorm_2.getConnection)(connectionName);
+        const connectionName = getConnectionName(dbName);
+        const connection = getConnection(connectionName);
         this.setRepositoryRead(connection.getRepository(this.entityRead));
         this.setRepositoryWrite(connection.getRepository(this.entityWrite));
     }
@@ -144,10 +138,10 @@ let GenericService = class GenericService {
         if (databaseName)
             this.switchDatabaseConnection(databaseName);
         const { sorting, startRow, endRow, select, ...rest } = findOptions;
-        const { skip, take } = (0, crud_gen_args_helpers_js_1.mapPaginationParamsToTypeORM)(startRow, endRow);
+        const { skip, take } = mapPaginationParamsToTypeORM(startRow, endRow);
         const mappedFindOptions = {
             ...rest,
-            order: sorting ? (0, crud_gen_args_helpers_js_1.mapSortingParamsToTypeORM)(sorting) : undefined,
+            order: sorting ? mapSortingParamsToTypeORM(sorting) : undefined,
             skip,
             take,
         };
@@ -180,7 +174,7 @@ let GenericService = class GenericService {
     async createEntity(input, findOptions, returnEntity = true) {
         let entityHydrated = this.mapEntityR2W(input);
         const entity = this.entityWrite;
-        if ((0, class_helper_1.isClass)(entity)) {
+        if (isClass(entity)) {
             const inputValues = entityHydrated;
             entityHydrated = new entity();
             Object.assign(entityHydrated, inputValues);
@@ -188,7 +182,7 @@ let GenericService = class GenericService {
         const newEntity = this.repositoryWrite.create(entityHydrated);
         const { identifiers } = await this.repositoryWrite
             .insert(newEntity)
-            .catch(validateSupportedError(entity_error_js_1.CreateEntityError));
+            .catch(validateSupportedError(CreateEntityError));
         const ids = identifiers[0];
         const repoAny = this.repository;
         if (typeof repoAny.generateFilterOnPrimaryColumn === 'function' &&
@@ -196,7 +190,7 @@ let GenericService = class GenericService {
             const filters = repoAny.generateFilterOnPrimaryColumn(ids);
             return !returnEntity
                 ? true
-                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, query_builder_helper_js_1.ReplicationMode.MASTER);
+                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, ReplicationMode.MASTER);
         }
         if (!returnEntity) {
             return true;
@@ -210,7 +204,7 @@ let GenericService = class GenericService {
         const result = await this.validateConditions(conditions);
         let entityHydrated = this.mapEntityR2W(input);
         const entity = this.entityWrite;
-        if ((0, class_helper_1.isClass)(entity)) {
+        if (isClass(entity)) {
             const _inputValues = entityHydrated;
             entityHydrated = new entity();
             Object.assign(entityHydrated, _inputValues);
@@ -218,7 +212,7 @@ let GenericService = class GenericService {
         const mappedConditions = this.mapEntityR2W(conditions);
         await this.repositoryWrite
             .update(mappedConditions, entityHydrated)
-            .catch(validateSupportedError(entity_error_js_1.UpdateEntityError));
+            .catch(validateSupportedError(UpdateEntityError));
         const ids = this.repository.getId(Object.assign(result, entityHydrated));
         const repoAny = this.repository;
         if (typeof repoAny.generateFilterOnPrimaryColumn === 'function' &&
@@ -226,7 +220,7 @@ let GenericService = class GenericService {
             const filters = repoAny.generateFilterOnPrimaryColumn(ids);
             return !returnEntity
                 ? true
-                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, query_builder_helper_js_1.ReplicationMode.MASTER);
+                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, ReplicationMode.MASTER);
         }
         if (!returnEntity) {
             return true;
@@ -241,7 +235,7 @@ let GenericService = class GenericService {
         const mappedConditions = this.mapEntityR2W(conditions);
         const result = await this.repositoryWrite
             .delete(mappedConditions)
-            .catch(validateSupportedError(entity_error_js_1.DeleteEntityError));
+            .catch(validateSupportedError(DeleteEntityError));
         return !!result.affected && result.affected > 0;
     }
     async validateConditions(conditions) {
@@ -250,10 +244,10 @@ let GenericService = class GenericService {
             take: 2,
         });
         if (results.length === 0) {
-            throw new conditions_error_js_1.NoResultsFoundError(conditions);
+            throw new NoResultsFoundError(conditions);
         }
         if (results.length > 1) {
-            throw new conditions_error_js_1.ConditionsTooBroadError(conditions);
+            throw new ConditionsTooBroadError(conditions);
         }
         return results[0];
     }
@@ -289,7 +283,7 @@ let GenericService = class GenericService {
             const explicitCapabilities = repo.getCrudGenCapabilities();
             if (explicitCapabilities && typeof explicitCapabilities === 'object') {
                 return {
-                    ...generic_repository_js_1.PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES,
+                    ...PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES,
                     ...explicitCapabilities,
                 };
             }
@@ -311,10 +305,10 @@ let GenericService = class GenericService {
     }
     mapEntityR2W(entityRead) {
         const entity = this.entityWrite;
-        if (!(0, class_helper_1.isClass)(entity) || !(0, class_helper_1.isClass)(this.entityRead))
+        if (!isClass(entity) || !isClass(this.entityRead))
             return entityRead;
         const newEntityWrite = new entity();
-        const fieldMetadataList = (0, object_decorator_js_1.getModelFieldMetadataList)(this.entityRead);
+        const fieldMetadataList = getModelFieldMetadataList(this.entityRead);
         for (const propertyName of Object.keys(entityRead)) {
             const fieldMetadata = fieldMetadataList?.[propertyName];
             if (!fieldMetadata?.dst) {
@@ -325,7 +319,7 @@ let GenericService = class GenericService {
                 newEntityWrite[fieldMetadata.dst] = entityRead[propertyName];
                 continue;
             }
-            if (!(0, object_decorator_js_1.isDstExtended)(fieldMetadata.dst)) {
+            if (!isDstExtended(fieldMetadata.dst)) {
                 newEntityWrite[propertyName] = entityRead[propertyName];
                 continue;
             }
@@ -335,9 +329,9 @@ let GenericService = class GenericService {
         return newEntityWrite;
     }
 };
-exports.GenericService = GenericService;
-exports.GenericService = GenericService = tslib_1.__decorate([
-    (0, common_1.Injectable)(),
-    tslib_1.__metadata("design:paramtypes", [Function, Function])
+GenericService = __decorate([
+    Injectable(),
+    __metadata("design:paramtypes", [Function, Function])
 ], GenericService);
+export { GenericService };
 //# sourceMappingURL=generic.service.js.map

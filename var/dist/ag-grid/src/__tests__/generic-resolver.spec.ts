@@ -29,7 +29,7 @@ import {
   IGenericResolverOptions,
   resolverFactory,
 } from '../generic-resolver.resolver';
-import returnValue from '@nest-yalc-2/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 
 import { GenericService } from '../generic-service.service';
 import {

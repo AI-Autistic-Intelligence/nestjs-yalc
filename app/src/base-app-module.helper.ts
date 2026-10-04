@@ -34,7 +34,7 @@ import { YalcClsModule } from './cls.module.js';
 import { IYalcControllerStaticInterface } from './yalc-controller.interface.js';
 import * as _ from 'lodash-es';
 import { IGlobalOptions } from './app-bootstrap-base.helper.js';
-import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 
 const singletonDynamicModules = new Map<any, any>();
 
@@ -109,7 +109,7 @@ const _buildEnvFilePath = _.memoize(
  * For some strange reason, the memoize doesn't work well with exporting the const at the same time
  * and re-use it in the same file
  */
-export const buildEnvFilePath = _buildEnvFilePath;
+export const buildEnvFilePath: (envDir?: string, envPath?: string | string[]) => string[] = _buildEnvFilePath;
 
 /**
  * Used for applications with controller/resolver support

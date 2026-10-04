@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FallbackCallStrategy = void 0;
-class FallbackCallStrategy {
+export class FallbackCallStrategy {
     constructor(strategies, options = {}) {
         this.strategies = strategies;
         this.options = options;
@@ -37,5 +34,4 @@ class FallbackCallStrategy {
         return this.options.shouldFallback?.(error, strategyIndex) ?? true;
     }
 }
-exports.FallbackCallStrategy = FallbackCallStrategy;
 //# sourceMappingURL=fallback-call.strategy.js.map

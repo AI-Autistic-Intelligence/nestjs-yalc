@@ -1,23 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createOmniRelationProjectionGraphqlTypes = createOmniRelationProjectionGraphqlTypes;
-exports.createOmniRelationProjectionRegistration = createOmniRelationProjectionRegistration;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const graphql_1 = require("@nestjs/graphql");
-const typeorm_1 = require("@nestjs/typeorm");
-const crud_gen_1 = require("@nest-yalc-2/crud-gen");
-const data_loader_1 = require("@nest-yalc-2/data-loader");
-const uuid_scalar_js_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar.js");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
-const class_transformer_1 = require("class-transformer");
-const graphql_type_json_1 = require("graphql-type-json");
-const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
-const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
-const omni_relation_projection_definition_js_1 = require("./omni-relation-projection.definition.js");
-const omni_relation_projection_service_js_1 = require("./omni-relation-projection.service.js");
-const omni_relation_kind_contract_js_1 = require("./omni-relation-kind.contract.js");
-const omni_scope_js_1 = require("./omni-scope.js");
+import { Scope } from '@nestjs/common';
+import { InputType, Int, ObjectType } from '@nestjs/graphql';
+import { getDataSourceToken } from '@nestjs/typeorm';
+import { CrudGenResourceFactory, FilterOptionType, ModelField, ModelObject, getServiceToken, } from '@nest-yalc-2/crud-gen';
+import { GQLDataLoader, getDataloaderToken, getFn, } from '@nest-yalc-2/data-loader';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
+import returnValue from '@node-yalc/utils/returnValue.js';
+import { Exclude, Expose } from 'class-transformer';
+import { GraphQLJSON } from 'graphql-type-json';
+import { OmniRecordEntity } from './base/omni-record.entity.js';
+import { OmniRelationEntity } from './base/omni-relation.entity.js';
+import { getOmniRelationProjectionAliases, getOmniRelationProjectionAllowedKinds, } from './omni-relation-projection.definition.js';
+import { OmniRelationProjectionService } from './omni-relation-projection.service.js';
+import { createOmniRelationKindContract } from './omni-relation-kind.contract.js';
+import { OMNI_KERNEL_OPTIONS, OmniScopeContext } from './omni-scope.js';
 function namedClass(name, outputFields) {
     return {
         [name]: class {
@@ -36,12 +31,12 @@ function namedClass(name, outputFields) {
     }[name];
 }
 function addField(target, name, destination, type, nullable) {
-    (0, crud_gen_1.ModelField)({
+    ModelField({
         dst: destination,
-        gqlType: (0, returnValue_1.default)(type),
+        gqlType: returnValue(type),
         gqlOptions: { nullable },
     })(target.prototype, name);
-    (0, class_transformer_1.Expose)()(target.prototype, name);
+    Expose()(target.prototype, name);
 }
 function defaultGraphqlNames(apiModel) {
     return {
@@ -51,9 +46,9 @@ function defaultGraphqlNames(apiModel) {
         conditions: `${apiModel.name}Condition`,
     };
 }
-function createOmniRelationProjectionGraphqlTypes(definition, names) {
-    const aliases = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAliases)(definition);
-    const multipleKinds = (0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(definition).length > 1;
+export function createOmniRelationProjectionGraphqlTypes(definition, names) {
+    const aliases = getOmniRelationProjectionAliases(definition);
+    const multipleKinds = getOmniRelationProjectionAllowedKinds(definition).length > 1;
     const objectFields = [
         ['guid', 'guid'],
         [aliases.source, 'sourceRecordId'],
@@ -64,45 +59,45 @@ function createOmniRelationProjectionGraphqlTypes(definition, names) {
     if (multipleKinds)
         objectFields.splice(1, 0, [aliases.kind, 'kind']);
     const object = namedClass(names.object, objectFields);
-    (0, graphql_1.ObjectType)(names.object)(object);
-    (0, crud_gen_1.ModelObject)({
-        filters: { type: crud_gen_1.FilterOptionType.INCLUDE, fields: ['guid'] },
+    ObjectType(names.object)(object);
+    ModelObject({
+        filters: { type: FilterOptionType.INCLUDE, fields: ['guid'] },
     })(object);
-    (0, class_transformer_1.Exclude)()(object);
-    addField(object, 'guid', 'guid', uuid_scalar_js_1.UUIDScalar, false);
+    Exclude()(object);
+    addField(object, 'guid', 'guid', UUIDScalar, false);
     if (multipleKinds) {
         addField(object, aliases.kind, 'kind', String, false);
     }
-    addField(object, aliases.source, 'sourceRecordId', uuid_scalar_js_1.UUIDScalar, false);
-    addField(object, aliases.target, 'targetRecordId', uuid_scalar_js_1.UUIDScalar, false);
-    addField(object, 'revision', 'revision', graphql_1.Int, false);
-    addField(object, aliases.payload, 'payload', graphql_type_json_1.GraphQLJSON, true);
+    addField(object, aliases.source, 'sourceRecordId', UUIDScalar, false);
+    addField(object, aliases.target, 'targetRecordId', UUIDScalar, false);
+    addField(object, 'revision', 'revision', Int, false);
+    addField(object, aliases.payload, 'payload', GraphQLJSON, true);
     const create = namedClass(names.create);
-    (0, graphql_1.InputType)(names.create)(create);
-    (0, crud_gen_1.ModelObject)()(create);
-    addField(create, 'guid', 'guid', uuid_scalar_js_1.UUIDScalar, false);
+    InputType(names.create)(create);
+    ModelObject()(create);
+    addField(create, 'guid', 'guid', UUIDScalar, false);
     if (multipleKinds) {
         addField(create, aliases.kind, 'kind', String, false);
     }
-    addField(create, aliases.source, 'sourceRecordId', uuid_scalar_js_1.UUIDScalar, false);
-    addField(create, aliases.target, 'targetRecordId', uuid_scalar_js_1.UUIDScalar, false);
-    addField(create, aliases.payload, 'payload', graphql_type_json_1.GraphQLJSON, true);
+    addField(create, aliases.source, 'sourceRecordId', UUIDScalar, false);
+    addField(create, aliases.target, 'targetRecordId', UUIDScalar, false);
+    addField(create, aliases.payload, 'payload', GraphQLJSON, true);
     const patch = namedClass(names.patch);
-    (0, graphql_1.InputType)(names.patch)(patch);
-    (0, crud_gen_1.ModelObject)()(patch);
-    addField(patch, aliases.payload, 'payload', graphql_type_json_1.GraphQLJSON, true);
-    addField(patch, 'expectedRevision', 'expectedRevision', graphql_1.Int, false);
+    InputType(names.patch)(patch);
+    ModelObject()(patch);
+    addField(patch, aliases.payload, 'payload', GraphQLJSON, true);
+    addField(patch, 'expectedRevision', 'expectedRevision', Int, false);
     const conditions = namedClass(names.conditions);
-    (0, graphql_1.InputType)(names.conditions)(conditions);
-    (0, crud_gen_1.ModelObject)()(conditions);
-    addField(conditions, 'guid', 'guid', uuid_scalar_js_1.UUIDScalar, false);
+    InputType(names.conditions)(conditions);
+    ModelObject()(conditions);
+    addField(conditions, 'guid', 'guid', UUIDScalar, false);
     return { object, create, patch, conditions };
 }
-function createOmniRelationProjectionRegistration(options) {
+export function createOmniRelationProjectionRegistration(options) {
     const graphqlTypes = createOmniRelationProjectionGraphqlTypes(options.definition, options.graphql?.names ?? defaultGraphqlNames(options.apiModel));
-    const serviceToken = (0, crud_gen_1.getServiceToken)(options.apiModel);
-    const dataLoaderToken = (0, data_loader_1.getDataloaderToken)(options.apiModel);
-    const resource = (0, crud_gen_1.CrudGenResourceFactory)({
+    const serviceToken = getServiceToken(options.apiModel);
+    const dataLoaderToken = getDataloaderToken(options.apiModel);
+    const resource = CrudGenResourceFactory({
         entityModel: options.apiModel,
         backend: false,
         graphql: {
@@ -131,7 +126,7 @@ function createOmniRelationProjectionRegistration(options) {
         },
     });
     const relationKinds = Object.freeze([
-        ...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(options.definition),
+        ...getOmniRelationProjectionAllowedKinds(options.definition),
     ]);
     const reader = Object.freeze({
         type: 'relation',
@@ -141,12 +136,12 @@ function createOmniRelationProjectionRegistration(options) {
     const serviceProvider = options.lifecycle && options.catalog
         ? {
             provide: serviceToken,
-            scope: common_1.Scope.REQUEST,
-            useFactory: (dataSource, scope, omniOptions, lifecycle, catalog) => new omni_relation_projection_service_js_1.OmniRelationProjectionService(dataSource.getRepository(omni_relation_entity_js_1.OmniRelationEntity), scope, omniOptions.deletion.relation, dataSource.getRepository(omni_record_entity_js_1.OmniRecordEntity), (0, omni_relation_kind_contract_js_1.createOmniRelationKindContract)(relationKinds), options.definition, dataSource, lifecycle, catalog),
+            scope: Scope.REQUEST,
+            useFactory: (dataSource, scope, omniOptions, lifecycle, catalog) => new OmniRelationProjectionService(dataSource.getRepository(OmniRelationEntity), scope, omniOptions.deletion.relation, dataSource.getRepository(OmniRecordEntity), createOmniRelationKindContract(relationKinds), options.definition, dataSource, lifecycle, catalog),
             inject: [
-                (0, typeorm_1.getDataSourceToken)(options.dbConnection),
-                omni_scope_js_1.OmniScopeContext,
-                omni_scope_js_1.OMNI_KERNEL_OPTIONS,
+                getDataSourceToken(options.dbConnection),
+                OmniScopeContext,
+                OMNI_KERNEL_OPTIONS,
                 options.lifecycle.token,
                 options.catalog.token,
             ],
@@ -154,34 +149,34 @@ function createOmniRelationProjectionRegistration(options) {
         : options.lifecycle
             ? {
                 provide: serviceToken,
-                scope: common_1.Scope.REQUEST,
-                useFactory: (dataSource, scope, omniOptions, lifecycle) => new omni_relation_projection_service_js_1.OmniRelationProjectionService(dataSource.getRepository(omni_relation_entity_js_1.OmniRelationEntity), scope, omniOptions.deletion.relation, dataSource.getRepository(omni_record_entity_js_1.OmniRecordEntity), (0, omni_relation_kind_contract_js_1.createOmniRelationKindContract)(relationKinds), options.definition, dataSource, lifecycle),
+                scope: Scope.REQUEST,
+                useFactory: (dataSource, scope, omniOptions, lifecycle) => new OmniRelationProjectionService(dataSource.getRepository(OmniRelationEntity), scope, omniOptions.deletion.relation, dataSource.getRepository(OmniRecordEntity), createOmniRelationKindContract(relationKinds), options.definition, dataSource, lifecycle),
                 inject: [
-                    (0, typeorm_1.getDataSourceToken)(options.dbConnection),
-                    omni_scope_js_1.OmniScopeContext,
-                    omni_scope_js_1.OMNI_KERNEL_OPTIONS,
+                    getDataSourceToken(options.dbConnection),
+                    OmniScopeContext,
+                    OMNI_KERNEL_OPTIONS,
                     options.lifecycle.token,
                 ],
             }
             : {
                 provide: serviceToken,
-                scope: common_1.Scope.REQUEST,
-                useFactory: (dataSource, scope, omniOptions) => new omni_relation_projection_service_js_1.OmniRelationProjectionService(dataSource.getRepository(omni_relation_entity_js_1.OmniRelationEntity), scope, omniOptions.deletion.relation, dataSource.getRepository(omni_record_entity_js_1.OmniRecordEntity), (0, omni_relation_kind_contract_js_1.createOmniRelationKindContract)(relationKinds), options.definition, dataSource, undefined),
+                scope: Scope.REQUEST,
+                useFactory: (dataSource, scope, omniOptions) => new OmniRelationProjectionService(dataSource.getRepository(OmniRelationEntity), scope, omniOptions.deletion.relation, dataSource.getRepository(OmniRecordEntity), createOmniRelationKindContract(relationKinds), options.definition, dataSource, undefined),
                 inject: [
-                    (0, typeorm_1.getDataSourceToken)(options.dbConnection),
-                    omni_scope_js_1.OmniScopeContext,
-                    omni_scope_js_1.OMNI_KERNEL_OPTIONS,
+                    getDataSourceToken(options.dbConnection),
+                    OmniScopeContext,
+                    OMNI_KERNEL_OPTIONS,
                 ],
             };
     const providers = [
         serviceProvider,
         {
             provide: dataLoaderToken,
-            scope: common_1.Scope.REQUEST,
-            useFactory: (service, scope) => new data_loader_1.GQLDataLoader((0, data_loader_1.getFn)(service), 'guid', undefined, {
+            scope: Scope.REQUEST,
+            useFactory: (service, scope) => new GQLDataLoader(getFn(service), 'guid', undefined, {
                 cacheKeyFn: (key) => scope.cacheKey(key),
             }),
-            inject: [serviceToken, omni_scope_js_1.OmniScopeContext],
+            inject: [serviceToken, OmniScopeContext],
         },
         ...resource.providers,
     ];

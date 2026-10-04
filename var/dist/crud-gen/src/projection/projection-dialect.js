@@ -1,8 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProjectionDialect = createProjectionDialect;
-exports.applyProjectionIndexesForBootstrap = applyProjectionIndexesForBootstrap;
-const projection_resource_js_1 = require("./projection-resource.js");
+import { assertProjectionResourceDefinition, getProjectionField, normalizeProjectionCodecValue, } from './projection-resource.js';
 class BaseProjectionDialect {
     quote(identifier) {
         return `"${identifier.replaceAll('"', '""')}"`;
@@ -46,7 +42,7 @@ class BaseProjectionDialect {
         throw new TypeError('Projection JSON values cannot be used in SQL queries.');
     }
     compileIndexStatements(definition) {
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+        assertProjectionResourceDefinition(definition);
         return definition.fields.flatMap((field) => {
             if (!field.index)
                 return [];
@@ -57,15 +53,15 @@ class BaseProjectionDialect {
         });
     }
     async findMany(repository, definition, scopeId, filters, sorting, page) {
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+        assertProjectionResourceDefinition(definition);
         const alias = 'projection';
         const query = repository.createQueryBuilder(alias);
         query.where(`${this.reference(alias, definition.scope.column)} = :projection_scope_id`, { projection_scope_id: scopeId });
         filters.forEach((filter, index) => {
-            const field = (0, projection_resource_js_1.getProjectionField)(definition, filter.field.name);
+            const field = getProjectionField(definition, filter.field.name);
             const expression = this.columnExpression(alias, definition, field);
             const parameter = `projection_filter_${index}`;
-            const values = filter.values.map((value) => (0, projection_resource_js_1.normalizeProjectionCodecValue)(field, value));
+            const values = filter.values.map((value) => normalizeProjectionCodecValue(field, value));
             if (filter.operator === 'eq') {
                 query.andWhere(`${expression} = :${parameter}`, {
                     [parameter]: values[0],
@@ -85,7 +81,7 @@ class BaseProjectionDialect {
         });
         const sorted = new Set();
         for (const sort of sorting) {
-            const field = (0, projection_resource_js_1.getProjectionField)(definition, sort.field.name);
+            const field = getProjectionField(definition, sort.field.name);
             query.addOrderBy(this.columnExpression(alias, definition, field), sort.direction);
             sorted.add(field.name);
         }
@@ -101,7 +97,7 @@ class BaseProjectionDialect {
         return [records, count];
     }
     async patch(repository, definition, patch) {
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+        assertProjectionResourceDefinition(definition);
         const setValues = this.patchSetValues(definition, patch);
         const parameters = {
             projection_scope_id: patch.scopeId,
@@ -120,7 +116,7 @@ class BaseProjectionDialect {
         return result.affected ?? 0;
     }
     async patchValues(repository, definition, patch) {
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+        assertProjectionResourceDefinition(definition);
         const result = await repository
             .createQueryBuilder()
             .update()
@@ -151,20 +147,20 @@ class BaseProjectionDialect {
     }
     normalizedJsonValues(definition, patch) {
         return patch.jsonValues.map((change) => {
-            const field = (0, projection_resource_js_1.getProjectionField)(definition, change.field.name);
+            const field = getProjectionField(definition, change.field.name);
             if (field.storage !== 'json') {
                 throw new TypeError(`Projection field ${field.name} cannot be patched as JSON.`);
             }
             return {
                 ...change,
                 field,
-                value: (0, projection_resource_js_1.normalizeProjectionCodecValue)(field, change.value),
+                value: normalizeProjectionCodecValue(field, change.value),
             };
         });
     }
     async explainIndexedEquality(dataSource, definition, field, scopeId, value) {
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
-        const declaredField = (0, projection_resource_js_1.getProjectionField)(definition, field.name);
+        assertProjectionResourceDefinition(definition);
+        const declaredField = getProjectionField(definition, field.name);
         if (!declaredField.index) {
             throw new TypeError(`Projection field ${declaredField.name} has no declared index.`);
         }
@@ -172,7 +168,7 @@ class BaseProjectionDialect {
         const expression = this.definitionExpression(definition, declaredField);
         const rows = await this.explain(dataSource, `SELECT ${this.quote(definition.identity.column)} FROM ${this.quote(definition.tableName)} WHERE ${this.quote(definition.scope.column)} = :projection_scope_id AND ${expression} = :projection_value ORDER BY ${this.quote(definition.identity.column)} ASC`, {
             projection_scope_id: scopeId,
-            projection_value: (0, projection_resource_js_1.normalizeProjectionCodecValue)(declaredField, value),
+            projection_value: normalizeProjectionCodecValue(declaredField, value),
         });
         const lines = rows.map((row) => Object.values(row).join(' '));
         return {
@@ -214,7 +210,7 @@ class SqliteProjectionDialect extends BaseProjectionDialect {
             message.includes(`${definition.tableName}.${definition.identity.column}`));
     }
     async inspect(dataSource, definition) {
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+        assertProjectionResourceDefinition(definition);
         const indexes = await dataSource.query("SELECT name FROM sqlite_master WHERE type = 'index' AND tbl_name = ?", [definition.tableName]);
         const validJson = await dataSource.query(`SELECT json_valid(${this.quote(definition.payload.column)}) AS valid_json FROM ${this.quote(definition.tableName)}`);
         return {
@@ -274,7 +270,7 @@ class PostgresProjectionDialect extends BaseProjectionDialect {
                 `${definition.tableName}_scope_${definition.identity.column}_unique`);
     }
     async inspect(dataSource, definition) {
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+        assertProjectionResourceDefinition(definition);
         const columns = await dataSource.query('SELECT data_type FROM information_schema.columns WHERE table_name = $1 AND column_name = $2', [definition.tableName, definition.payload.column]);
         const indexes = await dataSource.query('SELECT indexname FROM pg_indexes WHERE tablename = $1', [definition.tableName]);
         return {
@@ -292,14 +288,14 @@ class PostgresProjectionDialect extends BaseProjectionDialect {
             .replace(':projection_value', '$2')}`, [parameters.projection_scope_id, parameters.projection_value]);
     }
 }
-function createProjectionDialect(driver) {
+export function createProjectionDialect(driver) {
     if (driver === 'sqlite')
         return new SqliteProjectionDialect();
     if (driver === 'postgres')
         return new PostgresProjectionDialect();
     throw new TypeError(`Unsupported projection dialect ${driver}.`);
 }
-async function applyProjectionIndexesForBootstrap(dataSource, dialect, definition) {
+export async function applyProjectionIndexesForBootstrap(dataSource, dialect, definition) {
     for (const statement of dialect.compileIndexStatements(definition)) {
         await dataSource.query(statement);
     }

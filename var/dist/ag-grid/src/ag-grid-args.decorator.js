@@ -21,9 +21,9 @@ const gqlfields_decorator_js_1 = require("./gqlfields.decorator.js");
 const ag_grid_args_1 = require("./ag-grid.args");
 const ag_grid_enum_1 = require("./ag-grid.enum");
 const ag_grid_error_1 = require("./ag-grid.error");
-const date_helper_1 = require("@node-yalc/utils/date.helper");
+const date_helper_js_1 = require("@node-yalc/utils/date.helper.js");
 const ag_grid_input_1 = require("./ag-grid.input");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
+const returnValue_js_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue.js"));
 const object_decorator_1 = require("./object.decorator");
 const missing_arguments_error_1 = require("@nest-yalc-2/ag-grid/missing-arguments.error");
 const ag_grid_type_checker_utils_1 = require("./ag-grid-type-checker.utils");
@@ -81,7 +81,7 @@ function getDateFilter(filter, firstParameter, secondParameter) {
         case ag_grid_enum_1.GeneralFilters.INDATE.toLowerCase():
             const dateFrom = new Date(firstParameter).setHours(0, 0, 0, 0);
             const dateTo = new Date(secondParameter ?? firstParameter).setHours(23, 59, 59, 999);
-            return (0, typeorm_1.Between)(date_helper_1.DateHelper.dateToSQLDateTime(new Date(dateFrom)), date_helper_1.DateHelper.dateToSQLDateTime(new Date(dateTo)));
+            return (0, typeorm_1.Between)(date_helper_js_1.DateHelper.dateToSQLDateTime(new Date(dateFrom)), date_helper_js_1.DateHelper.dateToSQLDateTime(new Date(dateTo)));
         default:
             throw new ag_grid_error_1.AgGridFilterNotSupportedError(`filter: ${filter} type: DATE`);
     }
@@ -364,7 +364,7 @@ exports.AgGridCombineDecorators = AgGridCombineDecorators;
 const AgGridArgs = (params) => {
     const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
-        gqlOptions.type = (0, returnValue_1.default)((0, ag_grid_args_1.agQueryParamsFactory)(params.defaultValue, params.entityType));
+        gqlOptions.type = (0, returnValue_js_1.default)((0, ag_grid_args_1.agQueryParamsFactory)(params.defaultValue, params.entityType));
     }
     params.gql = gqlOptions;
     return (0, exports.AgGridCombineDecorators)(params);
@@ -373,7 +373,7 @@ exports.AgGridArgs = AgGridArgs;
 const AgGridArgsNoPagination = (params) => {
     const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
-        gqlOptions.type = (0, returnValue_1.default)((0, ag_grid_args_1.agQueryParamsNoPaginationFactory)(params.defaultValue, params.entityType));
+        gqlOptions.type = (0, returnValue_js_1.default)((0, ag_grid_args_1.agQueryParamsNoPaginationFactory)(params.defaultValue, params.entityType));
     }
     params.gql = gqlOptions;
     return (0, exports.AgGridCombineDecorators)(params);

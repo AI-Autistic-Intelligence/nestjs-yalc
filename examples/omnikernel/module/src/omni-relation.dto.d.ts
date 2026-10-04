@@ -16,7 +16,7 @@ export declare class OmniRelationType extends OmniRelationEntity {
     payloadSchemaId?: string | null;
     payloadSchemaVersion?: number | null;
 }
-declare const OmniRelationCreateInput_base: import("@nestjs/common").Type<Omit<OmniRelationType, "createdAt" | "updatedAt" | "revision" | "sourceRecord" | "targetRecord">>;
+declare const OmniRelationCreateInput_base: import("@nestjs/common").Type<Omit<OmniRelationType, "revision" | "createdAt" | "updatedAt" | "sourceRecord" | "targetRecord">>;
 export declare class OmniRelationCreateInput extends OmniRelationCreateInput_base {
 }
 declare const OmniRelationCondition_base: import("@nestjs/common").Type<Partial<OmniRelationCreateInput>>;

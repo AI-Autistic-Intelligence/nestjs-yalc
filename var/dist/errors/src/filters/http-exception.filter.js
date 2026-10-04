@@ -1,15 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.HttpExceptionFilter = void 0;
-const tslib_1 = require("tslib");
-const common = tslib_1.__importStar(require("@nestjs/common"));
-const errors_1 = require("@nest-yalc-2/errors");
-const entity_error_js_1 = require("@nest-yalc-2/crud-gen/entity.error.js");
-const gql_error_js_1 = require("@nest-yalc-2/graphql/plugins/gql.error.js");
-const core_1 = require("@nestjs/core");
-const event_helper_js_1 = require("../../../event-manager/src/event.helper.js");
-const logger_enum_1 = require("@node-yalc/logger/logger.enum");
-let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseExceptionFilter {
+import { __decorate, __metadata } from "tslib";
+import * as common from '@nestjs/common';
+import { DefaultErrorMixin, MissingArgumentsError, isDefaultErrorMixin, formatCause, } from '@nest-yalc-2/errors';
+import { isEntityError, } from '@nest-yalc-2/crud-gen/entity.error.js';
+import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
+import { BaseExceptionFilter } from '@nestjs/core';
+import { getLogLevelByStatus } from '../../../event-manager/src/event.helper.js';
+import { LogLevelEnum } from '@node-yalc/logger/logger.enum.js';
+let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter {
     constructor(logger, applicationRef) {
         super(applicationRef);
         this.logger = logger;
@@ -18,14 +15,14 @@ let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseException
         try {
             const isHttpError = this.isHttpError(error) || error instanceof common.HttpException;
             switch (true) {
-                case error instanceof errors_1.MissingArgumentsError:
+                case error instanceof MissingArgumentsError:
                     this.logger.log(error.message, {
                         stack: error.stack,
                     });
                     break;
-                case (0, errors_1.isDefaultErrorMixin)(error):
+                case isDefaultErrorMixin(error):
                     break;
-                case (0, entity_error_js_1.isEntityError)(error):
+                case isEntityError(error):
                     {
                         const entityError = error;
                         this.logger.error(entityError.originalError?.message
@@ -35,7 +32,7 @@ let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseException
                             data: {
                                 response: entityError.getResponse(),
                                 name: entityError.name,
-                                cause: (0, errors_1.formatCause)(entityError.cause),
+                                cause: formatCause(entityError.cause),
                             },
                         });
                     }
@@ -43,14 +40,14 @@ let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseException
                 case isHttpError:
                     {
                         const httpError = error;
-                        const logLevel = (0, event_helper_js_1.getLogLevelByStatus)(httpError.getStatus());
-                        if (logLevel === logger_enum_1.LogLevelEnum.ERROR) {
+                        const logLevel = getLogLevelByStatus(httpError.getStatus());
+                        if (logLevel === LogLevelEnum.ERROR) {
                             this.logger[logLevel](error.message, error.stack, {
                                 stack: httpError.stack,
                                 data: {
                                     response: httpError.getResponse(),
                                     name: error.name,
-                                    cause: (0, errors_1.formatCause)(error.cause),
+                                    cause: formatCause(error.cause),
                                 },
                             });
                         }
@@ -60,20 +57,20 @@ let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseException
                                 data: {
                                     response: httpError.getResponse(),
                                     name: error.name,
-                                    cause: (0, errors_1.formatCause)(error.cause),
+                                    cause: formatCause(error.cause),
                                 },
                             });
                         }
                     }
                     break;
-                case error instanceof gql_error_js_1.GqlError:
+                case error instanceof GqlError:
                     this.logger.error(error.systemMessage ?? error.message);
                     break;
                 default:
                     this.logger.error(error.message, error.stack, {
                         stack: error.stack,
                         data: {
-                            cause: (0, errors_1.formatCause)(error.cause),
+                            cause: formatCause(error.cause),
                             name: error.name,
                         },
                     });
@@ -96,9 +93,9 @@ let HttpExceptionFilter = class HttpExceptionFilter extends core_1.BaseException
         return error;
     }
 };
-exports.HttpExceptionFilter = HttpExceptionFilter;
-exports.HttpExceptionFilter = HttpExceptionFilter = tslib_1.__decorate([
-    common.Catch(common.HttpException, errors_1.MissingArgumentsError, gql_error_js_1.GqlError, errors_1.DefaultErrorMixin),
-    tslib_1.__metadata("design:paramtypes", [Object, Object])
+HttpExceptionFilter = __decorate([
+    common.Catch(common.HttpException, MissingArgumentsError, GqlError, DefaultErrorMixin),
+    __metadata("design:paramtypes", [Object, Object])
 ], HttpExceptionFilter);
+export { HttpExceptionFilter };
 //# sourceMappingURL=http-exception.filter.js.map

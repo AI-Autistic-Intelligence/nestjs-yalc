@@ -34,7 +34,7 @@ import { YalcClsModule } from './cls.module.js';
 import { IYalcControllerStaticInterface } from './yalc-controller.interface.js';
 import * as _ from 'lodash-es';
 import { IGlobalOptions } from './app-bootstrap-base.helper.js';
-import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 
 const singletonDynamicModules = new Map<any, any>();
 

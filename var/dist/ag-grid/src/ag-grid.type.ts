@@ -1,7 +1,7 @@
 import { ObjectType, Field, HideField } from '@nestjs/graphql';
 import { Type } from '@nestjs/common';
 import { FindManyOptions, FindOperator } from 'typeorm';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { ExtraArg, CombinedWhereModel } from './ag-grid.interface';
 import { Operators } from './ag-grid.enum';
 

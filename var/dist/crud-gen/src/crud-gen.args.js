@@ -1,85 +1,80 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.typeMap = void 0;
-exports.crudGenParamsFactory = crudGenParamsFactory;
-exports.crudGenParamsNoPaginationFactory = crudGenParamsNoPaginationFactory;
-const tslib_1 = require("tslib");
-const graphql_1 = require("@nestjs/graphql");
-const crud_gen_input_js_1 = require("./api-graphql/crud-gen.input.js");
-const filter_scalar_js_1 = require("./filter.scalar.js");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
-const crud_gen_enum_js_1 = require("./crud-gen.enum.js");
-exports.typeMap = new WeakMap();
-function crudGenParamsFactory(defaultValues, entityModel) {
-    const SortType = entityModel ? [(0, crud_gen_input_js_1.sortModelFactory)(entityModel)] : [crud_gen_input_js_1.SortModel];
+import { __decorate, __metadata } from "tslib";
+import { ArgsType, Field } from '@nestjs/graphql';
+import { filterExpressionInputFactory, SortModel, sortModelFactory, } from './api-graphql/crud-gen.input.js';
+import { FilterScalar } from './filter.scalar.js';
+import returnValue from '@node-yalc/utils/returnValue.js';
+import { RowDefaultValues } from './crud-gen.enum.js';
+export const typeMap = new WeakMap();
+export function crudGenParamsFactory(defaultValues, entityModel) {
+    const SortType = entityModel ? [sortModelFactory(entityModel)] : [SortModel];
     const FilterType = entityModel
-        ? (0, crud_gen_input_js_1.filterExpressionInputFactory)(entityModel)
-        : filter_scalar_js_1.FilterScalar;
+        ? filterExpressionInputFactory(entityModel)
+        : FilterScalar;
     let CrudGenParams = class CrudGenParams {
         constructor() {
-            this.startRow = defaultValues?.startRow ?? crud_gen_enum_js_1.RowDefaultValues.START_ROW;
-            this.endRow = defaultValues?.endRow ?? crud_gen_enum_js_1.RowDefaultValues.END_ROW;
+            this.startRow = defaultValues?.startRow ?? RowDefaultValues.START_ROW;
+            this.endRow = defaultValues?.endRow ?? RowDefaultValues.END_ROW;
         }
     };
-    tslib_1.__decorate([
-        (0, graphql_1.Field)(() => Number, {
+    __decorate([
+        Field(() => Number, {
             nullable: true,
-            defaultValue: defaultValues?.startRow ?? crud_gen_enum_js_1.RowDefaultValues.START_ROW,
+            defaultValue: defaultValues?.startRow ?? RowDefaultValues.START_ROW,
         }),
-        tslib_1.__metadata("design:type", Number)
+        __metadata("design:type", Number)
     ], CrudGenParams.prototype, "startRow", void 0);
-    tslib_1.__decorate([
-        (0, graphql_1.Field)(() => Number, {
+    __decorate([
+        Field(() => Number, {
             nullable: true,
-            defaultValue: defaultValues?.endRow ?? crud_gen_enum_js_1.RowDefaultValues.END_ROW,
+            defaultValue: defaultValues?.endRow ?? RowDefaultValues.END_ROW,
         }),
-        tslib_1.__metadata("design:type", Number)
+        __metadata("design:type", Number)
     ], CrudGenParams.prototype, "endRow", void 0);
-    tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(SortType), {
+    __decorate([
+        Field(returnValue(SortType), {
             nullable: true,
             defaultValue: defaultValues?.sorting,
         }),
-        tslib_1.__metadata("design:type", Object)
+        __metadata("design:type", Object)
     ], CrudGenParams.prototype, "sorting", void 0);
-    tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(FilterType), {
+    __decorate([
+        Field(returnValue(FilterType), {
             nullable: true,
             defaultValue: defaultValues?.filters,
         }),
-        tslib_1.__metadata("design:type", Object)
+        __metadata("design:type", Object)
     ], CrudGenParams.prototype, "filters", void 0);
-    CrudGenParams = tslib_1.__decorate([
-        (0, graphql_1.ArgsType)()
+    CrudGenParams = __decorate([
+        ArgsType()
     ], CrudGenParams);
-    exports.typeMap.set(CrudGenParams, CrudGenParams);
-    return exports.typeMap.get(CrudGenParams);
+    typeMap.set(CrudGenParams, CrudGenParams);
+    return typeMap.get(CrudGenParams);
 }
-function crudGenParamsNoPaginationFactory(defaultValues, entityModel) {
-    const SortType = entityModel ? [(0, crud_gen_input_js_1.sortModelFactory)(entityModel)] : [crud_gen_input_js_1.SortModel];
+export function crudGenParamsNoPaginationFactory(defaultValues, entityModel) {
+    const SortType = entityModel ? [sortModelFactory(entityModel)] : [SortModel];
     const FilterType = entityModel
-        ? (0, crud_gen_input_js_1.filterExpressionInputFactory)(entityModel)
-        : filter_scalar_js_1.FilterScalar;
+        ? filterExpressionInputFactory(entityModel)
+        : FilterScalar;
     let CrudGenParams = class CrudGenParams {
     };
-    tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(SortType), {
+    __decorate([
+        Field(returnValue(SortType), {
             nullable: true,
             defaultValue: defaultValues?.sorting,
         }),
-        tslib_1.__metadata("design:type", Object)
+        __metadata("design:type", Object)
     ], CrudGenParams.prototype, "sorting", void 0);
-    tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(FilterType), {
+    __decorate([
+        Field(returnValue(FilterType), {
             nullable: true,
             defaultValue: defaultValues?.filters,
         }),
-        tslib_1.__metadata("design:type", Object)
+        __metadata("design:type", Object)
     ], CrudGenParams.prototype, "filters", void 0);
-    CrudGenParams = tslib_1.__decorate([
-        (0, graphql_1.ArgsType)()
+    CrudGenParams = __decorate([
+        ArgsType()
     ], CrudGenParams);
-    exports.typeMap.set(CrudGenParams, CrudGenParams);
-    return exports.typeMap.get(CrudGenParams);
+    typeMap.set(CrudGenParams, CrudGenParams);
+    return typeMap.get(CrudGenParams);
 }
 //# sourceMappingURL=crud-gen.args.js.map

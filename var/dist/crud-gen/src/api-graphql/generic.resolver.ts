@@ -26,7 +26,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { CrudGenGqlInterceptor } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interceptor.js';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import {
   IExtraArg,
   CrudGenFindManyOptions,
@@ -44,7 +44,7 @@ import {
 } from '@nest-yalc-2/data-loader/dataloader.helper.js';
 import { ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { Mutation } from '@nestjs/graphql';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import {
   filterTypeToNativeType,
   getEntityRelations,
@@ -55,7 +55,7 @@ import { CrudGenError } from '../crud-gen.error.js';
 import { ExtraArgsStrategy } from '../crud-gen.enum.js';
 import { ICrudGenParams } from '../crud-gen.args.js';
 import { InputArgs } from '@nest-yalc-2/crud-gen/api-graphql/gqlmapper.decorator.js';
-import { isClass } from '@node-yalc/utils/class.helper';
+import { isClass } from '@node-yalc/utils/class.helper.js';
 import { GetContext } from '@nest-yalc-2/utils/nestjs/nest.decorator.js';
 export interface IGenericResolver {
   [index: string]: any; //index signature

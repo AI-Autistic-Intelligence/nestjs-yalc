@@ -32,10 +32,10 @@ import {
   CrudGenFindManyOptions,
   ICrudGenSimpleParams,
 } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { getProviderToken } from '../crud-gen.helpers.js';
 import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
-import { isClass } from '@node-yalc/utils/class.helper';
+import { isClass } from '@node-yalc/utils/class.helper.js';
 import {
   getModelFieldMetadataList,
   isDstExtended,

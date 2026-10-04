@@ -18,7 +18,7 @@ import {
   objectToFieldMapper,
 } from '../crud-gen.helpers.js';
 import { agJoinArgFactory } from './crud-gen.input.js';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { mapCrudGenParam } from '../typeorm/crud-gen-args.helpers.js';
 import { ExtraArgsStrategy, GeneralFilters } from '../crud-gen.enum.js';

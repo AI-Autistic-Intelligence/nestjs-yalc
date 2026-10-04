@@ -2,7 +2,7 @@ import { GqlExceptionFilter, GqlArgumentsHost } from '@nestjs/graphql';
 import * as common from '@nestjs/common';
 // We can import more errors from the typeorm/error folder if necessary, nothing is exported though, so use explicit paths.
 import { EntityNotFoundError, ConnectionNotFoundError } from 'typeorm';
-import { ExceptionContextEnum } from '@node-yalc/errors/error.enum';
+import { ExceptionContextEnum } from '@node-yalc/errors/error.enum.js';
 
 import type { LoggerService } from '@nestjs/common';
 

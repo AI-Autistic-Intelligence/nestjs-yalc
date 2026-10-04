@@ -20,7 +20,7 @@ export declare class OmniCollectionType extends OmniCollectionEntity {
     collectionKind: OmniCollectionKind;
     summary?: string | null;
 }
-declare const OmniCollectionCreateInput_base: import("@nestjs/common").Type<Omit<OmniCollectionType, "createdAt" | "updatedAt" | "revision" | "kind" | "outgoingRelations" | "incomingRelations">>;
+declare const OmniCollectionCreateInput_base: import("@nestjs/common").Type<Omit<OmniCollectionType, "revision" | "createdAt" | "updatedAt" | "kind" | "outgoingRelations" | "incomingRelations">>;
 export declare class OmniCollectionCreateInput extends OmniCollectionCreateInput_base {
 }
 declare const OmniCollectionCondition_base: import("@nestjs/common").Type<Partial<OmniCollectionCreateInput>>;

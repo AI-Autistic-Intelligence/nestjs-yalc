@@ -1,17 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CGExtendedRepository = exports.GenericTypeORMRepository = exports.PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES = exports.AG_GRID_MAIN_ALIAS = void 0;
-exports.CGExtendedRepositoryFactory = CGExtendedRepositoryFactory;
-const query_builder_helper_js_1 = require("@nest-yalc-2/database/query-builder.helper.js");
-const typeorm_1 = require("typeorm");
-const crud_gen_helpers_js_1 = require("../crud-gen.helpers.js");
-require("../query-builder.helpers.js");
-exports.AG_GRID_MAIN_ALIAS = 'CrudGenMainAlias';
-exports.PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES = {
+import { QueryBuilderHelper, ReplicationMode, } from '@nest-yalc-2/database/query-builder.helper.js';
+import { Repository } from 'typeorm';
+import { applySelectOnFind, objectToFieldMapper, whereObjectToSqlString, } from '../crud-gen.helpers.js';
+import '../query-builder.helpers.js';
+export const AG_GRID_MAIN_ALIAS = 'CrudGenMainAlias';
+export const PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES = {
     extendedQueries: false,
     structuredGraphqlFilters: false,
 };
-class GenericTypeORMRepository extends typeorm_1.Repository {
+export class GenericTypeORMRepository extends Repository {
     getCrudGenCapabilities() {
         return {
             extendedQueries: true,
@@ -93,10 +89,10 @@ class GenericTypeORMRepository extends typeorm_1.Repository {
             queryBuilder.skip(skip).take(take);
         }
         if (where) {
-            const stringWhere = (0, crud_gen_helpers_js_1.whereObjectToSqlString)(queryBuilder, where, queryBuilder.alias, fieldMap);
+            const stringWhere = whereObjectToSqlString(queryBuilder, where, queryBuilder.alias, fieldMap);
             queryBuilder.where(stringWhere);
         }
-        const sortingColumns = query_builder_helper_js_1.QueryBuilderHelper.applyOrderToJoinedQueryBuilder(findOptions, queryBuilder.alias, fieldMap);
+        const sortingColumns = QueryBuilderHelper.applyOrderToJoinedQueryBuilder(findOptions, queryBuilder.alias, fieldMap);
         sortingColumns.forEach((v) => {
             queryBuilder.addOrderBy(v.key, v.operator);
         });
@@ -140,10 +136,10 @@ class GenericTypeORMRepository extends typeorm_1.Repository {
         const queryBuilder = this.getCrudGenQueryBuilder(findOptions, fieldMap);
         return queryBuilder.getCount();
     }
-    async getOneExtended(findOptions, withFail, mode = query_builder_helper_js_1.ReplicationMode.SLAVE) {
+    async getOneExtended(findOptions, withFail, mode = ReplicationMode.SLAVE) {
         const queryBuilder = this.getFormattedCrudGenQueryBuilder(findOptions);
         const returnFunction = this.getOneOrFail(withFail);
-        return query_builder_helper_js_1.QueryBuilderHelper.applyOperationToQueryBuilder(queryBuilder, mode, returnFunction);
+        return QueryBuilderHelper.applyOperationToQueryBuilder(queryBuilder, mode, returnFunction);
     }
     getOneOrFail(withFail) {
         return (qb) => {
@@ -160,15 +156,13 @@ class GenericTypeORMRepository extends typeorm_1.Repository {
     }
     generateSelectOnFind(fields, gqlType) {
         const findOptions = {};
-        const fieldMapper = (0, crud_gen_helpers_js_1.objectToFieldMapper)(gqlType);
-        fields.forEach((field) => (0, crud_gen_helpers_js_1.applySelectOnFind)(findOptions, field, fieldMapper.field));
+        const fieldMapper = objectToFieldMapper(gqlType);
+        fields.forEach((field) => applySelectOnFind(findOptions, field, fieldMapper.field));
         return findOptions;
     }
 }
-exports.GenericTypeORMRepository = GenericTypeORMRepository;
-exports.CGExtendedRepository = GenericTypeORMRepository;
 const repositoryMap = new WeakMap();
-function CGExtendedRepositoryFactory(entity) {
+export function CGExtendedRepositoryFactory(entity) {
     let cached;
     if ((cached = repositoryMap.get(entity)))
         return cached;
@@ -178,4 +172,5 @@ function CGExtendedRepositoryFactory(entity) {
     repositoryMap.set(entity, repo);
     return repo;
 }
+export { GenericTypeORMRepository as CGExtendedRepository };
 //# sourceMappingURL=generic.repository.js.map

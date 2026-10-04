@@ -7,7 +7,7 @@ import {
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { modelFieldToDest } from './model-object.helper.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 
 export function modelFieldMapperInterceptor(
   inputClass: ClassType,

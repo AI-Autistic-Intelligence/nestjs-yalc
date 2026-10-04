@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
-import { objectMapper, ObjectMapperType } from '@node-yalc/utils/object-mapper.helper';
+import { objectMapper, ObjectMapperType } from '@node-yalc/utils/object-mapper.helper.js';
 
 export function objectMapperInterceptor<
   TInputObject extends Record<string, any>,

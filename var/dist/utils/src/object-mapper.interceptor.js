@@ -4,7 +4,7 @@ exports.objectMapperInterceptor = objectMapperInterceptor;
 const tslib_1 = require("tslib");
 const common_1 = require("@nestjs/common");
 const rxjs_1 = require("rxjs");
-const object_mapper_helper_1 = require("@node-yalc/utils/object-mapper.helper");
+const object_mapper_helper_js_1 = require("@node-yalc/utils/object-mapper.helper.js");
 function objectMapperInterceptor(mapper, options = {}) {
     let ObjectMapperInterceptor = class ObjectMapperInterceptor {
         intercept(_context, next) {
@@ -13,10 +13,10 @@ function objectMapperInterceptor(mapper, options = {}) {
                     ? options.transformData(data)
                     : data;
                 if (Array.isArray(_data)) {
-                    const result = _data.map((item) => (0, object_mapper_helper_1.objectMapper)(item, mapper));
+                    const result = _data.map((item) => (0, object_mapper_helper_js_1.objectMapper)(item, mapper));
                     return options.callback?.(data, result) ?? result;
                 }
-                const result = (0, object_mapper_helper_1.objectMapper)(_data, mapper, {
+                const result = (0, object_mapper_helper_js_1.objectMapper)(_data, mapper, {
                     copyNonMappedProperties: options.copyNonMappedProperties,
                 });
                 return options.callback?.(data, result) ?? result;

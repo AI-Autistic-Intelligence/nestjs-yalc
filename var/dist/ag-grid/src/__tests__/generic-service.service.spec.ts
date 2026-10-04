@@ -36,8 +36,8 @@ import {
   NoResultsFoundError,
   ConditionsTooBroadError,
 } from '../conditions.error';
-import * as ClassHelper from '@nest-yalc-2/utils/class.helper';
-jest.mock('@nest-yalc-2/utils/class.helper', () => ({
+import * as ClassHelper from '@node-yalc/utils/class.helper.js';
+jest.mock('@node-yalc/utils/class.helper.js', () => ({
   isClass: jest.fn(),
 }));
 jest.mock('typeorm');

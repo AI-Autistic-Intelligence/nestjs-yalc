@@ -1,7 +1,7 @@
 /// <reference types="jest" />
 /* istanbul ignore file */
 
-import { FactoryType } from '@node-yalc/interfaces/common.type';
+import { FactoryType } from '@node-yalc/interfaces/common.type.js';
 import { ClassType } from '@node-yalc/types';
 import { faker } from '@faker-js/faker';
 import { getTestFilenameWithoutExtension } from './helpers';

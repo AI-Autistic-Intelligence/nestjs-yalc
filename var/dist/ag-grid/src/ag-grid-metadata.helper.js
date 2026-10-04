@@ -6,7 +6,7 @@ exports.isIFieldAndFilterMapper = isIFieldAndFilterMapper;
 exports.getEntityRelations = getEntityRelations;
 exports.getTypeProperties = getTypeProperties;
 exports.getMappedTypeProperties = getMappedTypeProperties;
-const maps_interface_1 = require("@node-yalc/interfaces/maps.interface");
+const maps_interface_js_1 = require("@node-yalc/interfaces/maps.interface.js");
 const typeorm_1 = require("typeorm");
 const object_decorator_1 = require("./object.decorator");
 const columnConversion = (key, data) => {
@@ -75,7 +75,7 @@ const objectToFieldMapper = (object) => {
             }
         }
     }
-    else if ((0, maps_interface_1.isFieldMapper)(object)) {
+    else if ((0, maps_interface_js_1.isFieldMapper)(object)) {
         fieldMapper.field = object;
     }
     else if (isIFieldAndFilterMapper(object)) {

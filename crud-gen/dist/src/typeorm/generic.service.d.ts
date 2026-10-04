@@ -5,7 +5,7 @@ import { DeepPartial, ObjectLiteral } from 'typeorm';
 import { FindOptionsWhere as FindConditions } from 'typeorm';
 import { type CrudGenRepositoryCapabilities, type GenericTypeORMRepository } from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';
 import { CrudGenFindManyOptions, ICrudGenSimpleParams } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 export declare function GenericServiceFactory<Entity extends ObjectLiteral>(entity: EntityClassOrSchema, connectionName: string, providedClass?: ClassType<GenericService<Entity>>, entityWrite?: EntityClassOrSchema, connectionNameWrite?: string): FactoryProvider;
 export declare function getServiceToken(entity: ClassType | string): string;
 export declare function validateSupportedError(errorClass: new (error: Error) => EntityError): (error: Error) => never;

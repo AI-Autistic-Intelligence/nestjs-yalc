@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TelemetryEventStrategy = void 0;
-class TelemetryEventStrategy {
+export class TelemetryEventStrategy {
     constructor(strategy, telemetry, options) {
         this.strategy = strategy;
         this.telemetry = telemetry;
@@ -29,5 +26,4 @@ class TelemetryEventStrategy {
         };
     }
 }
-exports.TelemetryEventStrategy = TelemetryEventStrategy;
 //# sourceMappingURL=telemetry-event.strategy.js.map

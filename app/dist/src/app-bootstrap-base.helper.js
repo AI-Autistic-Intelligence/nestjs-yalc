@@ -1,38 +1,33 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseAppBootstrap = exports.getMainBootstrappedApp = exports.getBootstrappedApps = void 0;
-const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const def_const_js_1 = require("./def.const.js");
-const base_app_module_helper_js_1 = require("./base-app-module.helper.js");
-const logger_helper_1 = require("@node-yalc/logger/logger.helper");
-const promise_helper_1 = require("@node-yalc/utils/promise.helper");
-common_1.Logger.overrideLogger((0, logger_helper_1.getEnvLoggerLevels)());
+import { Logger, } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { SYSTEM_LOGGER_SERVICE } from './def.const.js';
+import { YalcDefaultAppModule } from './base-app-module.helper.js';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
+import { globalPromiseTracker } from '@node-yalc/utils/promise.helper.js';
+Logger.overrideLogger(getEnvLoggerLevels());
 const bootstrappedApps = new Set();
-const getBootstrappedApps = () => {
+export const getBootstrappedApps = () => {
     return bootstrappedApps;
 };
-exports.getBootstrappedApps = getBootstrappedApps;
-const getMainBootstrappedApp = () => {
-    if ((0, exports.getBootstrappedApps)().size === 0) {
+export const getMainBootstrappedApp = () => {
+    if (getBootstrappedApps().size === 0) {
         return null;
     }
-    return (0, exports.getBootstrappedApps)().values().next().value;
+    return getBootstrappedApps().values().next().value;
 };
-exports.getMainBootstrappedApp = getMainBootstrappedApp;
-class BaseAppBootstrap {
+export class BaseAppBootstrap {
     constructor(appAlias, appModule, options) {
         this.appAlias = appAlias;
         this.appModule = appModule;
         this.isClosed = false;
-        this.module = base_app_module_helper_js_1.YalcDefaultAppModule.forRoot(this.appAlias, [appModule, ...(options?.globalsOptions?.extraImports ?? [])], options?.globalsOptions);
-        const bootstrappedApp = (0, exports.getMainBootstrappedApp)();
+        this.module = YalcDefaultAppModule.forRoot(this.appAlias, [appModule, ...(options?.globalsOptions?.extraImports ?? [])], options?.globalsOptions);
+        const bootstrappedApp = getMainBootstrappedApp();
         if (bootstrappedApp &&
             !options?.globalsOptions?.skipMultiServerCheck &&
             process.env.APP_SKIP_MULTISERVER_CHECK !== 'true') {
             throw new Error(`You are trying to bootstrap multiple servers (${bootstrappedApp.appAlias}) in the same process. This is not allowed. Use a different process for each server`);
         }
-        (0, exports.getBootstrappedApps)().add(this);
+        getBootstrappedApps().add(this);
     }
     async initApp(options) {
         options;
@@ -49,7 +44,7 @@ class BaseAppBootstrap {
         const originalInitFn = this.app.init.bind(this.app);
         this.app.init = async () => {
             this.isClosed = false;
-            (0, exports.getBootstrappedApps)().add(this);
+            getBootstrappedApps().add(this);
             let initRes;
             try {
                 initRes = await originalInitFn();
@@ -64,7 +59,7 @@ class BaseAppBootstrap {
     }
     closeCleanup() {
         this.isClosed = true;
-        (0, exports.getBootstrappedApps)().delete(this);
+        getBootstrappedApps().delete(this);
     }
     isAppClosed() {
         return this.isClosed;
@@ -73,7 +68,7 @@ class BaseAppBootstrap {
         return this.appAlias;
     }
     getConf() {
-        const configService = this.getApp().get(config_1.ConfigService);
+        const configService = this.getApp().get(ConfigService);
         return configService.get(this.appAlias);
     }
     getApp() {
@@ -88,7 +83,7 @@ class BaseAppBootstrap {
         this.closeCleanup();
     }
     async cleanup() {
-        await promise_helper_1.globalPromiseTracker.waitForAll();
+        await globalPromiseTracker.waitForAll();
     }
     getAppModule() {
         return this.appModule;
@@ -97,12 +92,11 @@ class BaseAppBootstrap {
         return this.module;
     }
     async applyBootstrapGlobals(_options) {
-        this.loggerService = this.getApp().get(def_const_js_1.SYSTEM_LOGGER_SERVICE);
+        this.loggerService = this.getApp().get(SYSTEM_LOGGER_SERVICE);
         this.loggerService.debug?.('Setting logger service...');
         this.getApp().useLogger(this.loggerService);
-        common_1.Logger.overrideLogger(this.loggerService);
+        Logger.overrideLogger(this.loggerService);
         return this;
     }
 }
-exports.BaseAppBootstrap = BaseAppBootstrap;
 //# sourceMappingURL=app-bootstrap-base.helper.js.map

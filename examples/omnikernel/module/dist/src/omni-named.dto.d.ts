@@ -7,7 +7,7 @@ export declare class OmniNamedType extends OmniNamedEntity {
     title: string;
     slug?: string | null;
 }
-declare const OmniNamedCreateInput_base: import("@nestjs/common").Type<Omit<OmniNamedType, "createdAt" | "updatedAt" | "revision">>;
+declare const OmniNamedCreateInput_base: import("@nestjs/common").Type<Omit<OmniNamedType, "revision" | "createdAt" | "updatedAt">>;
 export declare class OmniNamedCreateInput extends OmniNamedCreateInput_base {
 }
 declare const OmniNamedCondition_base: import("@nestjs/common").Type<Partial<OmniNamedCreateInput>>;

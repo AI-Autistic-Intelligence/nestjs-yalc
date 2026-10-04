@@ -1,17 +1,14 @@
-"use strict";
 var MutationJournalCleanupService_1;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MutationJournalCleanupService = void 0;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const mutation_journal_def_js_1 = require("./mutation-journal.def.js");
-const mutation_journal_service_js_1 = require("./mutation-journal.service.js");
+import { __decorate, __metadata, __param } from "tslib";
+import { Inject, Injectable, Logger, } from '@nestjs/common';
+import { MUTATION_JOURNAL_OPTIONS } from './mutation-journal.def.js';
+import { MutationJournalService, } from './mutation-journal.service.js';
 const MILLISECONDS_PER_DAY = 86_400_000;
 let MutationJournalCleanupService = MutationJournalCleanupService_1 = class MutationJournalCleanupService {
     constructor(mutationJournalService, options) {
         this.mutationJournalService = mutationJournalService;
         this.options = options;
-        this.logger = new common_1.Logger(MutationJournalCleanupService_1.name);
+        this.logger = new Logger(MutationJournalCleanupService_1.name);
     }
     onApplicationBootstrap() {
         if (!this.options.enabled ||
@@ -51,11 +48,11 @@ let MutationJournalCleanupService = MutationJournalCleanupService_1 = class Muta
         return deletedRows;
     }
 };
-exports.MutationJournalCleanupService = MutationJournalCleanupService;
-exports.MutationJournalCleanupService = MutationJournalCleanupService = MutationJournalCleanupService_1 = tslib_1.__decorate([
-    (0, common_1.Injectable)(),
-    tslib_1.__param(0, (0, common_1.Inject)(mutation_journal_service_js_1.MutationJournalService)),
-    tslib_1.__param(1, (0, common_1.Inject)(mutation_journal_def_js_1.MUTATION_JOURNAL_OPTIONS)),
-    tslib_1.__metadata("design:paramtypes", [Object, Object])
+MutationJournalCleanupService = MutationJournalCleanupService_1 = __decorate([
+    Injectable(),
+    __param(0, Inject(MutationJournalService)),
+    __param(1, Inject(MUTATION_JOURNAL_OPTIONS)),
+    __metadata("design:paramtypes", [Object, Object])
 ], MutationJournalCleanupService);
+export { MutationJournalCleanupService };
 //# sourceMappingURL=mutation-journal-cleanup.service.js.map

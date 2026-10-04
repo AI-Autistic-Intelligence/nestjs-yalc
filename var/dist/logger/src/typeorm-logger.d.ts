@@ -1,4 +1,4 @@
-import { YalcEventService } from '@node-yalc/event-manager/event.service';
+import { YalcEventService } from '@node-yalc/event-manager/event.service.js';
 import { Logger } from 'typeorm';
 export declare class TypeORMLogger implements Logger {
     private event;

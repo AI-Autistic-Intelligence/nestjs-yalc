@@ -1,18 +1,15 @@
-"use strict";
 var MutationJournalService_1;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MutationJournalService = void 0;
-const tslib_1 = require("tslib");
-const common_1 = require("@nestjs/common");
-const core_1 = require("@nestjs/core");
-const typeorm_1 = require("@nestjs/typeorm");
-const mutation_journal_def_js_1 = require("./mutation-journal.def.js");
+import { __decorate, __metadata, __param } from "tslib";
+import { Inject, Injectable, Logger, } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
+import { getDataSourceToken } from '@nestjs/typeorm';
+import { MUTATION_JOURNAL_DRIVERS, MUTATION_JOURNAL_OPTIONS, } from './mutation-journal.def.js';
 let MutationJournalService = MutationJournalService_1 = class MutationJournalService {
     constructor(moduleRef, options, drivers) {
         this.moduleRef = moduleRef;
         this.options = options;
         this.drivers = drivers;
-        this.logger = new common_1.Logger(MutationJournalService_1.name);
+        this.logger = new Logger(MutationJournalService_1.name);
         this.reports = [];
     }
     async onApplicationBootstrap() {
@@ -62,7 +59,7 @@ let MutationJournalService = MutationJournalService_1 = class MutationJournalSer
         };
     }
     async resolveTarget(target = {}) {
-        const token = target.token ?? (0, typeorm_1.getDataSourceToken)(target.dataSourceName);
+        const token = target.token ?? getDataSourceToken(target.dataSourceName);
         let dataSource;
         try {
             dataSource = this.moduleRef.get(token, { strict: false });
@@ -115,12 +112,12 @@ let MutationJournalService = MutationJournalService_1 = class MutationJournalSer
         return error instanceof Error ? error.message : String(error);
     }
 };
-exports.MutationJournalService = MutationJournalService;
-exports.MutationJournalService = MutationJournalService = MutationJournalService_1 = tslib_1.__decorate([
-    (0, common_1.Injectable)(),
-    tslib_1.__param(0, (0, common_1.Inject)(core_1.ModuleRef)),
-    tslib_1.__param(1, (0, common_1.Inject)(mutation_journal_def_js_1.MUTATION_JOURNAL_OPTIONS)),
-    tslib_1.__param(2, (0, common_1.Inject)(mutation_journal_def_js_1.MUTATION_JOURNAL_DRIVERS)),
-    tslib_1.__metadata("design:paramtypes", [Object, Object, Array])
+MutationJournalService = MutationJournalService_1 = __decorate([
+    Injectable(),
+    __param(0, Inject(ModuleRef)),
+    __param(1, Inject(MUTATION_JOURNAL_OPTIONS)),
+    __param(2, Inject(MUTATION_JOURNAL_DRIVERS)),
+    __metadata("design:paramtypes", [Object, Object, Array])
 ], MutationJournalService);
+export { MutationJournalService };
 //# sourceMappingURL=mutation-journal.service.js.map

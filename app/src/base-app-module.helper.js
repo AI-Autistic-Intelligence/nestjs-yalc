@@ -1,27 +1,20 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.YalcDefaultAppModule = exports.YalcGlobalStaticModule = exports.YalcBaseAppModule = exports.buildEnvFilePath = void 0;
-exports.registerSingletonDynamicModule = registerSingletonDynamicModule;
-exports.getCachedModule = getCachedModule;
-exports.envFilePathList = envFilePathList;
-exports.yalcBaseAppModuleMetadataFactory = yalcBaseAppModuleMetadataFactory;
-const tslib_1 = require("tslib");
-const def_const_js_1 = require("./def.const.js");
-const life_cycle_handler_service_js_1 = require("./life-cycle-handler.service.js");
-const common_1 = require("@nestjs/common");
-const logger_service_js_1 = require("@nest-yalc-2/logger/logger.service.js");
-const app_config_service_js_1 = require("./app-config.service.js");
-const app_context_module_js_1 = require("./app-context.module.js");
-const global_enum_js_1 = require("./global.enum.js");
-const config_1 = require("@nestjs/config");
-const joi_1 = tslib_1.__importDefault(require("joi"));
-const index_js_1 = require("@nest-yalc-2/event-manager/index.js");
-const event_emitter_1 = require("@nestjs/event-emitter");
-const cls_module_js_1 = require("./cls.module.js");
-const _ = tslib_1.__importStar(require("lodash-es"));
-const logger_helper_1 = require("@node-yalc/logger/logger.helper");
+import { __decorate } from "tslib";
+import { APP_ALIAS_TOKEN, APP_EVENT_SERVICE, APP_LOGGER_SERVICE, APP_OPTION_TOKEN, MAIN_APP_CONFIG_SERVICE, MODULE_ALIAS_TOKEN, MODULE_OPTION_TOKEN, SYSTEM_EVENT_SERVICE, SYSTEM_LOGGER_SERVICE, } from './def.const.js';
+import { LifeCycleHandler } from './life-cycle-handler.service.js';
+import { Global, Logger, Module } from '@nestjs/common';
+import { LoggerServiceFactory } from '@nest-yalc-2/logger/logger.service.js';
+import { AppConfigService, createAppConfigProvider, getAppConfigToken, getAppEventToken, getAppLoggerToken, } from './app-config.service.js';
+import { AppContextModule } from './app-context.module.js';
+import { NODE_ENV } from './global.enum.js';
+import { ConfigModule, ConfigService, registerAs } from '@nestjs/config';
+import Joi from 'joi';
+import { EventModule } from '@nest-yalc-2/event-manager/index.js';
+import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
+import { YalcClsModule } from './cls.module.js';
+import * as _ from 'lodash-es';
+import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 const singletonDynamicModules = new Map();
-function registerSingletonDynamicModule(isSingleton, moduleToken, module) {
+export function registerSingletonDynamicModule(isSingleton, moduleToken, module) {
     if (!isSingleton) {
         return false;
     }
@@ -32,13 +25,13 @@ function registerSingletonDynamicModule(isSingleton, moduleToken, module) {
     singletonDynamicModules.set(moduleToken, module);
     return singletonDynamicModules.get(moduleToken);
 }
-function getCachedModule(module, isSingleton) {
+export function getCachedModule(module, isSingleton) {
     if (isSingleton) {
         return singletonDynamicModules.get(module);
     }
     return null;
 }
-function envFilePathList(dirname = '.') {
+export function envFilePathList(dirname = '.') {
     const envFilePath = [];
     envFilePath.push(`${dirname}/.env`);
     if (process.env.NODE_ENV) {
@@ -51,19 +44,19 @@ function envFilePathList(dirname = '.') {
 const _buildEnvFilePath = _.memoize((envDir, envPath) => {
     const envFilePath = [];
     if (!envPath) {
-        common_1.Logger.debug(`Loading env from: ${envDir}, NODE_ENV: ${process.env.NODE_ENV}`);
+        Logger.debug(`Loading env from: ${envDir}, NODE_ENV: ${process.env.NODE_ENV}`);
         envFilePath.push(...envFilePathList(envDir));
     }
     else {
         envFilePath.push(...(Array.isArray(envPath) ? envPath : [envPath]));
     }
-    common_1.Logger.debug(`Using env file paths: ${envFilePath}`);
+    Logger.debug(`Using env file paths: ${envFilePath}`);
     return envFilePath;
 }, (envDir = '', envPath = '') => {
     return `${envDir}-${Array.isArray(envPath) ? envPath.join(',') : envPath}`;
 });
-exports.buildEnvFilePath = _buildEnvFilePath;
-function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
+export const buildEnvFilePath = _buildEnvFilePath;
+export function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     const _options = {
         isSingleton: false,
         global: true,
@@ -76,39 +69,39 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     }
     const _providers = [
         {
-            provide: def_const_js_1.MODULE_ALIAS_TOKEN,
+            provide: MODULE_ALIAS_TOKEN,
             useValue: appAlias,
         },
         {
-            provide: def_const_js_1.MODULE_OPTION_TOKEN,
+            provide: MODULE_OPTION_TOKEN,
             useValue: options,
         },
         {
-            provide: def_const_js_1.APP_EVENT_SERVICE,
+            provide: APP_EVENT_SERVICE,
             useExisting: 'INTERNAL_APP_EVENT_SERVICE',
         },
         {
-            provide: (0, app_config_service_js_1.getAppEventToken)(appAlias),
+            provide: getAppEventToken(appAlias),
             useExisting: 'INTERNAL_APP_EVENT_SERVICE',
         },
     ];
     const logger = options?.logger;
     if (logger) {
-        _providers.push((logger === true ? logger_service_js_1.LoggerServiceFactory : logger)(appAlias, def_const_js_1.APP_LOGGER_SERVICE, appAlias));
+        _providers.push((logger === true ? LoggerServiceFactory : logger)(appAlias, APP_LOGGER_SERVICE, appAlias));
         _providers.push({
-            provide: (0, app_config_service_js_1.getAppLoggerToken)(appAlias),
-            useExisting: def_const_js_1.APP_LOGGER_SERVICE,
+            provide: getAppLoggerToken(appAlias),
+            useExisting: APP_LOGGER_SERVICE,
         });
     }
     const hasConfig = _options.extraConfigs || _options.configFactory;
     if (hasConfig) {
-        _providers.push((0, app_config_service_js_1.createAppConfigProvider)(appAlias), {
-            provide: app_config_service_js_1.AppConfigService,
-            useExisting: (0, app_config_service_js_1.getAppConfigToken)(appAlias),
+        _providers.push(createAppConfigProvider(appAlias), {
+            provide: AppConfigService,
+            useExisting: getAppConfigToken(appAlias),
         });
     }
     if (!_options.skipDuplicateAppCheck) {
-        _providers.push(life_cycle_handler_service_js_1.LifeCycleHandler);
+        _providers.push(LifeCycleHandler);
     }
     if (providers) {
         _providers.push(...providers);
@@ -116,47 +109,47 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     const _imports = [];
     if (hasConfig) {
         const envFilePath = _buildEnvFilePath(options?.envDir, options?.envPath);
-        _imports.push(YalcGlobalStaticModule, (options?.eventModuleClass ?? index_js_1.EventModule).forRootAsync({
+        _imports.push(YalcGlobalStaticModule, (options?.eventModuleClass ?? EventModule).forRootAsync({
             imports: [module],
             loggerProvider: {
                 provide: 'INTERNAL_APP_LOGGER_SERVICE',
-                useExisting: (0, app_config_service_js_1.getAppLoggerToken)(appAlias),
+                useExisting: getAppLoggerToken(appAlias),
             },
             eventServiceToken: 'INTERNAL_APP_EVENT_SERVICE',
             eventEmitter: {
                 provide: 'INTERNAL_APP_EVENT_EMITTER',
-                useExisting: event_emitter_1.EventEmitter2,
+                useExisting: EventEmitter2,
             },
-        }), config_1.ConfigModule.forRoot({
+        }), ConfigModule.forRoot({
             envFilePath,
             load: [
-                (0, config_1.registerAs)(appAlias, async () => {
-                    await config_1.ConfigModule.envVariablesLoaded;
+                registerAs(appAlias, async () => {
+                    await ConfigModule.envVariablesLoaded;
                     return await (_options.configFactory?.() ?? {});
                 }),
                 ...(_options.extraConfigs ?? []),
             ],
-            validationSchema: joi_1.default.object({
-                NODE_ENV: joi_1.default.string()
-                    .valid(global_enum_js_1.NODE_ENV.DEVELOPMENT, global_enum_js_1.NODE_ENV.PRODUCTION, global_enum_js_1.NODE_ENV.TEST, global_enum_js_1.NODE_ENV.PIPELINE)
-                    .default(global_enum_js_1.NODE_ENV.DEVELOPMENT),
+            validationSchema: Joi.object({
+                NODE_ENV: Joi.string()
+                    .valid(NODE_ENV.DEVELOPMENT, NODE_ENV.PRODUCTION, NODE_ENV.TEST, NODE_ENV.PIPELINE)
+                    .default(NODE_ENV.DEVELOPMENT),
             }),
             validationOptions: {
                 allowUnknown: true,
                 abortEarly: true,
             },
             isGlobal: true,
-        }), cls_module_js_1.YalcClsModule);
+        }), YalcClsModule);
     }
     if (imports) {
         _imports.push(...imports);
     }
-    const _exports = [(0, app_config_service_js_1.getAppEventToken)(appAlias)];
+    const _exports = [getAppEventToken(appAlias)];
     if (options?.logger) {
-        _exports.push((0, app_config_service_js_1.getAppLoggerToken)(appAlias));
+        _exports.push(getAppLoggerToken(appAlias));
     }
     if (hasConfig) {
-        _exports.push((0, app_config_service_js_1.getAppConfigToken)(appAlias));
+        _exports.push(getAppConfigToken(appAlias));
     }
     if (exports) {
         _exports.push(...exports);
@@ -177,7 +170,7 @@ function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     registerSingletonDynamicModule(_options.isSingleton, module, config);
     return config;
 }
-class YalcBaseAppModule {
+export class YalcBaseAppModule {
     static _forRootStandalone(appAlias, options) {
         return this.assignDynamicProperties(yalcBaseAppModuleMetadataFactory(this, appAlias, {
             isStandalone: true,
@@ -199,11 +192,10 @@ class YalcBaseAppModule {
         return config;
     }
 }
-exports.YalcBaseAppModule = YalcBaseAppModule;
 function yalcGlobalStaticModuleFactory() {
     return {
         imports: [
-            event_emitter_1.EventEmitterModule.forRoot({
+            EventEmitterModule.forRoot({
                 global: true,
                 maxListeners: 1000,
                 wildcard: true,
@@ -213,64 +205,64 @@ function yalcGlobalStaticModuleFactory() {
 }
 let YalcGlobalStaticModule = class YalcGlobalStaticModule {
 };
-exports.YalcGlobalStaticModule = YalcGlobalStaticModule;
-exports.YalcGlobalStaticModule = YalcGlobalStaticModule = tslib_1.__decorate([
-    (0, common_1.Global)(),
-    (0, common_1.Module)(yalcGlobalStaticModuleFactory())
+YalcGlobalStaticModule = __decorate([
+    Global(),
+    Module(yalcGlobalStaticModuleFactory())
 ], YalcGlobalStaticModule);
-class YalcDefaultAppModule {
+export { YalcGlobalStaticModule };
+export class YalcDefaultAppModule {
     static forRoot(appAlias, imports, options) {
         const _imports = [
             YalcGlobalStaticModule,
-            (options?.eventModuleClass ?? index_js_1.EventModule).forRootAsync({
+            (options?.eventModuleClass ?? EventModule).forRootAsync({
                 loggerProvider: {
                     provide: 'INTERNAL_SYSTEM_LOGGER_SERVICE',
-                    useExisting: def_const_js_1.SYSTEM_LOGGER_SERVICE,
+                    useExisting: SYSTEM_LOGGER_SERVICE,
                 },
                 eventServiceToken: 'INTERNAL_SYSTEM_EVENT_SERVICE',
             }),
-            app_context_module_js_1.AppContextModule,
-            cls_module_js_1.YalcClsModule,
+            AppContextModule,
+            YalcClsModule,
             ...imports,
         ];
         const providers = [
             {
-                provide: def_const_js_1.APP_ALIAS_TOKEN,
+                provide: APP_ALIAS_TOKEN,
                 useValue: appAlias,
             },
             {
-                provide: def_const_js_1.APP_OPTION_TOKEN,
+                provide: APP_OPTION_TOKEN,
                 useValue: options,
             },
         ];
         providers.push({
-            provide: def_const_js_1.SYSTEM_LOGGER_SERVICE,
+            provide: SYSTEM_LOGGER_SERVICE,
             useFactory: (configService, eventEmitter) => {
-                const loggerFactory = options?.logger ?? logger_service_js_1.LoggerServiceFactory;
-                return loggerFactory(appAlias, def_const_js_1.SYSTEM_LOGGER_SERVICE, appAlias, {
+                const loggerFactory = options?.logger ?? LoggerServiceFactory;
+                return loggerFactory(appAlias, SYSTEM_LOGGER_SERVICE, appAlias, {
                     event: {
                         eventEmitter: eventEmitter,
                     },
-                    overrideLoggerLevels: (0, logger_helper_1.getEnvLoggerLevels)(),
+                    overrideLoggerLevels: getEnvLoggerLevels(),
                 }).useFactory(configService, eventEmitter);
             },
-            inject: [def_const_js_1.MAIN_APP_CONFIG_SERVICE, event_emitter_1.EventEmitter2],
+            inject: [MAIN_APP_CONFIG_SERVICE, EventEmitter2],
         }, {
-            provide: def_const_js_1.MAIN_APP_CONFIG_SERVICE,
+            provide: MAIN_APP_CONFIG_SERVICE,
             useFactory: (config) => {
-                return new app_config_service_js_1.AppConfigService(config, appAlias);
+                return new AppConfigService(config, appAlias);
             },
-            inject: [config_1.ConfigService],
+            inject: [ConfigService],
         }, {
-            provide: def_const_js_1.SYSTEM_EVENT_SERVICE,
+            provide: SYSTEM_EVENT_SERVICE,
             useExisting: 'INTERNAL_SYSTEM_EVENT_SERVICE',
         });
         const exports = [
-            def_const_js_1.APP_OPTION_TOKEN,
-            def_const_js_1.APP_ALIAS_TOKEN,
-            def_const_js_1.SYSTEM_LOGGER_SERVICE,
-            def_const_js_1.SYSTEM_EVENT_SERVICE,
-            def_const_js_1.MAIN_APP_CONFIG_SERVICE,
+            APP_OPTION_TOKEN,
+            APP_ALIAS_TOKEN,
+            SYSTEM_LOGGER_SERVICE,
+            SYSTEM_EVENT_SERVICE,
+            MAIN_APP_CONFIG_SERVICE,
         ];
         return {
             exports,
@@ -281,5 +273,4 @@ class YalcDefaultAppModule {
         };
     }
 }
-exports.YalcDefaultAppModule = YalcDefaultAppModule;
 //# sourceMappingURL=base-app-module.helper.js.map

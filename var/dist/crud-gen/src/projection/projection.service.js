@@ -1,26 +1,23 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProjectionResourceService = void 0;
-const typeorm_1 = require("typeorm");
-const projection_resource_js_1 = require("./projection-resource.js");
+import { FindOperator } from 'typeorm';
+import { assertProjectionPayloadValue, assertProjectionResourceDefinition, getProjectionField, getProjectionPathValue, normalizeProjectionCodecValue, PROJECTION_INTEGER_MAX, setProjectionPathValue, } from './projection-resource.js';
 function hasOwn(input, field) {
     return Object.prototype.hasOwnProperty.call(input, field);
 }
 function isFindOperator(value) {
-    return (value instanceof typeorm_1.FindOperator ||
+    return (value instanceof FindOperator ||
         (!!value &&
             typeof value === 'object' &&
             'type' in value &&
             'value' in value));
 }
-class ProjectionResourceService {
+export class ProjectionResourceService {
     constructor(repository, scope, dialect, events, definition) {
         this.repository = repository;
         this.scope = scope;
         this.dialect = dialect;
         this.events = events;
         this.definition = definition;
-        (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+        assertProjectionResourceDefinition(definition);
     }
     supportsStructuredGraphqlFilters() {
         return true;
@@ -88,8 +85,8 @@ class ProjectionResourceService {
         if (typeof expectedRevision !== 'number' ||
             !Number.isInteger(expectedRevision) ||
             expectedRevision < 1 ||
-            expectedRevision >= projection_resource_js_1.PROJECTION_INTEGER_MAX) {
-            this.invalid(`expectedRevision must be an integer between 1 and ${projection_resource_js_1.PROJECTION_INTEGER_MAX - 1}.`);
+            expectedRevision >= PROJECTION_INTEGER_MAX) {
+            this.invalid(`expectedRevision must be an integer between 1 and ${PROJECTION_INTEGER_MAX - 1}.`);
         }
         const patch = {
             scopeId: this.scope.scopeId,
@@ -154,7 +151,7 @@ class ProjectionResourceService {
         const initial = input.payload;
         if (initial !== undefined) {
             try {
-                (0, projection_resource_js_1.assertProjectionPayloadValue)(initial);
+                assertProjectionPayloadValue(initial);
             }
             catch (error) {
                 this.invalid(error instanceof Error
@@ -166,18 +163,18 @@ class ProjectionResourceService {
         for (const field of this.definition.fields) {
             if (field.storage !== 'json' || input[field.name] === undefined)
                 continue;
-            if ((0, projection_resource_js_1.getProjectionPathValue)(payload, field.path ?? []) !== undefined) {
+            if (getProjectionPathValue(payload, field.path ?? []) !== undefined) {
                 this.invalid(`Projection field ${field.name} cannot be supplied both in payload and as a projected input.`);
             }
-            payload = (0, projection_resource_js_1.setProjectionPathValue)(payload, field.path ?? [], this.normalizeValue(field, input[field.name]));
+            payload = setProjectionPathValue(payload, field.path ?? [], this.normalizeValue(field, input[field.name]));
         }
         for (const field of this.definition.fields) {
             if (field.storage !== 'json')
                 continue;
-            const value = (0, projection_resource_js_1.getProjectionPathValue)(payload, field.path ?? []);
+            const value = getProjectionPathValue(payload, field.path ?? []);
             if (value === undefined)
                 continue;
-            payload = (0, projection_resource_js_1.setProjectionPathValue)(payload, field.path ?? [], this.normalizeValue(field, value));
+            payload = setProjectionPathValue(payload, field.path ?? [], this.normalizeValue(field, value));
         }
         return payload;
     }
@@ -191,7 +188,7 @@ class ProjectionResourceService {
         for (const field of this.definition.fields) {
             if (field.storage !== 'json')
                 continue;
-            const value = (0, projection_resource_js_1.getProjectionPathValue)(payload, field.path ?? []);
+            const value = getProjectionPathValue(payload, field.path ?? []);
             projected[field.name] =
                 value === undefined && field.nullable ? null : value;
         }
@@ -299,7 +296,7 @@ class ProjectionResourceService {
     }
     projectionField(name, purpose) {
         try {
-            return (0, projection_resource_js_1.getProjectionField)(this.definition, name);
+            return getProjectionField(this.definition, name);
         }
         catch {
             this.invalid(`Projection ${purpose} field ${name} is not declared.`);
@@ -324,7 +321,7 @@ class ProjectionResourceService {
     }
     normalizeValue(field, value) {
         try {
-            return (0, projection_resource_js_1.normalizeProjectionCodecValue)(field, value);
+            return normalizeProjectionCodecValue(field, value);
         }
         catch (error) {
             this.invalid(error instanceof Error
@@ -339,7 +336,7 @@ class ProjectionResourceService {
             typeof conditions[identity] !== 'string') {
             this.invalid(`Projection resource conditions require only a ${identity}.`);
         }
-        return this.normalizeValue((0, projection_resource_js_1.getProjectionField)(this.definition, identity), conditions[identity]);
+        return this.normalizeValue(getProjectionField(this.definition, identity), conditions[identity]);
     }
     rejectUnknownInput(input, creating) {
         const identity = this.definition.identity.column;
@@ -369,5 +366,4 @@ class ProjectionResourceService {
         });
     }
 }
-exports.ProjectionResourceService = ProjectionResourceService;
 //# sourceMappingURL=projection.service.js.map

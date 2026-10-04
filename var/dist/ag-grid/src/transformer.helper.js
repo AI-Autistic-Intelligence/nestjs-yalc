@@ -1,5 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-tslib_1.__exportStar(require("@node-yalc/ag-grid/transformer.helper"), exports);
+exports.JsonTransformer = JsonTransformer;
+const object_helper_js_1 = require("@node-yalc/utils/object.helper.js");
+function JsonTransformer(field, propertyPath) {
+    return (dstObj, srcValue) => {
+        const patch = (0, object_helper_js_1.objectSetProp)({}, propertyPath, srcValue);
+        dstObj[field] = (0, object_helper_js_1.deepMerge)(dstObj[field] ?? {}, patch);
+    };
+}
 //# sourceMappingURL=transformer.helper.js.map

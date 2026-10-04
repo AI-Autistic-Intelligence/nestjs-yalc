@@ -1,6 +1,6 @@
 import { FieldMapperProperty, IFieldMapper } from '@node-yalc/interfaces';
-import { ClassType } from '@node-yalc/types/globals';
-import { isClass } from '@node-yalc/utils/class.helper';
+import { ClassType } from '@node-yalc/types/globals.js';
+import { isClass } from '@node-yalc/utils/class.helper.js';
 import {
   addFieldMetadata,
   FieldOptions,

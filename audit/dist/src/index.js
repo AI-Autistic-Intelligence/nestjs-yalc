@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-tslib_1.__exportStar(require("./mutation-journal.def.js"), exports);
-tslib_1.__exportStar(require("./mutation-journal.interface.js"), exports);
-tslib_1.__exportStar(require("./mutation-journal-cleanup.service.js"), exports);
-tslib_1.__exportStar(require("./mutation-journal-query.service.js"), exports);
-tslib_1.__exportStar(require("./mutation-journal.module.js"), exports);
-tslib_1.__exportStar(require("./mutation-journal.service.js"), exports);
-tslib_1.__exportStar(require("./sqlite/sqlite-sql.helper.js"), exports);
-tslib_1.__exportStar(require("./sqlite/sqlite-trigger-journal.driver.js"), exports);
+export * from './mutation-journal.def.js';
+export * from './mutation-journal.interface.js';
+export * from './mutation-journal-cleanup.service.js';
+export * from './mutation-journal-query.service.js';
+export * from './mutation-journal.module.js';
+export * from './mutation-journal.service.js';
+export * from './sqlite/sqlite-sql.helper.js';
+export * from './sqlite/sqlite-trigger-journal.driver.js';
 //# sourceMappingURL=index.js.map

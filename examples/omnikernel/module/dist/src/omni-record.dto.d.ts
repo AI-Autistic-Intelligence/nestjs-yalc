@@ -17,7 +17,7 @@ export declare class OmniRecordType extends OmniRecordEntity {
     outgoingRelations?: Relation<OmniRelationType[]>;
     incomingRelations?: Relation<OmniRelationType[]>;
 }
-declare const OmniRecordCreateInput_base: import("@nestjs/common").Type<Omit<OmniRecordType, "createdAt" | "updatedAt" | "revision" | "outgoingRelations" | "incomingRelations">>;
+declare const OmniRecordCreateInput_base: import("@nestjs/common").Type<Omit<OmniRecordType, "revision" | "createdAt" | "updatedAt" | "outgoingRelations" | "incomingRelations">>;
 export declare class OmniRecordCreateInput extends OmniRecordCreateInput_base {
 }
 declare const OmniRecordCondition_base: import("@nestjs/common").Type<Partial<OmniRecordCreateInput>>;

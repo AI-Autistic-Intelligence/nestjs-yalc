@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GqlFieldsMap = exports.GqlInfoGenerator = exports.GqlModelFieldsMapper = void 0;
-const common_1 = require("@nestjs/common");
-const graphql_1 = require("@nestjs/graphql");
-const crud_gen_helpers_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers.js");
-const crud_gen_args_helpers_js_1 = require("../typeorm/crud-gen-args.helpers.js");
-const GqlModelFieldsMapper = (data, info) => {
-    const fieldMapper = (0, crud_gen_helpers_js_1.objectToFieldMapper)(data);
+import { createParamDecorator } from '@nestjs/common';
+import { GqlExecutionContext } from '@nestjs/graphql';
+import { columnConversion, formatRawSelectionWithoutAlias, objectToFieldMapper, } from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
+import { removeSymbolicSelection } from '../typeorm/crud-gen-args.helpers.js';
+export const GqlModelFieldsMapper = (data, info) => {
+    const fieldMapper = objectToFieldMapper(data);
     let keys = [];
     const keysMeta = {};
     const processSubItems = (mapper, item, prefix = '', path = '') => {
@@ -29,7 +26,7 @@ const GqlModelFieldsMapper = (data, info) => {
                     keysMeta[relationKey] = {
                         fieldMapper: relationField,
                         isNested: true,
-                        rawSelect: (0, crud_gen_helpers_js_1.formatRawSelectionWithoutAlias)(sourceKey.dst, normalizedPath.endsWith('.')
+                        rawSelect: formatRawSelectionWithoutAlias(sourceKey.dst, normalizedPath.endsWith('.')
                             ? normalizedPath.slice(0, -1)
                             : normalizedPath),
                     };
@@ -39,7 +36,7 @@ const GqlModelFieldsMapper = (data, info) => {
                 if (subItem.selectionSet) {
                     const extraInfo = mapper.extraInfo?.[subItem.name.value];
                     if (extraInfo) {
-                        const nestedMapper = (0, crud_gen_helpers_js_1.objectToFieldMapper)(extraInfo);
+                        const nestedMapper = objectToFieldMapper(extraInfo);
                         if (item.name.value === 'nodes') {
                             processSubItems(nestedMapper, subItem, prefix, path);
                             return;
@@ -53,7 +50,7 @@ const GqlModelFieldsMapper = (data, info) => {
                                 keysMeta[key] = {
                                     fieldMapper: v,
                                     isNested: true,
-                                    rawSelect: (0, crud_gen_helpers_js_1.formatRawSelectionWithoutAlias)(v.dst, subItem.name.value),
+                                    rawSelect: formatRawSelectionWithoutAlias(v.dst, subItem.name.value),
                                 };
                             }
                         });
@@ -65,26 +62,26 @@ const GqlModelFieldsMapper = (data, info) => {
                     return;
                 }
                 const _prefix = item.name.value;
-                const dst = (0, crud_gen_helpers_js_1.columnConversion)(subItem.name.value, mapper.field).toString();
+                const dst = columnConversion(subItem.name.value, mapper.field).toString();
                 const _path = !path ? path + item.name.value + '.' : path;
                 const key = _path + dst;
                 keysMeta[key] = {
                     fieldMapper: mapper.field[subItem.name.value],
                     isNested: true,
-                    rawSelect: (0, crud_gen_helpers_js_1.formatRawSelectionWithoutAlias)(dst, _prefix),
+                    rawSelect: formatRawSelectionWithoutAlias(dst, _prefix),
                 };
                 return;
             });
             return;
         }
-        const dst = (0, crud_gen_helpers_js_1.columnConversion)(item.name.value, mapper.field).toString();
+        const dst = columnConversion(item.name.value, mapper.field).toString();
         const key = path + dst;
         const isNested = !!path;
         if (isNested || mapper.field[item.name.value]?.mode === 'derived') {
             keysMeta[key] = {
                 fieldMapper: mapper.field[item.name.value],
                 isNested,
-                rawSelect: (0, crud_gen_helpers_js_1.formatRawSelectionWithoutAlias)(dst, prefix),
+                rawSelect: formatRawSelectionWithoutAlias(dst, prefix),
             };
             return;
         }
@@ -100,22 +97,20 @@ const GqlModelFieldsMapper = (data, info) => {
                 keysMeta[v.dst] = {
                     fieldMapper: v,
                     isNested: false,
-                    rawSelect: (0, crud_gen_helpers_js_1.formatRawSelectionWithoutAlias)(v.dst, ''),
+                    rawSelect: formatRawSelectionWithoutAlias(v.dst, ''),
                 };
                 return;
             }
             keys.indexOf(v.dst) < 0 && keys.push(v.dst);
         }
     });
-    keys = (0, crud_gen_args_helpers_js_1.removeSymbolicSelection)(keys, fieldMapper.field, '');
+    keys = removeSymbolicSelection(keys, fieldMapper.field, '');
     return { keys, keysMeta };
 };
-exports.GqlModelFieldsMapper = GqlModelFieldsMapper;
-const GqlInfoGenerator = (data = {}, ctx) => {
-    const gqlCtx = graphql_1.GqlExecutionContext.create(ctx);
+export const GqlInfoGenerator = (data = {}, ctx) => {
+    const gqlCtx = GqlExecutionContext.create(ctx);
     const info = gqlCtx.getInfo();
-    return (0, exports.GqlModelFieldsMapper)(data, info).keys;
+    return GqlModelFieldsMapper(data, info).keys;
 };
-exports.GqlInfoGenerator = GqlInfoGenerator;
-exports.GqlFieldsMap = (0, common_1.createParamDecorator)(exports.GqlInfoGenerator);
+export const GqlFieldsMap = createParamDecorator(GqlInfoGenerator);
 //# sourceMappingURL=gqlfields.decorator.js.map

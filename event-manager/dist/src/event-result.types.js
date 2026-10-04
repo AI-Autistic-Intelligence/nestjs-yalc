@@ -1,5 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-tslib_1.__exportStar(require("@node-yalc/event-manager/event-result.types"), exports);
+export * from '@node-yalc/event-manager/event-result.types.js';
 //# sourceMappingURL=event-result.types.js.map

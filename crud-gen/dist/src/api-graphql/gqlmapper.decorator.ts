@@ -3,7 +3,7 @@ import {
   objectToFieldMapper,
 } from '@nest-yalc-2/crud-gen/crud-gen.helpers.js';
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import {
   Args,

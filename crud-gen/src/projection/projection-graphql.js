@@ -1,14 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProjectionGraphqlTypes = createProjectionGraphqlTypes;
-const tslib_1 = require("tslib");
-const graphql_1 = require("@nestjs/graphql");
-const graphql_type_json_1 = require("graphql-type-json");
-const class_transformer_1 = require("class-transformer");
-const uuid_scalar_js_1 = require("@nest-yalc-2/graphql/scalars/uuid.scalar.js");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
-const object_decorator_js_1 = require("../object.decorator.js");
-const projection_resource_js_1 = require("./projection-resource.js");
+import { InputType, Int, ObjectType } from '@nestjs/graphql';
+import { GraphQLJSON } from 'graphql-type-json';
+import { Exclude, Expose } from 'class-transformer';
+import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar.js';
+import returnValue from '@node-yalc/utils/returnValue.js';
+import { ModelField, ModelObject, FilterOptionType, } from '../object.decorator.js';
+import { assertProjectionResourceDefinition, } from './projection-resource.js';
 function namedClass(name) {
     return {
         [name]: class {
@@ -20,42 +16,42 @@ function namedClass(name) {
 }
 function typeForCodec(codec) {
     return codec === 'integer'
-        ? graphql_1.Int
+        ? Int
         : codec === 'boolean'
             ? Boolean
             : codec === 'json'
-                ? graphql_type_json_1.GraphQLJSON
+                ? GraphQLJSON
                 : codec === 'uuid'
-                    ? uuid_scalar_js_1.UUIDScalar
+                    ? UUIDScalar
                     : String;
 }
 function applyField(target, field, options = {}) {
     const type = typeForCodec(field.codec);
     const nullable = options.required ? false : field.nullable;
-    (0, object_decorator_js_1.ModelField)({
+    ModelField({
         dst: field.name,
-        gqlType: (0, returnValue_1.default)(type),
+        gqlType: returnValue(type),
         gqlOptions: { nullable },
     })(target.prototype, field.name);
-    (0, class_transformer_1.Expose)()(target.prototype, field.name);
+    Expose()(target.prototype, field.name);
 }
 function projectionFields(definition) {
     return [...definition.fields];
 }
-function createProjectionGraphqlTypes(definition, names) {
-    (0, projection_resource_js_1.assertProjectionResourceDefinition)(definition);
+export function createProjectionGraphqlTypes(definition, names) {
+    assertProjectionResourceDefinition(definition);
     const object = namedClass(names.object);
-    (0, graphql_1.ObjectType)(names.object)(object);
-    (0, object_decorator_js_1.ModelObject)({
+    ObjectType(names.object)(object);
+    ModelObject({
         filters: {
-            type: object_decorator_js_1.FilterOptionType.INCLUDE,
+            type: FilterOptionType.INCLUDE,
             fields: projectionFields(definition)
                 .filter((field) => (field.query?.filter?.length ?? 0) > 0 ||
                 field.query?.sort === true)
                 .map((field) => field.name),
         },
     })(object);
-    (0, class_transformer_1.Exclude)()(object);
+    Exclude()(object);
     for (const field of projectionFields(definition)) {
         applyField(object, field, { required: !field.nullable });
     }
@@ -66,8 +62,8 @@ function createProjectionGraphqlTypes(definition, names) {
     });
     applyField(object, { name: 'payload', codec: 'json', nullable: true });
     const create = namedClass(names.create);
-    (0, graphql_1.InputType)(names.create)(create);
-    (0, object_decorator_js_1.ModelObject)()(create);
+    InputType(names.create)(create);
+    ModelObject()(create);
     for (const field of projectionFields(definition)) {
         applyField(create, field, { required: field.requiredOnCreate === true });
     }
@@ -75,8 +71,8 @@ function createProjectionGraphqlTypes(definition, names) {
         applyField(create, { name: 'payload', codec: 'json', nullable: true });
     }
     const patch = namedClass(names.patch);
-    (0, graphql_1.InputType)(names.patch)(patch);
-    (0, object_decorator_js_1.ModelObject)()(patch);
+    InputType(names.patch)(patch);
+    ModelObject()(patch);
     for (const field of projectionFields(definition)) {
         if (field.name === definition.identity.column)
             continue;
@@ -88,8 +84,8 @@ function createProjectionGraphqlTypes(definition, names) {
         nullable: false,
     }, { required: true });
     const conditions = namedClass(names.conditions);
-    (0, graphql_1.InputType)(names.conditions)(conditions);
-    (0, object_decorator_js_1.ModelObject)()(conditions);
+    InputType(names.conditions)(conditions);
+    ModelObject()(conditions);
     const identityField = definition.fields.find((field) => field.name === definition.identity.column);
     if (!identityField) {
         throw new TypeError(`Projection identity ${definition.identity.column} is not declared.`);

@@ -1,27 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.entityFieldsEnumGqlFactory = entityFieldsEnumGqlFactory;
-const class_helper_1 = require("@node-yalc/utils/class.helper");
-const graphql_1 = require("@nestjs/graphql");
-const crud_gen_enum_js_1 = require("../crud-gen.enum.js");
-(0, graphql_1.registerEnumType)(crud_gen_enum_js_1.GeneralFilters, {
+import { isClass } from '@node-yalc/utils/class.helper.js';
+import { registerEnumType } from '@nestjs/graphql';
+import { GeneralFilters, FilterType, Operators, SortDirection, entityFieldsEnumFactory, } from '../crud-gen.enum.js';
+registerEnumType(GeneralFilters, {
     name: 'GeneralFiltersEnum',
 });
-(0, graphql_1.registerEnumType)(crud_gen_enum_js_1.FilterType, {
+registerEnumType(FilterType, {
     name: 'FilterTypeEnum',
 });
-(0, graphql_1.registerEnumType)(crud_gen_enum_js_1.Operators, {
+registerEnumType(Operators, {
     name: 'FilterOperatorsEnum',
 });
-(0, graphql_1.registerEnumType)(crud_gen_enum_js_1.SortDirection, {
+registerEnumType(SortDirection, {
     name: 'SortDirection',
 });
 const fieldsEnumGraphqlRegistrationCache = new WeakMap();
-function entityFieldsEnumGqlFactory(entityModel) {
-    const prototype = !(0, class_helper_1.isClass)(entityModel) ? entityModel.prototype : entityModel;
-    const res = (0, crud_gen_enum_js_1.entityFieldsEnumFactory)(entityModel);
+export function entityFieldsEnumGqlFactory(entityModel) {
+    const prototype = !isClass(entityModel) ? entityModel.prototype : entityModel;
+    const res = entityFieldsEnumFactory(entityModel);
     if (!fieldsEnumGraphqlRegistrationCache.get(prototype)) {
-        (0, graphql_1.registerEnumType)(res.enum, {
+        registerEnumType(res.enum, {
             name: `${res.prototype.name}FieldEnum`,
         });
         fieldsEnumGraphqlRegistrationCache.set(prototype, true);

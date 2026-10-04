@@ -10,7 +10,7 @@ import {
   ModelObject,
 } from '@nest-yalc-2/crud-gen/object.decorator';
 import { UUIDScalar } from '@nest-yalc-2/graphql/scalars/uuid.scalar';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { TaskItem } from '@nest-yalc-2/task-system-module/src/task-item.entity';
 import { TaskProject } from '@nest-yalc-2/task-system-module/src/task-project.entity';
 import { TaskProjectType } from '../projects/task-project.dto';

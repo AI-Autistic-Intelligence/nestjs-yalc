@@ -1,19 +1,18 @@
 {
   "name": "@nest-yalc-2/crud-gen",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "type": "module",
   "description": "",
   "main": "./dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./*.js": "./dist/src/*.js",
     "./*": "./dist/src/*"
   },
   "scripts": {
     "prepack": "node ../scripts/verify-local-package-dist.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Autistic_Intelligence",
   "license": "MIT",
   "types": "./dist/src/index.d.ts",
   "files": [

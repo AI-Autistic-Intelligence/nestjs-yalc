@@ -15,8 +15,8 @@ import { FastifyReply as FResponse } from 'fastify';
 import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { getLogLevelByStatus } from '../../../event-manager/src/event.helper.js';
-import { LogLevelEnum } from '@node-yalc/logger/logger.enum';
-import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service';
+import { LogLevelEnum } from '@node-yalc/logger/logger.enum.js';
+import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service.js';
 
 type HttpErrorType =
   common.HttpException | MissingArgumentsError | GqlError | DefaultErrorMixin;

@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/dummy-app",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Dummy application for E2E testing",
   "private": true,
   "scripts": {
@@ -30,5 +30,10 @@
     "@types/supertest": "^7.2.1",
     "jest": "^29.7.0",
     "ts-jest": "^29.4.12"
-  }
+  },
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./*": "./dist/src/*"
+  },
+  "author": "Autistic_Intelligence"
 }

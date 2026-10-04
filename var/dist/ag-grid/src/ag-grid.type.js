@@ -4,7 +4,7 @@ exports.typeMap = exports.PageDataAgGrid = void 0;
 exports.default = AgGridGqlType;
 const tslib_1 = require("tslib");
 const graphql_1 = require("@nestjs/graphql");
-const returnValue_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue"));
+const returnValue_js_1 = tslib_1.__importDefault(require("@node-yalc/utils/returnValue.js"));
 let PageDataAgGrid = class PageDataAgGrid {
 };
 exports.PageDataAgGrid = PageDataAgGrid;
@@ -38,11 +38,11 @@ function AgGridGqlType(type) {
         tslib_1.__metadata("design:type", Object)
     ], Connection.prototype, "name", void 0);
     tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)([type]), { nullable: true }),
+        (0, graphql_1.Field)((0, returnValue_js_1.default)([type]), { nullable: true }),
         tslib_1.__metadata("design:type", Array)
     ], Connection.prototype, "nodes", void 0);
     tslib_1.__decorate([
-        (0, graphql_1.Field)((0, returnValue_1.default)(PageDataAgGrid), { nullable: true }),
+        (0, graphql_1.Field)((0, returnValue_js_1.default)(PageDataAgGrid), { nullable: true }),
         tslib_1.__metadata("design:type", PageDataAgGrid)
     ], Connection.prototype, "pageData", void 0);
     Connection = tslib_1.__decorate([

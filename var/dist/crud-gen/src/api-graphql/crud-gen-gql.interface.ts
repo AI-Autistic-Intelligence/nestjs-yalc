@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { ExecutionContext } from '@nestjs/common';
 import { ArgsOptions, ReturnTypeFuncValue } from '@nestjs/graphql';
 import { GraphQLResolveInfo } from 'graphql';

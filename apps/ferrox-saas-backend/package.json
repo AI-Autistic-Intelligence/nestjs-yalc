@@ -1,8 +1,8 @@
 {
   "name": "ferrox-saas-backend",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Ferrox Enterprise SaaS Backend (Node.js Port) powered by @ferrox/node framework",
-  "main": "dist/main.js",
+  "main": "./dist/src/main.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc --project tsconfig.json",
@@ -11,5 +11,10 @@
   "dependencies": {
     "@ferrox/node": "^0.6.0",
     "@nest-yalc-2/sentinel": "^2.0.0"
-  }
+  },
+  "exports": {
+    ".": "./dist/src/main.js",
+    "./*": "./dist/src/*"
+  },
+  "author": "Autistic_Intelligence"
 }

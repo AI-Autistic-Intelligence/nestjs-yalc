@@ -1,9 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.headerWhitelist = void 0;
-exports.filterHeaders = filterHeaders;
-exports.headerWhitelist = ['Authorization'];
-function filterHeaders(headers, whitelist = exports.headerWhitelist) {
+export const headerWhitelist = ['Authorization'];
+export function filterHeaders(headers, whitelist = headerWhitelist) {
     return headers
         ? Object.entries(headers)
             .filter(([key]) => whitelist.includes(key))

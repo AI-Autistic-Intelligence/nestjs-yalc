@@ -9,7 +9,7 @@ import {
   afterEach,
 } from '@jest/globals';
 import { BadRequestError, InputValidationError } from '../error.class.js';
-import { ErrorsEnum } from '@node-yalc/errors/error.enum';
+import { ErrorsEnum } from '@node-yalc/errors/error.enum.js';
 
 describe('InputValidationError', () => {
   it('should have internal message without the custom message', () => {

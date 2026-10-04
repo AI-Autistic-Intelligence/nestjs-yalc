@@ -1,31 +1,25 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.JsonTransformer = JsonTransformer;
-exports.isYalcTransformerGuard = isYalcTransformerGuard;
-exports.yalcPlainToInstance = yalcPlainToInstance;
-exports.yalcNew = yalcNew;
-const object_helper_1 = require("@node-yalc/utils/object.helper");
-const class_transformer_1 = require("class-transformer");
-function JsonTransformer(field, propertyPath) {
+import { deepMerge, objectSetProp } from '@node-yalc/utils/object.helper.js';
+import { plainToInstance } from 'class-transformer';
+export function JsonTransformer(field, propertyPath) {
     return (dstObj, srcValue) => {
-        const patch = (0, object_helper_1.objectSetProp)({}, propertyPath, srcValue);
-        const merged = (0, object_helper_1.deepMerge)(dstObj[field] ?? {}, patch);
+        const patch = objectSetProp({}, propertyPath, srcValue);
+        const merged = deepMerge(dstObj[field] ?? {}, patch);
         dstObj[field] = merged;
         return merged;
     };
 }
-function isYalcTransformerGuard(obj) {
+export function isYalcTransformerGuard(obj) {
     return obj?.onAfterTransform !== undefined;
 }
-function yalcPlainToInstance(cls, plain) {
-    const instance = (0, class_transformer_1.plainToInstance)(cls, typeof plain === 'object' ? plain : {});
+export function yalcPlainToInstance(cls, plain) {
+    const instance = plainToInstance(cls, typeof plain === 'object' ? plain : {});
     if (isYalcTransformerGuard(instance)) {
         instance.onAfterTransform?.(plain);
         delete instance.onAfterTransform;
     }
     return instance;
 }
-function yalcNew(cls, plain) {
+export function yalcNew(cls, plain) {
     return yalcPlainToInstance(cls, plain);
 }
 //# sourceMappingURL=transformers.helpers.js.map

@@ -1,15 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OMNI_PROJECTION_READER_CATALOG = void 0;
-exports.createOmniProjectionReaderCatalog = createOmniProjectionReaderCatalog;
-exports.createOmniProjectionReaderCatalogProvider = createOmniProjectionReaderCatalogProvider;
-const crud_gen_1 = require("@nest-yalc-2/crud-gen");
-const typeorm_1 = require("typeorm");
-const omni_record_entity_js_1 = require("./base/omni-record.entity.js");
-const omni_relation_entity_js_1 = require("./base/omni-relation.entity.js");
-const omni_relation_projection_definition_js_1 = require("./omni-relation-projection.definition.js");
-const omni_relation_status_enum_js_1 = require("./omni-relation-status.enum.js");
-exports.OMNI_PROJECTION_READER_CATALOG = Symbol('OMNI_PROJECTION_READER_CATALOG');
+import { createProjectionDialect, } from '@nest-yalc-2/crud-gen';
+import { In, IsNull, } from 'typeorm';
+import { OmniRecordEntity } from './base/omni-record.entity.js';
+import { OmniRelationEntity } from './base/omni-relation.entity.js';
+import { getOmniRelationProjectionAllowedKinds, } from './omni-relation-projection.definition.js';
+import { OmniRelationStatus } from './omni-relation-status.enum.js';
+export const OMNI_PROJECTION_READER_CATALOG = Symbol('OMNI_PROJECTION_READER_CATALOG');
 function freeze(value) {
     if (value && typeof value === 'object')
         Object.freeze(value);
@@ -26,16 +21,16 @@ function validateReaderTake(take) {
 function relationWhere(definition) {
     const relation = definition.relation;
     return {
-        kind: (0, typeorm_1.In)([...(0, omni_relation_projection_definition_js_1.getOmniRelationProjectionAllowedKinds)(definition)]),
-        status: relation.status ?? omni_relation_status_enum_js_1.OmniRelationStatus.Active,
+        kind: In([...getOmniRelationProjectionAllowedKinds(definition)]),
+        status: relation.status ?? OmniRelationStatus.Active,
         ...(relation.schema
             ? {
                 payloadSchemaId: relation.schema.id,
                 payloadSchemaVersion: relation.schema.version,
             }
             : {
-                payloadSchemaId: (0, typeorm_1.IsNull)(),
-                payloadSchemaVersion: (0, typeorm_1.IsNull)(),
+                payloadSchemaId: IsNull(),
+                payloadSchemaVersion: IsNull(),
             }),
     };
 }
@@ -45,10 +40,10 @@ function extensionReader(manager, scope, registration) {
         kind: registration.definition.owner.kind,
         payloadSchemaId: registration.definition.owner.schema.id,
         payloadSchemaVersion: registration.definition.owner.schema.version,
-        deletedAt: (0, typeorm_1.IsNull)(),
+        deletedAt: IsNull(),
     };
     const extensionRepository = manager.getRepository(registration.entity);
-    const ownerRepository = manager.getRepository(omni_record_entity_js_1.OmniRecordEntity);
+    const ownerRepository = manager.getRepository(OmniRecordEntity);
     const identity = registration.definition.identity.column;
     const scopeColumn = registration.definition.scope.column;
     const project = (entity, owner) => {
@@ -74,7 +69,7 @@ function extensionReader(manager, scope, registration) {
         if (type !== 'sqlite' && type !== 'postgres') {
             throw new TypeError('Omni projection readers require SQLite or PostgreSQL.');
         }
-        return (0, crud_gen_1.createProjectionDialect)(type);
+        return createProjectionDialect(type);
     })();
     const filtersFor = (where) => {
         const filters = [];
@@ -93,7 +88,7 @@ function extensionReader(manager, scope, registration) {
         const candidates = entities.map((entity) => entity[identity]);
         const guids = candidates.filter((guid) => typeof guid === 'string');
         const owners = await ownerRepository.find({
-            where: { ...ownerWhere, guid: (0, typeorm_1.In)(guids) },
+            where: { ...ownerWhere, guid: In(guids) },
         });
         const ownersByGuid = new Map(owners.map((owner) => [owner.guid, owner]));
         return entities.flatMap((entity) => {
@@ -119,7 +114,7 @@ function extensionReader(manager, scope, registration) {
     });
 }
 function relationReader(manager, scope, registration) {
-    const repository = manager.getRepository(omni_relation_entity_js_1.OmniRelationEntity);
+    const repository = manager.getRepository(OmniRelationEntity);
     const fixed = relationWhere(registration.definition);
     return freeze({
         async get(guid) {
@@ -137,7 +132,7 @@ function relationReader(manager, scope, registration) {
         },
     });
 }
-function createOmniProjectionReaderCatalog(registrations) {
+export function createOmniProjectionReaderCatalog(registrations) {
     const byId = new Map();
     for (const source of registrations) {
         const registration = 'reader' in source ? source.reader : source;
@@ -168,7 +163,7 @@ function createOmniProjectionReaderCatalog(registrations) {
         },
     });
 }
-function createOmniProjectionReaderCatalogProvider(registrations, token = exports.OMNI_PROJECTION_READER_CATALOG) {
+export function createOmniProjectionReaderCatalogProvider(registrations, token = OMNI_PROJECTION_READER_CATALOG) {
     return {
         provide: token,
         useValue: createOmniProjectionReaderCatalog(registrations),

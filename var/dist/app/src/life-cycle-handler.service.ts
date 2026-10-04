@@ -1,4 +1,4 @@
-import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service';
+import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service.js';
 import {
   Injectable,
   Inject,

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.HttpAbstractStrategy = void 0;
-class HttpAbstractStrategy {
+export class HttpAbstractStrategy {
     get(path, options) {
         return this.call(path, {
             ...options,
@@ -15,5 +12,4 @@ class HttpAbstractStrategy {
         });
     }
 }
-exports.HttpAbstractStrategy = HttpAbstractStrategy;
 //# sourceMappingURL=http-abstract-call.strategy.js.map

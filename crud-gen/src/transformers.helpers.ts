@@ -1,5 +1,5 @@
-import { ClassType } from '@node-yalc/types/globals';
-import { deepMerge, objectSetProp } from '@node-yalc/utils/object.helper';
+import { ClassType } from '@node-yalc/types/globals.js';
+import { deepMerge, objectSetProp } from '@node-yalc/utils/object.helper.js';
 import { plainToInstance } from 'class-transformer';
 
 export function JsonTransformer(field: string, propertyPath: string) {

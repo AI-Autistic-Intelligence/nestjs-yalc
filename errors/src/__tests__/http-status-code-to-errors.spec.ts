@@ -1,4 +1,4 @@
-import { HttpStatusCodes } from '@node-yalc/utils/http.helper';
+import { HttpStatusCodes } from '@node-yalc/utils/http.helper.js';
 import { httpStatusCodeToErrors } from '../http-status-code-to-errors.js';
 import {
   BadRequestError,

@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.OmniExternalRefService = void 0;
-const common_1 = require("@nestjs/common");
-const omni_external_ref_internal_type_enum_js_1 = require("./omni-external-ref-internal-type.enum.js");
-const omni_scoped_service_js_1 = require("./omni-scoped.service.js");
+import { ConflictException } from '@nestjs/common';
+import { OmniExternalRefInternalType } from './omni-external-ref-internal-type.enum.js';
+import { OmniScopedService } from './omni-scoped.service.js';
 function hasOwn(input, key) {
     return Object.prototype.hasOwnProperty.call(input, key);
 }
-class OmniExternalRefService extends omni_scoped_service_js_1.OmniScopedService {
+export class OmniExternalRefService extends OmniScopedService {
     constructor(repository, scopeOrRepositoryWrite, deletion, bindingValidator) {
         if (!bindingValidator) {
             throw new TypeError('OmniExternalRefService requires an OmniExternalRefBindingValidator.');
@@ -55,7 +52,7 @@ class OmniExternalRefService extends omni_scoped_service_js_1.OmniScopedService 
         if (existing) {
             if (existing.internalType !== input.internalType ||
                 existing.internalId !== input.internalId) {
-                throw new common_1.ConflictException('External reference binding is immutable after creation.');
+                throw new ConflictException('External reference binding is immutable after creation.');
             }
             const { internalType: _internalType, internalId: _internalId, ...update } = this.normalizeExternalIdentity(input);
             return this.updateEntity({ guid: existing.guid }, update);
@@ -65,14 +62,14 @@ class OmniExternalRefService extends omni_scoped_service_js_1.OmniScopedService 
     async syncDocumentReference(internalId, input) {
         return this.upsertExternalRef({
             ...input,
-            internalType: omni_external_ref_internal_type_enum_js_1.OmniExternalRefInternalType.Document,
+            internalType: OmniExternalRefInternalType.Document,
             internalId,
         });
     }
     async syncCollectionReference(internalId, input) {
         return this.upsertExternalRef({
             ...input,
-            internalType: omni_external_ref_internal_type_enum_js_1.OmniExternalRefInternalType.Collection,
+            internalType: OmniExternalRefInternalType.Collection,
             internalId,
         });
     }
@@ -89,7 +86,7 @@ class OmniExternalRefService extends omni_scoped_service_js_1.OmniScopedService 
                 container: normalized.container ?? null,
             });
             if (existing) {
-                throw new common_1.ConflictException('External reference identity already exists in this scope.');
+                throw new ConflictException('External reference identity already exists in this scope.');
             }
         }
         return super.createEntity(normalized, findOptions, returnEntity);
@@ -102,9 +99,9 @@ class OmniExternalRefService extends omni_scoped_service_js_1.OmniScopedService 
     async assertBinding(input) {
         if (typeof input.internalId !== 'string' ||
             input.internalType === undefined) {
-            throw new common_1.ConflictException('External reference binding requires internalType and internalId.');
+            throw new ConflictException('External reference binding requires internalType and internalId.');
         }
-        if (input.internalType !== omni_external_ref_internal_type_enum_js_1.OmniExternalRefInternalType.Record) {
+        if (input.internalType !== OmniExternalRefInternalType.Record) {
             return;
         }
         await this.bindingValidator.assertTarget({
@@ -114,7 +111,7 @@ class OmniExternalRefService extends omni_scoped_service_js_1.OmniScopedService 
     }
     rejectBindingMutation(input) {
         if (hasOwn(input, 'internalType') || hasOwn(input, 'internalId')) {
-            throw new common_1.ConflictException('External reference binding is immutable after creation.');
+            throw new ConflictException('External reference binding is immutable after creation.');
         }
     }
     normalizeExternalIdentity(input) {
@@ -129,5 +126,4 @@ class OmniExternalRefService extends omni_scoped_service_js_1.OmniScopedService 
         };
     }
 }
-exports.OmniExternalRefService = OmniExternalRefService;
 //# sourceMappingURL=omni-external-ref.service.js.map

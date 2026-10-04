@@ -1,9 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RabbitMqEventStrategyProvider = exports.RabbitMqEventStrategy = void 0;
-const tslib_1 = require("tslib");
-const amqplib_1 = tslib_1.__importDefault(require("amqplib"));
-class RabbitMqEventStrategy {
+import amqp from 'amqplib';
+export class RabbitMqEventStrategy {
     constructor(options) {
         this.options = options;
     }
@@ -40,7 +36,7 @@ class RabbitMqEventStrategy {
         if (this.channel) {
             return this.channel;
         }
-        this.connection = await amqplib_1.default.connect(this.options.url);
+        this.connection = await amqp.connect(this.options.url);
         this.channel = await this.connection.createChannel();
         await this.channel.assertExchange(this.options.exchange, this.options.exchangeType ?? 'topic', {
             durable: this.options.durable ?? true,
@@ -48,8 +44,7 @@ class RabbitMqEventStrategy {
         return this.channel;
     }
 }
-exports.RabbitMqEventStrategy = RabbitMqEventStrategy;
-const RabbitMqEventStrategyProvider = (provide, options) => ({
+export const RabbitMqEventStrategyProvider = (provide, options) => ({
     provide,
     useFactory: () => {
         const Strategy = options.RabbitMqStrategy ?? RabbitMqEventStrategy;
@@ -59,7 +54,6 @@ const RabbitMqEventStrategyProvider = (provide, options) => ({
         return new Strategy(strategyOptions);
     },
 });
-exports.RabbitMqEventStrategyProvider = RabbitMqEventStrategyProvider;
 async function closeRabbitResource(resource) {
     if (!resource) {
         return;

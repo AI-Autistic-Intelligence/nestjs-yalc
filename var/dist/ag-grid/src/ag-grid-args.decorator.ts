@@ -14,7 +14,7 @@ import {
   IsNull,
 } from 'typeorm';
 import { GqlAgGridFieldsMapper } from './gqlfields.decorator.js';
-import { FieldMapper } from '@node-yalc/interfaces/maps.interface';
+import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import {
   AgQueryParams,
   agQueryParamsFactory,
@@ -53,10 +53,10 @@ import {
   AgGridInvalidArgumentError,
   AgGridInvalidOperatorError,
 } from './ag-grid.error';
-import { DateHelper } from '@node-yalc/utils/date.helper';
+import { DateHelper } from '@node-yalc/utils/date.helper.js';
 
 import { agJoinArgFactory } from './ag-grid.input';
-import returnValue from '@node-yalc/utils/returnValue';
+import returnValue from '@node-yalc/utils/returnValue.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { FilterOption, FilterOptionType } from './object.decorator';
 import {

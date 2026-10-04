@@ -12,9 +12,9 @@ import {
   PaginatedResultDto,
 } from './crud-gen-rest.dto.js';
 import { objectMapperInterceptor } from '@nest-yalc-2/utils/object-mapper.interceptor.js';
-import { ObjectMapperType } from '@node-yalc/utils/object-mapper.helper';
+import { ObjectMapperType } from '@node-yalc/utils/object-mapper.helper.js';
 import { buildSimpleMapperInterceptor } from '@nest-yalc-2/utils/simple-mapper.interceptor.js';
-import { ClassType } from '@node-yalc/types/globals';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { Observable } from 'rxjs';
 import { yalcPlainToInstance } from '../transformers.helpers.js';
 

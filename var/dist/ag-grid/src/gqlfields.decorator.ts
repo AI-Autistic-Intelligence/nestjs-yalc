@@ -3,8 +3,8 @@ import { GqlExecutionContext, ReturnTypeFuncValue } from '@nestjs/graphql';
 import {
   FieldMapper,
   FieldMapperProperty,
-} from '@node-yalc/interfaces/maps.interface';
-import { ClassType } from '@node-yalc/types/globals';
+} from '@node-yalc/interfaces/maps.interface.js';
+import { ClassType } from '@node-yalc/types/globals.js';
 import { GraphQLResolveInfo } from 'graphql';
 import { removeSymbolicSelection } from './ag-grid-args.decorator';
 import { AgGridFieldMetadata, FieldAndFilterMapper } from './object.decorator';
