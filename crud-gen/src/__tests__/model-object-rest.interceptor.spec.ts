@@ -36,4 +36,18 @@ describe('modelFieldMapperInterceptor', () => {
 
     expect(result).toBeInstanceOf(Object);
   });
+
+  it('should map request without body using model metadata', async () => {
+    (RequestModel as any).source = 'from-request';
+    const Interceptor = modelFieldMapperInterceptor(RequestModel, ResponseModel);
+    const interceptor = new Interceptor();
+    const context = buildHttpContext(undefined); // request body undefined
+    const next: CallHandler = {
+      handle: () => of(RequestModel as any),
+    };
+
+    const result = await firstValueFrom(interceptor.intercept(context, next));
+
+    expect(result).toBeInstanceOf(Object);
+  });
 });

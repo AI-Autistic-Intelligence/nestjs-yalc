@@ -14,11 +14,10 @@
   "license": "AGPL-3.0-or-later",
   "keywords": [
     "nestjs",
+    "nestjs-yalc",
     "yalc",
-    "framework",
     "database",
-    "typeorm",
-    "mysql",
-    "sql"
+    "framework",
+    "utility"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/crud-gen",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "",
   "main": "./src/index.js",
@@ -16,23 +16,23 @@
     "src"
   ],
   "dependencies": {
-    "@nest-yalc-2/database": "^2.2.1",
-    "@nest-yalc-2/field-middleware": "^2.2.1",
-    "@nest-yalc-2/graphql": "^2.2.1",
+    "@nest-yalc-2/database": "^2.2.2",
+    "@nest-yalc-2/field-middleware": "^2.2.2",
+    "@nest-yalc-2/graphql": "^2.2.2",
     "@nest-yalc-2/interfaces": "^1.0.0",
     "@nest-yalc-2/types": "^1.0.0",
-    "@nest-yalc-2/utils": "^2.2.1",
-    "@nest-yalc-2/data-loader": "^2.2.1",
-    "@nest-yalc-2/event-manager": "^2.2.1",
+    "@nest-yalc-2/utils": "^2.2.2",
+    "@nest-yalc-2/data-loader": "^2.2.2",
+    "@nest-yalc-2/event-manager": "^2.2.2",
     "graphql-type-json": "^0.3.2",
     "tslib": "^2.6.3"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.1.19",
-    "@nestjs/core": "^11.1.19",
-    "@nestjs/graphql": "^13.2.5",
-    "@nestjs/swagger": "^11.3.0",
-    "@nestjs/typeorm": "^11.0.1",
+    "@nestjs/common": "^12.0.0",
+    "@nestjs/core": "^12.0.0",
+    "@nestjs/graphql": "^14.0.0",
+    "@nestjs/swagger": "^12.0.0",
+    "@nestjs/typeorm": "^12.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "graphql": "^16.13.2",
@@ -40,6 +40,14 @@
     "rxjs": "^7.8.2",
     "typeorm": "^0.3.28"
   },
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "crud",
+    "generator",
+    "graphql"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nek97/nestjs-yalc.git"

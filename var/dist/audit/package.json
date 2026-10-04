@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/audit",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "Engine-level database mutation journal utilities for NestJS applications",
   "main": "./src/index.js",
@@ -18,6 +18,12 @@
   "dependencies": {
     "tslib": "^2.6.3"
   },
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "audit"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nek97/nestjs-yalc.git"

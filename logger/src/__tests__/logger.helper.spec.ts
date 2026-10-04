@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import * as loggerHelper from '.@node-yalc/logger/logger.helper.js';
+import * as loggerHelper from '@node-yalc/logger/logger.helper.js';
 
 const testObject = {
   password: '123',

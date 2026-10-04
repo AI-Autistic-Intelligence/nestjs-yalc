@@ -16,6 +16,10 @@ import {
   IGenericResolverMethodOptions,
   IGenericResolverOptions,
   resolverFactory,
+  isIDArg,
+  isExtraInputStrict,
+  isCustomSingleQueryOptions,
+  hasExtraArgs,
 } from '../api-graphql/generic.resolver.js';
 import returnValue from '@node-yalc/utils/returnValue.js';
 import { GenericService } from '../typeorm/generic.service.js';
@@ -46,7 +50,7 @@ jest.mock('@nestjs/graphql', () => {
 });
 import * as graphql from '@nestjs/graphql';
 import * as CrudGenHelpers from '../crud-gen.helpers.js';
-const getEntityRelations = jest.spyOn(CrudGenHelpers, 'getEntityRelations');
+const getEntityRelations = jest.spyOn(CrudGenHelpers.crudGenHelpersMockable, 'getEntityRelations');
 
 class TestEntityDto extends TestEntityRelation {}
 class TestEntityInput extends TestEntityDto {}
@@ -472,7 +476,7 @@ describe('Generic Resolver', () => {
   ])(
     'Should create a resolver with a proper execution of the queries',
     async (resolverOption) => {
-      (graphql.GqlExecutionContext.create as jest.Mock).mockImplementation(() => ({
+      jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
         getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
       }));
       const resolver = generateResolver(fixedMetadataList, resolverOption);
@@ -507,7 +511,7 @@ describe('Generic Resolver', () => {
   });
 
   it('Should reject structured filters on grid queries when extended repository support is missing', async () => {
-    (graphql.GqlExecutionContext.create as jest.Mock).mockImplementation(() => ({
+    jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
       getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
     }));
 
@@ -528,7 +532,7 @@ describe('Generic Resolver', () => {
   });
 
   it('Should create a resolver with the default options', async () => {
-    (graphql.GqlExecutionContext.create as jest.Mock).mockImplementation(() => ({
+    jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
       getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
     }));
     const defaultResolverOption: IGenericResolverOptions<TestEntityRelation> = {
@@ -639,7 +643,7 @@ describe('Generic Resolver', () => {
         join: undefined,
       };
 
-      (graphql.GqlExecutionContext.create as jest.Mock).mockImplementation(() => ({
+      jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
         getContext: jest.fn().mockReturnValue({ req: {} }),
       }));
 
@@ -693,6 +697,9 @@ describe('Generic Resolver', () => {
     });
 
     it('Should load the entity relationship with a one-to-one relationtype', async () => {
+      jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+        getContext: jest.fn().mockReturnValue({ req: {} }),
+      }));
       getEntityRelations.mockReturnValueOnce([oneToOneResolverInfo]);
       const resolver = generateResolver(customMetadatList, baseResolverOption);
 
@@ -716,6 +723,9 @@ describe('Generic Resolver', () => {
     });
 
     it('Should load entity relationship with custom values', async () => {
+      jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+        getContext: jest.fn().mockReturnValue({ req: {} }),
+      }));
       const resolveInfo: IRelationInfo = {
         ...oneToOneResolverInfo,
         agField: undefined,
@@ -976,6 +986,9 @@ describe('Generic Resolver', () => {
   });
 
   it('Should not override resolverInfo', async () => {
+    jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+      getContext: jest.fn().mockReturnValue({ req: {} }),
+    }));
     const resolveInfo: IRelationInfo[] = [
       {
         ...customResolverInfo,
@@ -984,9 +997,7 @@ describe('Generic Resolver', () => {
     ];
     resolveInfo.findIndex = jest.fn().mockReturnValue(-1);
 
-    const mockedGetEntityRelations = jest
-      .spyOn(CrudGenHelpers, 'getEntityRelations')
-      .mockReturnValueOnce(resolveInfo);
+    getEntityRelations.mockReturnValueOnce(resolveInfo);
 
     const resolver = generateResolver(customResolverInfo, baseResolverOption);
     const result = await resolver[propertyRelationName](
@@ -994,7 +1005,7 @@ describe('Generic Resolver', () => {
       {},
     );
     expect(result).toBeDefined();
-    mockedGetEntityRelations.mockRestore();
+    getEntityRelations.mockRestore();
   });
 
   it('Should check if defineFieldResolver call resolveField with nullable true', () => {
@@ -1117,5 +1128,24 @@ describe('Generic Resolver', () => {
 
   it('should throw an error if receive an undefined', () => {
     expect(() => checkFinalId(undefined)).toThrow();
+  });
+});
+
+describe('Helper functions', () => {
+  it('isIDArg', () => {
+    expect(isIDArg({name: 'id'} as any)).toBe(true);
+    expect(isIDArg('id')).toBe(false);
+  });
+  it('isExtraInputStrict', () => {
+    expect(isExtraInputStrict({middleware: []} as any)).toBe(true);
+    expect(isExtraInputStrict({} as any)).toBe(false);
+  });
+  it('isCustomSingleQueryOptions', () => {
+    expect(isCustomSingleQueryOptions({isSingleResource: true} as any)).toBe(true);
+    expect(isCustomSingleQueryOptions({} as any)).toBe(false);
+  });
+  it('hasExtraArgs', () => {
+    expect(hasExtraArgs({extraArgs: {}} as any)).toBe(true);
+    expect(hasExtraArgs({} as any)).toBe(false);
   });
 });

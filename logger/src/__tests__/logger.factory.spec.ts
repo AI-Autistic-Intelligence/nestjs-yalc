@@ -19,9 +19,9 @@ jest.mock('@nestjs/common', () => ({
   Logger: NestLogger,
 }));
 
-import { LogLevelEnum, LoggerTypeEnum } from '../logger.enum.js';
-import { NestAppLoggerFactory } from '../logger.factory.js';
-import { PinoLogger } from '../logger-pino.service.js';
+import { LogLevelEnum, LoggerTypeEnum } from '@node-yalc/logger/logger.enum.js';
+import { AppLoggerFactory as NestAppLoggerFactory } from '../logger.factory.js';
+import { PinoLogger } from '@node-yalc/logger/logger-pino.service.js';
 
 describe('NestAppLoggerFactory', () => {
   // let mockConfigService;

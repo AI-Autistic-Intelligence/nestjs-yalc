@@ -18,5 +18,13 @@
   ],
   "dependencies": {
     "tslib": "^2.6.3"
-  }
+  },
+  "keywords": [
+    "nestjs",
+    "nestjs-yalc",
+    "yalc",
+    "jest-config",
+    "framework",
+    "utility"
+  ]
 }

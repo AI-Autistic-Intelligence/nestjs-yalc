@@ -104,4 +104,11 @@ describe('Graphql decorator test', () => {
 
     expect(testData).toEqual({});
   });
+
+  it('Check InputArgsMapper decorator creation', () => {
+    expect(gqlMapper.InputArgsMapper).toBeDefined();
+    // Test the execution of the param decorator
+    const decorator = gqlMapper.InputArgsMapper();
+    expect(decorator).toBeDefined();
+  });
 });

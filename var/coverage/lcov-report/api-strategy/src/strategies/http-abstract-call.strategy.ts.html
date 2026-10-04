@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -484,7 +484,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -513,7 +513,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -533,13 +533,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { HTTPMethods } from '@nest-yalc-2/types/globals.d.js';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { HTTPMethods } from '@node-yalc/types/globals.js';
 import { OutgoingHttpHeaders, IncomingHttpHeaders } from 'node:http2';
 import { IApiCallStrategy } from '../context-call.interface.js';
 &nbsp;
@@ -722,7 +722,7 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
  * }
  * ```
  */
-<span class="cstat-no" title="statement not covered" >export abstract class H</span>ttpAbstractStrategy implements IHttpCallStrategy {
+export abstract class HttpAbstractStrategy implements IHttpCallStrategy {
   /**
    * Abstract method to execute an HTTP request. Must be implemented by concrete strategy classes.
    * @template TOptData - The type of request body data being sent
@@ -747,11 +747,11 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
    * @param options - HTTP request configuration (method will be overridden to GET)
    * @returns Promise resolving to the HTTP response with typed data
    */
-<span class="fstat-no" title="function not covered" >  get&lt;</span>TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
+  get&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
     path: string,
     options?: HttpOptions&lt;TOptData, TParams&gt; | { method?: string },
   ): Promise&lt;IHttpCallStrategyResponse&lt;TResData&gt;&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.call&lt;TOptData, TParams, TResData&gt;(path, {</span>
+    return this.call&lt;TOptData, TParams, TResData&gt;(path, {
       ...options,
       method: 'GET',
     });
@@ -767,11 +767,11 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
    * @param options - HTTP request configuration (method will be overridden to POST)
    * @returns Promise resolving to the HTTP response with typed data
    */
-<span class="fstat-no" title="function not covered" >  post&lt;</span>TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
+  post&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
     path: string,
     options?: HttpOptions&lt;TOptData, TParams&gt; | { method?: string },
   ): Promise&lt;IHttpCallStrategyResponse&lt;TResData&gt;&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.call&lt;TOptData, TParams, TResData&gt;(path, {</span>
+    return this.call&lt;TOptData, TParams, TResData&gt;(path, {
       ...options,
       method: 'POST',
     });
@@ -784,7 +784,7 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-18T05:39:56.964Z
+                at 2026-10-04T12:15:35.402Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -6,6 +6,7 @@ import {
   CGQueryArgsNoPagination,
   ApiOkResponsePaginated,
   CrudGenCombineDecorators,
+  CrudGenRestArgsFactory,
 } from '../api-rest/crud-gen-args-rest.decorator.js';
 import {
   FilterType,
@@ -143,5 +144,91 @@ describe('crud-gen args rest decorator', () => {
     } as any);
 
     expect(() => decorator({}, 'handler', 0)).not.toThrow();
+  });
+
+  class DummyEntity {}
+
+  it('getRestQueryFromContext should fallback to getArgs', () => {
+    const ctx = {
+      switchToHttp: () => ({
+        getRequest: () => ({ query: null }),
+      }),
+      getArgs: () => ({ someArg: 'value' }),
+    } as any;
+    const params = mapCrudGenRestParams(
+      { entityType: DummyEntity },
+      ctx,
+    );
+    expect(params).toBeDefined();
+  });
+
+  it('getRestQueryFromContext should return empty object if no getArgs', () => {
+    const ctx = {
+      switchToHttp: () => ({
+        getRequest: () => ({ query: null }),
+      }),
+      getArgs: () => null,
+    } as any;
+    const params = mapCrudGenRestParams(
+      { entityType: DummyEntity },
+      ctx,
+    );
+    expect(params).toBeDefined();
+  });
+
+  it('should test CrudGenRestArgsFactory', () => {
+    const ctx = {
+      switchToHttp: () => ({
+        getRequest: () => ({ query: { 'filters[field]': 'test' } }),
+      }),
+    } as any;
+    const result = CrudGenRestArgsFactory(
+      { entityType: DummyEntity },
+      ctx,
+    );
+    expect(result).toBeDefined();
+  });
+
+  it('should pass non-string object directly to json param', () => {
+    const ctx = buildCtx(
+      {},
+      {
+        filters: {
+          operator: Operators.AND,
+          expressions: [],
+        },
+      },
+    );
+    const result = mapCrudGenRestParams(undefined, ctx);
+    expect(result.where?.operator).toBe(Operators.AND);
+  });
+
+  it('should pass number directly to number param', () => {
+    const ctx = buildCtx({}, { startRow: 5 });
+    const result = mapCrudGenRestParams(undefined, ctx);
+    expect(result.skip).toBe(5);
+  });
+
+  it('should build decorators with provided gql options', () => {
+    const target: any = {};
+    const descriptor = {};
+    const param = 0;
+
+    const decorator = CGQueryArgs({ defaultValue: {}, gql: { type: () => String } });
+    decorator(target, 'handler', param);
+
+    const decoratorNoGql = CGQueryArgs({ defaultValue: {} });
+    decoratorNoGql(target, 'handler', param);
+
+    const decoratorNoPag = CGQueryArgsNoPagination({
+      defaultValue: {},
+      gql: { type: () => String },
+    });
+    decoratorNoPag(target, 'handler', param);
+
+    const decoratorNoPagNoGql = CGQueryArgsNoPagination({
+      defaultValue: {},
+    });
+    decoratorNoPagNoGql(target, 'handler', param);
   });
 });

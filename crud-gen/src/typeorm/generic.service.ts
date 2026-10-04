@@ -50,7 +50,7 @@ function hasObjectKeys(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && Object.keys(value).length > 0;
 }
 
-function normalizeCrudGenWhereForPlainTypeorm(where: unknown): unknown {
+export function normalizeCrudGenWhereForPlainTypeorm(where: unknown): unknown {
   if (!where || typeof where !== 'object') {
     return where;
   }

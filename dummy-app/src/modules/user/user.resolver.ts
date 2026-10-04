@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UserEntity } from '../../entities/user.entity';
 import { UserService } from './user.service';
 import { AgGridArgs } from '@nest-yalc-2/ag-grid/ag-grid-args.decorator';
-import { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
+import type { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
 import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error';
 
 @Resolver((): typeof UserEntity => UserEntity)

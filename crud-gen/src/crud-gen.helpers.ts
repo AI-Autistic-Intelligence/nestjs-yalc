@@ -575,33 +575,42 @@ export interface IRelationInfo {
   agField?: IModelFieldMetadata;
 }
 
+export const crudGenHelpersMockable = {
+  getEntityRelations<Entity, DTO = Entity>(
+    entityModel: ClassType<Entity>,
+    dto?: ClassType<DTO>,
+  ): IRelationInfo[] {
+    const relations = getMetadataArgsStorage().relations.filter(
+      (v) =>
+        typeof v.target !== 'string' &&
+        (entityModel.prototype instanceof v.target || entityModel === v.target),
+    );
+
+    const joinColumns = getMetadataArgsStorage().joinColumns.filter(
+      (v) =>
+        typeof v.target !== 'string' &&
+        (entityModel.prototype instanceof v.target || entityModel === v.target),
+    );
+
+    const crudGenMetadata = getModelFieldMetadataList(dto ?? entityModel);
+
+    return relations.map((r: RelationMetadataArgs) => ({
+      relation: r,
+      join: joinColumns.find(
+        (j: JoinColumnMetadataArgs) => j.propertyName === r.propertyName,
+      ),
+      agField: crudGenMetadata
+        ? Object.values(crudGenMetadata).find((v) => v.dst === r.propertyName)
+        : { _propertyName: r.propertyName },
+    }));
+  }
+};
+
 export function getEntityRelations<Entity, DTO = Entity>(
   entityModel: ClassType<Entity>,
   dto?: ClassType<DTO>,
 ): IRelationInfo[] {
-  const relations = getMetadataArgsStorage().relations.filter(
-    (v) =>
-      typeof v.target !== 'string' &&
-      (entityModel.prototype instanceof v.target || entityModel === v.target),
-  );
-
-  const joinColumns = getMetadataArgsStorage().joinColumns.filter(
-    (v) =>
-      typeof v.target !== 'string' &&
-      (entityModel.prototype instanceof v.target || entityModel === v.target),
-  );
-
-  const crudGenMetadata = getModelFieldMetadataList(dto ?? entityModel);
-
-  return relations.map((r: RelationMetadataArgs) => ({
-    relation: r,
-    join: joinColumns.find(
-      (j: JoinColumnMetadataArgs) => j.propertyName === r.propertyName,
-    ),
-    agField: crudGenMetadata
-      ? Object.values(crudGenMetadata).find((v) => v.dst === r.propertyName)
-      : { _propertyName: r.propertyName },
-  }));
+  return crudGenHelpersMockable.getEntityRelations(entityModel, dto);
 }
 
 export function getTypeProperties<Entity>(entityModel: ClassType<Entity>) {

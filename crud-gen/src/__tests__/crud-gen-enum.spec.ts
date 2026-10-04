@@ -40,5 +40,10 @@ describe('entityFieldsEnumFactory', () => {
     }
     const result = entityFieldsEnumGqlFactory(objectFunction);
     expect(result).toBeDefined();
+
+    const notClass = () => {};
+    (notClass as any).prototype = { name: 'TestName' };
+    const res2 = entityFieldsEnumGqlFactory(notClass);
+    expect(res2).toBeDefined();
   });
 });

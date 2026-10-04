@@ -2,7 +2,8 @@
 
 import { factory, useSeeding } from 'typeorm-seeding';
 import { ConfigureOption } from 'typeorm-seeding/dist/connection';
-import { Injectable, LoggerService, Provider } from '@nestjs/common';
+import { Injectable, Provider } from '@nestjs/common';
+import type { LoggerService } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { DbConfType } from './conf.interface';

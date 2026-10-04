@@ -116,4 +116,41 @@ describe('ObjectDecorator', () => {
 
     modelFieldDecorator({}, 'propertyKey');
   });
+
+  it('getPrototype and metadata getters should handle primitives and null', () => {
+    const { 
+      getPrototype, 
+      getCrudGenObjectMetadata, 
+      getModelFieldMetadataList,
+      hasModelObjectMetadata
+    } = require('../object.decorator.js');
+    
+    // line 86
+    expect(getPrototype(null as any)).toBe(null);
+    const noPrototype = { prototype: undefined };
+    expect(getPrototype(noPrototype)).toBe(noPrototype);
+    
+    const withPrototype = { prototype: { myProp: true } };
+    expect(getPrototype(withPrototype as any)).toBe(withPrototype.prototype);
+
+    // lines 139-140
+    expect(getModelFieldMetadataList(null as any)).toBeUndefined();
+    expect(getModelFieldMetadataList('primitive' as any)).toBeUndefined();
+
+    // line 195
+    expect(getCrudGenObjectMetadata(null as any)).toBeUndefined();
+    expect(getCrudGenObjectMetadata('primitive' as any)).toBeUndefined();
+
+    // lines 206-207
+    expect(hasModelObjectMetadata(null as any)).toBeFalsy();
+    expect(hasModelObjectMetadata('primitive' as any)).toBeFalsy();
+  });
+
+  it('isDstExtended should correctly identify extended dst', () => {
+    const { isDstExtended } = require('../object.decorator.js');
+    expect(isDstExtended('string')).toBeFalsy();
+    expect(isDstExtended({ name: 'test' })).toBeFalsy();
+    expect(isDstExtended({ name: 'test', transformerDst: () => {} })).toBeTruthy();
+    expect(isDstExtended({ name: 'test', transformerSrc: () => {} })).toBeTruthy();
+  });
 });

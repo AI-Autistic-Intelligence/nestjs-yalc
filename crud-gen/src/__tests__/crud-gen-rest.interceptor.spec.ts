@@ -60,6 +60,26 @@ describe('crud-gen REST interceptors', () => {
     });
   });
 
+  it('crudGenRestPaginationInterceptorWorker should handle non-paginated arrays', () => {
+    const worker = crudGenRestPaginationInterceptorWorker<number>(undefined, undefined, false);
+    const result = worker([1, 2, 3] as any);
+
+    expect(result).toEqual({
+      list: [1, 2, 3],
+      pageData: { count: 3, startRow: 0, endRow: 3 },
+    });
+  });
+
+  it('crudGenRestPaginationInterceptorWorker should handle non-paginated non-array data', () => {
+    const worker = crudGenRestPaginationInterceptorWorker<number>(undefined, undefined, false);
+    const result = worker('single_item' as any);
+
+    expect(result).toEqual({
+      list: 'single_item',
+      pageData: { count: 0, startRow: 0, endRow: 0 },
+    });
+  });
+
   it('CrudGenRestPaginationInterceptor should read pagination params from request', async () => {
     const interceptor = new CrudGenRestPaginationInterceptor();
     const ctx = buildHttpContext({ startRow: 5, endRow: 8 });
@@ -192,6 +212,84 @@ describe('crud-gen REST interceptors', () => {
     const result = await firstValueFrom(interceptor.intercept(ctx, next));
     expect(result).toBeInstanceOf(TestDto);
     expect(result.name).toBe('value');
+  });
+  it('buildCrudGenRestSimpleMapperInterceptor should handle default withPagination', async () => {
+    const interceptorClass = buildCrudGenRestSimpleMapperInterceptor(TestDto);
+    const interceptor = new interceptorClass();
+
+    const mockExecutionContext = {
+      switchToHttp: () => ({ getRequest: () => ({}) }),
+    } as ExecutionContext;
+
+    const mockCallHandler = {
+      handle: () => of([{ id: 1, name: 'value' }]), // just data
+    } as CallHandler;
+
+    const result$ = interceptor.intercept(mockExecutionContext, mockCallHandler);
+    const result = await firstValueFrom(result$ as any);
+    
+    expect(result).toBeDefined();
+    expect(result[0]).toBeInstanceOf(TestDto);
+  });
+
+  it('buildCrudGenRestSimpleMapperInterceptor should handle withPagination = true', async () => {
+    const interceptorClass = buildCrudGenRestSimpleMapperInterceptor(TestDto, true);
+    const interceptor = new interceptorClass();
+
+    const mockExecutionContext = {
+      switchToHttp: () => ({ getRequest: () => ({}) }),
+    } as ExecutionContext;
+
+    const mockCallHandler = {
+      handle: () => of([[{ id: 1, name: 'value' }], 1]), // [data, count]
+    } as CallHandler;
+
+    const result$ = interceptor.intercept(mockExecutionContext, mockCallHandler);
+    const result = await firstValueFrom(result$ as any);
+    
+    // The interceptor returns [data, count], so we assert that
+    expect(result).toBeDefined();
+    expect(Array.isArray(result)).toBe(true);
+    expect(result[0][0]).toBeInstanceOf(TestDto);
+    expect(result[1]).toBe(1);
+  });
+
+  it('buildPaginatedDTOInterceptor should handle missing query', async () => {
+    const InterceptorClass = buildPaginatedDTOInterceptor(TestDto);
+    const interceptor = new InterceptorClass();
+
+    const mockExecutionContext = {
+      switchToHttp: () => ({
+        getRequest: () => ({}), // no query
+      }),
+    } as ExecutionContext;
+
+    const mockCallHandler = {
+      handle: () => of([[{ id: 1 }], 1]), // list, count
+    } as CallHandler;
+
+    const result$ = interceptor.intercept(mockExecutionContext, mockCallHandler);
+    const result = await firstValueFrom(result$);
+    expect(result.pageData.startRow).toBe(0);
+    expect(result.pageData.endRow).toBe(1);
+  });
+
+  it('CrudGenRestPaginationInterceptor should handle missing query', async () => {
+    const interceptor = new CrudGenRestPaginationInterceptor();
+
+    const mockExecutionContext = {
+      switchToHttp: () => ({
+        getRequest: () => ({}), // no query
+      }),
+    } as ExecutionContext;
+
+    const mockCallHandler = {
+      handle: () => of([[{ id: 1 }], 1]),
+    } as CallHandler;
+
+    const result$ = interceptor.intercept(mockExecutionContext, mockCallHandler);
+    const result = await firstValueFrom(result$ as any);
+    expect(result).toBeDefined();
   });
 });
 
@@ -358,5 +456,167 @@ describe('crudRestControllerFactory', () => {
     await expect(
       controller.list({ $expand: 'invalid' } as any, {} as any),
     ).rejects.toThrow('Unsupported $expand');
+  });
+
+  it('maps OData query params with count undefined, expand without allowed, no filter', async () => {
+    const service = {
+      getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
+    } as unknown as GenericService<TestEntity>;
+
+    const Controller = crudRestControllerFactory<TestEntity>({
+      entityModel: TestEntity,
+      dto: TestDto,
+    });
+
+    const controller = new Controller(service);
+
+    const odataQuery = {
+      $select: 'id',
+      $expand: 'relations',
+    } as any;
+
+    await controller.list(odataQuery, {} as any);
+
+    expect(service.getEntityListExtended).toHaveBeenCalledWith(
+      expect.objectContaining({
+        select: ['id'],
+        relations: ['relations'],
+      }),
+      true, // count defaults to true
+    );
+  });
+
+  it('maps OData query params without expand parameter', async () => {
+    const service = {
+      getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
+    } as unknown as GenericService<TestEntity>;
+
+    const Controller = crudRestControllerFactory<TestEntity>({
+      entityModel: TestEntity,
+      dto: TestDto,
+    });
+
+    const controller = new Controller(service);
+
+    const odataQuery = {
+      $select: 'id',
+    } as any;
+
+    await controller.list(odataQuery, {} as any);
+
+    expect(service.getEntityListExtended).toHaveBeenCalledWith(
+      expect.objectContaining({
+        select: ['id'],
+      }),
+      true,
+    );
+  });
+
+  it('should throw if create descriptor is missing', () => {
+    const orig = Object.getOwnPropertyDescriptor;
+    jest.spyOn(Object, 'getOwnPropertyDescriptor').mockImplementation((obj, prop) => {
+      if (prop === 'create') return undefined;
+      return orig(obj, prop);
+    });
+    
+    expect(() => {
+      crudRestControllerFactory<TestEntity>({ entityModel: TestEntity });
+    }).toThrow(ReferenceError);
+    
+    jest.restoreAllMocks();
+  });
+
+  it('should throw if update descriptor is missing', () => {
+    const orig = Object.getOwnPropertyDescriptor;
+    jest.spyOn(Object, 'getOwnPropertyDescriptor').mockImplementation((obj, prop) => {
+      if (prop === 'update') return undefined;
+      return orig(obj, prop);
+    });
+    
+    expect(() => {
+      crudRestControllerFactory<TestEntity>({ entityModel: TestEntity });
+    }).toThrow(ReferenceError);
+    
+    jest.restoreAllMocks();
+  });
+
+  it('should throw if remove descriptor is missing', () => {
+    const orig = Object.getOwnPropertyDescriptor;
+    jest.spyOn(Object, 'getOwnPropertyDescriptor').mockImplementation((obj, prop) => {
+      if (prop === 'remove') return undefined;
+      return orig(obj, prop);
+    });
+    
+    expect(() => {
+      crudRestControllerFactory<TestEntity>({ entityModel: TestEntity });
+    }).toThrow(ReferenceError);
+    
+    jest.restoreAllMocks();
+  });
+
+  it('should test factory with readonly', () => {
+    const Controller = crudRestControllerFactory<TestEntity>({
+      entityModel: TestEntity,
+      readonly: true,
+    });
+    expect(Controller).toBeDefined();
+  });
+
+  it('should test factory with serialize', () => {
+    const Controller = crudRestControllerFactory<TestEntity>({
+      entityModel: TestEntity,
+      serialize: true,
+    });
+    expect(Controller).toBeDefined();
+  });
+
+  it('should test factory with mutation decorators', () => {
+    const Controller = crudRestControllerFactory<TestEntity>({
+      entityModel: TestEntity,
+      mutations: {
+        create: { decorators: [] },
+        update: { decorators: [] },
+        delete: { decorators: [] },
+      },
+    });
+    expect(Controller).toBeDefined();
+  });
+
+  it('should test factory with mutations disabled', () => {
+    const Controller = crudRestControllerFactory<TestEntity>({
+      entityModel: TestEntity,
+      mutations: {
+        create: { disabled: true },
+        update: { disabled: true },
+        delete: { disabled: true },
+      },
+    });
+    expect(Controller).toBeDefined();
+  });
+
+  it('should throw on invalid OData params', async () => {
+    const service = {
+      getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
+    } as unknown as GenericService<TestEntity>;
+
+    const Controller = crudRestControllerFactory<TestEntity>({
+      entityModel: TestEntity,
+      dto: TestDto,
+    });
+
+    const controller = new Controller(service);
+
+    await expect(controller.list({ $top: 'invalid' } as any, {} as any)).rejects.toThrow('Invalid $top value');
+    await expect(controller.list({ $skip: '-1' } as any, {} as any)).rejects.toThrow('Invalid $skip value');
+
+    // Test empty string for non-array value (line 47) and asc order (line 79)
+    await controller.list({ $skip: '   ', $orderby: 'name asc, id' } as any, {} as any);
+
+    // Test empty orderby segments to skip parsed.length branch
+    await controller.list({ $orderby: ' , ' } as any, {} as any);
+
+    // Test Array with undefined for value[0] (line 44)
+    await controller.list({ $select: [] } as any, {} as any);
+    expect(service.getEntityListExtended).toHaveBeenCalled();
   });
 });

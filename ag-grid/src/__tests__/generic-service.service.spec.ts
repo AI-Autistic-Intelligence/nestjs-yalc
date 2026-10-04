@@ -4,6 +4,7 @@ import * as GenericServiceModule from '../generic-service.service';
 import {
   GenericService,
   GenericServiceFactory,
+  validateSupportedError,
 } from '../generic-service.service';
 import {
   BaseEntity,
@@ -21,6 +22,7 @@ import {
   ReadEntity,
   WriteEntity,
 } from '../__mocks__/generic-service.mocks';
+import { EntityError } from '../entity.error';
 
 import { getConnectionName } from '@nest-yalc-2/database/conn.helper';
 import { createMock } from '@golevelup/ts-jest';
@@ -305,9 +307,7 @@ describe('GenericService', () => {
     const mockedEntity = new BaseEntity();
     const insertResult = new InsertResult();
     insertResult.identifiers = [{ id: '123' }];
-    const mockedIsClass = jest
-      .spyOn(ClassHelper, 'isClass')
-      .mockReturnValue(true);
+    const mockedIsClass = (ClassHelper.isClass as jest.Mock).mockReturnValue(true);
 
     baseEntityRepository.insert.mockResolvedValueOnce(insertResult);
     baseEntityRepository.getOneAgGrid.mockResolvedValueOnce(mockedEntity);
@@ -389,9 +389,7 @@ describe('GenericService', () => {
 
   it('Should update an entity correctly when entity isClass', async () => {
     const mockedEntity = new BaseEntity();
-    const mockedIsClass = jest
-      .spyOn(ClassHelper, 'isClass')
-      .mockReturnValue(true);
+    const mockedIsClass = (ClassHelper.isClass as jest.Mock).mockReturnValue(true);
 
     baseEntityRepository.find.mockResolvedValueOnce([mockedEntity]);
     baseEntityRepository.update.mockResolvedValueOnce(new UpdateResult());
@@ -524,5 +522,19 @@ describe('GenericService', () => {
       getConnectionName('databaseName'),
     );
     expect(service.getRepository()).toBe(testRepository);
+  });
+
+  describe('validateSupportedError', () => {
+    it('Should throw EntityError if error is QueryFailedError', () => {
+      const errorFn = validateSupportedError(EntityError);
+      const queryError = new QueryFailedError('query', [], new Error('error'));
+      expect(() => errorFn(queryError as any)).toThrow(EntityError);
+    });
+
+    it('Should throw original error if error is not QueryFailedError', () => {
+      const errorFn = validateSupportedError(EntityError);
+      const normalError = new Error('Normal Error');
+      expect(() => errorFn(normalError)).toThrow('Normal Error');
+    });
   });
 });

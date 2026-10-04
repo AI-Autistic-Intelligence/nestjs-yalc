@@ -7,9 +7,12 @@
   },
   "description": "Lightweight debugging utility for Node.js and the browser",
   "keywords": [
+    "nestjs",
+    "nestjs-yalc",
+    "yalc",
     "debug",
-    "log",
-    "debugger"
+    "framework",
+    "utility"
   ],
   "files": [
     "src",

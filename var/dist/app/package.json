@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/app",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "",
   "main": "./src/index.js",
@@ -18,6 +18,12 @@
   "dependencies": {
     "tslib": "^2.6.3"
   },
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "app"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nek97/nestjs-yalc.git"

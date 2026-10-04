@@ -1,4 +1,4 @@
-import { Controller, Get } from 'ferrox-node';
+import { Controller, Get } from '@ferrox/node';
 
 @Controller('/health')
 export class HealthController {

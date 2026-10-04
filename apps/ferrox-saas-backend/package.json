@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ferrox/node": "^0.6.0",
-    "@nest-yalc-2/sentinel": "^2.0.0"
+    "@nest-yalc-2/sentinel": "*"
   },
   "exports": {
     ".": "./dist/src/main.js",
@@ -20,8 +20,10 @@
   "private": true,
   "keywords": [
     "nestjs",
+    "nestjs-yalc",
     "yalc",
+    "ferrox-saas-backend",
     "framework",
-    "ferrox saas backend"
+    "utility"
   ]
 }

@@ -12,5 +12,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "nestjs",
+    "nestjs-yalc",
+    "yalc",
+    "task-system-module",
+    "framework",
+    "utility"
+  ]
 }

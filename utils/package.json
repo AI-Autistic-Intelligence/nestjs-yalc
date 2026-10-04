@@ -14,8 +14,10 @@
   "license": "AGPL-3.0-or-later",
   "keywords": [
     "nestjs",
+    "nestjs-yalc",
     "yalc",
+    "utils",
     "framework",
-    "utils"
+    "utility"
   ]
 }

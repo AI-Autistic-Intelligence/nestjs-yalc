@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.61% </span>
+                <span class="strong">83.69% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>77/91</span>
+                <span class='fraction'>77/92</span>
             </div>
         
             
@@ -408,25 +408,25 @@
 <a name='L343'></a><a href='#L343'>343</a>
 <a name='L344'></a><a href='#L344'>344</a>
 <a name='L345'></a><a href='#L345'>345</a>
-<a name='L346'></a><a href='#L346'>346</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L346'></a><a href='#L346'>346</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -742,7 +742,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -844,7 +844,7 @@ export interface OmniProjectionReaderCatalogSource {
 }
 &nbsp;
 /** Default token for a composed set of generated Omni projection resources. */
-export const OMNI_PROJECTION_READER_CATALOG = Symbol(
+export const <span class="cstat-no" title="statement not covered" >OMNI_PROJECTION_READER_CATALOG = S</span>ymbol(
   'OMNI_PROJECTION_READER_CATALOG',
 );
 &nbsp;
@@ -912,7 +912,7 @@ function extensionReader&lt;Entity extends ObjectLiteral&gt;(
     return projected;
   };
 &nbsp;
-  const getOwner = <span class="fstat-no" title="function not covered" >async </span>(
+  const getOwner = <span class="fstat-no" title="function not covered" >async (</span>
     guid: string,
   ): Promise&lt;OmniRecordEntity | undefined&gt; =&gt; {
     const owner = <span class="cstat-no" title="statement not covered" >await ownerRepository.findOne({</span>
@@ -923,7 +923,7 @@ function extensionReader&lt;Entity extends ObjectLiteral&gt;(
 &nbsp;
   const dialect = (() =&gt; {
     const type = manager.connection.options.type;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (type !== 'sqlite' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >type !== 'postgres')</span> {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (type !== 'sqlite' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >type !== 'postgres') {</span>
 <span class="cstat-no" title="statement not covered" >      throw new TypeError(</span>
         'Omni projection readers require SQLite or PostgreSQL.',
       );
@@ -935,7 +935,7 @@ function extensionReader&lt;Entity extends ObjectLiteral&gt;(
     where: Readonly&lt;Record&lt;string, unknown&gt;&gt; | undefined,
   ): ProjectionFilter[] =&gt; {
     const filters: ProjectionFilter[] = [];
-    for (const [fieldName, value] of Object.entries(where ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>) {
+    for (const [fieldName, value] of Object.entries(where ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})) {</span>
       const field = registration.definition.fields.find(
         (candidate) =&gt; candidate.name === fieldName,
       );
@@ -970,7 +970,7 @@ function extensionReader&lt;Entity extends ObjectLiteral&gt;(
   };
 &nbsp;
   return freeze({
-<span class="fstat-no" title="function not covered" >    async </span>get(guid: string): Promise&lt;Entity | undefined&gt; {
+<span class="fstat-no" title="function not covered" >    async g</span>et(guid: string): Promise&lt;Entity | undefined&gt; {
       const entity = <span class="cstat-no" title="statement not covered" >await extensionRepository.findOne({</span>
         where: { [scopeColumn]: scope.scopeId, [identity]: guid } as never,
       });
@@ -1005,7 +1005,7 @@ function relationReader(
   const repository = manager.getRepository(OmniRelationEntity);
   const fixed = relationWhere(registration.definition);
   return freeze({
-<span class="fstat-no" title="function not covered" >    async </span>get(guid: string): Promise&lt;OmniRelationEntity | undefined&gt; {
+<span class="fstat-no" title="function not covered" >    async g</span>et(guid: string): Promise&lt;OmniRelationEntity | undefined&gt; {
       const entity = <span class="cstat-no" title="statement not covered" >await repository.findOne({</span>
         where: { scopeId: scope.scopeId, guid, ...fixed } as never,
       });
@@ -1105,7 +1105,7 @@ export function createOmniProjectionReaderCatalogProvider(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-18T05:24:09.536Z
+                at 2026-10-04T12:15:35.402Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -6,6 +6,7 @@ import {
 import {
   AgGridRepository,
   AgGridRepositoryFactory,
+  AG_GRID_MAIN_ALIAS,
 } from '../ag-grid.repository';
 import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper';
 import { SortDirection } from '../ag-grid.enum';
@@ -19,6 +20,10 @@ import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
 
 jest.mock('typeorm');
 jest.mock('@nest-yalc-2/database/query-builder.helper');
+jest.mock('../ag-grid-metadata.helper.js', () => ({
+  ...jest.requireActual('../ag-grid-metadata.helper.js') as any,
+  objectToFieldMapper: jest.fn(),
+}));
 
 const fakeFindOptions = {
   take: 5,
@@ -465,14 +470,13 @@ describe('AgGrid Repoository', () => {
     });
   });
   it('Should check genereteSelectOnFind', () => {
-    jest.spyOn(AgGridHelpers, 'objectToFieldMapper').mockReturnValue({});
-    jest
-      .spyOn(AgGridQueryHelpers, 'applySelectOnFind')
-      .mockImplementation((findOptions, field, fieldMapperField) => {
-        findOptions.select = [];
-        findOptions.select.push('id');
-        findOptions.select.push('data -> $.field');
-      });
+    (AgGridHelpers.objectToFieldMapper as jest.Mock).mockReturnValue({ field: {} });
+    
     newAgGridRepository.generateSelectOnFind(['id'], BaseEntity);
+  });
+
+  it('Should define AG_GRID_MAIN_ALIAS', () => {
+    expect(AG_GRID_MAIN_ALIAS).toBeDefined();
+    expect(AG_GRID_MAIN_ALIAS).toEqual('AgGridMainAlias');
   });
 });

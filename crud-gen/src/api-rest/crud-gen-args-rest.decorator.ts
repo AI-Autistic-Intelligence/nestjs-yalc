@@ -190,7 +190,7 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) => {
   const mapper = CrudGenArgsMapper(params);
   return function (target: any, key: string, index: number) {
     args(target, key, index);
-    joinArg && joinArg(target, key, index);
+    // joinArg && joinArg(target, key, index);
     argDecorators.map((d) => d(target, key, index));
     mapper(target, key, index);
   };

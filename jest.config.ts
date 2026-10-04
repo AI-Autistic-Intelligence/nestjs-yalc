@@ -37,7 +37,7 @@ Object.keys(paths).map((k: string) => {
 
 const options: IOptions = {
   defaultConfOptions: {
-    transformEsModules: ['@faker-js', 'p-map', '@node-yalc', '@nest-yalc-2'],
+    transformEsModules: ['@faker-js', 'p-map', '@node-yalc', '@nest-yalc-2', '@nestjs'],
     jestConf: {
       // injectGlobals: false, -> we can't set it to false because of this issue: https://github.com/golevelup/nestjs/issues/557
     },
