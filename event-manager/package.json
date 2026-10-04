@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/event-manager",
-  "version": "2.2.4",
+  "version": "2.2.6",
   "type": "module",
   "description": "This package offers different tools to manage centralized events",
   "exports": {
