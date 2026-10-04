@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/dummy-app",
-  "version": "2.2.4",
+  "version": "2.2.10",
   "description": "Dummy application for E2E testing",
   "private": true,
   "scripts": {

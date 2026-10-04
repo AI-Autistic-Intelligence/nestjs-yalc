@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/event-manager",
-  "version": "2.2.2",
+  "version": "2.2.4",
   "type": "module",
   "description": "This package offers different tools to manage centralized events",
   "exports": {
@@ -16,9 +16,9 @@
     "src"
   ],
   "dependencies": {
-    "@nest-yalc-2/errors": "^2.2.2",
-    "@nest-yalc-2/logger": "^2.2.2",
-    "@nest-yalc-2/utils": "^2.2.2",
+    "@nest-yalc-2/errors": "^2.2.4",
+    "@nest-yalc-2/logger": "^2.2.4",
+    "@nest-yalc-2/utils": "^2.2.4",
     "lodash-es": "^4.18.1",
     "neverthrow": "^8.2.0",
     "tslib": "^2.8.1"

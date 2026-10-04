@@ -1,6 +1,6 @@
 {
   "name": "ferrox-saas-backend",
-  "version": "2.2.4",
+  "version": "2.2.10",
   "description": "Ferrox Enterprise SaaS Backend (Node.js Port) powered by @ferrox/node framework",
   "main": "./dist/src/main.js",
   "license": "MIT",
