@@ -4,7 +4,8 @@ import {
 } from '@nest-yalc-2/database/query-builder.helper.js';
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types/globals.js';
-import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type.js';
+import { EntitySchema } from 'typeorm';
+type EntityClassOrSchema = Function | EntitySchema;
 import { ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';
 import {
   applySelectOnFind,

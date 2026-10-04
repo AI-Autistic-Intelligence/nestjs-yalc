@@ -27,4 +27,15 @@ describe('whitelistHeaders', () => {
     const filteredHeaders = filterHeaders(headers, whitelist);
     expect(filteredHeaders).toBeUndefined();
   });
+
+  it('should use default whitelist', () => {
+    const headers = {
+      'Authorization': 'Bearer 123',
+      'x-header-2': 'x-header-2',
+    };
+    const filteredHeaders = filterHeaders(headers);
+    expect(filteredHeaders).toEqual({
+      'Authorization': 'Bearer 123'
+    });
+  });
 });

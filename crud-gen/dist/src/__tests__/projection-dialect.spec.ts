@@ -528,4 +528,96 @@ describe('projection dialects', () => {
       'Unsupported projection dialect',
     );
   });
+  it('rejects projection json values in sql queries', () => {
+    const dialect = createProjectionDialect('sqlite');
+    const invalidResource = {
+      ...resource,
+      id: 'invalid-json-codec',
+      tableName: 'invalid_json_codec',
+      fields: [
+        ...resource.fields,
+        {
+          name: 'invalid',
+          storage: 'json',
+          path: ['invalid'],
+          codec: 'json',
+          nullable: false,
+          requiredOnCreate: true,
+          index: { name: 'invalid_idx' },
+        },
+      ],
+    } as any;
+
+    expect(() => dialect.compileIndexStatements(invalidResource)).toThrow(TypeError);
+  });
+
+  it('supports boolean expression for indexes', () => {
+    const dialect = createProjectionDialect('sqlite');
+    const pgDialect = createProjectionDialect('postgres');
+    const boolResource = {
+      ...resource,
+      id: 'bool-codec',
+      tableName: 'bool_codec',
+      fields: [
+        ...resource.fields,
+        {
+          name: 'active',
+          storage: 'column',
+          column: 'active',
+          codec: 'boolean',
+          nullable: false,
+          requiredOnCreate: true,
+          index: { name: 'active_idx' },
+        },
+      ],
+    } as any;
+
+    const sqliteIndexes = dialect.compileIndexStatements(boolResource);
+    expect(sqliteIndexes).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('CAST("active" AS INTEGER)'),
+      ]),
+    );
+
+    const pgIndexes = pgDialect.compileIndexStatements(boolResource);
+    expect(pgIndexes).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('CAST("active" AS BOOLEAN)'),
+      ]),
+    );
+  });
+
+  it('patchValues executes update without revision bump', async () => {
+    const dialect = createProjectionDialect('sqlite');
+    const { query, repository } = writeRepository();
+
+    await dialect.patchValues(repository, resource, {
+      scopeId: 'space-1',
+      guid: 'record-1',
+      columnValues: { owner: 'bob' },
+      jsonValues: [],
+    });
+
+    expect(query.where).toHaveBeenCalledWith(
+      expect.stringContaining('"scopeId" = :projection_scope_id'),
+    );
+    expect(query.where).not.toHaveBeenCalledWith(
+      expect.stringContaining(':projection_expected_revision'),
+    );
+    expect(query.setParameters).toHaveBeenCalledWith({
+      projection_scope_id: 'space-1',
+      projection_guid: 'record-1',
+    });
+  });
+
+  it('applyProjectionIndexesForBootstrap applies all statements', async () => {
+    const dialect = createProjectionDialect('sqlite');
+    const mockQuery = jest.fn().mockResolvedValue(undefined);
+    const dataSource = { query: mockQuery } as unknown as DataSource;
+
+    const { applyProjectionIndexesForBootstrap } = await import('../projection/projection-dialect.js');
+    await applyProjectionIndexesForBootstrap(dataSource, dialect, resource);
+
+    expect(mockQuery).toHaveBeenCalled();
+  });
 });

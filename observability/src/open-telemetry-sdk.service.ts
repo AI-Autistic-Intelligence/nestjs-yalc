@@ -50,11 +50,11 @@ export class OpenTelemetrySdkService implements OnModuleDestroy {
         }),
       ],
       logRecordProcessors: [
-        new SimpleLogRecordProcessor(
-          new OTLPLogExporter({
+        new SimpleLogRecordProcessor({
+          exporter: new OTLPLogExporter({
             url: `${endpoint}/v1/logs`,
-          }),
-        ),
+          }) as any,
+        } as any),
       ],
     });
 

@@ -16,13 +16,15 @@
     "src"
   ],
   "dependencies": {
-    "tslib": "^2.6.3"
+    "tslib": "^2.8.1"
   },
   "keywords": [
     "nestjs",
+    "nestjs-yalc",
     "yalc",
+    "audit",
     "framework",
-    "audit"
+    "utility"
   ],
   "repository": {
     "type": "git",

@@ -253,12 +253,12 @@ export function AppDependencyFactory(
               return productionError;
             },
             playground:
-              conf?.isDev && !disablePlayground
+              (conf?.isDev && !disablePlayground
                 ? {
                     endpoint: `${conf?.apiPrefix}/graphql`,
                     settings: { 'request.credentials': 'include' },
                   }
-                : false,
+                : false) as any,
             debug: conf?.isDev,
             context: async ({
               request,

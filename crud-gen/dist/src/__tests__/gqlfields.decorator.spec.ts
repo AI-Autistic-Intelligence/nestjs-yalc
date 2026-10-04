@@ -391,4 +391,65 @@ describe('Graphql decorator test', () => {
 
     expect(GqlFieldsMapperTest).toBeDefined();
   });
+
+  it('Auto-adds nested relation source key and required fields', () => {
+    const relationInfo: GraphQLResolveInfo = {
+      fieldNodes: [
+        {
+          selectionSet: {
+            selections: [
+              {
+                kind: 'Field',
+                name: { kind: 'Name', value: 'project' },
+                selectionSet: {
+                  kind: 'SelectionSet',
+                  selections: [
+                    {
+                      kind: 'Field',
+                      name: { kind: 'Name', value: 'user' },
+                      selectionSet: {
+                        kind: 'SelectionSet',
+                        selections: [
+                          {
+                            kind: 'Field',
+                            name: { kind: 'Name', value: 'name' },
+                          }
+                        ]
+                      }
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        } as any,
+      ],
+    } as any;
+
+    const arr: IFieldMapper = {
+      project: {
+        dst: 'project',
+        relation: {
+          relationType: 'many-to-one',
+          sourceKey: { dst: 'projectId', alias: 'projectId' },
+          targetKey: { dst: 'guid', alias: 'guid' },
+          type: () => Object,
+        },
+      },
+      projectId: { dst: 'projectId' },
+    };
+
+    const extraInfo = {
+      user: {
+        field: {
+          name: { dst: 'name' },
+          requiredField: { dst: 'reqField', isRequired: true }
+        }
+      }
+    };
+
+    const result = $.GqlModelFieldsMapper({ field: arr, extraInfo: extraInfo } as any, relationInfo);
+
+    expect(result.keys).toEqual(expect.arrayContaining(['projectId']));
+  });
 });

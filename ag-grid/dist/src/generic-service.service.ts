@@ -11,7 +11,8 @@ import {
 import { getConnectionName } from '@nest-yalc-2/database/conn.helper';
 import { FactoryProvider, Injectable } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
+import { EntitySchema } from 'typeorm';
+type EntityClassOrSchema = Function | EntitySchema;
 import {
   DeepPartial,
   getConnection,
@@ -59,7 +60,7 @@ export function GenericServiceFactory<Entity extends ObjectLiteral>(
       return new serviceClass(repository, repositoryWrite);
     },
     inject: [
-      getRepositoryToken(entity, connectionName),
+      getRepositoryToken(entity as any, connectionName),
       getRepositoryToken(
         entityWrite ?? entity,
         connectionNameWrite ?? connectionName,

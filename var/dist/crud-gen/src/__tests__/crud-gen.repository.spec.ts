@@ -8,6 +8,7 @@ import {
 import {
   CGExtendedRepository,
   CGExtendedRepositoryFactory,
+  PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES,
 } from '../typeorm/generic.repository.js';
 import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper.js';
 import { SortDirection } from '../crud-gen.enum.js';
@@ -101,6 +102,19 @@ const fakeFindOptionsExtended = {
 const getManyResult = [BaseEntity];
 
 describe('CrudGen Repoository', () => {
+  it('should return default capabilities', () => {
+    const newCrudGenRepository = new CGExtendedRepository();
+    expect(PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES).toEqual({
+      extendedQueries: false,
+      structuredGraphqlFilters: false,
+    });
+    expect(newCrudGenRepository.getCrudGenCapabilities()).toEqual({
+      extendedQueries: true,
+      structuredGraphqlFilters: true,
+    });
+    expect(newCrudGenRepository.supportsExtendedRepository()).toEqual(true);
+  });
+
   let newCrudGenRepository: CGExtendedRepository<BaseEntity>;
   let mockedQueryBuilder: DeepMocked<SelectQueryBuilder<BaseEntity>>;
 
@@ -528,5 +542,81 @@ describe('CrudGen Repoository', () => {
   it('Should check genereteSelectOnFind', () => {
     const result = newCrudGenRepository.generateSelectOnFind(['id'], BaseEntity);
     expect(result).toBeDefined();
+  });
+
+  it('getFormattedCrudGenQueryBuilder should handle missing qb and subQueryFilters', () => {
+    (QueryBuilderHelper.applyOrderToJoinedQueryBuilder as jest.Mock).mockReturnValue([]);
+    
+    const mockJoinQb = {
+      from: jest.fn(),
+      expressionMap: { mainAlias: { metadata: {} } },
+      select: jest.fn().mockReturnThis()
+    };
+    const mockQb = {
+      connection: {
+        createQueryBuilder: jest.fn().mockReturnValue(mockJoinQb)
+      },
+      alias: 'alias',
+      expressionMap: { mainAlias: { metadata: { id: 1 } } },
+      select: jest.fn().mockReturnThis(),
+      getQuery: jest.fn().mockReturnValue('query'),
+      leftJoinAndSelect: jest.fn().mockReturnThis(),
+      innerJoinAndSelect: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      setFindOptions: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      offset: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+    };
+
+    jest.spyOn(newCrudGenRepository, 'createQueryBuilder').mockReturnValue(mockQb as any);
+    jest.spyOn(newCrudGenRepository, 'getFormattedCrudGenQueryBuilder').mockRestore();
+    
+    // First, test missing qb: line 95
+    newCrudGenRepository.getFormattedCrudGenQueryBuilder({ select: [], extra: { _aliasType: 'alias' } } as any);
+    expect(newCrudGenRepository.createQueryBuilder).toHaveBeenCalledWith('alias');
+
+    // Second, test subQueryFilters: line 242
+    jest.spyOn(newCrudGenRepository, 'getFormattedCrudGenQueryBuilder').mockReturnValue(mockQb as any);
+    
+    const result = newCrudGenRepository.getCrudGenQueryBuilder({
+      select: [],
+      subQueryFilters: { select: [] }
+    } as any);
+
+    expect(mockJoinQb.from).toHaveBeenCalledWith('(query)', 'alias');
+    expect(mockJoinQb.expressionMap.mainAlias.metadata).toEqual({ id: 1 });
+
+    // Third, test subQueryFilters missing metadata: line 242 false branch
+    const mockQbNoMeta = {
+      ...mockQb,
+      expressionMap: { mainAlias: undefined }
+    };
+    jest.spyOn(newCrudGenRepository, 'createQueryBuilder').mockReturnValue(mockQbNoMeta as any);
+    jest.spyOn(newCrudGenRepository, 'getFormattedCrudGenQueryBuilder').mockReturnValue(mockQbNoMeta as any);
+    newCrudGenRepository.getCrudGenQueryBuilder({
+      select: [],
+      subQueryFilters: { select: [] }
+    } as any);
+  });
+});
+
+describe('generic.repository exports', () => {
+  it('should export all public API members', () => {
+    const exports = require('../typeorm/generic.repository.js');
+    expect(exports.AG_GRID_MAIN_ALIAS).toBeDefined();
+    expect(exports.GenericTypeORMRepository).toBeDefined();
+    expect(exports.PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES).toBeDefined();
+    expect(exports.CGExtendedRepositoryFactory).toBeDefined();
+    expect(exports.CGExtendedRepository).toBeDefined();
+    
+    // Explicitly instantiate to cover class statement if needed
+    const instance = new exports.GenericTypeORMRepository();
+    expect(instance).toBeDefined();
+    
+    // Access alias
+    expect(exports.AG_GRID_MAIN_ALIAS).toEqual('CrudGenMainAlias');
   });
 });

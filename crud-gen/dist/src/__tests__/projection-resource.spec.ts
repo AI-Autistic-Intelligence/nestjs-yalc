@@ -845,4 +845,61 @@ describe('projection resource contract', () => {
       expect(statements).toEqual([expect.stringContaining(expression)]);
     },
   );
+
+  describe('createProjectionSchemaOptions', () => {
+    it('handles various codecs, omitted column names, and uniqueWithinScope', () => {
+      const def: ProjectionResourceDefinition = {
+        id: 'projection.test.schema',
+        tableName: 'test_table',
+        identity: { column: 'guid', uniqueWithinScope: true },
+        scope: { column: 'scopeId', serverOwned: true },
+        revision: { column: 'revision' },
+        payload: { column: 'payload', allowCreate: true },
+        deletion: 'hard',
+        fields: [
+          {
+            name: 'guid',
+            storage: 'column',
+            column: 'guid',
+            codec: 'uuid',
+            nullable: false,
+            requiredOnCreate: true,
+          },
+          {
+            name: 'myInt',
+            storage: 'column',
+            column: 'my_int',
+            codec: 'integer',
+            nullable: false,
+            requiredOnCreate: true,
+          },
+          {
+            name: 'myBool',
+            storage: 'column',
+            column: 'my_bool',
+            codec: 'boolean',
+            nullable: false,
+            requiredOnCreate: true,
+          },
+          {
+            name: 'myStr',
+            storage: 'column',
+            column: 'my_str',
+            codec: 'string',
+            nullable: true,
+          }
+        ],
+      };
+      const resource = defineProjectionResource(def);
+      const schema = createProjectionSchemaOptions(
+        resource,
+        createProjectionDialect('sqlite'),
+      );
+      
+      expect(schema.columns.my_int.type).toBe(Number);
+      expect(schema.columns.my_bool.type).toBe(Boolean);
+      expect(schema.columns.my_str.type).toBe(String);
+      expect(schema.indices[0].unique).toBe(true);
+    });
+  });
 });

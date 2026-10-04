@@ -64,7 +64,10 @@ export const tsJestConfig = (tsConfPath = '', overrideTsJestConfig?: any) => {
       ...(tsconfig ?? {}),
       importHelpers: true,
     },
-    diagnostics: false,
+    diagnostics: {
+      ignoreCodes: [151001, 151002]
+    },
+    isolatedModules: true,
     ...restTsJest,
   };
 
@@ -158,15 +161,15 @@ const defaultConf = (
       '<rootDir>/node_modules/',
       '.*/dist/',
     ],
-    preset: 'ts-jest/presets/default-esm',
     testEnvironment: 'node',
     moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts'], // add typescript to the default options
+    transformIgnorePatterns: ['node_modules[\\\\/](?!(p-map|lodash-es|@faker-js|@nestjs|nestjs-cls)[\\\\/])'],
     testRegex: '.*\\.spec\\.ts$',
     transform: {
       '^.+\\.(t|j)sx?$': [
         'ts-jest',
         {
-          useESM: true,
+          useESM: false,
           tsconfig: {
             ...compilerOptions,
             importHelpers: true,
@@ -176,22 +179,28 @@ const defaultConf = (
       ],
     },
     moduleNameMapper: {
-      // this fixes the issue with wrong line numbers in stack traces,
-      /** @see https://github.com/kulshekhar/ts-jest/issues/727 */
       'source-map-support/register': 'identity-obj-proxy',
-      '^(@nest-yalc-2/.*|@node-yalc/.*|\\.{1,2}/.*)\\.js$': [
+      '^@node-yalc/([^/]+)(?:/)?(.*)\\.js$': [
+        `${dirname}/../node-yalc/$1/src/$2.ts`,
+        `${dirname}/../node-yalc/$1/src/$2/index.ts`,
+        `${dirname}/../node-yalc/$1/src/$2.js`,
+        `${dirname}/../node-yalc/$1/src/$2`
+      ],
+      '^@node-yalc/([^/]+)$': [
+        `${dirname}/../node-yalc/$1/src/index.ts`
+      ],
+      '^(\\.{1,2}/.*)\\.js$': [
         '$1.ts',
         '$1/index.ts',
         '$1.js',
-        '$1',
+        '$1'
       ],
       ...pathsToModuleNameMapper(compilerOptions.paths ?? {}, {
         prefix: `${dirname}/`,
-        useESM: true,
+        useESM: false,
       }),
     },
     errorOnDeprecated: true,
-    extensionsToTreatAsEsm: ['.ts'],
     // injectGlobals: false,
     ...options?.jestConf,
   };

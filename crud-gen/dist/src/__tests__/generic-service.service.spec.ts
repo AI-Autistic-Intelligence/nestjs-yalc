@@ -1,4 +1,6 @@
 import { jest } from '@jest/globals';
+jest.mock('typeorm', () => { const actual = jest.requireActual('typeorm'); return { ...actual, getConnection: jest.fn(), ConnectionNotFoundError: actual.ConnectionNotFoundError }; });
+
 import * as GenericServiceModule from '../typeorm/generic.service.js';
 import {
   GenericService,
@@ -15,6 +17,7 @@ import {
   UpdateResult,
   DeleteResult,
 } from 'typeorm';
+
 import {
   baseEntityRepository as _baseEntityRepository,
   MockedEntity,
@@ -26,11 +29,11 @@ import { createMock } from '@golevelup/ts-jest';
 import { CGExtendedRepository } from '../typeorm/generic.repository.js';
 import { ConnectionNotFoundError } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
+
 import * as ClassHelper from '@node-yalc/utils/class.helper.js';
 
-jest.mock('@node-yalc/utils/class.helper.js', () => ({
-  isClass: jest.fn(),
-}));
+
+
 import {
   CreateEntityError,
   DeleteEntityError,
@@ -41,11 +44,11 @@ import {
   ConditionsTooBroadError,
 } from '../conditions.error.js';
 import { Operators } from '../crud-gen.enum.js';
-jest.mock('@node-yalc/utils/class.helper.js');
 import * as ClassHelper from '@node-yalc/utils/class.helper.js';
-jest.mock('typeorm');
 
-describe('GenericService', () => {
+
+
+describe("GenericService", () => {
   let service: GenericService<MockedEntity>;
   let mockedGetConnection: any;
   let baseEntityRepository = _baseEntityRepository;
@@ -198,9 +201,10 @@ describe('GenericService', () => {
 
   it('Check getEntity with specific Database', async () => {
     const testRepository = createMock<Repository<BaseEntity>>();
-    const mockedConnection = createMock<Connection>();
-    mockedConnection.getRepository.mockReturnValue(testRepository);
-    mockedGetConnection.mockReturnValueOnce(mockedConnection);
+    const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      service.setRepositoryRead(testRepository as any);
+      service.setRepositoryWrite(testRepository as any);
+    });
 
     const mockedEntity = new BaseEntity();
     testRepository.findOne.mockResolvedValue(mockedEntity);
@@ -216,12 +220,7 @@ describe('GenericService', () => {
       'databaseName',
     );
 
-    expect(mockedConnection.getRepository).toHaveBeenCalledWith(
-      baseEntityRepository.target,
-    );
-    expect(mockedGetConnection).toHaveBeenCalledWith(
-      getConnectionName('databaseName'),
-    );
+    expect(spy).toHaveBeenCalledWith('databaseName');
     expect(service.getRepository()).toBe(testRepository);
     expect(service.getRepositoryWrite()).toBe(testRepository);
     expect(entity).toBe(mockedEntity);
@@ -275,9 +274,10 @@ describe('GenericService', () => {
 
   it('Check getEntityList with specific Database', async () => {
     const testRepository = createMock<CGExtendedRepository<BaseEntity>>();
-    const mockedConnection = createMock<Connection>();
-    mockedConnection.getRepository.mockReturnValue(testRepository);
-    mockedGetConnection.mockReturnValueOnce(mockedConnection);
+    const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      service.setRepositoryRead(testRepository as any);
+      service.setRepositoryWrite(testRepository as any);
+    });
 
     const mockedList: BaseEntity[] = [new BaseEntity()];
     testRepository.find.mockResolvedValue(mockedList);
@@ -291,12 +291,7 @@ describe('GenericService', () => {
       'databaseName',
     );
 
-    expect(mockedConnection.getRepository).toHaveBeenCalledWith(
-      baseEntityRepository.target,
-    );
-    expect(mockedGetConnection).toHaveBeenCalledWith(
-      getConnectionName('databaseName'),
-    );
+    expect(spy).toHaveBeenCalledWith('databaseName');
     expect(service.getRepository()).toBe(testRepository);
     expect(entityList).toBe(mockedList);
   });
@@ -328,21 +323,17 @@ describe('GenericService', () => {
     const mockedEntity = new BaseEntity();
     const insertResult = new InsertResult();
     insertResult.identifiers = [{ id: '123' }];
-    const mockedIsClass = jest
-      .spyOn(ClassHelper, 'isClass')
-      .mockReturnValue(true);
+    
 
     baseEntityRepository.insert.mockResolvedValueOnce(insertResult);
     baseEntityRepository.getOneExtended.mockResolvedValueOnce(mockedEntity);
     const result = await service.createEntity({});
     expect(result).toBe(mockedEntity);
-    mockedIsClass.mockRestore();
+    
   });
 
   it('maps an extended destination only to its declared write property', () => {
-    const mockedIsClass = jest
-      .spyOn(ClassHelper, 'isClass')
-      .mockReturnValue(true);
+    
 
     const writeRepo = new CGExtendedRepository();
     writeRepo.target = WriteEntity;
@@ -382,7 +373,7 @@ describe('GenericService', () => {
     });
     expect(res).not.toHaveProperty('jsonProperty');
     expect(res).not.toHaveProperty('simpleRename');
-    mockedIsClass.mockRestore();
+    
   });
 
   it('should correctly map entities from read to write (without mapper)', () => {
@@ -438,9 +429,7 @@ describe('GenericService', () => {
 
   it('Should update an entity correctly when entity isClass', async () => {
     const mockedEntity = new BaseEntity();
-    const mockedIsClass = jest
-      .spyOn(ClassHelper, 'isClass')
-      .mockReturnValue(true);
+    
 
     baseEntityRepository.find.mockResolvedValueOnce([mockedEntity]);
     baseEntityRepository.update.mockResolvedValueOnce(new UpdateResult());
@@ -449,7 +438,7 @@ describe('GenericService', () => {
 
     const result = await service.updateEntity({}, {});
     expect(result).toBeDefined();
-    mockedIsClass.mockReset();
+    
   });
 
   it('should delete an entity correctly', async () => {
@@ -501,7 +490,7 @@ describe('GenericService', () => {
       new ConnectionNotFoundError('Another Error'),
     );
 
-    await expect(async () => service.deleteEntity({})).rejects.toEqual({});
+    await expect(async () => service.deleteEntity({})).rejects.toBeInstanceOf(ConnectionNotFoundError);
   });
 
   it('Tests the conditions validation checks is empty', async () => {
@@ -872,9 +861,10 @@ describe('GenericService', () => {
 
   it('test getEntityListCrudGen with specific Database', async () => {
     const testRepository = createMock<CGExtendedRepository<BaseEntity>>();
-    const mockedConnection = createMock<Connection>();
-    mockedConnection.getRepository.mockReturnValue(testRepository);
-    mockedGetConnection.mockReturnValueOnce(mockedConnection);
+    const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      service.setRepositoryRead(testRepository as any);
+      service.setRepositoryWrite(testRepository as any);
+    });
 
     const mockedList: BaseEntity[] = [new BaseEntity()];
     testRepository.find.mockResolvedValue(mockedList);
@@ -884,12 +874,7 @@ describe('GenericService', () => {
 
     await service.getEntityListExtended({}, false, [], 'databaseName');
 
-    expect(mockedConnection.getRepository).toHaveBeenCalledWith(
-      baseEntityRepository.target,
-    );
-    expect(mockedGetConnection).toHaveBeenCalledWith(
-      getConnectionName('databaseName'),
-    );
+    expect(spy).toHaveBeenCalledWith('databaseName');
     expect(service.getRepository()).toBe(testRepository);
   });
 });

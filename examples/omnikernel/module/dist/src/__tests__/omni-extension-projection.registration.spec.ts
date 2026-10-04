@@ -6,6 +6,7 @@ import { GraphQLModule, GraphQLSchemaHost } from '@nestjs/graphql';
 import { ModuleRef } from '@nestjs/core';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Test } from '@nestjs/testing';
+jest.setTimeout(30000);
 import {
   ConflictException,
   NotFoundException,

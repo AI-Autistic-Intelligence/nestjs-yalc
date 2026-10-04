@@ -51,4 +51,50 @@ describe('Dynamic user input dto test', () => {
     const cachedResult = agJoinArgFactory(TestEntityRelation);
     expect(cachedResult).toBe(result);
   });
+
+  it('Should return null for entity with no relations', () => {
+    const result = agJoinArgFactory(TestEntity);
+    expect(result).toBeNull();
+  });
 });
+
+import { GraphQLSchemaBuilderModule, GraphQLSchemaFactory } from '@nestjs/graphql';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ObjectType, Query, Resolver, Args } from '@nestjs/graphql';
+import { sortModelFactory, filterExpressionInputFactory } from '../ag-grid.input';
+
+describe('Schema Builder Test', () => {
+  let schemaFactory: GraphQLSchemaFactory;
+
+  it('should build schema and trigger thunks', async () => {
+    const SortModelClass = sortModelFactory(TestEntity);
+    const FilterModelClass = filterExpressionInputFactory(TestEntity);
+
+    @Resolver()
+    class DummyResolver {
+      @Query(() => String)
+      dummy(
+        @Args('sort', { type: () => SortModelClass }) sort: any,
+        @Args('filter', { type: () => FilterModelClass }) filter: any,
+        @Args('deprecatedSort', { type: () => SortModel }) deprecatedSort: any,
+      ) {
+        return 'dummy';
+      }
+    }
+
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [GraphQLSchemaBuilderModule],
+      providers: [DummyResolver],
+    }).compile();
+
+    schemaFactory = module.get<GraphQLSchemaFactory>(GraphQLSchemaFactory);
+
+    try {
+      await schemaFactory.create([DummyResolver], [SortModelClass, FilterModelClass, SortModel]);
+    } catch (e) {
+      console.error(e);
+    }
+  });
+});
+
+

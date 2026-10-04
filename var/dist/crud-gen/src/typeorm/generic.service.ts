@@ -15,7 +15,8 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type.js';
+import { EntitySchema } from 'typeorm';
+type EntityClassOrSchema = Function | EntitySchema;
 import {
   DeepPartial,
   getConnection,
@@ -50,7 +51,7 @@ function hasObjectKeys(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && Object.keys(value).length > 0;
 }
 
-function normalizeCrudGenWhereForPlainTypeorm(where: unknown): unknown {
+export function normalizeCrudGenWhereForPlainTypeorm(where: unknown): unknown {
   if (!where || typeof where !== 'object') {
     return where;
   }
@@ -165,7 +166,7 @@ export function GenericServiceFactory<Entity extends ObjectLiteral>(
       return new serviceClass(repository, repositoryWrite);
     },
     inject: [
-      getRepositoryToken(entity, connectionName),
+      getRepositoryToken(entity as any, connectionName),
       getRepositoryToken(
         entityWrite ?? entity,
         connectionNameWrite ?? connectionName,

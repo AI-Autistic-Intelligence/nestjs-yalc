@@ -1,0 +1,16 @@
+{
+  "name": "@ferrox/node",
+  "version": "0.6.0",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "keywords": [
+    "nestjs",
+    "nestjs-yalc",
+    "yalc",
+    "@ferrox/node",
+    "framework",
+    "utility"
+  ]
+}

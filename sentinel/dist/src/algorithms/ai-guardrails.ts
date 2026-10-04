@@ -57,8 +57,6 @@ export class AiPromptGuardrailEngine {
       threatLevel = AiPromptThreatLevel.DanJailbreak;
     } else if (threatScore >= 0.35) {
       threatLevel = AiPromptThreatLevel.DirectPromptInjection;
-    } else if (matchedKeywords.length > 0) {
-      threatLevel = AiPromptThreatLevel.SuspiciousPattern;
     }
 
     return {

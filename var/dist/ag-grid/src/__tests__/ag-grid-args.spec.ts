@@ -3,6 +3,7 @@ import {
   agQueryParamsFactory,
   agQueryParamsNoPaginationFactory,
   IAgQueryParams,
+  typeMap
 } from '../ag-grid.args';
 import { RowDefaultValues, SortDirection } from '../ag-grid.enum';
 
@@ -66,5 +67,9 @@ describe('Ag-grid args', () => {
     expect(agGridArgs).toBeDefined();
     const instance = new agGridArgs();
     expect(instance).toBeDefined();
+  });
+
+  it('should define typeMap', () => {
+    expect(typeMap).toBeDefined();
   });
 });

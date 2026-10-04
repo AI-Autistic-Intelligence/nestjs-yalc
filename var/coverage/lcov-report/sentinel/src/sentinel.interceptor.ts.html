@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -106,35 +106,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -151,28 +151,28 @@ import { RagHallucinationGroundednessEngine } from './algorithms/rag-groundednes
 &nbsp;
 @Injectable()
 export class RagGroundednessInterceptor implements NestInterceptor {
-<span class="fstat-no" title="function not covered" >  constructor(p</span>rivate readonly <span class="cstat-no" title="statement not covered" >minGroundednessScore: number = <span class="branch-0 cbranch-no" title="branch not covered" >0</span>.70)</span> {}
+  constructor(private readonly minGroundednessScore: number = 0.70) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  intercept(c</span>ontext: ExecutionContext, next: CallHandler): Observable&lt;any&gt; {
-    const request = <span class="cstat-no" title="statement not covered" >context.switchToHttp().getRequest();</span>
-    const retrievedContexts: string[] = <span class="cstat-no" title="statement not covered" >request.ragContexts || [];</span>
+  intercept(context: ExecutionContext, next: CallHandler): Observable&lt;any&gt; {
+    const request = context.switchToHttp().getRequest();
+    const retrievedContexts: string[] = request.ragContexts || [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return next.handle().pipe(</span>
-      map(<span class="fstat-no" title="function not covered" >(r</span>esponse) =&gt; {
-<span class="cstat-no" title="statement not covered" >        if (typeof response === 'string' &amp;&amp; retrievedContexts.length &gt; 0) {</span>
-          const assessment = <span class="cstat-no" title="statement not covered" >RagHallucinationGroundednessEngine.evaluateGroundedness(</span>
+    return next.handle().pipe(
+      map((response) =&gt; {
+        if (typeof response === 'string' &amp;&amp; retrievedContexts.length &gt; 0) {
+          const assessment = RagHallucinationGroundednessEngine.evaluateGroundedness(
             response,
             retrievedContexts,
             this.minGroundednessScore
           );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          if (!assessment.isGrounded) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new BadGatewayException(</span>
+          if (!assessment.isGrounded) {
+            throw new BadGatewayException(
               `[FerroxSentinel] LLM response failed groundedness check (Score: ${assessment.groundednessScore.toFixed(2)} &lt; ${this.minGroundednessScore})`
             );
           }
         }
-<span class="cstat-no" title="statement not covered" >        return response;</span>
+        return response;
       })
     );
   }
@@ -184,7 +184,7 @@ export class RagGroundednessInterceptor implements NestInterceptor {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T12:15:35.402Z
+                at 2026-10-04T15:08:14.004Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

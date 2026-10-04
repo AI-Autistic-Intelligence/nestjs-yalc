@@ -31,6 +31,7 @@ describe('LifeCycleHandler', () => {
     new LifeCycleHandler(loggerService, 'TestApp', appContextService, {
       skipDuplicateAppCheck: true,
     });
+    
     expect(
       () =>
         new LifeCycleHandler(loggerService, 'TestApp', appContextService, {
@@ -44,5 +45,13 @@ describe('LifeCycleHandler', () => {
     expect(loggerService.debug).toHaveBeenCalledWith(
       '====================== Close TestApp ======================',
     );
+  });
+
+  it('should have onModuleInit', () => {
+    const loggerMock = { debug: jest.fn() } as any;
+    const appContextServiceMock = { initializedApps: new Set() } as any;
+    const handler = new LifeCycleHandler(loggerMock, 'test', appContextServiceMock);
+    handler.onModuleInit();
+    expect(handler).toBeDefined();
   });
 });

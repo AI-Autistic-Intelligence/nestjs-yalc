@@ -4,14 +4,22 @@ import {
   YalcBaseAppModule,
   registerSingletonDynamicModule,
   envFilePathList,
+  buildEnvFilePath,
   yalcBaseAppModuleMetadataFactory,
   YalcDefaultAppModule,
+  getCachedModule,
+  YalcGlobalStaticModule,
 } from '../base-app-module.helper.js';
 import { LifeCycleHandler } from '../life-cycle-handler.service.js';
 import { DynamicModule, Module } from '@nestjs/common';
 import { IYalcBaseAppOptions } from '../base-app.interface.js';
 import { createMock } from '@golevelup/ts-jest';
 import { AppContextService } from '../app-context.service.js';
+import {
+  MAIN_APP_CONFIG_SERVICE,
+  SYSTEM_LOGGER_SERVICE,
+} from '../def.const.js';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 let appContextService: AppContextService = createMock<AppContextService>({
   initializedApps: new Set(),
@@ -73,9 +81,42 @@ describe('base-app', () => {
       const moduleRef = await module.compile();
 
       const lifeCycleHandler = moduleRef.get(LifeCycleHandler);
+      const appConfigService = moduleRef.get(MAIN_APP_CONFIG_SERVICE);
+      const systemLoggerService = moduleRef.get(SYSTEM_LOGGER_SERVICE);
 
       expect(module).toBeDefined();
       expect(lifeCycleHandler).toBeDefined();
+      expect(appConfigService).toBeDefined();
+      expect(systemLoggerService).toBeDefined();
+    });
+
+    it('should create dynamic module with logger option', async () => {
+      const module = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({ isGlobal: true }),
+          YalcDefaultAppModule.forRoot('appAlias2', [], {
+            logger: () => ({
+              provide: SYSTEM_LOGGER_SERVICE,
+              useFactory: () => ({
+                error: jest.fn(),
+                log: jest.fn(),
+                warn: jest.fn(),
+                debug: jest.fn(),
+                verbose: jest.fn(),
+                setContext: jest.fn(),
+              } as any),
+            } as any),
+          }),
+        ],
+      })
+        .overrideProvider(AppContextService)
+        .useValue(appContextService)
+        .overrideProvider(ConfigService)
+        .useValue({ get: () => ({}) });
+
+      const moduleRef = await module.compile();
+      const systemLoggerService = moduleRef.get(SYSTEM_LOGGER_SERVICE);
+      expect(systemLoggerService).toBeDefined();
     });
   });
 
@@ -146,8 +187,31 @@ describe('base-app', () => {
     });
   });
 
+  describe('getCachedModule', () => {
+    it('should return null when isSingleton is false', () => {
+      expect(getCachedModule('someModule', false)).toBeNull();
+    });
+
+    it('should return cached module if it exists and isSingleton is true', () => {
+      registerSingletonDynamicModule(true, 'someModule', 'cachedData');
+      expect(getCachedModule('someModule', true)).toBe('cachedData');
+    });
+
+    it('should handle undefined isSingleton', () => {
+      expect(getCachedModule('someModule')).toBeNull();
+    });
+  });
+
   describe('envFilePathList', () => {
+    it('should create env file path list with undefined argument', () => {
+      const paths = envFilePathList();
+      expect(paths).toContain('./.env');
+    });
+    it('should behave same as buildEnvFilePath', () => {
+      expect(buildEnvFilePath('.')).toEqual(envFilePathList('.'));
+    });
     it('should create env file path list', () => {
+      expect(YalcGlobalStaticModule).toBeDefined();
       const paths = envFilePathList('.');
       expect(paths).toContain('./.env');
       if (process.env.NODE_ENV) {

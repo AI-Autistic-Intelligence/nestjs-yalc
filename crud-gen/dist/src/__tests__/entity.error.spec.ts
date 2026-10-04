@@ -67,3 +67,16 @@ describe('Delete entity error', () => {
     );
   });
 });
+
+describe('Entity Error type guards', () => {
+  it('isEntityNotFoundError', () => {
+    expect(EntityError.isEntityNotFoundError({ name: 'EntityNotFoundError' })).toBe(true);
+    expect(EntityError.isEntityNotFoundError(new Error())).toBe(false);
+  });
+
+  it('isEntityError', () => {
+    expect(EntityError.isEntityError(new EntityError.EntityError('test'))).toBe(true);
+    expect(EntityError.isEntityError({ originalError: new Error() })).toBe(true);
+    expect(EntityError.isEntityError(new Error())).toBe(false);
+  });
+});

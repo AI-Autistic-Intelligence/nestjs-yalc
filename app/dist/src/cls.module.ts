@@ -2,12 +2,13 @@
 import { Module } from '@nestjs/common';
 import { FastifyRequest } from 'fastify/types/request.js';
 import { ClsModule, ClsService } from 'nestjs-cls';
-import { ClsStore } from 'nestjs-cls/dist/src/lib/cls.options.js';
+import { ClsStore } from 'nestjs-cls';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 
 export interface IYalcCls extends ClsStore {
   headers: Record<string, string>;
+  [key: symbol]: any;
 }
 
 /**

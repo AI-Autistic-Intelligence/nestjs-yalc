@@ -11,11 +11,11 @@
   "license": "AGPL-3.0-or-later",
   "keywords": [
     "nestjs",
+    "nestjs-yalc",
     "yalc",
-    "framework",
     "logger",
-    "logging",
-    "pino"
+    "framework",
+    "utility"
   ],
   "types": "./src/index.d.ts",
   "files": [

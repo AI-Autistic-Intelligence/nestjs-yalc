@@ -1,57 +1,15 @@
 "use strict";
-/* istanbul ignore file */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createE2EConfig = void 0;
 exports.jestConfGenerator = jestConfGenerator;
-const path = __importStar(require("path"));
-const jest_def_config_1 = __importStar(require("./jest-def.config"));
-// import { options as jestOptionObject } from 'jest-cli/build/cli/args';
-const yargs_1 = __importDefault(require("yargs/yargs"));
+const tslib_1 = require("tslib");
+const path = tslib_1.__importStar(require("path"));
+const jest_def_config_1 = tslib_1.__importStar(require("./jest-def.config"));
+const yargs_1 = tslib_1.__importDefault(require("yargs/yargs"));
 const helpers_1 = require("yargs/helpers");
-// considering our heap consumption (~300-700mb), 5 workers will consume around 3GB of ram
-// if you want to increase/decrease this value, you can set the npm_config_jestworkers:
-// * npm < 9  -> with the `npm config set` command (more info: https://docs.npmjs.com/cli/v7/commands/npm-config)
-// * npm >= 9 -> with: export JEST_WORKERS=5
 const maxWorkers = process.env.npm_config_jestworkers ||
     process.env.JEST_WORKERS ||
     '50%';
-// eslint-disable-next-line no-console
 console.log(`Max workers: ${maxWorkers}`);
 function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) {
     const createProjectSets = (projects) => {
@@ -69,7 +27,6 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
     const confFactory = (projName, proj, _projects) => ({
         ...(0, jest_def_config_1.default)(`${rootPath}/`, options.defaultConfOptions, (0, jest_def_config_1.tsJestConfig)(options.tsConfigPath?.(proj) ?? `${rootPath}/${proj.path}/tsconfig.json`, options.tsJestConfig)),
         globals: (0, jest_def_config_1.globals)(),
-        // name: `unit/${projName}`,
         displayName: `unit/${projName}`,
         cacheDirectory: `${cacheDirBase}/unit/${projName}`,
         rootDir: `${rootPath}/${proj.sourcePath}/`,
@@ -101,7 +58,6 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         }
     }
     const projectSets = createProjectSets(projects);
-    // use argv to catch the path argument in any position
     const argv = (0, yargs_1.default)((0, helpers_1.hideBin)(process.argv))
         .command('$0 [paths]', 'test paths', (yargs) => {
         return yargs
@@ -128,9 +84,7 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         });
     })
         .showHelpOnFail(false)
-        // .options(jestOptionObject)
         .fail(() => {
-        // nothing to do
     }).argv;
     const selectedProj = argv.proj || process.env.npm_config_projects?.split(',') || 'all';
     projects = Array.isArray(selectedProj)
@@ -153,23 +107,18 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         argv.testPathPattern?.[0] ??
         argv.coverage ??
         '';
-    // eslint-disable-next-line no-console
     console.debug('possiblePaths', possiblePath);
     let config = {};
     function getSubprojectPath(testPath) {
-        // "." must be converted to "/"
         let subProjectPath = testPath.startsWith('.')
             ? testPath.slice(1)
             : testPath;
         subProjectPath = subProjectPath.startsWith(rootPath)
             ? subProjectPath.slice(rootPath.length)
             : subProjectPath;
-        // we always need "/" at the beginning of the string
         subProjectPath = subProjectPath.startsWith('/')
             ? subProjectPath
             : `/${subProjectPath}`;
-        // get the project which prefix is closest to testPath
-        // to apply the correct path for coverage etc.
         for (const proj of Object.values(projectList)) {
             const root = proj.path;
             if (testPath.startsWith(root) && subProjectPath.length < root.length) {
@@ -194,19 +143,15 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
         const testPaths = Array.isArray(possiblePath)
             ? possiblePath
             : [possiblePath];
-        // eslint-disable-next-line no-console
         console.debug('testPaths', testPaths);
         const subProjectPathList = testPaths.map((v) => getSubprojectPath(v));
         selectedProjects = projects.filter((v) => subProjectPathList.some((subProjectPath) => v.rootDir.startsWith(`${rootPath}${subProjectPath}`)));
         if (Array.isArray(selectedProj)) {
             selectedProjects.push(...projects.filter((p) => selectedProj.some((projName) => p.displayName.startsWith(`unit/${projName}`))));
         }
-        // eslint-disable-next-line no-console
         console.debug('Subproject path:', subProjectPathList ?? ['']);
     }
-    // eslint-disable-next-line no-console
     console.debug('selectedProjects', selectedProjects.map((v) => v.displayName));
-    // we can still support specific coverage output path when only one project is selected
     const coverageFolder = selectedProjects.length > 1 ? '' : selectedProj;
     config = {
         maxWorkers,
@@ -235,7 +180,6 @@ const createE2EConfig = (options) => {
     };
     if (options.alias) {
         conf.displayName = `e2e/${options.alias}`;
-        // conf.name = `e2e/${options.alias}`;
     }
     if (options.confOverride) {
         conf = {
@@ -246,3 +190,4 @@ const createE2EConfig = (options) => {
     return conf;
 };
 exports.createE2EConfig = createE2EConfig;
+//# sourceMappingURL=jest-conf.generator.js.map

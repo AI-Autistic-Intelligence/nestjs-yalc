@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
-import { Injectable, LoggerService, Provider } from '@nestjs/common';
+import { Injectable, Provider } from '@nestjs/common';
+import type { LoggerService } from '@nestjs/common';
 import {
   CannotExecuteNotConnectedError,
   Connection,

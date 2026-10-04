@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { objectMapper } from '.@node-yalc/utils/object-mapper.helper.js';
+import { objectMapper } from '@node-yalc/utils/object-mapper.helper.js';
 
 describe('objectMapper', () => {
   it('should map properties with the specified mapper', () => {

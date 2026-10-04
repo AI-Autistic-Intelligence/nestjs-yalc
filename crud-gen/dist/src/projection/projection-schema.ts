@@ -57,14 +57,12 @@ export function createProjectionSchemaOptions(
 
   return {
     columns,
-    indices: definition.identity.uniqueWithinScope
-      ? [
-          {
-            name: `${definition.tableName}_scope_${definition.identity.column}_unique`,
-            columns: [definition.scope.column, definition.identity.column],
-            unique: true,
-          },
-        ]
-      : [],
+    indices: [
+      {
+        name: `${definition.tableName}_scope_${definition.identity.column}_unique`,
+        columns: [definition.scope.column, definition.identity.column],
+        unique: true,
+      },
+    ],
   };
 }

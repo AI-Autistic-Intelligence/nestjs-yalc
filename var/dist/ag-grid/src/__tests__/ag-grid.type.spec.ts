@@ -23,6 +23,10 @@ describe('AgGrid Gql type test', () => {
   it('Check already existing typemap', async () => {
     $.typeMap['Test'] = TestConnection;
     const testAGGridType = $.default<Test>(Test);
+    
+    // Instantiate to cover PageDataAgGrid statement
+    const testConn = new TestConnection();
+    expect(testConn.pageData).toBeDefined();
 
     expect(testAGGridType).toBeDefined();
     delete $.typeMap['Test'];

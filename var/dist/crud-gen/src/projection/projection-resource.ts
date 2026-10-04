@@ -566,6 +566,7 @@ export function assertProjectionResourceDefinition(
     }
 
     if (field.index) {
+      console.log('INDEX', field.index.name);
       assertIdentifier(
         field.index.name,
         `Projection field ${field.name} index`,

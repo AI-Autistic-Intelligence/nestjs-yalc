@@ -1070,4 +1070,144 @@ describe('Crud-gen helpers', () => {
 
     expect(res.join).not.toBeUndefined();
   });
+  it('Should check isProviderOverride', () => {
+    const resTrue = CrudGenHelpers.isProviderOverride({ provider: 'test' });
+    expect(resTrue).toBe(true);
+
+    const resFalse = CrudGenHelpers.isProviderOverride({ useClass: class {} });
+    expect(resFalse).toBe(false);
+  });
+
+  describe('Additional branch coverage', () => {
+    it('columnConversion should handle empty alias', () => {
+      const res = CrudGenHelpers.columnConversion('field', undefined, '');
+      expect(res).toBe('field');
+    });
+
+    it('CrudGenDependencyFactory should handle resolver: false', () => {
+      class TestEntity {}
+      const res = CrudGenHelpers.CrudGenDependencyFactory({
+        entityModel: TestEntity,
+        resolver: false,
+      });
+      expect(res.providers).toBeDefined();
+    });
+
+    it('objectToFieldMapper should fallback to src if dst is undefined', () => {
+      // Create a mock object that returns a property with missing dst
+      const mockClass = class {};
+      const { CRUDGEN_FIELD_METADATA_KEY, CRUDGEN_OBJECT_METADATA_KEY } = require('../object.decorator.js');
+      Reflect.defineMetadata(CRUDGEN_OBJECT_METADATA_KEY, {}, mockClass);
+      Reflect.defineMetadata(CRUDGEN_FIELD_METADATA_KEY, {
+        testField: {
+          src: 'testField'
+        }
+      }, mockClass);
+      
+      const mapper = CrudGenHelpers.objectToFieldMapper(mockClass);
+      expect(mapper.field['testField'].dst).toBe('testField');
+    });
+
+    it('whereObjectToSqlString should handle missing where.filters[key] and truthy alias', () => {
+      const mockQueryBuilder = {
+        connection: { driver: { escape: (s: any) => `\`${s}\`` } },
+        expressionMap: { mainAlias: { metadata: { columns: [] } } }
+      } as any;
+      const where: any = { filters: { testField: 'someStringOp' } }; // this will trigger string operation
+
+      // also trigger the missing where.filters[key] ?? {}
+      const where2: any = { filters: { testField: undefined } };
+      
+      expect(() => {
+        CrudGenHelpers.whereObjectToSqlString(mockQueryBuilder, where2, 'myAlias', { parent: {}, joined: {} });
+      }).toThrow();
+
+      const sql2 = CrudGenHelpers.whereObjectToSqlString(mockQueryBuilder, where, 'myAlias', { parent: {}, joined: {} });
+      expect(sql2).toBeDefined();
+    });
+
+    it('getFieldMapperSrcByDst should handle data with no matching dst', () => {
+      const res = CrudGenHelpers.getFieldMapperSrcByDst({ foo: { dst: 'bar' } as any }, 'notBar');
+      expect(res).toBe('notBar');
+    });
+
+    it('objectToFieldMapper should handle primitive objects', () => {
+      const res = CrudGenHelpers.objectToFieldMapper('primitive' as any);
+      expect(res).toBeDefined();
+    });
+
+    it('objectToFieldMapper should handle objectMetadata without fieldMetadataList', () => {
+      class TestModel {}
+      const { CRUDGEN_OBJECT_METADATA_KEY } = require('../object.decorator.js');
+      Reflect.defineMetadata(CRUDGEN_OBJECT_METADATA_KEY, {}, TestModel);
+      const res = CrudGenHelpers.objectToFieldMapper(TestModel);
+      expect(res).toBeDefined();
+    });
+
+    it('getFieldMapperSrcByDst should handle undefined data', () => {
+      const res = CrudGenHelpers.getFieldMapperSrcByDst(undefined, 'notBar');
+      expect(res).toBe('notBar');
+    });
+
+    it('objectToFieldMapper should handle missing src in field metadata', () => {
+      class TestModelNoSrc {}
+      const { CRUDGEN_FIELD_METADATA_KEY, CRUDGEN_OBJECT_METADATA_KEY } = require('../object.decorator.js');
+      Reflect.defineMetadata(CRUDGEN_OBJECT_METADATA_KEY, {}, TestModelNoSrc);
+      Reflect.defineMetadata(CRUDGEN_FIELD_METADATA_KEY, {
+        testField2: {}
+      }, TestModelNoSrc); // set on constructor
+      const res = CrudGenHelpers.objectToFieldMapper(TestModelNoSrc);
+      expect(res).toBeDefined();
+    });
+
+    it('getMappedTypeProperties should handle columns without field metadata', () => {
+      class TestModelColumn {}
+      const { CRUDGEN_OBJECT_METADATA_KEY } = require('../object.decorator.js');
+      Reflect.defineMetadata(CRUDGEN_OBJECT_METADATA_KEY, {}, TestModelColumn);
+      
+      const { columns: metadataColumns } = getMetadataArgsStorage();
+      const initialLength = metadataColumns.length;
+      metadataColumns.push({
+        target: TestModelColumn,
+        propertyName: 'noFieldColumn',
+      } as any);
+
+      const props = CrudGenHelpers.getMappedTypeProperties(TestModelColumn);
+      expect(props).toContain('noFieldColumn');
+      
+      metadataColumns.splice(initialLength);
+    });
+
+    it('getMappedTypeProperties should filter out denyFilter fields', () => {
+      class TestModelDeny {}
+      const { CRUDGEN_FIELD_METADATA_KEY, CRUDGEN_OBJECT_METADATA_KEY } = require('../object.decorator.js');
+      Reflect.defineMetadata(CRUDGEN_OBJECT_METADATA_KEY, {}, TestModelDeny);
+      Reflect.defineMetadata(CRUDGEN_FIELD_METADATA_KEY, {
+        testFieldDeny: { denyFilter: true, src: 'testFieldDeny' }
+      }, TestModelDeny); // set on constructor
+      
+      const { columns: metadataColumns } = getMetadataArgsStorage();
+      const initialLength = metadataColumns.length;
+      metadataColumns.push({
+        target: TestModelDeny,
+        propertyName: 'testFieldDeny',
+      } as any);
+
+      const props = CrudGenHelpers.getMappedTypeProperties(TestModelDeny);
+      expect(props).not.toContain('testFieldDeny');
+
+      metadataColumns.splice(initialLength);
+    });
+
+    it('formatRawSelection should handle falsy prefix', () => {
+      const res = CrudGenHelpers.formatRawSelection('selection', 'test', { prefix: '' });
+      expect(res).toBe('selection AS test');
+    });
+
+    it('applySelectOnFind should handle object selection (not array)', () => {
+      const findOptions: any = { select: { testField: true } };
+      CrudGenHelpers.applySelectOnFind(findOptions, 'testField', {});
+      expect(findOptions.select).toEqual({ testField: true });
+    });
+  });
 });

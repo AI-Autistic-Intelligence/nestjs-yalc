@@ -11,9 +11,11 @@
   "license": "AGPL-3.0-or-later",
   "keywords": [
     "nestjs",
+    "nestjs-yalc",
     "yalc",
+    "data-loader",
     "framework",
-    "data loader"
+    "utility"
   ],
   "types": "./src/index.d.ts",
   "files": [

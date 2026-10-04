@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-jest.mock('@nestjs/graphql');
+
 import {
   mockedExecutionContext,
   mockedGqlCtxCreate,

@@ -190,12 +190,42 @@ describe('crud-gen args helpers', () => {
       10,
     ) as any;
     expect(numberOp._value).toBe(10);
+
+    const numberOpEquals = getFindOperator(
+      FilterType.NUMBER,
+      GeneralFilters.EQUALS,
+      10,
+    ) as any;
+    expect(numberOpEquals._value).toBe(10);
+
     const dateOp = getFindOperator(
       FilterType.DATE,
       GeneralFilters.EQUALS,
       '2020-01-01',
     ) as any;
     expect(dateOp._value).toBe('2020-01-01');
+
+    const setOp = getFindOperator(
+      FilterType.SET,
+      'doesn-matter',
+      ['a', 'b'],
+    ) as any;
+    expect(setOp._type).toBe('in');
+    expect(setOp._value).toEqual(['a', 'b']);
+  });
+
+  it('convertFilterToFindOperator should correctly extract arguments for date models', () => {
+    const dateFilter = {
+      filterType: FilterType.DATE,
+      type: GeneralFilters.INRANGE,
+      field: 'createdAt',
+      dateFrom: '2020-01-01',
+      dateTo: '2020-01-02',
+    } as any;
+    
+    const result = convertFilter(dateFilter) as any;
+    expect(result._type).toBe('between');
+    expect(result._value).toEqual(['2020-01-01', '2020-01-02']);
   });
 
   it('should create where conditions from filter input', () => {
@@ -388,5 +418,50 @@ describe('crud-gen args helpers', () => {
     expect(mapped.order).toEqual({ raw_expr: 'DESC' });
     expect(mapped.where.filters).toBeDefined();
     expect(mapped.join?.leftJoinAndSelect?.relation).toBe('Entity.relation');
+  });
+
+  describe('mapSortingParamsToTypeORM array coverage', () => {
+    it('should map valid array of sort params', () => {
+      const sorting = [{ colId: 'id', sort: SortDirection.DESC }];
+      expect(mapSortingParamsToTypeORM(sorting)).toEqual({ id: 'DESC' });
+    });
+
+    it('should handle transform function', () => {
+      const sorting = [{ colId: 'id', sort: SortDirection.ASC }];
+      expect(mapSortingParamsToTypeORM(sorting, (col) => `${String(col)}_transformed` as any)).toEqual({ id_transformed: 'ASC' });
+    });
+
+    it('should fallback to colId if transform returns falsy', () => {
+      const sorting = [{ colId: 'id', sort: SortDirection.ASC }];
+      expect(mapSortingParamsToTypeORM(sorting, () => undefined as any)).toEqual({ id: 'ASC' });
+    });
+
+    it('should handle missing sort direction', () => {
+      const sorting = [{ colId: 'id' }] as any;
+      expect(mapSortingParamsToTypeORM(sorting)).toEqual({ id: 'ASC' });
+    });
+    it('should map empty array', () => {
+      expect(mapSortingParamsToTypeORM([])).toEqual({});
+    });
+    
+    it('should handle non-array sorting parameter', () => {
+      expect(mapSortingParamsToTypeORM(undefined as any)).toEqual({});
+      expect(mapSortingParamsToTypeORM('not-an-array' as any)).toEqual({});
+    });
+  });
+
+  describe('mapCrudGenParam without options', () => {
+    it('should default options to {} when omitted', () => {
+      const select = { keys: ['id'] };
+      const args = { select: { keys: ['id'] } };
+      expect(mapCrudGenParam(undefined, select, args)).toBeDefined();
+    });
+  });
+
+  describe('getDateFilter INDATE single parameter', () => {
+    it('should handle INDATE with only one date string', () => {
+      const result = getDateFilter('indate', '2023-01-01', undefined, false) as any;
+      expect(result._type).toEqual('between');
+    });
   });
 });

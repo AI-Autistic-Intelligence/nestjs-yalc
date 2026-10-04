@@ -1,8 +1,17 @@
 import { OpenTelemetrySdkService } from "../open-telemetry-sdk.service";
 import { normalizeObservabilityOptions } from "../observability-options";
 import { jest } from "@jest/globals";
+import { NodeSDK } from "@opentelemetry/sdk-node";
 
 describe("OpenTelemetrySdkService", () => {
+  let startSpy: any;
+  let shutdownSpy: any;
+
+  beforeEach(() => {
+    startSpy = jest.spyOn(NodeSDK.prototype, 'start').mockImplementation(() => {});
+    shutdownSpy = jest.spyOn(NodeSDK.prototype, 'shutdown').mockResolvedValue(undefined);
+  });
+
   afterEach(() => {
     jest.restoreAllMocks();
   });

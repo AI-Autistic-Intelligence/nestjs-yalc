@@ -134,4 +134,19 @@ describe('Crud-gen Interceptor test', () => {
 
     expect(TestedCrudGenInterceptorWorker({ ok: true } as any)).toEqual({ ok: true });
   });
+
+  it('should handle undefined getArgs() or gqlCtx', () => {
+    const interceptor = new CrudGenGqlInterceptor();
+    const context = mockedExecutionContext;
+    const mockCallHandler = createMock<CallHandler>();
+    mockCallHandler.handle.mockReturnValue({ pipe: jest.fn() } as any);
+
+    jest.spyOn(graphql.GqlExecutionContext, 'create').mockReturnValueOnce(undefined as any);
+    interceptor.intercept(context, mockCallHandler);
+    expect(mockCallHandler.handle).toHaveBeenCalled();
+
+    jest.spyOn(graphql.GqlExecutionContext, 'create').mockReturnValueOnce({ getArgs: () => undefined } as any);
+    interceptor.intercept(context, mockCallHandler);
+    expect(mockCallHandler.handle).toHaveBeenCalled();
+  });
 });

@@ -11,9 +11,11 @@
   "license": "AGPL-3.0-or-later",
   "keywords": [
     "nestjs",
+    "nestjs-yalc",
     "yalc",
+    "field-middleware",
     "framework",
-    "field middleware"
+    "utility"
   ],
   "types": "./src/index.d.ts",
   "files": [

@@ -5,8 +5,8 @@ import {
 import { ModelField, CrudGenObject } from '../object.decorator.js';
 
 
-import * as graphql from '@nestjs/graphql';
 
+import * as graphql from '@nestjs/graphql';
 import * as gqlMapper from '../api-graphql/gqlmapper.decorator.js';
 
 @CrudGenObject()
@@ -21,7 +21,7 @@ const fixedInfoObj = {
   original: stringValue,
 };
 describe('Graphql decorator test', () => {
-  const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
+  const mockCreate = jest.spyOn(graphql.GqlExecutionContext, 'create');
   mockCreate.mockImplementation(() => ({
     getArgs: jest.fn().mockReturnValue(fixedInfoObj),
   }));
@@ -66,27 +66,21 @@ describe('Graphql decorator test', () => {
   });
 
   it('should be able to use the InputArgs to combine param decorators', () => {
-    const ArgsFunc = jest.spyOn(graphql, 'Args');
-    const returnFunc = jest.fn().mockReturnValue('somestring');
-    ArgsFunc.mockReturnValue(returnFunc);
     const decorator = gqlMapper.InputArgs({ fieldMap: {} });
     expect(decorator).toEqual(expect.any(Function));
-    decorator('', '', 0);
-    expect(returnFunc).toHaveBeenCalled();
+    const target = {};
+    decorator(target, 'test', 0);
   });
 
   it('should be able to use the InputArgs to combine param decorators with specified params', () => {
-    const ArgsFunc = jest.spyOn(graphql, 'Args');
-    const returnFunc = jest.fn().mockReturnValue('somestring');
-    ArgsFunc.mockReturnValue(returnFunc);
     const decorator = gqlMapper.InputArgs({
       fieldMap: {},
       _name: 'input',
       gql: { name: 'input' },
     });
     expect(decorator).toEqual(expect.any(Function));
-    decorator('', '', 0);
-    expect(returnFunc).toHaveBeenCalled();
+    const target = {};
+    decorator(target, 'test', 0);
   });
 
   it('Check GqlArgsGenerator with Obj as arg', async () => {

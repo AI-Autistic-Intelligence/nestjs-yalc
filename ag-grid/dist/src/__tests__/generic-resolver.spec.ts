@@ -40,7 +40,7 @@ import * as AgGridObjectDecorator from '../object.decorator';
 import * as AgGridHelpers from '../ag-grid-metadata.helper';
 
 import { IAgGridFieldMetadata } from '../object.decorator';
-import { BaseEntity } from 'typeorm';
+import { BaseEntity, OneToMany, OneToOne } from 'typeorm';
 import { AgGridFindManyOptions } from '../ag-grid.interface';
 import { FilterType } from '../ag-grid.enum';
 import { GqlExecutionContext, Query, Resolver } from '@nestjs/graphql';
@@ -467,6 +467,78 @@ describe('Generic Resolver', () => {
       // Need to restore the original not-mocked implementation
       spiedGetPropertyDescriptor.mockRestore();
     });
+
+    it('Should cover join defined without properties', async () => {
+      class TestEntityEmptyJoinOneToMany extends BaseEntity {
+        @OneToMany(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        TestEntityRelation2: TestEntityRelation2[];
+      }
+
+      const emptyJoinMetadata = {
+        ...customMetadatList,
+        TestEntityRelation2: {
+          ...customMetadatList['TestEntityRelation2'],
+          relation: {
+            ...customMetadatList['TestEntityRelation2'].relation,
+            join: {}, // Defined but empty
+          },
+        },
+      };
+
+      Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, emptyJoinMetadata, TestEntityEmptyJoinOneToMany);
+
+      const ResolverClass = resolverFactory<TestEntityEmptyJoinOneToMany>({
+        ...baseResolverOption,
+        entityModel: TestEntityEmptyJoinOneToMany,
+        dto: class {},
+      } as any);
+
+      const resolver = new ResolverClass(
+        mockedGenericService as any,
+        mockedTestEntityRelationDL as any,
+        mockedModuleRef,
+      );
+
+      const result = await resolver[propertyRelationName](
+        { [propertyRelationName]: undefined },
+        {},
+      );
+      expect(result).toBeDefined();
+    });
+
+    it('Should cover undefined join case', async () => {
+      class TestEntityNoJoinOneToMany extends BaseEntity {
+        @OneToMany(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        TestEntityRelation2: TestEntityRelation2[];
+      }
+      class TestEntityNoJoinOneToManyDto extends TestEntityNoJoinOneToMany {}
+
+      const customBaseResolverOption = {
+        ...baseResolverOption,
+        entityModel: TestEntityNoJoinOneToMany,
+        dto: TestEntityNoJoinOneToManyDto,
+      };
+
+      Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, customMetadatList, TestEntityNoJoinOneToMany);
+
+      const ResolverClass = resolverFactory<TestEntityNoJoinOneToMany>(customBaseResolverOption as any);
+      const resolver = new ResolverClass(
+        mockedGenericService as any,
+        mockedTestEntityRelationDL as any,
+        mockedModuleRef,
+      );
+      expect(resolver).toBeDefined();
+
+      const customEntity = {
+        [propertyRelationName]: undefined,
+      };
+
+      const result = await resolver[propertyRelationName](
+        customEntity,
+        {},
+      );
+      expect(result).toBeDefined();
+    });
   });
 
   describe('Check dataloader one-to-one relationship', () => {
@@ -559,6 +631,104 @@ describe('Generic Resolver', () => {
       await expect(
         resolver[propertyRelationName](TestEntityRelation2, {}),
       ).resolves.toBeDefined();
+    });
+
+    it('Should append new resolver property if not found in relation list', async () => {
+      class TestEntityNoRelations extends BaseEntity {}
+      class TestEntityNoRelationsDto extends TestEntityNoRelations {}
+      
+      const customBaseResolverOption = {
+        ...baseResolverOption,
+        entityModel: TestEntityNoRelations,
+        dto: TestEntityNoRelationsDto,
+      };
+
+      Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, customMetadatList, TestEntityNoRelations);
+      
+      const ResolverClass = resolverFactory<TestEntityNoRelations>(customBaseResolverOption as any);
+      const resolver = new ResolverClass(
+        mockedGenericService as any,
+        mockedTestEntityRelationDL as any,
+        mockedModuleRef,
+      );
+
+      const result = await resolver[propertyRelationName](
+        TestEntityRelation2,
+        {},
+      );
+      expect(result).toBeDefined();
+    });
+
+    it('Should cover join defined without properties', async () => {
+      class TestEntityEmptyJoinOneToOne extends BaseEntity {
+        @OneToOne(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        TestEntityRelation2: TestEntityRelation2;
+      }
+
+      const emptyJoinMetadata = {
+        ...customMetadatList,
+        TestEntityRelation2: {
+          ...oneToOneResolverInfo,
+          relation: {
+            ...oneToOneResolverInfo.relation,
+            join: {}, // Defined but empty
+          },
+        },
+      };
+
+      Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, emptyJoinMetadata, TestEntityEmptyJoinOneToOne);
+
+      const ResolverClass = resolverFactory<TestEntityEmptyJoinOneToOne>({
+        ...baseResolverOption,
+        entityModel: TestEntityEmptyJoinOneToOne,
+        dto: class {},
+      } as any);
+
+      const resolver = new ResolverClass(
+        mockedGenericService as any,
+        mockedTestEntityRelationDL as any,
+        mockedModuleRef,
+      );
+
+      const result = await resolver[propertyRelationName](
+        { [propertyRelationName]: undefined },
+        {},
+      );
+      expect(result).toBeDefined();
+    });
+
+    it('Should cover undefined join case', async () => {
+      class TestEntityNoJoin extends BaseEntity {
+        @OneToOne(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        TestEntityRelation2: TestEntityRelation2;
+      }
+      class TestEntityNoJoinDto extends TestEntityNoJoin {}
+
+      const customBaseResolverOption = {
+        ...baseResolverOption,
+        entityModel: TestEntityNoJoin,
+        dto: TestEntityNoJoinDto,
+      };
+
+      Reflect.defineMetadata(AgGridObjectDecorator.AGGRID_FIELD_METADATA_KEY, customMetadatList, TestEntityNoJoin);
+
+      const ResolverClass = resolverFactory<TestEntityNoJoin>(customBaseResolverOption as any);
+      const resolver = new ResolverClass(
+        mockedGenericService as any,
+        mockedTestEntityRelationDL as any,
+        mockedModuleRef,
+      );
+      expect(resolver).toBeDefined();
+
+      const customEntity = {
+        [propertyRelationName]: undefined,
+      };
+
+      const result = await resolver[propertyRelationName](
+        customEntity,
+        {},
+      );
+      expect(result).toBeDefined();
     });
 
     it('Should throw an error if we try to load a resolveField with join and resolver specified', async () => {

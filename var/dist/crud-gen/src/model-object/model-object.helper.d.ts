@@ -1,0 +1,1 @@
+export declare function modelFieldToDest<TInputObject extends Record<string, any>, TOutputObject extends Record<string, any>>(inputObject: TInputObject, outputObject: TOutputObject): TOutputObject | null;

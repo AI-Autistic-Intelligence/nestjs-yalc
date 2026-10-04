@@ -19,6 +19,7 @@ class InputModel {
   extra = 'x';
 
   passthrough = 'keep';
+  unmapped = 'ignore';
 }
 
 class OutputModel {
@@ -49,6 +50,7 @@ describe('modelFieldToDest', () => {
     (InputModel as any).source = 'value';
     (InputModel as any).extra = 'x';
     (InputModel as any).passthrough = 'keep';
+    (InputModel as any).unmapped = 'ignore';
 
     const output = {
       renamed: '',
@@ -73,6 +75,29 @@ describe('modelFieldToDest', () => {
       ),
     ).toThrow(
       "Cannot map property missingField into the OutputObject. Property doesn't exist in the destination",
+    );
+  });
+
+  it('should throw when destination does not contain the extended mapped property', () => {
+    @ModelObject()
+    class BrokenExtendedModel {
+      @ModelField({
+        dst: {
+          name: 'missingExtended',
+          transformerDst: () => 'x',
+        },
+      })
+      value = 'x';
+    }
+
+    (BrokenExtendedModel as any).value = 'x';
+    expect(() =>
+      modelFieldToDest(
+        BrokenExtendedModel as any,
+        { renamed: '' } as unknown as OutputModel,
+      ),
+    ).toThrow(
+      "Cannot map extended property missingExtended into the OutputObject. Property doesn't exist in the destination",
     );
   });
 });

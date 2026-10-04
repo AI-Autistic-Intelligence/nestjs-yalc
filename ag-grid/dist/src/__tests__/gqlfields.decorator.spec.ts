@@ -356,4 +356,29 @@ describe('Graphql decorator test', () => {
 
     expect(GqlFieldsMapperTest).toBeDefined();
   });
+
+  it('Check GqlInfoGenerator', () => {
+    const mockedInfo = {
+      fieldNodes: [],
+    };
+    const ctx = {
+      getArgByIndex: () => ({ info: mockedInfo }),
+      getArgs: () => [],
+      getClass: () => class {},
+      getHandler: () => () => {},
+      getType: () => 'graphql',
+      switchToHttp: () => ({}),
+      switchToRpc: () => ({}),
+      switchToWs: () => ({}),
+    } as any;
+    
+    expect($.GqlInfoGenerator({}, ctx)).toBeDefined();
+  });
+
+  it('Check GqlFieldsMap decorator creation', () => {
+    expect($.GqlFieldsMap).toBeDefined();
+    // Test the execution of the param decorator
+    const decorator = $.GqlFieldsMap();
+    expect(decorator).toBeDefined();
+  });
 });

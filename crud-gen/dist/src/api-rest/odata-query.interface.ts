@@ -75,9 +75,6 @@ export function parseODataQueryParams(
       .filter(Boolean);
     const parsed: ODataOrderBy[] = segments.map((segment) => {
       const [fieldRaw, dirRaw] = segment.split(/\s+/).filter(Boolean);
-      if (!fieldRaw) {
-        throw new Error(`Invalid $orderby segment: "${segment}"`);
-      }
       const direction =
         dirRaw && dirRaw.toLowerCase() === 'desc' ? 'desc' : 'asc';
       return { field: fieldRaw, direction };

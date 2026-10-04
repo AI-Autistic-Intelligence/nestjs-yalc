@@ -295,6 +295,7 @@ export function agJoinArgFactory<Entity>(
   if (cached) return cached;
 
   const resolverInfoList = getEntityRelations(entityModel);
+  console.log('agJoinArgFactory resolverInfoList length:', resolverInfoList.length, entityModel.name);
 
   if (!resolverInfoList.length) return null;
 
