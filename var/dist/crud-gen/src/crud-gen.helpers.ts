@@ -2,7 +2,7 @@ import {
   DataLoaderFactory,
   getDataloaderToken,
 } from '@nest-yalc-2/data-loader/index.js';
-import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper.js';
+import { QueryBuilderHelper } from '@node-yalc/database/query-builder.helper.js';
 import {
   IFieldMapper,
   isFieldMapper,

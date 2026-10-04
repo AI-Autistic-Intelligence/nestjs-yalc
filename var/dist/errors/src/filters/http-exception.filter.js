@@ -1,10 +1,11 @@
 import { __decorate, __metadata } from "tslib";
 import * as common from '@nestjs/common';
-import { DefaultErrorMixin, MissingArgumentsError, isDefaultErrorMixin, formatCause, } from '@nest-yalc-2/errors';
+import { DefaultErrorMixin, isDefaultErrorMixin, formatCause, } from '@node-yalc/errors';
+import { MissingArgumentsError } from '@nest-yalc-2/crud-gen/missing-arguments.error.js';
 import { isEntityError, } from '@nest-yalc-2/crud-gen/entity.error.js';
 import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { getLogLevelByStatus } from '../../../event-manager/src/event.helper.js';
+import { getLogLevelByStatus } from '@node-yalc/event-manager/event.helper.js';
 import { LogLevelEnum } from '@node-yalc/logger/logger.enum.js';
 let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter {
     constructor(logger, applicationRef) {

@@ -72,7 +72,7 @@ export const InputArgsMapper = createParamDecorator(GqlArgsGenerator);
  * @returns the mapped params in the input object
  */
 export const InputArgs = (params: InputArgsOptions) => {
-  const args = Args(params._name ?? 'input', params.gql ?? {});
+  const args = Args(params._name ?? 'input', params.gql ?? {}) || (() => {});
   const mapper = InputArgsMapper(params);
   return function (target: any, key: string, index: number) {
     args(target, key, index);

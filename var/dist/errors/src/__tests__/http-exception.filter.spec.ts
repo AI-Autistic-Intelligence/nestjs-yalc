@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { HttpExceptionFilter } from '../filters/http-exception.filter.js';
 import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
-import { DefaultError } from '../index.js';
+import { DefaultError } from '@node-yalc/errors';
 import { GqlArgumentsHost } from '@nestjs/graphql';
 describe('Http exceptions filter', () => {
   let filter: HttpExceptionFilter;

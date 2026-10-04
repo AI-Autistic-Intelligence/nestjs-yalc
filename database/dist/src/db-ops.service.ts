@@ -8,7 +8,7 @@ import {
   ConnectionOptions,
   MigrationExecutor,
 } from 'typeorm';
-import { getDBNameByConnection } from './conn.helper';
+import { getDBNameByConnection } from '@node-yalc/database/conn.helper.js';
 import * as Engine from 'typeorm-model-generator/dist/src/Engine';
 import { getDefaultConnectionOptions } from 'typeorm-model-generator/dist/src/IConnectionOptions';
 import { getDefaultGenerationOptions } from 'typeorm-model-generator/dist/src/IGenerationOptions';

@@ -2,7 +2,7 @@ import { CrudGenError } from '@nest-yalc-2/crud-gen/crud-gen.error.js';
 import { UUIDValidationError } from '@nest-yalc-2/graphql/scalars/uuid-validation.error.js';
 import * as common from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
-import { InputValidationError } from '../index.js';
+import { InputValidationError } from '@node-yalc/errors';
 
 import type { LoggerService } from '@nestjs/common';
 

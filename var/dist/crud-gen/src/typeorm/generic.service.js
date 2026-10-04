@@ -1,13 +1,13 @@
 import { __decorate, __metadata } from "tslib";
 import { ConditionsTooBroadError, NoResultsFoundError, } from '../conditions.error.js';
 import { CreateEntityError, DeleteEntityError, UpdateEntityError, } from '../entity.error.js';
-import { getConnectionName } from '@nest-yalc-2/database/conn.helper.js';
+import { getConnectionName } from '@node-yalc/database/conn.helper.js';
 import { BadRequestException, Injectable, } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { getConnection, QueryFailedError, } from 'typeorm';
 import { PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES, } from '@nest-yalc-2/crud-gen/typeorm/generic.repository.js';
 import { getProviderToken } from '../crud-gen.helpers.js';
-import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
+import { ReplicationMode } from '@node-yalc/database/query-builder.helper.js';
 import { isClass } from '@node-yalc/utils/class.helper.js';
 import { getModelFieldMetadataList, isDstExtended, } from '../object.decorator.js';
 import { mapPaginationParamsToTypeORM, mapSortingParamsToTypeORM, } from './crud-gen-args.helpers.js';

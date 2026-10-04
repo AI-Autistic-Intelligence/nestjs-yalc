@@ -5,7 +5,7 @@ exports.isMysqlConnectionOption = isMysqlConnectionOption;
 const tslib_1 = require("tslib");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
-const conn_helper_1 = require("./conn.helper");
+const conn_helper_js_1 = require("@node-yalc/database/conn.helper.js");
 const Engine = tslib_1.__importStar(require("typeorm-model-generator/dist/src/Engine"));
 const IConnectionOptions_1 = require("typeorm-model-generator/dist/src/IConnectionOptions");
 const IGenerationOptions_1 = require("typeorm-model-generator/dist/src/IGenerationOptions");
@@ -143,7 +143,7 @@ function isMysqlConnectionOption(options) {
 }
 const dbConnectionMap = (c) => ({
     conn: c,
-    dbName: c.options.database?.toString() ?? (0, conn_helper_1.getDBNameByConnection)(c.name),
+    dbName: c.options.database?.toString() ?? (0, conn_helper_js_1.getDBNameByConnection)(c.name),
 });
 exports.dbConnectionMap = dbConnectionMap;
 const DbObpsServiceFactory = (loggerServiceToken, connectionTokens) => ({

@@ -6,8 +6,8 @@ import { Injectable, Provider } from '@nestjs/common';
 import type { LoggerService } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { DbConfType } from './conf.interface';
-import { getConfNameByConnection } from './conn.helper';
+import { DbConfType } from '@node-yalc/database/conf.interface.js';
+import { getConfNameByConnection } from '@node-yalc/database/conn.helper.js';
 
 /**
  * Application service

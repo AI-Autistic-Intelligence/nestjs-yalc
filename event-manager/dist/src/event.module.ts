@@ -3,7 +3,7 @@ import { YalcEventService, IEventServiceOptions } from './event.service.js';
 import { ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AppLoggerFactory } from '@node-yalc/logger/logger.factory.js';
-import { EventNameFormatter } from './emitter.js';
+import { EventNameFormatter } from '@node-yalc/event-manager/emitter.js';
 import { isProviderObject } from '@nest-yalc-2/utils/nestjs/nest.helper.js';
 
 export const EVENT_LOGGER = 'EVENT_LOGGER';

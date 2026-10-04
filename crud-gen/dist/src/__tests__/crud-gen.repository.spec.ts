@@ -10,14 +10,14 @@ import {
   CGExtendedRepositoryFactory,
   PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES,
 } from '../typeorm/generic.repository.js';
-import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper.js';
+import { QueryBuilderHelper } from '@node-yalc/database/query-builder.helper.js';
 import { SortDirection } from '../crud-gen.enum.js';
 import { DeepMocked } from '@golevelup/ts-jest';
 import { Alias } from 'typeorm/query-builder/Alias';
 import * as Typeorm from 'typeorm';
 import * as CrudGenHelpers from '../crud-gen.helpers.js';
 
-jest.mock('@nest-yalc-2/database/query-builder.helper');
+jest.mock('@node-yalc/database/query-builder.helper.js');
 jest.mock('typeorm/find-options/FindOptionsUtils', () => ({
   applyFindManyOptionsOrConditionsToQueryBuilder: jest.fn(),
 }));

@@ -1,6 +1,6 @@
 {
   "name": "ferrox-saas-backend",
-  "version": "2.2.3",
+  "version": "2.2.0",
   "description": "Ferrox Enterprise SaaS Backend (Node.js Port) powered by @ferrox/node framework",
   "main": "./dist/src/main.js",
   "license": "MIT",
@@ -9,8 +9,8 @@
     "start": "node dist/main.js"
   },
   "dependencies": {
-    "@ferrox/node": "^0.6.0",
-    "@nest-yalc-2/sentinel": "*"
+    "@nest-yalc-2/sentinel": "*",
+    "@ferrox-node/core": "^2.2.0"
   },
   "exports": {
     ".": "./dist/src/main.js",

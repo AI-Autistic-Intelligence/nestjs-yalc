@@ -1,5 +1,5 @@
 import { GqlExceptionFilter } from '@nestjs/graphql';
-import { InputValidationError } from '../index.js';
+import { InputValidationError } from '@node-yalc/errors';
 import type { LoggerService } from '@nestjs/common';
 export declare class ValidationExceptionFilter implements GqlExceptionFilter {
     private logger;

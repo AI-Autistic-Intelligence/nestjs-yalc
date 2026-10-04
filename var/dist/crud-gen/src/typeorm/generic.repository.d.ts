@@ -1,4 +1,4 @@
-import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
+import { ReplicationMode } from '@node-yalc/database/query-builder.helper.js';
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types/globals.js';
 import { EntitySchema } from 'typeorm';

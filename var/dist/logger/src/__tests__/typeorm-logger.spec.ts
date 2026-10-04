@@ -22,7 +22,7 @@ import {
 import { createMock } from '@golevelup/ts-jest';
 import { LoggerService } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { TypeORMLogger } from '../typeorm-logger.js';
+import { TypeORMLogger } from '@node-yalc/database/typeorm-logger.js';
 
 describe('TypeORMLogger with a valid logger', () => {
   const mockedLoggerService = createMock<LoggerService>();

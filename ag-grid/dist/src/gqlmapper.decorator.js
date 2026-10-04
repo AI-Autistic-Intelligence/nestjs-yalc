@@ -27,7 +27,7 @@ const GqlArgsGenerator = (data, ctx) => {
 exports.GqlArgsGenerator = GqlArgsGenerator;
 exports.InputArgsMapper = (0, common_1.createParamDecorator)(exports.GqlArgsGenerator);
 const InputArgs = (params) => {
-    const args = (0, graphql_1.Args)(params._name ?? 'input', params.gql ?? {});
+    const args = (0, graphql_1.Args)(params._name ?? 'input', params.gql ?? {}) || (() => { });
     const mapper = (0, exports.InputArgsMapper)(params);
     return function (target, key, index) {
         args(target, key, index);

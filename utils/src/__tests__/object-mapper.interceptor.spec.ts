@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { CallHandler, ExecutionContext } from '@nestjs/common';
 import { objectMapperInterceptor } from '../object-mapper.interceptor.js';
-import { ObjectMapperType } from '.@node-yalc/utils/object-mapper.helper.js';
+import { ObjectMapperType } from '@node-yalc/utils/object-mapper.helper.js';
 import { of } from 'rxjs';
 import { createMock } from '@golevelup/ts-jest';
 

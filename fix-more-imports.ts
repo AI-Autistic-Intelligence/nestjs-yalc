@@ -22,8 +22,8 @@ function replaceInFiles(dir) {
       content = content.replace(/import\s+{([^}]*FieldMapper[^}]*)}\s+from\s+'@node-yalc\/types';?/g, "import { $1 } from '@nest-yalc-2/interfaces';");
       
       // Fix missed utils
-      content = content.replace(/@nest-yalc-2\/utils\/object\.helper/g, '@nest-yalc-2/utils/object.helper');
-      content = content.replace(/@nest-yalc-2\/utils\/promise\.helper\.js/g, '@nest-yalc-2/utils/promise.helper.js');
+      content = content.replace(/@nest-yalc-2\/utils\/object\.helper/g, '@node-yalc/utils/object.helper');
+      content = content.replace(/@nest-yalc-2\/utils\/promise\.helper\.js/g, '@node-yalc/utils/promise.helper.js');
       
       // Fix missed logger
       content = content.replace(/@nest-yalc-2\/logger\/logger\.enum\.js/g, '@nest-yalc-2/logger/logger.enum.js');

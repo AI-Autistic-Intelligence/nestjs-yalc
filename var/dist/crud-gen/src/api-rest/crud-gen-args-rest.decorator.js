@@ -1,5 +1,5 @@
 import { __decorate, __metadata } from "tslib";
-import { returnValue } from '@nest-yalc-2/utils/index.js';
+import { returnValue } from '@node-yalc/utils/index.js';
 import { applyDecorators, BadRequestException, createParamDecorator, Query, } from '@nestjs/common';
 import { mapCrudGenParam } from '../typeorm/crud-gen-args.helpers.js';
 import { crudGenRestParamsFactory, crudGenRestParamsNoPaginationFactory, PageData, } from './crud-gen-rest.dto.js';

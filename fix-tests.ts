@@ -15,14 +15,14 @@ for (const file of files) {
         content = content.replace(/@nest-yalc-2\/utils\/(env\.helper|returnValue|date\.helper|enum\.helper|plugin\.helper|http\.helper|object-mapper\.helper|class\.helper)(.*?)/g, (match, p1, p2) => {
             changed = true;
             let ext = (p2.endsWith('.js') || p2.endsWith('.ts')) ? p2 : p2 + '.js';
-            return '@nest-yalc-2/utils/' + p1 + ext;
+            return '@node-yalc/utils/' + p1 + ext;
         });
         
         // Errors
         content = content.replace(/@nest-yalc-2\/errors\/(default\.error|error\.helper|error\.class|http-status-code-to-errors|error\.enum|result\.error)(.*?)/g, (match, p1, p2) => {
             changed = true;
             let ext = (p2.endsWith('.js') || p2.endsWith('.ts')) ? p2 : p2 + '.js';
-            return '@nest-yalc-2/errors/' + p1 + ext;
+            return '@node-yalc/errors/' + p1 + ext;
         });
         
         // Logger

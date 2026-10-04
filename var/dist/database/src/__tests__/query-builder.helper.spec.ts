@@ -7,7 +7,7 @@ import {
   QueryRunner,
   SelectQueryBuilder,
 } from 'typeorm';
-import { QueryBuilderHelper, ReplicationMode } from '../query-builder.helper';
+import { QueryBuilderHelper, ReplicationMode } from '@node-yalc/database/query-builder.helper.js';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { PostgresDriver } from 'typeorm/driver/postgres/PostgresDriver';
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';

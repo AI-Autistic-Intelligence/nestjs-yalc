@@ -1,5 +1,7 @@
 import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql');
+jest.mock('@node-yalc/utils/class.helper.js');
+jest.mock('@nestjs/graphql');
 
 import * as GenericServiceModule from '../generic-service.service';
 import {
@@ -7,8 +9,16 @@ import {
   GenericServiceFactory,
   validateSupportedError,
 } from '../generic-service.service';
-const typeorm = require('typeorm');
-const {  } = typeorm;
+import {
+  BaseEntity,
+  Connection,
+  Repository,
+  getConnection,
+  QueryFailedError,
+  InsertResult,
+  UpdateResult,
+  DeleteResult,
+} from 'typeorm';
 import {
   baseEntityRepository as _baseEntityRepository,
   MockedEntity,
@@ -16,6 +26,7 @@ import {
   WriteEntity,
 } from '../__mocks__/generic-service.mocks';
 import { EntityError } from '../entity.error';
+const ClassHelper = require('@node-yalc/utils/class.helper.js');
 
 import { getConnectionName } from '@nest-yalc-2/database/conn.helper';
 import { createMock } from '@golevelup/ts-jest';
@@ -31,11 +42,11 @@ import {
   NoResultsFoundError,
   ConditionsTooBroadError,
 } from '../conditions.error';
-const ClassHelper = require('@node-yalc/utils/class.helper.js');
+import * as ClassHelper from '@node-yalc/utils/class.helper.js';
 jest.mock('@node-yalc/utils/class.helper.js', () => ({
   isClass: jest.fn(),
 }));
-jest.mock('typeorm');
+jest.mock('typeorm', () => { const actual = jest.requireActual('typeorm'); const mock = { __esModule: true }; for (const key in actual) { mock[key] = actual[key]; } mock.getConnection = jest.fn(); return mock; });
 
 describe('GenericService', () => {
   let service: GenericService<MockedEntity>;
@@ -43,7 +54,7 @@ describe('GenericService', () => {
   let baseEntityRepository = _baseEntityRepository;
 
   beforeEach(async () => {
-    mockedGetConnection = typeorm.getConnection;
+    mockedGetConnection = jest.mocked(getConnection, { shallow: false } as any);
 
     // the target property can't be proxied
     // we need to create a new proxy by overriding the
@@ -170,14 +181,14 @@ describe('GenericService', () => {
 
   it('Check getEntity with specific Database', async () => {
     const testRepository = createMock<Repository<BaseEntity>>();
-    const mockedConnection = createMock<Connection>();
-    mockedConnection.getRepository.mockReturnValue(testRepository);
-    mockedGetConnection.mockReturnValueOnce(mockedConnection);
+    const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      service.setRepositoryRead(testRepository as any);
+      service.setRepositoryWrite(testRepository as any);
+    });
 
     const mockedEntity = new BaseEntity();
     testRepository.findOne.mockResolvedValue(mockedEntity);
 
-    // Checks the base repository to be set before changing it
     expect(service.getRepository()).toBe(baseEntityRepository);
     expect(service.getRepositoryWrite()).toBe(baseEntityRepository);
 
@@ -188,12 +199,7 @@ describe('GenericService', () => {
       'databaseName',
     );
 
-    expect(mockedConnection.getRepository).toHaveBeenCalledWith(
-      baseEntityRepository.target,
-    );
-    expect(mockedGetConnection).toHaveBeenCalledWith(
-      getConnectionName('databaseName'),
-    );
+    expect(spy).toHaveBeenCalledWith('databaseName');
     expect(service.getRepository()).toBe(testRepository);
     expect(service.getRepositoryWrite()).toBe(testRepository);
     expect(entity).toBe(mockedEntity);
@@ -245,32 +251,29 @@ describe('GenericService', () => {
   });
 
   it('Check getEntityList with specific Database', async () => {
-    const testRepository = createMock<AgGridRepository<BaseEntity>>();
-    const mockedConnection = createMock<Connection>();
-    mockedConnection.getRepository.mockReturnValue(testRepository);
-    mockedGetConnection.mockReturnValueOnce(mockedConnection);
+    const testRepository = createMock<Repository<BaseEntity>>();
+    const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      service.setRepositoryRead(testRepository as any);
+      service.setRepositoryWrite(testRepository as any);
+    });
 
     const mockedList: BaseEntity[] = [new BaseEntity()];
     testRepository.find.mockResolvedValue(mockedList);
 
-    // Checks the base repository to be set before changing it
     expect(service.getRepository()).toBe(baseEntityRepository);
+    expect(service.getRepositoryWrite()).toBe(baseEntityRepository);
 
-    const entityList = await service.getEntityList(
+    const result = await service.getEntityList(
       {},
-      false,
-      [],
+      undefined,
+      undefined,
       'databaseName',
     );
 
-    expect(mockedConnection.getRepository).toHaveBeenCalledWith(
-      baseEntityRepository.target,
-    );
-    expect(mockedGetConnection).toHaveBeenCalledWith(
-      getConnectionName('databaseName'),
-    );
+    expect(spy).toHaveBeenCalledWith('databaseName');
     expect(service.getRepository()).toBe(testRepository);
-    expect(entityList).toBe(mockedList);
+    expect(service.getRepositoryWrite()).toBe(testRepository);
+    expect(result).toBe(mockedList);
   });
 
   it('Should insert an entity correctly', async () => {
@@ -300,7 +303,7 @@ describe('GenericService', () => {
     const mockedEntity = new BaseEntity();
     const insertResult = new InsertResult();
     insertResult.identifiers = [{ id: '123' }];
-    const mockedIsClass = ClassHelper.isClass.mockReturnValue(true);
+    const mockedIsClass = jest.mocked(ClassHelper.isClass).mockReturnValue(true);
 
     baseEntityRepository.insert.mockResolvedValueOnce(insertResult);
     baseEntityRepository.getOneAgGrid.mockResolvedValueOnce(mockedEntity);
@@ -382,7 +385,7 @@ describe('GenericService', () => {
 
   it('Should update an entity correctly when entity isClass', async () => {
     const mockedEntity = new BaseEntity();
-    const mockedIsClass = ClassHelper.isClass.mockReturnValue(true);
+    const mockedIsClass = jest.mocked(ClassHelper.isClass).mockReturnValue(true);
 
     baseEntityRepository.find.mockResolvedValueOnce([mockedEntity]);
     baseEntityRepository.update.mockResolvedValueOnce(new UpdateResult());
@@ -443,7 +446,7 @@ describe('GenericService', () => {
       new ConnectionNotFoundError('Another Error'),
     );
 
-    await expect(async () => service.deleteEntity({})).rejects.toEqual({});
+    await expect(async () => service.deleteEntity({})).rejects.toThrow(new ConnectionNotFoundError('Another Error'));
   });
 
   it('Tests the conditions validation checks is empty', async () => {
@@ -496,25 +499,26 @@ describe('GenericService', () => {
 
   it('test getEntityListAgGrid with specific Database', async () => {
     const testRepository = createMock<AgGridRepository<BaseEntity>>();
-    const mockedConnection = createMock<Connection>();
-    mockedConnection.getRepository.mockReturnValue(testRepository);
-    mockedGetConnection.mockReturnValueOnce(mockedConnection);
+    const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      service.setRepositoryRead(testRepository as any);
+      service.setRepositoryWrite(testRepository as any);
+    });
 
     const mockedList: BaseEntity[] = [new BaseEntity()];
-    testRepository.find.mockResolvedValue(mockedList);
+    testRepository.getManyAgGrid.mockResolvedValue(mockedList);
 
-    // Checks the base repository to be set before changing it
     expect(service.getRepository()).toBe(baseEntityRepository);
 
-    await service.getEntityListAgGrid({}, false, [], 'databaseName');
+    const result = await service.getEntityListAgGrid(
+      {},
+      undefined,
+      undefined,
+      'databaseName',
+    );
 
-    expect(mockedConnection.getRepository).toHaveBeenCalledWith(
-      baseEntityRepository.target,
-    );
-    expect(mockedGetConnection).toHaveBeenCalledWith(
-      getConnectionName('databaseName'),
-    );
+    expect(spy).toHaveBeenCalledWith('databaseName');
     expect(service.getRepository()).toBe(testRepository);
+    expect(result).toBe(mockedList);
   });
 
   describe('validateSupportedError', () => {

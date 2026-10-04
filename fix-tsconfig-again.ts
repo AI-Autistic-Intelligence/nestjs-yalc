@@ -22,12 +22,12 @@ paths["@nest-yalc-2/types-extends/*"] = ["./types-extends/src/*"];
 paths["@nest-yalc-2/aws-helpers"] = ["./aws-helpers/src"];
 paths["@nest-yalc-2/aws-helpers/*"] = ["./aws-helpers/src/*"];
 
-paths["@nest-yalc-2/utils"] = ["./utils/src"];
-paths["@nest-yalc-2/utils/*"] = ["./utils/src/*"];
+paths["@node-yalc/utils"] = ["./utils/src"];
+paths["@node-yalc/utils/*"] = ["./utils/src/*"];
 
 // ensure node-yalc paths exist
-paths["@nest-yalc-2/utils"] = ["./node-yalc/utils/src"];
-paths["@nest-yalc-2/utils/*"] = ["./node-yalc/utils/src/*"];
+paths["@node-yalc/utils"] = ["./node-yalc/utils/src"];
+paths["@node-yalc/utils/*"] = ["./node-yalc/utils/src/*"];
 
 // ensure types for node-yalc exist too because they are moved
 paths["@nest-yalc-2/types"] = ["./node-yalc/types/src"];

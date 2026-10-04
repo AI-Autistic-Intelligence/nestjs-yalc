@@ -1,5 +1,5 @@
 import _DataLoader from 'dataloader';
-import { FindAndCountResult } from '@nest-yalc-2/database/query-builder.helper.js';
+import { FindAndCountResult } from '@node-yalc/database/query-builder.helper.js';
 import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import { ObjectLiteral } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';

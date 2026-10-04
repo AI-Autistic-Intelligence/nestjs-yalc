@@ -3,10 +3,11 @@ import * as common from '@nestjs/common';
 import type { HttpServer } from '@nestjs/common';
 import {
   DefaultErrorMixin,
-  MissingArgumentsError,
   isDefaultErrorMixin,
   formatCause,
-} from '@nest-yalc-2/errors';
+  IAbstractDefaultError,
+} from '@node-yalc/errors';
+import { MissingArgumentsError } from '@nest-yalc-2/crud-gen/missing-arguments.error.js';
 import {
   EntityError,
   isEntityError,
@@ -14,12 +15,12 @@ import {
 import { FastifyReply as FResponse } from 'fastify';
 import { GqlError } from '@nest-yalc-2/graphql/plugins/gql.error.js';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { getLogLevelByStatus } from '../../../event-manager/src/event.helper.js';
+import { getLogLevelByStatus } from '@node-yalc/event-manager/event.helper.js';
 import { LogLevelEnum } from '@node-yalc/logger/logger.enum.js';
 import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.service.js';
 
 type HttpErrorType =
-  common.HttpException | MissingArgumentsError | GqlError | DefaultErrorMixin;
+  common.HttpException | MissingArgumentsError | GqlError | IAbstractDefaultError;
 @common.Catch(
   common.HttpException,
   MissingArgumentsError,
@@ -88,7 +89,7 @@ export class HttpExceptionFilter
             const logLevel = getLogLevelByStatus(httpError.getStatus());
 
             if (logLevel === LogLevelEnum.ERROR) {
-              this.logger[logLevel](error.message, error.stack, {
+              (this.logger as any)[logLevel](error.message, error.stack, {
                 stack: httpError.stack,
                 data: {
                   response: httpError.getResponse(),
@@ -97,7 +98,7 @@ export class HttpExceptionFilter
                 },
               });
             } else {
-              this.logger[logLevel](error.message, {
+              (this.logger as any)[logLevel](error.message, {
                 stack: error.stack,
                 data: {
                   response: httpError.getResponse(),

@@ -11,7 +11,7 @@ import {
 import { createMock } from '@golevelup/ts-jest';
 import { LoggerService } from '@nestjs/common';
 import { ValidationExceptionFilter } from '../filters/validation-exception.filter.js';
-import { InputValidationError } from '../index.js';
+import { InputValidationError } from '@node-yalc/errors';
 import { CrudGenError } from '@nest-yalc-2/crud-gen/crud-gen.error.js';
 
 describe('ValidationExceptionFilter', () => {

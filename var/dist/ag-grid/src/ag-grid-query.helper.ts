@@ -1,4 +1,4 @@
-import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper';
+import { QueryBuilderHelper } from '@node-yalc/database/query-builder.helper';
 import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 
 import { GraphQLResolveInfo } from 'graphql';

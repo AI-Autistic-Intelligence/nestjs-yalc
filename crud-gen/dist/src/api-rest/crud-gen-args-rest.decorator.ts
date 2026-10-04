@@ -1,4 +1,4 @@
-import { returnValue } from '@nest-yalc-2/utils/index.js';
+import { returnValue } from '@node-yalc/utils/index.js';
 import {
   applyDecorators,
   BadRequestException,

@@ -22,7 +22,7 @@ export const GqlArgsGenerator = (data, ctx) => {
 };
 export const InputArgsMapper = createParamDecorator(GqlArgsGenerator);
 export const InputArgs = (params) => {
-    const args = Args(params._name ?? 'input', params.gql ?? {});
+    const args = Args(params._name ?? 'input', params.gql ?? {}) || (() => { });
     const mapper = InputArgsMapper(params);
     return function (target, key, index) {
         args(target, key, index);

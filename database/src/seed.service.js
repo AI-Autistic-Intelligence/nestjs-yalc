@@ -5,7 +5,7 @@ const tslib_1 = require("tslib");
 const typeorm_seeding_1 = require("typeorm-seeding");
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
-const conn_helper_1 = require("./conn.helper");
+const conn_helper_js_1 = require("@node-yalc/database/conn.helper.js");
 let SeedService = class SeedService {
     constructor(dbConnections, loggerService, configService, configPath) {
         this.dbConnections = dbConnections;
@@ -20,7 +20,7 @@ let SeedService = class SeedService {
         }
     }
     async clearDatabase(connection, name) {
-        const dbConf = this.configService.get((0, conn_helper_1.getConfNameByConnection)(connection.name));
+        const dbConf = this.configService.get((0, conn_helper_js_1.getConfNameByConnection)(connection.name));
         if (!dbConf?.seeds || dbConf?.seeds.length === 0)
             return;
         this.resetConnection();
@@ -39,7 +39,7 @@ let SeedService = class SeedService {
         this.loggerService.debug?.(`Database ${name} cleared!`);
     }
     async seedDatabase(connection, name) {
-        const dbConf = this.configService.get((0, conn_helper_1.getConfNameByConnection)(connection.name));
+        const dbConf = this.configService.get((0, conn_helper_js_1.getConfNameByConnection)(connection.name));
         if (!dbConf?.seeds || dbConf?.seeds.length === 0)
             return;
         this.loggerService.debug?.(`Seeding: ${name}`);

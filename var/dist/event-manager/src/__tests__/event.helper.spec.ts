@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { getLogLevelByStatus, isErrorEvent } from '../event.helper.js';
+import { getLogLevelByStatus, isErrorEvent } from '@node-yalc/event-manager/event.helper.js';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { DefaultError } from '@node-yalc/errors/default.error.js';
 import { LogLevelEnum } from '@node-yalc/logger/logger.enum.js';

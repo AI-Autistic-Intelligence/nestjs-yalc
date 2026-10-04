@@ -26,7 +26,7 @@ Object.keys(paths).map((k: string) => {
     .replace(/\/index\.ts$/, '')
     .replace(/\/index\.d\.ts$/, '');
 
-  if (!k.endsWith('*') && !pathValue.includes('node_modules/')) {
+  if (!k.endsWith('*') && !pathValue.includes('node_modules/') && !k.startsWith('@node-yalc')) {
     projectList[k] = {
       path: basePath,
       sourcePath,

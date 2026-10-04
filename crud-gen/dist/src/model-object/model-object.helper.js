@@ -1,4 +1,4 @@
-import { isClass, objectsHaveSameKeys } from '@nest-yalc-2/utils/index.js';
+import { isClass, objectsHaveSameKeys } from '@node-yalc/utils/index.js';
 import { getModelFieldMetadataList, isDstExtended, } from '../object.decorator.js';
 function isLikeOutputObject(input, output) {
     return objectsHaveSameKeys(input, output) === true;

@@ -8,7 +8,7 @@ import {
   EntityError,
   UpdateEntityError,
 } from './entity.error';
-import { getConnectionName } from '@nest-yalc-2/database/conn.helper';
+import { getConnectionName } from '@node-yalc/database/conn.helper';
 import { FactoryProvider, Injectable } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { EntitySchema } from 'typeorm';
@@ -24,7 +24,7 @@ import { FindManyOptions } from 'typeorm';
 import { AgGridRepository } from '@nest-yalc-2/ag-grid/ag-grid.repository';
 import { AgGridFindManyOptions } from '@nest-yalc-2/ag-grid/ag-grid.interface';
 import { ClassType } from '@node-yalc/types/globals.js';
-import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper';
+import { ReplicationMode } from '@node-yalc/database/query-builder.helper';
 import { isClass } from '@node-yalc/utils/class.helper.js';
 import { getAgGridFieldMetadataList, isDstExtended } from './object.decorator';
 import { getProviderToken } from './ag-grid-factory.helper';

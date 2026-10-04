@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AgGridRepository = exports.AG_GRID_MAIN_ALIAS = void 0;
 exports.AgGridRepositoryFactory = AgGridRepositoryFactory;
-const query_builder_helper_1 = require("@nest-yalc-2/database/query-builder.helper");
+const query_builder_helper_1 = require("@node-yalc/database/query-builder.helper");
 const typeorm_1 = require("typeorm");
 require("./query-builder.helpers");
 const ag_grid_query_helper_1 = require("./ag-grid-query.helper");

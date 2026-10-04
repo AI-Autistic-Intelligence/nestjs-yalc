@@ -26,9 +26,6 @@
     "resolveJsonModule": true,
     "rootDir": ".",
     "paths": {
-      "@node-yalc/*": [
-        "../node-yalc/*"
-      ],
       "@nest-yalc-2/ag-grid": [
         "./ag-grid/src/index.ts"
       ],

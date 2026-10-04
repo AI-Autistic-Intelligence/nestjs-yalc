@@ -15,7 +15,10 @@ globals_1.jest.mock('@nestjs/graphql', () => {
     const actual = globals_1.jest.requireActual('@nestjs/graphql');
     return {
         ...actual,
-        Args: globals_1.jest.fn(),
+        Args: globals_1.jest.fn().mockReturnValue(globals_1.jest.fn()),
+        InputType: globals_1.jest.fn().mockReturnValue(globals_1.jest.fn()),
+        ObjectType: globals_1.jest.fn().mockReturnValue(globals_1.jest.fn()),
+        Field: globals_1.jest.fn().mockReturnValue(globals_1.jest.fn()),
     };
 });
 const NestGraphql = tslib_1.__importStar(require("@nestjs/graphql"));

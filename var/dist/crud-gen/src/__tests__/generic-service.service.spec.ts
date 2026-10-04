@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 jest.mock('@node-yalc/utils/class.helper.js');
-jest.mock('typeorm', () => { const actual = jest.requireActual('typeorm'); return { ...actual, getConnection: jest.fn(), ConnectionNotFoundError: actual.ConnectionNotFoundError }; });
+jest.mock('typeorm', () => { const actual = jest.requireActual('typeorm'); const mock = { __esModule: true }; for (const key in actual) { mock[key] = actual[key]; } mock.getConnection = jest.fn(); return mock; });
 
 import * as GenericServiceModule from '../typeorm/generic.service.js';
 import {
@@ -25,7 +25,7 @@ import {
   ReadEntity,
   WriteEntity,
 } from '../__mocks__/generic-service.mocks.js';
-import { getConnectionName } from '@nest-yalc-2/database/conn.helper.js';
+import { getConnectionName } from '@node-yalc/database/conn.helper.js';
 import { createMock } from '@golevelup/ts-jest';
 import { CGExtendedRepository } from '../typeorm/generic.repository.js';
 import { ConnectionNotFoundError } from 'typeorm';

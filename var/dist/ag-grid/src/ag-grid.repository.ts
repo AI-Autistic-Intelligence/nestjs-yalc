@@ -1,7 +1,7 @@
 import {
   QueryBuilderHelper,
   ReplicationMode,
-} from '@nest-yalc-2/database/query-builder.helper';
+} from '@node-yalc/database/query-builder.helper';
 import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types';
 import { EntitySchema } from 'typeorm';

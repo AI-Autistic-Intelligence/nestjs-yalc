@@ -1,5 +1,5 @@
 import { DataLoaderFactory, getDataloaderToken, } from '@nest-yalc-2/data-loader/index.js';
-import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper.js';
+import { QueryBuilderHelper } from '@node-yalc/database/query-builder.helper.js';
 import { isFieldMapper, } from '@node-yalc/interfaces/maps.interface.js';
 import { Equal, getMetadataArgsStorage, } from 'typeorm';
 import { createWhere, getFindOperator, } from './typeorm/crud-gen-args.helpers.js';

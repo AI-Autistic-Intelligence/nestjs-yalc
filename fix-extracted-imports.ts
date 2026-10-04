@@ -16,12 +16,12 @@ function replaceInFiles(dir) {
       const original = content;
       
       // Utils
-      content = content.replace(/@nest-yalc-2\/utils\/(env\.helper|returnValue|date\.helper|enum\.helper|plugin\.helper|http\.helper|object-mapper\.helper|class\.helper)(.*?)/g, '@nest-yalc-2/utils/$1$2');
-      content = content.replace(/\.\/object-mapper\.helper\.js/g, '@nest-yalc-2/utils/object-mapper.helper.js');
+      content = content.replace(/@nest-yalc-2\/utils\/(env\.helper|returnValue|date\.helper|enum\.helper|plugin\.helper|http\.helper|object-mapper\.helper|class\.helper)(.*?)/g, '@node-yalc/utils/$1$2');
+      content = content.replace(/\.\/object-mapper\.helper\.js/g, '@node-yalc//object-mapper.helper.js');
       
       // Errors
-      content = content.replace(/@nest-yalc-2\/errors\/(default\.error|error\.helper|error\.class|http-status-code-to-errors|error\.enum|result\.error)(.*?)/g, '@nest-yalc-2/errors/$1$2');
-      content = content.replace(/\.\.\/error\.enum\.js/g, '@nest-yalc-2/errors/error.enum.js');
+      content = content.replace(/@nest-yalc-2\/errors\/(default\.error|error\.helper|error\.class|http-status-code-to-errors|error\.enum|result\.error)(.*?)/g, '@node-yalc/errors/$1$2');
+      content = content.replace(/\.\.\/error\.enum\.js/g, '@node-yalc/errors/error.enum.js');
       
       // Logger
       content = content.replace(/@nest-yalc-2\/logger\/(logger-abstract\.service|logger\.helper|logger\.event|logger\.factory)(.*?)/g, '@nest-yalc-2/logger/$1$2');

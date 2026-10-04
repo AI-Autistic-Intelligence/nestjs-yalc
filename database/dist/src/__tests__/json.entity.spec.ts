@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { JsonEntityMixin } from '../json.entity';
+import { JsonEntityMixin } from '@node-yalc/database/json.entity.js';
 import { ExtendedBaseEntity } from '@nest-yalc-2/jest/extended-base-entity.entity';
 import 'reflect-metadata';
 

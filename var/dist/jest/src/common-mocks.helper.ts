@@ -15,7 +15,10 @@ jest.mock('@nestjs/graphql', () => {
   const actual = jest.requireActual('@nestjs/graphql');
   return {
     ...actual as any,
-    Args: jest.fn(),
+    Args: jest.fn().mockReturnValue(jest.fn()),
+    InputType: jest.fn().mockReturnValue(jest.fn()),
+    ObjectType: jest.fn().mockReturnValue(jest.fn()),
+    Field: jest.fn().mockReturnValue(jest.fn()),
   };
 });
 

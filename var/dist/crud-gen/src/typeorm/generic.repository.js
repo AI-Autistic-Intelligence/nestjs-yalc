@@ -1,4 +1,4 @@
-import { QueryBuilderHelper, ReplicationMode, } from '@nest-yalc-2/database/query-builder.helper.js';
+import { QueryBuilderHelper, ReplicationMode, } from '@node-yalc/database/query-builder.helper.js';
 import { Repository } from 'typeorm';
 import { applySelectOnFind, objectToFieldMapper, whereObjectToSqlString, } from '../crud-gen.helpers.js';
 import '../query-builder.helpers.js';

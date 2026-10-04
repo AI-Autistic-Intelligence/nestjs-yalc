@@ -8,7 +8,7 @@ import {
   EntityError,
   UpdateEntityError,
 } from '../entity.error.js';
-import { getConnectionName } from '@nest-yalc-2/database/conn.helper.js';
+import { getConnectionName } from '@node-yalc/database/conn.helper.js';
 import {
   BadRequestException,
   FactoryProvider,
@@ -35,7 +35,7 @@ import {
 } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-gql.interface.js';
 import { ClassType } from '@node-yalc/types/globals.js';
 import { getProviderToken } from '../crud-gen.helpers.js';
-import { ReplicationMode } from '@nest-yalc-2/database/query-builder.helper.js';
+import { ReplicationMode } from '@node-yalc/database/query-builder.helper.js';
 import { isClass } from '@node-yalc/utils/class.helper.js';
 import {
   getModelFieldMetadataList,

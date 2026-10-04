@@ -8,13 +8,13 @@ import {
   AgGridRepositoryFactory,
   AG_GRID_MAIN_ALIAS,
 } from '../ag-grid.repository';
-import { QueryBuilderHelper } from '@nest-yalc-2/database/query-builder.helper';
+import { QueryBuilderHelper } from '@node-yalc/database/query-builder.helper';
 import { SortDirection } from '../ag-grid.enum';
 import { DeepMocked } from '@golevelup/ts-jest';
 import { mockQueryBuilder } from '@nest-yalc-2/jest/common-mocks.helper';
 import { Alias } from 'typeorm/query-builder/Alias';
 jest.mock('typeorm');
-jest.mock('@nest-yalc-2/database/query-builder.helper');
+jest.mock('@node-yalc/database/query-builder.helper');
 jest.mock('../ag-grid-metadata.helper.js', () => ({
   ...jest.requireActual('../ag-grid-metadata.helper.js') as any,
   objectToFieldMapper: jest.fn(),

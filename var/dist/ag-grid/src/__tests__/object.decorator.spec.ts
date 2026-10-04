@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql', () => {
   const actual = jest.requireActual('@nestjs/graphql');
   return {
@@ -97,7 +96,7 @@ describe('ObjectDecorator', () => {
 
     const mockedNestGraphql = NestGraphql as jest.Mocked<typeof NestGraphql>;
     const mockFieldDecorator = jest.fn();
-    require('@nestjs/graphql').Field.mockReturnValue(mockFieldDecorator);
+    (mockedNestGraphql.Field as jest.Mock).mockReturnValue(mockFieldDecorator);
 
     let gqlOptions: FieldOptions | undefined = undefined;
     let gqlType: ReturnTypeFunc | undefined = () => BaseEntity;
@@ -115,7 +114,7 @@ describe('ObjectDecorator', () => {
     gqlOptions = { name: 'name' };
     gqlType = undefined;
     mockFieldDecorator.mockClear();
-    require('@nestjs/graphql').Field.mockClear();
+    (mockedNestGraphql.Field as jest.Mock).mockClear();
 
     agGridFieldDecorator = AgGridField({
       gqlType,
