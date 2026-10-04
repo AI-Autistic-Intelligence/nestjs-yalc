@@ -225,7 +225,7 @@ const defaultConf = (
     ].join('|');
 
     config.transformIgnorePatterns = [
-      `[/\\\\]node_modules[/\\\\](?!${esModules}).+\\.(js|jsx|ts|tsx)$`,
+      `[/\\\\]node_modules[/\\\\](?!.*(?:${esModules})).+\\.(js|jsx|ts|tsx)$`,
     ];
   }
 

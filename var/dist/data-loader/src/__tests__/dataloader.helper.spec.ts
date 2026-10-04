@@ -73,6 +73,11 @@ describe('GQLDataLoader class', () => {
     expect(dl2).toBeDefined();
   });
 
+  it('should return correct dataloader token for string entity', () => {
+    const { getDataloaderToken } = require('../dataloader.helper.js');
+    expect(getDataloaderToken('testEntity')).toBe('testEntityDataloader');
+  });
+
   it('should getCount', () => {
     expect(dataLoader.getCount()).toBe(0);
   });

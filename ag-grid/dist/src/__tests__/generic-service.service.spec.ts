@@ -521,6 +521,21 @@ describe('GenericService', () => {
     expect(result).toBe(mockedList);
   });
 
+  it('should switch database connection correctly', () => {
+    const mockConnection = {
+      getRepository: jest.fn().mockReturnValue('fakeRepository'),
+    };
+    const connectionManager = require('typeorm').getConnectionManager();
+    const spy = jest.spyOn(connectionManager, 'get').mockReturnValue(mockConnection);
+    service.switchDatabaseConnection('testDb');
+    
+    expect(spy).toHaveBeenCalledWith(getConnectionName('testDb'));
+    expect(mockConnection.getRepository).toHaveBeenCalledTimes(2);
+    expect(service.getRepository()).toBe('fakeRepository');
+    expect(service.getRepositoryWrite()).toBe('fakeRepository');
+    spy.mockRestore();
+  });
+
   describe('validateSupportedError', () => {
     it('Should throw EntityError if error is QueryFailedError', () => {
       const errorFn = validateSupportedError(EntityError);

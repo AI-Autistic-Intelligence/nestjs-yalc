@@ -1,10 +1,14 @@
 import { describe, it, expect } from '@jest/globals';
 
-import { filterHeaders } from '../header-whitelist.helper.js';
+import { filterHeaders, headerWhitelist } from '../header-whitelist.helper.js';
 
 describe('whitelistHeaders', () => {
   it('should be defined', () => {
     expect(filterHeaders).toBeDefined();
+  });
+
+  it('should export headerWhitelist', () => {
+    expect(headerWhitelist).toEqual(['Authorization']);
   });
 
   it('should filter headers', () => {
@@ -25,6 +29,11 @@ describe('whitelistHeaders', () => {
     const headers = undefined;
     const whitelist = ['x-header', 'x-header-2'];
     const filteredHeaders = filterHeaders(headers, whitelist);
+    expect(filteredHeaders).toBeUndefined();
+  });
+
+  it('should return undefined if headers are undefined with default whitelist', () => {
+    const filteredHeaders = filterHeaders(undefined);
     expect(filteredHeaders).toBeUndefined();
   });
 

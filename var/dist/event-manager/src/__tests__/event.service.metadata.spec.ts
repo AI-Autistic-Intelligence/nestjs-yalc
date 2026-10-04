@@ -32,7 +32,7 @@ describe('EventService metadata branches', () => {
       jest.mock('@nestjs/event-emitter', () => ({
         EventEmitter2: undefined,
       }));
-      jest.mock('../global-emitter', () => ({
+      jest.mock('@node-yalc/event-manager/global-emitter.js', () => ({
         globalEventEmitter: { emit: jest.fn() },
       }));
 

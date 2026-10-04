@@ -92,6 +92,13 @@ describe('Graphql decorator test', () => {
     expect(returnFunc).toHaveBeenCalled();
   });
 
+  it('should fallback to empty function when Args returns undefined', () => {
+    (graphql.Args as jest.Mock).mockReturnValue(undefined);
+    const decorator = gqlMapper.InputArgs({});
+    expect(decorator).toEqual(expect.any(Function));
+    expect(() => decorator('', '', 0)).not.toThrow();
+  });
+
   it('Check GqlArgsGenerator with Obj as arg', async () => {
     const fixedArg = { original: new Object() };
     mockCreate.mockImplementation(() => ({

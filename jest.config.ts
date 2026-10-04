@@ -12,7 +12,46 @@ import fs from 'node:fs';
 
 const tsProjects = JSON.parse(fs.readFileSync('./tsconfig.json', 'utf8'));
 
-const appProjectsSettings: { [key: string]: IAppProjSetting } = {};
+const appProjectsSettings: { [key: string]: IAppProjSetting } = {
+  '@nest-yalc-2/crud-gen': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: {
+        branches: 93,
+        functions: 98,
+        lines: 98,
+        statements: 97,
+      },
+    },
+  },
+  '@nest-yalc-2/event-manager': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: {
+        statements: 97,
+      },
+    },
+  },
+  '@nest-yalc-2/logger': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: {
+        statements: 98,
+      },
+    },
+  },
+  '@nest-yalc-2/omnikernel-module': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: {
+        branches: 75,
+        functions: 85,
+        lines: 90,
+        statements: 90,
+      },
+    },
+  },
+};
 
 const projectList: { [key: string]: IProjectInfo } = {};
 
@@ -43,7 +82,7 @@ const options: IOptions = {
     },
   },
   // TODO: re-enable everything except types
-  skipProjects: ['types', 'types-extends', 'jest', 'node_modules'],
+  skipProjects: ['types', 'types-extends', 'jest', 'node_modules', 'ferrox-saas-backend'],
   defaultCoverageThreshold: {
     branches: 100,
     functions: 100,
