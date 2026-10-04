@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/api-strategy",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "",
   "exports": {
@@ -19,5 +19,11 @@
   ],
   "dependencies": {
     "tslib": "^2.6.3"
-  }
+  },
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "api strategy"
+  ]
 }

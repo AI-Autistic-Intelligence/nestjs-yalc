@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/event-manager",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "This package offers different tools to manage centralized events",
   "exports": {
@@ -29,5 +29,13 @@
     "@nest-yalc-2/types": "^1.0.0",
     "@nestjs/common": "^11.1.19",
     "@nestjs/event-emitter": "^3.0.1"
-  }
+  },
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "events",
+    "event-emitter",
+    "pubsub"
+  ]
 }

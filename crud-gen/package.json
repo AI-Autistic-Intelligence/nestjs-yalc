@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/crud-gen",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "",
   "main": "./dist/src/index.js",
@@ -42,5 +42,13 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "typeorm": "^0.3.28"
-  }
+  },
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "crud",
+    "generator",
+    "graphql"
+  ]
 }

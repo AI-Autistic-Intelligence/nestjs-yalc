@@ -1,6 +1,6 @@
 {
   "name": "@nest-yalc-2/omnikernel-module",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "Foundational OmniKernel persistence module for nestjs-yalc",
   "main": "./dist/src/index.js",
@@ -39,5 +39,11 @@
     "graphql-type-json": "^0.3.2",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.28"
-  }
+  },
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "omnikernel module"
+  ]
 }

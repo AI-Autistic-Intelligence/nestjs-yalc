@@ -1,6 +1,6 @@
 {
   "name": "ferrox-saas-backend",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Ferrox Enterprise SaaS Backend (Node.js Port) powered by @ferrox/node framework",
   "main": "./dist/src/main.js",
   "license": "MIT",
@@ -16,5 +16,12 @@
     ".": "./dist/src/main.js",
     "./*": "./dist/src/*"
   },
-  "author": "Autistic_Intelligence"
+  "author": "Autistic_Intelligence",
+  "private": true,
+  "keywords": [
+    "nestjs",
+    "yalc",
+    "framework",
+    "ferrox saas backend"
+  ]
 }
