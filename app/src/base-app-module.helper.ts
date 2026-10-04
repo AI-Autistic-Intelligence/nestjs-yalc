@@ -56,26 +56,27 @@ export function registerSingletonDynamicModule(
   return singletonDynamicModules.get(moduleToken);
 }
 
-export function getCachedModule(module: any, isSingleton: boolean) {
+export function getCachedModule(module: any, isSingleton?: boolean) {
   if (isSingleton) {
     return singletonDynamicModules.get(module);
   }
   return null;
 }
 
-export function envFilePathList(dirname: string = '.') {
+export function envFilePathList(dirname?: string) {
+  const _dirname = dirname ?? '.';
   const envFilePath: string[] = [];
 
-  envFilePath.push(`${dirname}/.env`); // user-defined env (git-ignored)
+  envFilePath.push(`${_dirname}/.env`); // user-defined env (git-ignored)
 
   /* istanbul ignore next */
   if (process.env.NODE_ENV) {
-    envFilePath.push(`${dirname}/.env.${process.env.NODE_ENV}`); // user-defined env (git-ignored)
+    envFilePath.push(`${_dirname}/.env.${process.env.NODE_ENV}`); // user-defined env (git-ignored)
   }
 
   // .env.dist is always loaded except in production
   if (process.env.NODE_ENV !== 'production')
-    envFilePath.push(`${dirname}/.env.dist`);
+    envFilePath.push(`${_dirname}/.env.dist`);
 
   return envFilePath;
 }
@@ -109,7 +110,9 @@ const _buildEnvFilePath = _.memoize(
  * For some strange reason, the memoize doesn't work well with exporting the const at the same time
  * and re-use it in the same file
  */
-export const buildEnvFilePath: (envDir?: string, envPath?: string | string[]) => string[] = _buildEnvFilePath;
+export function buildEnvFilePath(envDir?: string, envPath?: string | string[]): string[] {
+  return _buildEnvFilePath(envDir, envPath);
+}
 
 /**
  * Used for applications with controller/resolver support
@@ -370,6 +373,7 @@ function yalcGlobalStaticModuleFactory(): Partial<IYalcBaseStaticModule> {
 }
 @Global()
 @Module(yalcGlobalStaticModuleFactory())
+/* istanbul ignore next */
 export class YalcGlobalStaticModule {}
 
 /**

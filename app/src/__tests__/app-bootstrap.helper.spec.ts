@@ -96,3 +96,67 @@ describe('AppBootstrap.applyBootstrapGlobals', () => {
     expect(setupSwaggerMock).toHaveBeenCalled();
   });
 });
+
+describe('AppBootstrap - additional coverage', () => {
+  it('initApp should call createApp and initSetup', async () => {
+    const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    bootstrap.createApp = jest.fn().mockResolvedValue(bootstrap as any);
+    bootstrap.initSetup = jest.fn().mockResolvedValue(bootstrap as any);
+    await bootstrap.initApp();
+    expect(bootstrap.createApp).toHaveBeenCalled();
+    expect(bootstrap.initSetup).toHaveBeenCalled();
+  });
+
+  it('initSetup should call applyBootstrapGlobals and init', async () => {
+    const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    bootstrap.applyBootstrapGlobals = jest.fn();
+    const mockApp = { init: jest.fn() };
+    bootstrap.getApp = jest.fn().mockReturnValue(mockApp as any);
+    await bootstrap.initSetup();
+    expect(bootstrap.applyBootstrapGlobals).toHaveBeenCalled();
+    expect(mockApp.init).toHaveBeenCalled();
+  });
+
+  it('createApp should call NestFactory.create and setApp', async () => {
+    const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    bootstrap.setApp = jest.fn().mockReturnValue(bootstrap as any);
+    const mockNestApp = {};
+    const NestFactory = require('@nestjs/core').NestFactory;
+    jest.spyOn(NestFactory, 'create').mockResolvedValue(mockNestApp as any);
+    await bootstrap.createApp();
+    expect(NestFactory.create).toHaveBeenCalled();
+    expect(bootstrap.setApp).toHaveBeenCalledWith(mockNestApp);
+  });
+
+  it('createApp should handle errors during createApp', async () => {
+    const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    const NestFactory = require('@nestjs/core').NestFactory;
+    jest.spyOn(NestFactory, 'create').mockRejectedValue(new Error('test error') as never);
+    bootstrap.closeCleanup = jest.fn() as any;
+    // mock console.error
+    const errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    await expect(bootstrap.createApp()).rejects.toThrow('Process aborted');
+    expect(bootstrap.closeCleanup).toHaveBeenCalled();
+    errSpy.mockRestore();
+  });
+});
+describe('AppBootstrap.applyBootstrapGlobals - no options', () => {
+  it('should handle undefined options', async () => {
+    const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    const fakeApp = {
+      useGlobalPipes: jest.fn(),
+      setGlobalPrefix: jest.fn(),
+      register: jest.fn(),
+      useGlobalInterceptors: jest.fn(),
+      useGlobalFilters: jest.fn(),
+      get: jest.fn().mockReturnValue({ log: jest.fn(), debug: jest.fn() }),
+      useLogger: jest.fn(),
+      select: jest.fn().mockReturnValue({}),
+    };
+    bootstrap['app'] = fakeApp as any;
+    bootstrap.getConf = jest.fn().mockReturnValue({}) as any;
+    bootstrap.getModule = jest.fn().mockReturnValue({}) as any;
+    await bootstrap.applyBootstrapGlobals();
+    expect(fakeApp.useGlobalPipes).toHaveBeenCalled();
+  });
+});
