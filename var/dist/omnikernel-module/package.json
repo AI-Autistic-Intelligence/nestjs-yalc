@@ -16,12 +16,12 @@
     "src"
   ],
   "dependencies": {
-    "@nest-yalc-2/crud-gen": "^2.2.7",
-    "@nest-yalc-2/data-loader": "^2.2.7",
-    "@nest-yalc-2/event-manager": "^2.2.7",
-    "@nest-yalc-2/graphql": "^2.2.7",
+    "@nest-yalc-2/crud-gen": "^2.2.8",
+    "@nest-yalc-2/data-loader": "^2.2.8",
+    "@nest-yalc-2/event-manager": "^2.2.8",
+    "@nest-yalc-2/graphql": "^2.2.8",
     "@nest-yalc-2/types": "*",
-    "@nest-yalc-2/utils": "^2.2.7",
+    "@nest-yalc-2/utils": "^2.2.8",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {

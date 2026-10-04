@@ -1,4 +1,4 @@
-import { Controller, Get } from '@ferrox/node';
+import { Controller, Get } from '@ferrox-node/core';
 
 @Controller('/api/v1/users')
 export class UsersController {
