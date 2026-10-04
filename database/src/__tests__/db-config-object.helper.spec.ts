@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { envTestHelper } from '@nest-yalc-2/jest/env.helper';
 import { CONN_SUFFIX } from '../conn.helper';
 import { buildDbConfigObject } from '../db-config-object.helper';

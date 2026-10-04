@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { GqlError } from './gql.error.js';
 
 describe('GqlError class', () => {

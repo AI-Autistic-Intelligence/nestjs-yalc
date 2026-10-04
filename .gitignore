@@ -1,6 +1,108 @@
-node_modules
-docs/compodoc/jestcoverage
+# ==============================================================================
+# NestJS Yalc - Monorepo .gitignore
+# Tailored for NestJS / TypeScript / Yalc Multi-Package Workspace & Apps
+# ==============================================================================
+
+# Dependencies
+node_modules/
+**/node_modules/
+jspm_packages/
+
+# TypeScript & Build Outputs (Root, all workspace packages & example apps)
+dist/
+**/dist/
+build/
+**/build/
+out/
+**/out/
+.next/
+.turbo/
+.cache/
+.parcel-cache/
+*.tsbuildinfo
+**/*.tsbuildinfo
+*.tgz
+**/*.tgz
+
+# In-source compiled maps (generated during testing/tsc)
+*.js.map
+**/*.js.map
+
+# Documentation & Coverage
+docs/compodoc/
+jestcoverage/
+**/jestcoverage/
+coverage/
+**/coverage/
+.nyc_output/
+*.lcov
+
+# Scratch & Temporary Scripts
 scratch/
+**/scratch/
+scratch_*
+scratch.*
+build-errors.log
+
+# Syncwheel Metadata
+.syncwheel/
+**/.syncwheel/
+var/syncwheel/
+**/var/syncwheel/
+
+# Local Runtime & Variable Storage
+var/*
+!var/.gitkeep
+examples/*/app/var/*
+!examples/*/app/var/.gitkeep
+examples/*/app/var/dist/
+
+# Yalc & Local Package Linking
+.yalc/
+**/.yalc/
+yalc.lock
+**/yalc.lock
+.yalc-*
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+.env*.local
+*.env
+!.env.example
+*.pem
+*.key
+
+# Logs
 *.log
-scratch_*.cjs
-scratch_*.ts
+logs/
+**/logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDEs and Code Editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/

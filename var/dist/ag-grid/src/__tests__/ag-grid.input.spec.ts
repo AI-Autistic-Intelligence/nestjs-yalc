@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 // removed jest.mock('@nestjs/graphql')
 import {
   agJoinArgFactory,

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 /// <reference types="jest" />
 /* istanbul ignore file */
 
@@ -7,6 +8,14 @@ jest.mock('@fastify/cookie', () => {
   return {
     __esModule: true,
     default: plugin,
+  };
+});
+
+jest.mock('@nestjs/graphql', () => {
+  const actual = jest.requireActual('@nestjs/graphql');
+  return {
+    ...actual as any,
+    Args: jest.fn(),
   };
 });
 

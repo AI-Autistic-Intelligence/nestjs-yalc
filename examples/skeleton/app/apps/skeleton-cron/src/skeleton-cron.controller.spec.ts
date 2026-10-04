@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { Test, TestingModule } from '@nestjs/testing';
 import { SkeletonCronController } from './skeleton-cron.controller';
 import { SkeletonCronService } from './skeleton-cron.service';

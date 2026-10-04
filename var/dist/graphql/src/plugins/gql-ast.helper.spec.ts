@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { SelectionNode } from 'graphql';
 import { GqlASTHelper } from './gql-ast.helper.js';
 

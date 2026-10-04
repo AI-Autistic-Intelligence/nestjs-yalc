@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { JsonTransformer } from '../transformers.helpers.js';
 import {
   isYalcTransformerGuard,

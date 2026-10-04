@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { FerroxSentinelGuard } from '../sentinel.guard.js';
 import { ShannonEntropyEngine } from '../algorithms/shannon-entropy.js';

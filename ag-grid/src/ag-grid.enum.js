@@ -4,87 +4,27 @@ exports.RowDefaultValues = exports.ExtraArgsStrategy = exports.CustomWhereKeys =
 exports.entityFieldsEnumFactory = entityFieldsEnumFactory;
 const class_helper_js_1 = require("@node-yalc/utils/class.helper.js");
 const graphql_1 = require("@nestjs/graphql");
-const ag_grid_metadata_helper_1 = require("./ag-grid-metadata.helper");
-var GeneralFilters;
-(function (GeneralFilters) {
-    GeneralFilters["NOT"] = "not";
-    GeneralFilters["CONTAINS"] = "contains";
-    GeneralFilters["NOTCONTAINS"] = "notContains";
-    GeneralFilters["EQUALS"] = "equals";
-    GeneralFilters["EQUAL"] = "equal";
-    GeneralFilters["NOTEQUAL"] = "notEqual";
-    GeneralFilters["LIKE"] = "like";
-    GeneralFilters["NOTLIKE"] = "notLike";
-    GeneralFilters["BETWEEN"] = "between";
-    GeneralFilters["NOTBETWEEN"] = "notBetween";
-    GeneralFilters["IN"] = "in";
-    GeneralFilters["NOTIN"] = "notIn";
-    GeneralFilters["STARTSWITH"] = "startsWith";
-    GeneralFilters["NOTSTARTSWITH"] = "notStartsWith";
-    GeneralFilters["ENDSWITH"] = "endsWith";
-    GeneralFilters["NOTENDSWITH"] = "notEndsWith";
-    GeneralFilters["LESSTHAN"] = "lessThan";
-    GeneralFilters["NOTLESSTHAN"] = "notLessThan";
-    GeneralFilters["LESSTHANOREQUAL"] = "lessThanOrEqual";
-    GeneralFilters["NOTLESSTHANOREQUAL"] = "notLessThanOrEqual";
-    GeneralFilters["GREATERTHAN"] = "greaterThan";
-    GeneralFilters["NOTGREATERTHAN"] = "notGreaterThan";
-    GeneralFilters["GREATERTHANOREQUAL"] = "greaterThanOrEqual";
-    GeneralFilters["NOTGREATERTHANOREQUAL"] = "notGreaterThanOrEqual";
-    GeneralFilters["INRANGE"] = "inRange";
-    GeneralFilters["INDATE"] = "inDate";
-    GeneralFilters["ISNULL"] = "isNull";
-    GeneralFilters["NOTISNULL"] = "notIsNull";
-    GeneralFilters["VIRTUAL"] = "virtual";
-})(GeneralFilters || (exports.GeneralFilters = GeneralFilters = {}));
-(0, graphql_1.registerEnumType)(GeneralFilters, {
+const ag_grid_metadata_helper_js_1 = require("./ag-grid-metadata.helper.js");
+const ag_grid_enum_js_1 = require("@node-yalc/datagrid/ag-grid.enum.js");
+Object.defineProperty(exports, "GeneralFilters", { enumerable: true, get: function () { return ag_grid_enum_js_1.GeneralFilters; } });
+Object.defineProperty(exports, "FilterType", { enumerable: true, get: function () { return ag_grid_enum_js_1.FilterType; } });
+Object.defineProperty(exports, "Operators", { enumerable: true, get: function () { return ag_grid_enum_js_1.Operators; } });
+Object.defineProperty(exports, "SortDirection", { enumerable: true, get: function () { return ag_grid_enum_js_1.SortDirection; } });
+Object.defineProperty(exports, "CustomWhereKeys", { enumerable: true, get: function () { return ag_grid_enum_js_1.CustomWhereKeys; } });
+Object.defineProperty(exports, "ExtraArgsStrategy", { enumerable: true, get: function () { return ag_grid_enum_js_1.ExtraArgsStrategy; } });
+Object.defineProperty(exports, "RowDefaultValues", { enumerable: true, get: function () { return ag_grid_enum_js_1.RowDefaultValues; } });
+(0, graphql_1.registerEnumType)(ag_grid_enum_js_1.GeneralFilters, {
     name: 'GeneralFiltersEnum',
 });
-var FilterType;
-(function (FilterType) {
-    FilterType["TEXT"] = "text";
-    FilterType["MULTI"] = "multi";
-    FilterType["NUMBER"] = "number";
-    FilterType["DATE"] = "date";
-    FilterType["SET"] = "set";
-})(FilterType || (exports.FilterType = FilterType = {}));
-(0, graphql_1.registerEnumType)(FilterType, {
+(0, graphql_1.registerEnumType)(ag_grid_enum_js_1.FilterType, {
     name: 'FilterTypeEnum',
 });
-var Operators;
-(function (Operators) {
-    Operators["AND"] = "AND";
-    Operators["OR"] = "OR";
-})(Operators || (exports.Operators = Operators = {}));
-(0, graphql_1.registerEnumType)(Operators, {
+(0, graphql_1.registerEnumType)(ag_grid_enum_js_1.Operators, {
     name: 'FilterOperatorsEnum',
 });
-var SortDirection;
-(function (SortDirection) {
-    SortDirection["DESC"] = "DESC";
-    SortDirection["ASC"] = "ASC";
-})(SortDirection || (exports.SortDirection = SortDirection = {}));
-(0, graphql_1.registerEnumType)(SortDirection, {
+(0, graphql_1.registerEnumType)(ag_grid_enum_js_1.SortDirection, {
     name: 'SortDirection',
 });
-var CustomWhereKeys;
-(function (CustomWhereKeys) {
-    CustomWhereKeys["MULTICOLUMNJOINOPTIONS"] = "multiColumnJoinOptions";
-    CustomWhereKeys["MULTICOLUMNJOINOPERATOR"] = "multiColumnJoinOperator";
-    CustomWhereKeys["OPERATOR"] = "operator";
-})(CustomWhereKeys || (exports.CustomWhereKeys = CustomWhereKeys = {}));
-var ExtraArgsStrategy;
-(function (ExtraArgsStrategy) {
-    ExtraArgsStrategy[ExtraArgsStrategy["DEFAULT"] = 0] = "DEFAULT";
-    ExtraArgsStrategy[ExtraArgsStrategy["AT_LEAST_ONE"] = 1] = "AT_LEAST_ONE";
-    ExtraArgsStrategy[ExtraArgsStrategy["ONLY_ONE"] = 2] = "ONLY_ONE";
-})(ExtraArgsStrategy || (exports.ExtraArgsStrategy = ExtraArgsStrategy = {}));
-var RowDefaultValues;
-(function (RowDefaultValues) {
-    RowDefaultValues[RowDefaultValues["END_ROW"] = 100] = "END_ROW";
-    RowDefaultValues[RowDefaultValues["START_ROW"] = 0] = "START_ROW";
-    RowDefaultValues[RowDefaultValues["MAX_ROW"] = 200] = "MAX_ROW";
-})(RowDefaultValues || (exports.RowDefaultValues = RowDefaultValues = {}));
 const fieldsEnumCache = new WeakMap();
 function entityFieldsEnumFactory(entityModel) {
     let cached;
@@ -92,7 +32,7 @@ function entityFieldsEnumFactory(entityModel) {
     if ((cached = fieldsEnumCache.get(prototype)))
         return cached;
     const properties = {};
-    (0, ag_grid_metadata_helper_1.getMappedTypeProperties)(prototype).map((v) => (properties[v] = v));
+    (0, ag_grid_metadata_helper_js_1.getMappedTypeProperties)(prototype).map((v) => (properties[v] = v));
     const FieldsEnum = { ...properties };
     (0, graphql_1.registerEnumType)(FieldsEnum, {
         name: `${prototype.name}FieldEnum`,

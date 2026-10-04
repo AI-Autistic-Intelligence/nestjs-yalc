@@ -13,17 +13,17 @@ import { SortDirection } from '../ag-grid.enum';
 import { DeepMocked } from '@golevelup/ts-jest';
 import { mockQueryBuilder } from '@nest-yalc-2/jest/common-mocks.helper';
 import { Alias } from 'typeorm/query-builder/Alias';
-import * as Typeorm from 'typeorm';
-import * as AgGridHelpers from '../ag-grid-metadata.helper';
-import * as AgGridQueryHelpers from "../ag-grid-query.helper";
-import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
-
 jest.mock('typeorm');
 jest.mock('@nest-yalc-2/database/query-builder.helper');
 jest.mock('../ag-grid-metadata.helper.js', () => ({
   ...jest.requireActual('../ag-grid-metadata.helper.js') as any,
   objectToFieldMapper: jest.fn(),
 }));
+
+const Typeorm = require('typeorm');
+const AgGridHelpers = require('../ag-grid-metadata.helper.js');
+const AgGridQueryHelpers = require('../ag-grid-query.helper.js');
+const AgGridFactoryHelpers = require('../ag-grid-factory.helper.js');
 
 const fakeFindOptions = {
   take: 5,

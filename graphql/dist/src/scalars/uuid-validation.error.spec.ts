@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { UUIDValidationError } from './uuid-validation.error.js';
 
 describe('UUIDValidationError', () => {

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 /**
  * @file fix-examples.ts
  * @description Converted to TypeScript to support NodeNext module resolution.

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import 'reflect-metadata';
 import { HealthController } from '../modules/health.controller';
 import { AuthController } from '../modules/auth.controller';

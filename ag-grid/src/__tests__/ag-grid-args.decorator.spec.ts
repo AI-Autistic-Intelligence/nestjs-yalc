@@ -734,7 +734,7 @@ describe('Ag-grid args decorator', () => {
 
   // Not the prettiest test, but since a lot is actually a decorator under the hood i think this is fine, we do not call this directly normally
   it('should be able to use the AgGridArgs to combine param decorators', () => {
-    const ArgsFunc = jest.spyOn(graphql, 'Args');
+    const ArgsFunc = jest.mocked(graphql.Args);
     const returnFunc = jest.fn().mockReturnValue('somestring');
     ArgsFunc.mockReturnValue(returnFunc);
     //Without params type
@@ -750,7 +750,7 @@ describe('Ag-grid args decorator', () => {
   });
 
   it('should be able to use the AgGridArgsNoPagination to combine param decorators', () => {
-    const ArgsFunc = jest.spyOn(graphql, 'Args');
+    const ArgsFunc = jest.mocked(graphql.Args);
     const returnFunc = jest.fn().mockReturnValue('somestring');
     ArgsFunc.mockReturnValue(returnFunc);
     //With params type
@@ -772,7 +772,7 @@ describe('Ag-grid args decorator', () => {
   it('Should combine decorators with AgGridCombineDecorators', () => {
 
 
-    const ArgsFunc = jest.spyOn(graphql, 'Args');
+    const ArgsFunc = jest.mocked(graphql.Args);
     const returnFunc = jest.fn().mockReturnValue('somestring');
     ArgsFunc.mockReturnValue(returnFunc);
 
@@ -786,7 +786,7 @@ describe('Ag-grid args decorator', () => {
   });
 
   it('Should combine decorators with default values with AgGridCombineDecorators', () => {
-    const ArgsFunc = jest.spyOn(graphql, 'Args');
+    const ArgsFunc = jest.mocked(graphql.Args);
     const returnFunc = jest.fn().mockReturnValue('somestring');
     ArgsFunc.mockReturnValue(returnFunc);
 
@@ -875,7 +875,7 @@ describe('Ag-grid args decorator', () => {
   });
 
   it('Should be able to use the AgGridArgsSingle', () => {
-    const ArgsFunc = jest.spyOn(graphql, 'Args');
+    const ArgsFunc = jest.mocked(graphql.Args);
     const returnFunc = jest.fn().mockReturnValue('somestring');
     ArgsFunc.mockReturnValue(returnFunc);
 

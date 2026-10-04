@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql');
 
 import * as GenericServiceModule from '../generic-service.service';
@@ -6,16 +7,8 @@ import {
   GenericServiceFactory,
   validateSupportedError,
 } from '../generic-service.service';
-import {
-  BaseEntity,
-  Connection,
-  Repository,
-  getConnection,
-  QueryFailedError,
-  InsertResult,
-  UpdateResult,
-  DeleteResult,
-} from 'typeorm';
+const typeorm = require('typeorm');
+const {  } = typeorm;
 import {
   baseEntityRepository as _baseEntityRepository,
   MockedEntity,
@@ -38,7 +31,7 @@ import {
   NoResultsFoundError,
   ConditionsTooBroadError,
 } from '../conditions.error';
-import * as ClassHelper from '@node-yalc/utils/class.helper.js';
+const ClassHelper = require('@node-yalc/utils/class.helper.js');
 jest.mock('@node-yalc/utils/class.helper.js', () => ({
   isClass: jest.fn(),
 }));
@@ -50,7 +43,7 @@ describe('GenericService', () => {
   let baseEntityRepository = _baseEntityRepository;
 
   beforeEach(async () => {
-    mockedGetConnection = jest.mocked(getConnection, { shallow: false } as any);
+    mockedGetConnection = typeorm.getConnection;
 
     // the target property can't be proxied
     // we need to create a new proxy by overriding the
@@ -307,7 +300,7 @@ describe('GenericService', () => {
     const mockedEntity = new BaseEntity();
     const insertResult = new InsertResult();
     insertResult.identifiers = [{ id: '123' }];
-    const mockedIsClass = (ClassHelper.isClass as jest.Mock).mockReturnValue(true);
+    const mockedIsClass = ClassHelper.isClass.mockReturnValue(true);
 
     baseEntityRepository.insert.mockResolvedValueOnce(insertResult);
     baseEntityRepository.getOneAgGrid.mockResolvedValueOnce(mockedEntity);
@@ -389,7 +382,7 @@ describe('GenericService', () => {
 
   it('Should update an entity correctly when entity isClass', async () => {
     const mockedEntity = new BaseEntity();
-    const mockedIsClass = (ClassHelper.isClass as jest.Mock).mockReturnValue(true);
+    const mockedIsClass = ClassHelper.isClass.mockReturnValue(true);
 
     baseEntityRepository.find.mockResolvedValueOnce([mockedEntity]);
     baseEntityRepository.update.mockResolvedValueOnce(new UpdateResult());

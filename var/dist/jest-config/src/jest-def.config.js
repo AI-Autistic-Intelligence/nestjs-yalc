@@ -104,14 +104,14 @@ const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
         testRegex: '.*\\.spec\\.ts$',
         transform: {
             '^.+\\.(t|j)sx?$': [
-                'ts-jest',
+                '@swc/jest',
                 {
-                    useESM: false,
-                    tsconfig: {
-                        ...compilerOptions,
-                        importHelpers: true,
+                    jsc: {
+                        target: 'es2022',
+                        parser: { syntax: 'typescript', decorators: true },
+                        transform: { legacyDecorator: true, decoratorMetadata: true, useDefineForClassFields: false },
                     },
-                    ..._tsJestConfig,
+                    module: { type: 'commonjs', strict: false, strictMode: false },
                 },
             ],
         },
@@ -122,6 +122,12 @@ const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
                 `${dirname}/../node-yalc/$1/src/$2/index.ts`,
                 `${dirname}/../node-yalc/$1/src/$2.js`,
                 `${dirname}/../node-yalc/$1/src/$2`
+            ],
+            '^@nest-yalc-2/([^/]+)(?:/)?(.*)\\.js$': [
+                `${dirname}/$1/src/$2.ts`,
+                `${dirname}/$1/src/$2/index.ts`,
+                `${dirname}/$1/src/$2.js`,
+                `${dirname}/$1/src/$2`
             ],
             '^@node-yalc/([^/]+)$': [
                 `${dirname}/../node-yalc/$1/src/index.ts`

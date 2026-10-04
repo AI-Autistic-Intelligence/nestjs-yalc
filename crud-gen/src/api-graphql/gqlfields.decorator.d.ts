@@ -14,4 +14,4 @@ export declare const GqlModelFieldsMapper: (data: IFieldMapper | ReturnTypeFuncV
     };
 };
 export declare const GqlInfoGenerator: (data: (IFieldMapper | ReturnTypeFuncValue | ClassType) | undefined, ctx: ExecutionContext) => string[];
-export declare const GqlFieldsMap: (...dataOrPipes: (IFieldMapper<any> | ClassType | ReturnTypeFuncValue | import("@nestjs/common").ParameterDecoratorOptions | import("@nestjs/common").PipeTransform<any, any> | Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;
+export declare const GqlFieldsMap: (...dataOrPipes: (ClassType | IFieldMapper<any> | ReturnTypeFuncValue | import("@nestjs/common").ParameterDecoratorOptions | import("@nestjs/common").PipeTransform<any, any> | Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;

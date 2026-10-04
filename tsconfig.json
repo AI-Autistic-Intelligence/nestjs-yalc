@@ -177,7 +177,11 @@
         "./types/src/*"
       ]
     },
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "preserveSymlinks": true,
+    "types": [
+      "jest"
+    ]
   },
   "include": [
     "**/src/**/*.ts"
@@ -204,6 +208,7 @@
     "compilerOptions": {
       "module": "CommonJS",
       "moduleResolution": "node"
-    }
+    },
+    "experimentalResolver": true
   }
 }

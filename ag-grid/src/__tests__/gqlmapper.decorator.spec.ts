@@ -1,8 +1,9 @@
+import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql', () => {
   const actual = jest.requireActual('@nestjs/graphql');
   return {
     ...actual,
-    Args: jest.fn(),
+    Args: jest.fn().mockReturnValue(jest.fn()),
   };
 });
 

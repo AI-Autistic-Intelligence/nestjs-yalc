@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { FieldErrorsEnum } from '../field-error.enum';
 
 describe('Shared enum test', () => {

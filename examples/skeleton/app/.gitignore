@@ -1,35 +1,54 @@
-# compiled output
-/dist
-/node_modules
+# ==============================================================================
+# Skeleton App .gitignore
+# ==============================================================================
+
+# Compiled Output & Dependencies
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+*.tgz
+
+# Tests & Coverage
+coverage/
+.nyc_output/
+
+# Yalc & Local Package Linking
+.yalc/
+yalc.lock
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+.env*.local
+*.env
+!.env.example
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
-pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 lerna-debug.log*
 
-# OS
-.DS_Store
-
-# Tests
-/coverage
-/.nyc_output
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
+# IDEs & Editors
+.idea/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.swp
+*.swo
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+[Dd]esktop.ini

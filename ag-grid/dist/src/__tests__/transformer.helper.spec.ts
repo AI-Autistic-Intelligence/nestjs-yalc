@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { JsonTransformer } from '../transformer.helper';
 
 describe('Test transformers', () => {

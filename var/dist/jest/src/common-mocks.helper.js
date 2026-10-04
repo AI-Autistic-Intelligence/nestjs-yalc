@@ -2,12 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mockQueryBuilder = exports.mockChainingObject = exports.mockedExecutionContext = exports.mockedGqlCtxCreate = exports.mockedNestGraphql = void 0;
 const tslib_1 = require("tslib");
-jest.mock('@fastify/cookie', () => {
+const globals_1 = require("@jest/globals");
+globals_1.jest.mock('@fastify/cookie', () => {
     const plugin = (_fastify, _options, done) => done();
     plugin[Symbol.for('skip-override')] = true;
     return {
         __esModule: true,
         default: plugin,
+    };
+});
+globals_1.jest.mock('@nestjs/graphql', () => {
+    const actual = globals_1.jest.requireActual('@nestjs/graphql');
+    return {
+        ...actual,
+        Args: globals_1.jest.fn(),
     };
 });
 const NestGraphql = tslib_1.__importStar(require("@nestjs/graphql"));
@@ -41,7 +49,7 @@ const mockChainingObject = (partial, options) => {
 exports.mockChainingObject = mockChainingObject;
 const mockQueryBuilder = (partial, options) => {
     const mockObject = (0, exports.mockChainingObject)(partial, options);
-    mockObject.connection.createQueryBuilder = jest
+    mockObject.connection.createQueryBuilder = globals_1.jest
         .fn()
         .mockReturnValue(mockObject);
     return mockObject;

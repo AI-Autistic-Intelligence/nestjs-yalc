@@ -1,3 +1,4 @@
+// import { jest } from '@jest/globals';
 /* istanbul ignore file */
 
 import * as path from 'path';
@@ -114,7 +115,7 @@ export function jestConfGenerator(
       `${rootPath}/__mocks__`,
     ],
     setupFiles: [
-      `${__dirname}/jest.setup.js`,
+      `${__dirname}/jest.setup.ts`,
       ...(options.extraSetupFiles ?? []),
     ],
     coveragePathIgnorePatterns,

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.classesAreDefinedTest = classesAreDefinedTest;
 exports.factoriesAreDefinedTest = factoriesAreDefinedTest;
+const globals_1 = require("@jest/globals");
 const faker_1 = require("@faker-js/faker");
 const helpers_1 = require("./helpers");
 function classesAreDefinedTest(moduleName, classList) {
@@ -20,16 +21,16 @@ function factoriesAreDefinedTest(moduleName, factoryList) {
             for (const aFactory of factoryList) {
                 let instance = aFactory(faker_1.faker);
                 expect(instance).toBeDefined();
-                jest.spyOn(faker_1.faker.datatype, 'number').mockReturnValue(0);
-                jest.spyOn(faker_1.faker.datatype, 'boolean').mockReturnValue(false);
+                globals_1.jest.spyOn(faker_1.faker.datatype, 'number').mockReturnValue(0);
+                globals_1.jest.spyOn(faker_1.faker.datatype, 'boolean').mockReturnValue(false);
                 instance = aFactory(faker_1.faker);
                 expect(instance).toBeDefined();
-                jest.spyOn(faker_1.faker.datatype, 'number').mockReturnValue(1);
-                jest.spyOn(faker_1.faker.datatype, 'boolean').mockReturnValue(true);
+                globals_1.jest.spyOn(faker_1.faker.datatype, 'number').mockReturnValue(1);
+                globals_1.jest.spyOn(faker_1.faker.datatype, 'boolean').mockReturnValue(true);
                 instance = aFactory(faker_1.faker);
                 expect(instance).toBeDefined();
-                jest.spyOn(faker_1.faker.datatype, 'number').mockRestore();
-                jest.spyOn(faker_1.faker.datatype, 'boolean').mockRestore();
+                globals_1.jest.spyOn(faker_1.faker.datatype, 'number').mockRestore();
+                globals_1.jest.spyOn(faker_1.faker.datatype, 'boolean').mockRestore();
             }
         });
     });

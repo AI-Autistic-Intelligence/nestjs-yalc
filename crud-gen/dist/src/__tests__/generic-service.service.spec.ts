@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+jest.mock('@node-yalc/utils/class.helper.js');
 jest.mock('typeorm', () => { const actual = jest.requireActual('typeorm'); return { ...actual, getConnection: jest.fn(), ConnectionNotFoundError: actual.ConnectionNotFoundError }; });
 
 import * as GenericServiceModule from '../typeorm/generic.service.js';
@@ -30,7 +31,7 @@ import { CGExtendedRepository } from '../typeorm/generic.repository.js';
 import { ConnectionNotFoundError } from 'typeorm';
 import { FactoryProvider } from '@nestjs/common';
 
-import * as ClassHelper from '@node-yalc/utils/class.helper.js';
+const ClassHelper = require('@node-yalc/utils/class.helper.js');
 
 
 
@@ -44,7 +45,7 @@ import {
   ConditionsTooBroadError,
 } from '../conditions.error.js';
 import { Operators } from '../crud-gen.enum.js';
-import * as ClassHelper from '@node-yalc/utils/class.helper.js';
+
 
 
 

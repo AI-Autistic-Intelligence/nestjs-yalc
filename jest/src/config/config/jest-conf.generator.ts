@@ -1,3 +1,4 @@
+// import { jest } from '@jest/globals';
 /* istanbul ignore file */
 
 import * as path from 'path';

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { StringValueNode, ValueNode } from 'graphql';
 import {
   UUIDScalar,

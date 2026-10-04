@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test } from '@nestjs/testing';

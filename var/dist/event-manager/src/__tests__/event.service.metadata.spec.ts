@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 describe('EventService metadata branches', () => {
   it('should load class without Reflect.metadata', () => {
     jest.isolateModules(() => {

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import * as EntityError from '../entity.error';
 
 const fixedMessage = 'fixedErrorText';

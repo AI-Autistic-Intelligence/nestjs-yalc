@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql');
 jest.mock('@nest-yalc-2/ag-grid/ag-grid.args', () => ({
   agQueryParamsFactory: jest.fn(),

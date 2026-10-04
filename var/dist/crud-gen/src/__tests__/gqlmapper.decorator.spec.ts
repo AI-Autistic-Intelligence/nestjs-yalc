@@ -4,7 +4,14 @@ import {
 } from '@nest-yalc-2/jest/common-mocks.helper.js';
 import { ModelField, CrudGenObject } from '../object.decorator.js';
 
-
+jest.mock('@nestjs/graphql', () => {
+  const actual = jest.requireActual('@nestjs/graphql') as any;
+  return {
+    __esModule: true,
+    ...actual,
+    Args: jest.fn().mockReturnValue(jest.fn()),
+  };
+});
 
 import * as graphql from '@nestjs/graphql';
 import * as gqlMapper from '../api-graphql/gqlmapper.decorator.js';

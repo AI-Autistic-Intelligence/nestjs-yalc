@@ -1,7 +1,6 @@
 import { ClassType, Mixin } from '@node-yalc/types/globals.js';
-import returnValue from '@node-yalc/utils/returnValue.js';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { YalcEntityWithTimestamps } from '@node-yalc/database/timestamp.entity.js';
 
 /**
  * This is a mixin class that can be used to implement the createdAt and updatedAt
@@ -10,25 +9,16 @@ import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
  */
 export const EntityWithTimestamps = <T extends ClassType>(base: T) => {
   @ObjectType()
-  class EntityWithTimestamps extends base {
+  class EntityWithTimestamps extends YalcEntityWithTimestamps(base) {
     /**
      * DB insert time.
      */
-    @CreateDateColumn({
-      type: 'timestamp',
-      default: returnValue('CURRENT_TIMESTAMP(6)'),
-    })
     @Field()
     public createdAt: Date;
 
     /**
      * DB last update time.
      */
-    @UpdateDateColumn({
-      type: 'timestamp',
-      default: returnValue('CURRENT_TIMESTAMP(6)'),
-      onUpdate: 'CURRENT_TIMESTAMP(6)',
-    })
     @Field()
     public updatedAt: Date;
   }

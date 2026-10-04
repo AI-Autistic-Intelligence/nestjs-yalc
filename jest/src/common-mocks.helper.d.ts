@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import * as NestGraphql from '@nestjs/graphql';
 import { ExecutionContext } from '@nestjs/common';
 import { DeepMocked, MockOptions, PartialFuncReturn } from '@golevelup/ts-jest';

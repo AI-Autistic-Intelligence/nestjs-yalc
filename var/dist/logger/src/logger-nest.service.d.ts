@@ -2,9 +2,9 @@ import { ConsoleLoggerOptions } from '@nestjs/common';
 import { IImprovedLoggerOptions, ILoggerPluginMethods, ImprovedLoggerService, LogMethodOptions } from '@node-yalc/logger/logger-abstract.service.js';
 declare const ImprovedNestLogger_base: new (...args: any[]) => {
     [x: string]: any;
-    plugins: import("@node-yalc/utils/dist/plugin.helper.js", { with: { "resolution-mode": "import" } }).Plugin<ILoggerPluginMethods<any>>[];
-    registerPlugin(plugin: import("@node-yalc/utils/dist/plugin.helper.js", { with: { "resolution-mode": "import" } }).Plugin<ILoggerPluginMethods<any>>): void;
-    unregisterPlugin(plugin: import("@node-yalc/utils/dist/plugin.helper.js", { with: { "resolution-mode": "import" } }).Plugin<ILoggerPluginMethods<any>>): void;
+    plugins: import("@node-yalc/utils/plugin.helper", { with: { "resolution-mode": "import" } }).Plugin<ILoggerPluginMethods<any>>[];
+    registerPlugin(plugin: import("@node-yalc/utils/plugin.helper", { with: { "resolution-mode": "import" } }).Plugin<ILoggerPluginMethods<any>>): void;
+    unregisterPlugin(plugin: import("@node-yalc/utils/plugin.helper", { with: { "resolution-mode": "import" } }).Plugin<ILoggerPluginMethods<any>>): void;
     invokePlugins(methodName: keyof ILoggerPluginMethods<any>, ...args: any[]): void;
 };
 export declare class ImprovedNestLogger extends ImprovedNestLogger_base implements ImprovedLoggerService {

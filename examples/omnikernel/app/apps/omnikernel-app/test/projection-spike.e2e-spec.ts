@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import type { INestApplication } from '@nestjs/common';
 import { getDataSourceToken } from '@nestjs/typeorm';
 import {

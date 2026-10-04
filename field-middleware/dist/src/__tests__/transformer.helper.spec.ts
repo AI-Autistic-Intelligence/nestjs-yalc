@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { defaultDateTransformer, enumTransformer } from '../transformer.helper';
 
 enum TestEnum {

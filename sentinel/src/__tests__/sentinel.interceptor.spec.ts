@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { ExecutionContext, CallHandler, BadGatewayException } from '@nestjs/common';
 import { of } from 'rxjs';
 import { RagGroundednessInterceptor } from '../sentinel.interceptor.js';

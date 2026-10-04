@@ -6,7 +6,16 @@ jest.mock('../object.decorator', () => {
     getAgGridFieldMetadataList: jest.fn(),
   };
 });
-jest.mock('@nestjs/graphql');
+jest.mock('@nestjs/graphql', () => {
+  const actual = jest.requireActual('@nestjs/graphql') as any;
+  return {
+    ...actual,
+    Field: jest.fn().mockReturnValue(jest.fn()),
+    InputType: jest.fn().mockReturnValue(jest.fn()),
+    Args: jest.fn().mockReturnValue(jest.fn()),
+    ObjectType: jest.fn().mockReturnValue(jest.fn()),
+  };
+});
 
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
@@ -47,7 +56,7 @@ import {
 } from '../ag-grid-factory.helper';
 import { JoinArgOptions, JoinTypes } from '../ag-grid.input';
 import { IWhereCondition } from '../ag-grid.type';
-import * as ObjectDecorator from '../object.decorator';
+const ObjectDecorator = require('../object.decorator');
 import * as AgGridHelpers from '../ag-grid-metadata.helper';
 
 import {
@@ -449,15 +458,8 @@ describe('Ag-grid helpers', () => {
       jest.restoreAllMocks();
     });
     it('should convert an Entity object to a field mapper already cached', () => {
-      jest
-        .spyOn(ObjectDecorator, 'getAgGridObjectMetadata')
-        .mockReturnValueOnce(fixedObjectMetadata);
-
-      const spiedgetAgGridFieldMetadataList = jest.spyOn(
-        ObjectDecorator,
-        'getAgGridFieldMetadataList',
-      );
-      spiedgetAgGridFieldMetadataList.mockReturnValueOnce(fixedFieldMetaData);
+      ObjectDecorator.getAgGridObjectMetadata.mockReturnValueOnce(fixedObjectMetadata);
+      ObjectDecorator.getAgGridFieldMetadataList.mockReturnValueOnce(fixedFieldMetaData);
 
       const fieldMapper = objectToFieldMapper(BaseEntity);
       expect(fieldMapper).toBeDefined();
@@ -467,14 +469,8 @@ describe('Ag-grid helpers', () => {
     });
 
     it('Should convert an Entity object to a field mapper different fieldMetada configuration ', () => {
-      jest
-        .spyOn(ObjectDecorator, 'getAgGridObjectMetadata')
-        .mockReturnValue(fixedObjectMetadata);
-
-      const spiedgetAgGridFieldMetadataList = jest.spyOn(
-        ObjectDecorator,
-        'getAgGridFieldMetadataList',
-      );
+      ObjectDecorator.getAgGridObjectMetadata.mockReturnValue(fixedObjectMetadata);
+      const spiedgetAgGridFieldMetadataList = ObjectDecorator.getAgGridFieldMetadataList;
 
       // Dst equals to src if undefined
       const customFieldMetadata = {
@@ -684,8 +680,8 @@ describe('Ag-grid helpers', () => {
   });
 
   it('Should get mapped type property with denyFilter false', () => {
-    jest.mocked(ObjectDecorator.getAgGridObjectMetadata).mockReturnValueOnce({} as any);
-    jest.mocked(ObjectDecorator.getAgGridFieldMetadataList).mockReturnValueOnce({
+    ObjectDecorator.getAgGridObjectMetadata.mockReturnValueOnce({} as any);
+    ObjectDecorator.getAgGridFieldMetadataList.mockReturnValueOnce({
       id: {
         src: 'id',
         denyFilter: false,
@@ -698,10 +694,7 @@ describe('Ag-grid helpers', () => {
   });
 
   it('Should get the column properties from an ag-grid field with mode derived', () => {
-    const spiedgetAgGridFieldMetadataList = jest.spyOn(
-      ObjectDecorator,
-      'getAgGridFieldMetadataList',
-    );
+    const spiedgetAgGridFieldMetadataList = ObjectDecorator.getAgGridFieldMetadataList;
 
     const fieldMetadataList: { [key: string]: IAgGridFieldMetadata } = {
       propertyName: {

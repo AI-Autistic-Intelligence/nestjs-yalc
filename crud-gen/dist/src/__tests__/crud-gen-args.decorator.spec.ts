@@ -4,7 +4,12 @@ import { BaseEntity, Equal, OneToOne, JoinColumn } from 'typeorm';
 import { GeneralFilters, ExtraArgsStrategy, FilterType } from '../crud-gen.enum.js';
 
 
-import * as graphql from '@nestjs/graphql';
+jest.mock('@nestjs/graphql', () => ({
+  Args: jest.fn(),
+  GqlExecutionContext: {
+    create: jest.fn(),
+  },
+}));
 import { ModelField } from '../object.decorator.js';
 
 class DummyJoinEntity extends BaseEntity {
@@ -48,12 +53,22 @@ const fixedArgsOptions = {
 
 const fixedArgsQueryParams = { filters: {}, startRow: 0, endRow: 5 };
 
+const graphql = require('@nestjs/graphql');
 const mockedInfo = createMock<any>();
-const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
+const mockCreate = (require('@nestjs/graphql').GqlExecutionContext.create = jest.fn());
 mockCreate.mockImplementation(() => ({
-  getArgs: jest.fn().mockReturnValue(fixedArgsQueryParams),
+  getArgs: jest.fn().mockReturnValue([{}, fixedArgsQueryParams, {}, infoObj]),
   getInfo: jest.fn().mockReturnValue(infoObj),
   getContext: jest.fn().mockReturnValue({}),
+  getType: jest.fn().mockReturnValue('graphql'),
+  getHandler: jest.fn(),
+  getClass: jest.fn(),
+  getArgByIndex: jest.fn((index) => {
+    if (index === 1) return fixedArgsQueryParams;
+    if (index === 2) return {};
+    if (index === 3) return infoObj;
+    return undefined;
+  }),
 }));
 
 describe('Crud-gen args decorator (esm-safe)', () => {
@@ -118,7 +133,7 @@ describe('Crud-gen args decorator (esm-safe)', () => {
   });
 
   it('CrudGenCombineDecorators creates decorator', () => {
-    const argsFn = graphql.Args as jest.Mock;
+    const argsFn = require('@nestjs/graphql').Args as jest.Mock;
     argsFn.mockReturnValue(jest.fn());
     
     const decorator = crudGenArgsDecorator.CrudGenCombineDecorators(

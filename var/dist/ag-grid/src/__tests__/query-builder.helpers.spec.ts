@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql');
 
 import { ExtendedBaseEntity } from '@nest-yalc-2/jest/extended-base-entity.entity';

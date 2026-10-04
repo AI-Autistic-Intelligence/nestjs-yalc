@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import * as index from './index';
 
 // just to avoid warning, that no tests in test file

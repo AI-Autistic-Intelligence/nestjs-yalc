@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { ProjectsDomainEventsService } from './projects.domain-events.service';
 
 describe('ProjectsDomainEventsService', () => {

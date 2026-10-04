@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 /// <reference types="jest" />
 /* istanbul ignore file */
 

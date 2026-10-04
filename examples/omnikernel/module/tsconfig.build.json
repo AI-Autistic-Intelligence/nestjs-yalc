@@ -113,14 +113,6 @@
         "../../../var/dist/database/src/*",
         "../../../database/src/*"
       ],
-      "@node-yalc/database": [
-        "../../../var/dist/database/src/index.d.ts",
-        "../../../database/src"
-      ],
-      "@node-yalc/database/*": [
-        "../../../var/dist/database/src/*",
-        "../../../database/src/*"
-      ],
       "@nest-yalc-2/errors": [
         "../../../var/dist/errors/src/index.d.ts",
         "../../../errors/src"

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { BaseEntity, Column } from 'typeorm';
 import { entityFieldsEnumFactory } from '../ag-grid.enum';
 import { AgGridField } from '../object.decorator';

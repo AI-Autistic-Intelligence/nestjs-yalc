@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { MissingArgumentsError } from '../missing-arguments.error.js';
 import { CrudGenErrors } from '../strings.enum.js';
 

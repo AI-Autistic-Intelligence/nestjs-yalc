@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { FerroxSentinelModule } from '../sentinel.module.js';
 import { FerroxSentinelGuard } from '../sentinel.guard.js';
 import { RagGroundednessInterceptor } from '../sentinel.interceptor.js';

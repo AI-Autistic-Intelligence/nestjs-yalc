@@ -1,68 +1,19 @@
-import { FieldMapperProperty, FieldMapper } from '@node-yalc/interfaces';
+import { DstExtended, isDstExtended, YalcAgGridFieldMetadata, YALC_AGGRID_OBJECT_METADATA_KEY as AGGRID_OBJECT_METADATA_KEY, YALC_AGGRID_FIELD_METADATA_KEY as AGGRID_FIELD_METADATA_KEY, getPrototype, hasYalcAgGridFieldMetadataList as hasAgGridFieldMetadataList, hasYalcAgGridFieldMetadata as hasAgGridFieldMetadata, YalcAgGridObject as AgGridObject, getYalcAgGridObjectMetadata as getAgGridObjectMetadata, hasYalcAgGridObjectMetadata as hasAgGridObjectMetadata, FilterOptionType, FilterOption, YalcAgGridObjectOptions as AgGridObjectOptions, FieldAndFilterMapper } from '@node-yalc/datagrid/object.decorator.js';
 import { ClassType } from '@node-yalc/types/globals.js';
 import { FieldOptions, ReturnTypeFunc } from '@nestjs/graphql';
-import 'reflect-metadata';
-import { RelationType } from 'typeorm/metadata/types/RelationTypes';
-import { AgQueryParams } from './ag-grid.args';
-export interface DstExtended {
-    name: string;
-    transformer: {
-        (dstObj: Record<any, any>, srcValue: any): void;
-    };
-}
-export declare function isDstExtended(dst: string | DstExtended): dst is DstExtended;
-export interface AgGridFieldMetadata<T = any> extends Omit<FieldMapperProperty, 'dst'> {
-    dst?: string | DstExtended;
-    src?: string;
-    mode?: 'derived' | 'regular' | 'virtual';
+import { AgQueryParams } from './ag-grid.args.js';
+export { isDstExtended, AGGRID_OBJECT_METADATA_KEY, AGGRID_FIELD_METADATA_KEY, getPrototype, hasAgGridFieldMetadataList, hasAgGridFieldMetadata, AgGridObject, getAgGridObjectMetadata, hasAgGridObjectMetadata, FilterOptionType, };
+export type { DstExtended, FilterOption, AgGridObjectOptions, FieldAndFilterMapper };
+export type IAgGridFieldMetadata<T = any> = AgGridFieldMetadata<T>;
+export interface AgGridFieldMetadata<T = any> extends YalcAgGridFieldMetadata {
     gqlType?: ReturnTypeFunc;
     gqlOptions?: FieldOptions;
-    relation?: {
+    relation?: YalcAgGridFieldMetadata['relation'] & {
         defaultValue?: AgQueryParams<T>;
-        sourceKey: {
-            dst: string;
-            alias: string;
-        };
-        targetKey: {
-            dst: string;
-            alias: string;
-        };
-        relationType: RelationType;
-        type: {
-            (): ClassType;
-        };
     };
-    _propertyName?: string;
 }
-export declare const AGGRID_OBJECT_METADATA_KEY: unique symbol;
-export declare const AGGRID_FIELD_METADATA_KEY: unique symbol;
-export declare function getPrototype(target: Record<string, unknown> | ClassType): any;
-export declare const AgGridField: <T = any>({ gqlType, gqlOptions, ...options }?: AgGridFieldMetadata<T>) => PropertyDecorator;
 export declare const getAgGridFieldMetadataList: (target: Record<string, unknown> | ClassType) => {
     [key: string]: AgGridFieldMetadata;
 } | undefined;
-export declare const hasAgGridFieldMetadataList: (target: Record<string, unknown> | ClassType) => boolean;
 export declare const getAgGridFieldMetadata: (target: Record<string, unknown> | ClassType, propertyName: string | symbol) => AgGridFieldMetadata | undefined;
-export declare const hasAgGridFieldMetadata: (target: Record<string, unknown> | ClassType, propertyName: string) => boolean;
-export declare const AgGridObject: (options?: AgGridObjectOptions) => ClassDecorator;
-export declare const getAgGridObjectMetadata: (target: Record<string, unknown> | ClassType) => FilterOption;
-export declare const hasAgGridObjectMetadata: (target: Record<string, unknown> | ClassType) => boolean;
-export declare enum FilterOptionType {
-    INCLUDE = "include",
-    EXCLUDE = "exclude"
-}
-export type FilterOption = {
-    type: FilterOptionType;
-    fields: string[];
-};
-export type AgGridObjectOptions = {
-    copyFrom?: ClassType;
-    filters?: FilterOption;
-};
-export interface FieldAndFilterMapper {
-    field: FieldMapper;
-    filterOption?: FilterOption;
-    extraInfo?: {
-        [key: string]: any;
-    };
-}
+export declare const AgGridField: <T = any>({ gqlType, gqlOptions, ...options }?: AgGridFieldMetadata<T>) => PropertyDecorator;

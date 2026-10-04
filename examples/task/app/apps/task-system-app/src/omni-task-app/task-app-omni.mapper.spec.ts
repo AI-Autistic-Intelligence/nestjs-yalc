@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import { OmniExternalRefInternalType, OmniRecordStatus } from '@nest-yalc-2/omnikernel-module';
 import { TaskAppOmniMapper } from './task-app-omni.mapper';
 

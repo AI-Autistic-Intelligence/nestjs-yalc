@@ -35,7 +35,7 @@ function jestConfGenerator(rootPath, projectList, appProjectsSettings, options) 
             `${rootPath}/__mocks__`,
         ],
         setupFiles: [
-            `${__dirname}/jest.setup.js`,
+            `${__dirname}/jest.setup.ts`,
             ...(options.extraSetupFiles ?? []),
         ],
         coveragePathIgnorePatterns: jest_def_config_1.coveragePathIgnorePatterns,
