@@ -5,7 +5,7 @@ import {
   Roles,
   FerroxSelfTestEngine,
   KernelSandboxEngine,
-} from 'ferrox-node';
+} from '@ferrox/node';
 
 @Controller('/api/v1/admin')
 @Roles('admin')

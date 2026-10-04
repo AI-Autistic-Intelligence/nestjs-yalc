@@ -1,4 +1,4 @@
-import { FerroxApp, MandatoryComplianceGuard } from 'ferrox-node';
+import { FerroxApp, MandatoryComplianceGuard } from '@ferrox/node';
 import { HealthController } from './modules/health.controller';
 import { AuthController } from './modules/auth.controller';
 import { UsersController } from './modules/users.controller';

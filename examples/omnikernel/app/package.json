@@ -1,6 +1,6 @@
 {
   "name": "omnikernel-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "REST + GraphQL example app for the OmniKernel module",
   "author": "",
   "private": true,

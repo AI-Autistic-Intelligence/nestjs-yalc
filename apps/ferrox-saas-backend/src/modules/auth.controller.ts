@@ -1,4 +1,4 @@
-import { Controller, Post, PasetoAuthService, TotpAuthService } from 'ferrox-node';
+import { Controller, Post, PasetoAuthService, TotpAuthService } from '@ferrox/node';
 
 @Controller('/api/v1/auth')
 export class AuthController {

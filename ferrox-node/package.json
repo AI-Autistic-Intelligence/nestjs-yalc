@@ -1,6 +1,6 @@
 {
   "name": "@ferrox/node",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "main": "index.js",
   "exports": {
     ".": "./index.js"
@@ -12,5 +12,6 @@
     "@ferrox/node",
     "framework",
     "utility"
-  ]
+  ],
+  "types": "index.d.ts"
 }

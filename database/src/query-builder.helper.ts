@@ -6,7 +6,7 @@ import {
   QueryRunner,
   SelectQueryBuilder,
 } from 'typeorm';
-import { SortDirection } from '@nest-yalc-2/ag-grid/ag-grid.enum';
+import { SortDirection } from '@nest-yalc-2/ag-grid/ag-grid.enum.js';
 import {
   IFieldMapper,
   isFieldMapper,

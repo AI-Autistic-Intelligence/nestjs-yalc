@@ -1,5 +1,5 @@
 import { FindManyOptions, FindOperator, ObjectLiteral, QueryBuilder, SelectQueryBuilder } from 'typeorm';
-import { SortDirection } from '@nest-yalc-2/ag-grid/ag-grid.enum';
+import { SortDirection } from '@nest-yalc-2/ag-grid/ag-grid.enum.js';
 import { IFieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 export type FindAndCountResult<Entity> = [Entity[], number];
 type GetOneResult<Entity> = Entity | undefined;

@@ -1,5 +1,4 @@
-// import { Module } from '@nestjs/common';
-// import {} from '@nest-yalc-2/app'
+import { Module } from '@nestjs/common';
 
-// @Module({})
-// export class SkeletonBaseAppModule extends  {}
+@Module({})
+export class SkeletonBaseAppModule {}

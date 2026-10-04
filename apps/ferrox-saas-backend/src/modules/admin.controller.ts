@@ -1,4 +1,4 @@
-import { Controller, Get, Roles } from 'ferrox-node';
+import { Controller, Get, Roles } from '@ferrox/node';
 
 @Controller('/api/v1/admin')
 @Roles('admin')

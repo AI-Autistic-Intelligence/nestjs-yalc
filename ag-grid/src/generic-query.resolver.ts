@@ -292,7 +292,7 @@ export function defineGetSingleResource<Entity extends Record<string, any>>(
       })(resolver.prototype, queryName, 2);
     }
   } else {
-    Args(methodOptions.idName ?? 'ID', {
+    Args((methodOptions.idName as string) ?? 'ID', {
       nullable: false,
       type: returnValue(String),
     })(resolver.prototype, queryName, 2);
