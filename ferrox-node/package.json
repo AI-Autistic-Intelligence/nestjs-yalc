@@ -13,5 +13,12 @@
     "framework",
     "utility"
   ],
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ]
 }
