@@ -240,3 +240,16 @@ Output:
   }
 }
 ```
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](../databases/database.md)
+- [Event Manager](../../node-yalc/docs/architectures/event-manager.md)
+- [Kafka Integration](../integrations/kafka.md)
+- [Observability & Logger](../observability/logger.md)
+- [System Observability](../observability/observability.md)

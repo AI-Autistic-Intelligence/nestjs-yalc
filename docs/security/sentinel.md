@@ -92,3 +92,12 @@ export class AppModule {}
 
 > [!TIP]
 > **HSTS Preload**: Enable `Strict-Transport-Security` with `includeSubDomains` and `preload` directives in production to force browsers to interact with your domain exclusively over HTTPS.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [GraphQL Transport Module](../transports/graphql.md)

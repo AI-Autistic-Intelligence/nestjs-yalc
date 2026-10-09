@@ -75,3 +75,15 @@ export class UserResolver {
 
 > [!TIP]
 > **OpenTelemetry Tracing**: `@nest-yalc-2/data-loader` emits dedicated OpenTelemetry spans showing exactly how many SQL queries were saved during GraphQL query resolution.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Caching Strategy](../../node-yalc/docs/performance/caching.md)
+- [Database & TypeORM](../databases/database.md)
+- [Event Manager](../../node-yalc/docs/architectures/event-manager.md)
+- [GraphQL Transport Module](graphql.md)

@@ -1,46 +1,46 @@
 {
-  "name": "@nest-yalc-2/dummy-app",
-  "version": "2.2.10",
-  "description": "Dummy application for E2E testing",
-  "private": true,
-  "scripts": {
-    "test:e2e": "npx jest --config ./test/jest-e2e.json"
-  },
-  "dependencies": {
-    "@nestjs/common": "^12.0.0",
-    "@nestjs/core": "^12.0.0",
-    "@nestjs/platform-express": "^12.0.0",
-    "@nestjs/graphql": "^14.0.0",
-    "@nestjs/apollo": "^14.0.0",
-    "@as-integrations/express5": "^1.1.2",
-    "@nestjs/typeorm": "^12.0.0",
-    "typeorm": "^0.3.30",
-    "sqlite3": "6.0.1",
-    "@nest-yalc-2/graphql": "*",
-    "@nest-yalc-2/database": "*",
-    "@nest-yalc-2/ag-grid": "*",
-    "@nest-yalc-2/utils": "*",
-    "@nest-yalc-2/logger": "*",
-    "@nest-yalc-2/field-middleware": "*",
-    "@nest-yalc-2/interfaces": "*"
-  },
-  "devDependencies": {
-    "@nestjs/testing": "^12.0.0",
-    "supertest": "^7.3.1",
-    "@types/supertest": "^7.2.1",
-    "jest": "^30.5.2",
-    "ts-jest": "^29.4.14"
-  },
-  "exports": {
-    ".": "./dist/src/index.js",
-    "./*": "./dist/src/*"
-  },
-  "author": "Autistic_Intelligence",
-  "keywords": [
-    "nestjs",
-    "yalc",
-    "framework",
-    "dummy app",
-    "nestjs-yalc"
-  ]
+    "name": "@nest-yalc-2/dummy-app",
+    "version": "2.2.14",
+    "description": "Dummy application for E2E testing",
+    "private": true,
+    "scripts": {
+        "test:e2e": "npx jest --config ./test/jest-e2e.json"
+    },
+    "dependencies": {
+        "@nestjs/common": "^12.0.0",
+        "@nestjs/core": "^12.0.0",
+        "@nestjs/platform-express": "^12.0.0",
+        "@nestjs/graphql": "^14.0.0",
+        "@nestjs/apollo": "^14.0.0",
+        "@as-integrations/express5": "^1.1.2",
+        "@nestjs/typeorm": "^12.0.0",
+        "typeorm": "^0.3.30",
+        "sqlite3": "6.0.1",
+        "@nest-yalc-2/graphql": "*",
+        "@nest-yalc-2/database": "*",
+        "@nest-yalc-2/ag-grid": "*",
+        "@nest-yalc-2/utils": "*",
+        "@nest-yalc-2/logger": "*",
+        "@nest-yalc-2/field-middleware": "*",
+        "@nest-yalc-2/interfaces": "*"
+    },
+    "devDependencies": {
+        "@nestjs/testing": "^12.0.0",
+        "supertest": "^7.3.1",
+        "@types/supertest": "^7.2.1",
+        "jest": "^30.5.2",
+        "ts-jest": "^29.4.14"
+    },
+    "exports": {
+        ".": "./dist/src/index.js",
+        "./*": "./dist/src/*"
+    },
+    "author": "Autistic_Intelligence",
+    "keywords": [
+        "nestjs",
+        "yalc",
+        "framework",
+        "dummy app",
+        "nestjs-yalc"
+    ]
 }

@@ -107,3 +107,13 @@ export class AccountService {
 
 > [!TIP]
 > **Client Request Correlation**: Include the returned `instance` trace ID when logging client-side errors to allow support engineers to locate the exact backend log line instantly.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [GraphQL Transport Module](../transports/graphql.md)
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)

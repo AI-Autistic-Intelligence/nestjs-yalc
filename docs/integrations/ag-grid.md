@@ -12,7 +12,7 @@ The `@nestjs-yalc/ag-grid` package provides enterprise-grade, server-side data g
 
 ## 1. What It Is & Architectural Purpose
 
-Modern enterprise applications require rendering massive datasets (millions of rows) with real-time grid capabilities—such as column searching, multi-level sorting, dynamic range filtering, and server-side pagination—without overwhelming client-side memory or making un-indexed database calls.
+Modern enterprise applications require rendering massive datasets (millions of rows) with real-time grid capabilities - such as column searching, multi-level sorting, dynamic range filtering, and server-side pagination - without overwhelming client-side memory or making un-indexed database calls.
 
 `@nestjs-yalc/ag-grid` acts as the bridge between frontend AG-Grid Enterprise implementations and backend TypeORM ORM layers. It eliminates hand-written SQL search parsers by consuming standard AG-Grid `IServerSideGetRowsRequest` structures and applying exact column-mapping logic, type-safe conversions, and automated security sanitization before database execution.
 
@@ -182,3 +182,12 @@ const transformer = new AgGridQueryTransformer(queryBuilder, gridRequest, {
 > [!NOTE]
 > **Optimization 2: Default Sort Order**
 > Always provide a fallback default sort order (e.g., `user.id DESC`) in case the user clears all grid sorts, ensuring deterministic SQL pagination results.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](../databases/database.md)

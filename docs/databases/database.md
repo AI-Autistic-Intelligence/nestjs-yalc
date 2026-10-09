@@ -144,3 +144,12 @@ export class UserManagementService {
 > [!TIP]
 > **Connection Pool Sizing**: Configure database connection pool sizes based on your container concurrency limits:
 > `Pool Size = (CPU Cores x 2) + Effective Spindle Count`
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)

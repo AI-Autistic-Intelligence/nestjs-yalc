@@ -124,3 +124,13 @@ export class PaymentProcessingService {
 
 > [!TIP]
 > **Production Log Aggregation**: In Kubernetes or Docker environments, pipe stdout logs to FluentBit or Datadog Agent. Pino's native JSON output requires zero extra parsing CPU cycles on log aggregators.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [GraphQL Transport Module](../transports/graphql.md)
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)

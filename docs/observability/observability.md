@@ -109,3 +109,14 @@ export class OrderFulfillmentService {
 
 > [!TIP]
 > **Jaeger & Grafana Integration**: Route OTLP trace exports to an OpenTelemetry Collector daemon, which forwards spans to Jaeger for distributed trace visualization and Grafana for latency dashboards.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](../databases/database.md)
+- [Kafka Integration](../integrations/kafka.md)
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)

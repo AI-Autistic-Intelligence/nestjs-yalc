@@ -146,3 +146,16 @@ async getUsers() {
 > [!TIP]
 > **Pro-Tip 1: Automated Swagger Schema Generation**
 > When using `@YalcController()`, OpenApi schema documentation is automatically generated for both successful payload envelopes and standardized error models.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](../databases/database.md)
+- [Event Manager](../../node-yalc/docs/architectures/event-manager.md)
+- [GraphQL Transport Module](../transports/graphql.md)
+- [Kafka Integration](../integrations/kafka.md)
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)

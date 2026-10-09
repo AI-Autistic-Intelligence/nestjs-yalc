@@ -1,63 +1,144 @@
-# @nest-yalc-2/observability
+<div align="center">
+  <h1>@nest-yalc-2/observability</h1>
+  <p><em>Observability utilities and OpenTelemetry integration for nestjs-yalc</em></p>
+  
+  [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fobservability.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fobservability)
+  [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fobservability.svg)](https://github.com/AI-Autistic-Intelligence)
+</div>
 
-OpenTelemetry integration for YALC applications.
-
-The package adds opt-in telemetry around EventManager events and selected call
-or event strategies. It can export logs, metrics, span events, and exceptions
-through OTLP while keeping `YalcEventService` as the source of structured
-application events.
-
-## Installation
+## 🚀 Installation
 
 ```bash
 npm install @nest-yalc-2/observability
+# or
+yarn add @nest-yalc-2/observability
+# or
+pnpm add @nest-yalc-2/observability
 ```
 
-Install and run an OpenTelemetry-compatible backend, such as an OTLP collector
-or Grafana LGTM stack, when you want exported telemetry.
+---
 
-## Module
+# 🔭 OpenTelemetry & Sentry Observability (`@nest-yalc-2/observability`)
 
-```ts
-import {
-  ObservabilityModule,
-  createObservabilityOptionsFromEnv,
-} from '@nest-yalc-2/observability';
+`@nest-yalc-2/observability` provides enterprise distributed tracing, metrics collection, and exception tracking for NestJS 11+. It integrates **OpenTelemetry OTLP exporters**, **Prometheus metric collectors**, and **Sentry error reporting** into a unified NestJS module.
+
+---
+
+## 🌟 Key Features
+
+- **OpenTelemetry OTLP Tracing**: Emits distributed trace spans for HTTP requests, TypeORM SQL queries, Redis calls, and Kafka messages.
+- **Sentry Exception Reporter**: Automatically captures unhandled exceptions, attaching trace IDs, user context, and environment breadcrumbs.
+- **Prometheus Metrics Exporter**: Exposes a `/metrics` endpoint with request duration histograms, active connection counts, and memory metrics.
+- **Trace Parent Propagation**: Propagates W3C Trace Context headers (`traceparent`, `tracestate`) across HTTP microservices and Kafka message headers.
+
+---
+
+## 🔬 Internal Architecture & Mechanics
+
+```mermaid
+flowchart TD
+    Request["Incoming HTTP / Kafka Message"]
+    OTELSDK["OpenTelemetry NodeSDK Instrumentation"]
+    HttpSpan["HTTP Server Span Created"]
+    DbSpan["TypeORM DB Query Sub-Span"]
+    ErrorCheck{"Unhandled Exception?"}
+    Sentry["Sentry SDK Capture & Alert"]
+    OtlpCollector["OTLP Collector (Jaeger / Datadog / NewRelic)"]
+
+    Request --> OTELSDK
+    OTELSDK --> HttpSpan
+    HttpSpan --> DbSpan
+    DbSpan --> ErrorCheck
+    ErrorCheck -->|Yes| Sentry
+    ErrorCheck -->|No| OtlpCollector
+    Sentry --> OtlpCollector
+```
+
+---
+
+## 📊 Architectural Comparison: `@nest-yalc-2/observability` vs Manual Telemetry
+
+| Feature / Dimension | 🔭 `@nest-yalc-2/observability` | 🐢 Manual Telemetry Setup |
+|---|---|---|
+| **Trace Span Auto-Instrumentation** | **HTTP, TypeORM, Redis, Kafka (Zero-Code)** | Manual Span Creation & Context Binding |
+| **Sentry Error Correlation** | **Binds Sentry Events to W3C Trace IDs** | Isolated Uncorrelated Sentry Alerts |
+| **W3C Trace Parent Propagation** | **Automatic Header Injection** | Manual Header Parsing & Formatting |
+
+---
+
+## 🚀 Practical Usage & Production Code Examples
+
+### 1. Initializing Observability Module in `main.ts` & `AppModule`
+
+```typescript
+import { YalcObservabilityModule, initOpenTelemetrySDK } from '@nest-yalc-2/observability';
+import { Module } from '@nestjs/common';
+
+// Initialize OpenTelemetry SDK before NestJS bootstrap
+initOpenTelemetrySDK({
+  serviceName: 'order-service',
+  otlpEndpoint: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://otel-collector:4318/v1/traces',
+});
 
 @Module({
   imports: [
-    ObservabilityModule.forRoot(() =>
-      createObservabilityOptionsFromEnv('task-system-app'),
-    ),
+    YalcObservabilityModule.forRoot({
+      serviceName: 'order-service',
+      sentryDsn: process.env.SENTRY_DSN,
+      enablePrometheusMetrics: true,
+      metricsPath: '/metrics',
+    }),
   ],
 })
 export class AppModule {}
 ```
 
-## Runtime Helpers
+### 2. Adding Custom Tracing Spans in Business Services
 
-- `TelemetryService.measure` records workflow duration.
-- `TelemetryCallStrategy` observes an existing call strategy without changing
-  the caller contract.
-- `TelemetryEventStrategy` observes an existing event strategy.
-- `OpenTelemetryEventManagerPlugin` subscribes to EventManager events.
+```typescript
+import { Injectable } from '@nestjs/common';
+import { YalcTrace } from '@nest-yalc-2/observability';
 
-## Environment
+@Injectable()
+export class OrderFulfillmentService {
 
-- `YALC_OBSERVABILITY_ENABLED=true` enables the plugin.
-- `YALC_OTEL_SERVICE_NAME` overrides the OpenTelemetry service name.
-- `YALC_OTEL_ENDPOINT` defaults to `http://127.0.0.1:4318`.
-- `YALC_OBSERVABILITY_EVENT_LISTEN_TO` defaults to `**`.
-- `YALC_OBSERVABILITY_EVENT_IGNORE` defaults to `observability.**`.
-- `YALC_OBSERVABILITY_INCLUDE_EVENT_PAYLOAD=true` exports masked event payloads.
-- `YALC_OBSERVABILITY_FAILURE_MODE=throw` makes telemetry failures visible.
+  @YalcTrace('fulfill_order_workflow')
+  async fulfillOrder(orderId: string): Promise<void> {
+    // Custom trace span automatically created for this method execution
+    console.log('Fulfilling order:', orderId);
+  }
+}
+```
 
-Payloads are not exported by default. When enabled, payloads are JSON encoded,
-truncated, and masked for common secret keys.
+---
 
-## Documentation
+## ⚠️ Common Pitfalls & Anti-Patterns
 
-- Observability guide:
-  https://github.com/Nek97/nestjs-yalc/blob/dev/docs/observability.md
-- Task app observability example:
-  https://github.com/Nek97/nestjs-yalc/blob/dev/examples/task/app/README.md
+> [!WARNING]
+> **High Cardinality Metrics Labels**: Avoid adding high-cardinality values (such as user IDs or order UUIDs) as labels in Prometheus metrics. High cardinality labels overwhelm Prometheus memory indexing. Use trace attributes in OpenTelemetry instead.
+
+---
+
+## 💡 Best Practices
+
+> [!TIP]
+> **Jaeger & Grafana Integration**: Route OTLP trace exports to an OpenTelemetry Collector daemon, which forwards spans to Jaeger for distributed trace visualization and Grafana for latency dashboards.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](https://ferrox-rust.dev/docs/nestjs-yalc/databases/database)
+- [Kafka Integration](https://ferrox-rust.dev/docs/nestjs-yalc/integrations/kafka)
+- [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
+
+
+---
+## 📚 Ecosystem Documentation
+
+This module is a core component of the Ferrox enterprise microservice architecture. 
+
+👉 **[Read the Full Documentation on Ferrox-Rust.dev](https://ferrox-rust.dev/docs/nestjs-yalc/observability/observability)**

@@ -98,3 +98,18 @@ sequenceDiagram
 
 - Proceed to the [Quickstart Guide](quickstart.md) to bootstrap your first NestJS-YALC microservice.
 - Explore individual package guides in the **Monorepo Modules** section.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](../databases/database.md)
+- [Event Manager](../../node-yalc/docs/architectures/event-manager.md)
+- [GraphQL Transport Module](../transports/graphql.md)
+- [Kafka Integration](../integrations/kafka.md)
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)
+- [Observability & Logger](../observability/logger.md)
+- [System Observability](../observability/observability.md)

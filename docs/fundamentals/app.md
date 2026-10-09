@@ -6,7 +6,7 @@ sidebar_position: 15
 
 # Application Lifecycle, Bootstrap & Module Composition
 
-The `@nestjs-yalc/app` module provides a standardized, enterprise-ready application bootstrapping kernel for NestJS microservices and monolithic servers. It abstracts boilerplate startup routines—such as graceful shutdown signal handlers, unified configuration loading, global interceptors/filters registration, health-check lifecycle hooks, and multi-tenant context injection.
+The `@nestjs-yalc/app` module provides a standardized, enterprise-ready application bootstrapping kernel for NestJS microservices and monolithic servers. It abstracts boilerplate startup routines - such as graceful shutdown signal handlers, unified configuration loading, global interceptors/filters registration, health-check lifecycle hooks, and multi-tenant context injection.
 
 ---
 
@@ -169,3 +169,18 @@ const app = await YalcApplicationFactory.create(AppModule, options);
 > [!NOTE]
 > **Pro-Tip 2: Multi-Environment Config Profiles**
 > Pass `envFilePath` arrays to automatically overlay target environments (`.env.production`, `.env.staging`, `.env.local`) cleanly.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](../databases/database.md)
+- [Event Manager](../../node-yalc/docs/architectures/event-manager.md)
+- [GraphQL Transport Module](../transports/graphql.md)
+- [Kafka Integration](../integrations/kafka.md)
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)
+- [Observability & Logger](../observability/logger.md)
+- [System Observability](../observability/observability.md)

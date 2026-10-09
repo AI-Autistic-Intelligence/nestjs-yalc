@@ -153,3 +153,14 @@ export class NotificationService {
 > [!TIP]
 > **Pro-Tip 1: Strict Namespaces**
 > Standardize event names using domain dot-notation (`domain.entity.action`, e.g., `billing.invoice.paid`) to allow wildcard wildcard sub-group matching.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Database & TypeORM](../databases/database.md)
+- [Event Manager](../../node-yalc/docs/architectures/event-manager.md)
+- [Kafka Integration](../integrations/kafka.md)

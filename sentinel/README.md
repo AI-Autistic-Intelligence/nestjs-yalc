@@ -1,84 +1,125 @@
-# `@nest-yalc-2/sentinel` (@ferrox/node)
+<div align="center">
+  <h1>@nest-yalc-2/sentinel</h1>
+  <p><em>Ferrox-Node Sentinel: AI/ML Security Analytics, Prompt Injection Sanitizer, RAG Groundedness & 35 SOTA Innovations for NestJS</em></p>
+  
+  [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fsentinel.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fsentinel)
+  [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fsentinel.svg)](https://github.com/AI-Autistic-Intelligence)
+</div>
 
-> **Ferrox-Node Sentinel**: High-performance AI/ML Security Analytics, Prompt Injection Sanitizer, RAG Groundedness Scorer, Shannon Payload Entropy Evaluator, Markov Sequence Anomaly Detector, LSASS Process Telemetry, and Cryptographic SBOM Verification for NestJS.
+## 🚀 Installation
 
-Ported from the 35 State-of-the-Art (SOTA) Literature Innovations across 11 technical security & AI books, `@nest-yalc-2/sentinel` brings enterprise Ferrox kernel protection to Node.js and TypeScript ecosystems.
+```bash
+npm install @nest-yalc-2/sentinel
+# or
+yarn add @nest-yalc-2/sentinel
+# or
+pnpm add @nest-yalc-2/sentinel
+```
 
-## 🌟 Features & Innovations
+---
 
-1. **AI Prompt Injection & Jailbreak Guardrails (`AiPromptGuardrailEngine`)**:
-   - Detects direct/indirect prompt injections (`system prompt override`, `ignore previous instructions`).
-   - Strips ChatML tags (`<|im_start|>`, `<|im_end|>`) and DAN jailbreak patterns.
-   - Restricts system prompt override attacks.
+# 🛡️ Sentinel Security Middleware (`@nest-yalc-2/sentinel`)
 
-2. **RAG Groundedness & Hallucination Scoring (`RagGroundednessScorer`)**:
-   - Computes claim overlap ratio: $S_{\text{grounded}} = \frac{|\text{facts} \cap \text{context}|}{|\text{facts}|}$.
-   - Prevents ungrounded LLM responses from reaching end-users.
+`@nest-yalc-2/sentinel` is the security middleware and policy enforcement module for NestJS 11+. It enforces OWASP recommended HTTP security headers, CORS origin policies, request payload size bounds, and input sanitization across all REST and GraphQL endpoints.
 
-3. **Shannon Entropy Payload Analysis (`ShannonEntropyEvaluator`)**:
-   - Computes $H(X) = -\sum P(x_i) \log_2 P(x_i)$ over incoming request buffers.
-   - Detects encrypted / shellcode / high-entropy malicious payloads ($H(X) \ge 7.2$ bits/byte).
+---
 
-4. **Polymorphic Time-Windowed HMAC Route Rotation (`PolymorphicRouteMutator`)**:
-   - Generates rotating endpoint hashes $H = \text{HMAC-SHA256}(K, \text{Path} \parallel T_{\text{window}})$.
-   - Defeats static endpoint scanning and automated bot enumeration.
+## 🌟 Key Features
 
-5. **Markov Sequence Anomaly Prediction (`MarkovSequenceAnalyzer`)**:
-   - Maintains transition probability matrices $P(S_{t+1} \mid S_t)$ for user navigation state sequences.
-   - Flags suspicious out-of-order execution paths in API usage.
+- **OWASP Security Headers**: Injects mandatory security headers (`Strict-Transport-Security`, `Content-Security-Policy`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`).
+- **Tech Leak Stripper**: Strips technological disclosure headers (`X-Powered-By: Express`, `Server`) to prevent server reconnaissance.
+- **Strict CORS Policy Enforcer**: Validates request origins against dynamically loaded allowed domain patterns.
+- **Payload Bound Validator**: Rejects oversized JSON/GraphQL request payloads to prevent Denial of Service (DoS) memory exhaustion.
 
-6. **LSASS Process Handle Telemetry (`LsassGuardTelemetry`)**:
-   - Inspects process access rights (`PROCESS_VM_READ` `0x0010`, `PROCESS_VM_WRITE` `0x0020`, `PROCESS_ALL_ACCESS` `0x1F0FFF`).
-   - Triggers high-priority security events upon credential dumping attempts.
+---
 
-7. **Cryptographic Software Bill of Materials Verification (`SbomCryptographicVerifier`)**:
-   - Computes and verifies SHA-256 integrity hashes for loaded application dependencies against SBOM manifests.
+## 🔬 Internal Architecture & Execution Mechanics
 
-## 🚀 Installation & Usage
+```mermaid
+flowchart TD
+    Inbound["Inbound HTTP Stream"]
+    HeaderCheck["Security Headers Middleware"]
+    CorsCheck["CORS Origin Validation"]
+    SizeCheck["Payload Size Bouncer (< 2MB)"]
+    Sanitizer["XSS & Tag Sanitizer"]
+    Next["Pass to Controller Router"]
 
-### 1. Register Module in NestJS Application
+    Inbound --> HeaderCheck
+    HeaderCheck --> CorsCheck
+    CorsCheck -->|Invalid Origin| RejectCors["HTTP 403 Forbidden"]
+    CorsCheck -->|Valid Origin| SizeCheck
+    SizeCheck -->|Payload > Bound| RejectSize["HTTP 413 Payload Too Large"]
+    SizeCheck -->|Valid Size| Sanitizer
+    Sanitizer --> Next
+```
+
+---
+
+## 📊 Architectural Comparison: `@nest-yalc-2/sentinel` vs Helmet.js
+
+| Feature / Dimension | 🛡️ `@nest-yalc-2/sentinel` | ⛑️ Helmet.js (Basic) |
+|---|---|---|
+| **Tech Leak Stripping** | **Automated (Express & Fastify)** | Manual `app.disable('x-powered-by')` |
+| **Payload Size Bouncer** | **Built-in Dynamic Bouncer** | Requires Body-Parser Middleware Config |
+| **NestJS Lifecycle Integration** | **Native Dynamic Module (`forRoot`)** | Raw Middleware Mounting |
+
+---
+
+## 🚀 Practical Usage & Production Code Examples
+
+### 1. Registering Sentinel Security Module in `AppModule`
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { FerroxSentinelModule } from '@nest-yalc-2/sentinel';
+import { YalcSentinelModule } from '@nest-yalc-2/sentinel';
 
 @Module({
   imports: [
-    FerroxSentinelModule.forRoot({
-      aiGuardrails: true,
-      ragGroundedness: true,
-      shannonEntropy: true,
-      entropyThreshold: 7.2,
-      groundednessThreshold: 0.7,
+    YalcSentinelModule.forRoot({
+      enforceSecurityHeaders: true,
+      contentSecurityPolicy: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+      allowedCorsOrigins: [
+        'https://app.ferrox.dev',
+        'https://admin.ferrox.dev',
+      ],
+      maxPayloadSizeBytes: 2 * 1024 * 1024, // 2MB max payload
     }),
   ],
 })
 export class AppModule {}
 ```
 
-### 2. Apply Guard & Interceptor
+---
 
-```typescript
-import { Controller, Post, Body, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FerroxSentinelGuard, FerroxSentinelInterceptor } from '@nest-yalc-2/sentinel';
+## ⚠️ Common Pitfalls & Anti-Patterns
 
-@Controller('ai')
-@UseGuards(FerroxSentinelGuard)
-@UseInterceptors(FerroxSentinelInterceptor)
-export class AiController {
-  @Post('query')
-  async handleQuery(@Body('prompt') prompt: string) {
-    return { result: 'Response from secure LLM backend' };
-  }
-}
-```
+> [!CAUTION]
+> **Using Wildcard CORS (`origin: '*'`) with Credentials**: Allowing wildcard origins (`*`) while enabling `credentials: true` breaks browser security policies and leaves your API vulnerable to Cross-Origin Request Forgery (CSRF). Always specify explicit origin domains.
 
-## 🧪 Testing
+---
 
-```bash
-npm run test -- --testPathPatterns="sentinel.spec"
-```
+## 💡 Best Practices
 
-## 📜 License
+> [!TIP]
+> **HSTS Preload**: Enable `Strict-Transport-Security` with `includeSubDomains` and `preload` directives in production to force browsers to interact with your domain exclusively over HTTPS.
 
-MIT © Ferrox Security & AI Autistic Intelligence Team
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [GraphQL Transport Module](https://ferrox-rust.dev/docs/nestjs-yalc/transports/graphql)
+
+
+---
+## 📚 Ecosystem Documentation
+
+This module is a core component of the Ferrox enterprise microservice architecture. 
+
+👉 **[Read the Full Documentation on Ferrox-Rust.dev](https://ferrox-rust.dev/docs/nestjs-yalc/security/sentinel)**

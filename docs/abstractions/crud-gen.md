@@ -90,3 +90,14 @@ export class Product {
 
 > [!TIP]
 > **Customizing Generated Routes**: You can override or extend any automatically generated route by declaring a custom Controller extending the base class produced by `crud-gen`.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Authentication & Auth](../../node-yalc/docs/security/auth.md)
+- [Database & TypeORM](../databases/database.md)
+- [GraphQL Transport Module](../transports/graphql.md)

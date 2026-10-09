@@ -98,3 +98,13 @@ describe('UserManagementService', () => {
 
 > [!TIP]
 > **100% Coverage Threshold Enforcement**: Configure CI pipelines with `npm run ci:checks` to fail builds automatically if coverage drops below the required 100% threshold on core domain modules.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Caching Strategy](../../node-yalc/docs/performance/caching.md)
+- [Database & TypeORM](../databases/database.md)

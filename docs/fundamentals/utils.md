@@ -133,3 +133,14 @@ const cacheKey = hashObject(safeObject);
 > [!TIP]
 > **Pro-Tip 1: Immutable Deep Merging**
 > Use `deepMerge(target, source)` when building composite configuration objects in microservice factories to guarantee nested properties are merged cleanly without mutating original templates.
+
+
+---
+
+## 🔗 Cross-References
+
+To see how this module integrates with the rest of the Ferrox architecture, refer to the following documentation:
+
+- [Caching Strategy](../../node-yalc/docs/performance/caching.md)
+- [Database & TypeORM](../databases/database.md)
+- [Node-YALC Errors](../../node-yalc/docs/fundamentals/errors.md)
