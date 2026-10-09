@@ -1,1 +1,0 @@
-import { expect, it, describe } from '@jest/globals'; import { YalcEventService } from '../event.service.js'; describe('YalcEventService', () => { it('should be defined', () => { expect(YalcEventService).toBeDefined(); }); });
