@@ -47,7 +47,9 @@ describe('BaseAppController', () => {
   });
 
   describe('shutdown', () => {
+    // @ts-ignore
     let mockExit: jest.SpyInstance;
+    // @ts-ignore
     let mockLog: jest.SpyInstance;
 
     beforeEach(() => {

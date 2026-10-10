@@ -33,7 +33,7 @@ function StringFormatMatchValidation(validationOptions, stringMatchOptions = {
             target: object.constructor,
             propertyName: propertyName,
             constraints: [],
-            options: validationOptions,
+            ...(validationOptions !== undefined ? { options: validationOptions } : {}),
             validator: (0, exports.stringFormatMatchValidatorFactory)(stringMatchOptions),
         });
     };

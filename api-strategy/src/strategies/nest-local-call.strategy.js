@@ -31,8 +31,8 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
         }
         const _options = {
             headers,
-            method: options?.method,
-            payload: options?.data,
+            ...(options?.method !== undefined ? { method: options.method } : {}),
+            ...(options?.data !== undefined ? { payload: options.data } : {}),
         };
         const args = {
             ..._options,

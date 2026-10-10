@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/86</span>
+                <span class='fraction'>0/73</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/47</span>
+                <span class='fraction'>0/38</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/80</span>
+                <span class='fraction'>0/71</span>
             </div>
         
             
@@ -298,20 +298,13 @@
 <a name='L233'></a><a href='#L233'>233</a>
 <a name='L234'></a><a href='#L234'>234</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -333,9 +326,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -499,7 +499,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -529,22 +529,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* istanbul ignore file */
-&nbsp;
-<span class="cstat-no" title="statement not covered" >import { Injectable, LoggerService, Provider } from '@nestjs/common';</span>
-<span class="cstat-no" title="statement not covered" >import {</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+import { Injectable, Provider } from '@nestjs/common';
+import type { LoggerService } from '@nestjs/common';
+import {
   CannotExecuteNotConnectedError,
   Connection,
   ConnectionOptions,
   MigrationExecutor,
 } from 'typeorm';
-<span class="cstat-no" title="statement not covered" >import { getDBNameByConnection } from './conn.helper';</span>
-<span class="cstat-no" title="statement not covered" >import * as Engine from 'typeorm-model-generator/dist/src/Engine';</span>
-<span class="cstat-no" title="statement not covered" >import { getDefaultConnectionOptions } from 'typeorm-model-generator/dist/src/IConnectionOptions';</span>
-<span class="cstat-no" title="statement not covered" >import { getDefaultGenerationOptions } from 'typeorm-model-generator/dist/src/IGenerationOptions';</span>
+import { getDBNameByConnection } from '@node-yalc/database/conn.helper.js';
+import * as Engine from 'typeorm-model-generator/dist/src/Engine';
+import { getDefaultConnectionOptions } from 'typeorm-model-generator/dist/src/IConnectionOptions';
+import { getDefaultGenerationOptions } from 'typeorm-model-generator/dist/src/IGenerationOptions';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import IConnectionOptions from 'typeorm-model-generator/dist/src/IConnectionOptions';
-<span class="cstat-no" title="statement not covered" >import { SeedService } from './seed.service';</span>
+import { SeedService } from './seed.service';
 &nbsp;
 export type MigrationSelection = { [database: string]: string[] };
 &nbsp;
@@ -566,21 +566,21 @@ export interface MigrationOptions {
  * Application service
  */
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >DbOpsService </span>{</span></span>
+export class DbOpsService {
 <span class="fstat-no" title="function not covered" >  constructor(</span>
     _options: any,
     private <span class="cstat-no" title="statement not covered" >loggerService: LoggerService,</span>
-    private <span class="cstat-no" title="statement not covered" >seedService: S</span>eedService,
+    private <span class="cstat-no" title="statement not covered" >seedService: SeedService,</span>
     private <span class="cstat-no" title="statement not covered" >dbConnections: { conn: Connection; dbName: string }[],</span>
   ) {}
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >async </span>closeAllConnections() {
+<span class="fstat-no" title="function not covered" >  public async c</span>loseAllConnections() {
 <span class="cstat-no" title="statement not covered" >    for (const v of this.dbConnections) {</span>
-<span class="cstat-no" title="statement not covered" >      if (v.conn.isConnected) <span class="cstat-no" title="statement not covered" >await v.conn.close();</span></span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (v.conn.isConnected) <span class="cstat-no" title="statement not covered" >await v.conn.close();</span></span>
     }
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >async </span>create() {
+<span class="fstat-no" title="function not covered" >  public async c</span>reate() {
 <span class="cstat-no" title="statement not covered" >    for (const v of this.dbConnections) {</span>
       const queryRunner = <span class="cstat-no" title="statement not covered" >v.conn.createQueryRunner();</span>
 <span class="cstat-no" title="statement not covered" >      this.loggerService.log('Creating ' + v.dbName);</span>
@@ -588,7 +588,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
     }
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >async </span>sync(throwOnError = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span> dropTables = <span class="branch-0 cbranch-no" title="branch not covered" >false)</span> {
+<span class="fstat-no" title="function not covered" >  public async s</span>ync(throwOnError = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span> dropTables = <span class="branch-0 cbranch-no" title="branch not covered" >false)</span> {
 <span class="cstat-no" title="statement not covered" >    this.loggerService.debug?.('Synchronizing db...');</span>
 <span class="cstat-no" title="statement not covered" >    for (const v of this.dbConnections) {</span>
 <span class="cstat-no" title="statement not covered" >      this.loggerService.debug?.(`Synchronizing ${v.dbName}...`);</span>
@@ -606,7 +606,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
 <span class="cstat-no" title="statement not covered" >    this.loggerService.debug?.('Synchronze completed!');</span>
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >async </span>drop() {
+<span class="fstat-no" title="function not covered" >  public async d</span>rop() {
 <span class="cstat-no" title="statement not covered" >    for (const v of this.dbConnections) {</span>
       const queryRunner = <span class="cstat-no" title="statement not covered" >v.conn.createQueryRunner();</span>
 <span class="cstat-no" title="statement not covered" >      this.loggerService.debug?.(`Dropping ${v.dbName}`);</span>
@@ -614,17 +614,17 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
     }
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >async </span>migrate(options?: MigrationOptions) {
+<span class="fstat-no" title="function not covered" >  public async m</span>igrate(options?: MigrationOptions) {
 <span class="cstat-no" title="statement not covered" >    this.loggerService.debug?.('Migrating db...');</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (options?.selMigrations) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.selMigrations) {</span>
 <span class="cstat-no" title="statement not covered" >      this.loggerService.debug?.(</span>
         `Selected migrations ${JSON.stringify(options.selMigrations)}`,
       );
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (const v of this.dbConnections) {</span>
-<span class="cstat-no" title="statement not covered" >      if (!v.conn.isConnected)</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!v.conn.isConnected)</span>
 <span class="cstat-no" title="statement not covered" >        throw new CannotExecuteNotConnectedError(v.conn.name);</span>
 &nbsp;
       const queryRunner = <span class="cstat-no" title="statement not covered" >v.conn.createQueryRunner();</span>
@@ -637,7 +637,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
       const dbName = <span class="cstat-no" title="statement not covered" >v.conn.driver.database ?? v.dbName;</span>
 &nbsp;
       // if there are no migrations, then do not execute anything!
-<span class="cstat-no" title="statement not covered" >      if (!Array.isArray(migrations) || migrations.length &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!Array.isArray(migrations) || migrations.length &lt;= 0) {</span>
 <span class="cstat-no" title="statement not covered" >        this.loggerService.debug?.(`No migrations available on ${dbName}`);</span>
 <span class="cstat-no" title="statement not covered" >        continue;</span>
       }
@@ -655,7 +655,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
           : true; // execute all migrations when it's a connection without db specified
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        for (const migration of pendingMigrations) {</span>
-<span class="cstat-no" title="statement not covered" >          if (</span>
+<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
             selectedMigrations === true ||
             (Array.isArray(selectedMigrations) &amp;&amp;
               selectedMigrations.includes(migration.name))
@@ -672,26 +672,26 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
       }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (options?.reseed) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.reseed) {</span>
 <span class="cstat-no" title="statement not covered" >      await this.seedService.seedDatabases(true);</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this.loggerService.debug?.('Migration completed!');</span>
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >async </span>generate(dbName: string, tables: string[], genPath?: string) {
+<span class="fstat-no" title="function not covered" >  public async g</span>enerate(dbName: string, tables: string[], genPath?: string) {
 <span class="cstat-no" title="statement not covered" >    this.loggerService.debug?.('Exporting db to TypeORM entities...');</span>
 &nbsp;
     const driver = <span class="cstat-no" title="statement not covered" >Engine.createDriver('mysql');</span>
 &nbsp;
     const mysqlConnectionOptions: MysqlConnectionOptions[] = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    this.dbConnections.forEach(<span class="fstat-no" title="function not covered" >({</span> conn: { options } }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (isMysqlConnectionOption(options) &amp;&amp; dbName === options.database) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (isMysqlConnectionOption(options) &amp;&amp; dbName === options.database) {</span>
 <span class="cstat-no" title="statement not covered" >        mysqlConnectionOptions.push(options);</span>
       }
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!mysqlConnectionOptions.length) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!mysqlConnectionOptions.length) {</span>
 <span class="cstat-no" title="statement not covered" >      this.loggerService.error(</span>
         `There is no MySQL database connection configured for ${dbName}. ` +
           'Please refer to the documentation for Database Connection Setup',
@@ -715,7 +715,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
         ...getDefaultGenerationOptions(),
       };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (genPath) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (genPath) {</span>
 <span class="cstat-no" title="statement not covered" >        generationOptions.resultsPath = genPath;</span>
       }
 &nbsp;
@@ -732,23 +732,23 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
   }
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export function <span class="fstat-no" title="function not covered" >i</span>sMysqlConnectionOption(</span>
+export function <span class="fstat-no" title="function not covered" >isMysqlConnectionOption(</span>
   options: ConnectionOptions | MysqlConnectionOptions,
 ): options is MysqlConnectionOptions {
 <span class="cstat-no" title="statement not covered" >  return (options as ConnectionOptions).type === 'mysql';</span>
 }
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >dbConnectionMap = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>c</span>: Connection) =&gt;<span class="cstat-no" title="statement not covered" > ({</span></span>
+export const dbConnectionMap = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>: Connection) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
   conn: c,
   dbName: c.options.database?.toString() ?? getDBNameByConnection(c.name),
 });
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >DbObpsServiceFactory = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const DbObpsServiceFactory = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
   loggerServiceToken: string,
   connectionTokens: any[],
-): Provider =&gt;<span class="cstat-no" title="statement not covered" > ({</span>
+): Provider =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
   provide: DbOpsService,
-  useFactory: <span class="fstat-no" title="function not covered" >async </span>(
+  useFactory: <span class="fstat-no" title="function not covered" >async (</span>
     loggerService: LoggerService,
     seedService: SeedService,
     ...dbConnections: Connection[]
@@ -769,7 +769,7 @@ export const <span class="cstat-no" title="statement not covered" >DbObpsService
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-09-17T21:16:27.812Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

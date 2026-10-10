@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.44% </span>
+                <span class="strong">97.74% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>127/129</span>
+                <span class='fraction'>130/133</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">98.03% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>48/48</span>
+                <span class='fraction'>50/51</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>119/119</span>
+                <span class='fraction'>122/122</span>
             </div>
         
             
@@ -476,6 +476,7 @@
 <span class="cline-any cline-yes">72x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -492,8 +493,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">69x</span>
 <span class="cline-any cline-yes">61x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -602,8 +601,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-yes">109x</span>
 <span class="cline-any cline-yes">107x</span>
@@ -646,6 +643,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -805,10 +805,11 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) =&gt; {
   const argDecorators: ParameterDecorator[] = [];
   if (params.extraArgs) {
     for (const argName of Object.keys(params.extraArgs)) {
-      if (params.extraArgs[argName].hidden) continue;
+      const extraArg = params.extraArgs[argName];
+      if (!extraArg || extraArg.hidden) continue;
 &nbsp;
       argDecorators.push(
-        Args(argName, params.extraArgs[argName].options ?? {}),
+        Args(argName, extraArg.options ?? {}),
       );
     }
   }
@@ -822,9 +823,7 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) =&gt; {
 &nbsp;
     if (JoinOptionInput) {
       joinArg = Args('join', {
-        type:
-          /*istanbul ignore next */
-          () =&gt; JoinOptionInput,
+        type: /* istanbul ignore next */ () =&gt; JoinOptionInput,
         nullable: true,
       });
     }
@@ -926,9 +925,7 @@ export const CrudGenArgsSingle = (params: ICrudGenGqlArgsSingleOptions) =&gt; {
 &nbsp;
     if (JoinOptionInput) {
       joinArg = Args('join', {
-        type:
-          /*istanbul ignore next */
-          () =&gt; JoinOptionInput,
+        type: /* istanbul ignore next */ () =&gt; JoinOptionInput,
         nullable: true,
       });
     }
@@ -976,15 +973,18 @@ export function mapCrudGenParamsGql&lt;Entity extends ObjectLiteral&gt;(
 &nbsp;
     const forcedFilters: IFilterArg[] = [];
     for (const argName of Object.keys(params.extraArgs)) {
+      const extraArg = params.extraArgs[argName];
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!extraArg) <span class="cstat-no" title="statement not covered" >continue;</span>
+&nbsp;
       if (
-        params.extraArgs[argName].filterCondition === GeneralFilters.VIRTUAL
+        extraArg.filterCondition === GeneralFilters.VIRTUAL
       ) {
         extraParameter[argName] = args[argName];
         continue;
       }
 &nbsp;
       let value = args[argName];
-      const filterMiddleware = params.extraArgs[argName].filterMiddleware;
+      const filterMiddleware = extraArg.filterMiddleware;
 &nbsp;
       if (filterMiddleware) {
         value = filterMiddleware(ctx, value);
@@ -993,7 +993,7 @@ export function mapCrudGenParamsGql&lt;Entity extends ObjectLiteral&gt;(
       forcedFilters.push({
         key: argName, // the column name mapping is executed internally
         value,
-        descriptors: params.extraArgs[argName],
+        descriptors: extraArg,
       });
     }
 &nbsp;
@@ -1060,7 +1060,7 @@ export {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

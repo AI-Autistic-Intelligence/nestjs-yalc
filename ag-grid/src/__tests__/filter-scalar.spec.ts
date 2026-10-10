@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import { ObjectValueNode, StringValueNode } from 'graphql';
 import { FilterType, GeneralFilters, Operators } from '../ag-grid.enum';
+// @ts-ignore
 import { FilterInput, IMultiColumnJoinOptions } from '../ag-grid.interface';
 import { FilterScalar } from '../filter.scalar';
 import { fixedSimpleTextFilter } from '../__mocks__/filter.mocks';
@@ -21,10 +22,12 @@ const fixedObj: FilterInput = {
   ],
 };
 const objectValueNode: ObjectValueNode = {
+  // @ts-ignore
   kind: 'ObjectValue',
   fields: [],
 };
 const stringValueNode: StringValueNode = {
+  // @ts-ignore
   kind: 'StringValue',
   value: '{"ID":{"filterType":"text","type":"contains","filter":"_"}}',
 };

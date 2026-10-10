@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 
 // export { HttpExceptionFilter } from './http-exception.filter.js';
 // export { DatabaseExceptionFilter } from './database-exception.filter.js';

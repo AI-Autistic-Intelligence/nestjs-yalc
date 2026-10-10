@@ -41,15 +41,15 @@ export class OmniRelationType extends OmniRelationEntity {
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  guid!: string;
+  override guid!: string;
 
   @ModelField({ gqlType: returnValue(Int) })
   @IsInt()
-  revision!: number;
+  override revision!: number;
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  sourceRecordId!: string;
+  override sourceRecordId!: string;
 
   @ModelField({
     gqlType: () => OmniRecordType,
@@ -61,11 +61,11 @@ export class OmniRelationType extends OmniRelationEntity {
       type: () => OmniRecordEntity,
     },
   })
-  sourceRecord!: Relation<OmniRecordType>;
+  override sourceRecord!: Relation<OmniRecordType>;
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  targetRecordId!: string;
+  override targetRecordId!: string;
 
   @ModelField({
     gqlType: () => OmniRecordType,
@@ -77,16 +77,16 @@ export class OmniRelationType extends OmniRelationEntity {
       type: () => OmniRecordEntity,
     },
   })
-  targetRecord!: Relation<OmniRecordType>;
+  override targetRecord!: Relation<OmniRecordType>;
 
   @ModelField({ gqlType: returnValue(String) })
   @IsString()
   @Matches(omniRelationKindPattern)
-  kind!: string;
+  override kind!: string;
 
   @ModelField({ gqlType: returnValue(OmniRelationStatus) })
   @IsEnum(OmniRelationStatus)
-  status!: OmniRelationStatus;
+  override status!: OmniRelationStatus;
 
   @ModelField({
     gqlType: returnValue(GraphQLJSONObject),
@@ -94,7 +94,7 @@ export class OmniRelationType extends OmniRelationEntity {
   })
   @IsOptional()
   @IsObject()
-  payload?: Record<string, unknown> | null;
+  override payload?: Record<string, unknown> | null;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -102,7 +102,7 @@ export class OmniRelationType extends OmniRelationEntity {
   })
   @IsOptional()
   @IsString()
-  payloadSchemaId?: string | null;
+  override payloadSchemaId?: string | null;
 
   @ModelField({
     gqlType: returnValue(Int),
@@ -110,7 +110,7 @@ export class OmniRelationType extends OmniRelationEntity {
   })
   @IsOptional()
   @IsInt()
-  payloadSchemaVersion?: number | null;
+  override payloadSchemaVersion?: number | null;
 }
 
 @InputType()

@@ -21,7 +21,7 @@ export const columnConversion = (key, data) => {
 export const getFieldMapperSrcByDst = (data, dst) => {
     if (data) {
         for (const src of Object.keys(data)) {
-            if (data[src].dst === dst)
+            if (data[src]?.dst === dst)
                 return src;
         }
     }
@@ -133,6 +133,8 @@ export const objectToFieldMapper = (object) => {
         if (fieldMetadataList) {
             for (const propertyName of Object.keys(fieldMetadataList)) {
                 const fieldMetadata = fieldMetadataList[propertyName];
+                if (!fieldMetadata)
+                    continue;
                 const { src, dst, ...fieldMapperProperties } = fieldMetadata;
                 if (src) {
                     const newDst = dst ? getDestinationFieldName(dst) : src;
@@ -169,16 +171,14 @@ export function isProviderOverride(resolver) {
 export function CrudGenDependencyFactory({ entityModel, dataloader, resolver, service, repository, }) {
     const backend = CrudGenBackendFactory({
         entityModel,
-        service,
-        dataloader,
-        repository,
+        ...(service !== undefined ? { service } : {}),
+        ...(dataloader !== undefined ? { dataloader } : {}),
+        ...(repository !== undefined ? { repository } : {}),
     });
     const graphql = resolver !== false
         ? CrudGenGraphqlFactory({
             entityModel,
             resolver: resolver ?? {},
-            serviceToken: backend.serviceToken,
-            dataLoaderToken: backend.dataLoaderToken,
         })
         : { providers: [] };
     return {
@@ -217,12 +217,15 @@ export function CrudGenBackendFactory({ entityModel, dataloader, service, reposi
             providers.push(DataLoaderFactory(dataloader.databaseKey, dataloader.entityModel ?? entityModel, serviceToken));
         }
     }
-    return {
+    const result = {
         providers,
         repository: repository ?? CGExtendedRepositoryFactory(entityModel),
-        serviceToken,
-        dataLoaderToken,
     };
+    if (serviceToken !== undefined)
+        result.serviceToken = serviceToken;
+    if (dataLoaderToken !== undefined)
+        result.dataLoaderToken = dataLoaderToken;
+    return result;
 }
 export function CrudGenGraphqlFactory({ entityModel, resolver, serviceToken, dataLoaderToken, }) {
     if (isProviderOverride(resolver)) {
@@ -234,8 +237,8 @@ export function CrudGenGraphqlFactory({ entityModel, resolver, serviceToken, dat
         entityModel,
         service: {
             ...resolverConfig.service,
-            serviceToken: resolverConfig.service?.serviceToken ?? serviceToken,
-            dataLoaderToken: resolverConfig.service?.dataLoaderToken ?? dataLoaderToken,
+            ...((resolverConfig.service?.serviceToken ?? serviceToken) !== undefined ? { serviceToken: resolverConfig.service?.serviceToken ?? serviceToken } : {}),
+            ...((resolverConfig.service?.dataLoaderToken ?? dataLoaderToken) !== undefined ? { dataLoaderToken: resolverConfig.service?.dataLoaderToken ?? dataLoaderToken } : {}),
         },
     };
     return { providers: [resolverFactory(resolverOptions)] };
@@ -268,13 +271,18 @@ export const crudGenHelpersMockable = {
         const joinColumns = getMetadataArgsStorage().joinColumns.filter((v) => typeof v.target !== 'string' &&
             (entityModel.prototype instanceof v.target || entityModel === v.target));
         const crudGenMetadata = getModelFieldMetadataList(dto ?? entityModel);
-        return relations.map((r) => ({
-            relation: r,
-            join: joinColumns.find((j) => j.propertyName === r.propertyName),
-            agField: crudGenMetadata
-                ? Object.values(crudGenMetadata).find((v) => v.dst === r.propertyName)
-                : { _propertyName: r.propertyName },
-        }));
+        return relations.map((r) => {
+            const agField = crudGenMetadata
+                ? Object.values(crudGenMetadata).find((v) => v?.dst === r.propertyName)
+                : { _propertyName: r.propertyName };
+            const result = { relation: r };
+            const join = joinColumns.find((j) => j.propertyName === r.propertyName);
+            if (join !== undefined)
+                result.join = join;
+            if (agField !== undefined)
+                result.agField = agField;
+            return result;
+        });
     }
 };
 export function getEntityRelations(entityModel, dto) {
@@ -287,6 +295,8 @@ export function getTypeProperties(entityModel) {
     if (fieldMetadataList) {
         for (const propertyName of Object.keys(fieldMetadataList)) {
             const fieldMetadata = fieldMetadataList[propertyName];
+            if (!fieldMetadata)
+                continue;
             if (fieldMetadata.mode !== 'derived') {
                 continue;
             }
@@ -322,6 +332,8 @@ export function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
     };
     Object.keys(join).forEach((table) => {
         const j = join[table];
+        if (!j)
+            return;
         switch (j.joinType) {
             case JoinTypes.INNER_JOIN:
                 _joinObject.innerJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
@@ -331,7 +343,7 @@ export function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
                 _joinObject.leftJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
                 break;
         }
-        const type = fieldMapper[table].gqlType?.();
+        const type = fieldMapper[table]?.gqlType?.();
         const _fieldMapper = type
             ? objectToFieldMapper(type)
             : { field: {} };

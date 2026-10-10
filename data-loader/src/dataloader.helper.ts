@@ -95,10 +95,11 @@ class _DataLoaderWithCount<
       // following the order of the requested keys
       const entityMap: { [key: string]: Entity[] } = {};
       entities.forEach((result) => {
-        if (typeof entityMap[result[searchKey]] === 'undefined') {
-          entityMap[result[searchKey]] = [result];
+        const searchKeyValue = result[searchKey] as unknown as string;
+        if (typeof entityMap[searchKeyValue] === 'undefined') {
+          entityMap[searchKeyValue] = [result];
         } else {
-          entityMap[result[searchKey]].push(result);
+          entityMap[searchKeyValue]!.push(result);
         }
       });
 
@@ -190,7 +191,7 @@ export class GQLDataLoader<Entity extends Record<string, any> = any> {
     }
 
     if (Object.prototype.hasOwnProperty.call(this.dataLoaders, DLKey)) {
-      return this.dataLoaders[DLKey];
+      return this.dataLoaders[DLKey]!;
     }
 
     const dataLoader = new _DataLoaderWithCount(
@@ -238,7 +239,7 @@ export class GQLDataLoader<Entity extends Record<string, any> = any> {
       );
     }
 
-    return result[0];
+    return result[0] as Entity;
   }
 
   async loadOneToMany(

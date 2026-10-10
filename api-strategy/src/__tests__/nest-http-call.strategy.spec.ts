@@ -71,6 +71,7 @@ describe('NestHttpCallStrategy', () => {
 
   it('should be able to execute the call method and return a json', async () => {
     const axiosRef = createMock<AxiosInstance>({
+      // @ts-ignore
       request: (config: any) => ({ data: '{}' }),
     });
     httpService = createMock<HttpService>({
@@ -96,6 +97,7 @@ describe('NestHttpCallStrategy', () => {
   });
 
   it('should add internal request token header when provided', async () => {
+    // @ts-ignore
     const requestSpy = jest.fn().mockResolvedValue({ data: '{}' });
     const axiosRef = createMock<AxiosInstance>({
       request: requestSpy as any,
@@ -128,6 +130,7 @@ describe('NestHttpCallStrategy', () => {
   });
 
   it('should not override existing internal request token header', async () => {
+    // @ts-ignore
     const requestSpy = jest.fn().mockResolvedValue({ data: '{}' });
     const axiosRef = createMock<AxiosInstance>({
       request: requestSpy as any,

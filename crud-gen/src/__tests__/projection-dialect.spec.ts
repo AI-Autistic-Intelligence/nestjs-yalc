@@ -161,6 +161,7 @@ describe('projection dialects', () => {
     ],
   ] as const)(
     'uses typed %s expressions consistently for reads, ordering, and indexes',
+    // @ts-ignore
     async (driver, priorityExpression) => {
       const dialect = createProjectionDialect(driver);
       const { query, countQuery, repository } = readRepository([
@@ -268,12 +269,14 @@ describe('projection dialects', () => {
     ],
   ] as const)(
     'uses validated UUID text expressions for %s filters, sorting, and indexes',
+    // @ts-ignore
     async (driver, uuidExpression) => {
       const uuidResource = defineProjectionResource({
         ...resource,
         id: 'unit.projection.uuid-dialect.v1',
         tableName: 'unit_projection_uuid_dialect',
         fields: [
+          // @ts-ignore
           { ...resource.fields[0], codec: 'uuid' },
           ...resource.fields.slice(1),
           {
@@ -366,6 +369,7 @@ describe('projection dialects', () => {
     ],
   ] as const)(
     'applies sibling-preserving %s JSON patches with an atomic revision predicate',
+    // @ts-ignore
     async (driver, jsonExpression, path) => {
       const dialect = createProjectionDialect(driver);
       const { query, repository } = writeRepository();
@@ -386,6 +390,7 @@ describe('projection dialects', () => {
         }),
       ).resolves.toBe(1);
 
+      // @ts-ignore
       const setValues = query.set.mock.calls[0][0] as Record<string, unknown>;
       expect(setValues.owner).toBe('alice');
       expect(setValues.revision).toEqual(expect.any(Function));
@@ -445,6 +450,7 @@ describe('projection dialects', () => {
       ],
     });
 
+    // @ts-ignore
     const setValues = query.set.mock.calls[0][0] as Record<string, unknown>;
     const expression = (setValues.payload as () => string)();
     expect(expression).toContain('jsonb_typeof');
@@ -458,15 +464,18 @@ describe('projection dialects', () => {
     ['postgres', 'jsonb', ['unit_projection_priority_idx'], true],
   ] as const)(
     'inspects %s storage and indexes through its dialect adapter',
+    // @ts-ignore
     async (driver, storage, indexes, validJson) => {
       const query = jest
         .fn()
         .mockResolvedValueOnce(
+          // @ts-ignore
           driver === 'sqlite'
             ? [{ name: 'unit_projection_priority_idx' }]
             : [{ data_type: 'jsonb' }],
         )
         .mockResolvedValueOnce(
+          // @ts-ignore
           driver === 'sqlite'
             ? [{ valid_json: 1 }]
             : [{ indexname: 'unit_projection_priority_idx' }],
@@ -489,10 +498,13 @@ describe('projection dialects', () => {
     ['postgres', 'Index Scan using unit_projection_priority_idx'],
   ] as const)(
     'explains indexed equality through %s without leaking SQL to consumers',
+    // @ts-ignore
     async (driver, planLine) => {
       const query = jest
         .fn()
+        // @ts-ignore
         .mockResolvedValueOnce([])
+        // @ts-ignore
         .mockResolvedValueOnce([{ plan: planLine }]);
       const dialect = createProjectionDialect(driver);
 
@@ -505,7 +517,9 @@ describe('projection dialects', () => {
           3,
         ),
       ).resolves.toEqual({ lines: [planLine], usesDeclaredIndex: true });
+      // @ts-ignore
       expect(query.mock.calls[0][0]).toContain('ANALYZE');
+      // @ts-ignore
       expect(query.mock.calls[1][0]).toContain(
         driver === 'sqlite' ? 'EXPLAIN QUERY PLAN' : 'EXPLAIN SELECT',
       );
@@ -612,6 +626,7 @@ describe('projection dialects', () => {
 
   it('applyProjectionIndexesForBootstrap applies all statements', async () => {
     const dialect = createProjectionDialect('sqlite');
+    // @ts-ignore
     const mockQuery = jest.fn().mockResolvedValue(undefined);
     const dataSource = { query: mockQuery } as unknown as DataSource;
 

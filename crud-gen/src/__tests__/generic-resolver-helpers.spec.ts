@@ -10,6 +10,7 @@ import {
 
 describe('generic.resolver helpers', () => {
   it('should detect IIDArg structures', () => {
+    // @ts-ignore
     expect(isIDArg({ name: 'id', type: () => String })).toBe(true);
     expect(isIDArg('id')).toBe(false);
   });

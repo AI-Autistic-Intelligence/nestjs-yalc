@@ -3,7 +3,7 @@ import { GraphQLResolveInfo } from 'graphql';
 export const isAskingForCount = (info: GraphQLResolveInfo): boolean => {
   try {
     return (
-      info.fieldNodes?.[0].selectionSet?.selections.some((item: any) => {
+      info.fieldNodes?.[0]?.selectionSet?.selections.some((item: any) => {
         return (
           item.name.value === 'pageData' &&
           item.selectionSet &&

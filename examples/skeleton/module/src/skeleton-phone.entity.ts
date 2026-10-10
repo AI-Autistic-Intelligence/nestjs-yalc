@@ -29,10 +29,8 @@ export class SkeletonPhone extends EntityWithTimestamps(BaseEntity) {
   userId: string;
 
   @OneToOne(
-    /* istanbul ignore next */
-    () => SkeletonUser,
-    /* istanbul ignore next */
-    (meta) => meta.SkeletonPhone,
+        () => SkeletonUser,
+        (meta) => meta.SkeletonPhone,
   )
   @JoinColumn([{ name: 'userId', referencedColumnName: 'guid' }])
   SkeletonUser?: Relation<SkeletonUser>;

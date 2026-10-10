@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 
 import { Injectable, Provider } from '@nestjs/common';
 import type { LoggerService } from '@nestjs/common';

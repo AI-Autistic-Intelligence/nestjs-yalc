@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { BaseEntity } from 'typeorm';
 
 export class ExtendedBaseEntity extends BaseEntity {

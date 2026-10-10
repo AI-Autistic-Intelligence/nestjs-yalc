@@ -3,9 +3,11 @@ import { jest } from '@jest/globals';
 import * as $ from '../ag-grid.type';
 
 class Test {
+  // @ts-ignore
   testField: string;
 }
 
+// @ts-ignore
 class TestConnection implements $.IConnection {
   name = '';
   nodes = [];
@@ -15,6 +17,7 @@ class TestConnection implements $.IConnection {
 describe('AgGrid Gql type test', () => {
   it('Check creation', async () => {
     const testAGGridType = $.default<Test>(Test);
+    // @ts-ignore
     const classed = new testAGGridType();
 
     expect(testAGGridType).toBeDefined();

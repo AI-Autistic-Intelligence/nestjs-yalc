@@ -93,12 +93,12 @@ let GenericService = class GenericService {
             ? (await this.repository.findOne({
                 where: where,
                 select: fields,
-                relations,
+                ...(relations !== undefined ? { relations } : {}),
             })) || undefined
             : this.repository.findOneOrFail({
                 where: where,
                 select: fields,
-                relations,
+                ...(relations !== undefined ? { relations } : {}),
             });
     }
     async createEntity(input, findOptions, returnEntity = true) {

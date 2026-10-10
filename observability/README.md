@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/observability</h1>
-  <p><em>Observability utilities and OpenTelemetry integration for nestjs-yalc</em></p>
+
+  @nest-yalc-2/observability
+  <em>Observability utilities and OpenTelemetry integration for nestjs-yalc</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fobservability.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fobservability)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fobservability.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/observability
 pnpm add @nest-yalc-2/observability
 ```
 
----
+<hr/>
 
 # 🔭 OpenTelemetry & Sentry Observability (`@nest-yalc-2/observability`)
 
 `@nest-yalc-2/observability` provides enterprise distributed tracing, metrics collection, and exception tracking for NestJS 11+. It integrates **OpenTelemetry OTLP exporters**, **Prometheus metric collectors**, and **Sentry error reporting** into a unified NestJS module.
 
----
+<hr/>
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/observability
 - **Prometheus Metrics Exporter**: Exposes a `/metrics` endpoint with request duration histograms, active connection counts, and memory metrics.
 - **Trace Parent Propagation**: Propagates W3C Trace Context headers (`traceparent`, `tracestate`) across HTTP microservices and Kafka message headers.
 
----
+<hr/>
 
 ## 🔬 Internal Architecture & Mechanics
 
@@ -54,7 +54,7 @@ flowchart TD
     Sentry --> OtlpCollector
 ```
 
----
+<hr/>
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/observability` vs Manual Telemetry
 
@@ -64,7 +64,7 @@ flowchart TD
 | **Sentry Error Correlation** | **Binds Sentry Events to W3C Trace IDs** | Isolated Uncorrelated Sentry Alerts |
 | **W3C Trace Parent Propagation** | **Automatic Header Injection** | Manual Header Parsing & Formatting |
 
----
+<hr/>
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -110,14 +110,14 @@ export class OrderFulfillmentService {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
 > [!WARNING]
 > **High Cardinality Metrics Labels**: Avoid adding high-cardinality values (such as user IDs or order UUIDs) as labels in Prometheus metrics. High cardinality labels overwhelm Prometheus memory indexing. Use trace attributes in OpenTelemetry instead.
 
----
+<hr/>
 
 ## 💡 Best Practices
 
@@ -125,7 +125,7 @@ export class OrderFulfillmentService {
 > **Jaeger & Grafana Integration**: Route OTLP trace exports to an OpenTelemetry Collector daemon, which forwards spans to Jaeger for distributed trace visualization and Grafana for latency dashboards.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -136,7 +136,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

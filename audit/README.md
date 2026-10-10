@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/audit</h1>
-  <p><em>Engine-level database mutation journal utilities for NestJS applications</em></p>
+
+  @nest-yalc-2/audit
+  <em>Engine-level database mutation journal utilities for NestJS applications</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Faudit.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Faudit)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Faudit.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/audit
 pnpm add @nest-yalc-2/audit
 ```
 
----
+<hr/>
 
 # 📋 Compliance Entity Auditing (`@nest-yalc-2/audit`)
 
 `@nest-yalc-2/audit` provides enterprise compliance entity auditing and revision tracking for NestJS 11+. It automatically intercepts TypeORM entity mutation operations (`INSERT`, `UPDATE`, `DELETE`), capturing before/after field diffs and correlating mutations with the active authenticated user ID.
 
----
+<hr/>
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/audit
 - **Before / After JSON Diffs**: Computes and stores granular field-level changes (`previousValue` vs `newValue`).
 - **Compliance Ready (SOC 2 / GDPR / HIPAA)**: Produces append-only immutable audit trail tables suitable for regulatory audits.
 
----
+<hr/>
 
 ## 🔬 Internal Architecture & Execution Mechanics
 
@@ -49,7 +49,7 @@ flowchart TD
     Context & DiffEngine --> AuditRecord
 ```
 
----
+<hr/>
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/audit` vs Manual Entity Listeners
 
@@ -59,7 +59,7 @@ flowchart TD
 | **Field-Level Diff Generation** | **Automated JSON Field Diffs** | Manual Property-by-Property Comparison |
 | **Audit Table Immutability** | **Append-Only Immutable Schema** | Manual Table Creation |
 
----
+<hr/>
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -97,14 +97,14 @@ export class UserAuditController {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
 > [!CAUTION]
 > **Modifying Audit Log Records**: Audit log tables must remain strictly append-only. Never expose `UPDATE` or `DELETE` endpoints for audit records.
 
----
+<hr/>
 
 ## 💡 Best Practices
 
@@ -112,7 +112,7 @@ export class UserAuditController {
 > **Archiving Historical Audits**: Move audit logs older than 90 days to Amazon S3 Glacier or cold storage using automated database partitioning to keep primary database tables lean.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -121,7 +121,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Database & TypeORM](https://ferrox-rust.dev/docs/nestjs-yalc/databases/database)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

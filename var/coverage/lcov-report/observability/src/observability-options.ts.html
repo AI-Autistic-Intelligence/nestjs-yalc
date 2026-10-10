@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">27.27% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>3/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">52.77% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>28/28</span>
+                <span class='fraction'>19/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">27.27% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>3/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -161,7 +161,11 @@
 <a name='L96'></a><a href='#L96'>96</a>
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -195,10 +199,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -224,11 +228,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -248,16 +255,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export type ObservabilityFailureMode = 'ignore' | 'throw';
 &nbsp;
@@ -297,7 +305,7 @@ export function normalizeObservabilityOptions(
   options: ObservabilityOptions,
 ): NormalizedObservabilityOptions {
   return {
-    enabled: options.enabled ?? false,
+    enabled: options.enabled ?? <span class="branch-1 cbranch-no" title="branch not covered" >false,</span>
     serviceName: options.serviceName,
     otlpEndpoint: trimTrailingSlash(
       options.otlpEndpoint ?? 'http://127.0.0.1:4318',
@@ -322,21 +330,25 @@ export function normalizeObservabilityOptions(
   };
 }
 &nbsp;
-export function createObservabilityOptionsFromEnv(
+export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >createObservabilityOptionsFromEnv(</span></span>
   serviceName: string,
 ): ObservabilityOptions {
-  return {
+  const listenTo = <span class="cstat-no" title="statement not covered" >splitCsv(process.env.YALC_OBSERVABILITY_EVENT_LISTEN_TO);</span>
+  const ignore = <span class="cstat-no" title="statement not covered" >splitCsv(process.env.YALC_OBSERVABILITY_EVENT_IGNORE);</span>
+  const mask = <span class="cstat-no" title="statement not covered" >splitCsv(process.env.YALC_OBSERVABILITY_PAYLOAD_MASK);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return {</span>
     enabled: process.env.YALC_OBSERVABILITY_ENABLED === 'true',
     serviceName: process.env.YALC_OTEL_SERVICE_NAME?.trim() || serviceName,
-    otlpEndpoint: process.env.YALC_OTEL_ENDPOINT?.trim(),
+    ...(process.env.YALC_OTEL_ENDPOINT?.trim() !== undefined ? { otlpEndpoint: process.env.YALC_OTEL_ENDPOINT?.trim() } : {}),
     eventManager: {
       enabled: process.env.YALC_OBSERVABILITY_EVENT_MANAGER_ENABLED !== 'false',
-      listenTo: splitCsv(process.env.YALC_OBSERVABILITY_EVENT_LISTEN_TO),
-      ignore: splitCsv(process.env.YALC_OBSERVABILITY_EVENT_IGNORE),
+      ...(listenTo !== undefined ? { listenTo } : {}),
+      ...(ignore !== undefined ? { ignore } : {}),
     },
     payload: {
       include: process.env.YALC_OBSERVABILITY_INCLUDE_EVENT_PAYLOAD === 'true',
-      mask: splitCsv(process.env.YALC_OBSERVABILITY_PAYLOAD_MASK),
+      ...(mask !== undefined ? { mask } : {}),
     },
     failureMode:
       process.env.YALC_OBSERVABILITY_FAILURE_MODE === 'throw'
@@ -349,13 +361,13 @@ function trimTrailingSlash(value: string) {
   return value.replace(/\/+$/, '');
 }
 &nbsp;
-function splitCsv(value?: string) {
-  const items = value
+function <span class="fstat-no" title="function not covered" >splitCsv(v</span>alue?: string) {
+  const items = <span class="cstat-no" title="statement not covered" >value</span>
     ?.split(',')
-    .map((item) =&gt; item.trim())
+    .map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item.trim())</span>
     .filter(Boolean);
 &nbsp;
-  return items &amp;&amp; items.length &gt; 0 ? items : undefined;
+<span class="cstat-no" title="statement not covered" >  return items &amp;&amp; items.length &gt; 0 ? items : undefined;</span>
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -364,7 +376,7 @@ function splitCsv(value?: string) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

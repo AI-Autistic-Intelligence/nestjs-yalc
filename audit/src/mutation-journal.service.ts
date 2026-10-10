@@ -105,7 +105,7 @@ export class MutationJournalService implements OnApplicationBootstrap {
     return {
       journalTableName: this.options.journalTableName,
       excludedTables: this.options.excludedTables,
-      actorSetting: this.options.actorSetting,
+      ...(this.options.actorSetting !== undefined ? { actorSetting: this.options.actorSetting } : {}),
     };
   }
 

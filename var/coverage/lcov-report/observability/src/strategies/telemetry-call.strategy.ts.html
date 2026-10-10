@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -141,40 +141,40 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,7 +182,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -207,48 +207,48 @@ export interface TelemetryCallStrategyOptions {
   transport?: string;
 }
 &nbsp;
-export class TelemetryCallStrategy implements IApiCallStrategy {
-  constructor(
-    private readonly strategy: IApiCallStrategy,
-    private readonly telemetry: TelemetryService,
-    private readonly options: TelemetryCallStrategyOptions,
+export class <span class="cstat-no" title="statement not covered" >TelemetryCallStrategy implements IApiCallStrategy {</span>
+<span class="fstat-no" title="function not covered" >  constructor(</span>
+    private readonly <span class="cstat-no" title="statement not covered" >strategy: IApiCallStrategy,</span>
+    private readonly <span class="cstat-no" title="statement not covered" >telemetry: TelemetryService,</span>
+    private readonly <span class="cstat-no" title="statement not covered" >options: TelemetryCallStrategyOptions,</span>
   ) {}
 &nbsp;
-  get baseUrl() {
-    return (this.strategy as { baseUrl?: string }).baseUrl;
+<span class="fstat-no" title="function not covered" >  get b</span>aseUrl() {
+<span class="cstat-no" title="statement not covered" >    return (this.strategy as { baseUrl?: string }).baseUrl;</span>
   }
 &nbsp;
-  set baseUrl(value: string | undefined) {
-    (this.strategy as { baseUrl?: string }).baseUrl = value;
+<span class="fstat-no" title="function not covered" >  set b</span>aseUrl(value: string | undefined) {
+    (<span class="cstat-no" title="statement not covered" >this.strategy as { baseUrl?: string | undefined }).baseUrl = value;</span>
   }
 &nbsp;
-  call&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
+<span class="fstat-no" title="function not covered" >  call&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(</span>
     path: string,
     options?: ICallOptions&lt;TOptData, TParams&gt;,
   ): Promise&lt;IObjectWithData&lt;TResData&gt;&gt; {
-    return this.measure('call', path, () =&gt; this.strategy.call(path, options));
+<span class="cstat-no" title="statement not covered" >    return this.measure('call', path, <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.call(path, options));</span></span>
   }
 &nbsp;
-  get&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
+<span class="fstat-no" title="function not covered" >  get&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(</span>
     path: string,
     options?: ICallOptions&lt;TOptData, TParams&gt;,
   ): Promise&lt;IObjectWithData&lt;TResData&gt;&gt; {
-    return this.measure('get', path, () =&gt; this.strategy.get(path, options));
+<span class="cstat-no" title="statement not covered" >    return this.measure('get', path, <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.get(path, options));</span></span>
   }
 &nbsp;
-  post&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(
+<span class="fstat-no" title="function not covered" >  post&lt;TOptData, TParams extends Record&lt;string, any&gt;, TResData&gt;(</span>
     path: string,
     options?: ICallOptions&lt;TOptData, TParams&gt;,
   ): Promise&lt;IObjectWithData&lt;TResData&gt;&gt; {
-    return this.measure('post', path, () =&gt; this.strategy.post(path, options));
+<span class="cstat-no" title="statement not covered" >    return this.measure('post', path, <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.post(path, options));</span></span>
   }
 &nbsp;
-  private measure&lt;T&gt;(
+  private <span class="fstat-no" title="function not covered" >measure&lt;T&gt;(</span>
     operation: string,
     path: string,
     callback: () =&gt; Promise&lt;IObjectWithData&lt;T&gt;&gt;,
   ) {
-    return this.telemetry.measure(
+<span class="cstat-no" title="statement not covered" >    return this.telemetry.measure(</span>
       `api-strategy.${this.options.name}.${operation}`,
       callback,
       {
@@ -268,7 +268,7 @@ export class TelemetryCallStrategy implements IApiCallStrategy {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

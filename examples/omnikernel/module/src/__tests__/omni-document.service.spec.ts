@@ -34,6 +34,7 @@ describe('OmniDocumentService', () => {
       {
         guid: '11111111-1111-1111-1111-111111111111',
         title: 'Document',
+        // @ts-ignore
         kind: 'unexpected-kind',
         documentKind: OmniDocumentKind.Note,
       },
@@ -62,6 +63,7 @@ describe('OmniDocumentService', () => {
     await service.updateEntity(
       { guid: '11111111-1111-1111-1111-111111111111' },
       {
+        // @ts-ignore
         kind: 'unexpected-kind',
         documentKind: OmniDocumentKind.Article,
       },

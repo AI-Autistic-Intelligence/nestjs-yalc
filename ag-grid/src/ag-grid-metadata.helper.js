@@ -20,7 +20,7 @@ exports.columnConversion = columnConversion;
 const getFieldMapperSrcByDst = (data, dst) => {
     if (data) {
         for (const src of Object.keys(data)) {
-            if (data[src].dst === dst)
+            if (data[src]?.dst === dst)
                 return src;
         }
     }
@@ -59,6 +59,8 @@ const objectToFieldMapper = (object) => {
         if (fieldMetadataList) {
             for (const propertyName of Object.keys(fieldMetadataList)) {
                 const fieldMetadata = fieldMetadataList[propertyName];
+                if (!fieldMetadata)
+                    continue;
                 const { src, dst, ...fieldMapperProperties } = fieldMetadata;
                 if (src) {
                     const newDst = dst ? getDestinationFieldName(dst) : src;
@@ -99,7 +101,7 @@ function getEntityRelations(entityModel, dto) {
         relation: r,
         join: joinColumns.find((j) => j.propertyName === r.propertyName),
         agField: agGridMetadata
-            ? Object.values(agGridMetadata).find((v) => v.dst === r.propertyName)
+            ? Object.values(agGridMetadata).find((v) => v?.dst === r.propertyName)
             : { _propertyName: r.propertyName },
     }));
 }
@@ -110,6 +112,8 @@ function getTypeProperties(entityModel) {
     if (fieldMetadataList) {
         for (const propertyName of Object.keys(fieldMetadataList)) {
             const fieldMetadata = fieldMetadataList[propertyName];
+            if (!fieldMetadata)
+                continue;
             if (fieldMetadata.mode !== 'derived') {
                 continue;
             }

@@ -9,7 +9,10 @@ class ShannonEntropyEngine {
         }
         const counts = new Array(256).fill(0);
         for (let i = 0; i < bytes.length; i++) {
-            counts[bytes[i]]++;
+            const b = bytes[i];
+            if (b !== undefined) {
+                counts[b] = counts[b] + 1;
+            }
         }
         let entropy = 0.0;
         const len = bytes.length;

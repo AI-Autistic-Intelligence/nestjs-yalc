@@ -44,6 +44,7 @@ describe('ObjectDecorator', () => {
     expect(hasAgGridFieldMetadataList(TestObject)).toBeTruthy();
 
     let metadata = getAgGridFieldMetadata(TestObject, 'decoratedProperty');
+    // @ts-ignore
     expect([metadata.dst, metadata.src]).toEqual(
       expect.arrayContaining(['decoratedProperty', 'decoratedProperty']),
     );
@@ -66,6 +67,7 @@ describe('ObjectDecorator', () => {
     @AgGridObject({ filters: fixedIncludefilterOption })
     class BaseDecoratedClass {
       @AgGridField({})
+      // @ts-ignore
       baseDecoratedProperty: 'string';
     }
 
@@ -86,6 +88,7 @@ describe('ObjectDecorator', () => {
 
   it('Should decorate properly a property with a custom gqlOptions', () => {
     const metadata = getAgGridFieldMetadata(TestEntityDto, 'id');
+    // @ts-ignore
     expect([metadata.dst, metadata.src]).toEqual(
       expect.arrayContaining(['id']),
     );
@@ -101,6 +104,7 @@ describe('ObjectDecorator', () => {
     let gqlOptions: FieldOptions | undefined = undefined;
     let gqlType: ReturnTypeFunc | undefined = () => BaseEntity;
 
+    // @ts-ignore
     let agGridFieldDecorator = AgGridField({
       gqlType,
       gqlOptions,
@@ -116,6 +120,7 @@ describe('ObjectDecorator', () => {
     mockFieldDecorator.mockClear();
     (mockedNestGraphql.Field as jest.Mock).mockClear();
 
+    // @ts-ignore
     agGridFieldDecorator = AgGridField({
       gqlType,
       gqlOptions,

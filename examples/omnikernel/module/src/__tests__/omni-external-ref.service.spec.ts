@@ -100,6 +100,7 @@ describe("OmniExternalRefService", () => {
 
   it("creates a new external ref when the identity does not exist", async () => {
     const { readRepository, writeRepository } = createRepositoryPair();
+    // @ts-ignore
     readRepository.findOne.mockResolvedValue(null);
     const service = new OmniExternalRefService(
       readRepository as never,
@@ -129,6 +130,7 @@ describe("OmniExternalRefService", () => {
 
   it("validates record bindings without changing legacy non-record bindings", async () => {
     const { readRepository, writeRepository } = createRepositoryPair();
+    // @ts-ignore
     readRepository.findOne.mockResolvedValue(null);
     const validator = {
       assertTarget: jest.fn(async () => ({})),
@@ -164,6 +166,7 @@ describe("OmniExternalRefService", () => {
 
   it("updates an existing external ref when the identity already exists", async () => {
     const { readRepository, writeRepository } = createRepositoryPair();
+    // @ts-ignore
     readRepository.findOne.mockResolvedValue({
       guid: "existing-guid",
       internalType: OmniExternalRefInternalType.Document,

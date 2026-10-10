@@ -15,7 +15,9 @@ describe('BaseAppBootstrap', () => {
   it('should monkey patch app init/close and update flags', async () => {
     const bootstrap = new TestBootstrap();
 
+    // @ts-ignore
     const closeFn = jest.fn().mockResolvedValue(undefined);
+    // @ts-ignore
     const initFn = jest.fn().mockResolvedValue(undefined);
 
     const fakeApp: any = {

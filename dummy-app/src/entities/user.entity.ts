@@ -8,23 +8,23 @@ import { decimalMiddleware } from '@nest-yalc-2/field-middleware/decimal-middlew
 export class UserEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Field()
   @Column()
-  firstName: string;
+  firstName!: string;
 
   @Field()
   @Column()
-  lastName: string;
+  lastName!: string;
 
   @Field((): StringConstructor => String, { middleware: [decimalMiddleware] })
   @Column('decimal', { precision: 10, scale: 2, default: 0 })
-  balance: string;
+  balance!: string;
 
   @Field(() => Int)
   @Column('int')
-  age: number;
+  age!: number;
 
   @Field((): [typeof PostEntity] => [PostEntity], { nullable: 'itemsAndList' })
   @OneToMany(

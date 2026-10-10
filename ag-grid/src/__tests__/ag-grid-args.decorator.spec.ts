@@ -15,6 +15,7 @@ import {
   In,
   BaseEntity,
 } from 'typeorm';
+// @ts-ignore
 import { IAgQueryParams } from '../ag-grid.args';
 import { ExtraArgsStrategy, FilterType, GeneralFilters } from '../ag-grid.enum';
 import { GqlExecutionContext } from '@nestjs/graphql';
@@ -25,7 +26,9 @@ import {
 import {
   FilterInput,
   FilterModel,
+  // @ts-ignore
   IAgGridArgsOptions,
+  // @ts-ignore
   ICombinedSimpleModel,
 } from '../ag-grid.interface';
 
@@ -188,6 +191,7 @@ const switchCaseDateTests = [
   },
   {
     filter: 'inDate',
+    // @ts-ignore
     result: Between(inDateResults[0].from, inDateResults[0].to),
   },
 ];
@@ -235,6 +239,7 @@ const fixedDataFilterToInclude: IAgGridArgsOptions = {
 
 const mockedInfo = createMock<GraphQLResolveInfo>();
 
+// @ts-ignore
 const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
 mockCreate.mockImplementation(() => ({
   getArgs: jest.fn().mockReturnValue(fixedArgsQueryParams),
@@ -291,6 +296,7 @@ describe('Ag-grid args decorator', () => {
     );
     expect(testGetStringFilter).toBeDefined();
     expect(testGetStringFilter).toEqual(
+      // @ts-ignore
       Between(inDateResults[1].from, inDateResults[1].to),
     );
   });
@@ -302,6 +308,7 @@ describe('Ag-grid args decorator', () => {
     );
     expect(testGetStringFilter).toBeDefined();
     expect(testGetStringFilter).toEqual(
+      // @ts-ignore
       Between(inDateResults[0].from, inDateResults[0].to),
     );
   });
@@ -441,6 +448,7 @@ describe('Ag-grid args decorator', () => {
       };
       const findManyOptions = resultFn(params)();
       expect(findManyOptions).toBeDefined();
+      // @ts-ignore
       const argsKeys = Object.keys(findManyOptions.extra.args);
       expect(argsKeys).toContain('virtualArg');
     });
@@ -478,6 +486,7 @@ describe('Ag-grid args decorator', () => {
     const testData = agGridArgsDecorator.mapAgGridParams(
       fixedDataWithDefault,
       mockedGqlExecutionContext,
+      // @ts-ignore
       { filters: {}, startRow: undefined, endRow: 5 },
       mockedInfo,
     );
@@ -507,6 +516,7 @@ describe('Ag-grid args decorator', () => {
     const testData = agGridArgsDecorator.mapAgGridParams(
       { ...fixedDataWithDefault, defaultValue: undefined },
       mockedGqlExecutionContext,
+      // @ts-ignore
       { filters: {}, startRow: undefined, endRow: 5 },
       mockedInfo,
     );
@@ -538,9 +548,12 @@ describe('Ag-grid args decorator', () => {
       FilterModel | ICombinedSimpleModel,
       AgGridError?,
     ][] = [
+      // @ts-ignore
       ['simple', fixedSimpleTextFilter, undefined],
       ['undefined', fixedUndefinedTextFilter, new AgGridInvalidArgumentError()],
+      // @ts-ignore
       ['combined OR', fixedCombinedOrTextFilter, undefined],
+      // @ts-ignore
       ['combined AND', fixedCombinedAndTextFilter, undefined],
       [
         'combined invalid operator',
@@ -552,6 +565,7 @@ describe('Ag-grid args decorator', () => {
         fixedCombinedInvalidArgsTextFilter,
         new AgGridInvalidArgumentError(),
       ],
+      // @ts-ignore
       ['not type in text', fixedNotTextFilter, undefined],
     ];
 
@@ -609,6 +623,7 @@ describe('Ag-grid args decorator', () => {
 
   describe('Check createWhere', () => {
     it('Should work with void where', async () => {
+      // @ts-ignore
       const testData = agGridArgsDecorator.createWhere(null, fixedIFieldMapper);
       expect(testData).toEqual({ filters: {} });
     });
@@ -864,6 +879,7 @@ describe('Ag-grid args decorator', () => {
       expect(result).toEqual({});
 
       result = agGridArgsDecorator.AgGridArgsSingleDecoratorMapper(
+        // @ts-ignore
         null,
         fixedArgsQueryParams,
         mockedInfo,

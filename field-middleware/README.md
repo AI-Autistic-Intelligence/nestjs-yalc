@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/field-middleware</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/field-middleware integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/field-middleware
+  <em>Core enterprise module for the @nest-yalc-2/field-middleware integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Ffield-middleware.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Ffield-middleware)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Ffield-middleware.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/field-middleware
 pnpm add @nest-yalc-2/field-middleware
 ```
 
----
+<hr/>
 
 # GraphQL Field Middleware & Dynamic Property Transformers
 
 The `@nestjs-yalc/field-middleware` package provides fine-grained property-level access control, dynamic field encryption, value maskers, and runtime formatting transformers for GraphQL schemas and REST DTO entities.
 
----
+<hr/>
 
 ## 1. What It Is & Architectural Purpose
 
@@ -53,7 +53,7 @@ In GraphQL APIs and REST services, security and privacy requirements frequently 
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+<hr/>
 
 ## 2. What It Does & Key Capabilities
 
@@ -62,7 +62,7 @@ In GraphQL APIs and REST services, security and privacy requirements frequently 
 - **Property-Level Encryption**: Transparently decrypt AES-256 encrypted database columns during GraphQL object resolution.
 - **Computed Value Formatting**: Apply localized date, currency, or string case transformations dynamically on read operations.
 
----
+<hr/>
 
 ## 3. How It Works Under the Hood
 
@@ -91,7 +91,7 @@ sequenceDiagram
     Output-->>Client: Deliver GraphQL JSON Payload
 ```
 
----
+<hr/>
 
 ## 4. Why It Was Designed This Way
 
@@ -101,7 +101,7 @@ sequenceDiagram
 | **GraphQL Parity** | Requires writing custom GraphQL field directives by hand. | Native NestJS field middleware integration with standard context. |
 | **Consistency** | Risk of forgetting field masks in newly created API routes. | Centralized middleware pipeline guarantees compliance rules. |
 
----
+<hr/>
 
 ## 5. Practical Usage Guide & Extended Code Examples
 
@@ -143,7 +143,7 @@ export const CurrencyFormatterMiddleware: FieldMiddleware = async (
 };
 ```
 
----
+<hr/>
 
 ## 6. Anti-Patterns: How NOT to Use It
 
@@ -151,7 +151,7 @@ export const CurrencyFormatterMiddleware: FieldMiddleware = async (
 > **Anti-Pattern 1: Performing Heavy Async I/O in Field Middleware**
 > Field middleware runs for *every resolved property instance* in a GraphQL query array. Executing database queries inside field middleware causes N+1 performance bottlenecks. Use DataLoaders for async field enrichment.
 
----
+<hr/>
 
 ## 7. Pro-Tips & Best Practices
 
@@ -160,7 +160,7 @@ export const CurrencyFormatterMiddleware: FieldMiddleware = async (
 > Use Field Middleware for property-level transformation while keeping NestJS Guards responsible for overall endpoint routing access.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -172,7 +172,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Sentinel Security Guards](https://ferrox-rust.dev/docs/nestjs-yalc/security/sentinel)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

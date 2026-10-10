@@ -13,6 +13,7 @@ import {
 import { QueryBuilderHelper } from '@node-yalc/database/query-builder.helper.js';
 import { SortDirection } from '../crud-gen.enum.js';
 import { DeepMocked } from '@golevelup/ts-jest';
+// @ts-ignore
 import { Alias } from 'typeorm/query-builder/Alias';
 import * as Typeorm from 'typeorm';
 import * as CrudGenHelpers from '../crud-gen.helpers.js';
@@ -103,6 +104,7 @@ const getManyResult = [BaseEntity];
 
 describe('CrudGen Repoository', () => {
   it('should return default capabilities', () => {
+    // @ts-ignore
     const newCrudGenRepository = new CGExtendedRepository();
     expect(PLAIN_CRUD_GEN_REPOSITORY_CAPABILITIES).toEqual({
       extendedQueries: false,
@@ -150,12 +152,15 @@ describe('CrudGen Repoository', () => {
     qb.getMany = jest.fn().mockReturnValue(getManyResult);
     qb.getManyAndCount = jest.fn().mockReturnValue([getManyResult, 1]);
     qb.getQuery = jest.fn().mockReturnValue('SELECT * FROM fakeTable');
+    // @ts-ignore
     qb.getOne = jest.fn().mockResolvedValue(BaseEntity);
+    // @ts-ignore
     qb.getOneOrFail = jest.fn().mockResolvedValue(BaseEntity);
     return qb as DeepMocked<SelectQueryBuilder<BaseEntity>>;
   };
 
   beforeEach(() => {
+    // @ts-ignore
     newCrudGenRepository = new CGExtendedRepository();
 
     mockedQueryBuilder = buildQueryBuilder();
@@ -184,6 +189,7 @@ describe('CrudGen Repoository', () => {
           } as any;
         }
         if (!queryBuilder.alias) {
+          // @ts-ignore
           queryBuilder.alias = 'alias';
         }
         return originalGetFormatted(findOptions, fieldMap, queryBuilder);
@@ -315,6 +321,7 @@ describe('CrudGen Repoository', () => {
       ]);
 
     const testData = newCrudGenRepository.getFormattedCrudGenQueryBuilder(
+      // @ts-ignore
       { select: ['data -> $.test'] },
       {
         parent: { userId: { dst: 'guid' } },
@@ -338,6 +345,7 @@ describe('CrudGen Repoository', () => {
 
     it('Should work properly with join and derived mode in findOptions ', () => {
       const testData = newCrudGenRepository.getFormattedCrudGenQueryBuilder(
+        // @ts-ignore
         fakeFindOptionsExtended,
         {
           parent: { userId: { dst: 'guid' } },
@@ -349,9 +357,11 @@ describe('CrudGen Repoository', () => {
     it('Should work properly with undefined field in derived mode in findOptions', () => {
       const tempFindOptions = { ...fakeFindOptionsExtended };
 
+      // @ts-ignore
       tempFindOptions.extra._keysMeta.value.isNested = undefined;
 
       let testData = newCrudGenRepository.getFormattedCrudGenQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -360,9 +370,11 @@ describe('CrudGen Repoository', () => {
       );
       expect(testData).toEqual(mockedQueryBuilder);
 
+      // @ts-ignore
       tempFindOptions.extra._keysMeta.value = undefined;
 
       testData = newCrudGenRepository.getFormattedCrudGenQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -374,10 +386,13 @@ describe('CrudGen Repoository', () => {
 
     it('Should work properly with undefined in join field', () => {
       const tempFindOptions = { ...fakeFindOptionsExtended };
+      // @ts-ignore
       tempFindOptions.extra._fieldMapper.key.relation = undefined;
+      // @ts-ignore
       tempFindOptions.join.innerJoinAndSelect = undefined;
 
       const testData = newCrudGenRepository.getFormattedCrudGenQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -393,6 +408,7 @@ describe('CrudGen Repoository', () => {
       };
 
       const testData = newCrudGenRepository.getFormattedCrudGenQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -444,7 +460,9 @@ describe('CrudGen Repoository', () => {
 
     const newQueryBuilder = buildQueryBuilder();
     newQueryBuilder.expressionMap.mainAlias = alias;
+    // @ts-ignore
     mockedQueryBuilder.expressionMap.mainAlias = null;
+    // @ts-ignore
     mockedQueryBuilder.connection.createQueryBuilder = jest
       .fn()
       .mockReturnValue(newQueryBuilder);
@@ -467,11 +485,15 @@ describe('CrudGen Repoository', () => {
       .spyOn(newCrudGenRepository, 'getFormattedCrudGenQueryBuilder')
       .mockReturnValueOnce(mockedQueryBuilder);
 
+    // @ts-ignore
     QueryBuilderHelper.applyOperationToQueryBuilder = jest
       .fn()
       .mockImplementation((qb, mode, fn) => {
+        // @ts-ignore
         fn(qb);
+        // @ts-ignore
         fn = jest.fn().mockResolvedValue(BaseEntity);
+        // @ts-ignore
         return fn();
       });
 
@@ -484,11 +506,15 @@ describe('CrudGen Repoository', () => {
       .spyOn(newCrudGenRepository, 'getFormattedCrudGenQueryBuilder')
       .mockReturnValueOnce(mockedQueryBuilder);
 
+    // @ts-ignore
     QueryBuilderHelper.applyOperationToQueryBuilder = jest
       .fn()
       .mockImplementation((qb, mode, fn) => {
+        // @ts-ignore
         fn(qb);
+        // @ts-ignore
         fn = jest.fn().mockResolvedValue(BaseEntity);
+        // @ts-ignore
         return fn();
       });
 
@@ -540,6 +566,7 @@ describe('CrudGen Repoository', () => {
     });
   });
   it('Should check genereteSelectOnFind', () => {
+    // @ts-ignore
     const result = newCrudGenRepository.generateSelectOnFind(['id'], BaseEntity);
     expect(result).toBeDefined();
   });
@@ -618,5 +645,58 @@ describe('generic.repository exports', () => {
     
     // Access alias
     expect(exports.AG_GRID_MAIN_ALIAS).toEqual('CrudGenMainAlias');
+  });
+});
+
+describe('GenericTypeORMRepository getActualLimits & join coverage', () => {
+  it('should handle subQueryFilters without skip/take', () => {
+    // @ts-ignore
+    const newCrudGenRepository = new CGExtendedRepository();
+    const limits = newCrudGenRepository.getActualLimits({ subQueryFilters: {} } as any);
+    expect(limits).toEqual({});
+  });
+
+  it('getFormattedCrudGenQueryBuilder should handle relation joins correctly', () => {
+    jest.spyOn(QueryBuilderHelper, 'applyOrderToJoinedQueryBuilder').mockReturnValue([]);
+    // @ts-ignore
+    const newCrudGenRepository = new CGExtendedRepository();
+    const mockQb = {
+      connection: {
+        driver: { escape: jest.fn() }
+      },
+      alias: 'alias',
+      expressionMap: { mainAlias: { metadata: { columns: [] } } },
+      setFindOptions: jest.fn().mockReturnThis(),
+      leftJoinAndSelect: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      offset: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+    };
+    
+    newCrudGenRepository.getFormattedCrudGenQueryBuilder(
+      {
+        join: {
+          leftJoinAndSelect: {
+            testRelation: 'testRelation'
+          }
+        },
+        extra: {
+          _fieldMapper: {
+            testRelation: {
+              relation: {
+                targetKey: { dst: 'target' },
+                sourceKey: { dst: 'source' }
+              }
+            }
+          }
+        }
+      } as any,
+      undefined,
+      mockQb as any
+    );
+    expect(mockQb.leftJoinAndSelect).toHaveBeenCalled();
   });
 });

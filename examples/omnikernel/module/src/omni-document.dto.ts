@@ -43,11 +43,11 @@ export class OmniDocumentType extends OmniDocumentEntity {
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  guid!: string;
+  override guid!: string;
 
   @ModelField({ gqlType: returnValue(Int) })
   @IsInt()
-  revision!: number;
+  override revision!: number;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -56,12 +56,12 @@ export class OmniDocumentType extends OmniDocumentEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  externalId?: string | null;
+  override externalId?: string | null;
 
   @ModelField({ gqlType: returnValue(String) })
   @IsString()
   @MaxLength(255)
-  title!: string;
+  override title!: string;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -70,15 +70,15 @@ export class OmniDocumentType extends OmniDocumentEntity {
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  slug?: string | null;
+  override slug?: string | null;
 
   @ModelField({ gqlType: returnValue(OmniDocumentKind) })
   @IsEnum(OmniDocumentKind)
-  kind!: OmniDocumentKind;
+  override kind!: OmniDocumentKind;
 
   @ModelField({ gqlType: returnValue(OmniRecordStatus) })
   @IsEnum(OmniRecordStatus)
-  status!: OmniRecordStatus;
+  override status!: OmniRecordStatus;
 
   @ModelField({
     gqlType: returnValue(GraphQLJSONObject),
@@ -86,7 +86,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
   })
   @IsOptional()
   @IsObject()
-  payload?: Record<string, unknown> | null;
+  override payload?: Record<string, unknown> | null;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -95,7 +95,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  payloadSchemaId?: string | null;
+  override payloadSchemaId?: string | null;
 
   @ModelField({
     gqlType: returnValue(Int),
@@ -103,7 +103,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
   })
   @IsOptional()
   @IsInt()
-  payloadSchemaVersion?: number | null;
+  override payloadSchemaVersion?: number | null;
 
   @ModelField({
     gqlType: () => [OmniRelationType],
@@ -115,7 +115,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
       type: () => OmniRelationEntity,
     },
   })
-  outgoingRelations?: Relation<OmniRelationType[]>;
+  override outgoingRelations?: Relation<OmniRelationType[]>;
 
   @ModelField({
     gqlType: () => [OmniRelationType],
@@ -127,11 +127,11 @@ export class OmniDocumentType extends OmniDocumentEntity {
       type: () => OmniRelationEntity,
     },
   })
-  incomingRelations?: Relation<OmniRelationType[]>;
+  override incomingRelations?: Relation<OmniRelationType[]>;
 
   @ModelField({ gqlType: returnValue(OmniDocumentKind) })
   @IsEnum(OmniDocumentKind)
-  documentKind!: OmniDocumentKind;
+  override documentKind!: OmniDocumentKind;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -139,7 +139,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
   })
   @IsOptional()
   @IsString()
-  content?: string | null;
+  override content?: string | null;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -148,7 +148,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  contentMimeType?: string | null;
+  override contentMimeType?: string | null;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -157,7 +157,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
   @IsOptional()
   @IsUrl()
   @MaxLength(2048)
-  sourceUrl?: string | null;
+  override sourceUrl?: string | null;
 
   @ModelField({
     gqlType: returnValue(Date),
@@ -165,7 +165,7 @@ export class OmniDocumentType extends OmniDocumentEntity {
   })
   @IsOptional()
   @IsDate()
-  publishedAt?: Date | null;
+  override publishedAt?: Date | null;
 }
 
 @InputType()

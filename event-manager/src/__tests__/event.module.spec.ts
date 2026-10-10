@@ -103,6 +103,7 @@ describe('EventModule', () => {
     };
     const moduleRef = await Test.createTestingModule({
       imports: [
+        // @ts-ignore
         EventModule.forRootAsync({ loggerProvider }),
         EventEmitterModule.forRoot(),
       ],

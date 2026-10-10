@@ -4,9 +4,11 @@ import { NestFactory } from '@nestjs/core';
 
 describe('StandaloneAppBootstrap', () => {
   const logger = { log: jest.fn(), debug: jest.fn() };
+  // @ts-ignore
   const initMock = jest.fn().mockResolvedValue(undefined);
   const fakeApp = {
     init: initMock,
+    // @ts-ignore
     close: jest.fn().mockResolvedValue(undefined),
     get: jest.fn().mockReturnValue(logger),
     useLogger: jest.fn(),

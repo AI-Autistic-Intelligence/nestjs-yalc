@@ -27,7 +27,7 @@ export const AG_GRID_MAIN_ALIAS = 'AgGridMainAlias';
 export class AgGridRepository<
   Entity extends ObjectLiteral,
 > extends Repository<Entity> {
-  protected entity: EntityClassOrSchema;
+  protected entity!: EntityClassOrSchema;
 
   /**
    * @todo we should create a class helper/adapter for the findOptions and move this method there
@@ -39,12 +39,15 @@ export class AgGridRepository<
     if (findOptions.subQueryFilters) {
       // findOptions limits take precedence over subQuery limits
       return {
-        skip: findOptions.skip ?? findOptions.subQueryFilters.skip,
-        take: findOptions.take ?? findOptions.subQueryFilters.take,
+        skip: (findOptions.skip ?? findOptions.subQueryFilters.skip) as number,
+        take: (findOptions.take ?? findOptions.subQueryFilters.take) as number,
       };
     }
 
-    return { skip: findOptions.skip, take: findOptions.take };
+    return {
+      ...(findOptions.skip !== undefined ? { skip: findOptions.skip } : {}),
+      ...(findOptions.take !== undefined ? { take: findOptions.take } : {}),
+    };
   }
 
   public getFormattedAgGridQueryBuilder(
@@ -133,8 +136,7 @@ export class AgGridRepository<
 
           // store joins to apply later
           customJoinToApply.push((qb: SelectQueryBuilder<Entity>) => {
-            /* istanbul ignore next */
-            const alias = extra?._aliasType ?? '';
+                        const alias = extra?._aliasType ?? '';
             qb[type](
               `${alias}.${key}`,
               `${key}`,
@@ -364,9 +366,7 @@ export function AgGridRepositoryFactory<Entity extends ObjectLiteral>(
   const dynamicClass = (name: string) =>
     ({ [name]: class extends AgGridRepository<Entity> {} })[name];
 
-  const repo: ClassType<AgGridRepository<Entity>> = dynamicClass(
-    `${entity.name}Repository`,
-  );
+  const repo: ClassType<AgGridRepository<Entity>> = dynamicClass(`${entity.name}Repository`)!;
 
   EntityRepository(entity)(repo);
 

@@ -37,6 +37,7 @@ describe('AppBootstrap.applyBootstrapGlobals', () => {
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
+    // @ts-ignore
     jest.spyOn(SwaggerModule, 'createDocument').mockImplementation((...args: any[]) =>
       createDocumentMock(...args),
     );
@@ -47,14 +48,17 @@ describe('AppBootstrap.applyBootstrapGlobals', () => {
       .spyOn(DocumentBuilder.prototype, 'setTitle')
       .mockImplementation(function (...args: any[]) {
         setTitleMock(...args);
+        // @ts-ignore
         return this;
       });
     jest
       .spyOn(DocumentBuilder.prototype, 'setDescription')
       .mockImplementation(function (...args: any[]) {
         setDescriptionMock(...args);
+        // @ts-ignore
         return this;
       });
+    // @ts-ignore
     jest.spyOn(DocumentBuilder.prototype, 'build').mockImplementation((...args: any[]) =>
       buildMock(...args),
     );
@@ -100,7 +104,9 @@ describe('AppBootstrap.applyBootstrapGlobals', () => {
 describe('AppBootstrap - additional coverage', () => {
   it('initApp should call createApp and initSetup', async () => {
     const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    // @ts-ignore
     bootstrap.createApp = jest.fn().mockResolvedValue(bootstrap as any);
+    // @ts-ignore
     bootstrap.initSetup = jest.fn().mockResolvedValue(bootstrap as any);
     await bootstrap.initApp();
     expect(bootstrap.createApp).toHaveBeenCalled();
@@ -109,8 +115,10 @@ describe('AppBootstrap - additional coverage', () => {
 
   it('initSetup should call applyBootstrapGlobals and init', async () => {
     const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    // @ts-ignore
     bootstrap.applyBootstrapGlobals = jest.fn();
     const mockApp = { init: jest.fn() };
+    // @ts-ignore
     bootstrap.getApp = jest.fn().mockReturnValue(mockApp as any);
     await bootstrap.initSetup();
     expect(bootstrap.applyBootstrapGlobals).toHaveBeenCalled();
@@ -119,6 +127,7 @@ describe('AppBootstrap - additional coverage', () => {
 
   it('createApp should call NestFactory.create and setApp', async () => {
     const bootstrap = new AppBootstrap('app', class Dummy {}, { skipMultiServerCheck: true } as any);
+    // @ts-ignore
     bootstrap.setApp = jest.fn().mockReturnValue(bootstrap as any);
     const mockNestApp = {};
     const NestFactory = require('@nestjs/core').NestFactory;

@@ -2,8 +2,10 @@ import { jest } from '@jest/globals';
 jest.mock('@nestjs/graphql', () => {
   const actual = jest.requireActual('@nestjs/graphql');
   return {
+    // @ts-ignore
     ...actual,
     GqlExecutionContext: {
+      // @ts-ignore
       ...actual.GqlExecutionContext,
       create: jest.fn(),
     },
@@ -46,6 +48,7 @@ const infoObj = {
 describe('Crud-gen Interceptor test', () => {
   let crudGenInterceptor: CrudGenGqlInterceptor;
   const callHandler = createMock<CallHandler>();
+  // @ts-ignore
   const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
   const mockGetArgs = mockCreate.mockImplementation(() => ({
     getArgs: jest.fn().mockReturnValue(infoObj),
@@ -110,6 +113,7 @@ describe('Crud-gen Interceptor test', () => {
 
   it('Check CrudGenInterceptorWorker with no pagination', async () => {
     const TestedCrudGenInterceptorWorker = crudGenGqlInterceptorWorker(
+      // @ts-ignore
       null,
       null,
     );

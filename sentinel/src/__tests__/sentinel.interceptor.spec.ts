@@ -47,7 +47,7 @@ describe('RagGroundednessInterceptor', () => {
       isGrounded: true,
       groundednessScore: 0.9,
       explanation: 'test'
-    });
+    } as any);
 
     interceptor.intercept(mockContext, mockNext).subscribe({
       next: (val) => {
@@ -74,7 +74,7 @@ describe('RagGroundednessInterceptor', () => {
       isGrounded: false,
       groundednessScore: 0.2,
       explanation: 'test'
-    });
+    } as any);
 
     interceptor.intercept(mockContext, mockNext).subscribe({
       error: (err) => {

@@ -1,12 +1,12 @@
 import { IFieldMapper } from '@node-yalc/interfaces';
 import { Equal } from 'typeorm';
-import { ICrudGenParams } from '../crud-gen.args.js';
+import { ICrudGenBaseParams } from '../api-graphql/crud-gen-gql.interface.js';
 import {
   FilterType,
   GeneralFilters,
   Operators,
   SortDirection,
-} from '../crud-gen.enum';
+} from '../crud-gen.enum.js';
 import {
   DateFilterModel,
   FilterInput,
@@ -18,8 +18,8 @@ import {
   ISetFilterModel,
   ISimpleFilterModel,
   ITextFilterModel,
-} from '../api-graphql/crud-gen-gql.interface';
-import { IWhereCondition } from '../api-graphql/crud-gen-gql.type';
+} from '../api-graphql/crud-gen-gql.interface.js';
+import { IWhereCondition } from '../api-graphql/crud-gen-gql.type.js';
 import { FilterOption, FilterOptionType } from '../object.decorator.js';
 
 const fixedKey = 'passed';
@@ -62,7 +62,7 @@ export const columnConversionTests: IFieldMapperTest[] = [
 ];
 
 export const fixedIFieldMapper: IFieldMapper<any> = {
-  ...columnConversionTests[0].data,
+  ...(columnConversionTests[0]?.data ?? {}),
   [`second_${fixedKey}`]: {
     dst: `second_${dbName}`,
     isRequired: true,
@@ -96,7 +96,7 @@ export const fixedSimpleTextFilter: ITextFilterModel = {
 export const fixedUndefinedTextFilter: ITextFilterModel = {
   filterType: FilterType.TEXT,
   type: GeneralFilters.CONTAINS,
-  filter: undefined,
+  filter: undefined as any,
   field: fixedKey,
 };
 
@@ -190,8 +190,8 @@ export const fixedCombinedInvalidOperatorTextFilter: ICombinedSimpleModel = {
 export const fixedCombinedInvalidArgsTextFilter: ICombinedSimpleModel = {
   filterType: FilterType.TEXT,
   operator: Operators.OR,
-  condition1: undefined,
-  condition2: undefined,
+  condition1: undefined as any,
+  condition2: undefined as any,
 };
 
 export const fixedCombinedOrNumberFilter: ICombinedSimpleModel = {
@@ -216,7 +216,7 @@ export const fixedArgsOptions: ICrudGenGqlArgsOptions = {
       filterCondition: GeneralFilters.EQUAL,
     },
   },
-  extraArgsStrategy: null,
+  extraArgsStrategy: null as any,
   defaultValue: {},
 };
 
@@ -295,7 +295,7 @@ export const fixedExcludefilterOption: FilterOption = {
   Ag QUERY PARAMS
 */
 
-export const fixedArgsNoFilters: ICrudGenParams = {
+export const fixedArgsNoFilters: ICrudGenBaseParams = {
   startRow: 0,
   endRow: 0,
   sorting: [
@@ -311,10 +311,10 @@ export const fixedArgsNoFilters: ICrudGenParams = {
     },
   ],
   groupKeys: [''],
-  filters: null,
+  filters: null as any,
 };
 
-export const fixedArgsQueryParams: ICrudGenParams = {
+export const fixedArgsQueryParams: ICrudGenBaseParams = {
   ...fixedArgsNoFilters,
   filters: {
     expressions: [
@@ -336,23 +336,23 @@ export const fixedArgsQueryParams: ICrudGenParams = {
   join: {},
 };
 
-export const fixeNumberArgs: ICrudGenParams = {
+export const fixeNumberArgs: ICrudGenBaseParams = {
   ...fixedArgsNoFilters,
   filters: { ...fixedFilterInputNumber },
 };
 
-export const fixeDatedArgs: ICrudGenParams = {
+export const fixeDatedArgs: ICrudGenBaseParams = {
   ...fixedArgsNoFilters,
   filters: { ...fixedFilterInputDate },
 };
 
-export const fixedBadArgs: ICrudGenParams = {
+export const fixedBadArgs: ICrudGenBaseParams = {
   ...fixedArgsQueryParams,
   filters: {
     expressions: [{ text: fixedSimpleBadFilter as ITextFilterModel }],
   },
 };
-export const fixedArgsNOTFilter: ICrudGenParams = {
+export const fixedArgsNOTFilter: ICrudGenBaseParams = {
   ...fixedArgsQueryParams,
   filters: { expressions: [{ text: fixedFilterNotContains }] },
 };

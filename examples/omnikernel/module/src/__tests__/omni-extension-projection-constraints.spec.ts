@@ -288,6 +288,7 @@ describe("Omni extension projection constraints in SQLite", () => {
         OmniCollectionEntity,
         OmniRelationEntity,
         OmniExternalRefEntity,
+        // @ts-ignore
         entity,
       ],
     });
@@ -473,6 +474,7 @@ describe("Omni extension projection constraints in PostgreSQL", () => {
           OmniCollectionEntity,
           OmniRelationEntity,
           OmniExternalRefEntity,
+          // @ts-ignore
           entity,
         ],
       });

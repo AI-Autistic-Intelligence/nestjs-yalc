@@ -150,6 +150,7 @@ describe('base-app', () => {
     });
 
     it('should create dynamic module for standalone', () => {
+      // @ts-ignore
       const dynamicModule = YalcBaseAppModule._forRootStandalone('appAlias');
       expect(dynamicModule).toBeDefined();
       expect(dynamicModule.global).toBe(true);
@@ -157,6 +158,7 @@ describe('base-app', () => {
     });
 
     it('should create dynamic module', () => {
+      // @ts-ignore
       const dynamicModule = YalcBaseAppModule._forRoot('appAlias');
       expect(dynamicModule).toBeDefined();
       expect(dynamicModule.global).toBe(true);
@@ -166,6 +168,7 @@ describe('base-app', () => {
 
   describe('registerSingletonDynamicModule', () => {
     class TestModule extends DummyDynamicModule {
+      // @ts-ignore
       static forRoot(options?: IYalcBaseAppOptions | undefined): DynamicModule {
         return this._forRoot('test', options);
       }

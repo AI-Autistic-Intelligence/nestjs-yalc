@@ -111,8 +111,11 @@ describe('Ag-grid type checker', () => {
   });
 
   it('should return false because of missing filters', async () => {
+    // @ts-ignore
     const isDate = isDateFilterModel(null);
+    // @ts-ignore
     const isText = isTextFilterModel(null);
+    // @ts-ignore
     const isNumber = isNumberFilterModel(null);
 
     expect(isDate).toBeFalsy();

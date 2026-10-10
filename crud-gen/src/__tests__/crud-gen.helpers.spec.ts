@@ -11,12 +11,14 @@ import {
   CrudGenStringWhereError,
 } from '../crud-gen.error.js';
 import { isAskingForCount } from '../api-graphql/crud-gen-gql.helpers.js';
+// @ts-ignore
 import { JoinArgOptions, JoinTypes } from '../api-graphql/crud-gen.input.js';
 import type { IWhereCondition } from '../api-graphql/crud-gen-gql.type.js';
 import type { ICrudGenDependencyFactoryOptions } from '../crud-gen.helpers.js';
 import { CrudGenResourceFactory } from '../crud-gen-resource.factory.js';
 import type {
   FilterOption,
+  // @ts-ignore
   FilterOptionType,
   IModelFieldMetadata,
   IModelFieldAndFilterMapper,
@@ -134,6 +136,7 @@ const columnConversionTests: IFieldMapperTest[] = [
 ];
 
 const fixedIFieldMapper: IFieldMapper<any> = {
+  // @ts-ignore
   ...columnConversionTests[0].data,
   [`second_${fixedKey}`]: {
     dst: `second_${dbName}`,
@@ -167,11 +170,13 @@ describe('Crud-gen helpers', () => {
 
   beforeEach(() => {
     mockedQueryBuilder = createMock<SelectQueryBuilder<BaseEntity>>();
+    // @ts-ignore
     mockedQueryBuilder.connection = {
       driver: {
         escape: (value: any) => `\`${String(value)}\``,
       },
     } as any;
+    // @ts-ignore
     mockedQueryBuilder.expressionMap = {
       mainAlias: {
         metadata: {
@@ -221,12 +226,14 @@ describe('Crud-gen helpers', () => {
   });
 
   it('should return false when data of key is not defined', () => {
+    // @ts-ignore
     const forceFilterTest = isSymbolic({ [fixedKey]: undefined }, fixedKey);
 
     expect(forceFilterTest).toEqual(false);
   });
 
   it('should return null on void data', () => {
+    // @ts-ignore
     const forceFilterTest = isSymbolic(null, fixedKey);
 
     expect(forceFilterTest).toEqual(false);
@@ -400,10 +407,12 @@ describe('Crud-gen helpers', () => {
           selectionSet: {
             selections: [
               {
+                // @ts-ignore
                 name: { value: 'pageData', kind: 'Name' },
                 selectionSet: {
                   selections: [
                     {
+                      // @ts-ignore
                       name: {
                         value: 'count',
                       },
@@ -423,6 +432,7 @@ describe('Crud-gen helpers', () => {
     result = isAskingForCount({} as any);
     expect(result).toBeFalsy();
 
+    // @ts-ignore
     result = isAskingForCount(undefined);
     expect(result).toBeFalsy();
   });
@@ -434,6 +444,7 @@ describe('Crud-gen helpers', () => {
   });
 
   it('Check isIFieldAndFilterMapper with undefined', async () => {
+    // @ts-ignore
     const testData = isIFieldAndFilterMapper(undefined);
 
     expect(testData).toEqual(false);
@@ -481,6 +492,7 @@ describe('Crud-gen helpers', () => {
       expect(fieldMapper).toBeDefined();
 
       // src setted to undefined
+      // @ts-ignore
       customFieldMetadata.propertyName.src = undefined;
       Reflect.defineMetadata(ObjectDecorator.CRUDGEN_FIELD_METADATA_KEY, customFieldMetadata, BaseEntity);
       fieldMapper = objectToFieldMapper(new BaseEntity());
@@ -538,6 +550,7 @@ describe('Crud-gen helpers', () => {
         },
         resolver: {
           provider: {
+            // @ts-ignore
             provide: Resolver,
             useClass: TestEntity,
           },
@@ -556,11 +569,13 @@ describe('Crud-gen helpers', () => {
     it('Should create a dependencyObject properly with no override', () => {
       const customOptions: ICrudGenDependencyFactoryOptions<TestEntity> = {
         ...fixedCrudGenDependencyFactoryOptions,
+        // @ts-ignore
         service: {
           dbConnection: 'id',
           entityModel: undefined,
           providerClass: GenericService,
         },
+        // @ts-ignore
         dataloader: {
           entityModel: undefined,
           databaseKey: 'id',
@@ -572,6 +587,7 @@ describe('Crud-gen helpers', () => {
       expect(dependecyObject).toBeDefined();
     });
     it('Should create a dependecyObject with default values', () => {
+      // @ts-ignore
       const customOptions: ICrudGenDependencyFactoryOptions<TestEntity> = {
         ...fixedCrudGenDependencyFactoryOptions,
         resolver: undefined,
@@ -963,6 +979,7 @@ describe('Crud-gen helpers', () => {
     const findOptionsTest1 = {};
 
     ['field1', 'field2', 'field3', 'field5'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
   });
@@ -980,6 +997,7 @@ describe('Crud-gen helpers', () => {
     };
     const findOptionsTest1 = {};
 
+    // @ts-ignore
     applySelectOnFind(findOptionsTest1, 'field1', fieldMapper, 'alias', 'path');
   });
 
@@ -1008,6 +1026,7 @@ describe('Crud-gen helpers', () => {
     };
 
     ['field1', 'field2'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
 
@@ -1028,15 +1047,19 @@ describe('Crud-gen helpers', () => {
     const findOptionsTest1 = {};
 
     ['field1'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
 
+    // @ts-ignore
     expect(Object.keys(findOptionsTest1.extra).length).toBe(1);
 
     ['field1'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
 
+    // @ts-ignore
     expect(Object.keys(findOptionsTest1.extra).length).toBe(1);
   });
 
@@ -1080,6 +1103,7 @@ describe('Crud-gen helpers', () => {
 
   describe('Additional branch coverage', () => {
     it('columnConversion should handle empty alias', () => {
+      // @ts-ignore
       const res = CrudGenHelpers.columnConversion('field', undefined, '');
       expect(res).toBe('field');
     });
@@ -1105,6 +1129,7 @@ describe('Crud-gen helpers', () => {
       }, mockClass);
       
       const mapper = CrudGenHelpers.objectToFieldMapper(mockClass);
+      // @ts-ignore
       expect(mapper.field['testField'].dst).toBe('testField');
     });
 

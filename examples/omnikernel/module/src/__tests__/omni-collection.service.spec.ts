@@ -34,6 +34,7 @@ describe('OmniCollectionService', () => {
       {
         guid: 'aaaaaaaa-1111-1111-1111-111111111111',
         title: 'Collection',
+        // @ts-ignore
         kind: 'unexpected-kind',
         collectionKind: OmniCollectionKind.Folder,
       },
@@ -62,6 +63,7 @@ describe('OmniCollectionService', () => {
     await service.updateEntity(
       { guid: 'aaaaaaaa-1111-1111-1111-111111111111' },
       {
+        // @ts-ignore
         kind: 'unexpected-kind',
         collectionKind: OmniCollectionKind.Folder,
       },

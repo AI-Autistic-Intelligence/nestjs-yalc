@@ -31,7 +31,7 @@ describe('TypeORMLogger with a valid logger', () => {
 
   beforeAll(() => {
     process.env.TYPEORM_LOGGING = 'true';
-    testLogger = new TypeORMLogger(mockedLoggerService, mockedEventEmitter2);
+    testLogger = new TypeORMLogger(mockedLoggerService as any);
   });
 
   afterAll(() => {
@@ -86,14 +86,13 @@ describe('TypeORMLogger with a valid logger', () => {
 describe('TypeORMLogger with a invalid logger', () => {
   const mockedLoggerService = createMock<LoggerService>();
   const mockedEventEmitter2 = createMock<EventEmitter2>();
-  mockedLoggerService.debug = undefined;
-  mockedLoggerService.error = undefined;
-  mockedLoggerService.warn = undefined;
-  mockedLoggerService.log = undefined;
-  mockedLoggerService.verbose = undefined;
+  mockedLoggerService.debug = undefined as any;
+  mockedLoggerService.error = undefined as any;
+  mockedLoggerService.warn = undefined as any;
+  mockedLoggerService.log = undefined as any;
+  mockedLoggerService.verbose = undefined as any;
   const testLogger = new TypeORMLogger(
-    mockedLoggerService,
-    mockedEventEmitter2,
+    mockedLoggerService as any,
   );
 
   it('All che level should ignore a missing logger function ', async () => {

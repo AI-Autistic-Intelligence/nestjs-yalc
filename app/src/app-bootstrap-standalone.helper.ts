@@ -15,29 +15,25 @@ export class StandaloneAppBootstrap<
   TGlobalOptions extends IGlobalOptions = IGlobalOptions,
 > extends BaseAppBootstrap<INestApplicationContext> {
   constructor(appAlias: string, module: any, options?: TGlobalOptions) {
-    super(appAlias, module, { globalsOptions: options });
+    super(appAlias, module, options !== undefined ? { globalsOptions: options } : {});
   }
 
-  async initApp(options?: {
+  override async initApp(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
     await this.createApp({
-      createOptions: options?.createOptions,
+      ...(options?.createOptions !== undefined ? { createOptions: options.createOptions } : {}),
     });
 
     await this.applyBootstrapGlobals(options?.createOptions);
 
     await this.getApp().init();
 
-    /* istanbul ignore next */
-    if (envIsTrue(process.env.APP_DRY_RUN) === true) {
-      /* istanbul ignore next */
-      this.loggerService?.log('Dry run, exiting...');
-      /* istanbul ignore next */
-      await this.getApp().close();
-      /* istanbul ignore next */
-      process.exit(0);
+        if (envIsTrue(process.env.APP_DRY_RUN) === true) {
+            this.loggerService?.log('Dry run, exiting...');
+            await this.getApp().close();
+            process.exit(0);
     }
 
     return this;
@@ -53,13 +49,10 @@ export class StandaloneAppBootstrap<
         logger: getEnvLoggerLevels(),
       });
     } catch (err) {
-      /* istanbul ignore next */
-      this.closeCleanup();
+            this.closeCleanup();
       // eslint-disable-next-line no-console
-      /* istanbul ignore next */
-      console.error(clc.red('Failed to create app'), clc.red(err));
-      /* istanbul ignore next */
-      throw new Error('Process aborted');
+            console.error(clc.red('Failed to create app'), clc.red(err));
+            throw new Error('Process aborted');
     }
 
     return this.setApp(app);

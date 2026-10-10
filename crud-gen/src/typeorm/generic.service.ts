@@ -343,7 +343,7 @@ export class GenericService<
 
     const mappedFindOptions: FindManyOptions<EntityRead> = {
       ...rest,
-      order: sorting ? mapSortingParamsToTypeORM(sorting) : undefined,
+      ...(sorting ? { order: mapSortingParamsToTypeORM(sorting) } : {}),
       skip,
       take,
     };
@@ -420,14 +420,14 @@ export class GenericService<
     return options?.failOnNull !== true
       ? this.repository.findOne({
           where,
-          select: fields,
-          relations,
+          ...(fields !== undefined ? { select: fields as any } : {}),
+          ...(relations !== undefined ? { relations } : {}),
           comment: 'Generic service getEntity',
         })
       : this.repository.findOneOrFail({
           where,
-          select: fields,
-          relations,
+          ...(fields !== undefined ? { select: fields as any } : {}),
+          ...(relations !== undefined ? { relations } : {}),
           comment: 'Generic service getEntity failOnNull: true',
         });
   }
@@ -618,7 +618,7 @@ export class GenericService<
     if (results.length > 1) {
       throw new ConditionsTooBroadError(conditions);
     }
-    return results[0];
+    return results[0]!;
   }
 
   /**   * Returns a List of entities based in the provided options.

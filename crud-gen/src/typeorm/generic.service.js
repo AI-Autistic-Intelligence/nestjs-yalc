@@ -141,7 +141,7 @@ let GenericService = class GenericService {
         const { skip, take } = mapPaginationParamsToTypeORM(startRow, endRow);
         const mappedFindOptions = {
             ...rest,
-            order: sorting ? mapSortingParamsToTypeORM(sorting) : undefined,
+            ...(sorting ? { order: mapSortingParamsToTypeORM(sorting) } : {}),
             skip,
             take,
         };
@@ -160,14 +160,14 @@ let GenericService = class GenericService {
         return options?.failOnNull !== true
             ? this.repository.findOne({
                 where,
-                select: fields,
-                relations,
+                ...(fields !== undefined ? { select: fields } : {}),
+                ...(relations !== undefined ? { relations } : {}),
                 comment: 'Generic service getEntity',
             })
             : this.repository.findOneOrFail({
                 where,
-                select: fields,
-                relations,
+                ...(fields !== undefined ? { select: fields } : {}),
+                ...(relations !== undefined ? { relations } : {}),
                 comment: 'Generic service getEntity failOnNull: true',
             });
     }

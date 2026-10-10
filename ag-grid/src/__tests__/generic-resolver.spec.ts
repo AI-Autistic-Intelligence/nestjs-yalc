@@ -24,8 +24,11 @@ import {
   defineUpdateMutation,
   generateDecorators,
   hasFilters,
+  // @ts-ignore
   IGenericResolver,
+  // @ts-ignore
   IGenericResolverMethodOptions,
+  // @ts-ignore
   IGenericResolverOptions,
   resolverFactory,
 } from '../generic-resolver.resolver';
@@ -44,6 +47,7 @@ import { BaseEntity, OneToMany, OneToOne } from 'typeorm';
 import { AgGridFindManyOptions } from '../ag-grid.interface';
 import { FilterType } from '../ag-grid.enum';
 import { GqlExecutionContext, Query, Resolver } from '@nestjs/graphql';
+// @ts-ignore
 import { IRelationInfo } from '../ag-grid.helpers';
 import * as AgGridQueryHelpers from "../ag-grid-query.helper";
 import * as AgGridFactoryHelpers from "../ag-grid-factory.helper";
@@ -335,6 +339,7 @@ describe('Generic Resolver', () => {
   ])(
     'Should create a resolver with a proper execution of the queries',
     async (resolverOption) => {
+      // @ts-ignore
       GqlExecutionContext.create = jest.fn().mockImplementation(() => ({
         getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
       }));
@@ -370,6 +375,7 @@ describe('Generic Resolver', () => {
   });
 
   it('Should create a resolver with the default options', async () => {
+    // @ts-ignore
     GqlExecutionContext.create = jest.fn().mockImplementation(() => ({
       getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
     }));
@@ -407,6 +413,7 @@ describe('Generic Resolver', () => {
     };
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
+      // @ts-ignore
       customMetadatList[propertyRelationName].relation = {
         relationType: 'one-to-many',
         sourceKey: {
@@ -471,6 +478,7 @@ describe('Generic Resolver', () => {
     it('Should cover join defined without properties', async () => {
       class TestEntityEmptyJoinOneToMany extends BaseEntity {
         @OneToMany(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        // @ts-ignore
         TestEntityRelation2: TestEntityRelation2[];
       }
 
@@ -479,6 +487,7 @@ describe('Generic Resolver', () => {
         TestEntityRelation2: {
           ...customMetadatList['TestEntityRelation2'],
           relation: {
+            // @ts-ignore
             ...customMetadatList['TestEntityRelation2'].relation,
             join: {}, // Defined but empty
           },
@@ -499,6 +508,7 @@ describe('Generic Resolver', () => {
         mockedModuleRef,
       );
 
+      // @ts-ignore
       const result = await resolver[propertyRelationName](
         { [propertyRelationName]: undefined },
         {},
@@ -509,6 +519,7 @@ describe('Generic Resolver', () => {
     it('Should cover undefined join case', async () => {
       class TestEntityNoJoinOneToMany extends BaseEntity {
         @OneToMany(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        // @ts-ignore
         TestEntityRelation2: TestEntityRelation2[];
       }
       class TestEntityNoJoinOneToManyDto extends TestEntityNoJoinOneToMany {}
@@ -533,6 +544,7 @@ describe('Generic Resolver', () => {
         [propertyRelationName]: undefined,
       };
 
+      // @ts-ignore
       const result = await resolver[propertyRelationName](
         customEntity,
         {},
@@ -554,6 +566,7 @@ describe('Generic Resolver', () => {
 
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
+      // @ts-ignore
       customMetadatList[propertyRelationName].relation = {
         relationType: 'one-to-one',
         sourceKey: {
@@ -572,6 +585,7 @@ describe('Generic Resolver', () => {
 
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
+      // @ts-ignore
       customMetadatList[propertyRelationName].relation = {
         relationType: 'one-to-one',
         sourceKey: {
@@ -652,6 +666,7 @@ describe('Generic Resolver', () => {
         mockedModuleRef,
       );
 
+      // @ts-ignore
       const result = await resolver[propertyRelationName](
         TestEntityRelation2,
         {},
@@ -662,6 +677,7 @@ describe('Generic Resolver', () => {
     it('Should cover join defined without properties', async () => {
       class TestEntityEmptyJoinOneToOne extends BaseEntity {
         @OneToOne(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        // @ts-ignore
         TestEntityRelation2: TestEntityRelation2;
       }
 
@@ -690,6 +706,7 @@ describe('Generic Resolver', () => {
         mockedModuleRef,
       );
 
+      // @ts-ignore
       const result = await resolver[propertyRelationName](
         { [propertyRelationName]: undefined },
         {},
@@ -700,6 +717,7 @@ describe('Generic Resolver', () => {
     it('Should cover undefined join case', async () => {
       class TestEntityNoJoin extends BaseEntity {
         @OneToOne(() => TestEntityRelation2, (inverse) => inverse.TestEntityRelation)
+        // @ts-ignore
         TestEntityRelation2: TestEntityRelation2;
       }
       class TestEntityNoJoinDto extends TestEntityNoJoin {}
@@ -724,6 +742,7 @@ describe('Generic Resolver', () => {
         [propertyRelationName]: undefined,
       };
 
+      // @ts-ignore
       const result = await resolver[propertyRelationName](
         customEntity,
         {},
@@ -766,6 +785,7 @@ describe('Generic Resolver', () => {
 
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
+      // @ts-ignore
       customMetadatList[propertyRelationName].relation = {
         relationType: 'many-to-many',
         sourceKey: {
@@ -930,6 +950,7 @@ describe('Generic Resolver', () => {
     findManyOptions.where = {
       filters: {},
     };
+    // @ts-ignore
     findManyOptions.order = undefined;
     expect(hasFilters(findManyOptions)).toBeFalsy();
   });
@@ -981,6 +1002,7 @@ describe('Generic Resolver', () => {
         join: undefined,
       },
     ];
+    // @ts-ignore
     resolveInfo.findIndex = jest.fn().mockReturnValue(-1);
 
     // mockedGetEntityRelations removed
@@ -1069,6 +1091,7 @@ describe('Generic Resolver', () => {
 
     const testFn = () =>
       defineFieldResolver([resolverInfo], {
+        // @ts-ignore
         prototype: {},
       });
     expect(testFn).toThrow(
@@ -1085,6 +1108,7 @@ describe('Generic Resolver', () => {
       },
     };
     expect(() =>
+      // @ts-ignore
       defineFieldResolver([resolverInfoOneToOne], { prototype: {} }),
     ).toThrow(
       new ReferenceError(

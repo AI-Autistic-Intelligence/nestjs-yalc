@@ -9,6 +9,7 @@ const fixedProperty = 'columId';
 class TestEntity extends BaseEntity {
   @Column()
   @AgGridField()
+  // @ts-ignore
   [fixedProperty]: number;
 }
 
@@ -35,6 +36,7 @@ describe('entityFieldsEnumFactory', () => {
 
   it('should work with entityModel as a function', () => {
     function objectFunction() {
+      // @ts-ignore
       this.value = 'value';
     }
     const result = entityFieldsEnumFactory(objectFunction);

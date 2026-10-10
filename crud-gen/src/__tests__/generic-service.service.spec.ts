@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals';
 jest.mock('@node-yalc/utils/class.helper.js');
+// @ts-ignore
 jest.mock('typeorm', () => { const actual = jest.requireActual('typeorm'); const mock = { __esModule: true }; for (const key in actual) { mock[key] = actual[key]; } mock.getConnection = jest.fn(); return mock; });
 
 import * as GenericServiceModule from '../typeorm/generic.service.js';
@@ -68,6 +69,7 @@ describe("GenericService", () => {
   };
 
   beforeEach(async () => {
+    // @ts-ignore
     mockedGetConnection = jest.mocked(getConnection, true);
 
     // the target property can't be proxied
@@ -96,14 +98,18 @@ describe("GenericService", () => {
   });
 
   it('should create a service with write repository', () => {
+    // @ts-ignore
     const writeRepo = new CGExtendedRepository();
+    // @ts-ignore
     service = new GenericService(baseEntityRepository, writeRepo);
     expect(service.getRepository() === baseEntityRepository).toBeTruthy();
     expect(service.getRepositoryWrite() === writeRepo).toBeTruthy();
   });
 
   it('should set all repositories correctly', () => {
+    // @ts-ignore
     const writeRepo = new CGExtendedRepository();
+    // @ts-ignore
     service.setRepository(writeRepo);
     expect(service.getRepository() === writeRepo).toBeTruthy();
     expect(service.getRepositoryWrite() === writeRepo).toBeTruthy();
@@ -203,7 +209,9 @@ describe("GenericService", () => {
   it('Check getEntity with specific Database', async () => {
     const testRepository = createMock<Repository<BaseEntity>>();
     const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      // @ts-ignore
       service.setRepositoryRead(testRepository as any);
+      // @ts-ignore
       service.setRepositoryWrite(testRepository as any);
     });
 
@@ -276,7 +284,9 @@ describe("GenericService", () => {
   it('Check getEntityList with specific Database', async () => {
     const testRepository = createMock<CGExtendedRepository<BaseEntity>>();
     const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      // @ts-ignore
       service.setRepositoryRead(testRepository as any);
+      // @ts-ignore
       service.setRepositoryWrite(testRepository as any);
     });
 
@@ -336,17 +346,23 @@ describe("GenericService", () => {
   it('maps an extended destination only to its declared write property', () => {
     
 
+    // @ts-ignore
     const writeRepo = new CGExtendedRepository();
+    // @ts-ignore
     writeRepo.target = WriteEntity;
 
+    // @ts-ignore
     const readRepo = new CGExtendedRepository();
+    // @ts-ignore
     readRepo.target = ReadEntity;
 
     const newService = new GenericService<ReadEntity, WriteEntity>(
+      // @ts-ignore
       readRepo,
       writeRepo,
     );
 
+    // @ts-ignore
     const res = newService.mapEntityR2W({
       jsonProperty: 'test',
       noDest: 'test',
@@ -378,32 +394,44 @@ describe("GenericService", () => {
   });
 
   it('should correctly map entities from read to write (without mapper)', () => {
+    // @ts-ignore
     const writeRepo = new CGExtendedRepository();
+    // @ts-ignore
     writeRepo.target = WriteEntity;
 
+    // @ts-ignore
     const readRepo = new CGExtendedRepository();
+    // @ts-ignore
     readRepo.target = WriteEntity;
 
     const newService = new GenericService<WriteEntity, WriteEntity>(
+      // @ts-ignore
       readRepo,
       writeRepo,
     );
 
+    // @ts-ignore
     newService.mapEntityR2W({ data: 'test' });
   });
 
   it('should not map entities from read to write when there are no classes', () => {
+    // @ts-ignore
     const writeRepo = new CGExtendedRepository();
+    // @ts-ignore
     writeRepo.target = {};
 
+    // @ts-ignore
     const readRepo = new CGExtendedRepository();
+    // @ts-ignore
     readRepo.target = {};
 
     const newService = new GenericService<WriteEntity, WriteEntity>(
+      // @ts-ignore
       readRepo,
       writeRepo,
     );
 
+    // @ts-ignore
     newService.mapEntityR2W({ data: 'test' });
   });
 
@@ -455,6 +483,7 @@ describe("GenericService", () => {
 
   it('should handle an insertion error', async () => {
     baseEntityRepository.insert.mockRejectedValueOnce(
+      // @ts-ignore
       new QueryFailedError('', [], ''),
     );
 
@@ -466,6 +495,7 @@ describe("GenericService", () => {
   it('should handle an update error', async () => {
     baseEntityRepository.find.mockResolvedValueOnce([new BaseEntity()]);
     baseEntityRepository.update.mockRejectedValueOnce(
+      // @ts-ignore
       new QueryFailedError('', [], ''),
     );
 
@@ -477,6 +507,7 @@ describe("GenericService", () => {
   it('should handle a deletion error', async () => {
     baseEntityRepository.find.mockResolvedValueOnce([new BaseEntity()]);
     baseEntityRepository.delete.mockRejectedValueOnce(
+      // @ts-ignore
       new QueryFailedError('', [], ''),
     );
 
@@ -486,6 +517,7 @@ describe("GenericService", () => {
   });
 
   it('should not handle a differnt kind of error', async () => {
+    // @ts-ignore
     jest.spyOn(service, 'validateConditions').mockImplementation(jest.fn());
     baseEntityRepository.delete.mockRejectedValueOnce(
       new ConnectionNotFoundError('Another Error'),
@@ -527,6 +559,7 @@ describe("GenericService", () => {
         extendedQueries: true,
         structuredGraphqlFilters: true,
       })),
+      // @ts-ignore
       getManyAndCountExtended: jest.fn().mockResolvedValue(mockedCountedList),
       getManyExtended: jest.fn(),
     };
@@ -544,6 +577,7 @@ describe("GenericService", () => {
         extendedQueries: true,
         structuredGraphqlFilters: true,
       })),
+      // @ts-ignore
       getManyExtended: jest.fn().mockResolvedValue(mockedList),
       getManyAndCountExtended: jest.fn(),
     };
@@ -561,6 +595,7 @@ describe("GenericService", () => {
         extendedQueries: true,
         structuredGraphqlFilters: true,
       })),
+      // @ts-ignore
       getManyExtended: jest.fn().mockResolvedValue(mockedList),
       getManyAndCountExtended: jest.fn(),
     };
@@ -863,7 +898,9 @@ describe("GenericService", () => {
   it('test getEntityListCrudGen with specific Database', async () => {
     const testRepository = createMock<CGExtendedRepository<BaseEntity>>();
     const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      // @ts-ignore
       service.setRepositoryRead(testRepository as any);
+      // @ts-ignore
       service.setRepositoryWrite(testRepository as any);
     });
 

@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/crud-gen</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/crud-gen integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/crud-gen
+  <em>Core enterprise module for the @nest-yalc-2/crud-gen integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fcrud-gen.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fcrud-gen)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fcrud-gen.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,14 +16,14 @@ yarn add @nest-yalc-2/crud-gen
 pnpm add @nest-yalc-2/crud-gen
 ```
 
----
+<hr/>
 
 # ⚡ Zero-Boilerplate TypeORM CRUD Generator (`@nest-yalc-2/crud-gen`)
 
 ## 💡 1. What It Is & Architectural Purpose
 `@nest-yalc-2/crud-gen` is the automated REST and GraphQL code generation module for NestJS 11+. It was designed to eliminate up to 40% of repetitive controller, resolver, service, DTO, and query builder boilerplate for TypeORM database entities, while maintaining full developer control over authorization and middleware.
 
----
+<hr/>
 
 ## ⚙️ 2. What It Does & Key Features
 - **Automated REST Endpoints**: Generates `getMany`, `getOne`, `createOne`, `updateOne`, `deleteOne` endpoints automatically.
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/crud-gen
 - **Dynamic SQL Query Parsing**: Translates HTTP query strings (e.g. `filter[age][gte]=18&sort=-createdAt`) into optimized TypeORM `WHERE`, `ORDER BY`, and `JOIN` clauses.
 - **Pagination Support**: Automatic cursor-based or offset-based pagination.
 
----
+<hr/>
 
 ## 🔬 3. How It Works Under the Hood
 
@@ -50,7 +50,7 @@ flowchart TD
 1. **Metadata Reflection**: Decorating a TypeORM entity with `@CrudGenEntity()` registers entity metadata and route configuration choices.
 2. **Dynamic Factory Pattern**: On NestJS application bootstrap, the `crud-gen` factory dynamically instantiates REST controllers and GraphQL resolvers with dependency injection into TypeORM repositories.
 
----
+<hr/>
 
 ## 🧠 4. Why It Was Designed This Way (CrudGen vs Manual Scaffolding)
 
@@ -60,7 +60,7 @@ flowchart TD
 | **Maintainability** | **Centralized (Modify Entity to Update API)** | Dozens of files to sync (DTO, Service, Controller, Resolver) |
 | **Dynamic Filtering** | **Native SQL Query Filtering Support** | Requires Handwritten QueryBuilder Logic |
 
----
+<hr/>
 
 ## 🚀 5. Practical Usage Guide & Extended Code Examples
 
@@ -91,14 +91,14 @@ export class Product {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ 6. Anti-Patterns: How NOT to Use It
 
 1. ❌ **DO NOT expose all CRUD routes on sensitive entities without Auth Guards**: Enabling `deleteOne` or `updateOne` without applying `@UseGuards()` exposes public data mutation endpoints.
 2. ❌ **DO NOT use `crud-gen` for complex business workflows requiring Sagas**: For operations involving payment providers or multi-step sagas, write a custom Controller/Resolver instead of standard CRUD logic.
 
----
+<hr/>
 
 ## 💡 7. Pro-Tips & Best Practices
 
@@ -106,7 +106,7 @@ export class Product {
 > **Customizing Generated Routes**: You can override or extend any automatically generated route by declaring a custom Controller extending the base class produced by `crud-gen`.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -117,7 +117,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [GraphQL Transport Module](https://ferrox-rust.dev/docs/nestjs-yalc/transports/graphql)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

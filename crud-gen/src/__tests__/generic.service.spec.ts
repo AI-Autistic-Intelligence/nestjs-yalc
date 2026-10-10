@@ -12,6 +12,7 @@ afterEach(() => {
 
 describe('validateSupportedError', () => {
   it('should wrap QueryFailedError and rethrow others', () => {
+    // @ts-ignore
     const handler = validateSupportedError(Error);
     expect(() => handler(new QueryFailedError('q', [], new Error('boom')))).toThrow(
       Error,
@@ -111,13 +112,17 @@ describe('GenericService', () => {
   it('createEntity/updateEntity should handle returnEntity = false without getOneExtended', async () => {
     const mockRepo = {
       getId: jest.fn().mockReturnValue(1),
+      // @ts-ignore
       save: jest.fn().mockResolvedValue({ id: 1 }),
+      // @ts-ignore
       update: jest.fn().mockResolvedValue({ affected: 1 }),
       create: jest.fn().mockReturnValue({ a: 1 }),
+      // @ts-ignore
       insert: jest.fn().mockResolvedValue({ identifiers: [{ id: 1 }] }),
       metadata: { primaryColumns: [{ propertyName: 'id' }] }
     };
     const service = new GenericService(mockRepo as any, mockRepo as any) as any;
+    // @ts-ignore
     service.validateConditions = jest.fn().mockResolvedValue({});
     service.mapEntityR2W = jest.fn((val) => val);
     
@@ -154,7 +159,9 @@ describe('GenericService', () => {
 
   it('getEntityList should handle findOptions with and without sorting', async () => {
     const mockRepo = {
+      // @ts-ignore
       findAndCount: jest.fn().mockResolvedValue([[], 0]),
+      // @ts-ignore
       find: jest.fn().mockResolvedValue([])
     };
     const service = new GenericService(mockRepo as any, mockRepo as any) as any;

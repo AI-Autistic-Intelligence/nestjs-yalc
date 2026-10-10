@@ -36,6 +36,7 @@ describe('FilterScalar', () => {
     });
 
     const parsed = scalar.parseValue(input);
+    // @ts-ignore
     expect(parsed.childExpressions?.[0].operator).toBe('AND');
   });
 

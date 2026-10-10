@@ -36,7 +36,7 @@ export function StringFormatMatchValidation(
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
-      options: validationOptions,
+      ...(validationOptions !== undefined ? { options: validationOptions } : {}),
       validator: stringFormatMatchValidatorFactory(stringMatchOptions),
     });
   };

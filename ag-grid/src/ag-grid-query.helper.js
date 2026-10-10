@@ -62,6 +62,8 @@ function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
         return sql;
     for (const key of Object.keys(where.filters)) {
         const operation = where.filters[key];
+        if (!operation)
+            continue;
         if (operation.operator !== undefined) {
             if ((0, ag_grid_type_checker_utils_1.isCombinedWhereModel)(operation) &&
                 !(0, ag_grid_type_checker_utils_1.isCombinedWhereModel)(operation.filter_1) &&
@@ -88,7 +90,7 @@ function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
 }
 const isAskingForCount = (info) => {
     try {
-        return (info.fieldNodes?.[0].selectionSet?.selections.some((item) => {
+        return (info.fieldNodes?.[0]?.selectionSet?.selections.some((item) => {
             return (item.name.value === 'pageData' &&
                 item.selectionSet &&
                 item.selectionSet.selections.some((subItem) => subItem.name.value === 'count'));
@@ -120,6 +122,8 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
     };
     Object.keys(join).forEach((table) => {
         const j = join[table];
+        if (!j)
+            return;
         switch (j.joinType) {
             case ag_grid_input_1.JoinTypes.INNER_JOIN:
                 _joinObject.innerJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
@@ -129,7 +133,7 @@ function applyJoinArguments(findManyOptions, alias, join, fieldMapper) {
                 _joinObject.leftJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
                 break;
         }
-        const type = fieldMapper[table].gqlType?.();
+        const type = fieldMapper[table]?.gqlType?.();
         const _fieldMapper = type
             ? (0, ag_grid_metadata_helper_1.objectToFieldMapper)(type)
             : { field: {} };

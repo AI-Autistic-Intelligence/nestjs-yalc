@@ -17,7 +17,7 @@ let MutationJournalModule = MutationJournalModule_1 = class MutationJournalModul
         return this.createDynamicModule({
             provide: MUTATION_JOURNAL_OPTIONS,
             useFactory: async (...args) => this.normalizeOptions(await options.useFactory(...args)),
-            inject: options.inject,
+            ...(options.inject !== undefined ? { inject: options.inject } : {}),
         }, options.imports);
     }
     static createDynamicModule(optionsProvider, imports = []) {

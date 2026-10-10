@@ -31,7 +31,7 @@ export class MutationJournalCleanupService
   implements OnApplicationBootstrap, OnModuleDestroy
 {
   private readonly logger = new Logger(MutationJournalCleanupService.name);
-  private timer?: NodeJS.Timeout;
+  private timer?: NodeJS.Timeout | undefined;
 
   public constructor(
     @Inject(MutationJournalService)

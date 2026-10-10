@@ -85,6 +85,7 @@ describe('crud-gen REST DTO helpers', () => {
   });
 
   it('crudGenRestParamsNoPaginationFactory should handle missing sorting and filters', () => {
+    // @ts-ignore
     const Params = crudGenRestParamsNoPaginationFactory({ sorting: undefined, filters: undefined });
     const instance = new Params();
     expect(instance.sorting).toBeUndefined();

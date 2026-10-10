@@ -38,7 +38,7 @@ export function objectMapperInterceptor<
           }
 
           const result = objectMapper(_data, mapper, {
-            copyNonMappedProperties: options.copyNonMappedProperties,
+            ...(options.copyNonMappedProperties !== undefined ? { copyNonMappedProperties: options.copyNonMappedProperties } : {}),
           });
 
           return options.callback?.(data, result) ?? result;

@@ -235,7 +235,7 @@ function extensionReader<Entity extends ObjectLiteral>(
         scope.scopeId,
         filtersFor(options.where),
         [],
-        { take: validateReaderTake(options.take) },
+        { ...(options.take !== undefined && validateReaderTake(options.take) !== undefined ? { take: validateReaderTake(options.take) as number } : {}) },
       );
       return projectMany(entities);
     },
@@ -266,7 +266,7 @@ function relationReader(
       const { take, ...conditions } = options;
       return await repository.find({
         where: { scopeId: scope.scopeId, ...fixed, ...conditions } as never,
-        take: validateReaderTake(take),
+        ...(take !== undefined && validateReaderTake(take) !== undefined ? { take: validateReaderTake(take) as number } : {}),
       });
     },
   });

@@ -3,8 +3,8 @@ import { EventEmitter2 } from "@nestjs/event-emitter";
 import {
   OpenTelemetryEventManagerPlugin,
   matchesEventPattern,
-} from "../event-manager/opentelemetry-event-manager.plugin";
-import { normalizeObservabilityOptions } from "../observability-options";
+} from "../event-manager/opentelemetry-event-manager.plugin.js";
+import { normalizeObservabilityOptions } from "../observability-options.js";
 
 describe("OpenTelemetryEventManagerPlugin", () => {
   it("matches dot wildcard patterns", () => {
@@ -18,6 +18,7 @@ describe("OpenTelemetryEventManagerPlugin", () => {
     const emitter = new EventEmitter2();
     const telemetry = { recordYalcEvent: jest.fn() };
     const plugin = new OpenTelemetryEventManagerPlugin(
+      // @ts-ignore
       { emitter },
       telemetry as any,
       normalizeObservabilityOptions({
@@ -46,6 +47,7 @@ describe("OpenTelemetryEventManagerPlugin", () => {
     const emitter = new EventEmitter2();
     jest.spyOn(emitter, "onAny");
     const plugin = new OpenTelemetryEventManagerPlugin(
+      // @ts-ignore
       { emitter },
       {} as any,
       normalizeObservabilityOptions({

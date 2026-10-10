@@ -56,12 +56,12 @@ export class GenericTypeORMRepository<
     if (findOptions.subQueryFilters) {
       // findOptions limits take precedence over subQuery limits
       return {
-        skip: findOptions.skip ?? findOptions.subQueryFilters.skip,
-        take: findOptions.take ?? findOptions.subQueryFilters.take,
+        ...((findOptions.skip ?? findOptions.subQueryFilters.skip) !== undefined ? { skip: findOptions.skip ?? findOptions.subQueryFilters.skip } : {}),
+        ...((findOptions.take ?? findOptions.subQueryFilters.take) !== undefined ? { take: findOptions.take ?? findOptions.subQueryFilters.take } : {}),
       };
     }
 
-    return { skip: findOptions.skip, take: findOptions.take };
+    return { ...(findOptions.skip !== undefined ? { skip: findOptions.skip } : {}), ...(findOptions.take !== undefined ? { take: findOptions.take } : {}) };
   }
 
   public getFormattedCrudGenQueryBuilder(
@@ -156,8 +156,7 @@ export class GenericTypeORMRepository<
 
           // store joins to apply later
           customJoinToApply.push((qb: SelectQueryBuilder<Entity>) => {
-            /* istanbul ignore next */
-            const alias = extra?._aliasType ?? '';
+                        const alias = extra?._aliasType ?? '';
             qb[type](
               `${alias}.${key}`,
               `${key}`,
@@ -173,7 +172,10 @@ export class GenericTypeORMRepository<
       processRelationExtraConditions('left', joinCopy.leftJoinAndSelect);
     }
 
-    queryBuilder.setFindOptions({ ...strippedFindOptions, join: joinCopy });
+    queryBuilder.setFindOptions({
+      ...strippedFindOptions,
+      ...(joinCopy !== undefined ? { join: joinCopy } : {}),
+    });
 
     rawSelection.length > 0 && queryBuilder.addSelect(rawSelection);
 
@@ -401,7 +403,7 @@ export function CGExtendedRepositoryFactory<Entity extends ObjectLiteral>(
   if ((cached = repositoryMap.get(entity))) return cached;
 
   const dynamicClass = (name: string) =>
-    ({ [name]: class extends GenericTypeORMRepository<Entity> {} })[name];
+    ({ [name]: class extends GenericTypeORMRepository<Entity> {} })[name]!;
 
   const repo: ClassType<GenericTypeORMRepository<Entity>> = dynamicClass(
     `${entity.name}Repository`,

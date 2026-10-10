@@ -51,7 +51,7 @@ function defineFieldResolver(resolverInfoList, resolver) {
             if (!descriptor)
                 throw new ReferenceError(`GenericResolver.${resolverInfo.relation.propertyName} must have a descriptor`);
             (0, graphql_1.ResolveField)((0, returnValue_js_1.default)((0, ag_grid_type_1.default)(relType)), {
-                nullable: resolverInfo.agField?.gqlOptions?.nullable,
+                ...(resolverInfo.agField?.gqlOptions?.nullable !== undefined ? { nullable: resolverInfo.agField.gqlOptions.nullable } : {}),
             })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             (0, common_1.UseInterceptors)(new ag_grid_interceptor_1.AgGridInterceptor())(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             (0, graphql_1.Parent)()(resolver.prototype, resolverInfo.relation.propertyName, 0);
@@ -85,7 +85,7 @@ function defineFieldResolver(resolverInfoList, resolver) {
             if (!descriptor)
                 throw new ReferenceError(`GenericResolver.${resolverInfo.relation.propertyName} must have a descriptor`);
             (0, graphql_1.ResolveField)((0, returnValue_js_1.default)(relType), {
-                nullable: resolverInfo.agField?.gqlOptions?.nullable,
+                ...(resolverInfo.agField?.gqlOptions?.nullable !== undefined ? { nullable: resolverInfo.agField.gqlOptions.nullable } : {}),
             })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             (0, graphql_1.Parent)()(resolver.prototype, resolverInfo.relation.propertyName, 0);
             (0, ag_grid_args_decorator_1.AgGridArgsSingle)({ fieldType: relType, entityType: relType })(resolver.prototype, resolverInfo.relation.propertyName, 1);
@@ -165,8 +165,8 @@ function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
         (0, ag_grid_args_decorator_1.AgGridArgs)({
             fieldType,
             entityType,
-            extraArgs: methodOptions.extraArgs,
-            extraArgsStrategy: methodOptions.extraArgsStrategy,
+            ...(methodOptions.extraArgs !== undefined ? { extraArgs: methodOptions.extraArgs } : {}),
+            ...(methodOptions.extraArgsStrategy !== undefined ? { extraArgsStrategy: methodOptions.extraArgsStrategy } : {}),
         })(resolver.prototype, queryName, 0);
         if (methodOptions.extraArgs) {
             Object.values(methodOptions.extraArgs).map((a) => {

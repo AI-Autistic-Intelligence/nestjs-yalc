@@ -46,6 +46,7 @@ describe('OmniKernel persistence', () => {
     const relationRepo = dataSource.getRepository(OmniRelationEntity);
 
     await recordRepo.insert(
+      // @ts-ignore
       recordRepo.create({
         guid: '11111111-1111-1111-1111-111111111111',
         title: 'Task record',
@@ -54,6 +55,7 @@ describe('OmniKernel persistence', () => {
       }),
     );
     await documentRepo.insert(
+      // @ts-ignore
       documentRepo.create({
         guid: '22222222-2222-2222-2222-222222222222',
         title: 'Document record',
@@ -68,7 +70,7 @@ describe('OmniKernel persistence', () => {
         status: OmniRecordStatus.Active,
         collectionKind: OmniCollectionKind.Folder,
         summary: 'Primary document container',
-      }),
+      }) as any,
     );
     await relationRepo.insert(
       relationRepo.create({
@@ -77,7 +79,7 @@ describe('OmniKernel persistence', () => {
         targetRecordId: '22222222-2222-2222-2222-222222222222',
         kind: OmniRelationKind.References,
         status: OmniRelationStatus.Active,
-      }),
+      }) as any,
     );
     await relationRepo.insert(
       relationRepo.create({
@@ -86,7 +88,7 @@ describe('OmniKernel persistence', () => {
         targetRecordId: '22222222-2222-2222-2222-222222222222',
         kind: OmniRelationKind.Contains,
         status: OmniRelationStatus.Active,
-      }),
+      }) as any,
     );
 
     const rows = await dataSource.query(

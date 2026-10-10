@@ -116,7 +116,8 @@ export function whereObjectToSqlString<Entity extends ObjectLiteral>(
   if (!where.filters) return sql;
 
   for (const key of Object.keys(where.filters)) {
-    const operation: WhereConditionType = where.filters[key];
+    const operation: WhereConditionType | undefined = where.filters[key];
+    if (!operation) continue;
 
     //If we have an operator it means that the filter is combined, or it is a multicolumn
     if ((operation as any).operator !== undefined) {
@@ -171,7 +172,7 @@ export function whereObjectToSqlString<Entity extends ObjectLiteral>(
 export const isAskingForCount = (info: GraphQLResolveInfo): boolean => {
   try {
     return (
-      info.fieldNodes?.[0].selectionSet?.selections.some((item: any) => {
+      info.fieldNodes?.[0]?.selectionSet?.selections.some((item: any) => {
         return (
           item.name.value === 'pageData' &&
           item.selectionSet &&
@@ -221,7 +222,8 @@ export function applyJoinArguments(
   };
 
   Object.keys(join).forEach((table: string) => {
-    const j: JoinArgOptions = join[table];
+    const j: JoinArgOptions | undefined = join[table];
+    if (!j) return;
     switch (j.joinType) {
       case JoinTypes.INNER_JOIN:
         _joinObject.innerJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
@@ -232,7 +234,7 @@ export function applyJoinArguments(
         break;
     }
 
-    const type = fieldMapper[table].gqlType?.();
+    const type = fieldMapper[table]?.gqlType?.();
     const _fieldMapper: FieldAndFilterMapper = type
       ? objectToFieldMapper(type)
       : { field: {} };
@@ -282,8 +284,7 @@ export function traverseFiltersAndApplyFunction(
 export function formatRawSelection(
   selection: string,
   fieldName: string,
-  /* istanbul ignore next */
-  prefix = '',
+    prefix = '',
   onlyAlias = false,
 ): string {
   let aliasPrefix = '';
@@ -335,7 +336,7 @@ export function applySelectOnFind<T = any>(
     if (keysMeta[key]) return;
 
     keysMeta[key] = {
-      fieldMapper: fieldMapper[fieldName],
+      fieldMapper: fieldMapper[fieldName] as any,
       isNested: !!path,
       rawSelect: formatRawSelection(dst, fieldName, alias),
     };

@@ -312,7 +312,9 @@ export function createWhere(
     });
   }
 
-  where.operator = filtersObject.operator;
+  if (filtersObject.operator) {
+    where.operator = filtersObject.operator;
+  }
 
   // we skip the "filters" property of the first level and use the childExpressions
   // directly in order to be able processing conditions on same column name
@@ -449,7 +451,7 @@ export function mapAgGridParams(
   const skipCount = !isAskingForCount(ctx.getInfo());
 
   const extraParameter: { [key: string]: any } = {};
-  if (params?.extraArgs) {
+  if (params && params.extraArgs) {
     const extraArgsKeys = Object.keys(params.extraArgs);
     switch (params.extraArgsStrategy) {
       case ExtraArgsStrategy.AT_LEAST_ONE:
@@ -476,15 +478,18 @@ export function mapAgGridParams(
 
     const forcedFilters: FilterArg[] = [];
     for (const argName of Object.keys(params.extraArgs)) {
+      const extraArg = params.extraArgs[argName];
+      if (!extraArg) continue;
+
       if (
-        params.extraArgs[argName].filterCondition === GeneralFilters.VIRTUAL
+        extraArg.filterCondition === GeneralFilters.VIRTUAL
       ) {
         extraParameter[argName] = args[argName];
         continue;
       }
 
       let value = args[argName];
-      const filterMiddleware = params.extraArgs[argName].filterMiddleware;
+      const filterMiddleware = extraArg.filterMiddleware;
 
       if (filterMiddleware) {
         value = filterMiddleware(ctx, value);
@@ -493,7 +498,7 @@ export function mapAgGridParams(
       forcedFilters.push({
         key: argName, // the column name mapping is executed internally
         value: value as any,
-        descriptors: params.extraArgs[argName],
+        descriptors: extraArg,
       });
     }
 
@@ -502,11 +507,11 @@ export function mapAgGridParams(
 
   const findManyOptions: AgGridFindManyOptions = {
     skip,
-    take,
+    ...(take !== undefined ? { take } : {}),
     order,
     select: keys,
     where,
-    info,
+    ...(info !== undefined ? { info } : {}),
     extra: {
       skipCount,
       args: extraParameter,
@@ -551,10 +556,11 @@ export const AgGridCombineDecorators = (params: AgGridArgsOptions) => {
   const argDecorators: ParameterDecorator[] = [];
   if (params.extraArgs) {
     for (const argName of Object.keys(params.extraArgs)) {
-      if (params.extraArgs[argName].hidden) continue;
+      const extraArg = params.extraArgs[argName];
+      if (!extraArg || extraArg.hidden) continue;
 
       argDecorators.push(
-        Args(argName, params.extraArgs[argName].options ?? {}),
+        Args(argName, extraArg.options ?? {}),
       );
     }
   }
@@ -569,8 +575,7 @@ export const AgGridCombineDecorators = (params: AgGridArgsOptions) => {
     if (JoinOptionInput) {
       joinArg = Args('join', {
         type:
-          /*istanbul ignore next */
-          () => JoinOptionInput,
+                    () => JoinOptionInput,
         nullable: true,
       });
     }
@@ -673,8 +678,7 @@ export const AgGridArgsSingle = (params: AgGridArgsSingleOptions) => {
     if (JoinOptionInput) {
       joinArg = Args('join', {
         type:
-          /*istanbul ignore next */
-          () => JoinOptionInput,
+                    () => JoinOptionInput,
         nullable: true,
       });
     }

@@ -22,6 +22,7 @@ describe('Http exceptions filter', () => {
     jest.resetAllMocks();
     loggerServiceMock = createMock<LoggerService>();
     mockArgumentsHost = createMock<ArgumentsHost>();
+    // @ts-ignore
     filter = new HttpExceptionFilter(loggerServiceMock);
   });
 
@@ -173,6 +174,7 @@ describe('Http exceptions filter', () => {
 
   it('should catch an error with the logger itself', () => {
     const exception = new InternalServerErrorException();
+    // @ts-ignore
     loggerServiceMock.error = null;
     mockArgumentsHost.getType.mockReturnValue('http');
     console.error = jest.fn();

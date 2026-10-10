@@ -17,6 +17,7 @@ import { AgGridField, AgGridObject } from '../object.decorator';
 @AgGridObject()
 class DummyType {
   @AgGridField({ gqlOptions: { name: 'betterName' } })
+  // @ts-ignore
   dummyProp: string;
 }
 
@@ -26,6 +27,7 @@ const fixedInfoObj = {
   original: stringValue,
 };
 describe('Graphql decorator test', () => {
+  // @ts-ignore
   const mockCreate = (mockedNestGraphql.GqlExecutionContext.create = jest.fn());
   mockCreate.mockImplementation(() => ({
     getArgs: jest.fn().mockReturnValue(fixedInfoObj),

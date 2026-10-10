@@ -86,9 +86,10 @@ export class TelemetryService {
         activeSpan?.recordException(
           payload.errorInfo as unknown as Error | string,
         );
+        const message = getErrorMessage(payload.errorInfo);
         activeSpan?.setStatus({
           code: SpanStatusCode.ERROR,
-          message: getErrorMessage(payload.errorInfo),
+          ...(message !== undefined ? { message } : {}),
         });
         this.errorCounter.add(1, attributes);
       }
@@ -232,8 +233,7 @@ export class TelemetryService {
     });
   }
 
-  /* istanbul ignore next */
-  private execute<T>(operation: () => T): T | undefined {
+    private execute<T>(operation: () => T): T | undefined {
     try {
       return operation();
     } catch (error) {

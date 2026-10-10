@@ -41,7 +41,7 @@ function resolverFactory(options) {
     if (fieldMetadataList) {
         Object.keys(fieldMetadataList).forEach((propertyName) => {
             const field = fieldMetadataList[propertyName];
-            if (!field.relation)
+            if (!field || !field.relation)
                 return;
             const objIndex = resolverInfoList.findIndex((obj) => {
                 if (obj.join) {
@@ -53,6 +53,8 @@ function resolverFactory(options) {
             });
             if (objIndex >= 0) {
                 const relInfo = resolverInfoList[objIndex];
+                if (!relInfo)
+                    return;
                 const target = field.relation.targetKey.alias;
                 resolverInfoList[objIndex] = {
                     ...relInfo,
@@ -71,7 +73,7 @@ function resolverFactory(options) {
                         target: options.entityModel,
                     },
                     agField: {
-                        ...relInfo.agField,
+                        ...(relInfo.agField !== undefined ? relInfo.agField : {}),
                         ...field,
                     },
                 };
@@ -126,6 +128,8 @@ function resolverFactory(options) {
         for (const methodName of Object.keys(options.customQueries)) {
             const queryName = methodName;
             const queryOptions = options.customQueries[methodName];
+            if (!queryOptions)
+                continue;
             if ((0, generic_resolver_type_1.isCustomSingleQueryOptions)(queryOptions)) {
                 (0, generic_query_resolver_1.defineGetSingleResource)(queryName, returnType, GenericResolver, queryOptions);
             }

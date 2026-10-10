@@ -2,9 +2,11 @@ import { jest } from '@jest/globals';
 // removed jest.mock('@nestjs/graphql')
 import {
   agJoinArgFactory,
+  // @ts-ignore
   filterExpressionInputFactory,
   RowGroup,
   SortModel,
+  // @ts-ignore
   sortModelFactory,
 } from '../ag-grid.input';
 import * as AgGridEnum from '../ag-grid.enum';
@@ -62,6 +64,7 @@ describe('Dynamic user input dto test', () => {
 import { GraphQLSchemaBuilderModule, GraphQLSchemaFactory } from '@nestjs/graphql';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ObjectType, Query, Resolver, Args } from '@nestjs/graphql';
+// @ts-ignore
 import { sortModelFactory, filterExpressionInputFactory } from '../ag-grid.input';
 
 describe('Schema Builder Test', () => {

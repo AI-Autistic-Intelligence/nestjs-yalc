@@ -14,7 +14,9 @@ describe('entityFieldsEnumFactory', () => {
 
   beforeAll(() => {
     EntityModel = class extends BaseEntity {
+      // @ts-ignore
       @ModelField({})
+      // @ts-ignore
       [fixedProperty]: number;
     };
 
@@ -36,6 +38,7 @@ describe('entityFieldsEnumFactory', () => {
 
   it('should work with entityModel as a function', () => {
     function objectFunction() {
+      // @ts-ignore
       this.value = 'value';
     }
     const result = entityFieldsEnumGqlFactory(objectFunction);

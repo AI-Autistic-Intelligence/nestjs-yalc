@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import {
   createObservabilityOptionsFromEnv,
   normalizeObservabilityOptions,
-} from "../observability-options";
+} from "../observability-options.js";
 
 describe("observability options", () => {
   afterEach(() => {

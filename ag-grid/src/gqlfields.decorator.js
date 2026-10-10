@@ -71,7 +71,7 @@ const GqlAgGridFieldsMapper = (data, info) => {
         }
         keys.push(key);
     };
-    info.fieldNodes?.[0].selectionSet?.selections.forEach((item) => processSubItems(fieldMapper, item));
+    info.fieldNodes?.[0]?.selectionSet?.selections?.forEach((item) => processSubItems(fieldMapper, item));
     Object.keys(fieldMapper.field).forEach((k) => {
         const v = fieldMapper.field[k];
         if (v.isRequired) {

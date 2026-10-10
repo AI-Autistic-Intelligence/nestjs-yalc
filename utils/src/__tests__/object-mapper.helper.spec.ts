@@ -16,7 +16,7 @@ describe('objectMapper', () => {
       c: false,
     };
 
-    const output = objectMapper(input, mapper);
+    const output = objectMapper(input, mapper as any);
 
     expect(output).toEqual({
       x: 'A',
@@ -49,7 +49,7 @@ describe('objectMapper', () => {
       },
     };
 
-    const output = objectMapper(input, mapper);
+    const output = objectMapper(input, mapper as any);
 
     expect(output).toEqual({
       x: 'a',
@@ -72,7 +72,7 @@ describe('objectMapper', () => {
       },
     };
 
-    const output = objectMapper(input, mapper);
+    const output = objectMapper(input, mapper as any);
 
     expect(output).toEqual({
       y: 'A',
@@ -92,7 +92,7 @@ describe('objectMapper', () => {
       },
     };
 
-    const output = objectMapper(input, mapper);
+    const output = objectMapper(input, mapper as any);
 
     expect(output).toEqual({
       y: 'A',
@@ -112,7 +112,7 @@ describe('objectMapper', () => {
       },
     };
 
-    const output = objectMapper(input, mapper, {
+    const output = objectMapper(input, mapper as any, {
       copyNonMappedProperties: true,
     });
 
@@ -132,7 +132,7 @@ describe('objectMapper', () => {
       a: 'x',
     };
 
-    const output = objectMapper(input, mapper, {
+    const output = objectMapper(input, mapper as any, {
       copyNonMappedProperties: false,
     });
 
@@ -157,7 +157,7 @@ describe('objectMapper', () => {
       a: 'x',
     };
 
-    const output = objectMapper(input, mapper);
+    const output = objectMapper(input, mapper as any);
 
     expect(output).toEqual({
       x: 'A',

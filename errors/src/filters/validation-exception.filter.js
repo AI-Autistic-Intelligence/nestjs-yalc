@@ -9,7 +9,8 @@ let ValidationExceptionFilter = class ValidationExceptionFilter {
     }
     catch(error) {
         const newError = new InputValidationError(error.systemMessage, { response: { message: error.message } });
-        newError.stack = error.stack;
+        if (error.stack)
+            newError.stack = error.stack;
         this.logger.error(error.systemMessage ?? newError.message, newError.stack);
         return newError;
     }

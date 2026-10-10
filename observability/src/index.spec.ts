@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import * as index from './index';
+import * as index from './index.js';
 
 describe('Index', () => {
   it('should be defined', () => {

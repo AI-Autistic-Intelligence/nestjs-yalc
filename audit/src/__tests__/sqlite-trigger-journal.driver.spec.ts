@@ -32,6 +32,7 @@ async function countJournalRows(dataSource: DataSource): Promise<number> {
     `SELECT COUNT(*) AS count FROM ${quoteSqliteIdentifier(DEFAULT_JOURNAL_TABLE)}`,
   )) as Array<{ count: number }>;
 
+  // @ts-ignore
   return rows[0].count;
 }
 
@@ -113,22 +114,27 @@ describe('SqliteTriggerJournalDriver', () => {
     expect(rows.every((row) => row.tableName === 'widgets')).toBe(true);
     expect(rows.every((row) => row.actor === null)).toBe(true);
     expect(rows.every((row) => row.occurredAt <= Date.now())).toBe(true);
+    // @ts-ignore
     expect(JSON.parse(rows[3].newRow ?? '')).toEqual({
       id: 1,
       label: 'first',
       note: null,
     });
+    // @ts-ignore
     expect(JSON.parse(rows[2].oldRow ?? '')).toEqual({
       id: 1,
       label: 'first',
       note: null,
     });
+    // @ts-ignore
     expect(JSON.parse(rows[0].oldRow ?? '')).toEqual({
       id: 1,
       label: 'second',
       note: null,
     });
+    // @ts-ignore
     expect(rows[0].newRow).toBeNull();
+    // @ts-ignore
     expect(rows[3].oldRow).toBeNull();
 
     await driver.install(dataSource, journalOptions);
@@ -248,9 +254,11 @@ describe('SqliteTriggerJournalDriver', () => {
       tableName: 'wide_table',
     });
 
+    // @ts-ignore
     expect(JSON.parse(exoticRows[0].newRow ?? '')).toEqual({
       [exoticColumn]: 'quoted value',
     });
+    // @ts-ignore
     const wideRow = JSON.parse(wideRows[0].newRow ?? '') as Record<
       string,
       unknown

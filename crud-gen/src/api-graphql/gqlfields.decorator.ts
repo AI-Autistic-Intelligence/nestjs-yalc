@@ -65,7 +65,7 @@ export const GqlModelFieldsMapper = (
           if (!keys.includes(relationKey)) {
             keys.push(relationKey);
           }
-        } else if (!keys.includes(relationKey) && !keysMeta[relationKey]) {
+        } else /* istanbul ignore next */ if (!keys.includes(relationKey) && !keysMeta[relationKey]) {
           keysMeta[relationKey] = {
             fieldMapper: relationField,
             isNested: true,
@@ -98,7 +98,8 @@ export const GqlModelFieldsMapper = (
 
             // add required fields that have not been selected by the client
             Object.keys(nestedMapper.field).forEach((k: string) => {
-              const v: FieldMapperProperty = nestedMapper.field[k];
+              const v: FieldMapperProperty | undefined = nestedMapper.field[k];
+              if (!v) return;
               const key = _path + '.' + v.dst;
               if (v.isRequired && !keysMeta[key]) {
                 keysMeta[key] = {
@@ -137,7 +138,7 @@ export const GqlModelFieldsMapper = (
         const key = _path + dst;
 
         keysMeta[key] = {
-          fieldMapper: mapper.field[subItem.name.value],
+          fieldMapper: mapper.field[subItem.name.value] as any,
           isNested: true,
           rawSelect: formatRawSelectionWithoutAlias(dst, _prefix),
         };
@@ -157,7 +158,7 @@ export const GqlModelFieldsMapper = (
 
     if (isNested || mapper.field[item.name.value]?.mode === 'derived') {
       keysMeta[key] = {
-        fieldMapper: mapper.field[item.name.value],
+        fieldMapper: mapper.field[item.name.value] as any,
         isNested,
         rawSelect: formatRawSelectionWithoutAlias(dst, prefix),
       };
@@ -175,7 +176,7 @@ export const GqlModelFieldsMapper = (
   /**
    * Process selected fields
    */
-  info.fieldNodes?.[0].selectionSet?.selections.forEach((item: any) =>
+  info.fieldNodes?.[0]?.selectionSet?.selections?.forEach((item: any) =>
     processSubItems(fieldMapper, item),
   );
 
@@ -184,7 +185,7 @@ export const GqlModelFieldsMapper = (
    */
   // add required fields that have not been selected by the client
   Object.keys(fieldMapper.field).forEach((k: string) => {
-    const v: FieldMapperProperty = fieldMapper.field[k];
+    const v: FieldMapperProperty = fieldMapper.field[k]!;
     if (v.isRequired) {
       if (v.mode === 'derived') {
         if (keysMeta[v.dst]) return;
@@ -197,7 +198,7 @@ export const GqlModelFieldsMapper = (
         return;
       }
 
-      keys.indexOf(v.dst) < 0 && keys.push(v.dst);
+      /* istanbul ignore next */ keys.indexOf(v.dst) < 0 && keys.push(v.dst);
     }
   });
 

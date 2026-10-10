@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/api-strategy</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/api-strategy integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/api-strategy
+  <em>Core enterprise module for the @nest-yalc-2/api-strategy integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fapi-strategy.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fapi-strategy)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fapi-strategy.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/api-strategy
 pnpm add @nest-yalc-2/api-strategy
 ```
 
----
+<hr/>
 
 # API Strategy, Multi-Protocol Adapters & Contract Versioning
 
 The `@nestjs-yalc/api-strategy` package enforces standardized API design paradigms across REST, GraphQL, and Messaging protocols. It provides multi-protocol controller abstractions, automated URI versioning strategies, uniform response payload wrapping, and content-negotiation adapters.
 
----
+<hr/>
 
 ## 1. What It Is & Architectural Purpose
 
@@ -44,7 +44,7 @@ In complex microservice ecosystems, frontends and third-party integrations inter
 └─────────────────────┘            └─────────────────────┘            └─────────────────────┘
 ```
 
----
+<hr/>
 
 ## 2. What It Does & Key Capabilities
 
@@ -53,7 +53,7 @@ In complex microservice ecosystems, frontends and third-party integrations inter
 - **Multi-Protocol Controller Decorators**: Provides `@YalcController()` and `@YalcResolver()` decorators that automatically attach correlation context and rate-limiting rules.
 - **Pagination & Sorting Normalization**: Standardizes request DTO contracts for limit/page offset and cursor-based pagination parameters.
 
----
+<hr/>
 
 ## 3. How It Works Under the Hood
 
@@ -77,7 +77,7 @@ sequenceDiagram
     Out-->>Client: Delivery across Transport Channel
 ```
 
----
+<hr/>
 
 ## 4. Why It Was Designed This Way
 
@@ -87,7 +87,7 @@ sequenceDiagram
 | **Protocol Parity** | REST and GraphQL controllers require duplicate mapping logic. | Shared domain handler logic across REST, GraphQL, and RPC transports. |
 | **API Deprecation** | Hardcoded route strings break when upgrading API major versions. | Automated path/header version resolution with `@ApiVersion()`. |
 
----
+<hr/>
 
 ## 5. Practical Usage Guide & Extended Code Examples
 
@@ -132,7 +132,7 @@ export class UserApiStrategyService extends BaseApiStrategyService<UserEntity> {
 }
 ```
 
----
+<hr/>
 
 ## 6. Anti-Patterns: How NOT to Use It
 
@@ -153,7 +153,7 @@ async getUsers() {
 }
 ```
 
----
+<hr/>
 
 ## 7. Pro-Tips & Best Practices
 
@@ -162,7 +162,7 @@ async getUsers() {
 > When using `@YalcController()`, OpenApi schema documentation is automatically generated for both successful payload envelopes and standardized error models.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -175,7 +175,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

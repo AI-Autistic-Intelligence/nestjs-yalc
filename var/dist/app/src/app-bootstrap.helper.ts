@@ -51,11 +51,10 @@ export class AppBootstrap<
   protected swaggerPath = 'api';
 
   constructor(appAlias: string, module: any, options?: TGlobalOptions) {
-    super(appAlias, module, { globalsOptions: options });
+    super(appAlias, module, options !== undefined ? { globalsOptions: options } : {});
   }
 
-  /* istanbul ignore next */
-  async startServer(options?: {
+    async startServer(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
@@ -73,18 +72,18 @@ export class AppBootstrap<
     return this;
   }
 
-  async initApp(options?: {
+  override async initApp(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
     await this.createApp({
-      fastifyInstance: this.fastifyInstance,
-      createOptions: options?.createOptions,
+      ...(this.fastifyInstance !== undefined ? { fastifyInstance: this.fastifyInstance } : {}),
+      ...(options?.createOptions !== undefined ? { createOptions: options.createOptions } : {}),
     });
 
     return this.initSetup({
-      fastifyInstance: this.fastifyInstance,
-      createOptions: options?.createOptions,
+      ...(this.fastifyInstance !== undefined ? { fastifyInstance: this.fastifyInstance } : {}),
+      ...(options?.createOptions !== undefined ? { createOptions: options.createOptions } : {}),
     });
   }
 
@@ -97,22 +96,15 @@ export class AppBootstrap<
 
       await this.getApp().init();
     } catch (err) {
-      /* istanbul ignore next */
-      console.error('App init failed:', err);
-      /* istanbul ignore next */
-      this.closeCleanup();
-      /* istanbul ignore next */
-      throw new Error('Process aborted');
+            console.error('App init failed:', err);
+            this.closeCleanup();
+            throw new Error('Process aborted');
     }
 
-    /* istanbul ignore next */
-    if (envIsTrue(process.env.APP_DRY_RUN) === true) {
-      /* istanbul ignore next */
-      this.loggerService?.log('Dry run, exiting...');
-      /* istanbul ignore next */
-      await this.closeApp();
-      /* istanbul ignore next */
-      process.exit(0);
+        if (envIsTrue(process.env.APP_DRY_RUN) === true) {
+            this.loggerService?.log('Dry run, exiting...');
+            await this.closeApp();
+            process.exit(0);
     }
 
     return this;
@@ -146,18 +138,15 @@ export class AppBootstrap<
     return this.setApp(app);
   }
 
-  /* istanbul ignore next */
-  /* istanbul ignore next */
-  getFastifyInstance() {
+      getFastifyInstance() {
     return this.fastifyInstance;
   }
 
-  /* istanbul ignore next */
-  setSwaggerEnabled(enabled: boolean) {
+    setSwaggerEnabled(enabled: boolean) {
     this.isSwaggerEnabled = enabled;
   }
 
-  async applyBootstrapGlobals(options?: ICreateOptions) {
+  override async applyBootstrapGlobals(options?: ICreateOptions) {
     await super.applyBootstrapGlobals(options);
 
     this.getApp().useGlobalPipes(
@@ -166,14 +155,11 @@ export class AppBootstrap<
         transformOptions: { enableImplicitConversion: false },
         validateCustomDecorators: true,
         exceptionFactory: /* istanbul ignore next */ (errors) => {
-          /* istanbul ignore next */
-          const errorMessages: { [key: string]: any } = {};
-          /* istanbul ignore next */
-          errors.forEach((error) => {
+                    const errorMessages: { [key: string]: any } = {};
+                    errors.forEach((error) => {
             errorMessages[error.property] = error;
           });
-          /* istanbul ignore next */
-          return new BadRequestException(errorMessages);
+                    return new BadRequestException(errorMessages);
         },
         ...(options?.validationPipeOptions ?? {}),
       }),
@@ -223,8 +209,7 @@ export class AppBootstrap<
       .setDescription(`${this.appAlias} rest api`);
   }
 
-  /* istanbul ignore next */
-  async listen(callback?: {
+    async listen(callback?: {
     (port: number, host: string, domain: string): void;
   }) {
     const port = this.getConf()?.port || 0;
@@ -272,7 +257,6 @@ export class AppBootstrap<
   }
 }
 
-/* istanbul ignore next */
 function sanitizeSwaggerPath(path?: string): string {
   const normalized = (path ?? 'api').replace(/^\/+/, '').replace(/\/+$/, '');
   return normalized || 'api';

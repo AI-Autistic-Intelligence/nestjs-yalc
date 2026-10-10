@@ -11,7 +11,8 @@ var EntityErrorsEnum;
 class EntityError extends common_1.BadRequestException {
     constructor(message, error) {
         super(message);
-        this.stack = error?.stack;
+        if (error?.stack)
+            this.stack = error.stack;
         this.originalError = error;
     }
 }

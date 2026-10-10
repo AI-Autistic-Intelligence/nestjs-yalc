@@ -48,7 +48,7 @@ describe('UUID Scalar Type', () => {
     invalidInputs.forEach((input) => {
       try {
         expect(uuidScalarType.parseLiteral(input)).toThrow();
-      } catch (err) {
+      } catch (err: any) {
         expect(err).toBeInstanceOf(UUIDValidationError);
         expect(err.message).toBe(formatValueErrorMessage(input.value));
       }
@@ -58,11 +58,11 @@ describe('UUID Scalar Type', () => {
   it('should not allow non-string inputs', () => {
     const invalidInputs: ValueNode[] = [
       {
-        kind: 'IntValue',
+        kind: 'IntValue' as any,
         value: '1',
       },
       {
-        kind: 'BooleanValue',
+        kind: 'BooleanValue' as any,
         value: true,
       },
     ];
@@ -71,7 +71,7 @@ describe('UUID Scalar Type', () => {
     invalidInputs.forEach((input) => {
       try {
         expect(uuidScalarType.parseLiteral(input)).toThrow();
-      } catch (err) {
+      } catch (err: any) {
         expect(err).toBeInstanceOf(UUIDValidationError);
         expect(err.message).toBe(formatKindErrorMessage(input.kind));
       }
@@ -99,8 +99,8 @@ describe('UUID Scalar Type', () => {
 function mapToStringValueNode(values: string[]): StringValueNode[] {
   return values.map((value) => {
     return {
-      kind: 'StringValue',
+      kind: 'StringValue' as any,
       value: value,
     };
-  });
+  }) as StringValueNode[];
 }

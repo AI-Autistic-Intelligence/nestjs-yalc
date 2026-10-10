@@ -26,7 +26,9 @@ describe('Decimal middleware helper test', () => {
 
   it('should return the value a', async () => {
     const ctx = createMock<MiddlewareContext>();
+    // @ts-ignore
     const next = jest.fn().mockResolvedValue('500.2');
+    // @ts-ignore
     const float = await decimalMiddleware(ctx, next);
 
     expect(float).toEqual(expect.any(String));

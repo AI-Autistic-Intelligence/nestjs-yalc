@@ -93,7 +93,9 @@ describe('MutationJournalModule', () => {
     );
 
     expect(reports).toHaveLength(2);
+    // @ts-ignore
     expect(reports[0].journaledTables).toContain('default_items');
+    // @ts-ignore
     expect(reports[1].journaledTables).toContain('secondary_items');
     expect(defaultJournal).toEqual([{ name: DEFAULT_JOURNAL_TABLE }]);
     expect(secondaryJournal).toEqual([{ name: DEFAULT_JOURNAL_TABLE }]);
@@ -140,7 +142,9 @@ describe('MutationJournalModule', () => {
     expect(beforeInstall).toEqual([]);
     expect(beforeSecondaryInstall).toEqual([]);
     expect(reports).toHaveLength(2);
+    // @ts-ignore
     expect(reports[0].journaledTables).toContain('deferred_items');
+    // @ts-ignore
     expect(reports[1].journaledTables).toContain('deferred_secondary_items');
   });
 
@@ -162,6 +166,7 @@ describe('MutationJournalModule', () => {
     await dataSource.query('CREATE TABLE later_items (id INTEGER PRIMARY KEY)');
     const reports = await moduleRef.get(MutationJournalService).refresh();
 
+    // @ts-ignore
     expect(reports[0].journaledTables).toEqual(
       expect.arrayContaining(['initial_items', 'later_items']),
     );

@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/kafka</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/kafka integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/kafka
+  <em>Core enterprise module for the @nest-yalc-2/kafka integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fkafka.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fkafka)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fkafka.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/kafka
 pnpm add @nest-yalc-2/kafka
 ```
 
----
+<hr/>
 
 # 📬 KafkaJS & Schema Registry Integration (`@nest-yalc-2/kafka`)
 
 `@nest-yalc-2/kafka` provides production-grade event streaming for NestJS 11+. It wraps **KafkaJS** and `@kafkajs/confluent-schema-registry`, enabling strongly-typed, schema-validated message producing and consuming across distributed microservices.
 
----
+<hr/>
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/kafka
 - **Producer Connection Pool**: High-performance idempotent Kafka producer with message batching and snappy/gzip compression.
 - **Trace Correlation Header Injection**: Automatically attaches `X-Request-Id` and OpenTelemetry `traceparent` headers into Kafka message headers.
 
----
+<hr/>
 
 ## 🔬 Internal Architecture & Execution Mechanics
 
@@ -50,7 +50,7 @@ flowchart TD
     ConsumerGroup -->|Max Retries Failed| DLQ
 ```
 
----
+<hr/>
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/kafka` vs Standard NestJS Microservices
 
@@ -60,7 +60,7 @@ flowchart TD
 | **Dead Letter Queue (DLQ)** | **Automated DLQ Router on Failures** | Manual Error Catching & Routing |
 | **Trace Correlation** | **Automatic W3C Trace Parent Header Injection** | Manual Header Parsing |
 
----
+<hr/>
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -112,14 +112,14 @@ export class OrderEventPublisher {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
 > [!CAUTION]
 > **Blocking the Kafka Consumer Event Loop**: Executing heavy synchronous computations or un-batched database queries inside a Kafka message handler will delay heartbeat responses (`session.timeout.ms`), causing Kafka to consider the consumer dead and trigger cascading rebalances.
 
----
+<hr/>
 
 ## 💡 Best Practices
 
@@ -127,7 +127,7 @@ export class OrderEventPublisher {
 > **Idempotent Consumers**: Ensure consumer handlers check if an event ID has already been processed using Redis or an audit table to handle potential duplicate message deliveries gracefully.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -138,7 +138,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

@@ -73,12 +73,10 @@ export const GqlAgGridFieldsMapper = (
             processSubItems(nestedMapper, subItem, subItem.name.value, _path);
 
             // add required fields that have not been selected by the client
-            /* istanbul ignore next */
-            Object.keys(nestedMapper.field).forEach((k: string) => {
-              const v: FieldMapperProperty = nestedMapper.field[k];
+                        Object.keys(nestedMapper.field).forEach((k: string) => {
+              const v: FieldMapperProperty = nestedMapper.field[k]!;
               const key = _path + '.' + v.dst;
-              /* istanbul ignore next */
-              if (v.isRequired && !keysMeta[key]) {
+                            if (v.isRequired && !keysMeta[key]) {
                 keysMeta[key] = {
                   fieldMapper: v,
                   isNested: true,
@@ -112,7 +110,7 @@ export const GqlAgGridFieldsMapper = (
         const key = _path + dst;
 
         keysMeta[key] = {
-          fieldMapper: mapper.field[subItem.name.value],
+          fieldMapper: mapper.field[subItem.name.value]!,
           isNested: true,
           rawSelect: formatRawSelection(dst, subItem.name.value, _prefix),
         };
@@ -132,7 +130,7 @@ export const GqlAgGridFieldsMapper = (
 
     if (isNested || mapper.field[item.name.value]?.mode === 'derived') {
       keysMeta[key] = {
-        fieldMapper: mapper.field[item.name.value],
+        fieldMapper: mapper.field[item.name.value]!,
         isNested,
         rawSelect: formatRawSelection(dst, item.name.value, prefix),
       };
@@ -150,7 +148,7 @@ export const GqlAgGridFieldsMapper = (
   /**
    * Process selected fields
    */
-  info.fieldNodes?.[0].selectionSet?.selections.forEach((item: any) =>
+  info.fieldNodes?.[0]?.selectionSet?.selections?.forEach((item: any) =>
     processSubItems(fieldMapper, item),
   );
 
@@ -159,7 +157,7 @@ export const GqlAgGridFieldsMapper = (
    */
   // add required fields that have not been selected by the client
   Object.keys(fieldMapper.field).forEach((k: string) => {
-    const v: FieldMapperProperty = fieldMapper.field[k];
+    const v: FieldMapperProperty = fieldMapper.field[k]!;
     if (v.isRequired) {
       if (v.mode === 'derived') {
         if (keysMeta[v.dst]) return;

@@ -28,17 +28,15 @@ function extensionSchema(definition, dialect) {
     const { [definition.revision.column]: _ownerRevision, ...columns } = projectionSchema.columns;
     const scopeColumn = definition.scope.column;
     const identityColumn = definition.identity.column;
-    columns[scopeColumn] = {
-        ...columns[scopeColumn],
+    columns[scopeColumn] = Object.assign({}, columns[scopeColumn], {
         primary: true,
         nullable: false,
-    };
-    columns[identityColumn] = {
-        ...columns[identityColumn],
+    });
+    columns[identityColumn] = Object.assign({}, columns[identityColumn], {
         primary: true,
         nullable: false,
         length: 36,
-    };
+    });
     const references = definition.references ?? [];
     const uniqueConstraints = definition.uniqueConstraints ?? [];
     return {
@@ -105,8 +103,8 @@ export function createOmniExtensionProjectionEntity(definition, dialect) {
             throw new TypeError('Omni extension projection indexes require a name and column list.');
         }
         Index(index.name, index.columns, {
-            unique: index.unique,
-            ...(index.where ? { where: index.where } : {}),
+            ...(index.unique !== undefined ? { unique: index.unique } : {}),
+            ...(index.where !== undefined ? { where: index.where } : {}),
         })(OmniExtensionProjectionEntity);
     }
     for (const foreignKey of foreignKeys) {

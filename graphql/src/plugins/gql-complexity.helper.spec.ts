@@ -14,9 +14,9 @@ describe('GqlComplexityHelper', () => {
       const selections: SelectionNode[] = [];
       for (const i of Array(51).keys()) {
         const operation: FieldNode = {
-          kind: 'Field',
+          kind: 'Field' as any,
           name: {
-            kind: 'Name',
+            kind: 'Name' as any,
             value: `operation_${i}`,
           },
         };
@@ -29,19 +29,19 @@ describe('GqlComplexityHelper', () => {
     expect.hasAssertions();
     try {
       GqlComplexityHelper.processDocumentAST({
-        kind: 'Document',
+        kind: 'Document' as any,
         definitions: [
           {
-            kind: 'OperationDefinition',
-            operation: 'query',
+            kind: 'OperationDefinition' as any,
+            operation: 'query' as any,
             selectionSet: {
-              kind: 'SelectionSet',
+              kind: 'SelectionSet' as any,
               selections: generateSelections(),
             },
           },
         ],
       });
-    } catch (err) {
+    } catch (err: any) {
       expect(err).toBeInstanceOf(GqlError);
     }
   });
@@ -50,31 +50,31 @@ describe('GqlComplexityHelper', () => {
     expect.hasAssertions();
     try {
       GqlComplexityHelper.hasInvalidNode({
-        kind: 'Field',
+        kind: 'Field' as any,
         name: {
-          kind: 'Name',
+          kind: 'Name' as any,
           value: 'ManageUser_getUser',
         },
         selectionSet: {
-          kind: 'SelectionSet',
+          kind: 'SelectionSet' as any,
           selections: [
             {
-              kind: 'Field',
+              kind: 'Field' as any,
               name: {
-                kind: 'Name',
+                kind: 'Name' as any,
                 value: 'test_field',
               },
             },
             {
-              kind: 'Field',
-              name: { kind: 'Name', value: 'nodes' },
+              kind: 'Field' as any,
+              name: { kind: 'Name' as any, value: 'nodes' },
               selectionSet: {
-                kind: 'SelectionSet',
+                kind: 'SelectionSet' as any,
                 selections: [
                   {
-                    kind: 'Field',
+                    kind: 'Field' as any,
                     name: {
-                      kind: 'Name',
+                      kind: 'Name' as any,
                       value: 'User',
                     },
                   },
@@ -84,7 +84,7 @@ describe('GqlComplexityHelper', () => {
           ],
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       expect(err).toBeInstanceOf(GqlError);
       expect(err.message).toBe(GqlErrorMsgs.CIRCULAR_DEPENDENCY_FOUND);
     }
@@ -92,9 +92,9 @@ describe('GqlComplexityHelper', () => {
 
   it('should not process non-FieldNodes', () => {
     const result = GqlComplexityHelper.hasInvalidNode({
-      kind: 'FragmentSpread',
+      kind: 'FragmentSpread' as any,
       name: {
-        kind: 'Name',
+        kind: 'Name' as any,
         value: 'NON_FIELD_NODE',
       },
     });
@@ -105,58 +105,58 @@ describe('GqlComplexityHelper', () => {
     expect.hasAssertions();
     try {
       GqlComplexityHelper.hasInvalidNode({
-        kind: 'Field',
+        kind: 'Field' as any,
         name: {
-          kind: 'Name',
+          kind: 'Name' as any,
           value: 'DEPTH_1',
         },
         selectionSet: {
-          kind: 'SelectionSet',
+          kind: 'SelectionSet' as any,
           selections: [
             {
-              kind: 'Field',
+              kind: 'Field' as any,
               name: {
-                kind: 'Name',
+                kind: 'Name' as any,
                 value: 'DEPTH_1',
               },
             },
             {
-              kind: 'Field',
-              name: { kind: 'Name', value: 'nodes' },
+              kind: 'Field' as any,
+              name: { kind: 'Name' as any, value: 'nodes' },
               selectionSet: {
-                kind: 'SelectionSet',
+                kind: 'SelectionSet' as any,
                 selections: [
                   {
-                    kind: 'Field',
+                    kind: 'Field' as any,
                     name: {
-                      kind: 'Name',
+                      kind: 'Name' as any,
                       value: 'DEPTH_2',
                     },
                     selectionSet: {
-                      kind: 'SelectionSet',
+                      kind: 'SelectionSet' as any,
                       selections: [
                         {
-                          kind: 'Field',
+                          kind: 'Field' as any,
                           name: {
-                            kind: 'Name',
+                            kind: 'Name' as any,
                             value: 'DEPTH_3',
                           },
                           selectionSet: {
-                            kind: 'SelectionSet',
+                            kind: 'SelectionSet' as any,
                             selections: [
                               {
-                                kind: 'Field',
+                                kind: 'Field' as any,
                                 name: {
-                                  kind: 'Name',
+                                  kind: 'Name' as any,
                                   value: 'DEPTH_4',
                                 },
                                 selectionSet: {
-                                  kind: 'SelectionSet',
+                                  kind: 'SelectionSet' as any,
                                   selections: [
                                     {
-                                      kind: 'Field',
+                                      kind: 'Field' as any,
                                       name: {
-                                        kind: 'Name',
+                                        kind: 'Name' as any,
                                         value: 'NOT_ALLOWED_LEVEL',
                                       },
                                     },
@@ -175,56 +175,56 @@ describe('GqlComplexityHelper', () => {
           ],
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       expect(err).toBeInstanceOf(GqlError);
     }
   });
 
   it('should allow requests with depth 3 or less', () => {
     const response = GqlComplexityHelper.hasInvalidNode({
-      kind: 'Field',
+      kind: 'Field' as any,
       name: {
-        kind: 'Name',
+        kind: 'Name' as any,
         value: 'QUERY_DEPTH (0)',
       },
       selectionSet: {
-        kind: 'SelectionSet',
+        kind: 'SelectionSet' as any,
         selections: [
           {
-            kind: 'Field',
+            kind: 'Field' as any,
             name: {
-              kind: 'Name',
+              kind: 'Name' as any,
               value: 'DEPTH_1',
             },
           },
           {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'nodes' },
+            kind: 'Field' as any,
+            name: { kind: 'Name' as any, value: 'nodes' },
             selectionSet: {
-              kind: 'SelectionSet',
+              kind: 'SelectionSet' as any,
               selections: [
                 {
-                  kind: 'Field',
+                  kind: 'Field' as any,
                   name: {
-                    kind: 'Name',
+                    kind: 'Name' as any,
                     value: 'DEPTH_2',
                   },
                   selectionSet: {
-                    kind: 'SelectionSet',
+                    kind: 'SelectionSet' as any,
                     selections: [
                       {
-                        kind: 'Field',
+                        kind: 'Field' as any,
                         name: {
-                          kind: 'Name',
+                          kind: 'Name' as any,
                           value: 'DEPTH_3',
                         },
                         selectionSet: {
-                          kind: 'SelectionSet',
+                          kind: 'SelectionSet' as any,
                           selections: [
                             {
-                              kind: 'Field',
+                              kind: 'Field' as any,
                               name: {
-                                kind: 'Name',
+                                kind: 'Name' as any,
                                 value: 'SHOULD_STILL_BE_ALLOWED',
                               },
                             },
@@ -246,9 +246,9 @@ describe('GqlComplexityHelper', () => {
 
   it('should return when selectionNode has no selectionSet', () => {
     const result = GqlComplexityHelper.hasInvalidNode({
-      kind: 'Field',
+      kind: 'Field' as any,
       name: {
-        kind: 'Name',
+        kind: 'Name' as any,
         value: 'NO_SELECTION_SET',
       },
     });
@@ -267,18 +267,18 @@ describe('GqlComplexityHelper', () => {
 
     try {
       GqlComplexityHelper.processDocumentAST({
-        kind: 'Document',
+        kind: 'Document' as any,
         definitions: [
           {
-            kind: 'OperationDefinition',
-            operation: 'query',
+            kind: 'OperationDefinition' as any,
+            operation: 'query' as any,
             selectionSet: {
-              kind: 'SelectionSet',
+              kind: 'SelectionSet' as any,
               selections: [
                 {
-                  kind: 'Field',
+                  kind: 'Field' as any,
                   name: {
-                    kind: 'Name',
+                    kind: 'Name' as any,
                     value: 'INVALID_OPERATION',
                   },
                 },
@@ -287,7 +287,7 @@ describe('GqlComplexityHelper', () => {
           },
         ],
       });
-    } catch (err) {
+    } catch (err: any) {
       expect(hasInvalidNodeMockFn).toHaveBeenCalled();
       expect(err).toBeInstanceOf(GqlError);
     }
@@ -297,18 +297,18 @@ describe('GqlComplexityHelper', () => {
     jest.spyOn(GqlComplexityHelper, 'hasInvalidNode').mockImplementation(() => undefined as any);
 
     GqlComplexityHelper.processDocumentAST({
-      kind: 'Document',
+      kind: 'Document' as any,
       definitions: [
         {
-          kind: 'OperationDefinition',
-          operation: 'query',
+          kind: 'OperationDefinition' as any,
+          operation: 'query' as any,
           selectionSet: {
-            kind: 'SelectionSet',
+            kind: 'SelectionSet' as any,
             selections: [
               {
-                kind: 'Field',
+                kind: 'Field' as any,
                 name: {
-                  kind: 'Name',
+                  kind: 'Name' as any,
                   value: 'VALID_OPERATION',
                 },
               },
@@ -324,43 +324,43 @@ describe('GqlComplexityHelper', () => {
     jest.spyOn(GqlComplexityHelper, 'findInvalidNode').mockImplementation(() => undefined as any);
 
     GqlComplexityHelper.processDocumentAST({
-      kind: 'Document',
+      kind: 'Document' as any,
       definitions: [
         {
-          kind: 'OperationDefinition',
-          operation: 'query',
+          kind: 'OperationDefinition' as any,
+          operation: 'query' as any,
           selectionSet: {
-            kind: 'SelectionSet',
+            kind: 'SelectionSet' as any,
             selections: [
               {
-                kind: 'Field',
+                kind: 'Field' as any,
                 name: {
-                  kind: 'Name',
+                  kind: 'Name' as any,
                   value: 'ManageUser_getUser',
                 },
                 selectionSet: {
-                  kind: 'SelectionSet',
+                  kind: 'SelectionSet' as any,
                   selections: [
                     {
-                      kind: 'Field',
+                      kind: 'Field' as any,
                       name: {
-                        kind: 'Name',
+                        kind: 'Name' as any,
                         value: 'ID',
                       },
                     },
                     {
-                      kind: 'Field',
+                      kind: 'Field' as any,
                       name: {
-                        kind: 'Name',
+                        kind: 'Name' as any,
                         value: 'NESTED_FIELD',
                       },
                       selectionSet: {
-                        kind: 'SelectionSet',
+                        kind: 'SelectionSet' as any,
                         selections: [
                           {
-                            kind: 'Field',
+                            kind: 'Field' as any,
                             name: {
-                              kind: 'Name',
+                              kind: 'Name' as any,
                               value: 'ID',
                             },
                           },
@@ -389,18 +389,18 @@ describe('GqlComplexityHelper', () => {
 
     try {
       GqlComplexityHelper.processDocumentAST({
-        kind: 'Document',
+        kind: 'Document' as any,
         definitions: [
           {
-            kind: 'OperationDefinition',
-            operation: 'query',
+            kind: 'OperationDefinition' as any,
+            operation: 'query' as any,
             selectionSet: {
-              kind: 'SelectionSet',
+              kind: 'SelectionSet' as any,
               selections: [
                 {
-                  kind: 'Field',
+                  kind: 'Field' as any,
                   name: {
-                    kind: 'Name',
+                    kind: 'Name' as any,
                     value: 'INVALID_OPERATION',
                   },
                 },
@@ -409,7 +409,7 @@ describe('GqlComplexityHelper', () => {
           },
         ],
       });
-    } catch (err) {
+    } catch (err: any) {
       expect(hasInvalidNodeMockFn).toHaveBeenCalled();
       expect(err).toBeInstanceOf(GqlError);
     }
@@ -418,8 +418,8 @@ describe('GqlComplexityHelper', () => {
   it('should return result in sub-branches', () => {
     const selections: SelectionNode[] = [
       {
-        kind: 'Field',
-        name: { kind: 'Name', value: 'FIELD_NODE' },
+        kind: 'Field' as any,
+        name: { kind: 'Name' as any, value: 'FIELD_NODE' },
       },
     ];
 
@@ -433,8 +433,8 @@ describe('GqlComplexityHelper', () => {
 
   it('should check the deep of an existing entry', () => {
     const selections: FieldNode = {
-      kind: 'Field',
-      name: { kind: 'Name', value: 'FIELD_NODE' },
+      kind: 'Field' as any,
+      name: { kind: 'Name' as any, value: 'FIELD_NODE' },
     };
     jest
       .spyOn(GqlComplexityHelper, 'processSelectionNodes')

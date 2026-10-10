@@ -27,52 +27,68 @@ const infoObj: GraphQLResolveInfo = {
       selectionSet: {
         selections: [
           {
+            // @ts-ignore
             kind: 'Field',
             name: {
+              // @ts-ignore
               kind: 'Name',
               value: 'first',
             },
           },
           {
+            // @ts-ignore
             kind: 'Field',
             name: {
+              // @ts-ignore
               kind: 'Name',
               value: 'second',
             },
           },
           {
+            // @ts-ignore
             kind: 'Field',
             name: {
+              // @ts-ignore
               kind: 'Name',
               value: 'pageData',
             },
+            // @ts-ignore
             selectionSet: {},
           },
           {
             name: {
               value: 'nodes',
+              // @ts-ignore
               kind: 'Name',
             },
+            // @ts-ignore
             kind: 'Field',
             selectionSet: {
+              // @ts-ignore
               kind: 'SelectionSet',
               selections: [
                 {
                   name: {
                     value: 'sub',
+                    // @ts-ignore
                     kind: 'Name',
                   },
+                  // @ts-ignore
                   kind: 'Field',
                   selectionSet: {
+                    // @ts-ignore
                     kind: 'SelectionSet',
                     selections: [
                       {
+                        // @ts-ignore
                         kind: 'Field',
                         name: {
                           value: 'nodes',
+                          // @ts-ignore
                           kind: 'Name',
                         },
                         selectionSet: {
+                          // @ts-ignore
                           kind: 'SelectionSet',
                           selections: [],
                         },
@@ -83,24 +99,31 @@ const infoObj: GraphQLResolveInfo = {
                 {
                   name: {
                     value: 'subToChange',
+                    // @ts-ignore
                     kind: 'Name',
                   },
+                  // @ts-ignore
                   kind: 'Field',
                 },
                 {
                   name: {
                     value: 'node',
+                    // @ts-ignore
                     kind: 'Name',
                   },
+                  // @ts-ignore
                   kind: 'Field',
                   selectionSet: {
+                    // @ts-ignore
                     kind: 'SelectionSet',
                     selections: [
                       {
                         name: {
                           value: 'sub2',
+                          // @ts-ignore
                           kind: 'Name',
                         },
+                        // @ts-ignore
                         kind: 'Field',
                       },
                     ],
@@ -112,10 +135,13 @@ const infoObj: GraphQLResolveInfo = {
           {
             name: {
               value: 'subQuery',
+              // @ts-ignore
               kind: 'Name',
             },
+            // @ts-ignore
             kind: 'Field',
             selectionSet: {
+              // @ts-ignore
               kind: 'SelectionSet',
               selections: [],
             },
@@ -134,6 +160,7 @@ const edgesObj: GraphQLResolveInfo = {
           {
             name: {
               value: 'edges',
+              // @ts-ignore
               kind: 'Name',
             },
             selectionSet: {
@@ -141,6 +168,7 @@ const edgesObj: GraphQLResolveInfo = {
                 {
                   name: {
                     value: 'node',
+                    // @ts-ignore
                     kind: 'Name',
                   },
                   selectionSet: {
@@ -148,8 +176,10 @@ const edgesObj: GraphQLResolveInfo = {
                       {
                         name: {
                           value: 'fieldAlias',
+                          // @ts-ignore
                           kind: 'Name',
                         },
+                        // @ts-ignore
                         kind: 'Field',
                       },
                     ],
@@ -158,8 +188,10 @@ const edgesObj: GraphQLResolveInfo = {
                 {
                   name: {
                     value: 'otherField',
+                    // @ts-ignore
                     kind: 'Name',
                   },
+                  // @ts-ignore
                   kind: 'Field',
                 },
               ],
@@ -179,6 +211,7 @@ const nodesObj: GraphQLResolveInfo = {
           {
             name: {
               value: 'nodes',
+              // @ts-ignore
               kind: 'Name',
             },
             selectionSet: {
@@ -186,6 +219,7 @@ const nodesObj: GraphQLResolveInfo = {
                 {
                   name: {
                     value: 'node',
+                    // @ts-ignore
                     kind: 'Name',
                   },
                   selectionSet: {
@@ -193,8 +227,10 @@ const nodesObj: GraphQLResolveInfo = {
                       {
                         name: {
                           value: 'fieldAlias',
+                          // @ts-ignore
                           kind: 'Name',
                         },
+                        // @ts-ignore
                         kind: 'Field',
                       },
                     ],
@@ -203,8 +239,10 @@ const nodesObj: GraphQLResolveInfo = {
                 {
                   name: {
                     value: 'otherField',
+                    // @ts-ignore
                     kind: 'Name',
                   },
+                  // @ts-ignore
                   kind: 'Field',
                 },
               ],
@@ -248,6 +286,7 @@ describe('Graphql decorator test', () => {
   });
 
   it('Check GqlInfoGenerator', async () => {
+    // @ts-ignore
     const mockCreate = (graphql.GqlExecutionContext.create = jest.fn());
     const mockGetInfo = mockCreate.mockImplementation(() => ({
       getInfo: jest.fn().mockReturnValue(infoObj),
@@ -335,6 +374,7 @@ describe('Graphql decorator test', () => {
     const arr: IFieldMapper = {
       project: {
         dst: 'project',
+        // @ts-ignore
         relation: {
           relationType: 'many-to-one',
           sourceKey: { dst: 'projectId', alias: 'projectId' },
@@ -363,6 +403,7 @@ describe('Graphql decorator test', () => {
 
     expect(GqlFieldsMapperTest.keys).toEqual([]);
 
+    // @ts-ignore
     custominfo.fieldNodes = undefined;
     GqlFieldsMapperTest = $.GqlModelFieldsMapper(arr, custominfo as any);
 
@@ -429,6 +470,7 @@ describe('Graphql decorator test', () => {
     const arr: IFieldMapper = {
       project: {
         dst: 'project',
+        // @ts-ignore
         relation: {
           relationType: 'many-to-one',
           sourceKey: { dst: 'projectId', alias: 'projectId' },

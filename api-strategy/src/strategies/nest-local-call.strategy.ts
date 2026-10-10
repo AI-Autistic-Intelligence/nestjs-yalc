@@ -71,10 +71,10 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
         }
       | InjectOptions = {
       headers,
-      method: options?.method,
+      ...(options?.method !== undefined ? { method: options.method } : {}),
       /**@todo investigate where to set thi */
       // signal: options?.signal,
-      payload: options?.data, // map data to payload
+      ...(options?.data !== undefined ? { payload: options.data } : {}), // map data to payload
     };
 
     const args: InjectOptions = {

@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>98/98</span>
+                <span class='fraction'>106/106</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">91.3% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>42/46</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>98/98</span>
+                <span class='fraction'>106/106</span>
             </div>
         
             
@@ -519,8 +519,7 @@
 <a name='L454'></a><a href='#L454'>454</a>
 <a name='L455'></a><a href='#L455'>455</a>
 <a name='L456'></a><a href='#L456'>456</a>
-<a name='L457'></a><a href='#L457'>457</a>
-<a name='L458'></a><a href='#L458'>458</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L457'></a><a href='#L457'>457</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -592,8 +591,8 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -615,7 +614,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -646,7 +645,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -683,7 +682,7 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -713,8 +712,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -755,7 +754,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -884,7 +883,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1048,7 +1046,7 @@ export function envFilePathList(dirname?: string) {
 &nbsp;
   envFilePath.push(`${_dirname}/.env`); // user-defined env (git-ignored)
 &nbsp;
-  /* istanbul ignore next */
+&nbsp;
   if (process.env.NODE_ENV) {
     envFilePath.push(`${_dirname}/.env.${process.env.NODE_ENV}`); // user-defined env (git-ignored)
   }
@@ -1071,8 +1069,8 @@ const _buildEnvFilePath = _.memoize(
 &nbsp;
       envFilePath.push(...envFilePathList(envDir));
     } else {
-      /* istanbul ignore next */
-      envFilePath.push(...(Array.isArray(envPath) ? envPath : [envPath]));
+    
+      envFilePath.push(...(Array.isArray(envPath) ? envPath : <span class="branch-1 cbranch-no" title="branch not covered" >[envPath]));</span>
     }
 &nbsp;
     Logger.debug(`Using env file paths: ${envFilePath}`);
@@ -1102,13 +1100,13 @@ export function yalcBaseAppModuleMetadataFactory(
   appAlias: string,
   options?: Omit&lt;IYalcBaseAppOptions, 'module'&gt;,
 ): IYalcBaseStaticModule {
-  /* istanbul ignore next */
+&nbsp;
   const _options = {
     // default values
     isSingleton: false,
     global: true,
     // user defined values
-    ...(options ?? {}),
+    ...(options ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
   };
   const { controllers, exports, imports, providers } = _options;
 &nbsp;
@@ -1139,9 +1137,9 @@ export function yalcBaseAppModuleMetadataFactory(
 &nbsp;
   const logger = options?.logger;
   if (logger) {
-    /* istanbul ignore next */
+  
     _providers.push(
-      (logger === true ? LoggerServiceFactory : logger)(
+      (logger === true ? LoggerServiceFactory : <span class="branch-1 cbranch-no" title="branch not covered" >logger</span>)(
         appAlias,
         APP_LOGGER_SERVICE,
         appAlias,
@@ -1169,7 +1167,7 @@ export function yalcBaseAppModuleMetadataFactory(
     );
   }
 &nbsp;
-  /* istanbul ignore next */
+&nbsp;
   if (!_options.skipDuplicateAppCheck) {
     _providers.push(LifeCycleHandler);
   }
@@ -1211,8 +1209,8 @@ export function yalcBaseAppModuleMetadataFactory(
              */
             await ConfigModule.envVariablesLoaded;
 &nbsp;
-            /* istanbul ignore next */
-            return await (_options.configFactory?.() ?? {});
+          
+            return await (_options.configFactory?.() ?? <span class="branch-1 cbranch-no" title="branch not covered" >{});</span>
           }),
           ...(_options.extraConfigs ?? []),
         ],
@@ -1352,7 +1350,6 @@ function yalcGlobalStaticModuleFactory(): Partial&lt;IYalcBaseStaticModule&gt; {
 }
 @Global()
 @Module(yalcGlobalStaticModuleFactory())
-/* istanbul ignore next */
 export class YalcGlobalStaticModule {}
 &nbsp;
 /**
@@ -1441,7 +1438,7 @@ export class YalcDefaultAppModule {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

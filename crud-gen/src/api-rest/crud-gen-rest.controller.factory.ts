@@ -109,7 +109,7 @@ function inferSinglePrimaryField<Entity extends Record<string, any>>(
   });
 
   return primaryColumns.length === 1
-    ? (primaryColumns[0].propertyName as keyof Entity & string)
+    ? (primaryColumns[0]!.propertyName as keyof Entity & string)
     : undefined;
 }
 

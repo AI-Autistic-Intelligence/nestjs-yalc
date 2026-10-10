@@ -48,6 +48,7 @@ describe('ObjectDecorator', () => {
     expect(hasModelFieldMetadataList(TestObject)).toBeTruthy();
 
     let metadata = getModelFieldMetadata(TestObject, 'decoratedProperty');
+    // @ts-ignore
     expect([metadata.dst, metadata.src]).toEqual(
       expect.arrayContaining(['decoratedProperty', 'decoratedProperty']),
     );
@@ -70,6 +71,7 @@ describe('ObjectDecorator', () => {
     @CrudGenObject({ filters: fixedIncludefilterOption })
     class BaseDecoratedClass {
       @ModelField({})
+      // @ts-ignore
       baseDecoratedProperty: 'string';
     }
 
@@ -90,6 +92,7 @@ describe('ObjectDecorator', () => {
 
   it('Should decorate properly a property with a custom gqlOptions', () => {
     const metadata = getModelFieldMetadata(TestEntityDto, 'id');
+    // @ts-ignore
     expect([metadata.dst, metadata.src]).toEqual(
       expect.arrayContaining(['id']),
     );
@@ -100,6 +103,7 @@ describe('ObjectDecorator', () => {
     let gqlOptions: FieldOptions | undefined = undefined;
     let gqlType: ReturnTypeFunc | undefined = () => BaseEntity;
 
+    // @ts-ignore
     let modelFieldDecorator = ModelField({
       gqlType,
       gqlOptions,
@@ -109,6 +113,7 @@ describe('ObjectDecorator', () => {
     gqlOptions = { name: 'name' };
     gqlType = undefined;
 
+    // @ts-ignore
     modelFieldDecorator = ModelField({
       gqlType,
       gqlOptions,

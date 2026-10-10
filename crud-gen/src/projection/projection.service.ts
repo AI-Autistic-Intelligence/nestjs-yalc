@@ -426,7 +426,10 @@ export class ProjectionResourceService<Entity extends ObjectLiteral> {
     ) {
       this.invalid('Projection take must be a positive safe integer.');
     }
-    return { skip, take };
+    return {
+      ...(skip !== undefined ? { skip } : {}),
+      ...(take !== undefined ? { take } : {}),
+    };
   }
 
   protected projectionField(

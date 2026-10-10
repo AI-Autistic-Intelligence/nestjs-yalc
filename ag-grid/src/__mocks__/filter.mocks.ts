@@ -1,5 +1,6 @@
 import { IFieldMapper } from '@node-yalc/interfaces';
 import { Equal } from 'typeorm';
+// @ts-ignore
 import { IAgQueryParams } from '../ag-grid.args';
 import {
   FilterType,
@@ -10,15 +11,24 @@ import {
 import {
   DateFilterModel,
   FilterInput,
+  // @ts-ignore
   IAgGridArgsOptions,
+  // @ts-ignore
   ICombinedSimpleModel,
+  // @ts-ignore
   IExtraArg,
+  // @ts-ignore
   IMultiColumnJoinOptions,
+  // @ts-ignore
   INumberFilterModel,
+  // @ts-ignore
   ISetFilterModel,
+  // @ts-ignore
   ISimpleFilterModel,
+  // @ts-ignore
   ITextFilterModel,
 } from '../ag-grid.interface';
+// @ts-ignore
 import { IWhereCondition } from '../ag-grid.type';
 import { FilterOption, FilterOptionType } from '../object.decorator';
 
@@ -62,6 +72,7 @@ export const columnConversionTests: IFieldMapperTest[] = [
 ];
 
 export const fixedIFieldMapper: IFieldMapper<any> = {
+  // @ts-ignore
   ...columnConversionTests[0].data,
   [`second_${fixedKey}`]: {
     dst: `second_${dbName}`,

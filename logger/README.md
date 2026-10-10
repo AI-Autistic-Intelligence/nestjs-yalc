@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/logger</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/logger integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/logger
+  <em>Core enterprise module for the @nest-yalc-2/logger integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Flogger.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Flogger)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Flogger.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/logger
 pnpm add @nest-yalc-2/logger
 ```
 
----
+<hr/>
 
 # 📝 Contextual Pino Logging Module (`@nest-yalc-2/logger`)
 
 `@nest-yalc-2/logger` provides a high-performance, structured Pino logging integration for NestJS 11+. It automatically correlates HTTP request IDs (`X-Request-Id`) across asynchronous execution contexts using Node.js `AsyncLocalStorage`, redacting sensitive payload data for GDPR and PCI-DSS compliance.
 
----
+<hr/>
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/logger
 - **Automatic Sensitive Data Masking**: Configurable redaction rules for passwords, credit card numbers, authorization tokens, and API secrets.
 - **NestJS Logger Interface Replacement**: Replaces NestJS's default `LoggerService` globally across all modules.
 
----
+<hr/>
 
 ## 🔬 Internal Architecture & Mechanics
 
@@ -55,7 +55,7 @@ flowchart TD
 1. **Middleware Injection**: When an HTTP request enters the application, `YalcLoggerMiddleware` checks for an existing `X-Request-Id` header or generates a cryptographically random UUID v4 string.
 2. **Context Preservation**: The request ID is stored in Node.js `AsyncLocalStorage`. Any log call invoked inside controller methods, services, or repositories automatically retrieves and appends `requestId: req_88192` to the output JSON payload.
 
----
+<hr/>
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/logger` vs NestJS Default Logger
 
@@ -66,7 +66,7 @@ flowchart TD
 | **Throughput (Logs/sec)** | **> 35,000 logs/sec** | ~7,000 logs/sec |
 | **Data Masking** | **Native Redaction Rules** | Manual Sanitization Code |
 
----
+<hr/>
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -125,14 +125,14 @@ export class PaymentProcessingService {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
 > [!CAUTION]
 > **Logging Raw Request / Response Objects**: Avoid calling `this.logger.info(req)` directly. Logging raw Node.js HTTP request streams can cause circular reference errors or crash process memory during stringification.
 
----
+<hr/>
 
 ## 💡 Best Practices
 
@@ -140,7 +140,7 @@ export class PaymentProcessingService {
 > **Production Log Aggregation**: In Kubernetes or Docker environments, pipe stdout logs to FluentBit or Datadog Agent. Pino's native JSON output requires zero extra parsing CPU cycles on log aggregators.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -150,7 +150,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

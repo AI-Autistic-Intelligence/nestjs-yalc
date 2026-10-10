@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -97,43 +97,43 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { BadRequestException } from '@nestjs/common';
 &nbsp;
-export enum EntityErrorsEnum {
+export <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >enum <span class="cstat-no" title="statement not covered" ></span>EntityErrorsEnum {</span></span>
   CREATION_FAILED = 'Resource has not been created',
   UPDATE_FAILED = 'Resource has not been updated',
   DELETE_FAILED = 'Resource has not been deleted',
@@ -141,28 +141,28 @@ export enum EntityErrorsEnum {
 &nbsp;
 export class EntityError extends BadRequestException {
   originalError: Error | undefined;
-  constructor(message: string, error?: Error) {
-    super(message);
-    this.stack = error?.stack;
-    this.originalError = error;
+<span class="fstat-no" title="function not covered" >  constructor(m</span>essage: string, error?: Error) {
+<span class="cstat-no" title="statement not covered" >    super(message);</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error?.stack) <span class="cstat-no" title="statement not covered" >this.stack = error.stack;</span></span>
+<span class="cstat-no" title="statement not covered" >    this.originalError = error;</span>
   }
 }
 &nbsp;
 export class CreateEntityError extends EntityError {
-  constructor(error?: Error) {
-    super(EntityErrorsEnum.CREATION_FAILED, error);
+<span class="fstat-no" title="function not covered" >  constructor(e</span>rror?: Error) {
+<span class="cstat-no" title="statement not covered" >    super(EntityErrorsEnum.CREATION_FAILED, error);</span>
   }
 }
 &nbsp;
 export class UpdateEntityError extends EntityError {
-  constructor(error?: Error) {
-    super(EntityErrorsEnum.UPDATE_FAILED, error);
+<span class="fstat-no" title="function not covered" >  constructor(e</span>rror?: Error) {
+<span class="cstat-no" title="statement not covered" >    super(EntityErrorsEnum.UPDATE_FAILED, error);</span>
   }
 }
 &nbsp;
 export class DeleteEntityError extends EntityError {
-  constructor(error?: Error) {
-    super(EntityErrorsEnum.DELETE_FAILED, error);
+<span class="fstat-no" title="function not covered" >  constructor(e</span>rror?: Error) {
+<span class="cstat-no" title="statement not covered" >    super(EntityErrorsEnum.DELETE_FAILED, error);</span>
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -172,7 +172,7 @@ export class DeleteEntityError extends EntityError {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

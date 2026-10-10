@@ -40,6 +40,7 @@ describe('AG-Grid Interceptor test', () => {
   const callHandler = createMock<CallHandler>();
   const mockCreate = (mockedNestGraphql.GqlExecutionContext.create = jest.fn());
   const mockGetArgs = mockCreate.mockImplementation(() => ({
+    // @ts-ignore
     getArgs: jest.fn().mockReturnValue(infoObj),
   }));
 
@@ -105,6 +106,7 @@ describe('AG-Grid Interceptor test', () => {
   });
 
   it('Check AgGridInterceptorWorker with no pagination', async () => {
+    // @ts-ignore
     const TestedAgGridInterceptorWorker = agGridInterceptorWorker(null, null);
 
     expect(TestedAgGridInterceptorWorker([1, 1])).toEqual(testReturnsNoParams);

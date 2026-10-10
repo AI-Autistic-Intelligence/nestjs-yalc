@@ -14,11 +14,13 @@ describe('app.helper', () => {
     jest.spyOn(StandaloneAppBootstrap.prototype, 'initApp').mockResolvedValue({
       getApp: jest.fn().mockReturnValue({
         init: jest.fn(),
+        // @ts-ignore
         resolve: jest.fn().mockResolvedValue({}),
       }),
     } as any);
     jest.spyOn(StandaloneAppBootstrap.prototype, 'getApp').mockReturnValue({
       init: jest.fn(),
+      // @ts-ignore
       resolve: jest.fn().mockResolvedValue({}),
     } as any);
     jest.spyOn(StandaloneAppBootstrap.prototype, 'closeApp').mockResolvedValue({} as any);
@@ -33,11 +35,13 @@ describe('app.helper', () => {
     const mockApp = {
       getApp: jest.fn().mockReturnValue({
         init: jest.fn(),
+        // @ts-ignore
         resolve: jest.fn().mockResolvedValue({}),
       } as any),
       closeApp: jest.fn(),
     };
     
+    // @ts-ignore
     const mockFn = jest.fn().mockResolvedValue({});
     
     await executeFunctionForApp(mockApp as any, {}, mockFn as any, { closeApp: true });
@@ -62,8 +66,10 @@ describe('app.helper', () => {
   it('should execute standalone function', async () => {
     class DummyModule {}
     class DummyService {}
+    // @ts-ignore
     const mockFn = jest.fn().mockResolvedValue({});
     
+    // @ts-ignore
     await executeStandaloneFunction(DummyModule, DummyService, mockFn, { skipMultiServerCheck: true } as any);
     
     expect(mockFn).toHaveBeenCalled();

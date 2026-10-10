@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals';
 /// <reference types="jest" />
-/* istanbul ignore file */
 
 import { FactoryType } from '@node-yalc/interfaces/common.type.js';
 import { ClassType } from '@node-yalc/types';

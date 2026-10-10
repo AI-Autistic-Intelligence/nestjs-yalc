@@ -33,11 +33,9 @@ export const getFieldMapperSrcByDst = (
   data: FieldMapper | undefined,
   dst: string,
 ): string => {
-  /* istanbul ignore next */
-  if (data) {
-    /* istanbul ignore next */
+    if (data) {
     for (const src of Object.keys(data)) {
-      if (data[src].dst === dst) return src;
+      if (data[src]?.dst === dst) return src;
     }
   }
 
@@ -67,8 +65,7 @@ const objectToFieldMapperCache = new WeakMap();
 export const objectToFieldMapper = (
   object: FieldMapper | FieldAndFilterMapper | ReturnTypeFuncValue | ClassType,
 ): FieldAndFilterMapper => {
-  /* istanbul ignore next */
-  if (typeof object !== 'symbol') {
+    if (typeof object !== 'symbol') {
     const cached = objectToFieldMapperCache.get(object as object);
     if (cached) {
       return cached;
@@ -89,6 +86,7 @@ export const objectToFieldMapper = (
     if (fieldMetadataList) {
       for (const propertyName of Object.keys(fieldMetadataList)) {
         const fieldMetadata = fieldMetadataList[propertyName];
+        if (!fieldMetadata) continue;
         const { src, dst, ...fieldMapperProperties } = fieldMetadata;
         if (src) {
           const newDst = dst ? getDestinationFieldName(dst) : src;
@@ -123,8 +121,7 @@ export const objectToFieldMapper = (
     );
   } */
 
-  /* istanbul ignore next */
-  if (typeof object !== 'symbol')
+    if (typeof object !== 'symbol')
     objectToFieldMapperCache.set(object as object, fieldMapper);
 
   return fieldMapper;
@@ -160,9 +157,9 @@ export function getEntityRelations<Entity, DTO = Entity>(
       (j: JoinColumnMetadataArgs) => j.propertyName === r.propertyName,
     ),
     agField: agGridMetadata
-      ? Object.values(agGridMetadata).find((v) => v.dst === r.propertyName)
+      ? Object.values(agGridMetadata).find((v) => v?.dst === r.propertyName)
       : { _propertyName: r.propertyName },
-  }));
+  })) as RelationInfo[];
 }
 
 export function getTypeProperties<Entity>(entityModel: ClassType<Entity>) {
@@ -178,6 +175,7 @@ export function getTypeProperties<Entity>(entityModel: ClassType<Entity>) {
   if (fieldMetadataList) {
     for (const propertyName of Object.keys(fieldMetadataList)) {
       const fieldMetadata = fieldMetadataList[propertyName];
+      if (!fieldMetadata) continue;
 
       if (fieldMetadata.mode !== 'derived') {
         // skip non virtual columns
@@ -204,8 +202,7 @@ export function getMappedTypeProperties<Entity>(
   return getTypeProperties(entityModel).reduce((r, v) => {
     const src = getFieldMapperSrcByDst(fieldMapper.field, v.propertyName);
 
-    /* istanbul ignore next */
-    if (!fieldMapper.field[src]?.denyFilter) r.push(src);
+        if (!fieldMapper.field[src]?.denyFilter) r.push(src);
     return r;
   }, new Array<string>());
 }

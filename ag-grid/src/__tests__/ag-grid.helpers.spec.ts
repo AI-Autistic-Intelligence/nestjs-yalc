@@ -50,11 +50,13 @@ import {
   getDestinationFieldName,
 } from '../ag-grid-metadata.helper';
 import {
+  // @ts-ignore
   IAgGridDependencyFactoryOptions,
   AgGridDependencyFactory,
   getProviderToken,
 } from '../ag-grid-factory.helper';
 import { JoinArgOptions, JoinTypes } from '../ag-grid.input';
+// @ts-ignore
 import { IWhereCondition } from '../ag-grid.type';
 const ObjectDecorator = require('../object.decorator');
 import * as AgGridHelpers from '../ag-grid-metadata.helper';
@@ -63,6 +65,7 @@ import {
   FilterOption,
   FilterOptionType,
   IAgGridFieldMetadata,
+  // @ts-ignore
   IFieldAndFilterMapper,
 } from '../object.decorator';
 import {
@@ -152,6 +155,7 @@ const columnConversionTests: IFieldMapperTest[] = [
 ];
 
 const fixedIFieldMapper: IFieldMapper<any> = {
+  // @ts-ignore
   ...columnConversionTests[0].data,
   [`second_${fixedKey}`]: {
     dst: `second_${dbName}`,
@@ -227,12 +231,14 @@ describe('Ag-grid helpers', () => {
   });
 
   it('should return false when data of key is not defined', () => {
+    // @ts-ignore
     const forceFilterTest = isSymbolic({ [fixedKey]: undefined }, fixedKey);
 
     expect(forceFilterTest).toEqual(false);
   });
 
   it('should return null on void data', () => {
+    // @ts-ignore
     const forceFilterTest = isSymbolic(null, fixedKey);
 
     expect(forceFilterTest).toEqual(false);
@@ -406,10 +412,12 @@ describe('Ag-grid helpers', () => {
           selectionSet: {
             selections: [
               {
+                // @ts-ignore
                 name: { value: 'pageData', kind: 'Name' },
                 selectionSet: {
                   selections: [
                     {
+                      // @ts-ignore
                       name: {
                         value: 'count',
                       },
@@ -429,6 +437,7 @@ describe('Ag-grid helpers', () => {
     result = isAskingForCount({} as any);
     expect(result).toBeFalsy();
 
+    // @ts-ignore
     result = isAskingForCount(undefined);
     expect(result).toBeFalsy();
   });
@@ -440,6 +449,7 @@ describe('Ag-grid helpers', () => {
   });
 
   it('Check isIFieldAndFilterMapper with undefined', async () => {
+    // @ts-ignore
     const testData = isIFieldAndFilterMapper(undefined);
 
     expect(testData).toEqual(false);
@@ -485,6 +495,7 @@ describe('Ag-grid helpers', () => {
       expect(fieldMapper).toBeDefined();
 
       // src setted to undefined
+      // @ts-ignore
       customFieldMetadata.propertyName.src = undefined;
       spiedgetAgGridFieldMetadataList.mockReturnValueOnce(customFieldMetadata);
       fieldMapper = objectToFieldMapper(new BaseEntity());
@@ -745,6 +756,7 @@ describe('Ag-grid helpers', () => {
     const findOptionsTest1 = {};
 
     ['field1', 'field2', 'field3', 'field5'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
   });
@@ -762,6 +774,7 @@ describe('Ag-grid helpers', () => {
     };
     const findOptionsTest1 = {};
 
+    // @ts-ignore
     applySelectOnFind(findOptionsTest1, 'field1', fieldMapper, 'alias', 'path');
   });
 
@@ -790,6 +803,7 @@ describe('Ag-grid helpers', () => {
     };
 
     ['field1', 'field2'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
 
@@ -810,15 +824,19 @@ describe('Ag-grid helpers', () => {
     const findOptionsTest1 = {};
 
     ['field1'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
 
+    // @ts-ignore
     expect(Object.keys(findOptionsTest1.extra).length).toBe(1);
 
     ['field1'].forEach((field) =>
+      // @ts-ignore
       applySelectOnFind(findOptionsTest1, field, fieldMapper),
     );
 
+    // @ts-ignore
     expect(Object.keys(findOptionsTest1.extra).length).toBe(1);
   });
 

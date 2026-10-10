@@ -26,6 +26,7 @@ import {
   WriteEntity,
 } from '../__mocks__/generic-service.mocks';
 import { EntityError } from '../entity.error';
+// @ts-ignore
 const ClassHelper = require('@node-yalc/utils/class.helper.js');
 
 import { getConnectionName } from '@nest-yalc-2/database/conn.helper';
@@ -42,10 +43,12 @@ import {
   NoResultsFoundError,
   ConditionsTooBroadError,
 } from '../conditions.error';
+// @ts-ignore
 import * as ClassHelper from '@node-yalc/utils/class.helper.js';
 jest.mock('@node-yalc/utils/class.helper.js', () => ({
   isClass: jest.fn(),
 }));
+// @ts-ignore
 jest.mock('typeorm', () => { const actual = jest.requireActual('typeorm'); const mock = { __esModule: true }; for (const key in actual) { mock[key] = actual[key]; } mock.getConnection = jest.fn(); return mock; });
 
 describe('GenericService', () => {
@@ -68,6 +71,7 @@ describe('GenericService', () => {
     });
 
     service = new GenericService(baseEntityRepository);
+    // @ts-ignore
     baseEntityRepository.metadata.primaryColumns = [{ propertyName: 'xx' }];
   });
 
@@ -82,14 +86,18 @@ describe('GenericService', () => {
   });
 
   it('should create a service with write repository', () => {
+    // @ts-ignore
     const writeRepo = new AgGridRepository();
+    // @ts-ignore
     service = new GenericService(baseEntityRepository, writeRepo);
     expect(service.getRepository() === baseEntityRepository).toBeTruthy();
     expect(service.getRepositoryWrite() === writeRepo).toBeTruthy();
   });
 
   it('should set all repositories correctly', () => {
+    // @ts-ignore
     const writeRepo = new AgGridRepository();
+    // @ts-ignore
     service.setRepository(writeRepo);
     expect(service.getRepository() === writeRepo).toBeTruthy();
     expect(service.getRepositoryWrite() === writeRepo).toBeTruthy();
@@ -152,6 +160,7 @@ describe('GenericService', () => {
   it('Check getEntity', async () => {
     const spiedGetEntity = jest.spyOn(service, 'getEntity');
     baseEntityRepository.findOne.mockResolvedValueOnce(null as any);
+    // @ts-ignore
     const entity = await service.getEntity('', undefined, undefined, undefined, {
       failOnNull: false,
     });
@@ -162,6 +171,7 @@ describe('GenericService', () => {
 
   it('Check getEntity', async () => {
     const spiedGetEntity = jest.spyOn(service, 'getEntity');
+    // @ts-ignore
     await service.getEntityOrFail('');
     expect(baseEntityRepository.findOneOrFail).toHaveBeenCalledTimes(1);
     spiedGetEntity.mockClear();
@@ -182,7 +192,9 @@ describe('GenericService', () => {
   it('Check getEntity with specific Database', async () => {
     const testRepository = createMock<Repository<BaseEntity>>();
     const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      // @ts-ignore
       service.setRepositoryRead(testRepository as any);
+      // @ts-ignore
       service.setRepositoryWrite(testRepository as any);
     });
 
@@ -193,6 +205,7 @@ describe('GenericService', () => {
     expect(service.getRepositoryWrite()).toBe(baseEntityRepository);
 
     const entity = await service.getEntity(
+      // @ts-ignore
       '',
       undefined,
       undefined,
@@ -253,7 +266,9 @@ describe('GenericService', () => {
   it('Check getEntityList with specific Database', async () => {
     const testRepository = createMock<Repository<BaseEntity>>();
     const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      // @ts-ignore
       service.setRepositoryRead(testRepository as any);
+      // @ts-ignore
       service.setRepositoryWrite(testRepository as any);
     });
 
@@ -313,17 +328,23 @@ describe('GenericService', () => {
   });
 
   it('should correctly map entities from read to write', () => {
+    // @ts-ignore
     const writeRepo = new AgGridRepository();
+    // @ts-ignore
     writeRepo.target = WriteEntity;
 
+    // @ts-ignore
     const readRepo = new AgGridRepository();
+    // @ts-ignore
     readRepo.target = ReadEntity;
 
     const newService = new GenericService<ReadEntity, WriteEntity>(
+      // @ts-ignore
       readRepo,
       writeRepo,
     );
 
+    // @ts-ignore
     const res = newService.mapEntityR2W({
       jsonProperty: 'test',
       noDest: 'test',
@@ -333,32 +354,44 @@ describe('GenericService', () => {
   });
 
   it('should correctly map entities from read to write (without mapper)', () => {
+    // @ts-ignore
     const writeRepo = new AgGridRepository();
+    // @ts-ignore
     writeRepo.target = WriteEntity;
 
+    // @ts-ignore
     const readRepo = new AgGridRepository();
+    // @ts-ignore
     readRepo.target = WriteEntity;
 
     const newService = new GenericService<WriteEntity, WriteEntity>(
+      // @ts-ignore
       readRepo,
       writeRepo,
     );
 
+    // @ts-ignore
     newService.mapEntityR2W({ data: 'test' });
   });
 
   it('should not map entities from read to write when there are no classes', () => {
+    // @ts-ignore
     const writeRepo = new AgGridRepository();
+    // @ts-ignore
     writeRepo.target = {};
 
+    // @ts-ignore
     const readRepo = new AgGridRepository();
+    // @ts-ignore
     readRepo.target = {};
 
     const newService = new GenericService<WriteEntity, WriteEntity>(
+      // @ts-ignore
       readRepo,
       writeRepo,
     );
 
+    // @ts-ignore
     newService.mapEntityR2W({ data: 'test' });
   });
 
@@ -410,6 +443,7 @@ describe('GenericService', () => {
 
   it('should handle an insertion error', async () => {
     baseEntityRepository.insert.mockRejectedValueOnce(
+      // @ts-ignore
       new QueryFailedError('', [], ''),
     );
 
@@ -421,6 +455,7 @@ describe('GenericService', () => {
   it('should handle an update error', async () => {
     baseEntityRepository.find.mockResolvedValueOnce([new BaseEntity()]);
     baseEntityRepository.update.mockRejectedValueOnce(
+      // @ts-ignore
       new QueryFailedError('', [], ''),
     );
 
@@ -432,6 +467,7 @@ describe('GenericService', () => {
   it('should handle a deletion error', async () => {
     baseEntityRepository.find.mockResolvedValueOnce([new BaseEntity()]);
     baseEntityRepository.delete.mockRejectedValueOnce(
+      // @ts-ignore
       new QueryFailedError('', [], ''),
     );
 
@@ -441,6 +477,7 @@ describe('GenericService', () => {
   });
 
   it('should not handle a differnt kind of error', async () => {
+    // @ts-ignore
     jest.spyOn(service, 'validateConditions').mockImplementation(jest.fn());
     baseEntityRepository.delete.mockRejectedValueOnce(
       new ConnectionNotFoundError('Another Error'),
@@ -500,7 +537,9 @@ describe('GenericService', () => {
   it('test getEntityListAgGrid with specific Database', async () => {
     const testRepository = createMock<AgGridRepository<BaseEntity>>();
     const spy = jest.spyOn(service, 'switchDatabaseConnection').mockImplementation((dbName) => {
+      // @ts-ignore
       service.setRepositoryRead(testRepository as any);
+      // @ts-ignore
       service.setRepositoryWrite(testRepository as any);
     });
 
@@ -538,12 +577,14 @@ describe('GenericService', () => {
 
   describe('validateSupportedError', () => {
     it('Should throw EntityError if error is QueryFailedError', () => {
+      // @ts-ignore
       const errorFn = validateSupportedError(EntityError);
       const queryError = new QueryFailedError('query', [], new Error('error'));
       expect(() => errorFn(queryError as any)).toThrow(EntityError);
     });
 
     it('Should throw original error if error is not QueryFailedError', () => {
+      // @ts-ignore
       const errorFn = validateSupportedError(EntityError);
       const normalError = new Error('Normal Error');
       expect(() => errorFn(normalError)).toThrow('Normal Error');

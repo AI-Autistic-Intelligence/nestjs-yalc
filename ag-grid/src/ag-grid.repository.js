@@ -12,11 +12,14 @@ class AgGridRepository extends typeorm_1.Repository {
     getActualLimits(findOptions) {
         if (findOptions.subQueryFilters) {
             return {
-                skip: findOptions.skip ?? findOptions.subQueryFilters.skip,
-                take: findOptions.take ?? findOptions.subQueryFilters.take,
+                skip: (findOptions.skip ?? findOptions.subQueryFilters.skip),
+                take: (findOptions.take ?? findOptions.subQueryFilters.take),
             };
         }
-        return { skip: findOptions.skip, take: findOptions.take };
+        return {
+            ...(findOptions.skip !== undefined ? { skip: findOptions.skip } : {}),
+            ...(findOptions.take !== undefined ? { take: findOptions.take } : {}),
+        };
     }
     getFormattedAgGridQueryBuilder(findOptions, fieldMap, qb) {
         const { order, where, info, skip, take, extra, join, ...strippedFindOptions } = findOptions;

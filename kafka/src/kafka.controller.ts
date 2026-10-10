@@ -4,8 +4,7 @@ import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialE
 
 @Controller()
 export class KafkaController<Entity extends ObjectLiteral> {
-  /* istanbul ignore next */
-  constructor(protected repository: Repository<Entity>) { }
+    constructor(protected repository: Repository<Entity>) { }
 
   /**
    * Check function for filtering target with specific value on a key

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,75 +101,75 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { TelemetryService } from '../telemetry.service.js';
 &nbsp;
-export function Observed(name?: string): MethodDecorator {
-  return (
+export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Observed(n</span></span>ame?: string): MethodDecorator {
+<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >(</span></span>
     target: object,
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor,
   ) =&gt; {
-    const original = descriptor.value as (...args: unknown[]) =&gt; unknown;
+    const original = <span class="cstat-no" title="statement not covered" >descriptor.value </span>as (...args: unknown[]) =&gt; unknown;
     const operationName =
-      name ?? `${target.constructor.name}.${String(propertyKey)}`;
+<span class="cstat-no" title="statement not covered" >      name ?? `${target.constructor.name}.${String(propertyKey)}`;</span>
 &nbsp;
-    descriptor.value = function (...args: unknown[]) {
-      const telemetry = resolveTelemetryService(this);
+<span class="cstat-no" title="statement not covered" >    descriptor.value = <span class="fstat-no" title="function not covered" >function (.</span>..args: unknown[]) {</span>
+      const telemetry = <span class="cstat-no" title="statement not covered" >resolveTelemetryService(this);</span>
 &nbsp;
-      if (!telemetry) {
-        return original.apply(this, args);
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!telemetry) {</span>
+<span class="cstat-no" title="statement not covered" >        return original.apply(this, args);</span>
       }
 &nbsp;
-      return telemetry.measure(operationName, () =&gt; original.apply(this, args));
+<span class="cstat-no" title="statement not covered" >      return telemetry.measure(operationName, <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >o</span>riginal.apply(this, args));</span></span>
     };
 &nbsp;
-    return descriptor;
+<span class="cstat-no" title="statement not covered" >    return descriptor;</span>
   };
 }
 &nbsp;
-function resolveTelemetryService(
+function <span class="fstat-no" title="function not covered" >resolveTelemetryService(</span>
   instance: unknown,
 ): TelemetryService | undefined {
-  const source = instance as {
+  const source = <span class="cstat-no" title="statement not covered" >instance as {</span>
     telemetry?: TelemetryService;
     telemetryService?: TelemetryService;
   };
 &nbsp;
-  return source.telemetry ?? source.telemetryService;
+<span class="cstat-no" title="statement not covered" >  return source.telemetry ?? source.telemetryService;</span>
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -178,7 +178,7 @@ function resolveTelemetryService(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

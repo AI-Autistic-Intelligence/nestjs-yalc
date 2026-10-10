@@ -108,10 +108,8 @@ export class GenericService<
    * need to write on another source
    */
   constructor(
-    /* istanbul ignore next */
-    protected repository: AgGridRepository<EntityRead>,
-    /* istanbul ignore next */
-    repositoryWrite?: AgGridRepository<EntityWrite>,
+        protected repository: AgGridRepository<EntityRead>,
+        repositoryWrite?: AgGridRepository<EntityWrite>,
   ) {
     this.repositoryWrite =
       repositoryWrite ??
@@ -289,12 +287,12 @@ export class GenericService<
       ? (await this.repository.findOne({
           where: where as any,
           select: fields as any,
-          relations,
+          ...(relations !== undefined ? { relations } : {}),
         })) || undefined
       : this.repository.findOneOrFail({
           where: where as any,
           select: fields as any,
-          relations,
+          ...(relations !== undefined ? { relations } : {}),
         });
   }
 
@@ -452,7 +450,7 @@ export class GenericService<
     if (results.length > 1) {
       throw new ConditionsTooBroadError(conditions);
     }
-    return results[0];
+    return results[0]!;
   }
 
   /**   * Returns a List of entities based in the provided options.
@@ -508,22 +506,18 @@ export class GenericService<
     const fieldMetadataList = getAgGridFieldMetadataList(this.entityRead);
 
     for (const propertyName of Object.keys(entityRead)) {
-      /* istanbul ignore next */
-      const fieldMetadata = fieldMetadataList?.[propertyName];
+            const fieldMetadata = fieldMetadataList?.[propertyName];
 
-      /* istanbul ignore next */
-      if (!fieldMetadata?.dst || !isDstExtended(fieldMetadata.dst)) {
+            if (!fieldMetadata?.dst || !isDstExtended(fieldMetadata.dst)) {
         (newEntityWrite as any)[propertyName] = (entityRead as any)[
           propertyName
         ];
         continue;
       }
 
-      /* istanbul ignore next */
-      const dst = fieldMetadata.dst;
+            const dst = fieldMetadata.dst;
 
-      /* istanbul ignore next */
-      dst.transformer(newEntityWrite, (entityRead as any)[propertyName]);
+            dst.transformer(newEntityWrite, (entityRead as any)[propertyName]);
     }
 
     return newEntityWrite;

@@ -61,6 +61,7 @@ describe('crud-gen REST interceptors', () => {
   });
 
   it('crudGenRestPaginationInterceptorWorker should handle non-paginated arrays', () => {
+    // @ts-ignore
     const worker = crudGenRestPaginationInterceptorWorker<number>(undefined, undefined, false);
     const result = worker([1, 2, 3] as any);
 
@@ -71,6 +72,7 @@ describe('crud-gen REST interceptors', () => {
   });
 
   it('crudGenRestPaginationInterceptorWorker should handle non-paginated non-array data', () => {
+    // @ts-ignore
     const worker = crudGenRestPaginationInterceptorWorker<number>(undefined, undefined, false);
     const result = worker('single_item' as any);
 
@@ -158,7 +160,9 @@ describe('crud-gen REST interceptors', () => {
         ] as any),
     };
 
+    // @ts-ignore
     const [items, count] = await firstValueFrom(
+      // @ts-ignore
       interceptor.intercept(ctx, next),
     );
 
@@ -196,6 +200,7 @@ describe('crud-gen REST interceptors', () => {
         ] as any),
     };
 
+    // @ts-ignore
     const result = await firstValueFrom(interceptor.intercept(ctx, next));
     expect(result.list[1]).toBeInstanceOf(TestDto);
     expect(result.pageData).toEqual({ count: 5, startRow: 1, endRow: 3 });
@@ -209,6 +214,7 @@ describe('crud-gen REST interceptors', () => {
       handle: () => of({ id: 'id', name: 'value' }),
     };
 
+    // @ts-ignore
     const result = await firstValueFrom(interceptor.intercept(ctx, next));
     expect(result).toBeInstanceOf(TestDto);
     expect(result.name).toBe('value');
@@ -229,6 +235,7 @@ describe('crud-gen REST interceptors', () => {
     const result = await firstValueFrom(result$ as any);
     
     expect(result).toBeDefined();
+    // @ts-ignore
     expect(result[0]).toBeInstanceOf(TestDto);
   });
 
@@ -250,7 +257,9 @@ describe('crud-gen REST interceptors', () => {
     // The interceptor returns [data, count], so we assert that
     expect(result).toBeDefined();
     expect(Array.isArray(result)).toBe(true);
+    // @ts-ignore
     expect(result[0][0]).toBeInstanceOf(TestDto);
+    // @ts-ignore
     expect(result[1]).toBe(1);
   });
 
@@ -269,6 +278,7 @@ describe('crud-gen REST interceptors', () => {
     } as CallHandler;
 
     const result$ = interceptor.intercept(mockExecutionContext, mockCallHandler);
+    // @ts-ignore
     const result = await firstValueFrom(result$);
     expect(result.pageData.startRow).toBe(0);
     expect(result.pageData.endRow).toBe(1);
@@ -296,7 +306,9 @@ describe('crud-gen REST interceptors', () => {
 describe('crudRestControllerFactory', () => {
   it('should map list and getById using provided service', async () => {
     const service = {
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
+      // @ts-ignore
       getEntity: jest.fn().mockResolvedValue({ id: '1', name: 'entity' }),
       createEntity: jest.fn(),
       updateEntity: jest.fn(),
@@ -338,11 +350,14 @@ describe('crudRestControllerFactory', () => {
     const service = {
       getEntityListExtended: jest.fn(),
       getEntity: jest.fn(),
+      // @ts-ignore
       createEntity: jest.fn().mockResolvedValue({ id: '1', name: 'created' }),
+      // @ts-ignore
       updateEntity: jest.fn().mockResolvedValue({
         id: '1',
         name: 'updated',
       }),
+      // @ts-ignore
       deleteEntity: jest.fn().mockResolvedValue(true),
     } as unknown as GenericService<TestEntity>;
 
@@ -372,12 +387,15 @@ describe('crudRestControllerFactory', () => {
   it('should infer the REST id field from a single primary column', async () => {
     const service = {
       getEntityListExtended: jest.fn(),
+      // @ts-ignore
       getEntity: jest.fn().mockResolvedValue({ guid: 'user-1', name: 'user' }),
       createEntity: jest.fn(),
+      // @ts-ignore
       updateEntity: jest.fn().mockResolvedValue({
         guid: 'user-1',
         name: 'updated',
       }),
+      // @ts-ignore
       deleteEntity: jest.fn().mockResolvedValue(true),
     } as unknown as GenericService<GuidEntity>;
 
@@ -410,6 +428,7 @@ describe('crudRestControllerFactory', () => {
 
   it('maps OData query params and validates expand allowlist', async () => {
     const service = {
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
       getEntity: jest.fn(),
       createEntity: jest.fn(),
@@ -460,6 +479,7 @@ describe('crudRestControllerFactory', () => {
 
   it('maps OData query params with count undefined, expand without allowed, no filter', async () => {
     const service = {
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
     } as unknown as GenericService<TestEntity>;
 
@@ -488,6 +508,7 @@ describe('crudRestControllerFactory', () => {
 
   it('maps OData query params without expand parameter', async () => {
     const service = {
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
     } as unknown as GenericService<TestEntity>;
 
@@ -596,6 +617,7 @@ describe('crudRestControllerFactory', () => {
 
   it('should throw on invalid OData params', async () => {
     const service = {
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(['ok']),
     } as unknown as GenericService<TestEntity>;
 

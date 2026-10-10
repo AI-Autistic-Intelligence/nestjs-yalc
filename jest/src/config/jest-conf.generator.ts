@@ -1,5 +1,4 @@
 // import { jest } from '@jest/globals';
-/* istanbul ignore file */
 
 import * as path from 'path';
 
@@ -76,7 +75,7 @@ export function jestConfGenerator(
     const _projectSets: { [key: string]: any } = {};
     for (const app in appProjectsSettings) {
       _projectSets[app] = projects.filter((p) =>
-        appProjectsSettings[app].deps.some((v) =>
+        appProjectsSettings[app]!.deps.some((v) =>
           p.displayName.startsWith(`unit/${v.name}`),
         ),
       );
@@ -90,7 +89,7 @@ export function jestConfGenerator(
 
   const cacheDirBase = '/tmp/jest_rs/';
 
-  let projects = [];
+  let projects: any[] = [];
 
   const confFactory = (
     projName: string,
@@ -122,7 +121,7 @@ export function jestConfGenerator(
   });
 
   for (const projName of Object.keys(projectList)) {
-    const proj = projectList[projName];
+    const proj = projectList[projName]!;
     if (!options.skipProjects?.includes(projName) && !options.skipProjects?.includes(proj.path)) {
       let conf = confFactory(projName, proj);
 
@@ -194,7 +193,7 @@ export function jestConfGenerator(
       })
     : projectSets[selectedProj];
 
-  const paths = [];
+  const paths: string[] = [];
 
   if (argv.path) {
     paths.push(argv.path);

@@ -15,7 +15,7 @@ describe('ParseArray', () => {
   it('should transform a comma separated string to an array', () => {
     class TestClass {
       @ParseArray()
-      field: string[];
+      field!: string[];
     }
 
     const payload = {
@@ -29,7 +29,7 @@ describe('ParseArray', () => {
   it('should transform a semi colon separated string to an array', () => {
     class TestClass {
       @ParseArray({ separator: ';' })
-      field: string[];
+      field!: string[];
     }
 
     const payload = {
@@ -43,7 +43,7 @@ describe('ParseArray', () => {
   it('should ignore empty string', () => {
     class TestClass {
       @ParseArray()
-      field: string[];
+      field!: string[];
     }
 
     const payload = {
@@ -77,22 +77,22 @@ describe('parseArray', () => {
   });
 
   it('should return empty array for undefined', () => {
-    const result = parseArray(undefined);
+    const result = parseArray(undefined as any);
     expect(result).toEqual([]);
   });
 
   it('should return empty array for null', () => {
-    const result = parseArray(null);
+    const result = parseArray(null as any);
     expect(result).toEqual([]);
   });
 
   it('should return empty array for number', () => {
-    const result = parseArray(123);
+    const result = parseArray(123 as any);
     expect(result).toEqual([123]);
   });
 
   it('should return array for array', () => {
-    const result = parseArray(['a', 'b', 'c']);
+    const result = parseArray(['a', 'b', 'c'] as any);
     expect(result).toEqual(['a', 'b', 'c']);
   });
 });
@@ -101,7 +101,7 @@ describe('ParseBoolean', () => {
   it('should transform a string to boolean', () => {
     class TestClass {
       @ParseBoolean()
-      field: boolean;
+      field!: boolean;
     }
 
     const payload = {
@@ -115,7 +115,7 @@ describe('ParseBoolean', () => {
   it('should transform a boolean to boolean', () => {
     class TestClass {
       @ParseBoolean()
-      field: boolean;
+      field!: boolean;
     }
 
     const payload = {
@@ -129,7 +129,7 @@ describe('ParseBoolean', () => {
   it('should transform a string to boolean', () => {
     class TestClass {
       @ParseBoolean()
-      field: boolean;
+      field!: boolean;
     }
 
     const payload = {
@@ -143,7 +143,7 @@ describe('ParseBoolean', () => {
   it('should transform a boolean to boolean', () => {
     class TestClass {
       @ParseBoolean()
-      field: boolean;
+      field!: boolean;
     }
 
     const payload = {
@@ -177,17 +177,17 @@ describe('parseBoolean', () => {
   });
 
   it('should return false for undefined', () => {
-    const result = parseBoolean(undefined);
+    const result = parseBoolean(undefined as any);
     expect(result).toEqual(false);
   });
 
   it('should return false for null', () => {
-    const result = parseBoolean(null);
+    const result = parseBoolean(null as any);
     expect(result).toEqual(false);
   });
 
   it('should return false for number', () => {
-    const result = parseBoolean(123);
+    const result = parseBoolean(123 as any);
     expect(result).toEqual(false);
   });
 
@@ -201,7 +201,7 @@ describe('ParseNumber', () => {
   it('should transform a string to number', () => {
     class TestClass {
       @ParseNumber()
-      field: number;
+      field!: number;
     }
 
     const payload = {
@@ -215,7 +215,7 @@ describe('ParseNumber', () => {
   it('should transform a number to number', () => {
     class TestClass {
       @ParseNumber()
-      field: number;
+      field!: number;
     }
 
     const payload = {
@@ -234,7 +234,7 @@ describe('parseNumber', () => {
   });
 
   it('should transform a number to number', () => {
-    const result = parseNumber(123);
+    const result = parseNumber(123 as any);
     expect(result).toEqual(123);
   });
 
@@ -249,16 +249,17 @@ describe('parseNumber', () => {
   });
 
   it('should return NaN for undefined', () => {
-    const result = parseNumber(undefined);
+    const result = parseNumber(undefined as any);
     expect(result).toEqual(NaN);
   });
 
   it('should return NaN for null', () => {
-    const result = parseNumber(null);
+    const result = parseNumber(null as any);
     expect(result).toEqual(NaN);
   });
 
   it('should return NaN for boolean', () => {
+    // @ts-ignore
     const result = parseNumber(true);
     expect(result).toEqual(NaN);
   });
@@ -273,7 +274,7 @@ describe('ParseInt', () => {
   it('should transform a string to number', () => {
     class TestClass {
       @ParseInt()
-      field: number;
+      field!: number;
     }
 
     const payload = {
@@ -287,7 +288,7 @@ describe('ParseInt', () => {
   it('should transform a number to number', () => {
     class TestClass {
       @ParseInt()
-      field: number;
+      field!: number;
     }
 
     const payload = {
@@ -306,21 +307,22 @@ describe('parseInt', () => {
   });
 
   it('should transform a number to number', () => {
-    const result = parseInt(123);
+    const result = parseInt(123 as any);
     expect(result).toEqual(123);
   });
 
   it('should return NaN for undefined', () => {
-    const result = parseInt(undefined);
+    const result = parseInt(undefined as any);
     expect(result).toEqual(NaN);
   });
 
   it('should return NaN for null', () => {
-    const result = parseInt(null);
+    const result = parseInt(null as any);
     expect(result).toEqual(NaN);
   });
 
   it('should return NaN for boolean', () => {
+    // @ts-ignore
     const result = parseInt(true);
     expect(result).toEqual(NaN);
   });

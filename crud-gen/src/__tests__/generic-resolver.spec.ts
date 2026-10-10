@@ -146,6 +146,7 @@ let extraResolverOptions: IGenericResolverOptions<TestEntityRelation> = {
   queries: {
     ...baseResolverOption.queries,
     getResource: {
+      // @ts-ignore
       ...baseResolverOption.queries.getResourceGrid,
       idName: {
         name: 'guid',
@@ -156,9 +157,11 @@ let extraResolverOptions: IGenericResolverOptions<TestEntityRelation> = {
       },
     },
   },
+  // @ts-ignore
   mutations: {
     ...baseResolverOption.mutations,
     createResource: {
+      // @ts-ignore
       ...baseResolverOption.mutations.createResource,
       extraInputs: {
         guid: {
@@ -181,6 +184,7 @@ let partialExtraResolverOptions: IGenericResolverOptions<TestEntityRelation> = {
   queries: {
     ...baseResolverOption.queries,
     getResource: {
+      // @ts-ignore
       ...baseResolverOption.queries.getResourceGrid,
       idName: {
         name: 'guid',
@@ -188,9 +192,11 @@ let partialExtraResolverOptions: IGenericResolverOptions<TestEntityRelation> = {
       },
     },
   },
+  // @ts-ignore
   mutations: {
     ...baseResolverOption.mutations,
     createResource: {
+      // @ts-ignore
       ...baseResolverOption.mutations.createResource,
       extraInputs: {
         guid: {
@@ -210,6 +216,7 @@ let missingExtraResolverOptions: IGenericResolverOptions<TestEntityRelation> = {
   queries: {
     ...baseResolverOption.queries,
     getResource: {
+      // @ts-ignore
       ...baseResolverOption.queries.getResourceGrid,
       idName: {
         name: 'guid',
@@ -220,9 +227,11 @@ let missingExtraResolverOptions: IGenericResolverOptions<TestEntityRelation> = {
       },
     },
   },
+  // @ts-ignore
   mutations: {
     ...baseResolverOption.mutations,
     createResource: {
+      // @ts-ignore
       ...baseResolverOption.mutations.createResource,
       extraInputs: {
         guid: {},
@@ -237,15 +246,19 @@ let undefinedExtraResolverOptions: IGenericResolverOptions<TestEntityRelation> =
     queries: {
       ...baseResolverOption.queries,
       getResource: {
+        // @ts-ignore
         ...baseResolverOption.queries.getResourceGrid,
+        // @ts-ignore
         idName: {
           hidden: true,
         },
       },
     },
+    // @ts-ignore
     mutations: {
       ...baseResolverOption.mutations,
       createResource: {
+        // @ts-ignore
         ...baseResolverOption.mutations.createResource,
         extraInputs: {
           guid: {},
@@ -304,6 +317,7 @@ describe('defineGetGridResource', () => {
     const resolver = new (GridResolverClass as any)();
     resolver.service = {
       supportsExtendedRepository: jest.fn().mockReturnValue(false),
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(expected),
     };
 
@@ -329,6 +343,7 @@ describe('defineGetGridResource', () => {
     const resolver = new (GridResolverClass as any)();
     resolver.service = {
       supportsStructuredGraphqlFilters: jest.fn().mockReturnValue(true),
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(expected),
     };
 
@@ -355,6 +370,7 @@ describe('defineGetGridResource', () => {
     const resolver = new (GridResolverClass as any)();
     resolver.service = {
       supportsStructuredGraphqlFilters: jest.fn().mockReturnValue(true),
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(expected),
     };
 
@@ -384,6 +400,7 @@ describe('defineGetGridResource', () => {
     const resolver = new (GridResolverClass as any)();
     resolver.service = {
       supportsStructuredGraphqlFilters: jest.fn().mockReturnValue(true),
+      // @ts-ignore
       getEntityListExtended: jest.fn().mockResolvedValue(expected),
     };
 
@@ -477,6 +494,7 @@ describe('Generic Resolver', () => {
     'Should create a resolver with a proper execution of the queries',
     async (resolverOption) => {
       jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+        // @ts-ignore
         getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
       }));
       const resolver = generateResolver(fixedMetadataList, resolverOption);
@@ -512,6 +530,7 @@ describe('Generic Resolver', () => {
 
   it('Should reject structured filters on grid queries when extended repository support is missing', async () => {
     jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+      // @ts-ignore
       getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
     }));
 
@@ -533,8 +552,10 @@ describe('Generic Resolver', () => {
 
   it('Should create a resolver with the default options', async () => {
     jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+      // @ts-ignore
       getContext: jest.fn().mockReturnValue({ response: mockedResponse }),
     }));
+    // @ts-ignore
     const defaultResolverOption: IGenericResolverOptions<TestEntityRelation> = {
       ...baseResolverOption,
       dto: undefined,
@@ -567,6 +588,7 @@ describe('Generic Resolver', () => {
     };
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
+      // @ts-ignore
       customMetadatList[propertyRelationName].relation = {
         relationType: 'one-to-many',
         sourceKey: {
@@ -592,6 +614,7 @@ describe('Generic Resolver', () => {
     });
 
     it('Should load the entity relationship', async () => {
+      // @ts-ignore
       const resolveInfo: IRelationInfo = {
         ...oneToManyResolverInfo,
         relation: {
@@ -644,6 +667,7 @@ describe('Generic Resolver', () => {
       };
 
       jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+        // @ts-ignore
         getContext: jest.fn().mockReturnValue({ req: {} }),
       }));
 
@@ -653,6 +677,7 @@ describe('Generic Resolver', () => {
       const result = await resolver[propertyRelationName](
         TestEntityRelation2,
         {},
+        // @ts-ignore
         createMock<ExecutionContext>(),
       );
 
@@ -673,6 +698,7 @@ describe('Generic Resolver', () => {
 
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
+      // @ts-ignore
       customMetadatList[propertyRelationName].relation = {
         relationType: 'one-to-one',
         sourceKey: {
@@ -698,6 +724,7 @@ describe('Generic Resolver', () => {
 
     it('Should load the entity relationship with a one-to-one relationtype', async () => {
       jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+        // @ts-ignore
         getContext: jest.fn().mockReturnValue({ req: {} }),
       }));
       getEntityRelations.mockReturnValueOnce([oneToOneResolverInfo]);
@@ -724,8 +751,10 @@ describe('Generic Resolver', () => {
 
     it('Should load entity relationship with custom values', async () => {
       jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+        // @ts-ignore
         getContext: jest.fn().mockReturnValue({ req: {} }),
       }));
+      // @ts-ignore
       const resolveInfo: IRelationInfo = {
         ...oneToOneResolverInfo,
         agField: undefined,
@@ -772,6 +801,7 @@ describe('Generic Resolver', () => {
 
     beforeEach(() => {
       customMetadatList = { ...fixedMetadataList };
+      // @ts-ignore
       customMetadatList[propertyRelationName].relation = {
         relationType: 'many-to-many',
         sourceKey: {
@@ -803,6 +833,7 @@ describe('Generic Resolver', () => {
       const result = await resolver[propertyRelationName](
         TestEntityRelation2,
         {},
+        // @ts-ignore
         createMock<ExecutionContext>(),
       );
 
@@ -833,6 +864,7 @@ describe('Generic Resolver', () => {
       const result = await resolver[propertyRelationName](
         TestEntityRelation2,
         {},
+        // @ts-ignore
         createMock<ExecutionContext>(),
       );
       expect(result).toBeDefined();
@@ -888,6 +920,7 @@ describe('Generic Resolver', () => {
               } as any,
             },
           },
+          // @ts-ignore
           customQueryGridNoArgs: {
             extraArgs: undefined,
           },
@@ -941,6 +974,7 @@ describe('Generic Resolver', () => {
     findManyOptions.where = {
       filters: {},
     };
+    // @ts-ignore
     findManyOptions.order = undefined;
     expect(hasFilters(findManyOptions)).toBeFalsy();
   });
@@ -963,6 +997,7 @@ describe('Generic Resolver', () => {
   });
 
   it('Should generate decorators with default values', () => {
+    // @ts-ignore
     let options: IGenericResolverMethodOptions = {
       queryParams: undefined,
     };
@@ -975,6 +1010,7 @@ describe('Generic Resolver', () => {
     );
     expect(result).toBeDefined();
 
+    // @ts-ignore
     options = undefined;
     result = generateDecorators(
       Query,
@@ -987,6 +1023,7 @@ describe('Generic Resolver', () => {
 
   it('Should not override resolverInfo', async () => {
     jest.spyOn(graphql.GqlExecutionContext, 'create').mockImplementation(() => ({
+      // @ts-ignore
       getContext: jest.fn().mockReturnValue({ req: {} }),
     }));
     const resolveInfo: IRelationInfo[] = [
@@ -995,6 +1032,7 @@ describe('Generic Resolver', () => {
         join: undefined,
       },
     ];
+    // @ts-ignore
     resolveInfo.findIndex = jest.fn().mockReturnValue(-1);
 
     getEntityRelations.mockReturnValueOnce(resolveInfo);
@@ -1033,6 +1071,7 @@ describe('Generic Resolver', () => {
       relation: {
         ...customResolverInfo.relation,
         relationType: 'one-to-one',
+        // @ts-ignore
         type: undefined,
       },
     };
@@ -1051,6 +1090,7 @@ describe('Generic Resolver', () => {
       relation: {
         ...customResolverInfo.relation,
         relationType: 'one-to-one',
+        // @ts-ignore
         type: undefined,
         target: undefined as any,
       },
@@ -1101,6 +1141,7 @@ describe('Generic Resolver', () => {
 
     const testFn = () =>
       defineFieldResolver([resolverInfo], {
+        // @ts-ignore
         prototype: {},
       });
     expect(testFn).toThrow(
@@ -1117,6 +1158,7 @@ describe('Generic Resolver', () => {
       },
     };
     expect(() =>
+      // @ts-ignore
       defineFieldResolver([resolverInfoOneToOne], { prototype: {} }),
     ).toThrow(
       new ReferenceError(

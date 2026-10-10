@@ -29,7 +29,9 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
     super();
     this.internalHeader =
       options.internalRequestHeader ?? 'x-internal-request-token';
-    this.internalToken = options.internalRequestToken;
+    if (options.internalRequestToken !== undefined) {
+      this.internalToken = options.internalRequestToken;
+    }
   }
 
   async call<TOptData, TParams extends Record<string, any>, TResData>(
@@ -61,9 +63,9 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
         }
       | AxiosRequestConfig = {
       headers,
-      method: options?.method,
-      signal: options?.signal,
-      data: options?.data,
+      ...(options?.method !== undefined ? { method: options.method } : {}),
+      ...(options?.signal !== undefined ? { signal: options.signal } : {}),
+      ...(options?.data !== undefined ? { data: options.data } : {}),
     };
 
     if (options?.parameters) {
@@ -71,11 +73,8 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
     }
 
     const { data, ...res } = await this.httpService.axiosRef.request({
+      ..._options,
       headers: _options?.headers as any,
-      method: _options?.method,
-      signal: _options?.signal,
-      data: _options?.data,
-      params: _options?.params,
       url: `${this.baseUrl}${path}`,
     });
 

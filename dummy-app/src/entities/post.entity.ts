@@ -7,20 +7,20 @@ import { UserEntity } from './user.entity';
 export class PostEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Field()
   @Column()
-  title: string;
+  title!: string;
 
   @Field()
   @Column()
-  content: string;
+  content!: string;
 
   @Field((): typeof UserEntity => UserEntity)
   @ManyToOne(
     (): typeof UserEntity => UserEntity,
     (user): PostEntity[] | undefined => user.posts,
   )
-  user: UserEntity;
+  user!: UserEntity;
 }

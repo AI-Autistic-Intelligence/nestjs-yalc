@@ -4,7 +4,7 @@ import { FilterErrors } from './strings.enum';
 export class AgGridError extends GqlError {
   constructor(
     message?: string,
-    public systemMessage?: string,
+    public override systemMessage?: string,
   ) {
     super(message, systemMessage);
   }

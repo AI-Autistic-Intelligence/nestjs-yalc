@@ -47,7 +47,7 @@ export function buildSqliteJsonObjectExpression(
   }
 
   if (chunks.length === 1) {
-    return chunks[0];
+    return chunks[0] as string;
   }
 
   return `(

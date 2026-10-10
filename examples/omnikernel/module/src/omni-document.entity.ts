@@ -6,7 +6,7 @@ import { OmniDocumentKind } from './omni-document-kind.enum.js';
 @ChildEntity(OmniDocumentKind.Document)
 @ObjectType({ isAbstract: true })
 export class OmniDocumentEntity extends OmniRecordEntity {
-  kind: OmniDocumentKind = OmniDocumentKind.Document;
+  override kind: OmniDocumentKind = OmniDocumentKind.Document;
 
   @Column({
     type: 'varchar',

@@ -5,11 +5,11 @@ import { BaseAppBootstrap, } from './app-bootstrap-base.helper.js';
 import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 export class StandaloneAppBootstrap extends BaseAppBootstrap {
     constructor(appAlias, module, options) {
-        super(appAlias, module, { globalsOptions: options });
+        super(appAlias, module, options !== undefined ? { globalsOptions: options } : {});
     }
     async initApp(options) {
         await this.createApp({
-            createOptions: options?.createOptions,
+            ...(options?.createOptions !== undefined ? { createOptions: options.createOptions } : {}),
         });
         await this.applyBootstrapGlobals(options?.createOptions);
         await this.getApp().init();

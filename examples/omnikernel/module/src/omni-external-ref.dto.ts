@@ -37,24 +37,24 @@ export class OmniExternalRefType extends OmniExternalRefEntity {
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  guid!: string;
+  override guid!: string;
 
   @ModelField({ gqlType: returnValue(Int) })
   @IsInt()
-  revision!: number;
+  override revision!: number;
 
   @ModelField({ gqlType: returnValue(OmniExternalRefInternalType) })
   @IsEnum(OmniExternalRefInternalType)
-  internalType!: OmniExternalRefInternalType;
+  override internalType!: OmniExternalRefInternalType;
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  internalId!: string;
+  override internalId!: string;
 
   @ModelField({ gqlType: returnValue(String) })
   @IsString()
   @MaxLength(128)
-  provider!: string;
+  override provider!: string;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -63,7 +63,7 @@ export class OmniExternalRefType extends OmniExternalRefEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  account?: string | null;
+  override account?: string | null;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -72,12 +72,12 @@ export class OmniExternalRefType extends OmniExternalRefEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  container?: string | null;
+  override container?: string | null;
 
   @ModelField({ gqlType: returnValue(String) })
   @IsString()
   @MaxLength(255)
-  externalId!: string;
+  override externalId!: string;
 
   @ModelField({
     gqlType: returnValue(GraphQLJSONObject),
@@ -85,7 +85,7 @@ export class OmniExternalRefType extends OmniExternalRefEntity {
   })
   @IsOptional()
   @IsObject()
-  payload?: Record<string, unknown> | null;
+  override payload?: Record<string, unknown> | null;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -94,7 +94,7 @@ export class OmniExternalRefType extends OmniExternalRefEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  payloadSchemaId?: string | null;
+  override payloadSchemaId?: string | null;
 
   @ModelField({
     gqlType: returnValue(Int),
@@ -102,7 +102,7 @@ export class OmniExternalRefType extends OmniExternalRefEntity {
   })
   @IsOptional()
   @IsInt()
-  payloadSchemaVersion?: number | null;
+  override payloadSchemaVersion?: number | null;
 }
 
 @InputType()

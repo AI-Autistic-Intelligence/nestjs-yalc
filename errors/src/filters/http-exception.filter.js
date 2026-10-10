@@ -18,7 +18,7 @@ let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter 
             switch (true) {
                 case error instanceof MissingArgumentsError:
                     this.logger.log(error.message, {
-                        stack: error.stack,
+                        ...(error.stack !== undefined ? { stack: error.stack } : {}),
                     });
                     break;
                 case isDefaultErrorMixin(error):
@@ -29,11 +29,11 @@ let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter 
                         this.logger.error(entityError.originalError?.message
                             ? entityError.originalError.message
                             : error, entityError.originalError?.stack, {
-                            stack: entityError.originalError?.stack,
+                            ...(entityError.originalError?.stack !== undefined ? { stack: entityError.originalError.stack } : {}),
                             data: {
                                 response: entityError.getResponse(),
                                 name: entityError.name,
-                                cause: formatCause(entityError.cause),
+                                ...(formatCause(entityError.cause) !== undefined ? { cause: formatCause(entityError.cause) } : {}),
                             },
                         });
                     }
@@ -42,23 +42,24 @@ let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter 
                     {
                         const httpError = error;
                         const logLevel = getLogLevelByStatus(httpError.getStatus());
+                        const errorCause = formatCause(error.cause);
                         if (logLevel === LogLevelEnum.ERROR) {
                             this.logger[logLevel](error.message, error.stack, {
-                                stack: httpError.stack,
+                                ...(httpError.stack !== undefined ? { stack: httpError.stack } : {}),
                                 data: {
                                     response: httpError.getResponse(),
                                     name: error.name,
-                                    cause: formatCause(error.cause),
+                                    ...(errorCause !== undefined ? { cause: errorCause } : {}),
                                 },
                             });
                         }
                         else {
                             this.logger[logLevel](error.message, {
-                                stack: error.stack,
+                                ...(error.stack !== undefined ? { stack: error.stack } : {}),
                                 data: {
                                     response: httpError.getResponse(),
                                     name: error.name,
-                                    cause: formatCause(error.cause),
+                                    ...(errorCause !== undefined ? { cause: errorCause } : {}),
                                 },
                             });
                         }
@@ -69,9 +70,9 @@ let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter 
                     break;
                 default:
                     this.logger.error(error.message, error.stack, {
-                        stack: error.stack,
+                        ...(error.stack !== undefined ? { stack: error.stack } : {}),
                         data: {
-                            cause: formatCause(error.cause),
+                            ...(formatCause(error.cause) !== undefined ? { cause: formatCause(error.cause) } : {}),
                             name: error.name,
                         },
                     });

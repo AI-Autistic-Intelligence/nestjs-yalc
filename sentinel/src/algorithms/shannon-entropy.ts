@@ -22,14 +22,17 @@ export class ShannonEntropyEngine {
 
     const counts = new Array<number>(256).fill(0);
     for (let i = 0; i < bytes.length; i++) {
-      counts[bytes[i]]++;
+      const b = bytes[i];
+      if (b !== undefined) {
+        counts[b] = counts[b]! + 1;
+      }
     }
 
     let entropy = 0.0;
     const len = bytes.length;
     for (let i = 0; i < 256; i++) {
-      if (counts[i] > 0) {
-        const p = counts[i] / len;
+      if (counts[i]! > 0) {
+        const p = counts[i]! / len;
         entropy -= p * Math.log2(p);
       }
     }

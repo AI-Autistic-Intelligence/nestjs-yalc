@@ -15,12 +15,14 @@ describe("OmniKernel query-plan diagnostics", () => {
   it("records sqlite index evidence for the bounded generated read shapes", async () => {
     const query = jest
       .fn()
+      // @ts-ignore
       .mockResolvedValueOnce([
         {
           detail:
             "SEARCH omni-record USING INDEX omni_record_scope_kind_status_guid_idx",
         },
       ])
+      // @ts-ignore
       .mockResolvedValueOnce([
         {
           detail:
@@ -38,7 +40,9 @@ describe("OmniKernel query-plan diagnostics", () => {
       usesRecordGridIndex: true,
       usesRelationSourceIndex: true,
     });
+    // @ts-ignore
     expect(query.mock.calls[0][0]).toContain("EXPLAIN QUERY PLAN");
+    // @ts-ignore
     expect(query.mock.calls[1][1]).toEqual([
       sample.scopeId,
       sample.sourceRecordId,
@@ -50,6 +54,7 @@ describe("OmniKernel query-plan diagnostics", () => {
   it("records PostgreSQL JSON-plan index evidence", async () => {
     const query = jest
       .fn()
+      // @ts-ignore
       .mockResolvedValueOnce([
         {
           "QUERY PLAN": [
@@ -59,6 +64,7 @@ describe("OmniKernel query-plan diagnostics", () => {
           ],
         },
       ])
+      // @ts-ignore
       .mockResolvedValueOnce([
         {
           "QUERY PLAN": [
@@ -80,6 +86,7 @@ describe("OmniKernel query-plan diagnostics", () => {
     expect(evidence.dialect).toBe("postgres");
     expect(evidence.usesRecordGridIndex).toBe(true);
     expect(evidence.usesRelationSourceIndex).toBe(true);
+    // @ts-ignore
     expect(query.mock.calls[0][0]).toContain("EXPLAIN (FORMAT JSON)");
   });
 

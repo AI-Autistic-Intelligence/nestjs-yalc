@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 
 export * from './context-event.service.js';
 export * from './context-event.interface.js';

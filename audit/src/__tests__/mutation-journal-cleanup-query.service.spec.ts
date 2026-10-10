@@ -49,10 +49,14 @@ describe('MutationJournalCleanupService', () => {
       target: {},
       driver: {
         engine: 'test',
+        // @ts-ignore
         supports: jest.fn(),
+        // @ts-ignore
         install: jest.fn(),
+        // @ts-ignore
         uninstall: jest.fn(),
         cleanup: jest.fn(async () => 3),
+        // @ts-ignore
         read: jest.fn(),
       },
     };
@@ -81,11 +85,16 @@ describe('MutationJournalCleanupService', () => {
         ...options.targets,
         { dataSourceName: 'string-failure' },
       ]),
+      // @ts-ignore
       resolveTarget: jest
         .fn()
+        // @ts-ignore
         .mockResolvedValueOnce(successfulTarget)
+        // @ts-ignore
         .mockResolvedValueOnce(failingTarget)
+        // @ts-ignore
         .mockResolvedValueOnce(undefined)
+        // @ts-ignore
         .mockResolvedValueOnce(stringFailingTarget),
     });
     const now = 9_000_000_000;
@@ -119,6 +128,7 @@ describe('MutationJournalCleanupService', () => {
     const runOnce = jest.spyOn(cleanupService, 'runOnce').mockResolvedValue(0);
 
     cleanupService.onApplicationBootstrap();
+    // @ts-ignore
     const callback = setIntervalSpy.mock.calls[0][0] as () => void;
     callback();
     await Promise.resolve();
@@ -135,6 +145,7 @@ describe('MutationJournalCleanupService', () => {
       ...options,
       enabled: false,
     });
+    // @ts-ignore
     const noRetentionService = new MutationJournalCleanupService(journalService, {
       ...options,
       retentionDays: undefined,
@@ -155,12 +166,16 @@ describe('MutationJournalCleanupService', () => {
       target: {},
       driver: {
         engine: 'test',
+        // @ts-ignore
         supports: jest.fn(),
+        // @ts-ignore
         install: jest.fn(),
+        // @ts-ignore
         uninstall: jest.fn(),
         cleanup: jest.fn(async () => {
           throw new Error('default cleanup failed');
         }),
+        // @ts-ignore
         read: jest.fn(),
       },
     };
@@ -183,18 +198,25 @@ describe('MutationJournalCleanupService', () => {
       target: { dataSourceName: 'secondary' },
       driver: {
         engine: 'test',
+        // @ts-ignore
         supports: jest.fn(),
+        // @ts-ignore
         install: jest.fn(),
+        // @ts-ignore
         uninstall: jest.fn(),
         cleanup: jest.fn(async () => 2),
+        // @ts-ignore
         read: jest.fn(),
       },
     };
     const journalService = createJournalService({
       getTargets: jest.fn(() => [{}, { dataSourceName: 'secondary' }]),
+      // @ts-ignore
       resolveTarget: jest
         .fn()
+        // @ts-ignore
         .mockRejectedValueOnce(new Error('resolution failed'))
+        // @ts-ignore
         .mockResolvedValueOnce(resolvedTarget),
     });
     const cleanupService = new MutationJournalCleanupService(
@@ -226,17 +248,24 @@ describe('MutationJournalQueryService', () => {
       target: {},
       driver: {
         engine: 'test',
+        // @ts-ignore
         supports: jest.fn(),
+        // @ts-ignore
         install: jest.fn(),
+        // @ts-ignore
         uninstall: jest.fn(),
+        // @ts-ignore
         cleanup: jest.fn(),
         read: jest.fn(async () => rows),
       },
     };
     const journalService = createJournalService({
+      // @ts-ignore
       resolveTarget: jest
         .fn()
+        // @ts-ignore
         .mockResolvedValueOnce(undefined)
+        // @ts-ignore
         .mockResolvedValueOnce(target),
     });
     const queryService = new MutationJournalQueryService(journalService);

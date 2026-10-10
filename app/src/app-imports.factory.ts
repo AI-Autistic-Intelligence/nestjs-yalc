@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 
 import { ImportType } from '@node-yalc/interfaces/nestjs.type.js';
 import { Logger, ModuleMetadata, Provider } from '@nestjs/common';
@@ -134,7 +133,7 @@ export function AppDependencyFactory(
             );
             return {
               ...conf,
-              logger: conf?.logging ? logger : undefined,
+              ...(conf?.logging ? { logger } : {}),
               maxQueryExecutionTime: 1000,
               keepConnectionAlive: keepDBConnectionAlive,
             };
@@ -259,7 +258,7 @@ export function AppDependencyFactory(
                     settings: { 'request.credentials': 'include' },
                   }
                 : false) as any,
-            debug: conf?.isDev,
+            ...(conf?.isDev !== undefined ? { debug: conf.isDev } : {}),
             context: async ({
               request,
               reply,

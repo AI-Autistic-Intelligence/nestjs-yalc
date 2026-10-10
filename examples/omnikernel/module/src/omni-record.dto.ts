@@ -40,11 +40,11 @@ export class OmniRecordType extends OmniRecordEntity {
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  guid!: string;
+  override guid!: string;
 
   @ModelField({ gqlType: returnValue(Int) })
   @IsInt()
-  revision!: number;
+  override revision!: number;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -53,12 +53,12 @@ export class OmniRecordType extends OmniRecordEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  externalId?: string | null;
+  override externalId?: string | null;
 
   @ModelField({ gqlType: returnValue(String) })
   @IsString()
   @MaxLength(255)
-  title!: string;
+  override title!: string;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -67,16 +67,16 @@ export class OmniRecordType extends OmniRecordEntity {
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  slug?: string | null;
+  override slug?: string | null;
 
   @ModelField({ gqlType: returnValue(String) })
   @IsString()
   @MaxLength(64)
-  kind!: string;
+  override kind!: string;
 
   @ModelField({ gqlType: returnValue(OmniRecordStatus) })
   @IsEnum(OmniRecordStatus)
-  status!: OmniRecordStatus;
+  override status!: OmniRecordStatus;
 
   @ModelField({
     gqlType: returnValue(GraphQLJSONObject),
@@ -84,7 +84,7 @@ export class OmniRecordType extends OmniRecordEntity {
   })
   @IsOptional()
   @IsObject()
-  payload?: Record<string, unknown> | null;
+  override payload?: Record<string, unknown> | null;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -93,7 +93,7 @@ export class OmniRecordType extends OmniRecordEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  payloadSchemaId?: string | null;
+  override payloadSchemaId?: string | null;
 
   @ModelField({
     gqlType: returnValue(Int),
@@ -101,7 +101,7 @@ export class OmniRecordType extends OmniRecordEntity {
   })
   @IsOptional()
   @IsInt()
-  payloadSchemaVersion?: number | null;
+  override payloadSchemaVersion?: number | null;
 
   @ModelField({
     gqlType: () => [OmniRelationType],
@@ -113,7 +113,7 @@ export class OmniRecordType extends OmniRecordEntity {
       type: () => OmniRelationEntity,
     },
   })
-  outgoingRelations?: Relation<OmniRelationType[]>;
+  override outgoingRelations?: Relation<OmniRelationType[]>;
 
   @ModelField({
     gqlType: () => [OmniRelationType],
@@ -125,7 +125,7 @@ export class OmniRecordType extends OmniRecordEntity {
       type: () => OmniRelationEntity,
     },
   })
-  incomingRelations?: Relation<OmniRelationType[]>;
+  override incomingRelations?: Relation<OmniRelationType[]>;
 }
 
 @InputType()

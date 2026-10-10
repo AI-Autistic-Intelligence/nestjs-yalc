@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
 import { createMock } from '@golevelup/ts-jest';
 import * as confluent from '@kafkajs/confluent-schema-registry';
-import { KafkaAvroDeserializer } from '../plugin.js';
+import { KafkaAvroDeserializer } from '../plugin/index.js';
 
 // Using jest.spyOn in beforeEach instead of jest.mock
 
@@ -10,8 +10,8 @@ describe('KafkaAvroDeserializer', () => {
   let decodeSpy: any;
 
   beforeEach(() => {
-    decodeSpy = jest.spyOn(confluent.SchemaRegistry.prototype, 'decode' as never).mockResolvedValue('decoded' as never);
-    deserializer = new KafkaAvroDeserializer({}, {});
+    decodeSpy = jest.spyOn(confluent.SchemaRegistry.prototype as any, 'decode').mockResolvedValue('decoded' as never);
+    deserializer = new KafkaAvroDeserializer({ host: "localhost" } as any, {} as any);
   });
 
   afterEach(() => {

@@ -22,8 +22,8 @@ export interface RabbitMqEventStrategyOptions<P = any> {
 export class RabbitMqEventStrategy<P = any, O = any>
   implements IEventStrategy<P, boolean, O>, OnModuleDestroy
 {
-  private connection?: ChannelModel;
-  private channel?: Channel;
+  private connection?: ChannelModel | undefined;
+  private channel?: Channel | undefined;
 
   constructor(private readonly options: RabbitMqEventStrategyOptions<P>) {}
 

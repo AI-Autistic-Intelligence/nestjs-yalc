@@ -1,6 +1,6 @@
 import { jest } from "@jest/globals";
-import { TelemetryCallStrategy } from "../strategies/telemetry-call.strategy";
-import { TelemetryEventStrategy } from "../strategies/telemetry-event.strategy";
+import { TelemetryCallStrategy } from "../strategies/telemetry-call.strategy.js";
+import { TelemetryEventStrategy } from "../strategies/telemetry-event.strategy.js";
 
 describe("telemetry strategy wrappers", () => {
   it("measures API calls and forwards baseUrl updates", async () => {
@@ -13,6 +13,7 @@ describe("telemetry strategy wrappers", () => {
     const telemetry = {
       measure: jest.fn((_name: string, callback: () => unknown) => callback()),
     };
+    // @ts-ignore
     const strategy = new TelemetryCallStrategy(target, telemetry as any, {
       name: "tasks.http",
       transport: "http",

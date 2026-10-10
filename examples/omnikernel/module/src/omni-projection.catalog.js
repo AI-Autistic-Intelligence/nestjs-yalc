@@ -108,7 +108,7 @@ function extensionReader(manager, scope, registration) {
             return owner ? project(entity, owner) : undefined;
         },
         async list(options = {}) {
-            const [entities] = await dialect.findMany(extensionRepository, registration.definition, scope.scopeId, filtersFor(options.where), [], { take: validateReaderTake(options.take) });
+            const [entities] = await dialect.findMany(extensionRepository, registration.definition, scope.scopeId, filtersFor(options.where), [], { ...(options.take !== undefined && validateReaderTake(options.take) !== undefined ? { take: validateReaderTake(options.take) } : {}) });
             return projectMany(entities);
         },
     });
@@ -127,7 +127,7 @@ function relationReader(manager, scope, registration) {
             const { take, ...conditions } = options;
             return await repository.find({
                 where: { scopeId: scope.scopeId, ...fixed, ...conditions },
-                take: validateReaderTake(take),
+                ...(take !== undefined && validateReaderTake(take) !== undefined ? { take: validateReaderTake(take) } : {}),
             });
         },
     });

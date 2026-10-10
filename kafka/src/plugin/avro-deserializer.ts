@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Deserializer, ReadPacket } from '@nestjs/microservices';
 import { SchemaRegistry } from '@kafkajs/confluent-schema-registry';
 import type { SchemaRegistryAPIClientArgs } from '@kafkajs/confluent-schema-registry/dist/api/index.js';
@@ -37,8 +36,7 @@ export class KafkaAvroDeserializer implements Deserializer<
         ? await this.registry.decode(message.value)
         : message.value;
     } catch (e) {
-      /* istanbul ignore next */
-      // eslint-disable-next-line no-console
+            // eslint-disable-next-line no-console
       console.error('Deserialization error', e);
     }
 

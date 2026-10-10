@@ -10,7 +10,7 @@ import {
 } from '@jest/globals';
 
 class NestLogger {
-  setLogLevels: jest.Mock<any>;
+  setLogLevels!: jest.Mock<any>;
   static overrideLogger = jest.fn();
 }
 

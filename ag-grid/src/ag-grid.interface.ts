@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 
 import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { ClassType } from '@node-yalc/types';

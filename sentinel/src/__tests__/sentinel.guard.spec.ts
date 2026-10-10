@@ -49,7 +49,7 @@ describe('FerroxSentinelGuard', () => {
     jest.spyOn(ShannonEntropyEngine, 'calculateEntropy').mockReturnValueOnce({
       isSuspicious: true,
       entropyScore: 0.9,
-    });
+    } as any);
 
     expect(() => guard.canActivate(mockContext)).toThrow(ForbiddenException);
   });
@@ -67,14 +67,14 @@ describe('FerroxSentinelGuard', () => {
     jest.spyOn(ShannonEntropyEngine, 'calculateEntropy').mockReturnValueOnce({
       isSuspicious: false,
       entropyScore: 0.1,
-    });
+    } as any);
 
     jest.spyOn(AiPromptGuardrailEngine, 'evaluatePrompt').mockReturnValueOnce({
       isThreatDetected: true,
       threatScore: 0.8,
       matchedKeywords: ['ignore instructions'],
       explanation: 'Test'
-    });
+    } as any);
 
     expect(() => guard.canActivate(mockContext)).toThrow(ForbiddenException);
   });

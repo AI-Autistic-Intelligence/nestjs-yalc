@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>15/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>15/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -123,14 +123,7 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -162,14 +155,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -185,13 +174,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -214,29 +200,25 @@ export class StandaloneAppBootstrap&lt;
   TGlobalOptions extends IGlobalOptions = IGlobalOptions,
 &gt; extends BaseAppBootstrap&lt;INestApplicationContext&gt; {
   constructor(appAlias: string, module: any, options?: TGlobalOptions) {
-    super(appAlias, module, { globalsOptions: options });
+    super(appAlias, module, options !== undefined ? { globalsOptions: options } : <span class="branch-1 cbranch-no" title="branch not covered" >{});</span>
   }
 &nbsp;
-  async initApp(options?: {
+  override async initApp(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }) {
     await this.createApp({
-      createOptions: options?.createOptions,
+      ...(options?.createOptions !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ createOptions: options.createOptions } : {</span>}),
     });
 &nbsp;
     await this.applyBootstrapGlobals(options?.createOptions);
 &nbsp;
     await this.getApp().init();
 &nbsp;
-    /* istanbul ignore next */
-    if (envIsTrue(process.env.APP_DRY_RUN) === true) {
-      /* istanbul ignore next */
-      this.loggerService?.log('Dry run, exiting...');
-      /* istanbul ignore next */
-      await this.getApp().close();
-      /* istanbul ignore next */
-      process.exit(0);
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (envIsTrue(process.env.APP_DRY_RUN) === true) {
+<span class="cstat-no" title="statement not covered" >            this.loggerService?.log('Dry run, exiting...');</span>
+<span class="cstat-no" title="statement not covered" >            await this.getApp().close();</span>
+<span class="cstat-no" title="statement not covered" >            process.exit(0);</span>
     }
 &nbsp;
     return this;
@@ -252,13 +234,10 @@ export class StandaloneAppBootstrap&lt;
         logger: getEnvLoggerLevels(),
       });
     } catch (err) {
-      /* istanbul ignore next */
-      this.closeCleanup();
+<span class="cstat-no" title="statement not covered" >            this.closeCleanup();</span>
       // eslint-disable-next-line no-console
-      /* istanbul ignore next */
-      console.error(clc.red('Failed to create app'), clc.red(err));
-      /* istanbul ignore next */
-      throw new Error('Process aborted');
+<span class="cstat-no" title="statement not covered" >            console.error(clc.red('Failed to create app'), clc.red(err));</span>
+<span class="cstat-no" title="statement not covered" >            throw new Error('Process aborted');</span>
     }
 &nbsp;
     return this.setApp(app);
@@ -271,7 +250,7 @@ export class StandaloneAppBootstrap&lt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

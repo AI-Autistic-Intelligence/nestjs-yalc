@@ -22,6 +22,8 @@ function defineCreateMutation(queryName, returnType, resolver, options, methodOp
             if (extraInputs)
                 Object.keys(extraInputs).forEach((k) => {
                     const extraInputObj = extraInputs[k];
+                    if (!extraInputObj)
+                        return;
                     if ((0, generic_resolver_type_1.isExtraInputStrict)(extraInputObj)) {
                         if (!extraInputsArgs) {
                             extraInputsArgs = {};
@@ -55,11 +57,13 @@ function defineCreateMutation(queryName, returnType, resolver, options, methodOp
     if (extraInputs) {
         Object.keys(extraInputs).forEach((k, i) => {
             const extraInputObj = extraInputs[k];
+            if (!extraInputObj)
+                return;
             if (!extraInputObj.gqlOptions)
                 return;
             (0, gqlmapper_decorator_1.InputArgs)({
                 gql: extraInputObj.gqlOptions,
-                fieldType: extraInputObj.gqlOptions.type,
+                ...(extraInputObj.gqlOptions.type !== undefined ? { fieldType: extraInputObj.gqlOptions.type } : {}),
                 _name: k,
             })(resolver.prototype, queryName, 3 + i);
         });

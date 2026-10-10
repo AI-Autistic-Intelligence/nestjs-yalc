@@ -47,8 +47,8 @@ function AgGridDependencyFactory({ entityModel, dataloader, resolver, service, r
     }
     if (resolver !== false) {
         resolverOptions.service = {
-            serviceToken,
-            dataLoaderToken,
+            ...(serviceToken !== undefined ? { serviceToken } : {}),
+            ...(dataLoaderToken !== undefined ? { dataLoaderToken } : {}),
         };
         providers.push(resolver && isProviderOverride(resolver)
             ? resolver.provider

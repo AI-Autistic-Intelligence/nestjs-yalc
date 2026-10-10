@@ -1,7 +1,7 @@
 import {
   ObservabilityModule,
   OpenTelemetryEventManagerPluginModule,
-} from "../observability.module";
+} from "../observability.module.js";
 import { OBSERVABILITY_OPTIONS } from "../tokens.js";
 import { TelemetryService } from "../telemetry.service.js";
 import { jest } from "@jest/globals";

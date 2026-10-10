@@ -33,11 +33,11 @@ export class OmniNamedType extends OmniNamedEntity {
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @IsUUID()
-  guid!: string;
+  override guid!: string;
 
   @ModelField({ gqlType: returnValue(Int) })
   @IsInt()
-  revision!: number;
+  override revision!: number;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -46,12 +46,12 @@ export class OmniNamedType extends OmniNamedEntity {
   @IsOptional()
   @IsString()
   @MaxLength(128)
-  externalId?: string | null;
+  override externalId?: string | null;
 
   @ModelField({ gqlType: returnValue(String) })
   @IsString()
   @MaxLength(255)
-  title!: string;
+  override title!: string;
 
   @ModelField({
     gqlType: returnValue(String),
@@ -60,7 +60,7 @@ export class OmniNamedType extends OmniNamedEntity {
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  slug?: string | null;
+  override slug?: string | null;
 }
 
 @InputType()

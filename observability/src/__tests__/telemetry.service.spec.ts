@@ -1,7 +1,7 @@
 import {
   TelemetryService,
   toTelemetryAttributes,
-} from "../telemetry.service";
+} from "../telemetry.service.js";
 import { normalizeObservabilityOptions } from "../observability-options.js";
 import { jest } from "@jest/globals";
 import { logs } from "@opentelemetry/api-logs";

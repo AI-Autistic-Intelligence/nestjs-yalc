@@ -941,6 +941,9 @@ export function setProjectionPathValue(
     current = current[part] as Record<string, unknown>;
   }
 
-  current[path[path.length - 1]] = value;
+  const lastPart = path[path.length - 1];
+  if (lastPart !== undefined) {
+    current[lastPart] = value;
+  }
   return clone;
 }

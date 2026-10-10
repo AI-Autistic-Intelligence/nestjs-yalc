@@ -80,10 +80,11 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) => {
   const argDecorators: ParameterDecorator[] = [];
   if (params.extraArgs) {
     for (const argName of Object.keys(params.extraArgs)) {
-      if (params.extraArgs[argName].hidden) continue;
+      const extraArg = params.extraArgs[argName];
+      if (!extraArg || extraArg.hidden) continue;
 
       argDecorators.push(
-        Args(argName, params.extraArgs[argName].options ?? {}),
+        Args(argName, extraArg.options ?? {}),
       );
     }
   }
@@ -97,9 +98,7 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) => {
 
     if (JoinOptionInput) {
       joinArg = Args('join', {
-        type:
-          /*istanbul ignore next */
-          () => JoinOptionInput,
+        type: /* istanbul ignore next */ () => JoinOptionInput,
         nullable: true,
       });
     }
@@ -201,9 +200,7 @@ export const CrudGenArgsSingle = (params: ICrudGenGqlArgsSingleOptions) => {
 
     if (JoinOptionInput) {
       joinArg = Args('join', {
-        type:
-          /*istanbul ignore next */
-          () => JoinOptionInput,
+        type: /* istanbul ignore next */ () => JoinOptionInput,
         nullable: true,
       });
     }
@@ -251,15 +248,18 @@ export function mapCrudGenParamsGql<Entity extends ObjectLiteral>(
 
     const forcedFilters: IFilterArg[] = [];
     for (const argName of Object.keys(params.extraArgs)) {
+      const extraArg = params.extraArgs[argName];
+      if (!extraArg) continue;
+
       if (
-        params.extraArgs[argName].filterCondition === GeneralFilters.VIRTUAL
+        extraArg.filterCondition === GeneralFilters.VIRTUAL
       ) {
         extraParameter[argName] = args[argName];
         continue;
       }
 
       let value = args[argName];
-      const filterMiddleware = params.extraArgs[argName].filterMiddleware;
+      const filterMiddleware = extraArg.filterMiddleware;
 
       if (filterMiddleware) {
         value = filterMiddleware(ctx, value);
@@ -268,7 +268,7 @@ export function mapCrudGenParamsGql<Entity extends ObjectLiteral>(
       forcedFilters.push({
         key: argName, // the column name mapping is executed internally
         value,
-        descriptors: params.extraArgs[argName],
+        descriptors: extraArg,
       });
     }
 

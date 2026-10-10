@@ -46,11 +46,13 @@ describe('NestLocalCallStrategy', () => {
   });
 
   it('should be instantiable', () => {
+    // @ts-ignore
     const instance = new NestLocalCallStrategy(adapterHost, clsService);
     expect(instance).toBeDefined();
   });
 
   it('should be able to execute the call method', async () => {
+    // @ts-ignore
     const instance = new NestLocalCallStrategy(adapterHost, clsService);
     const result = await instance.call('http://localhost:3000', {
       method: 'GET',
@@ -59,12 +61,14 @@ describe('NestLocalCallStrategy', () => {
   });
 
   it('should be able to execute the get method', async () => {
+    // @ts-ignore
     const instance = new NestLocalCallStrategy(adapterHost, clsService);
     const result = await instance.get('http://localhost:3000');
     expect(result).toBeDefined();
   });
 
   it('should be able to execute the post method', async () => {
+    // @ts-ignore
     const instance = new NestLocalCallStrategy(adapterHost, clsService);
     const result = await instance.post('http://localhost:3000', {});
     expect(result).toBeDefined();
@@ -77,10 +81,12 @@ describe('NestLocalCallStrategy', () => {
 
   it('should create a provider and execute the useFactory method', () => {
     const provider = NestLocalCallStrategyProvider('test');
+    // @ts-ignore
     expect(provider.useFactory(adapterHost, clsService)).toBeDefined();
   });
 
   it('should be able to execute the call method with parameters', async () => {
+    // @ts-ignore
     const instance = new NestLocalCallStrategy(adapterHost, clsService);
     const result = await instance.call('http://localhost:3000', {
       method: 'GET',
@@ -109,6 +115,7 @@ describe('NestLocalCallStrategy', () => {
       },
     });
 
+    // @ts-ignore
     const instance = new NestLocalCallStrategy(adapterHost, clsService);
     expect(instance).toBeDefined();
 
@@ -160,6 +167,7 @@ describe('NestLocalCallStrategy', () => {
   });
 
   it('should parse json if shouldSkipJsonParse is undefined', async () => {
+    // @ts-ignore
     const instance = new NestLocalCallStrategy(adapterHost, clsService);
     expect(instance).toBeDefined();
 
@@ -171,6 +179,7 @@ describe('NestLocalCallStrategy', () => {
   });
 
   it('should add internal request token header when provided', async () => {
+    // @ts-ignore
     const injectSpy = jest.fn().mockResolvedValue({
       body: '{}',
       json: () => ({}),
@@ -215,6 +224,7 @@ describe('NestLocalCallStrategy', () => {
   });
 
   it('should not override existing internal request token header', async () => {
+    // @ts-ignore
     const injectSpy = jest.fn().mockResolvedValue({
       body: '{}',
       json: () => ({}),

@@ -6,9 +6,9 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 export class TestEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Field()
   @Column()
-  name: string;
+  name!: string;
 }

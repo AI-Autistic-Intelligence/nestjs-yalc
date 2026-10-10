@@ -26,9 +26,10 @@ export const CrudGenCombineDecorators = (params) => {
     const argDecorators = [];
     if (params.extraArgs) {
         for (const argName of Object.keys(params.extraArgs)) {
-            if (params.extraArgs[argName].hidden)
+            const extraArg = params.extraArgs[argName];
+            if (!extraArg || extraArg.hidden)
                 continue;
-            argDecorators.push(Args(argName, params.extraArgs[argName].options ?? {}));
+            argDecorators.push(Args(argName, extraArg.options ?? {}));
         }
     }
     let joinArg;
@@ -127,19 +128,22 @@ export function mapCrudGenParamsGql(params, ctx, select, args, options = {}) {
         }
         const forcedFilters = [];
         for (const argName of Object.keys(params.extraArgs)) {
-            if (params.extraArgs[argName].filterCondition === GeneralFilters.VIRTUAL) {
+            const extraArg = params.extraArgs[argName];
+            if (!extraArg)
+                continue;
+            if (extraArg.filterCondition === GeneralFilters.VIRTUAL) {
                 extraParameter[argName] = args[argName];
                 continue;
             }
             let value = args[argName];
-            const filterMiddleware = params.extraArgs[argName].filterMiddleware;
+            const filterMiddleware = extraArg.filterMiddleware;
             if (filterMiddleware) {
                 value = filterMiddleware(ctx, value);
             }
             forcedFilters.push({
                 key: argName,
                 value,
-                descriptors: params.extraArgs[argName],
+                descriptors: extraArg,
             });
         }
         findOptions.where = forceFilters(findOptions.where, forcedFilters, findOptions.extra?._fieldMapper);

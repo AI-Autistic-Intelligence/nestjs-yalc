@@ -24,12 +24,14 @@ describe('QueryBuilderHelper', () => {
   let queryBuilderMock: DeepMocked<SelectQueryBuilder<BaseEntity>>;
   beforeEach(() => {
     const mockedQueryRunner = createMock<QueryRunner>({
+      // @ts-ignore
       release: jest.fn(),
     });
     const mockedConnection = createMock<Connection>({
       driver: {
         isReplicated: false,
       },
+      // @ts-ignore
       createQueryRunner: jest.fn().mockReturnValue(mockedQueryRunner),
     });
     queryBuilderMock = createMock<SelectQueryBuilder<BaseEntity>>({
@@ -44,12 +46,14 @@ describe('QueryBuilderHelper', () => {
 
     const clonedQueryBuilder1: any = {
       groupBy: jest.fn(),
+      // @ts-ignore
       getMany: jest.fn().mockResolvedValueOnce(mockedData),
     };
     const clonedQueryBuilder2: any = {
       skip: jest.fn(),
       select: jest.fn(),
       orderBy: jest.fn(),
+      // @ts-ignore
       getRawOne: jest.fn().mockResolvedValueOnce({ count: mockedCount }),
       escape: (v) => v,
     };
@@ -74,12 +78,14 @@ describe('QueryBuilderHelper', () => {
     const groupBy = ['test'];
     const clonedQueryBuilder1: any = {
       groupBy: jest.fn(),
+      // @ts-ignore
       getMany: jest.fn().mockRejectedValueOnce(new Error('Error Values')),
     };
     const clonedQueryBuilder2: any = {
       skip: jest.fn(),
       select: jest.fn(),
       orderBy: jest.fn(),
+      // @ts-ignore
       getRawOne: jest.fn().mockResolvedValueOnce({ count: 0 }),
       escape: (v) => v,
     };
@@ -103,12 +109,14 @@ describe('QueryBuilderHelper', () => {
     const groupBy = ['test'];
     const clonedQueryBuilder1: any = {
       groupBy: jest.fn(),
+      // @ts-ignore
       getMany: jest.fn().mockResolvedValueOnce([]),
     };
     const clonedQueryBuilder2: any = {
       skip: jest.fn(),
       select: jest.fn(),
       orderBy: jest.fn(),
+      // @ts-ignore
       getRawOne: jest.fn().mockRejectedValueOnce(new Error('Error Count')),
       escape: (v) => v,
     };
@@ -155,6 +163,7 @@ describe('QueryBuilderHelper', () => {
 
   it('should return operation function result', async () => {
     const mockedQueryRunner = createMock<QueryRunner>({
+      // @ts-ignore
       release: jest.fn(),
     });
 
@@ -162,6 +171,7 @@ describe('QueryBuilderHelper', () => {
       driver: {
         isReplicated: false,
       },
+      // @ts-ignore
       createQueryRunner: jest.fn().mockReturnValue(mockedQueryRunner),
     });
 
@@ -181,6 +191,7 @@ describe('QueryBuilderHelper', () => {
 
   it('should release the query runner when one is used', async () => {
     const mockedQueryRunner = createMock<QueryRunner>({
+      // @ts-ignore
       release: jest.fn(),
     });
 
@@ -188,6 +199,7 @@ describe('QueryBuilderHelper', () => {
       driver: {
         isReplicated: true,
       },
+      // @ts-ignore
       createQueryRunner: jest.fn().mockReturnValue(mockedQueryRunner),
     });
 
@@ -350,10 +362,12 @@ describe('QueryBuilderHelper', () => {
 
   it('should return the correct expression for the ilike type when the connection is PostgresDriver', () => {
     const mockedQueryRunner = createMock<QueryRunner>({
+      // @ts-ignore
       release: jest.fn(),
     });
     const mockedConnection = createMock<Connection>({
       driver: { options: { type: 'postgres' } },
+      // @ts-ignore
       createQueryRunner: jest.fn().mockReturnValue(mockedQueryRunner),
     });
 
@@ -516,6 +530,7 @@ describe('QueryBuilderHelper', () => {
 
   it('should return the correct type for the args', () => {
     const today = new Date('01/01/1970');
+    // @ts-ignore
     Date.parse = jest.fn().mockImplementationOnce(() => NaN);
     const mockFindOperator = new FindOperator('lessThan', today);
     const expression = QueryBuilderHelper.computeFindOperatorExpression(
@@ -525,6 +540,7 @@ describe('QueryBuilderHelper', () => {
       today,
     );
     expect(expression).toEqual(`UserTag.tag < ${today}`);
+    // @ts-ignore
     Date.parse = jest.fn().mockClear();
   });
 

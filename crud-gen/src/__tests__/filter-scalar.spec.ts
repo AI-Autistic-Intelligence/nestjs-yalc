@@ -28,10 +28,12 @@ const fixedObj: FilterInput = {
   ],
 };
 const objectValueNode: ObjectValueNode = {
+  // @ts-ignore
   kind: 'ObjectValue',
   fields: [],
 };
 const stringValueNode: StringValueNode = {
+  // @ts-ignore
   kind: 'StringValue',
   value: '{"ID":{"filterType":"text","type":"contains","filter":"_"}}',
 };

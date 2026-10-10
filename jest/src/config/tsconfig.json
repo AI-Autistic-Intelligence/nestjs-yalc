@@ -4,6 +4,9 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "module": "CommonJS",
-  }
+    "module": "CommonJS"
+  },
+  "include": [
+    "**/*.ts"
+  ]
 }

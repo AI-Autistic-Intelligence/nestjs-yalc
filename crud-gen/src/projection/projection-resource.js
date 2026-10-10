@@ -491,7 +491,10 @@ export function setProjectionPathValue(payload, path, value) {
         }
         current = current[part];
     }
-    current[path[path.length - 1]] = value;
+    const lastPart = path[path.length - 1];
+    if (lastPart !== undefined) {
+        current[lastPart] = value;
+    }
     return clone;
 }
 //# sourceMappingURL=projection-resource.js.map

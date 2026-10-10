@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/graphql</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/graphql integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/graphql
+  <em>Core enterprise module for the @nest-yalc-2/graphql integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fgraphql.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fgraphql)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fgraphql.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/graphql
 pnpm add @nest-yalc-2/graphql
 ```
 
----
+<hr/>
 
 # 🔮 GraphQL Federation & Server Module (`@nest-yalc-2/graphql`)
 
 `@nest-yalc-2/graphql` provides dynamic GraphQL server configuration for NestJS 11+, supporting both **Apollo Server** and **Fastify Mercurius**, Apollo Federation v2 schema stitching, custom scalar registration, and field-level execution guardrails.
 
----
+<hr/>
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/graphql
 - **Automated Schema Generation**: Auto-generates GraphQL SDL schema files (`schema.gql`) directly from TypeScript decorators.
 - **Custom Scalars**: Out-of-the-box registration for `DateTime`, `JSON`, `UUID`, and `JSONObject` scalars.
 
----
+<hr/>
 
 ## 🔬 Internal Architecture & Execution Mechanics
 
@@ -49,7 +49,7 @@ flowchart TD
     DataLoader --> Resolver
 ```
 
----
+<hr/>
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/graphql` vs Default NestJS GraphQL
 
@@ -59,7 +59,7 @@ flowchart TD
 | **DataLoader Integration** | **Native Interceptor Integration** | Manual Loader Context Creation |
 | **Apollo Federation v2** | **Pre-Configured Subgraph Directives** | Manual Directive Registration |
 
----
+<hr/>
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -102,14 +102,14 @@ export class ProductResolver {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
 > [!CAUTION]
 > **Enabling GraphQL Playground in Production**: Never leave `playground: true` enabled in production environments. It exposes your GraphQL schema introspection to public attackers.
 
----
+<hr/>
 
 ## 💡 Best Practices
 
@@ -117,7 +117,7 @@ export class ProductResolver {
 > **Mercurius Driver for Fastify**: Use `driver: 'mercurius'` when running on Fastify for maximum GraphQL query parsing performance and native subscription support over WebSockets.
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

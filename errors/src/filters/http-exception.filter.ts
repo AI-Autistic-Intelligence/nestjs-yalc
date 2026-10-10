@@ -38,7 +38,7 @@ export class HttpExceptionFilter
     super(applicationRef);
   }
 
-  catch(
+  override catch(
     error: Error | HttpErrorType,
     host: common.ArgumentsHost,
     { sendResponse }: { sendResponse: boolean } = { sendResponse: true },
@@ -51,7 +51,7 @@ export class HttpExceptionFilter
         // Base logging for normal operation execution errors
         case error instanceof MissingArgumentsError:
           this.logger.log(error.message, {
-            stack: error.stack,
+            ...(error.stack !== undefined ? { stack: error.stack } : {}),
           });
           break;
 
@@ -72,11 +72,11 @@ export class HttpExceptionFilter
                 : error,
               entityError.originalError?.stack,
               {
-                stack: entityError.originalError?.stack,
+                ...(entityError.originalError?.stack !== undefined ? { stack: entityError.originalError.stack } : {}),
                 data: {
                   response: entityError.getResponse(),
                   name: entityError.name,
-                  cause: formatCause(entityError.cause),
+                  ...(formatCause(entityError.cause) !== undefined ? { cause: formatCause(entityError.cause) } : {}),
                 },
               },
             );
@@ -88,22 +88,23 @@ export class HttpExceptionFilter
             const httpError = error as common.HttpException;
             const logLevel = getLogLevelByStatus(httpError.getStatus());
 
+            const errorCause = formatCause(error.cause);
             if (logLevel === LogLevelEnum.ERROR) {
               (this.logger as any)[logLevel](error.message, error.stack, {
-                stack: httpError.stack,
+                ...(httpError.stack !== undefined ? { stack: httpError.stack } : {}),
                 data: {
                   response: httpError.getResponse(),
                   name: error.name,
-                  cause: formatCause(error.cause),
+                  ...(errorCause !== undefined ? { cause: errorCause } : {}),
                 },
               });
             } else {
               (this.logger as any)[logLevel](error.message, {
-                stack: error.stack,
+                ...(error.stack !== undefined ? { stack: error.stack } : {}),
                 data: {
                   response: httpError.getResponse(),
                   name: error.name,
-                  cause: formatCause(error.cause),
+                  ...(errorCause !== undefined ? { cause: errorCause } : {}),
                 },
               });
             }
@@ -117,9 +118,9 @@ export class HttpExceptionFilter
         // Log critically any other error, as those are not expected
         default:
           this.logger.error(error.message, error.stack, {
-            stack: error.stack,
+            ...(error.stack !== undefined ? { stack: error.stack } : {}),
             data: {
-              cause: formatCause(error.cause),
+              ...(formatCause(error.cause) !== undefined ? { cause: formatCause(error.cause) } : {}),
               name: error.name,
             },
           });

@@ -11,6 +11,7 @@ import {
 
 import { createMock } from '@golevelup/ts-jest';
 import { SortDirection } from '@nest-yalc-2/crud-gen/crud-gen.enum.js';
+// @ts-ignore
 import { CrudGenFindManyOptions } from '@nest-yalc-2/crud-gen/crud-gen.interface.js';
 import {
   FactoryProvider,
@@ -23,12 +24,14 @@ import {
   GQLDataLoader,
 } from '../dataloader.helper.js';
 
+// @ts-ignore
 import { GenericService } from '@nest-yalc-2/crud-gen/generic-service.service.js';
 import { type EventEmitter2 } from '@nestjs/event-emitter';
 
 describe('GQLDataLoader class', () => {
   class EntityTest {
     databaseKey: string;
+    // @ts-ignore
     anotherField: string;
 
     constructor(databaseKey: string) {
@@ -43,6 +46,7 @@ describe('GQLDataLoader class', () => {
 
   beforeEach(() => {
     dataLoader = new GQLDataLoader(
+      // @ts-ignore
       () => mockLoadFn(mockedFindManyOptions, false),
       'databaseKey',
       mockedEventEmitter,
@@ -57,6 +61,7 @@ describe('GQLDataLoader class', () => {
 
   it('should be defined with options', () => {
     const dl = new GQLDataLoader(
+      // @ts-ignore
       () => mockLoadFn(mockedFindManyOptions, false),
       'databaseKey',
       mockedEventEmitter,
@@ -88,15 +93,18 @@ describe('GQLDataLoader class', () => {
 
   it('should loadOne', async () => {
     const obj = new EntityTest('asset_1');
+    // @ts-ignore
     mockLoadFn.mockResolvedValue([[obj]]);
     await expect(dataLoader.loadOne('asset_1', {})).resolves.toBe(obj);
   });
 
   it('Should retrive data without emit events', async () => {
     const obj = new EntityTest('asset_1');
+    // @ts-ignore
     mockLoadFn.mockResolvedValue([[obj]]);
 
     const dataLoaderNoEvent = new GQLDataLoader(
+      // @ts-ignore
       () => mockLoadFn(mockedFindManyOptions, false),
       'databaseKey',
       undefined,
@@ -105,6 +113,7 @@ describe('GQLDataLoader class', () => {
   });
   it('should loadOne with the same dataloader', async () => {
     const obj = new EntityTest('asset_1');
+    // @ts-ignore
     mockLoadFn.mockResolvedValue([[obj]]);
 
     let findOptions = createMock<CrudGenFindManyOptions<EntityTest>>();
@@ -135,6 +144,7 @@ describe('GQLDataLoader class', () => {
     const res1 = await dataLoader.loadOne('asset_1', findOptions);
 
     const obj2 = new EntityTest('asset_1');
+    // @ts-ignore
     mockLoadFn.mockResolvedValue([[obj2]]);
 
     const res2 = await dataLoader.loadOne('asset_1', findOptions);
@@ -148,6 +158,7 @@ describe('GQLDataLoader class', () => {
     expect.hasAssertions();
     const loadOneToManySpy = jest
       .spyOn(dataLoader, 'loadOneToMany')
+      // @ts-ignore
       .mockResolvedValue(null);
 
     await expect(dataLoader.loadOne('asset_1', {}, true)).rejects.toThrow(
@@ -160,6 +171,7 @@ describe('GQLDataLoader class', () => {
     expect.hasAssertions();
     const loadOneToManySpy = jest
       .spyOn(dataLoader, 'loadOneToMany')
+      // @ts-ignore
       .mockResolvedValue(null);
 
     await expect(dataLoader.loadOne('asset_1', {}, false)).resolves.toBeNull();
@@ -171,7 +183,9 @@ describe('GQLDataLoader class', () => {
     const loadOneToManySpy = jest
       .spyOn(dataLoader, 'loadOneToMany')
       .mockResolvedValue([
+        // @ts-ignore
         new EntityTest('asset_1'),
+        // @ts-ignore
         new EntityTest('asset_2'),
       ]);
 
@@ -183,18 +197,21 @@ describe('GQLDataLoader class', () => {
 
   it('should be able to load keys with fields in a singular manner', async () => {
     const output = [[new EntityTest('asset_1'), new EntityTest('asset_2')], 2];
+    // @ts-ignore
     mockLoadFn.mockResolvedValue(output);
     await dataLoader.loadOneToMany('asset_1', {});
   });
 
   it('should return an empty list if no results are found', async () => {
     const output = [[]];
+    // @ts-ignore
     mockLoadFn.mockResolvedValue(output);
     await dataLoader.loadOneToMany('asset_1', {});
   });
 
   it('should return an empty list if key not passed', async () => {
     const output = [[new EntityTest('asset_1')]];
+    // @ts-ignore
     mockLoadFn.mockResolvedValue(output);
     const result = await dataLoader.loadOneToMany(undefined, {});
     expect(result.length).toBe(0);
@@ -202,12 +219,14 @@ describe('GQLDataLoader class', () => {
 
   it('should be able to load keys with fields in a singular manner when field is already present', async () => {
     const output = [[new EntityTest('asset_1'), new EntityTest('asset_1')]];
+    // @ts-ignore
     mockLoadFn.mockResolvedValue(output);
     await dataLoader.loadOneToMany('asset_1', {});
   });
 
   it('should be able to load key with input parameter SearchKeyType as an Array', async () => {
     const output = [[new EntityTest('asset_1'), new EntityTest('asset_1')]];
+    // @ts-ignore
     mockLoadFn.mockResolvedValue(output);
     await dataLoader.loadOneToMany(['databaseKey', 'asset_1'], {});
   });

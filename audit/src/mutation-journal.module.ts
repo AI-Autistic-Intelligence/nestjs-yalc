@@ -51,7 +51,7 @@ export class MutationJournalModule {
         provide: MUTATION_JOURNAL_OPTIONS,
         useFactory: async (...args: unknown[]) =>
           this.normalizeOptions(await options.useFactory(...args)),
-        inject: options.inject,
+        ...(options.inject !== undefined ? { inject: options.inject } : {}),
       },
       options.imports,
     );

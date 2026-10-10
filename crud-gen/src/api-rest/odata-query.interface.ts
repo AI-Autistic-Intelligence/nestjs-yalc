@@ -77,8 +77,8 @@ export function parseODataQueryParams(
       const [fieldRaw, dirRaw] = segment.split(/\s+/).filter(Boolean);
       const direction =
         dirRaw && dirRaw.toLowerCase() === 'desc' ? 'desc' : 'asc';
-      return { field: fieldRaw, direction };
-    });
+      return fieldRaw ? { field: fieldRaw, direction } : null;
+    }).filter((x): x is ODataOrderBy => x !== null);
     if (parsed.length) {
       params.orderBy = parsed;
     }

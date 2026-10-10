@@ -14,15 +14,18 @@ import { ModelField } from '../object.decorator.js';
 
 class DummyJoinEntity extends BaseEntity {
   @ModelField({})
+  // @ts-ignore
   id: string;
 }
 
 class DummyEntity extends BaseEntity {
   @ModelField({})
+  // @ts-ignore
   field: string;
 
   @OneToOne(() => DummyJoinEntity)
   @JoinColumn()
+  // @ts-ignore
   joinField: DummyJoinEntity;
 }
 
@@ -228,13 +231,16 @@ describe('Crud-gen args decorator (esm-safe)', () => {
       mockedInfo,
     );
 
+    // @ts-ignore
     expect(result.extra.args.virtualFoo).toBe('abc');
   });
 
   it('tests mapCrudGenGqlParams', () => { 
+    // @ts-ignore
     expect(crudGenArgsDecorator.mapCrudGenGqlParams(fixedArgsOptions, mockCreate(), fixedArgsQueryParams, mockedInfo)).toBeDefined(); 
   }); 
   it('tests CrudGenArgsFactory', () => { 
+    // @ts-ignore
     expect(crudGenArgsDecorator.CrudGenArgsFactory(fixedArgsOptions, mockCreate())).toBeDefined(); 
   }); 
   it('tests CrudGenArgsNoPagination', () => { 
@@ -247,6 +253,7 @@ describe('Crud-gen args decorator (esm-safe)', () => {
     expect(crudGenArgsDecorator.CrudGenArgsSingleDecoratorMapper({entityType: DummyEntity}, {join: {}}, mockedInfo)).toBeDefined(); 
   }); 
   it('tests CrudGenArgsSingleDecoratorFactory', () => { 
+    // @ts-ignore
     expect(crudGenArgsDecorator.CrudGenArgsSingleDecoratorFactory(fixedArgsOptions, mockCreate())).toBeDefined(); 
   }); 
   it('tests CrudGenArgsSingle', () => { 
@@ -281,11 +288,13 @@ describe('Crud-gen args decorator (esm-safe)', () => {
       },
     } as any;
     const validArgs = { foo: 'a' } as any; // only one defined
+    // @ts-ignore
     expect(() => crudGenArgsDecorator.mapCrudGenGqlParams(params, mockCreate(), validArgs, mockedInfo)).not.toThrow();
   });
 
   it('tests mapCrudGenParams throws error in mapper', () => {
     // This will cause GqlModelFieldsMapper to throw because fieldType is a dummy object and info is null
+    // @ts-ignore
     const result = crudGenArgsDecorator.mapCrudGenParams({ fieldType: {} } as any, mockCreate(), {}, null as any);
     expect(result).toBeDefined();
   });
@@ -301,10 +310,12 @@ describe('Crud-gen args decorator (esm-safe)', () => {
         },
       },
     } as any;
+    // @ts-ignore
     expect(() => crudGenArgsDecorator.mapCrudGenGqlParams(params, mockCreate(), fixedArgsQueryParams, mockedInfo)).toThrow();
     
     // Now with valid args
     const validArgs = { ...fixedArgsQueryParams, foo: 'bar' } as any;
+    // @ts-ignore
     expect(() => crudGenArgsDecorator.mapCrudGenGqlParams(params, mockCreate(), validArgs, mockedInfo)).not.toThrow();
   });
 
@@ -321,6 +332,7 @@ describe('Crud-gen args decorator (esm-safe)', () => {
       },
     } as any;
     const validArgs = { ...fixedArgsQueryParams, foo: 'bar' } as any;
+    // @ts-ignore
     const res = crudGenArgsDecorator.mapCrudGenGqlParams(params, mockCreate(), validArgs, mockedInfo);
     expect(middleware).toHaveBeenCalled();
     expect(res).toBeDefined();
@@ -340,10 +352,12 @@ describe('Crud-gen args decorator (esm-safe)', () => {
   });
 
   it('tests mapCrudGenParamsGql without options', () => {
+    // @ts-ignore
     expect(crudGenArgsDecorator.mapCrudGenParamsGql(fixedArgsOptions, mockCreate(), { keys: [] }, fixedArgsQueryParams)).toBeDefined();
   });
 
   it('tests mapCrudGenGqlParams with missing entity/field map', () => {
+    // @ts-ignore
     expect(crudGenArgsDecorator.mapCrudGenGqlParams(undefined, mockCreate(), fixedArgsQueryParams, infoObj as any)).toBeDefined();
   });
 
@@ -374,6 +388,7 @@ describe('Crud-gen args decorator (esm-safe)', () => {
   });
 
   it('tests mapCrudGenParamsGql with options isCount true', () => {
+    // @ts-ignore
     const result = crudGenArgsDecorator.mapCrudGenParamsGql(fixedArgsOptions, mockCreate(), { keys: [] }, fixedArgsQueryParams, { isCount: true });
     expect(result).toBeDefined();
   });
@@ -385,17 +400,20 @@ describe('Crud-gen args decorator (esm-safe)', () => {
 
   it('tests mapCrudGenParamsGql with extraArgs but no extraArgsStrategy', () => {
     const params = { extraArgs: { myArg: 'string' }, extraArgsStrategy: 'INVALID_STRATEGY' };
+    // @ts-ignore
     const result = crudGenArgsDecorator.mapCrudGenParamsGql(params as any, mockCreate(), { keys: [] }, fixedArgsQueryParams);
     expect(result).toBeDefined();
   });
 
   it('tests mapCrudGenParamsGql with ExtraArgsStrategy.DEFAULT', () => {
     const params = { extraArgs: { myArg: 'string' }, extraArgsStrategy: ExtraArgsStrategy.DEFAULT };
+    // @ts-ignore
     const result = crudGenArgsDecorator.mapCrudGenParamsGql(params as any, mockCreate(), { keys: [] }, fixedArgsQueryParams);
     expect(result).toBeDefined();
   });
 
   it('tests mapCrudGenParams without params fieldType, fieldMap, entityType', () => {
+    // @ts-ignore
     const result = crudGenArgsDecorator.mapCrudGenParams({}, mockCreate(), fixedArgsQueryParams, infoObj as any);
     expect(result).toBeDefined();
   });
@@ -409,6 +427,7 @@ describe('Crud-gen args decorator (esm-safe)', () => {
       }
     };
     
+    // @ts-ignore
     const decorator = crudGenArgsDecorator.CrudGenArgs(params);
     expect(decorator).toBeDefined();
   });

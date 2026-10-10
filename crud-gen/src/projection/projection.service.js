@@ -292,7 +292,10 @@ export class ProjectionResourceService {
             (!Number.isSafeInteger(take) || Number(take) < 1)) {
             this.invalid('Projection take must be a positive safe integer.');
         }
-        return { skip, take };
+        return {
+            ...(skip !== undefined ? { skip } : {}),
+            ...(take !== undefined ? { take } : {}),
+        };
     }
     projectionField(name, purpose) {
         try {

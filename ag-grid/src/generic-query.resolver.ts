@@ -110,7 +110,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
         );
 
       ResolveField(returnValue(AgGridGqlType<Entity>(relType)), {
-        nullable: resolverInfo.agField?.gqlOptions?.nullable,
+        ...(resolverInfo.agField?.gqlOptions?.nullable !== undefined ? { nullable: resolverInfo.agField.gqlOptions.nullable } : {}),
       })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
       UseInterceptors(new AgGridInterceptor())(
         resolver.prototype,
@@ -166,8 +166,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
                 this.contextId,
               );
 
-            /* istanbul ignore next */
-            const joinCol =
+                        const joinCol =
               resolverInfo.join?.referencedColumnName ??
               dataLoader.getSearchKey();
 
@@ -193,7 +192,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
         );
 
       ResolveField(returnValue(relType), {
-        nullable: resolverInfo.agField?.gqlOptions?.nullable,
+        ...(resolverInfo.agField?.gqlOptions?.nullable !== undefined ? { nullable: resolverInfo.agField.gqlOptions.nullable } : {}),
       })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
 
       Parent()(resolver.prototype, resolverInfo.relation.propertyName, 0);
@@ -356,13 +355,12 @@ export function defineGetGridResource<Entity extends Record<string, any>>(
     AgGridArgs({
       fieldType,
       entityType,
-      extraArgs: methodOptions.extraArgs,
-      extraArgsStrategy: methodOptions.extraArgsStrategy,
+      ...(methodOptions.extraArgs !== undefined ? { extraArgs: methodOptions.extraArgs } : {}),
+      ...(methodOptions.extraArgsStrategy !== undefined ? { extraArgsStrategy: methodOptions.extraArgsStrategy } : {}),
       // type: returnValue(agQueryParamsFactory(methodOptions.defaultValue)),
     })(resolver.prototype, queryName, 0);
 
-    /* istanbul ignore next */
-    if (methodOptions.extraArgs) {
+        if (methodOptions.extraArgs) {
       Object.values(methodOptions.extraArgs).map((a) => {
         if (!a.hidden) extraArgTypes.push(filterTypeToNativeType(a.filterType));
       });

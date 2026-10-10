@@ -166,7 +166,9 @@ export function createWhere(filtersObject, fieldMapper, alias, where = { filters
             });
         });
     }
-    where.operator = filtersObject.operator;
+    if (filtersObject.operator !== undefined) {
+        where.operator = filtersObject.operator;
+    }
     const childExpressions = where.childExpressions ?? [];
     for (const expr of filtersObjectCleared) {
         const key = expr.field;
@@ -246,7 +248,7 @@ export function mapCrudGenParam(params, select, args, options = {}) {
         extra: {
             skipCount,
             _fieldMapper: fieldMapper,
-            _keysMeta: select.keysMeta,
+            ...(select.keysMeta !== undefined ? { _keysMeta: select.keysMeta } : {}),
         },
     };
     if (params?.entityType && args.join) {

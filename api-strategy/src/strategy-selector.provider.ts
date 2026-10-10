@@ -69,11 +69,11 @@ export function StrategySelectorProvider<TStrategy>(
       );
 
       if (selectedStrategyIndex >= 0) {
-        return strategyInstances[selectedStrategyIndex];
+        return strategyInstances[selectedStrategyIndex] as TStrategy;
       }
 
       if (behavior === 'fallback') {
-        return strategyInstances[defaultStrategyIndex];
+        return strategyInstances[defaultStrategyIndex] as TStrategy;
       }
 
       const availableStrategies = strategyEntries

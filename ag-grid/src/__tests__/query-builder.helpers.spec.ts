@@ -33,6 +33,7 @@ describe('QueryBuilderHelper', () => {
     }, Object);
 
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
+      // @ts-ignore
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],
     });
@@ -47,6 +48,7 @@ describe('QueryBuilderHelper', () => {
 
     Reflect.deleteMetadata(ObjectDecorator.AGGRID_FIELD_METADATA_KEY, Object);
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
+      // @ts-ignore
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],
     });
@@ -76,6 +78,7 @@ describe('QueryBuilderHelper', () => {
     }, Object);
 
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
+      // @ts-ignore
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],
     });
@@ -88,6 +91,7 @@ describe('QueryBuilderHelper', () => {
 
     Reflect.deleteMetadata(ObjectDecorator.AGGRID_FIELD_METADATA_KEY, Object);
     jest.spyOn(testQb, 'getRawAndEntities').mockResolvedValueOnce({
+      // @ts-ignore
       entities: [{ first: 'defined', second: 'undefined', third: undefined }],
       raw: [{ first: 'defined', second: 'undefined', third: undefined }],
     });

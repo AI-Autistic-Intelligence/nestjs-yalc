@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/event-manager</h1>
-  <p><em>This package offers different tools to manage centralized events</em></p>
+
+  @nest-yalc-2/event-manager
+  <em>This package offers different tools to manage centralized events</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fevent-manager.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fevent-manager)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fevent-manager.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/event-manager
 pnpm add @nest-yalc-2/event-manager
 ```
 
----
+<hr/>
 
 # In-Memory & Distributed Event Manager
 
 The `@nestjs-yalc/event-manager` package provides a unified event bus for NestJS microservices. It bridges local, process-level event emitters (built on Node.js `EventEmitter2`) with external distributed messaging brokers (such as Apache Kafka and RabbitMQ), providing transactional event delivery, wildcard topic subscriptions, and type-safe payload dispatches.
 
----
+<hr/>
 
 ## 1. What It Is & Architectural Purpose
 
@@ -45,7 +45,7 @@ Decoupled domain architectures rely on domain events (e.g., `UserCreatedEvent`, 
 └─────────────────────────────────┘  └──────────────────────────────────┘
 ```
 
----
+<hr/>
 
 ## 2. What It Does & Key Capabilities
 
@@ -54,7 +54,7 @@ Decoupled domain architectures rely on domain events (e.g., `UserCreatedEvent`, 
 - **Transactional Event Outbox**: Integrates with TypeORM database transactions to ensure events are only dispatched if the DB commit succeeds.
 - **Type-Safe Payload Schemas**: Validates event payload DTOs at runtime before emitting to event consumers.
 
----
+<hr/>
 
 ## 3. How It Works Under the Hood
 
@@ -81,7 +81,7 @@ sequenceDiagram
     Manager-->>App: Event Emission Acknowledged
 ```
 
----
+<hr/>
 
 ## 4. Why It Was Designed This Way
 
@@ -91,7 +91,7 @@ sequenceDiagram
 | **Reliability** | Unhandled listener errors crash thread or drop silent. | Outbox pattern prevents lost events on process crashes. |
 | **Ordering** | Simple async array iterations. | Strict partition key hashing for guaranteed FIFO event streams. |
 
----
+<hr/>
 
 ## 5. Practical Usage Guide & Extended Code Examples
 
@@ -152,7 +152,7 @@ export class NotificationService {
 }
 ```
 
----
+<hr/>
 
 ## 6. Anti-Patterns: How NOT to Use It
 
@@ -160,7 +160,7 @@ export class NotificationService {
 > **Anti-Pattern 1: Heavy Blocking Code in Synchronous Event Listeners**
 > Executing CPU-intensive tasks or synchronous DB calls inside non-async `@OnEvent()` handlers blocks the emitting service's request cycle. Always specify `{ async: true }`.
 
----
+<hr/>
 
 ## 7. Pro-Tips & Best Practices
 
@@ -169,7 +169,7 @@ export class NotificationService {
 > Standardize event names using domain dot-notation (`domain.entity.action`, e.g., `billing.invoice.paid`) to allow wildcard wildcard sub-group matching.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -180,7 +180,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Kafka Integration](https://ferrox-rust.dev/docs/nestjs-yalc/integrations/kafka)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -124,41 +124,41 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,41 +176,41 @@ export interface TelemetryEventStrategyOptions {
   transport?: string;
 }
 &nbsp;
-export class TelemetryEventStrategy&lt;P = any, R = any, O = any&gt;
+export class <span class="cstat-no" title="statement not covered" >TelemetryEventStrategy&lt;P = any, R = any, O = any&gt;</span>
   implements IEventStrategy&lt;P, R, O&gt;, OnModuleDestroy
 {
-  constructor(
-    private readonly strategy: IEventStrategy&lt;P, R, O&gt;,
-    private readonly telemetry: TelemetryService,
-    private readonly options: TelemetryEventStrategyOptions,
+<span class="fstat-no" title="function not covered" >  constructor(</span>
+    private readonly <span class="cstat-no" title="statement not covered" >strategy: IEventStrategy&lt;P, R, O&gt;,</span>
+    private readonly <span class="cstat-no" title="statement not covered" >telemetry: TelemetryService,</span>
+    private readonly <span class="cstat-no" title="statement not covered" >options: TelemetryEventStrategyOptions,</span>
   ) {}
 &nbsp;
-  emit(path: string, payload: P, options?: O): R {
-    return this.telemetry.measure(
+<span class="fstat-no" title="function not covered" >  emit(p</span>ath: string, payload: P, options?: O): R {
+<span class="cstat-no" title="statement not covered" >    return this.telemetry.measure(</span>
       `event-strategy.${this.options.name}.emit`,
-      () =&gt; this.strategy.emit(path, payload, options),
+<span class="fstat-no" title="function not covered" >      () =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.emit(path, payload, options),</span>
       this.attributes('emit', path),
     ) as R;
   }
 &nbsp;
-  emitAsync(path: string, payload: P, options?: O): Promise&lt;R&gt; {
-    return this.telemetry.measure(
+<span class="fstat-no" title="function not covered" >  emitAsync(p</span>ath: string, payload: P, options?: O): Promise&lt;R&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.telemetry.measure(</span>
       `event-strategy.${this.options.name}.emitAsync`,
-      () =&gt; this.strategy.emitAsync(path, payload, options),
+<span class="fstat-no" title="function not covered" >      () =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.strategy.emitAsync(path, payload, options),</span>
       this.attributes('emitAsync', path),
     ) as Promise&lt;R&gt;;
   }
 &nbsp;
-  async onModuleDestroy() {
-    const destroyable = this.strategy as Partial&lt;OnModuleDestroy&gt;;
+<span class="fstat-no" title="function not covered" >  async o</span>nModuleDestroy() {
+    const destroyable = <span class="cstat-no" title="statement not covered" >this.strategy </span>as Partial&lt;OnModuleDestroy&gt;;
 &nbsp;
-    if (typeof destroyable.onModuleDestroy === 'function') {
-      await destroyable.onModuleDestroy();
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof destroyable.onModuleDestroy === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >      await destroyable.onModuleDestroy();</span>
     }
   }
 &nbsp;
-  private attributes(operation: string, path: string) {
-    return {
+  private <span class="fstat-no" title="function not covered" >attributes(o</span>peration: string, path: string) {
+<span class="cstat-no" title="statement not covered" >    return {</span>
       'yalc.strategy.kind': 'event',
       'yalc.strategy.name': this.options.name,
       'yalc.strategy.transport': this.options.transport,
@@ -226,7 +226,7 @@ export class TelemetryEventStrategy&lt;P = any, R = any, O = any&gt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

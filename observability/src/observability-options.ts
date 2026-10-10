@@ -64,18 +64,22 @@ export function normalizeObservabilityOptions(
 export function createObservabilityOptionsFromEnv(
   serviceName: string,
 ): ObservabilityOptions {
+  const listenTo = splitCsv(process.env.YALC_OBSERVABILITY_EVENT_LISTEN_TO);
+  const ignore = splitCsv(process.env.YALC_OBSERVABILITY_EVENT_IGNORE);
+  const mask = splitCsv(process.env.YALC_OBSERVABILITY_PAYLOAD_MASK);
+
   return {
     enabled: process.env.YALC_OBSERVABILITY_ENABLED === 'true',
     serviceName: process.env.YALC_OTEL_SERVICE_NAME?.trim() || serviceName,
-    otlpEndpoint: process.env.YALC_OTEL_ENDPOINT?.trim(),
+    ...(process.env.YALC_OTEL_ENDPOINT?.trim() !== undefined ? { otlpEndpoint: process.env.YALC_OTEL_ENDPOINT?.trim() } : {}),
     eventManager: {
       enabled: process.env.YALC_OBSERVABILITY_EVENT_MANAGER_ENABLED !== 'false',
-      listenTo: splitCsv(process.env.YALC_OBSERVABILITY_EVENT_LISTEN_TO),
-      ignore: splitCsv(process.env.YALC_OBSERVABILITY_EVENT_IGNORE),
+      ...(listenTo !== undefined ? { listenTo } : {}),
+      ...(ignore !== undefined ? { ignore } : {}),
     },
     payload: {
       include: process.env.YALC_OBSERVABILITY_INCLUDE_EVENT_PAYLOAD === 'true',
-      mask: splitCsv(process.env.YALC_OBSERVABILITY_PAYLOAD_MASK),
+      ...(mask !== undefined ? { mask } : {}),
     },
     failureMode:
       process.env.YALC_OBSERVABILITY_FAILURE_MODE === 'throw'

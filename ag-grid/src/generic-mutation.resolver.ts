@@ -40,9 +40,9 @@ export function defineCreateMutation<Entity extends Record<string, any>>(
       if (extraInputs)
         Object.keys(extraInputs).forEach((k) => {
           const extraInputObj = extraInputs[k];
+          if (!extraInputObj) return;
           if (isExtraInputStrict<Entity>(extraInputObj)) {
-            /* istanbul ignore next */
-            if (!extraInputsArgs) {
+                        if (!extraInputsArgs) {
               extraInputsArgs = {};
             }
 
@@ -80,8 +80,7 @@ export function defineCreateMutation<Entity extends Record<string, any>>(
   InputArgs({
     gql: {
       type:
-        /* istanbul ignore next */
-        () => options.input?.create ?? returnType,
+                () => options.input?.create ?? returnType,
     },
     fieldType: options.input?.create ?? returnType,
     _name: 'input',
@@ -103,12 +102,13 @@ export function defineCreateMutation<Entity extends Record<string, any>>(
   if (extraInputs) {
     Object.keys(extraInputs).forEach((k, i) => {
       const extraInputObj = extraInputs[k];
+      if (!extraInputObj) return;
 
       if (!extraInputObj.gqlOptions) return;
 
       InputArgs({
         gql: extraInputObj.gqlOptions,
-        fieldType: extraInputObj.gqlOptions.type,
+        ...(extraInputObj.gqlOptions.type !== undefined ? { fieldType: extraInputObj.gqlOptions.type } : {}),
         _name: k,
       })(resolver.prototype, queryName, 3 + i);
     });
@@ -161,8 +161,7 @@ export function defineUpdateMutation<Entity extends Record<string, any>>(
     fieldType: options.input?.conditions ?? returnType,
     gql: {
       type:
-        /* istanbul ignore next */
-        () => options.input?.conditions ?? returnType,
+                () => options.input?.conditions ?? returnType,
     },
     _name: 'conditions',
   })(resolver.prototype, queryName, 0);
@@ -171,8 +170,7 @@ export function defineUpdateMutation<Entity extends Record<string, any>>(
     fieldType: options.input?.update ?? returnType,
     gql: {
       type:
-        /* istanbul ignore next */
-        () => options.input?.update ?? returnType,
+                () => options.input?.update ?? returnType,
     },
     _name: 'input',
   })(resolver.prototype, queryName, 1);
@@ -231,8 +229,7 @@ export function defineDeleteMutation<Entity extends Record<string, any>>(
     fieldType: options.input?.conditions ?? returnType,
     gql: {
       type:
-        /* istanbul ignore next */
-        () => options.input?.conditions ?? returnType,
+                () => options.input?.conditions ?? returnType,
     },
     _name: 'conditions',
   })(resolver.prototype, queryName, 0);

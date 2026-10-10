@@ -15,7 +15,9 @@ export function isEntityError(error) {
 export class EntityError extends BadRequestException {
     constructor(message, error) {
         super(message);
-        this.stack = error?.stack;
+        if (error?.stack !== undefined) {
+            this.stack = error.stack;
+        }
         this.originalError = error;
     }
 }

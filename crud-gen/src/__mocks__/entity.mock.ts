@@ -12,13 +12,13 @@ import { ModelField, ModelObject } from '../object.decorator.js';
 @Entity()
 export class TestEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 }
 
 @ModelObject()
 export class TestEntityDto extends TestEntity {
   @ModelField({ gqlOptions: { name: 'entityId' } })
-  id: number;
+  override id!: number;
 }
 
 export class TestEntityRelation extends TestEntity {

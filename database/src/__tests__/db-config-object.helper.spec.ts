@@ -13,6 +13,7 @@ describe('buildDbConfigObject()', () => {
   });
 
   it('should return default config', () => {
+    // @ts-ignore
     const { name, database, entities, seeds, factories, migrations, cli } =
       buildDbConfigObject({
         dbName: 'DB_TEST_NAME',
@@ -33,6 +34,7 @@ describe('buildDbConfigObject()', () => {
   it('should return default config withouth migration dir', () => {
     const saveStatuts = env.getEnvValue('NODE_ENV');
     env.setEnv('NODE_ENV', 'production');
+    // @ts-ignore
     const { name, database, entities, seeds, factories, migrations, cli } =
       buildDbConfigObject({
         dbName: 'DB_TEST_NAME',
@@ -48,9 +50,11 @@ describe('buildDbConfigObject()', () => {
     expect(cli).toEqual({
       migrationsDir: undefined,
     });
+    // @ts-ignore
     env.setEnv('NODE_ENV', saveStatuts);
   });
   it('should set database config when optional values were provided', () => {
+    // @ts-ignore
     const { name, database, entities, seeds, factories, migrations, cli } =
       buildDbConfigObject({
         dbName: 'DB_TEST_NAME',
@@ -217,11 +221,14 @@ describe('getDefaultDbConnectionConfig for single or replicas db', () => {
       entities: [],
     })();
 
+    // @ts-ignore
     expect(result.replication.master.port).toBe(3306);
+    // @ts-ignore
     expect(result.replication.slaves[0].port).toBe(3306);
   });
 
   it("should not have a database key when dbName isn't provided", () => {
+    // @ts-ignore
     const result = buildDbConfigObject({
       dbName: undefined,
       connectionName: 'name',
@@ -236,17 +243,20 @@ describe('getDefaultDbConnectionConfig for single or replicas db', () => {
       MYSQL_TOTAL_REPLICATION_NODES: '1',
     });
 
+    // @ts-ignore
     const result = buildDbConfigObject({
       dbName: undefined,
       connectionName: 'name',
       entities: [],
     })();
 
+    // @ts-ignore
     expect(result.replication.slaves[0].database).toBe(undefined);
   });
 
   it("should throw an error when dbName and connectionName aren't provided", async () => {
     try {
+      // @ts-ignore
       buildDbConfigObject({
         dbName: undefined,
         entities: [],

@@ -15,7 +15,7 @@ export class ValidationExceptionFilter implements GqlExceptionFilter {
       (<CrudGenError>error).systemMessage,
       { response: { message: error.message } },
     );
-    newError.stack = error.stack; // we need the stack trace for dev
+    if (error.stack) newError.stack = error.stack; // we need the stack trace for dev
     this.logger.error(
       (<CrudGenError>error).systemMessage ?? newError.message,
       newError.stack,

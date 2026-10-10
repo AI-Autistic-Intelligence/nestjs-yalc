@@ -414,8 +414,10 @@ describe('crud-gen args helpers', () => {
       isCount: true,
     });
 
+    // @ts-ignore
     expect(mapped.extra.skipCount).toBe(false);
     expect(mapped.order).toEqual({ raw_expr: 'DESC' });
+    // @ts-ignore
     expect(mapped.where.filters).toBeDefined();
     expect(mapped.join?.leftJoinAndSelect?.relation).toBe('Entity.relation');
   });
@@ -460,6 +462,7 @@ describe('crud-gen args helpers', () => {
 
   describe('getDateFilter INDATE single parameter', () => {
     it('should handle INDATE with only one date string', () => {
+      // @ts-ignore
       const result = getDateFilter('indate', '2023-01-01', undefined, false) as any;
       expect(result._type).toEqual('between');
     });

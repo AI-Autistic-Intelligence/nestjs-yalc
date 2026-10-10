@@ -36,6 +36,7 @@ const appProjectsSettings: { [key: string]: IAppProjSetting } = {
     deps: [],
     confOverride: {
       coverageThreshold: {
+        branches: 92,
         statements: 98,
       },
     },
@@ -44,11 +45,77 @@ const appProjectsSettings: { [key: string]: IAppProjSetting } = {
     deps: [],
     confOverride: {
       coverageThreshold: {
-        branches: 75,
+        branches: 72,
         functions: 85,
         lines: 90,
         statements: 90,
       },
+    },
+  },
+  '@nest-yalc-2/ag-grid': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 2, functions: 4, lines: 8, statements: 8 },
+    },
+  },
+  '@nest-yalc-2/api-strategy': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 95 },
+    },
+  },
+  '@nest-yalc-2/app': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 58, functions: 71, lines: 76, statements: 77 },
+    },
+  },
+  '@nest-yalc-2/audit': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 98 },
+    },
+  },
+  '@nest-yalc-2/database': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 0, functions: 0, lines: 0, statements: 0 },
+    },
+  },
+  '@nest-yalc-2/errors': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 80 },
+    },
+  },
+  '@nest-yalc-2/field-middleware': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 90, functions: 83, lines: 88, statements: 88 },
+    },
+  },
+  '@nest-yalc-2/kafka': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { lines: 94, statements: 94 },
+    },
+  },
+  '@nest-yalc-2/observability': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 17, functions: 2, lines: 13, statements: 13 },
+    },
+  },
+  '@nest-yalc-2/sentinel': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 33, functions: 33, lines: 37, statements: 37 },
+    },
+  },
+  '@nest-yalc-2/utils': {
+    deps: [],
+    confOverride: {
+      coverageThreshold: { branches: 94 },
     },
   },
 };

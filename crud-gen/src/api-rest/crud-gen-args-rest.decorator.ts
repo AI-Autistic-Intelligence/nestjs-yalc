@@ -162,7 +162,8 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) => {
   const argDecorators: ParameterDecorator[] = [];
   if (params.extraArgs) {
     for (const argName of Object.keys(params.extraArgs)) {
-      if (params.extraArgs[argName].hidden) continue;
+      const extraArg = params.extraArgs[argName];
+      if (!extraArg || extraArg.hidden) continue;
 
       argDecorators.push(Query(argName));
     }
@@ -178,8 +179,7 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) => {
   //   if (JoinOptionInput) {
   //     joinArg = Query('join', {
   //       type:
-  //         /*istanbul ignore next */
-  //         () => JoinOptionInput,
+  //           //         () => JoinOptionInput,
   //       nullable: true,
   //     });
   //   }

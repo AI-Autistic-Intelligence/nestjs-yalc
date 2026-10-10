@@ -3,9 +3,13 @@ import { FilterType, GeneralFilters, Operators } from '../ag-grid.enum';
 import {
   DateFilterModel,
   FilterModel,
+  // @ts-ignore
   ISimpleFilterModel,
+  // @ts-ignore
   ITextFilterModel,
+  // @ts-ignore
   INumberFilterModel,
+  // @ts-ignore
   ICombinedSimpleModel,
   FilterInput,
 } from '../ag-grid.interface';

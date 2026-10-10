@@ -3,6 +3,7 @@ import { ExecutionContext, LoggerService } from '@nestjs/common';
 import { BaseAppService } from '../base-app.service.js';
 
 describe('BaseAppService', () => {
+  // @ts-ignore
   const logger: LoggerService = {
     debug: jest.fn(),
   };

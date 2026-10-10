@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/app</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/app integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/app
+  <em>Core enterprise module for the @nest-yalc-2/app integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fapp.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fapp)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fapp.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/app
 pnpm add @nest-yalc-2/app
 ```
 
----
+<hr/>
 
 # Application Lifecycle, Bootstrap & Module Composition
 
 The `@nestjs-yalc/app` module provides a standardized, enterprise-ready application bootstrapping kernel for NestJS microservices and monolithic servers. It abstracts boilerplate startup routines - such as graceful shutdown signal handlers, unified configuration loading, global interceptors/filters registration, health-check lifecycle hooks, and multi-tenant context injection.
 
----
+<hr/>
 
 ## 1. What It Is & Architectural Purpose
 
@@ -47,7 +47,7 @@ In enterprise NestJS architectures, microservices often duplicate complex bootst
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+<hr/>
 
 ## 2. What It Does & Key Capabilities
 
@@ -56,7 +56,7 @@ In enterprise NestJS architectures, microservices often duplicate complex bootst
 - **Global Context Middleware**: Injects correlation IDs (`x-correlation-id`) and request tracking tokens into AsyncLocalStorage across all incoming requests.
 - **Graceful Shutdown Engine**: Ensures active HTTP connections finish processing and message queues drain before the process exits.
 
----
+<hr/>
 
 ## 3. How It Works Under the Hood
 
@@ -85,7 +85,7 @@ sequenceDiagram
     Nest-->>Engine: Process Exit (Code 0)
 ```
 
----
+<hr/>
 
 ## 4. Why It Was Designed This Way
 
@@ -96,7 +96,7 @@ sequenceDiagram
 | **Configuration** | Hand-rolled `ConfigService` bindings scattered across modules. | Centralized configuration validation with dotenv and Vault support. |
 | **Error Hardening** | Unhandled promise rejections can crash worker processes silently. | Global uncaught exception bouncers with structured error logging. |
 
----
+<hr/>
 
 ## 5. Practical Usage Guide & Extended Code Examples
 
@@ -152,7 +152,7 @@ import { UserModule } from './user/user.module';
 export class AppModule {}
 ```
 
----
+<hr/>
 
 ## 6. Anti-Patterns: How NOT to Use It
 
@@ -172,7 +172,7 @@ const app = await YalcApplicationFactory.create(AppModule, options);
 > **Anti-Pattern 2: Blocking the Bootstrap Loop**
 > Performing heavy CPU-bound computations or synchronous HTTP calls inside `onModuleInit()` blocks the NestJS dependency graph initialization. Always use non-blocking asynchronous promises.
 
----
+<hr/>
 
 ## 7. Pro-Tips & Best Practices
 
@@ -185,7 +185,7 @@ const app = await YalcApplicationFactory.create(AppModule, options);
 > Pass `envFilePath` arrays to automatically overlay target environments (`.env.production`, `.env.staging`, `.env.local`) cleanly.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -200,7 +200,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [System Observability](https://ferrox-rust.dev/docs/nestjs-yalc/observability/observability)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

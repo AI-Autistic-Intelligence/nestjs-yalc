@@ -22,7 +22,7 @@ export class TelemetryCallStrategy implements IApiCallStrategy {
   }
 
   set baseUrl(value: string | undefined) {
-    (this.strategy as { baseUrl?: string }).baseUrl = value;
+    (this.strategy as { baseUrl?: string | undefined }).baseUrl = value;
   }
 
   call<TOptData, TParams extends Record<string, any>, TResData>(

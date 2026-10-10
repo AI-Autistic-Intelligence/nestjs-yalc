@@ -69,9 +69,12 @@ describe('LoggerServiceFactory', () => {
       logLevels: ['warn', 'log'],
     });
 
-    const loggerService = LoggerServiceFactory('TestProvide', 'TestContext', {
-      event: false,
-    });
+    const loggerService = LoggerServiceFactory(
+      'TestAlias',
+      'TestProvide',
+      'TestContext',
+      { event: false },
+    );
     const logger = loggerService.useFactory(configService);
     expect(logger).toBeDefined();
   });

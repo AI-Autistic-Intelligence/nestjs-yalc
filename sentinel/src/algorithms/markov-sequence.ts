@@ -19,8 +19,8 @@ export class MarkovBehaviorEngine {
    */
   public trainSequence(sequence: string[]): void {
     for (let i = 0; i < sequence.length - 1; i++) {
-      const current = sequence[i];
-      const next = sequence[i + 1];
+      const current = sequence[i]!;
+      const next = sequence[i + 1]!;
 
       if (!this.transitionCounts.has(current)) {
         this.transitionCounts.set(current, new Map());
@@ -42,8 +42,8 @@ export class MarkovBehaviorEngine {
 
     let prob = 1.0;
     for (let i = 0; i < sequence.length - 1; i++) {
-      const current = sequence[i];
-      const next = sequence[i + 1];
+      const current = sequence[i]!;
+      const next = sequence[i + 1]!;
 
       const total = this.stateTotals.get(current) || 0;
       const count = this.transitionCounts.get(current)?.get(next) || 0;

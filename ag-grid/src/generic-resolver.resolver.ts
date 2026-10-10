@@ -64,25 +64,17 @@ export function resolverFactory<
 
     contextId: ContextId;
 
-    /* istanbul ignore next */
-    constructor(
-      /* istanbul ignore next */
-      @Inject(
-        /* istanbul ignore next */
-        options.service?.serviceToken ?? getServiceToken(options.entityModel),
+        constructor(
+            @Inject(
+                options.service?.serviceToken ?? getServiceToken(options.entityModel),
       )
-      /* istanbul ignore next */
-      protected service: GenericService<Entity, EntityWrite>,
-      /* istanbul ignore next */
-      @Inject(
-        /* istanbul ignore next */
-        options.service?.dataLoaderToken ??
+            protected service: GenericService<Entity, EntityWrite>,
+            @Inject(
+                options.service?.dataLoaderToken ??
           getDataloaderToken(options.entityModel),
       )
-      /* istanbul ignore next */
-      protected dataLoader: GQLDataLoader<Entity>,
-      /* istanbul ignore next */
-      protected moduleRef: ModuleRef,
+            protected dataLoader: GQLDataLoader<Entity>,
+            protected moduleRef: ModuleRef,
     ) {
       this.contextId = ContextIdFactory.create();
       this.moduleRef;
@@ -103,7 +95,7 @@ export function resolverFactory<
   if (fieldMetadataList) {
     Object.keys(fieldMetadataList).forEach((propertyName) => {
       const field = fieldMetadataList[propertyName];
-      if (!field.relation) return;
+      if (!field || !field.relation) return;
 
       const objIndex = resolverInfoList.findIndex((obj) => {
         if (obj.join) {
@@ -116,6 +108,7 @@ export function resolverFactory<
       // if already exists override (dataloader options take priority)
       if (objIndex >= 0) {
         const relInfo = resolverInfoList[objIndex];
+        if (!relInfo) return;
 
         const target = field.relation.targetKey.alias;
 
@@ -136,9 +129,9 @@ export function resolverFactory<
             target: options.entityModel,
           },
           agField: {
-            ...relInfo.agField,
+            ...(relInfo.agField !== undefined ? relInfo.agField : {}),
             ...field,
-          },
+          } as any,
         };
       } else {
         const target = field.relation.targetKey.alias;
@@ -158,7 +151,7 @@ export function resolverFactory<
             target: options.entityModel,
             options: {},
           },
-          agField: field,
+          agField: field as any,
         };
         resolverInfoList.push(dataLoaderRelation);
       }
@@ -247,6 +240,7 @@ export function resolverFactory<
     for (const methodName of Object.keys(options.customQueries)) {
       const queryName = methodName;
       const queryOptions = options.customQueries[methodName];
+      if (!queryOptions) continue;
 
       if (isCustomSingleQueryOptions(queryOptions)) {
         defineGetSingleResource(

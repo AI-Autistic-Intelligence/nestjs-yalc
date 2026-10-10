@@ -36,7 +36,7 @@ describe('SimpleMapperInterceptor', () => {
       handle: () => of(rawTestObject),
     };
 
-    interceptor.intercept(executionContext, next).subscribe((result) => {
+    (interceptor.intercept(executionContext, next) as any).subscribe((result: any) => {
       expect(result).toBeInstanceOf(TestDto);
       expect(result).toMatchObject(rawTestObject);
       done();
@@ -70,7 +70,7 @@ describe('SimpleMapperInterceptor', () => {
         ] as { prop1: string; prop2: number }[]),
     };
 
-    interceptor.intercept(executionContext, next).subscribe((result) => {
+    (interceptor.intercept(executionContext, next) as any).subscribe((result: any) => {
       expect(transformer).toHaveBeenCalled();
       expect(callback).toHaveBeenCalled();
       expect(result.input).toHaveLength(2);

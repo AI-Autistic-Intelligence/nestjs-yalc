@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/database</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/database integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/database
+  <em>Core enterprise module for the @nest-yalc-2/database integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fdatabase.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fdatabase)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fdatabase.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/database
 pnpm add @nest-yalc-2/database
 ```
 
----
+<hr/>
 
 # 🗄️ Multi-Database & Transactional Repositories (`@nest-yalc-2/database`)
 
 `@nest-yalc-2/database` is the enterprise persistence infrastructure module for NestJS 11+. It provides dynamic multi-database connection management, transactional repository runners, automated database migrations, and entity seeding helpers powered by TypeORM and `@node-yalc`.
 
----
+<hr/>
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/database
 - **Automatic Migration Engine**: Discovers, validates, and runs database migration scripts on application startup.
 - **Database Seeding Helpers**: Integrates `@jorgebodega/typeorm-seeding` to populate test and staging environments with mock data generators.
 
----
+<hr/>
 
 ## 🔬 Internal Architecture & Execution Mechanics
 
@@ -56,7 +56,7 @@ flowchart TD
 2. **Transaction Isolation**: Starts a database transaction with configurable isolation levels (`READ COMMITTED`, `SERIALIZABLE`).
 3. **Automatic Rollback**: If any error or domain exception (`AppError`) is thrown inside the transaction callback, the runner issues a `ROLLBACK` command immediately and releases the connection back to the pool.
 
----
+<hr/>
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/database` vs Standard TypeORM
 
@@ -67,7 +67,7 @@ flowchart TD
 | **Error Handling in Transactions** | **Auto-Rollback on `@node-yalc/errors`** | Manual `try/catch/rollback` Boilerplate |
 | **Entity Seeding Integration** | **Native Seeder Factories** | External Custom Scripts |
 
----
+<hr/>
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -139,7 +139,7 @@ export class UserManagementService {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
@@ -151,7 +151,7 @@ export class UserManagementService {
 > **Anti-Pattern 2: Using `synchronize: true` in Staging / Production Environments**
 > Enabling TypeORM `synchronize: true` dynamically alters database schemas on application startup, which can inadvertently drop database columns or tables. Always set `synchronize: false` and use `@nest-yalc-2/database` migration scripts.
 
----
+<hr/>
 
 ## 💡 Best Practices & Performance Tuning
 
@@ -160,7 +160,7 @@ export class UserManagementService {
 > `Pool Size = (CPU Cores x 2) + Effective Spindle Count`
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -169,7 +169,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

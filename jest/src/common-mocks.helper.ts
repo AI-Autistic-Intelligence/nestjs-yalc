@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals';
 /// <reference types="jest" />
-/* istanbul ignore file */
 
 jest.mock('@fastify/cookie', () => {
   const plugin = (_fastify: any, _options: any, done: any) => done();

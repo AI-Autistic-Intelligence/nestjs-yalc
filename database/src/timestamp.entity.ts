@@ -14,13 +14,13 @@ export const EntityWithTimestamps = <T extends ClassType>(base: T) => {
      * DB insert time.
      */
     @Field()
-    public createdAt: Date;
+    public createdAt!: Date;
 
     /**
      * DB last update time.
      */
     @Field()
-    public updatedAt: Date;
+    public updatedAt!: Date;
   }
 
   return EntityWithTimestamps;

@@ -12,21 +12,26 @@ export class ReadEntity {
       transformer: JsonTransformer('data', 'sub.jsonProperty'),
     },
   })
+  // @ts-ignore
   jsonProperty: string;
 
   @AgGridField({})
+  // @ts-ignore
   noTransform: string;
 
   // should never happen
+  // @ts-ignore
   @AgGridField({ dst: undefined })
+  // @ts-ignore
   noDest: string;
 }
 
 export class WriteEntity {
+  // @ts-ignore
   data: string;
 }
 
 export class MockedEntity extends BaseEntity {}
 
-export const baseEntityRepository =
+export const baseEntityRepository: any =
   createMock<AgGridRepository<MockedEntity>>();

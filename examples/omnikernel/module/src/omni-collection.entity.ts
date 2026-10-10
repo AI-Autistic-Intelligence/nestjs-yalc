@@ -6,7 +6,7 @@ import { OmniCollectionKind } from './omni-collection-kind.enum.js';
 @ChildEntity(OmniCollectionKind.Collection)
 @ObjectType({ isAbstract: true })
 export class OmniCollectionEntity extends OmniRecordEntity {
-  kind: OmniCollectionKind = OmniCollectionKind.Collection;
+  override kind: OmniCollectionKind = OmniCollectionKind.Collection;
 
   @Column({
     type: 'varchar',

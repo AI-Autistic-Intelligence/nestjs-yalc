@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 
 import { factory, useSeeding } from 'typeorm-seeding';
 import { ConfigureOption } from 'typeorm-seeding/dist/connection';

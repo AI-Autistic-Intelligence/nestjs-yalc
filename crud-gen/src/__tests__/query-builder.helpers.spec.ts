@@ -21,6 +21,7 @@ const buildQueryBuilder = (raw: any[], entities: any[]) => {
   const qb: any = {
     alias: 'entity',
     connection: { driver: { escape } },
+    // @ts-ignore
     getRawAndEntities: jest.fn().mockResolvedValue({ raw, entities }),
   };
   Object.setPrototypeOf(qb, SelectQueryBuilder.prototype);

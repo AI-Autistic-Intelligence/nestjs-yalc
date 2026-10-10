@@ -104,6 +104,7 @@ describe('Dynamic user input dto test', () => {
       expect(CrudGenInput.JoinTypes).toBeDefined();
 
       jest.spyOn(CrudGenHelpers.crudGenHelpersMockable, 'getEntityRelations').mockReturnValue([{
+        // @ts-ignore
         relation: { type: () => MockTypeForJoin, propertyName: 'dummyRelation' }
       }]);
       if (CrudGenInput.crudGenParamsFactory) CrudGenInput.crudGenParamsFactory(NewEntityForJoin as any);

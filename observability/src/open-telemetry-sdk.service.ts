@@ -11,7 +11,7 @@ import type { NormalizedObservabilityOptions } from './observability-options.js'
 
 @Injectable()
 export class OpenTelemetrySdkService implements OnModuleDestroy {
-  private sdk?: NodeSDK;
+  private sdk?: NodeSDK | undefined;
 
   constructor(
     @Inject(OBSERVABILITY_OPTIONS)
@@ -61,8 +61,7 @@ export class OpenTelemetrySdkService implements OnModuleDestroy {
     this.execute(() => this.sdk?.start());
   }
 
-  /* istanbul ignore next */
-  private execute<T>(operation: () => T): T | undefined {
+    private execute<T>(operation: () => T): T | undefined {
     try {
       return operation();
     } catch (error) {

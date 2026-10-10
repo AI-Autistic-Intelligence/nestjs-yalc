@@ -18,10 +18,12 @@ describe('AgGridFactory Helper', () => {
   describe('getProviderToken', () => {
     it('Should return provide function name if entity is provider with function', () => {
       const func = function TestProvider() {};
+      // @ts-ignore
       expect(getProviderToken({ provide: func })).toBe('TestProvider');
     });
 
     it('Should return provide property if entity is provider with string', () => {
+      // @ts-ignore
       expect(getProviderToken({ provide: 'TestString' })).toBe('TestString');
     });
 
@@ -39,8 +41,11 @@ describe('AgGridFactory Helper', () => {
     it('Should return providers with all options enabled as defaults', () => {
       const result = AgGridDependencyFactory({
         entityModel: TestEntity,
+        // @ts-ignore
         service: true,
+        // @ts-ignore
         dataloader: true,
+        // @ts-ignore
         resolver: true,
       });
       expect(result.providers.length).toBeGreaterThan(0);
@@ -52,6 +57,7 @@ describe('AgGridFactory Helper', () => {
         entityModel: TestEntity,
         service: { provider: { provide: 'CustomService', useValue: {} } },
         dataloader: { provider: { provide: 'CustomLoader', useValue: {} } },
+        // @ts-ignore
         resolver: { provider: { provide: 'CustomResolver', useValue: {} } },
       });
       expect(result.providers).toContainEqual({ provide: 'CustomService', useValue: {} });
@@ -88,6 +94,7 @@ describe('AgGridFactory Helper', () => {
     it('Should handle service configured as an object but not a provider override', () => {
       const result = AgGridDependencyFactory({
         entityModel: TestEntity,
+        // @ts-ignore
         service: { entityModel: TestEntity, providerClass: class {} as any },
         resolver: false,
       });
@@ -97,6 +104,7 @@ describe('AgGridFactory Helper', () => {
     it('Should handle dataloader configured as an object but not a provider override', () => {
       const result = AgGridDependencyFactory({
         entityModel: TestEntity,
+        // @ts-ignore
         dataloader: { entityModel: TestEntity, databaseKey: 'test' },
         resolver: false,
       });

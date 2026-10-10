@@ -302,7 +302,9 @@ export function createWhere(
     });
   }
 
-  where.operator = filtersObject.operator;
+  if (filtersObject.operator !== undefined) {
+    where.operator = filtersObject.operator;
+  }
 
   // we skip the "filters" property of the first level and use the childExpressions
   // directly in order to be able processing conditions on same column name
@@ -403,7 +405,7 @@ export function mapCrudGenParam<Entity extends ObjectLiteral>(
       let colName = col.toString();
       if (fieldMapper[colName]?.mode === 'derived') {
         colName = formatRawSelectionWithoutAlias(
-          getDestinationFieldName(fieldMapper[colName].dst),
+          getDestinationFieldName(fieldMapper[colName]!.dst),
           // fieldMapper[col]._propertyName ?? fieldMapper[col].dst,
         );
       } else {
@@ -432,7 +434,7 @@ export function mapCrudGenParam<Entity extends ObjectLiteral>(
     extra: {
       skipCount,
       _fieldMapper: fieldMapper,
-      _keysMeta: select.keysMeta,
+      ...(select.keysMeta !== undefined ? { _keysMeta: select.keysMeta } : {}),
     },
   };
 

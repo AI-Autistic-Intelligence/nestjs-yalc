@@ -54,7 +54,7 @@ export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, o
                     logger.log?.('log', `Connecting DB ${connName} to host: ${conf?.host}`);
                     return {
                         ...conf,
-                        logger: conf?.logging ? logger : undefined,
+                        ...(conf?.logging ? { logger } : {}),
                         maxQueryExecutionTime: 1000,
                         keepConnectionAlive: keepDBConnectionAlive,
                     };
@@ -143,7 +143,7 @@ export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, o
                             settings: { 'request.credentials': 'include' },
                         }
                         : false),
-                    debug: conf?.isDev,
+                    ...(conf?.isDev !== undefined ? { debug: conf.isDev } : {}),
                     context: async ({ request, reply, ...rest }) => {
                         await eventEmitter.emitAsync(AppEvents.BEFORE_GQL_CONTEXT_MIDDLEWARE, request, reply);
                         return {

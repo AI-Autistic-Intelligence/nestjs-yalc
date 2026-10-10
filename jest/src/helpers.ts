@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 
 import * as path from 'path';
 

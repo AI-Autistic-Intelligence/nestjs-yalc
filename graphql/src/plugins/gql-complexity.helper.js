@@ -52,7 +52,8 @@ class GqlComplexityHelper {
         if (shouldSkipFieldName) {
             return;
         }
-        const foundVisitedNode = visitedNodes[fieldName] ?? visitedNodes[returnTypeMap[fieldName]];
+        const returnType = returnTypeMap[fieldName];
+        const foundVisitedNode = visitedNodes[fieldName] ?? (returnType !== undefined ? visitedNodes[returnType] : undefined);
         if (foundVisitedNode && foundVisitedNode.depth !== depth) {
             throw new gql_error_js_1.GqlError(gql_error_js_1.GqlErrorMsgs.CIRCULAR_DEPENDENCY_FOUND);
         }

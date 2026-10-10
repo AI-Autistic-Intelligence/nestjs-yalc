@@ -86,8 +86,7 @@ export abstract class BaseAppBootstrap<
     getBootstrappedApps().add(this);
   }
 
-  /* istanbul ignore next */
-  async initApp(options?: {
+    async initApp(options?: {
     createOptions?: INestCreateOptions;
     fastifyInstance?: FastifyInstance;
   }): Promise<this> {
@@ -119,10 +118,8 @@ export abstract class BaseAppBootstrap<
       try {
         initRes = await originalInitFn();
       } catch (error) {
-        /* istanbul ignore next */
-        this.closeCleanup();
-        /* istanbul ignore next */
-        throw error;
+                this.closeCleanup();
+                throw error;
       }
       return initRes;
     };
@@ -142,8 +139,7 @@ export abstract class BaseAppBootstrap<
     return this.isClosed;
   }
 
-  /* istanbul ignore next */
-  getAppAlias() {
+    getAppAlias() {
     return this.appAlias;
   }
 
@@ -153,10 +149,8 @@ export abstract class BaseAppBootstrap<
   }
 
   getApp() {
-    /* istanbul ignore next */
-    if (!this.app) {
-      /* istanbul ignore next */
-      throw new Error('This app is not initialized yet');
+        if (!this.app) {
+            throw new Error('This app is not initialized yet');
     }
 
     return this.app;
@@ -183,8 +177,7 @@ export abstract class BaseAppBootstrap<
    *
    * @returns The main module of the business logic (the one that is passed in the constructor)
    */
-  /* istanbul ignore next */
-  getAppModule() {
+    getAppModule() {
     return this.appModule;
   }
 

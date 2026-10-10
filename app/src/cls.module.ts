@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Module } from '@nestjs/common';
 import { FastifyRequest } from 'fastify/types/request.js';
 import { ClsModule, ClsService } from 'nestjs-cls';
@@ -29,7 +28,6 @@ export class YalcAlsService<
   TStorage extends IYalcAsyncLocalStorageAls = IYalcAsyncLocalStorageAls,
 > extends AsyncLocalStorage<TStorage> {}
 
-/* istanbul ignore next */
 @Module({
   imports: [
     ClsModule.forRoot({
@@ -40,20 +38,16 @@ export class YalcAlsService<
         mount: true,
         // and use the setup method to
         // provide default store values.
-        /* istanbul ignore next */
-        setup: (cls, req) => {
-          /* istanbul ignore next */
-          cls.set('headers', req.headers);
+                setup: (cls, req) => {
+                    cls.set('headers', req.headers);
         },
         /**
          * The generation of the id uses setIfUndefined internally
          * So it won't be overwritten if it's already set (e.g. http local strategy case)
          */
         generateId: true,
-        /* istanbul ignore next */
-        idGenerator: async (req: FastifyRequest) => {
-          /* istanbul ignore next */
-          return req.headers['X-Request-Id']?.toString() ?? randomUUID();
+                idGenerator: async (req: FastifyRequest) => {
+                    return req.headers['X-Request-Id']?.toString() ?? randomUUID();
         },
       },
     }),

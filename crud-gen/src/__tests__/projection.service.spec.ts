@@ -80,6 +80,7 @@ const uuidResource = defineProjectionResource({
   id: 'unit.projection.uuid-record.v1',
   tableName: 'unit_projection_uuid_record',
   fields: [
+    // @ts-ignore
     { ...resource.fields[0], codec: 'uuid' },
     ...resource.fields.slice(1),
     {
@@ -333,9 +334,12 @@ describe('ProjectionResourceService', () => {
     };
     const { repository, service } = testService({
       repository: {
+        // @ts-ignore
         findOne: jest
           .fn()
+          // @ts-ignore
           .mockResolvedValueOnce(record)
+          // @ts-ignore
           .mockResolvedValue(null),
       },
     });
@@ -380,6 +384,7 @@ describe('ProjectionResourceService', () => {
     const findMany = jest.fn(
       async () => [[record], 1] as [ProjectionRecord[], number],
     );
+    // @ts-ignore
     const { dialect, service } = testService({ dialect: { findMany } });
 
     const listed = await service.getEntityListExtended(
@@ -628,6 +633,7 @@ describe('ProjectionResourceService', () => {
 
     const stale = testService({
       dialect: { patch: jest.fn(async () => 0) },
+      // @ts-ignore
       repository: { findOne: jest.fn(async () => ({ guid: 'record-1' })) },
     });
     await expect(
@@ -640,6 +646,7 @@ describe('ProjectionResourceService', () => {
 
   it('hard-deletes only inside the trusted scope', async () => {
     const { repository, service } = testService({
+      // @ts-ignore
       repository: { delete: jest.fn(async () => ({ affected: 1 })) },
     });
 
@@ -651,6 +658,7 @@ describe('ProjectionResourceService', () => {
       guid: 'record-1',
     });
     const missing = testService({
+      // @ts-ignore
       repository: { delete: jest.fn(async () => ({ affected: 0 })) },
     });
     await expect(

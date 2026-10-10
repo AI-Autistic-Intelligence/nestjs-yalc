@@ -43,8 +43,7 @@ export function entityFieldsEnumFactory<Entity>(
   entityModel: ClassType<Entity> | AnyFunction,
 ): { [index: string]: string } {
   let cached;
-  /* istanbul ignore next */
-  const prototype = !isClass(entityModel) ? entityModel.prototype : entityModel;
+    const prototype = !isClass(entityModel) ? entityModel.prototype : entityModel;
   if ((cached = fieldsEnumCache.get(prototype))) return cached;
 
   const properties: { [x in string | number]: any } = {};

@@ -69,7 +69,7 @@ export function envFilePathList(dirname?: string) {
 
   envFilePath.push(`${_dirname}/.env`); // user-defined env (git-ignored)
 
-  /* istanbul ignore next */
+
   if (process.env.NODE_ENV) {
     envFilePath.push(`${_dirname}/.env.${process.env.NODE_ENV}`); // user-defined env (git-ignored)
   }
@@ -92,7 +92,7 @@ const _buildEnvFilePath = _.memoize(
 
       envFilePath.push(...envFilePathList(envDir));
     } else {
-      /* istanbul ignore next */
+    
       envFilePath.push(...(Array.isArray(envPath) ? envPath : [envPath]));
     }
 
@@ -123,7 +123,7 @@ export function yalcBaseAppModuleMetadataFactory(
   appAlias: string,
   options?: Omit<IYalcBaseAppOptions, 'module'>,
 ): IYalcBaseStaticModule {
-  /* istanbul ignore next */
+
   const _options = {
     // default values
     isSingleton: false,
@@ -160,7 +160,7 @@ export function yalcBaseAppModuleMetadataFactory(
 
   const logger = options?.logger;
   if (logger) {
-    /* istanbul ignore next */
+  
     _providers.push(
       (logger === true ? LoggerServiceFactory : logger)(
         appAlias,
@@ -190,7 +190,7 @@ export function yalcBaseAppModuleMetadataFactory(
     );
   }
 
-  /* istanbul ignore next */
+
   if (!_options.skipDuplicateAppCheck) {
     _providers.push(LifeCycleHandler);
   }
@@ -232,7 +232,7 @@ export function yalcBaseAppModuleMetadataFactory(
              */
             await ConfigModule.envVariablesLoaded;
 
-            /* istanbul ignore next */
+          
             return await (_options.configFactory?.() ?? {});
           }),
           ...(_options.extraConfigs ?? []),
@@ -373,7 +373,6 @@ function yalcGlobalStaticModuleFactory(): Partial<IYalcBaseStaticModule> {
 }
 @Global()
 @Module(yalcGlobalStaticModuleFactory())
-/* istanbul ignore next */
 export class YalcGlobalStaticModule {}
 
 /**

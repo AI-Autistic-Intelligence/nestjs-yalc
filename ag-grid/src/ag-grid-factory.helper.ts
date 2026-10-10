@@ -108,8 +108,7 @@ export function AgGridDependencyFactory<Entity extends ObjectLiteral>({
       providers.push(provider);
 
       // We always want a string alias for this provider
-      /* istanbul ignore next */
-      if (typeof provider.provide !== 'string') {
+            if (typeof provider.provide !== 'string') {
         providers.push({
           provide: serviceToken,
           useExisting: provider.provide,
@@ -136,11 +135,10 @@ export function AgGridDependencyFactory<Entity extends ObjectLiteral>({
     }
   }
 
-  /* istanbul ignore next */
-  if (resolver !== false) {
+    if (resolver !== false) {
     resolverOptions.service = {
-      serviceToken,
-      dataLoaderToken,
+      ...(serviceToken !== undefined ? { serviceToken } : {}),
+      ...(dataLoaderToken !== undefined ? { dataLoaderToken } : {}),
     };
 
     providers.push(

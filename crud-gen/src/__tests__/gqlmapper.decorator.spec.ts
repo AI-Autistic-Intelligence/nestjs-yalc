@@ -19,6 +19,7 @@ import * as gqlMapper from '../api-graphql/gqlmapper.decorator.js';
 @CrudGenObject()
 class DummyType {
   @ModelField({ gqlOptions: { name: 'betterName' } })
+  // @ts-ignore
   dummyProp: string;
 }
 
@@ -30,6 +31,7 @@ const fixedInfoObj = {
 describe('Graphql decorator test', () => {
   const mockCreate = jest.spyOn(graphql.GqlExecutionContext, 'create');
   mockCreate.mockImplementation(() => ({
+    // @ts-ignore
     getArgs: jest.fn().mockReturnValue(fixedInfoObj),
   }));
   it('Check GqlFieldsAsArgsWorker without changing', async () => {
@@ -93,6 +95,7 @@ describe('Graphql decorator test', () => {
   it('Check GqlArgsGenerator with Obj as arg', async () => {
     const fixedArg = { original: new Object() };
     mockCreate.mockImplementation(() => ({
+      // @ts-ignore
       getArgs: jest.fn().mockReturnValue(fixedArg),
     }));
     const testData = gqlMapper.GqlArgsGenerator(

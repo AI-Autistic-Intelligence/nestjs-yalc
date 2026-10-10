@@ -84,7 +84,8 @@ export const CrudGenCombineDecorators = (params) => {
     const argDecorators = [];
     if (params.extraArgs) {
         for (const argName of Object.keys(params.extraArgs)) {
-            if (params.extraArgs[argName].hidden)
+            const extraArg = params.extraArgs[argName];
+            if (!extraArg || extraArg.hidden)
                 continue;
             argDecorators.push(Query(argName));
         }

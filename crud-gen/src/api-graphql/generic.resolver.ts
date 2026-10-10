@@ -388,8 +388,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
                 { strict: false },
               );
 
-            /* istanbul ignore next */
-            const joinCol =
+                        const joinCol =
               resolverInfo.agField?.relation?.targetKey.alias ??
               resolverInfo.join?.referencedColumnName ??
               dataLoader.getSearchKey();
@@ -692,9 +691,7 @@ export function defineCreateMutation<Entity>(
 
   InputArgs({
     gql: {
-      type:
-        /* istanbul ignore next */
-        () => options.input?.create ?? returnType,
+      type: /* istanbul ignore next */ () => options.input?.create ?? returnType,
     },
     fieldType: options.input?.create ?? returnType,
     _name: 'input',
@@ -778,9 +775,7 @@ export function defineUpdateMutation<Entity>(
   InputArgs({
     fieldType: options.input?.conditions ?? returnType,
     gql: {
-      type:
-        /* istanbul ignore next */
-        () => options.input?.conditions ?? returnType,
+      type: /* istanbul ignore next */ () => options.input?.conditions ?? returnType,
     },
     _name: 'conditions',
   })(resolver.prototype, queryName, 0);
@@ -788,9 +783,7 @@ export function defineUpdateMutation<Entity>(
   InputArgs({
     fieldType: options.input?.update ?? returnType,
     gql: {
-      type:
-        /* istanbul ignore next */
-        () => options.input?.update ?? returnType,
+      type: /* istanbul ignore next */ () => options.input?.update ?? returnType,
     },
     _name: 'input',
   })(resolver.prototype, queryName, 1);
@@ -849,9 +842,7 @@ export function defineDeleteMutation<Entity>(
   InputArgs({
     fieldType: options.input?.conditions ?? returnType,
     gql: {
-      type:
-        /* istanbul ignore next */
-        () => options.input?.conditions ?? returnType,
+      type: /* istanbul ignore next */ () => options.input?.conditions ?? returnType,
     },
     _name: 'conditions',
   })(resolver.prototype, queryName, 0);

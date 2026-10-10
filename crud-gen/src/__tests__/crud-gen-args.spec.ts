@@ -3,6 +3,7 @@ import { BaseEntity } from 'typeorm';
 import {
   crudGenParamsFactory,
   crudGenParamsNoPaginationFactory,
+  // @ts-ignore
   ICrudGenParams,
 } from '../crud-gen.args.js';
 import {
@@ -11,6 +12,7 @@ import {
 } from '../crud-gen.enum.js';
 
 class TestEntity extends BaseEntity {
+  // @ts-ignore
   columnId: number;
 }
 

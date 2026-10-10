@@ -92,7 +92,7 @@ export const getFieldMapperSrcByDst = (
 ): string => {
   if (data) {
     for (const src of Object.keys(data)) {
-      if (data[src].dst === dst) return src;
+      if (data[src]?.dst === dst) return src;
     }
   }
 
@@ -301,6 +301,7 @@ export const objectToFieldMapper = (
     if (fieldMetadataList) {
       for (const propertyName of Object.keys(fieldMetadataList)) {
         const fieldMetadata = fieldMetadataList[propertyName];
+        if (!fieldMetadata) continue;
         const { src, dst, ...fieldMapperProperties } = fieldMetadata;
         if (src) {
           const newDst = dst ? getDestinationFieldName(dst) : src;
@@ -429,17 +430,15 @@ export function CrudGenDependencyFactory<Entity extends Record<string, any>>({
 }: ICrudGenDependencyFactoryOptions<Entity>): IDependencyObject<Entity> {
   const backend = CrudGenBackendFactory<Entity>({
     entityModel,
-    service,
-    dataloader,
-    repository,
+    ...(service !== undefined ? { service } : {}),
+    ...(dataloader !== undefined ? { dataloader } : {}),
+    ...(repository !== undefined ? { repository } : {}),
   });
   const graphql =
     resolver !== false
       ? CrudGenGraphqlFactory<Entity>({
           entityModel,
           resolver: resolver ?? {},
-          serviceToken: backend.serviceToken,
-          dataLoaderToken: backend.dataLoaderToken,
         })
       : { providers: [] };
 
@@ -503,12 +502,13 @@ export function CrudGenBackendFactory<Entity extends Record<string, any>>({
     }
   }
 
-  return {
+  const result: ICrudGenBackendFactoryResult<Entity> = {
     providers,
     repository: repository ?? CGExtendedRepositoryFactory<Entity>(entityModel),
-    serviceToken,
-    dataLoaderToken,
   };
+  if (serviceToken !== undefined) result.serviceToken = serviceToken;
+  if (dataLoaderToken !== undefined) result.dataLoaderToken = dataLoaderToken;
+  return result;
 }
 
 export function CrudGenGraphqlFactory<Entity extends Record<string, any>>({
@@ -530,9 +530,8 @@ export function CrudGenGraphqlFactory<Entity extends Record<string, any>>({
     entityModel,
     service: {
       ...resolverConfig.service,
-      serviceToken: resolverConfig.service?.serviceToken ?? serviceToken,
-      dataLoaderToken:
-        resolverConfig.service?.dataLoaderToken ?? dataLoaderToken,
+      ...((resolverConfig.service?.serviceToken ?? serviceToken) !== undefined ? { serviceToken: resolverConfig.service?.serviceToken ?? serviceToken } : {}),
+      ...((resolverConfig.service?.dataLoaderToken ?? dataLoaderToken) !== undefined ? { dataLoaderToken: resolverConfig.service?.dataLoaderToken ?? dataLoaderToken } : {}),
     },
   };
 
@@ -594,15 +593,19 @@ export const crudGenHelpersMockable = {
 
     const crudGenMetadata = getModelFieldMetadataList(dto ?? entityModel);
 
-    return relations.map((r: RelationMetadataArgs) => ({
-      relation: r,
-      join: joinColumns.find(
+    return relations.map((r: RelationMetadataArgs) => {
+      const agField = crudGenMetadata
+        ? Object.values(crudGenMetadata).find((v) => v?.dst === r.propertyName)
+        : { _propertyName: r.propertyName };
+      
+      const result: IRelationInfo = { relation: r } as IRelationInfo;
+      const join = joinColumns.find(
         (j: JoinColumnMetadataArgs) => j.propertyName === r.propertyName,
-      ),
-      agField: crudGenMetadata
-        ? Object.values(crudGenMetadata).find((v) => v.dst === r.propertyName)
-        : { _propertyName: r.propertyName },
-    }));
+      );
+      if (join !== undefined) result.join = join;
+      if (agField !== undefined) result.agField = agField as any;
+      return result;
+    });
   }
 };
 
@@ -626,6 +629,7 @@ export function getTypeProperties<Entity>(entityModel: ClassType<Entity>) {
   if (fieldMetadataList) {
     for (const propertyName of Object.keys(fieldMetadataList)) {
       const fieldMetadata = fieldMetadataList[propertyName];
+      if (!fieldMetadata) continue;
 
       if (fieldMetadata.mode !== 'derived') {
         // skip non virtual columns
@@ -680,7 +684,8 @@ export function applyJoinArguments(
   };
 
   Object.keys(join).forEach((table: string) => {
-    const j: JoinArgOptions = join[table];
+    const j = join[table];
+    if (!j) return;
     switch (j.joinType) {
       case JoinTypes.INNER_JOIN:
         _joinObject.innerJoinAndSelect[table] = `${_joinObject.alias}.${table}`;
@@ -691,7 +696,7 @@ export function applyJoinArguments(
         break;
     }
 
-    const type = fieldMapper[table].gqlType?.();
+    const type = fieldMapper[table]?.gqlType?.();
     const _fieldMapper: IModelFieldAndFilterMapper = type
       ? objectToFieldMapper(type)
       : { field: {} };
@@ -744,8 +749,7 @@ export function traverseFiltersAndApplyFunction<
 
 export function formatRawSelectionWithoutAlias(
   selection: string,
-  /* istanbul ignore next */
-  prefix = '',
+    prefix = '',
 ): string {
   let _prefix = '';
   if (prefix) {
@@ -760,8 +764,7 @@ export function formatRawSelectionWithoutAlias(
 export function formatRawSelection(
   selection: string,
   fieldName: string,
-  /* istanbul ignore next */
-  options: {
+    options: {
     prefix?: string;
     onlyAlias?: boolean;
     escapeCharacter?: string;
@@ -822,7 +825,7 @@ export function applySelectOnFind<T = any>(
     if (keysMeta[key]) return;
 
     keysMeta[key] = {
-      fieldMapper: fieldMapper[fieldName],
+      fieldMapper: fieldMapper[fieldName] as any,
       isNested: !!path,
       rawSelect: formatRawSelectionWithoutAlias(dst),
     };

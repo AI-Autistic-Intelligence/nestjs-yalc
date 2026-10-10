@@ -1,10 +1,10 @@
-<div align="center">
-  <h1>@nest-yalc-2/errors</h1>
-  <p><em>Core enterprise module for the @nest-yalc-2/errors integration within the Ferrox/YALC ecosystem.</em></p>
+
+  @nest-yalc-2/errors
+  <em>Core enterprise module for the @nest-yalc-2/errors integration within the Ferrox/YALC ecosystem.</em>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Ferrors.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Ferrors)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Ferrors.svg)](https://github.com/AI-Autistic-Intelligence)
-</div>
+
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/errors
 pnpm add @nest-yalc-2/errors
 ```
 
----
+<hr/>
 
 # ⚠️ Exception Filters & Error Mapping (`@nest-yalc-2/errors`)
 
 `@nest-yalc-2/errors` provides standardized NestJS 11+ Exception Filters mapping `@node-yalc/errors` to RFC 7807 Problem Details HTTP and GraphQL error responses.
 
----
+<hr/>
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/errors
 - **Production Stack Trace Masking**: Masks internal stack trace details in production while preserving correlation IDs.
 - **GraphQL Error Extension Mapping**: Formats Apollo and Mercurius GraphQL error extensions.
 
----
+<hr/>
 
 ## 🔬 Internal Architecture & Execution Mechanics
 
@@ -52,7 +52,7 @@ flowchart TD
     FullError --> RFCResponse
 ```
 
----
+<hr/>
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/errors` vs Standard NestJS Filters
 
@@ -62,7 +62,7 @@ flowchart TD
 | **Stack Trace Protection** | **Automated Production Masking** | Exposes Stack Traces if unhandled |
 | **Trace ID Injection** | **Automatically attaches `X-Request-Id`** | Manual Formatting Required |
 
----
+<hr/>
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -108,14 +108,14 @@ export class AccountService {
 }
 ```
 
----
+<hr/>
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
 > [!CAUTION]
 > **Catching Errors and Returning HTTP 200 OK**: Returning `200 OK` with `{ success: false, error: '...' }` inside response bodies breaks REST semantics, caches error responses in CDNs, and confuses API clients. Always throw typed exceptions mapped by `YalcExceptionFilter`.
 
----
+<hr/>
 
 ## 💡 Best Practices
 
@@ -123,7 +123,7 @@ export class AccountService {
 > **Client Request Correlation**: Include the returned `instance` trace ID when logging client-side errors to allow support engineers to locate the exact backend log line instantly.
 
 
----
+<hr/>
 
 ## 🔗 Cross-References
 
@@ -133,7 +133,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
 
 
----
+<hr/>
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

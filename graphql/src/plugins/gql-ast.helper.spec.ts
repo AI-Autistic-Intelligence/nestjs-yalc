@@ -6,28 +6,28 @@ describe('GraphQL AST helper functions', () => {
   it('should not process filter FieldNodes in a list of SelectionNode', () => {
     const noFieldNodes: SelectionNode[] = [
       {
-        kind: 'FragmentSpread',
-        name: { kind: 'Name', value: 'NON_FIELD_NODE' },
+        kind: 'FragmentSpread' as any,
+        name: { kind: 'Name' as any, value: 'NON_FIELD_NODE' },
       },
     ];
 
     const singleFieldNode: SelectionNode[] = [
       {
-        kind: 'FragmentSpread',
-        name: { kind: 'Name', value: 'NON_FIELD_NODE_1' },
+        kind: 'FragmentSpread' as any,
+        name: { kind: 'Name' as any, value: 'NON_FIELD_NODE_1' },
       },
       {
-        kind: 'Field',
-        name: { kind: 'Name', value: 'FIELD_NODE' },
+        kind: 'Field' as any,
+        name: { kind: 'Name' as any, value: 'FIELD_NODE' },
       },
       {
-        kind: 'InlineFragment',
+        kind: 'InlineFragment' as any,
         selectionSet: {
-          kind: 'SelectionSet',
+          kind: 'SelectionSet' as any,
           selections: [
             {
-              kind: 'Field',
-              name: { kind: 'Name', value: 'InlineFragment_FIELD_NODE' },
+              kind: 'Field' as any,
+              name: { kind: 'Name' as any, value: 'InlineFragment_FIELD_NODE' },
             },
           ],
         },
@@ -36,16 +36,16 @@ describe('GraphQL AST helper functions', () => {
 
     const allFieldNodeInput: SelectionNode[] = [
       {
-        kind: 'Field',
-        name: { kind: 'Name', value: 'FIELD_NODE' },
+        kind: 'Field' as any,
+        name: { kind: 'Name' as any, value: 'FIELD_NODE' },
       },
       {
-        kind: 'Field',
-        name: { kind: 'Name', value: 'FIELD_NODE' },
+        kind: 'Field' as any,
+        name: { kind: 'Name' as any, value: 'FIELD_NODE' },
       },
       {
-        kind: 'Field',
-        name: { kind: 'Name', value: 'FIELD_NODE' },
+        kind: 'Field' as any,
+        name: { kind: 'Name' as any, value: 'FIELD_NODE' },
       },
     ];
 

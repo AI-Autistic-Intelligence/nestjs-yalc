@@ -17,7 +17,7 @@ function objectMapperInterceptor(mapper, options = {}) {
                     return options.callback?.(data, result) ?? result;
                 }
                 const result = (0, object_mapper_helper_js_1.objectMapper)(_data, mapper, {
-                    copyNonMappedProperties: options.copyNonMappedProperties,
+                    ...(options.copyNonMappedProperties !== undefined ? { copyNonMappedProperties: options.copyNonMappedProperties } : {}),
                 });
                 return options.callback?.(data, result) ?? result;
             }));

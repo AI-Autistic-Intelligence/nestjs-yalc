@@ -1,5 +1,5 @@
-import { OpenTelemetrySdkService } from "../open-telemetry-sdk.service";
-import { normalizeObservabilityOptions } from "../observability-options";
+import { OpenTelemetrySdkService } from "../open-telemetry-sdk.service.js";
+import { normalizeObservabilityOptions } from "../observability-options.js";
 import { jest } from "@jest/globals";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 
@@ -55,7 +55,7 @@ describe("OpenTelemetrySdkService", () => {
       }
     };
 
-    expect(() => service.onApplicationBootstrap()).toThrow();
+    expect(() => (service as any).onApplicationBootstrap()).toThrow();
   });
 
   it("ignores error when failureMode is ignore", () => {

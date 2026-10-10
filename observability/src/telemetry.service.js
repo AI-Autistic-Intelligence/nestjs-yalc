@@ -42,9 +42,10 @@ let TelemetryService = class TelemetryService {
             activeSpan?.addEvent(eventName, attributes);
             if (payload?.errorInfo) {
                 activeSpan?.recordException(payload.errorInfo);
+                const message = getErrorMessage(payload.errorInfo);
                 activeSpan?.setStatus({
                     code: SpanStatusCode.ERROR,
-                    message: getErrorMessage(payload.errorInfo),
+                    ...(message !== undefined ? { message } : {}),
                 });
                 this.errorCounter.add(1, attributes);
             }

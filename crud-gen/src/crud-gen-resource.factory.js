@@ -50,19 +50,25 @@ function normalizeBackendOptions(entityModel, backend, graphql, rest) {
         return undefined;
     }
     const { dbConnection, databaseKey, dataloader, service, ...backendOptions } = options ?? {};
-    return {
+    const result = {
         ...backendOptions,
-        service: service ??
-            (needsDefaultService
-                ? { dbConnection: dbConnection ?? 'default' }
-                : undefined),
-        dataloader: dataloader ??
-            (needsDefaultDataloader
-                ? { databaseKey: databaseKey ?? inferPrimaryDatabaseKey(entityModel) }
-                : databaseKey
-                    ? { databaseKey }
-                    : undefined),
     };
+    if (service !== undefined) {
+        result.service = service;
+    }
+    else if (needsDefaultService) {
+        result.service = { dbConnection: dbConnection ?? 'default' };
+    }
+    if (dataloader !== undefined) {
+        result.dataloader = dataloader;
+    }
+    else if (needsDefaultDataloader) {
+        result.dataloader = { databaseKey: databaseKey ?? inferPrimaryDatabaseKey(entityModel) };
+    }
+    else if (databaseKey) {
+        result.dataloader = { databaseKey };
+    }
+    return result;
 }
 export function CrudGenResourceFactory({ entityModel, backend, graphql, rest, }) {
     const graphqlOptions = graphql === true ? { resolver: {} } : graphql;
@@ -74,36 +80,37 @@ export function CrudGenResourceFactory({ entityModel, backend, graphql, rest, })
         ? {
             providers: [],
             repository: undefined,
-            serviceToken: undefined,
-            dataLoaderToken: undefined,
         }
         : CrudGenBackendFactory({
             entityModel,
             ...backendOptions,
         });
+    const graphqlServiceToken = (graphqlOptions && typeof graphqlOptions === 'object' && graphqlOptions.serviceToken) ? graphqlOptions.serviceToken : ('serviceToken' in backendProviders ? backendProviders.serviceToken : undefined);
+    const graphqlDataLoaderToken = (graphqlOptions && typeof graphqlOptions === 'object' && graphqlOptions.dataLoaderToken) ? graphqlOptions.dataLoaderToken : ('dataLoaderToken' in backendProviders ? backendProviders.dataLoaderToken : undefined);
     const graphqlProviders = graphqlOptions === false || graphqlOptions === undefined
         ? { providers: [] }
         : CrudGenGraphqlFactory({
             entityModel,
             ...graphqlOptions,
-            serviceToken: graphqlOptions.serviceToken ?? backendProviders.serviceToken,
-            dataLoaderToken: graphqlOptions.dataLoaderToken ?? backendProviders.dataLoaderToken,
+            ...(graphqlServiceToken !== undefined ? { serviceToken: graphqlServiceToken } : {}),
+            ...(graphqlDataLoaderToken !== undefined ? { dataLoaderToken: graphqlDataLoaderToken } : {}),
         });
+    const restServiceToken = (restOptions && typeof restOptions === 'object' && restOptions.serviceToken) ? restOptions.serviceToken : ('serviceToken' in backendProviders ? backendProviders.serviceToken : undefined);
     const controllers = restOptions === false || restOptions === undefined
         ? []
         : [
             crudRestControllerFactory({
                 entityModel,
                 ...restOptions,
-                serviceToken: restOptions.serviceToken ?? backendProviders.serviceToken,
+                ...(restServiceToken !== undefined ? { serviceToken: restServiceToken } : {}),
             }),
         ];
     return {
         providers: [...backendProviders.providers, ...graphqlProviders.providers],
         controllers,
-        repository: backendProviders.repository,
-        serviceToken: backendProviders.serviceToken,
-        dataLoaderToken: backendProviders.dataLoaderToken,
+        ...('repository' in backendProviders && backendProviders.repository !== undefined ? { repository: backendProviders.repository } : {}),
+        ...('serviceToken' in backendProviders && backendProviders.serviceToken !== undefined ? { serviceToken: backendProviders.serviceToken } : {}),
+        ...('dataLoaderToken' in backendProviders && backendProviders.dataLoaderToken !== undefined ? { dataLoaderToken: backendProviders.dataLoaderToken } : {}),
     };
 }
 //# sourceMappingURL=crud-gen-resource.factory.js.map

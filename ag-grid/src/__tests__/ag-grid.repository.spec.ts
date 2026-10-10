@@ -109,14 +109,19 @@ describe('AgGrid Repoository', () => {
   let mockedQueryBuilder: DeepMocked<SelectQueryBuilder<BaseEntity>>;
 
   beforeEach(() => {
+    // @ts-ignore
     newAgGridRepository = new AgGridRepository();
 
     mockedQueryBuilder = mockQueryBuilder<BaseEntity>();
+    // @ts-ignore
     mockedQueryBuilder.getMany = jest.fn().mockReturnValue(getManyResult);
+    // @ts-ignore
     mockedQueryBuilder.getManyAndCount = jest
       .fn()
       .mockReturnValue([getManyResult, 1]);
+    // @ts-ignore
     mockedQueryBuilder.getCount = jest.fn().mockReturnValue(1);
+    // @ts-ignore
     mockedQueryBuilder.getQuery = jest
       .fn()
       .mockReturnValue('SELECT * FROM fakeTable');
@@ -245,6 +250,7 @@ describe('AgGrid Repoository', () => {
       ]);
 
     const testData = newAgGridRepository.getFormattedAgGridQueryBuilder(
+      // @ts-ignore
       { select: ['data -> $.test'] },
       {
         parent: { userId: { dst: 'guid' } },
@@ -268,6 +274,7 @@ describe('AgGrid Repoository', () => {
 
     it('Should work properly with join and derived mode in findOptions ', () => {
       const testData = newAgGridRepository.getFormattedAgGridQueryBuilder(
+        // @ts-ignore
         fakeFindOptionsExtended,
         {
           parent: { userId: { dst: 'guid' } },
@@ -279,9 +286,11 @@ describe('AgGrid Repoository', () => {
     it('Should work properly with undefined field in derived mode in findOptions', () => {
       const tempFindOptions = { ...fakeFindOptionsExtended };
 
+      // @ts-ignore
       tempFindOptions.extra._keysMeta.value.isNested = undefined;
 
       let testData = newAgGridRepository.getFormattedAgGridQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -290,9 +299,11 @@ describe('AgGrid Repoository', () => {
       );
       expect(testData).toEqual(mockedQueryBuilder);
 
+      // @ts-ignore
       tempFindOptions.extra._keysMeta.value = undefined;
 
       testData = newAgGridRepository.getFormattedAgGridQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -304,10 +315,13 @@ describe('AgGrid Repoository', () => {
 
     it('Should work properly with undefined in join field', () => {
       const tempFindOptions = { ...fakeFindOptionsExtended };
+      // @ts-ignore
       tempFindOptions.extra._fieldMapper.key.relation = undefined;
+      // @ts-ignore
       tempFindOptions.join.innerJoinAndSelect = undefined;
 
       const testData = newAgGridRepository.getFormattedAgGridQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -323,6 +337,7 @@ describe('AgGrid Repoository', () => {
       };
 
       const testData = newAgGridRepository.getFormattedAgGridQueryBuilder(
+        // @ts-ignore
         tempFindOptions,
         {
           parent: { userId: { dst: 'guid' } },
@@ -356,6 +371,7 @@ describe('AgGrid Repoository', () => {
 
     const alias = new Alias();
     alias.metadata = new EntityMetadata({} as any);
+    // @ts-ignore
     mockedQueryBuilder.expressionMap.mainAlias = alias;
 
     testData = newAgGridRepository.getAgGridQueryBuilder(
@@ -371,8 +387,11 @@ describe('AgGrid Repoository', () => {
     expect(testData).toEqual(mockedQueryBuilder);
 
     const newQueryBuilder = mockQueryBuilder();
+    // @ts-ignore
     newQueryBuilder.expressionMap.mainAlias = alias;
+    // @ts-ignore
     mockedQueryBuilder.expressionMap.mainAlias = null;
+    // @ts-ignore
     mockedQueryBuilder.connection.createQueryBuilder = jest
       .fn()
       .mockReturnValue(newQueryBuilder);
@@ -440,6 +459,7 @@ describe('AgGrid Repoository', () => {
 
   it('Should check generateFilterOnPrimaryColumn with ids as number', () => {
     const ids = 2;
+    // @ts-ignore
     newAgGridRepository.metadata = {
       primaryColumns: [
         {
@@ -457,6 +477,7 @@ describe('AgGrid Repoository', () => {
     const ids = {
       id: '2',
     };
+    // @ts-ignore
     newAgGridRepository.metadata = {
       primaryColumns: [
         {
@@ -472,6 +493,7 @@ describe('AgGrid Repoository', () => {
   it('Should check genereteSelectOnFind', () => {
     (AgGridHelpers.objectToFieldMapper as jest.Mock).mockReturnValue({ field: {} });
     
+    // @ts-ignore
     newAgGridRepository.generateSelectOnFind(['id'], BaseEntity);
   });
 

@@ -2,10 +2,23 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "strict": false,
+    "strictNullChecks": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": false
   },
   "include": ["**/src/**/*.ts"],
-  "exclude": ["**/node_modules", "**/*spec.ts", "**/.webpack"]
+  "exclude": [
+    "**/node_modules",
+    "var",
+    "var/**",
+    "dist",
+    "**/dist/**",
+    "apps",
+    "node-yalc",
+    "**/.webpack",
+    "examples/task",
+    "examples/skeleton",
+    "examples/omnikernel/app"
+  ]
 }

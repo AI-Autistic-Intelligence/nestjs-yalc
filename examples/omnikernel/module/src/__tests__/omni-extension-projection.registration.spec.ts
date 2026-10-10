@@ -73,6 +73,7 @@ class ExampleLinkApi {
 }
 
 const rawRecordResource = CrudGenResourceFactory<typeof OmniRecordEntity>({
+  // @ts-ignore
   entityModel: OmniRecordEntity,
   backend: false,
   graphql: {
@@ -89,6 +90,7 @@ const rawRecordResource = CrudGenResourceFactory<typeof OmniRecordEntity>({
   rest: {
     dto: OmniRecordType,
     path: 'raw-records',
+    // @ts-ignore
     idField: 'guid',
   },
 });
@@ -308,6 +310,7 @@ describe('Omni extension projection generated transport', () => {
           reservedRecordKinds: registration.reservedRecordKinds,
           relationKinds: relationRegistration.relationKinds,
         }),
+        // @ts-ignore
         TypeOrmModule.forFeature(registration.entities),
       ],
       controllers: [
@@ -785,6 +788,7 @@ describe.each(dialectCases)(
           OmniCollectionEntity,
           OmniRelationEntity,
           OmniExternalRefEntity,
+          // @ts-ignore
           ...registration.entities,
         ],
       });
@@ -827,10 +831,15 @@ describe.each(dialectCases)(
       ).toBeLessThan(shuffledPlan.tableNames.indexOf(definition.tableName));
 
       const firstSnapshot = plan.createTables();
+      // @ts-ignore
       firstSnapshot[0].name = "mutated-copy";
+      // @ts-ignore
       migrationSource.tables[0].name = "mutated-migration-source";
+      // @ts-ignore
       migrationSource.indexStatements[0] = "mutated-index-statement";
+      // @ts-ignore
       expect(plan.createTables()[0].name).not.toBe("mutated-copy");
+      // @ts-ignore
       expect(plan.createTables()[0].name).not.toBe(
         "mutated-migration-source",
       );

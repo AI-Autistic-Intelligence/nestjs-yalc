@@ -46,9 +46,11 @@ describe('AppConfigService tokens', () => {
     const configService = { get: jest.fn().mockReturnValue(config) };
 
     const instance = (provider as any).useFactory(
+      // @ts-ignore
       configService as ConfigService,
     ) as AppConfigService;
 
+    // @ts-ignore
     expect(provider.inject).toEqual([ConfigService]);
     expect(instance.values).toBe(config);
   });

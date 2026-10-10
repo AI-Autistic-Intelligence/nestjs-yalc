@@ -12,12 +12,14 @@ import { AgGridField, AgGridObject } from '../object.decorator';
 @Entity()
 export class TestEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
+  // @ts-ignore
   id: number;
 }
 
 @AgGridObject()
 export class TestEntityDto extends TestEntity {
   @AgGridField({ gqlOptions: { name: 'entityId' } })
+  // @ts-ignore
   id: number;
 }
 
@@ -44,5 +46,6 @@ export class TestEntityRelation extends TestEntity {
     name: 'TestEntityRelation',
     referencedColumnName: 'TestEntityRelation',
   })
+  // @ts-ignore
   TestEntityRelation2: TestEntityRelation2;
 }

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -98,28 +98,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,12 +133,12 @@ import { map } from 'rxjs/operators';
 import { FieldMapper } from '@node-yalc/interfaces/maps.interface.js';
 import { GqlExecutionContext } from '@nestjs/graphql';
 &nbsp;
-export function agGridInterceptorWorker&lt;T&gt;(startRow: number, endRow: number) {
-  return ([page, count]: [T, number]): {
+export function <span class="fstat-no" title="function not covered" >agGridInterceptorWorker&lt;T&gt;(s</span>tartRow: number, endRow: number) {
+<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >([</span>page, count]: [T, number]): {</span>
     nodes: T;
     pageData: { count: number; startRow: number; endRow: number };
   } =&gt; {
-    return {
+<span class="cstat-no" title="statement not covered" >    return {</span>
       nodes: page,
       pageData: { count, startRow: startRow ?? 0, endRow: endRow ?? count },
     };
@@ -146,10 +146,10 @@ export function agGridInterceptorWorker&lt;T&gt;(startRow: number, endRow: numbe
 }
 @Injectable()
 export class AgGridInterceptor&lt;T = FieldMapper&gt; implements NestInterceptor&lt;T&gt; {
-  intercept(context: ExecutionContext, next: CallHandler) {
-    const gqlCtx = GqlExecutionContext.create(context);
-    const { startRow, endRow } = gqlCtx.getArgs();
-    return next.handle().pipe(map(agGridInterceptorWorker(startRow, endRow)));
+<span class="fstat-no" title="function not covered" >  intercept(c</span>ontext: ExecutionContext, next: CallHandler) {
+    const gqlCtx = <span class="cstat-no" title="statement not covered" >GqlExecutionContext.create(context);</span>
+    const { startRow, endRow } = <span class="cstat-no" title="statement not covered" >gqlCtx.getArgs();</span>
+<span class="cstat-no" title="statement not covered" >    return next.handle().pipe(map(agGridInterceptorWorker(startRow, endRow)));</span>
   }
 }
 &nbsp;
@@ -160,7 +160,7 @@ export class AgGridInterceptor&lt;T = FieldMapper&gt; implements NestInterceptor
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

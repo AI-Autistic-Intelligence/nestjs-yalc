@@ -3,18 +3,21 @@ import { BaseEntity } from 'typeorm';
 import {
   agQueryParamsFactory,
   agQueryParamsNoPaginationFactory,
+  // @ts-ignore
   IAgQueryParams,
   typeMap
 } from '../ag-grid.args';
 import { RowDefaultValues, SortDirection } from '../ag-grid.enum';
 
 class TestEntity extends BaseEntity {
+  // @ts-ignore
   columnId: number;
 }
 
 describe('Ag-grid args', () => {
   it('Should generate agQuery params', async () => {
     const agGridArgs = agQueryParamsFactory({
+      // @ts-ignore
       sorting: [{ colId: 'somecol', sort: SortDirection.ASC }],
       filters: {},
     });
@@ -53,6 +56,7 @@ describe('Ag-grid args', () => {
   it('Should generate agQuery params without pagination', async () => {
     const agGridArgs = agQueryParamsNoPaginationFactory(
       {
+        // @ts-ignore
         sorting: [{ colId: 'somecol', sort: SortDirection.ASC }],
         filters: {},
       },

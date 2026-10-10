@@ -189,7 +189,9 @@ function createWhere(filtersObject, fieldMapper, alias, where = { filters: {} })
             });
         });
     }
-    where.operator = filtersObject.operator;
+    if (filtersObject.operator) {
+        where.operator = filtersObject.operator;
+    }
     const childExpressions = where.childExpressions ?? [];
     for (const expr of filtersObjectCleared) {
         const key = expr.field;
@@ -272,7 +274,7 @@ function mapAgGridParams(params, ctx, args, info) {
     const take = args.endRow && checkMaxRow(args.endRow - skip);
     const skipCount = !(0, ag_grid_query_helper_1.isAskingForCount)(ctx.getInfo());
     const extraParameter = {};
-    if (params?.extraArgs) {
+    if (params && params.extraArgs) {
         const extraArgsKeys = Object.keys(params.extraArgs);
         switch (params.extraArgsStrategy) {
             case ag_grid_enum_1.ExtraArgsStrategy.AT_LEAST_ONE:
@@ -289,30 +291,33 @@ function mapAgGridParams(params, ctx, args, info) {
         }
         const forcedFilters = [];
         for (const argName of Object.keys(params.extraArgs)) {
-            if (params.extraArgs[argName].filterCondition === ag_grid_enum_1.GeneralFilters.VIRTUAL) {
+            const extraArg = params.extraArgs[argName];
+            if (!extraArg)
+                continue;
+            if (extraArg.filterCondition === ag_grid_enum_1.GeneralFilters.VIRTUAL) {
                 extraParameter[argName] = args[argName];
                 continue;
             }
             let value = args[argName];
-            const filterMiddleware = params.extraArgs[argName].filterMiddleware;
+            const filterMiddleware = extraArg.filterMiddleware;
             if (filterMiddleware) {
                 value = filterMiddleware(ctx, value);
             }
             forcedFilters.push({
                 key: argName,
                 value: value,
-                descriptors: params.extraArgs[argName],
+                descriptors: extraArg,
             });
         }
         where = (0, ag_grid_query_helper_1.forceFilters)(where, forcedFilters, fieldMapper);
     }
     const findManyOptions = {
         skip,
-        take,
+        ...(take !== undefined ? { take } : {}),
         order,
         select: keys,
         where,
-        info,
+        ...(info !== undefined ? { info } : {}),
         extra: {
             skipCount,
             args: extraParameter,
@@ -336,9 +341,10 @@ const AgGridCombineDecorators = (params) => {
     const argDecorators = [];
     if (params.extraArgs) {
         for (const argName of Object.keys(params.extraArgs)) {
-            if (params.extraArgs[argName].hidden)
+            const extraArg = params.extraArgs[argName];
+            if (!extraArg || extraArg.hidden)
                 continue;
-            argDecorators.push((0, graphql_1.Args)(argName, params.extraArgs[argName].options ?? {}));
+            argDecorators.push((0, graphql_1.Args)(argName, extraArg.options ?? {}));
         }
     }
     let joinArg;

@@ -13,7 +13,7 @@ import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 import { UnwrapResultInterceptor } from './unwrap-result.interceptor.js';
 export class AppBootstrap extends BaseAppBootstrap {
     constructor(appAlias, module, options) {
-        super(appAlias, module, { globalsOptions: options });
+        super(appAlias, module, options !== undefined ? { globalsOptions: options } : {});
         this.isSwaggerEnabled = false;
         this.swaggerPath = 'api';
     }
@@ -28,12 +28,12 @@ export class AppBootstrap extends BaseAppBootstrap {
     }
     async initApp(options) {
         await this.createApp({
-            fastifyInstance: this.fastifyInstance,
-            createOptions: options?.createOptions,
+            ...(this.fastifyInstance !== undefined ? { fastifyInstance: this.fastifyInstance } : {}),
+            ...(options?.createOptions !== undefined ? { createOptions: options.createOptions } : {}),
         });
         return this.initSetup({
-            fastifyInstance: this.fastifyInstance,
-            createOptions: options?.createOptions,
+            ...(this.fastifyInstance !== undefined ? { fastifyInstance: this.fastifyInstance } : {}),
+            ...(options?.createOptions !== undefined ? { createOptions: options.createOptions } : {}),
         });
     }
     async initSetup(options) {

@@ -2,6 +2,7 @@ import { jest } from '@jest/globals';
 import * as $ from '../api-graphql/crud-gen-gql.type.js';
 
 class Test {
+  // @ts-ignore
   testField: string;
 }
 

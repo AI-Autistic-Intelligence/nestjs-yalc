@@ -164,6 +164,7 @@ describe.each(dialectCases)(
         definition,
         dialect,
       );
+      // @ts-ignore
       dataSource = new DataSource({
         type: name,
         ...(name === "sqlite"
@@ -420,6 +421,7 @@ describe.each(dialectCases)(
         sourceRecordId: firstGuid,
         targetRecordId: secondGuid,
         kind: "other_link",
+        // @ts-ignore
         status: "active",
         payloadSchemaId: "other.link.v1",
         payloadSchemaVersion: 1,
@@ -432,6 +434,7 @@ describe.each(dialectCases)(
         sourceRecordId: secondGuid,
         targetRecordId: firstGuid,
         kind: "links",
+        // @ts-ignore
         status: "active",
         payloadSchemaId: "other.link.v1",
         payloadSchemaVersion: 1,
@@ -463,6 +466,7 @@ describe.each(dialectCases)(
       await expect(
         relations.updateEntity(
           { guid: relationGuid, kind: "links" } as never,
+          // @ts-ignore
           { payload: { no: true }, expectedRevision: 1 },
         ),
       ).rejects.toThrow("server-owned");

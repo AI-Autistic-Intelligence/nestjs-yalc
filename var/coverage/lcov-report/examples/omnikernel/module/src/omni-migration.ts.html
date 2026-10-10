@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.21% </span>
+                <span class="strong">53.65% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>33/47</span>
+                <span class='fraction'>66/123</span>
             </div>
         
             
@@ -505,13 +505,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16320x</span>
+<span class="cline-any cline-yes">7962x</span>
 <span class="cline-any cline-yes">1113x</span>
-<span class="cline-any cline-yes">16308x</span>
+<span class="cline-any cline-yes">7950x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1113x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16320x</span>
+<span class="cline-any cline-yes">7962x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -887,76 +887,76 @@ function dialectFor(dataSource: DataSource): 'sqlite' | 'postgres' {
 &nbsp;
 function tableOptions(table: Table): TableOptions {
   return {
-    database: table.database,
-    schema: table.schema,
+    ...(table.database !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ database: table.database } : {</span>}),
+    ...(table.schema !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ schema: table.schema } : {</span>}),
     name: table.name,
-    withoutRowid: table.withoutRowid,
-    engine: table.engine,
-    comment: table.comment,
+    ...(table.withoutRowid !== undefined ? { withoutRowid: table.withoutRowid } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
+    ...(table.engine !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ engine: table.engine } : {</span>}),
+    ...(table.comment !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ comment: table.comment } : {</span>}),
     columns: table.columns.map((column) =&gt; ({
       name: column.name,
       type: column.type,
       default: column.default,
-      onUpdate: column.onUpdate,
+      ...(column.onUpdate !== undefined ? { onUpdate: column.onUpdate } : {}),
       isNullable: column.isNullable,
       isGenerated: column.isGenerated,
-      generationStrategy: column.generationStrategy,
+      ...(column.generationStrategy !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ generationStrategy: column.generationStrategy } : {</span>}),
       isPrimary: column.isPrimary,
       isUnique: column.isUnique,
       isArray: column.isArray,
-      comment: column.comment,
-      length: column.length,
-      width: column.width,
-      charset: column.charset,
-      collation: column.collation,
-      precision: column.precision,
-      scale: column.scale,
-      zerofill: column.zerofill,
-      unsigned: column.unsigned,
-      enum: column.enum ? [...column.enum] : undefined,
-      enumName: column.enumName,
-      primaryKeyConstraintName: column.primaryKeyConstraintName,
-      asExpression: column.asExpression,
-      generatedType: column.generatedType,
-      generatedIdentity: column.generatedIdentity,
-      spatialFeatureType: column.spatialFeatureType,
-      srid: column.srid,
+      ...(column.comment !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ comment: column.comment } : {</span>}),
+      ...(column.length !== undefined ? { length: column.length } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
+      ...(column.width !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ width: column.width } : {</span>}),
+      ...(column.charset !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ charset: column.charset } : {</span>}),
+      ...(column.collation !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ collation: column.collation } : {</span>}),
+      ...(column.precision !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ precision: column.precision } : {</span>}),
+      ...(column.scale !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ scale: column.scale } : {</span>}),
+      ...(column.zerofill !== undefined ? { zerofill: column.zerofill } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
+      ...(column.unsigned !== undefined ? { unsigned: column.unsigned } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
+      ...(column.enum !== undefined ? { enum: [...column.enum] } : {}),
+      ...(column.enumName !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ enumName: column.enumName } : {</span>}),
+      ...(column.primaryKeyConstraintName !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ primaryKeyConstraintName: column.primaryKeyConstraintName } : {</span>}),
+      ...(column.asExpression !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ asExpression: column.asExpression } : {</span>}),
+      ...(column.generatedType !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ generatedType: column.generatedType } : {</span>}),
+      ...(column.generatedIdentity !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ generatedIdentity: column.generatedIdentity } : {</span>}),
+      ...(column.spatialFeatureType !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ spatialFeatureType: column.spatialFeatureType } : {</span>}),
+      ...(column.srid !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ srid: column.srid } : {</span>}),
     })),
     indices: table.indices.map((index) =&gt; ({
-      name: index.name,
+      ...(index.name !== undefined ? { name: index.name } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
       columnNames: [...index.columnNames],
       isUnique: index.isUnique,
       isSpatial: index.isSpatial,
       isConcurrent: index.isConcurrent,
       isFulltext: index.isFulltext,
       isNullFiltered: index.isNullFiltered,
-      parser: index.parser,
-      where: index.where,
+      ...(index.parser !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ parser: index.parser } : {</span>}),
+      ...(index.where !== undefined ? { where: index.where } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
     })),
     foreignKeys: table.foreignKeys.map((foreignKey) =&gt; ({
-      name: foreignKey.name,
+      ...(foreignKey.name !== undefined ? { name: foreignKey.name } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
       columnNames: [...foreignKey.columnNames],
-      referencedDatabase: foreignKey.referencedDatabase,
-      referencedSchema: foreignKey.referencedSchema,
+      ...(foreignKey.referencedDatabase !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ referencedDatabase: foreignKey.referencedDatabase } : {</span>}),
+      ...(foreignKey.referencedSchema !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ referencedSchema: foreignKey.referencedSchema } : {</span>}),
       referencedTableName: foreignKey.referencedTableName,
       referencedColumnNames: [...foreignKey.referencedColumnNames],
-      onDelete: foreignKey.onDelete,
-      onUpdate: foreignKey.onUpdate,
-      deferrable: foreignKey.deferrable,
+      ...(foreignKey.onDelete !== undefined ? { onDelete: foreignKey.onDelete } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
+      ...(foreignKey.onUpdate !== undefined ? { onUpdate: foreignKey.onUpdate } : <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>,
+      ...(foreignKey.deferrable !== undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >{ deferrable: foreignKey.deferrable } : {</span>}),
     })),
     uniques: table.uniques.map(<span class="fstat-no" title="function not covered" >(u</span>nique) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
-      name: unique.name,
+      ...(unique.name !== undefined ? { name: unique.name } : {}),
       columnNames: [...unique.columnNames],
-      deferrable: unique.deferrable,
+      ...(unique.deferrable !== undefined ? { deferrable: unique.deferrable } : {}),
     })),
     checks: table.checks.map(<span class="fstat-no" title="function not covered" >(c</span>heck) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
-      name: check.name,
-      columnNames: check.columnNames ? [...check.columnNames] : undefined,
-      expression: check.expression,
+      ...(check.name !== undefined ? { name: check.name } : {}),
+      ...(check.columnNames !== undefined ? { columnNames: [...check.columnNames] } : {}),
+      ...(check.expression !== undefined ? { expression: check.expression } : {}),
     })),
     exclusions: table.exclusions.map(<span class="fstat-no" title="function not covered" >(e</span>xclusion) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
-      name: exclusion.name,
-      expression: exclusion.expression,
+      ...(exclusion.name !== undefined ? { name: exclusion.name } : {}),
+      ...(exclusion.expression !== undefined ? { expression: exclusion.expression } : {}),
     })),
   };
 }
@@ -1165,7 +1165,7 @@ export function createOmniMigrationPlan(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T22:39:06.849Z
+                at 2026-10-10T06:55:39.015Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

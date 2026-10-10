@@ -34,8 +34,8 @@ export function parseODataQueryParams(query) {
         const parsed = segments.map((segment) => {
             const [fieldRaw, dirRaw] = segment.split(/\s+/).filter(Boolean);
             const direction = dirRaw && dirRaw.toLowerCase() === 'desc' ? 'desc' : 'asc';
-            return { field: fieldRaw, direction };
-        });
+            return fieldRaw ? { field: fieldRaw, direction } : null;
+        }).filter((x) => x !== null);
         if (parsed.length) {
             params.orderBy = parsed;
         }

@@ -49,11 +49,12 @@ class _DataLoaderWithCount extends dataloader_1.default {
             this.count = count;
             const entityMap = {};
             entities.forEach((result) => {
-                if (typeof entityMap[result[searchKey]] === 'undefined') {
-                    entityMap[result[searchKey]] = [result];
+                const searchKeyValue = result[searchKey];
+                if (typeof entityMap[searchKeyValue] === 'undefined') {
+                    entityMap[searchKeyValue] = [result];
                 }
                 else {
-                    entityMap[result[searchKey]].push(result);
+                    entityMap[searchKeyValue].push(result);
                 }
             });
             return keys.map((key) => entityMap[key] ?? []);

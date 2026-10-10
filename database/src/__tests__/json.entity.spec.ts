@@ -24,6 +24,7 @@ describe('JsonEntityMixin entity test', () => {
       .spyOn(Reflect, 'getMetadata')
       .mockReturnValueOnce({ first: true, second: false, third: true });
     testEntityPvt.updateData();
+    // @ts-ignore
     expect(testEntityPvt.third()).toContain('JSON_MERGE_PATCH');
   });
 });
