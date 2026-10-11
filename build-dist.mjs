@@ -225,6 +225,15 @@ for (const workspace of packages) {
     compiledIndexExists = fs.existsSync(compiledIndex);
     compiledDtsExists = fs.existsSync(compiledDts);
   }
+  
+  if (!compiledIndexExists && !compiledDtsExists && !hasSrcDir) {
+    if (fs.existsSync(path.join(pkgDir, 'index.js'))) {
+      fs.copyFileSync(path.join(pkgDir, 'index.js'), path.join(distDir, 'index.js'));
+    }
+    if (fs.existsSync(path.join(pkgDir, 'index.d.ts'))) {
+      fs.copyFileSync(path.join(pkgDir, 'index.d.ts'), path.join(distDir, 'index.d.ts'));
+    }
+  }
   const main = compiledIndexExists
     ? './src/index.js'
     : pkg.main && pkg.main !== '' && !compiledDtsExists
