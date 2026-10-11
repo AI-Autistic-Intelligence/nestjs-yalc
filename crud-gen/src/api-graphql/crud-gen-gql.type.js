@@ -30,7 +30,8 @@ export default function CrudGenGqlType(type) {
         }
     };
     __decorate([
-        HideField(),
+        HideField() // internally used
+        ,
         __metadata("design:type", Object)
     ], Connection.prototype, "name", void 0);
     __decorate([

@@ -7,6 +7,11 @@ export interface ProjectionScope {
     readonly scopeId: string;
     cacheKey(key: string): string;
 }
+/**
+ * Generic scoped CRUD behavior for one projection definition. The consumer
+ * supplies only immutable metadata, a trusted scope context and a repository;
+ * JSON paths and dialect SQL stay inside the framework.
+ */
 export declare class ProjectionResourceService<Entity extends ObjectLiteral> {
     protected readonly repository: Repository<Entity>;
     protected readonly scope: ProjectionScope;

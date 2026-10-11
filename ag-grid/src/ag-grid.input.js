@@ -9,6 +9,9 @@ const graphql_1 = require("@nestjs/graphql");
 const ag_grid_args_1 = require("./ag-grid.args");
 const ag_grid_enum_1 = require("./ag-grid.enum");
 const ag_grid_metadata_helper_1 = require("./ag-grid-metadata.helper");
+/**
+ * @deprecated
+ */
 let SortModel = class SortModel {
 };
 exports.SortModel = SortModel;
@@ -142,6 +145,10 @@ function filterExpressionInputFactory(entityModel) {
     FilterSet = tslib_1.__decorate([
         (0, graphql_1.InputType)(`${entityModel.name}FilterSetInput`)
     ], FilterSet);
+    /**
+     * Since union for input types are not possible yet, we need this type
+     * @see https://github.com/graphql/graphql-spec/issues/488
+     */
     let FilterExpressionProperty = class FilterExpressionProperty {
         static { _a = ag_grid_enum_1.FilterType.TEXT, _b = ag_grid_enum_1.FilterType.NUMBER, _c = ag_grid_enum_1.FilterType.DATE, _d = ag_grid_enum_1.FilterType.SET; }
     };
@@ -189,8 +196,10 @@ var JoinTypes;
     JoinTypes[JoinTypes["LEFT_JOIN"] = 0] = "LEFT_JOIN";
     JoinTypes[JoinTypes["INNER_JOIN"] = 1] = "INNER_JOIN";
 })(JoinTypes || (exports.JoinTypes = JoinTypes = {}));
+// memoize pre-generated InputType
 const JoinOptionInputCache = new WeakMap();
 function agJoinArgFactory(entityModel, defaultValues) {
+    // return memoized result if any
     const cached = JoinOptionInputCache.get(entityModel);
     if (cached)
         return cached;

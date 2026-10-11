@@ -1,4 +1,7 @@
 import { ObjectLiteral, SelectQueryBuilder } from 'typeorm';
+/**
+ * Monkey patching query builder
+ */
 declare module 'typeorm' {
     interface SelectQueryBuilder<Entity extends ObjectLiteral> {
         getMany(this: SelectQueryBuilder<Entity>): Promise<Entity[]>;

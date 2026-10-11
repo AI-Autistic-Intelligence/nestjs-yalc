@@ -33,6 +33,7 @@ function getTextFilter(filter, firstParameter) {
     switch (filter.toLowerCase()) {
         case ag_grid_enum_1.GeneralFilters.EQUALS.toLowerCase():
             return (0, typeorm_1.Equal)(firstParameter);
+        //NOT_EQUAL should use the EQUALS condition, but the name is a little bit different
         case ag_grid_enum_1.GeneralFilters.EQUAL.toLowerCase():
             return (0, typeorm_1.Equal)(firstParameter);
         case ag_grid_enum_1.GeneralFilters.STARTSWITH.toLowerCase():
@@ -89,6 +90,7 @@ function getDateFilter(filter, firstParameter, secondParameter) {
 function filterSwitch(filter, filterName) {
     let arg1 = undefined;
     let arg2 = undefined;
+    // handle SET before hand
     if ((0, ag_grid_type_checker_utils_1.isSetFilterModel)(filter)) {
         return (0, typeorm_1.In)(filter.values);
     }
@@ -101,7 +103,7 @@ function filterSwitch(filter, filterName) {
         arg2 = filter.filterTo;
     }
     else {
-        arg1 = filter.filter;
+        arg1 = filter.filter; // text filter model
     }
     if (arg1 === undefined) {
         throw new ag_grid_error_1.AgGridInvalidArgumentError();
@@ -173,6 +175,10 @@ function createWhere(filtersObject, fieldMapper, alias, where = { filters: {} })
     if (filtersObject.expressions) {
         Object.values(filtersObject.expressions).map((field) => {
             const exprTypes = Object.keys(field);
+            /**
+             * Since union for input types are not possible yet, we need this check
+             * @see https://github.com/graphql/graphql-spec/issues/488
+             */
             if (exprTypes.length > 1) {
                 throw new ag_grid_error_1.AgGridError(`Field can't use more than one expression type on same expression: ${exprTypes}`);
             }
@@ -185,17 +191,22 @@ function createWhere(filtersObject, fieldMapper, alias, where = { filters: {} })
             filtersObjectCleared.push({
                 ...expr,
                 field: filterName,
-                filterType: exprType,
+                filterType: exprType /**@todo fix type */,
             });
         });
     }
     if (filtersObject.operator) {
         where.operator = filtersObject.operator;
     }
+    // we skip the "filters" property of the first level and use the childExpressions
+    // directly in order to be able processing conditions on same column name
     const childExpressions = where.childExpressions ?? [];
     for (const expr of filtersObjectCleared) {
+        // for every property in the mapper or in the query we're checking if the relative filter exist
         const key = expr.field;
         if ((0, ag_grid_type_checker_utils_1.isFilterModel)(expr) || (0, ag_grid_type_checker_utils_1.isCombinedFilterModel)(expr)) {
+            // after processing the filter, we take advantage of a function to perform all the necessary checks
+            // and manage the filter cases based on the type of the filter itself
             childExpressions.push({
                 filters: { [key]: resolveFilter(expr) },
             });
@@ -244,13 +255,16 @@ function mapAgGridParams(params, ctx, args, info) {
         fieldMapper = fieldMapperAndFilter.field;
     }
     const defaultSorting = params?.defaultValue?.sorting;
+    // MAP query fields -> select
     const { keys, keysMeta } = (0, gqlfields_decorator_js_1.GqlAgGridFieldsMapper)(fieldType ?? {}, ctx.getInfo());
+    // MAP filter -> where
     let where = args.filters
         ? createWhere(args.filters, fieldMapper)
         : { filters: {} };
     if (filterOption) {
         checkFilterScope(where, filterOption);
     }
+    // MAP sorting -> order
     const order = {};
     const sorting = args.sorting ?? defaultSorting;
     if (sorting) {
@@ -261,6 +275,7 @@ function mapAgGridParams(params, ctx, args, info) {
             order[colName] = sortDir;
         });
     }
+    // MAP startRow/endRow -> take/skip
     const maxRow = params?.options?.maxRow ?? ag_grid_enum_1.RowDefaultValues.MAX_ROW;
     const skip = args.startRow ?? ag_grid_enum_1.RowDefaultValues.START_ROW;
     const checkMaxRow = (requestRow) => {
@@ -271,6 +286,7 @@ function mapAgGridParams(params, ctx, args, info) {
             throw new ag_grid_error_1.AgGridError(`Invalid max number of row selected: cannot exeed max ${maxRow}`);
         }
     };
+    // args.endRow is always defined due to the default value in agQueryParamsFactory!
     const take = args.endRow && checkMaxRow(args.endRow - skip);
     const skipCount = !(0, ag_grid_query_helper_1.isAskingForCount)(ctx.getInfo());
     const extraParameter = {};
@@ -288,6 +304,7 @@ function mapAgGridParams(params, ctx, args, info) {
                 break;
             case ag_grid_enum_1.ExtraArgsStrategy.DEFAULT:
             default:
+            // nothing to do
         }
         const forcedFilters = [];
         for (const argName of Object.keys(params.extraArgs)) {
@@ -304,7 +321,7 @@ function mapAgGridParams(params, ctx, args, info) {
                 value = filterMiddleware(ctx, value);
             }
             forcedFilters.push({
-                key: argName,
+                key: argName, // the column name mapping is executed internally
                 value: value,
                 descriptors: extraArg,
             });
@@ -337,6 +354,9 @@ const AgGridArgsFactory = (data, ctx) => {
 };
 exports.AgGridArgsFactory = AgGridArgsFactory;
 exports.AgGridArgsMapper = (0, common_1.createParamDecorator)(exports.AgGridArgsFactory);
+/**
+ * Combine multiple param decorators
+ */
 const AgGridCombineDecorators = (params) => {
     const argDecorators = [];
     if (params.extraArgs) {
@@ -376,6 +396,9 @@ const AgGridArgs = (params) => {
     return (0, exports.AgGridCombineDecorators)(params);
 };
 exports.AgGridArgs = AgGridArgs;
+/**
+ * Combine multiple param decorators
+ */
 const AgGridArgsNoPagination = (params) => {
     const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {

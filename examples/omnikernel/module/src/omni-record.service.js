@@ -1,6 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
 import { In, Not } from 'typeorm';
 import { OmniScopedService } from './omni-scoped.service.js';
+/**
+ * Raw Omni record CRUD with a mechanical boundary around extension-owned
+ * kinds. A registered extension is the only writer for its owner lifecycle;
+ * mounting a generic record transport cannot turn another record into that
+ * kind or mutate/delete an existing owner.
+ */
 export class OmniRecordService extends OmniScopedService {
     constructor(repository, scopeOrRepositoryWrite, deletion = 'tombstone', reservedRecordKinds = []) {
         super(repository, scopeOrRepositoryWrite, deletion);

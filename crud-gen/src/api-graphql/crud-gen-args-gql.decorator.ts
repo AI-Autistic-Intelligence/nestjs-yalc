@@ -106,7 +106,7 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) => {
 
   const args = Args(params.gql ?? {});
   const mapper = CrudGenArgsMapper(params);
-  return function (target: any, key: string, index: number) {
+  return function (target: object, key: string | symbol, index: number) {
     args(target, key, index);
     joinArg && joinArg(target, key, index);
     argDecorators.map((d) => d(target, key, index));
@@ -207,7 +207,7 @@ export const CrudGenArgsSingle = (params: ICrudGenGqlArgsSingleOptions) => {
   }
 
   const mapper = CrudGenArgsSingleDecorator(params);
-  return function (target: any, key: string, index: number) {
+  return function (target: object, key: string | symbol, index: number) {
     joinArg && joinArg(target, key, index);
     mapper(target, key, index);
   };
@@ -222,7 +222,7 @@ export function mapCrudGenParamsGql<Entity extends ObjectLiteral>(
 ) {
   let findOptions = mapCrudGenParam<Entity>(params, select, args, options);
 
-  const extraParameter: { [key: string]: any } = {};
+  const extraParameter: { [key: string]: unknown } = {};
   if (params?.extraArgs) {
     const extraArgsKeys = Object.keys(params.extraArgs);
     switch (params.extraArgsStrategy) {

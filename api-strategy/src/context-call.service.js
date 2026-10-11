@@ -2,6 +2,10 @@ import { __decorate, __metadata } from "tslib";
 import { Injectable } from '@nestjs/common';
 export function ContextCallServiceFactory(defaultStrategy) {
     let ContextCallService = class ContextCallService {
+        /**
+         *
+         * @param strategy - by default, it will use the strategy provided in the factory
+         */
         constructor(strategy = defaultStrategy) {
             this.strategy = strategy;
         }

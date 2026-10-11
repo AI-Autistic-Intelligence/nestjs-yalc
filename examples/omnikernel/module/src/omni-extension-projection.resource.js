@@ -21,6 +21,12 @@ function defaultGraphqlNames(apiModel) {
         conditions: `${apiModel.name}Condition`,
     };
 }
+/**
+ * Composes the standard CrudGen REST and GraphQL surfaces for one Omni-owned
+ * extension. It deliberately supplies no handwritten controller or resolver:
+ * consumers register the returned controllers/providers alongside their
+ * trusted OmniKernel scope module and TypeOrmModule.forFeature entities.
+ */
 export function createOmniExtensionProjectionRegistration(options) {
     const graphqlTypes = createProjectionGraphqlTypes(options.definition, options.graphql?.names ?? defaultGraphqlNames(options.apiModel));
     const serviceToken = getServiceToken(options.apiModel);

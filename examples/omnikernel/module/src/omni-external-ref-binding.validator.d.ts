@@ -6,6 +6,11 @@ export interface OmniExternalRefBinding {
     internalId: string;
     internalType: OmniExternalRefInternalType;
 }
+/**
+ * Reusable validation for an external reference whose declared target is an
+ * Omni record identity. Other internal types remain legacy application-owned
+ * identities and are intentionally not passed to this validator.
+ */
 export declare class OmniExternalRefBindingValidator {
     private readonly recordRepository;
     private readonly scope;

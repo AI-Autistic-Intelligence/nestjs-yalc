@@ -38,12 +38,22 @@ export function crudRestControllerFactory(options) {
             const entity = await this.service.getEntity({ [idField]: id }, undefined, undefined, undefined, { failOnNull: true });
             return entity;
         }
+        /**
+         * Create a new resource.
+         * The request body is treated as a partial Entity payload.
+         */
         async create(body) {
             return this.service.createEntity(body);
         }
+        /**
+         * Update an existing resource by idField.
+         */
         async update(id, body) {
             return this.service.updateEntity({ [idField]: id }, body);
         }
+        /**
+         * Delete an existing resource by idField.
+         */
         async remove(id) {
             await this.service.deleteEntity({ [idField]: id });
             return { deleted: true };
@@ -146,6 +156,10 @@ export function crudRestControllerFactory(options) {
     if (options.decorators?.length) {
         applyDecorators(...options.decorators)(CrudRestController);
     }
+    /**
+     * Attach write endpoints dynamically so that they can be disabled
+     * via `readonly`/`mutations` options without affecting read routes.
+     */
     if (!isReadonly) {
         const proto = CrudRestController.prototype;
         const createDescriptor = Object.getOwnPropertyDescriptor(proto, 'create');

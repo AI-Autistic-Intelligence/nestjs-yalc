@@ -27,6 +27,7 @@ function AgGridDependencyFactory({ entityModel, dataloader, resolver, service, r
             const provider = (0, generic_service_service_1.GenericServiceFactory)(service.entityModel ?? entityModel, service.dbConnection, service.providerClass);
             serviceToken = getProviderToken(provider.provide);
             providers.push(provider);
+            // We always want a string alias for this provider
             if (typeof provider.provide !== 'string') {
                 providers.push({
                     provide: serviceToken,
@@ -59,7 +60,9 @@ function AgGridDependencyFactory({ entityModel, dataloader, resolver, service, r
         repository: repository ?? (0, ag_grid_repository_1.AgGridRepositoryFactory)(entityModel),
     };
 }
-function getProviderToken(entity) {
+function getProviderToken(
+// eslint-disable-next-line @typescript-eslint/ban-types
+entity) {
     if (entity && typeof entity === 'object' && entity.provide) {
         return typeof entity.provide === 'function'
             ? entity.provide.name

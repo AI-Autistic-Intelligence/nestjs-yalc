@@ -1,3 +1,11 @@
+/**
+ * Minimal parsing helper for OData-like query parameters.
+ *
+ * It accepts a typical NestJS `@Query()` shape (record of strings/arrays) and
+ * normalises it into `ODataQueryParams`. Validation is deliberately strict:
+ * invalid numeric values or orderBy segments will result in an Error so the
+ * caller can translate that into a 400 response.
+ */
 export function parseODataQueryParams(query) {
     const get = (key) => {
         const value = query[key];

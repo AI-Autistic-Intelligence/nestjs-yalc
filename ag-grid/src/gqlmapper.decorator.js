@@ -26,6 +26,10 @@ const GqlArgsGenerator = (data, ctx) => {
 };
 exports.GqlArgsGenerator = GqlArgsGenerator;
 exports.InputArgsMapper = (0, common_1.createParamDecorator)(exports.GqlArgsGenerator);
+/**
+ * This decorator declare the Args name for the playground, at the same time it applies the fieldMap to the Object
+ * @returns the mapped params in the input object
+ */
 const InputArgs = (params) => {
     const args = (0, graphql_1.Args)(params._name ?? 'input', params.gql ?? {}) || (() => { });
     const mapper = (0, exports.InputArgsMapper)(params);

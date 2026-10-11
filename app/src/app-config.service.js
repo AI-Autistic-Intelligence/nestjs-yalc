@@ -1,4 +1,9 @@
 import { ConfigService } from '@nestjs/config';
+/**
+ * This service is used to access the app config registered with a specific app alias.
+ * This is useful when you want to access the config of the current app with the dependency injection and
+ * without specifying the app alias.
+ */
 export class AppConfigService {
     constructor(service, appAlias) {
         this.service = service;
@@ -9,9 +14,15 @@ export class AppConfigService {
         }
         this._config = config;
     }
+    /**
+     * Type-safe access to the app config values of the current app.
+     */
     get values() {
         return this._config;
     }
+    /**
+     * @deprecated - use .values instead
+     */
     get() {
         return this.values;
     }

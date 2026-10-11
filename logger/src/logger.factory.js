@@ -23,10 +23,18 @@ exports.AppLoggerFactory = _.memoize((context, loggerLevels = logger_enum_js_1.L
             logger = new logger_nest_service_js_1.ImprovedNestLogger(context, {
                 timestamp: true,
             }, options);
+            // not available on default NEST logger
+            // ImprovedNestLogger.overrideLogger(loggerLevels);
             logger.setLogLevels?.(loggerLevels);
             break;
     }
+    /**
+     * Side effect to be executed as soon as the module is imported
+     */
     common_1.Logger.overrideLogger((0, logger_helper_js_1.getEnvLoggerLevels)());
+    /**
+     * We use the system logger here
+     */
     common_1.Logger.debug?.(`Use Logger: ${loggerType ??
         `not specified, fallback to default (${logger_enum_js_1.LoggerTypeEnum.NEST})`}`);
     return logger;

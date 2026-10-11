@@ -3,6 +3,11 @@ import { IsNull, } from 'typeorm';
 import { canonicalOmniRelationKinds, } from './omni-relation-kind.contract.js';
 import { isAllowedOmniRelation } from './omni-relation-semantics.js';
 import { OmniScopedService } from './omni-scoped.service.js';
+/**
+ * Scoped graph CRUD with immutable endpoints. The database composite foreign
+ * keys prevent cross-scope edges; this service additionally turns missing or
+ * invalid endpoints into normal API failures before persistence.
+ */
 export class OmniRelationService extends OmniScopedService {
     constructor(repository, scope, deletion, recordRepository, kinds) {
         super(repository, scope, deletion);
@@ -61,6 +66,7 @@ export class OmniRelationService extends OmniScopedService {
             throw new BadRequestException('Omni relation kind is not valid for these endpoint kinds.');
         }
     }
+    /** Resource-specific relation projections may narrow endpoint kinds. */
     assertEndpointKinds(_source, _target) { }
     requiredIdentifier(value, field) {
         if (typeof value !== 'string' || value.trim().length === 0) {

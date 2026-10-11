@@ -4,18 +4,28 @@ import { Controller, Get } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { BaseAppService } from './base-app.service.js';
 import { ApiOperation } from '@nestjs/swagger';
+/**
+ * Application controller
+ */
 let BaseAppController = class BaseAppController {
     constructor(appService, configService) {
         this.appService = appService;
         this.configService = configService;
     }
+    /**
+     * Expose the getHello method
+     */
     getHello() {
         const conf = this.configService.get(CURAPP_CONF_ALIAS);
         return this.appService.getHello(conf?.appName || 'no-name');
     }
+    /**
+     * Only for dev purpose
+     */
     shutdown() {
         const conf = this.configService.get(CURAPP_CONF_ALIAS);
         if (conf && (conf.isDev || conf.isTest)) {
+            // eslint-disable-next-line no-console
             console.log(`Bye bye!`);
             process.exit(0);
         }

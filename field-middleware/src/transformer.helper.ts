@@ -7,7 +7,7 @@ import { ValueTransformer } from 'typeorm';
  * @param enumName: enum object for checking if the column value belongs to it
  * @returns ValueTransformer object
  */
-export const enumTransformer = <T extends Record<string, any>>(
+export const enumTransformer = <T extends Record<string, string | number>>(
   enumName: T,
 ): ValueTransformer => {
   const transformer = (value: string | number): string | number | null => {

@@ -47,6 +47,16 @@ import {
 } from './crud-gen-args.helpers.js';
 import { Operators } from '../crud-gen.enum.js';
 
+interface ExtendedRepository<Entity> {
+  metadata?: { primaryColumns?: { propertyName: string }[] };
+  generateFilterOnPrimaryColumn?(ids: unknown): unknown;
+  getOneExtended?(options: unknown, throwOnNotFound: boolean, replicationMode: unknown): Promise<Entity>;
+  getManyAndCountExtended?(options: unknown): Promise<[Entity[], number]>;
+  getManyExtended?(options: unknown): Promise<Entity[]>;
+  getCrudGenCapabilities?(): CrudGenRepositoryCapabilities;
+  supportsExtendedRepository?(): boolean;
+}
+
 function hasObjectKeys(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && Object.keys(value).length > 0;
 }
@@ -160,8 +170,8 @@ export function GenericServiceFactory<Entity extends ObjectLiteral>(
         typeof entity === 'function' ? entity.name : entity.toString(),
       ),
     useFactory: (
-      repository: GenericTypeORMRepository<any>,
-      repositoryWrite: GenericTypeORMRepository<any>,
+      repository: GenericTypeORMRepository<Entity>,
+      repositoryWrite: GenericTypeORMRepository<Entity>,
     ) => {
       return new serviceClass(repository, repositoryWrite);
     },
@@ -235,8 +245,8 @@ export class GenericService<
       return ids as FindConditions<EntityRead>;
     }
 
-    const repositoryAny: any = this.repository as any;
-    const primaryColumns = repositoryAny.metadata?.primaryColumns ?? [];
+    const repositoryExtended = this.repository as unknown as ExtendedRepository<EntityRead>;
+    const primaryColumns = repositoryExtended.metadata?.primaryColumns ?? [];
     const primaryColumnName =
       primaryColumns[0]?.propertyName ?? ('id' as keyof EntityRead);
 
@@ -473,17 +483,17 @@ export class GenericService<
      * @todo maybe conversion is needed here as well
      */
     const ids = identifiers[0];
-    const repoAny: any = this.repository as any;
+    const repoExtended = this.repository as unknown as ExtendedRepository<EntityRead>;
 
     if (
-      typeof repoAny.generateFilterOnPrimaryColumn === 'function' &&
-      typeof repoAny.getOneExtended === 'function'
+      typeof repoExtended.generateFilterOnPrimaryColumn === 'function' &&
+      typeof repoExtended.getOneExtended === 'function'
     ) {
-      const filters = repoAny.generateFilterOnPrimaryColumn(ids);
+      const filters = repoExtended.generateFilterOnPrimaryColumn(ids);
 
       return !returnEntity
         ? true
-        : repoAny.getOneExtended(
+        : repoExtended.getOneExtended(
             { ...findOptions, where: { filters } },
             true,
             ReplicationMode.MASTER,
@@ -551,17 +561,17 @@ export class GenericService<
      * Create where condition for the the identifiers
      */
     const ids = this.repository.getId(Object.assign(result, entityHydrated));
-    const repoAny: any = this.repository as any;
+    const repoExtended = this.repository as unknown as ExtendedRepository<EntityRead>;
 
     if (
-      typeof repoAny.generateFilterOnPrimaryColumn === 'function' &&
-      typeof repoAny.getOneExtended === 'function'
+      typeof repoExtended.generateFilterOnPrimaryColumn === 'function' &&
+      typeof repoExtended.getOneExtended === 'function'
     ) {
-      const filters = repoAny.generateFilterOnPrimaryColumn(ids);
+      const filters = repoExtended.generateFilterOnPrimaryColumn(ids);
 
       return !returnEntity
         ? true
-        : repoAny.getOneExtended(
+        : repoExtended.getOneExtended(
             { ...findOptions, where: { filters } },
             true,
             ReplicationMode.MASTER,
@@ -649,7 +659,7 @@ export class GenericService<
     if (databaseName) this.switchDatabaseConnection(databaseName);
     if (relations) findOptions.relations = relations;
 
-    const repo: any = this.repository as any;
+    const repo = this.repository as unknown as ExtendedRepository<EntityRead>;
     const capabilities = this.getCrudGenRepositoryCapabilities();
 
     if (capabilities.extendedQueries) {
@@ -677,7 +687,7 @@ export class GenericService<
 
     const mappedFindOptions: FindManyOptions<EntityRead> = {
       ...(typeormOptions as FindManyOptions<EntityRead>),
-      where: sanitizedWhere as any,
+      where: sanitizedWhere as FindConditions<EntityRead>,
     };
 
     return withCount
@@ -686,7 +696,7 @@ export class GenericService<
   }
 
   getCrudGenRepositoryCapabilities(): CrudGenRepositoryCapabilities {
-    const repo: any = this.repository as any;
+    const repo = this.repository as unknown as ExtendedRepository<EntityRead>;
 
     if (typeof repo.getCrudGenCapabilities === 'function') {
       const explicitCapabilities = repo.getCrudGenCapabilities();
@@ -742,31 +752,31 @@ export class GenericService<
       const fieldMetadata = fieldMetadataList?.[propertyName];
 
       if (!fieldMetadata?.dst) {
-        (newEntityWrite as any)[propertyName] = (entityRead as any)[
-          propertyName as any
+        (newEntityWrite as Record<string, unknown>)[propertyName] = (entityRead as Record<string, unknown>)[
+          propertyName
         ];
         continue;
       }
 
       if (typeof fieldMetadata.dst === 'string') {
-        (newEntityWrite as any)[fieldMetadata.dst] = (entityRead as any)[
-          propertyName as any
+        (newEntityWrite as Record<string, unknown>)[fieldMetadata.dst] = (entityRead as Record<string, unknown>)[
+          propertyName
         ];
         continue;
       }
 
       if (!isDstExtended(fieldMetadata.dst)) {
-        (newEntityWrite as any)[propertyName] = (entityRead as any)[
-          propertyName as any
+        (newEntityWrite as Record<string, unknown>)[propertyName] = (entityRead as Record<string, unknown>)[
+          propertyName
         ];
         continue;
       }
 
       const dst = fieldMetadata.dst;
 
-      (newEntityWrite as any)[dst.name] = dst.transformerDst?.(
+      (newEntityWrite as Record<string, unknown>)[dst.name] = dst.transformerDst?.(
         newEntityWrite,
-        (entityRead as any)[propertyName as any],
+        (entityRead as Record<string, unknown>)[propertyName],
       );
     }
 

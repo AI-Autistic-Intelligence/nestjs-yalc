@@ -11,6 +11,7 @@ import { MissingArgumentsError, ArgumentsError, } from '../missing-arguments.err
 import { isAskingForCount } from './crud-gen-gql.helpers.js';
 export function mapCrudGenGqlParams(params, ctx, args, info) {
     const fieldType = params?.fieldType ?? params?.fieldMap ?? params?.entityType;
+    // MAP query fields -> select
     const { keys, keysMeta } = GqlModelFieldsMapper(fieldType ?? {}, ctx.getInfo());
     const findParams = mapCrudGenParamsGql(params, ctx.getContext(), { keys, keysMeta }, args, { isCount: isAskingForCount(info) });
     findParams.info = info;
@@ -22,6 +23,9 @@ export const CrudGenArgsFactory = (data, ctx) => {
     return params;
 };
 export const CrudGenArgsMapper = createParamDecorator(CrudGenArgsFactory);
+/**
+ * Combine multiple param decorators
+ */
 export const CrudGenCombineDecorators = (params) => {
     const argDecorators = [];
     if (params.extraArgs) {
@@ -37,7 +41,7 @@ export const CrudGenCombineDecorators = (params) => {
         const JoinOptionInput = agJoinArgFactory(params.entityType, params.defaultValue);
         if (JoinOptionInput) {
             joinArg = Args('join', {
-                type: () => JoinOptionInput,
+                type: /* istanbul ignore next */ () => JoinOptionInput,
                 nullable: true,
             });
         }
@@ -59,6 +63,9 @@ export const CrudGenArgs = (params) => {
     params.gql = gqlOptions;
     return CrudGenCombineDecorators(params);
 };
+/**
+ * Combine multiple param decorators
+ */
 export const CrudGenArgsNoPagination = (params) => {
     const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
@@ -97,7 +104,7 @@ export const CrudGenArgsSingle = (params) => {
         const JoinOptionInput = agJoinArgFactory(params.entityType);
         if (JoinOptionInput) {
             joinArg = Args('join', {
-                type: () => JoinOptionInput,
+                type: /* istanbul ignore next */ () => JoinOptionInput,
                 nullable: true,
             });
         }
@@ -125,6 +132,7 @@ export function mapCrudGenParamsGql(params, ctx, select, args, options = {}) {
                 break;
             case ExtraArgsStrategy.DEFAULT:
             default:
+            // nothing to do
         }
         const forcedFilters = [];
         for (const argName of Object.keys(params.extraArgs)) {
@@ -141,7 +149,7 @@ export function mapCrudGenParamsGql(params, ctx, select, args, options = {}) {
                 value = filterMiddleware(ctx, value);
             }
             forcedFilters.push({
-                key: argName,
+                key: argName, // the column name mapping is executed internally
                 value,
                 descriptors: extraArg,
             });
@@ -157,6 +165,7 @@ export function mapCrudGenParamsGql(params, ctx, select, args, options = {}) {
     };
     return findOptions;
 }
+// Legacy helper used by existing tests (compatible signature)
 export function mapCrudGenParams(params, ctx, args, info) {
     const fieldType = params?.fieldType ?? params?.fieldMap ?? params?.entityType ?? {};
     let mappedFields;

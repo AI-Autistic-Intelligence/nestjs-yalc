@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mockQueryBuilder = exports.mockChainingObject = exports.mockedExecutionContext = exports.mockedGqlCtxCreate = exports.mockedNestGraphql = void 0;
 const tslib_1 = require("tslib");
 const globals_1 = require("@jest/globals");
+/// <reference types="jest" />
 globals_1.jest.mock('@fastify/cookie', () => {
     const plugin = (_fastify, _options, done) => done();
     plugin[Symbol.for('skip-override')] = true;
@@ -26,19 +27,26 @@ const ts_jest_1 = require("@golevelup/ts-jest");
 exports.mockedNestGraphql = NestGraphql;
 exports.mockedGqlCtxCreate = exports.mockedNestGraphql.GqlExecutionContext.create;
 exports.mockedExecutionContext = (0, ts_jest_1.createMock)();
+/**
+ * This method can be used to DeepMock a chained object where all methods return
+ * its instance
+ *
+ * @returns DeepMocked object with all methods returning "this" by default
+ */
 const mockChainingObject = (partial, options) => {
     const mockObject = (0, ts_jest_1.createMock)(partial, options);
     const propsToOverride = new Map();
     const proxy = new Proxy(mockObject, {
         get: function (target, prop, receiver) {
             const checkProp = target[prop];
+            // do not replace implementation of user defined methods
             if (propsToOverride.has(prop) || (partial && prop in partial)) {
                 return Reflect.get(target, prop, receiver);
             }
             return typeof checkProp === 'function'
                 ? checkProp.mockImplementation(() => {
                     Reflect.get(target, prop, receiver);
-                    return proxy;
+                    return proxy; // return this proxy instead of the method result
                 })
                 : Reflect.get(target, prop, receiver);
         },
@@ -50,6 +58,12 @@ const mockChainingObject = (partial, options) => {
     return proxy;
 };
 exports.mockChainingObject = mockChainingObject;
+/**
+ * Similar to mockChainingObject but includes some specific case for
+ * the typeorm QueryBuilder
+ * @returns DeepMocked querybuilder instance
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
 const mockQueryBuilder = (partial, options) => {
     const mockObject = (0, exports.mockChainingObject)(partial, options);
     mockObject.connection.createQueryBuilder = globals_1.jest

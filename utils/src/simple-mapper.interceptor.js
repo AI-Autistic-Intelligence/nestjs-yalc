@@ -4,6 +4,13 @@ exports.buildSimpleMapperInterceptor = buildSimpleMapperInterceptor;
 const tslib_1 = require("tslib");
 const common_1 = require("@nestjs/common");
 const rxjs_1 = require("rxjs");
+/**
+ *
+ * @param Dto
+ * @param transformer used to transform the data before mapping it to the DTO.
+ * This is useful when the data is not in the correct format to be mapped to the DTO.
+ * @returns
+ */
 function buildSimpleMapperInterceptor(Dto, options) {
     let SimpleMapper = class SimpleMapper {
         intercept(_context, next) {

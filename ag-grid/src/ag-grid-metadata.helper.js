@@ -82,7 +82,17 @@ const objectToFieldMapper = (object) => {
     }
     else if (isIFieldAndFilterMapper(object)) {
         fieldMapper = object;
-    }
+    } /**
+    @todo rework or delete, it throws an error with enum as gqlType
+    
+    else if (Object.keys(object).length !== 0) {
+      console.trace(object);
+      throw new TypeError(
+        `This object is not compatible with IFieldMapper ${JSON.stringify(
+          object,
+        )}`,
+      );
+    } */
     if (typeof object !== 'symbol')
         objectToFieldMapperCache.set(object, fieldMapper);
     return fieldMapper;
@@ -108,6 +118,7 @@ function getEntityRelations(entityModel, dto) {
 function getTypeProperties(entityModel) {
     const columns = (0, typeorm_1.getMetadataArgsStorage)().columns.filter((v) => typeof v.target !== 'string' &&
         (entityModel.prototype instanceof v.target || entityModel === v.target));
+    // to get ag-grid fields
     const fieldMetadataList = (0, object_decorator_1.getAgGridFieldMetadataList)(entityModel);
     if (fieldMetadataList) {
         for (const propertyName of Object.keys(fieldMetadataList)) {
@@ -115,6 +126,7 @@ function getTypeProperties(entityModel) {
             if (!fieldMetadata)
                 continue;
             if (fieldMetadata.mode !== 'derived') {
+                // skip non virtual columns
                 continue;
             }
             columns.push({

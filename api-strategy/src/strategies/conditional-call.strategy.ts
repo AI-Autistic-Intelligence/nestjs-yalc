@@ -16,21 +16,21 @@ export class ConditionalCallStrategy implements IApiCallStrategy {
     private readonly options: ConditionalCallStrategyOptions = {},
   ) {}
 
-  call<TOptData, TParams extends Record<string, any>, TResData>(
+  call<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {
     return this.whenEnabled(() => this.strategy.call(path, options));
   }
 
-  get<TOptData, TParams extends Record<string, any>, TResData>(
+  get<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {
     return this.whenEnabled(() => this.strategy.get(path, options));
   }
 
-  post<TOptData, TParams extends Record<string, any>, TResData>(
+  post<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {

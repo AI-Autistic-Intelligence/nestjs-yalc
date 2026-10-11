@@ -39,6 +39,8 @@ function formatKindErrorMessage(kind) {
     return `A string were expected for the UUID Type, received ${kind}`;
 }
 function validateUUID(uuid) {
+    //012345678901234567890123456798012345
+    //xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx
     const uuidCopy = [...uuid];
     const dashPosition = [23, 18, 13, 8];
     if (uuidCopy.length !== 36) {

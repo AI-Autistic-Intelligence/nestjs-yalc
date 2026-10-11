@@ -8,6 +8,11 @@ import type { OmniProjectionLifecycle } from './omni-projection.lifecycle.js';
 import { OmniRelationService } from './omni-relation.service.js';
 import type { OmniRelationKindContract } from './omni-relation-kind.contract.js';
 import type { OmniDeletePolicy, OmniScope } from './omni-scope.js';
+/**
+ * One generated relation surface over OmniRelationEntity. Creation selects an
+ * allowed kind; every other operation constrains that field to the registered
+ * set and keeps endpoints, status, and schema metadata server-owned.
+ */
 export declare class OmniRelationProjectionService extends OmniRelationService {
     private readonly relationDeletion;
     private readonly definition;
@@ -31,6 +36,7 @@ export declare class OmniRelationProjectionService extends OmniRelationService {
     protected assertEndpointKinds(source: OmniRecordEntity, target: OmniRecordEntity): void;
     private createValues;
     private publicEntity;
+    /** Keeps lifecycle policies transport-neutral by exposing definition aliases. */
     private publicInput;
     private selectCreateKind;
     private normalizeInput;

@@ -38,6 +38,10 @@ function applyField(target, field, options = {}) {
 function projectionFields(definition) {
     return [...definition.fields];
 }
+/**
+ * Derives GraphQL output and input shapes from a projection definition.
+ * `scopeId` is intentionally absent from every public type.
+ */
 export function createProjectionGraphqlTypes(definition, names) {
     assertProjectionResourceDefinition(definition);
     const object = namedClass(names.object);
@@ -51,6 +55,9 @@ export function createProjectionGraphqlTypes(definition, names) {
                 .map((field) => field.name),
         },
     })(object);
+    // REST mapping uses class-transformer while GraphQL uses the same class
+    // decorators. Exclude by default so server-only fields such as scopeId
+    // cannot become public merely because an entity instance contains them.
     Exclude()(object);
     for (const field of projectionFields(definition)) {
         applyField(object, field, { required: !field.nullable });

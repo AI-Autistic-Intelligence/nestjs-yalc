@@ -4,6 +4,12 @@ import { type DeepPartial, type FindOptionsWhere } from 'typeorm';
 import { OmniRecordEntity } from './base/omni-record.entity.js';
 import type { OmniDeletePolicy, OmniScope } from './omni-scope.js';
 import { OmniScopedService } from './omni-scoped.service.js';
+/**
+ * Raw Omni record CRUD with a mechanical boundary around extension-owned
+ * kinds. A registered extension is the only writer for its owner lifecycle;
+ * mounting a generic record transport cannot turn another record into that
+ * kind or mutate/delete an existing owner.
+ */
 export declare class OmniRecordService extends OmniScopedService<OmniRecordEntity> {
     private readonly reservedKinds;
     constructor(repository: GenericTypeORMRepository<OmniRecordEntity>, scopeOrRepositoryWrite?: OmniScope | GenericTypeORMRepository<OmniRecordEntity>, deletion?: OmniDeletePolicy, reservedRecordKinds?: readonly string[]);

@@ -92,6 +92,9 @@ class BaseProjectionDialect {
             query.skip(page.skip);
         if (page.take !== undefined)
             query.take(page.take);
+        // PostgreSQL drivers do not permit concurrent operations on the same
+        // query runner connection. Keep the grid and count reads sequential so
+        // this dialect contract is safe inside an ambient transaction as well.
         const records = await query.getMany();
         const count = await query.clone().getCount();
         return [records, count];
@@ -295,6 +298,11 @@ export function createProjectionDialect(driver) {
         return new PostgresProjectionDialect();
     throw new TypeError(`Unsupported projection dialect ${driver}.`);
 }
+/**
+ * Executes compiled index DDL only for an isolated bootstrap or test database.
+ * Production applications should put `compileIndexStatements()` output into a
+ * reviewed migration rather than synchronizing projection indexes at runtime.
+ */
 export async function applyProjectionIndexesForBootstrap(dataSource, dialect, definition) {
     for (const statement of dialect.compileIndexStatements(definition)) {
         await dataSource.query(statement);

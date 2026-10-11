@@ -1,5 +1,9 @@
 const recordGridIndex = 'omni_record_scope_kind_status_guid_idx';
 const relationSourceIndex = 'omni_relation_scope_source_kind_status_created_guid_idx';
+/**
+ * Bounded operator evidence for the two high-fanout generated read shapes.
+ * This is diagnostic-only: CRUD continues to use the normal TypeORM path.
+ */
 export async function collectOmniKernelQueryPlanEvidence(dataSource, sample) {
     const dialect = dataSource.options.type;
     if (dialect !== 'sqlite' && dialect !== 'postgres') {

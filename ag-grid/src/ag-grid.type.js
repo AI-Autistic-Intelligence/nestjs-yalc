@@ -34,7 +34,8 @@ function AgGridGqlType(type) {
         }
     };
     tslib_1.__decorate([
-        (0, graphql_1.HideField)(),
+        (0, graphql_1.HideField)() // internally used
+        ,
         tslib_1.__metadata("design:type", Object)
     ], Connection.prototype, "name", void 0);
     tslib_1.__decorate([

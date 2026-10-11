@@ -34,7 +34,7 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
     }
   }
 
-  async call<TOptData, TParams extends Record<string, any>, TResData>(
+  async call<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: HttpOptions<TOptData, TParams>,
   ): Promise<IHttpCallStrategyResponse<TResData>> {
@@ -42,7 +42,7 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
       this.clsService.get('headers'),
       this.options.headersWhitelist,
     );
-    const headers: Record<string, any> = {
+    const headers: Record<string, unknown> = {
       ...clsHeaders,
       ...(options?.headers ?? {}),
     };
@@ -62,14 +62,14 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
           [k: string | number | symbol]: never;
         }
       | AxiosRequestConfig = {
-      headers,
+      ...(headers !== undefined ? { headers: headers as AxiosRequestConfig['headers'] } : {}),
       ...(options?.method !== undefined ? { method: options.method } : {}),
       ...(options?.signal !== undefined ? { signal: options.signal } : {}),
       ...(options?.data !== undefined ? { data: options.data } : {}),
-    };
+    } as AxiosRequestConfig;
 
     if (options?.parameters) {
-      _options.params = new URLSearchParams(options.parameters);
+      _options.params = new URLSearchParams(options.parameters as Record<string, string>);
     }
 
     const { data, ...res } = await this.httpService.axiosRef.request({

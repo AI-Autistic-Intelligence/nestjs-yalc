@@ -1,3 +1,6 @@
+/**
+ * This enum contains the list of app-level events
+ */
 export declare enum AppEvents {
     BEFORE_ALL_ROUTES = "app.before_all_routes",
     AFTER_ALL_ROUTES = "app.after_all_routes",

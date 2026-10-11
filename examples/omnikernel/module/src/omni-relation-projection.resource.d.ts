@@ -14,10 +14,13 @@ export interface OmniRelationProjectionGraphqlNames {
     conditions: string;
 }
 export interface OmniRelationProjectionRegistrationOptions<Api extends ObjectLiteral> {
+    /** API-only model used by CrudGen to derive operation names and tokens. */
     apiModel: ClassType<Api>;
     definition: OmniRelationProjectionDefinition;
     dbConnection: string;
+    /** Shared catalog provider, normally built from all returned registrations. */
     catalog?: OmniProjectionReaderCatalogProvider;
+    /** Request-scoped app policy injected into the generated service factory. */
     lifecycle?: OmniProjectionLifecycleProvider<OmniRelationProjectionDefinition, OmniRelationEntity>;
     rest?: {
         path?: string;
@@ -26,6 +29,7 @@ export interface OmniRelationProjectionRegistrationOptions<Api extends ObjectLit
         prefix?: string;
         names?: OmniRelationProjectionGraphqlNames;
     };
+    /** Optional consumer-owned ModuleRef token for generated GraphQL DI. */
     moduleRefToken?: InjectionToken;
 }
 export interface OmniRelationProjectionGraphqlTypes {
@@ -35,7 +39,9 @@ export interface OmniRelationProjectionGraphqlTypes {
     conditions: RelationGraphqlClass;
 }
 export interface OmniRelationProjectionRegistration<Api extends ObjectLiteral> {
+    /** omni-relation already belongs to OmniKernelModule; no new table exists. */
     entities: readonly [];
+    /** Include these in OmniKernelModule.register({ relationKinds }). */
     relationKinds: readonly string[];
     definition: OmniRelationProjectionDefinition;
     reader: OmniRelationProjectionReaderRegistration;
@@ -46,6 +52,11 @@ export interface OmniRelationProjectionRegistration<Api extends ObjectLiteral> {
     serviceToken: string;
     dataLoaderToken: string;
 }
+/** Builds aliased public types while retaining native fields inside the store. */
 export declare function createOmniRelationProjectionGraphqlTypes(definition: OmniRelationProjectionDefinition, names: OmniRelationProjectionGraphqlNames): OmniRelationProjectionGraphqlTypes;
+/**
+ * Composes one generated REST/GraphQL/dataloader surface over omni-relation.
+ * It never creates a relation table or a handwritten transport adapter.
+ */
 export declare function createOmniRelationProjectionRegistration<Api extends ObjectLiteral>(options: OmniRelationProjectionRegistrationOptions<Api>): OmniRelationProjectionRegistration<Api>;
 export {};

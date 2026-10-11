@@ -1,11 +1,11 @@
 import type { Provider } from '@nestjs/common';
 import type { IApiCallStrategy } from './context-call.interface.js';
 import type { IEventStrategy } from './context-event.interface.js';
-export type StrategySelectorToken<TStrategy = unknown> = string | symbol | (abstract new (...args: any[]) => TStrategy) | (new (...args: any[]) => TStrategy);
+export type StrategySelectorToken<TStrategy = unknown> = string | symbol | (abstract new (...args: unknown[]) => TStrategy) | (new (...args: unknown[]) => TStrategy);
 export type StrategySelectorBehavior = 'throw' | 'fallback';
 export interface StrategySelectorFactoryOptions {
     inject?: any[];
-    useFactory?: (...args: any[]) => string | null | undefined | Promise<string | null | undefined>;
+    useFactory?: (...args: unknown[]) => string | null | undefined | Promise<string | null | undefined>;
 }
 export interface StrategySelectorProviderOptions<TStrategy> {
     provide: StrategySelectorToken<TStrategy>;

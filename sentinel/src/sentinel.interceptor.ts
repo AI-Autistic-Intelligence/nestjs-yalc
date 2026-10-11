@@ -12,7 +12,7 @@ import { RagHallucinationGroundednessEngine } from './algorithms/rag-groundednes
 export class RagGroundednessInterceptor implements NestInterceptor {
   constructor(private readonly minGroundednessScore: number = 0.70) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const request = context.switchToHttp().getRequest();
     const retrievedContexts: string[] = request.ragContexts || [];
 

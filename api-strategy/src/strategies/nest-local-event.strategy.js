@@ -10,6 +10,9 @@ export class NestLocalEventStrategy {
         return this.eventEmitter.emitAsync(path, payload, options);
     }
 }
+/**
+ * Just a convenient provider to inject the NestLocalCallStrategy
+ */
 export const NestLocalEventStrategyProvider = (provide, options = {}) => ({
     provide,
     useFactory: (eventEmitter) => {

@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.envTestHelper = envTestHelper;
+/**
+ *  Used as a helper to make jest tests cleaner when working with process.env
+ */
 function envTestHelper(env) {
     const OLD_ENV = process.env;
     if (env) {

@@ -11,6 +11,9 @@ export interface SortModelString<T = any> extends SortModel<T> {
 export interface SortModelStrict<T> extends SortModel<T> {
     colId: keyof T;
 }
+/**
+ * @deprecated
+ */
 export declare class SortModel<T = any> implements SortModel<T> {
     colId: keyof T | string;
     sort?: SortDirection;

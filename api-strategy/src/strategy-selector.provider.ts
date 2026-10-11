@@ -5,15 +5,15 @@ import type { IEventStrategy } from './context-event.interface.js';
 export type StrategySelectorToken<TStrategy = unknown> =
   | string
   | symbol
-  | (abstract new (...args: any[]) => TStrategy)
-  | (new (...args: any[]) => TStrategy);
+  | (abstract new (...args: unknown[]) => TStrategy)
+  | (new (...args: unknown[]) => TStrategy);
 
 export type StrategySelectorBehavior = 'throw' | 'fallback';
 
 export interface StrategySelectorFactoryOptions {
   inject?: any[];
   useFactory?: (
-    ...args: any[]
+    ...args: unknown[]
   ) => string | null | undefined | Promise<string | null | undefined>;
 }
 
@@ -54,7 +54,7 @@ export function StrategySelectorProvider<TStrategy>(
 
   return {
     provide: options.provide,
-    useFactory: async (...args: any[]) => {
+    useFactory: async (...args: unknown[]) => {
       const strategyInstances = args.slice(
         0,
         strategyEntries.length,

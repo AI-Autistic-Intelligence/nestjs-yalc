@@ -29,10 +29,16 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
             !headers[this.internalHeader]) {
             headers[this.internalHeader] = this.internalToken;
         }
+        /**
+         * We need this to do a type check on the options and
+         * implement the mapping from HttpOptions to InjectOptions;
+         */
         const _options = {
-            headers,
+            ...(headers !== undefined ? { headers: headers } : {}),
             ...(options?.method !== undefined ? { method: options.method } : {}),
-            ...(options?.data !== undefined ? { payload: options.data } : {}),
+            /**@todo investigate where to set thi */
+            // signal: options?.signal,
+            ...(options?.data !== undefined ? { payload: options.data } : {}), // map data to payload
         };
         const args = {
             ..._options,
@@ -53,6 +59,8 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
             }
         }
         catch (_e) {
+            //The content-type of the response is not application/json
+            // if so, we use the body instead
             data = result.body;
         }
         return {
@@ -60,10 +68,13 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
             headers: result.headers,
             status: result.statusCode,
             statusText: result.statusMessage,
-            request: result.payload,
+            request: result.payload, // TODO: double check if it's the correct value
         };
     }
 }
+/**
+ * Just a convenient provider to inject the NestLocalCallStrategy
+ */
 export const NestLocalCallStrategyProvider = (provide, options = {}) => ({
     provide,
     useFactory: (httpAdapter, clsService, configService) => {

@@ -10,6 +10,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { JwtModule } from '@nestjs/jwt';
 import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
 import { GraphQLError } from 'graphql/error';
+// import { AppLoggerModule } from '@nest-yalc-2/logger/app-logger.module.js';
 import { TypeORMLogger } from '@node-yalc/database/typeorm-logger.js';
 import { CURAPP_CONF_ALIAS } from './def.const.js';
 import { AppEvents } from './app.events.js';
@@ -17,14 +18,19 @@ import { GqlComplexityPlugin } from '@nest-yalc-2/graphql/plugins/gql-complexity
 import { isClass } from '@node-yalc/utils/class.helper.js';
 import { ApolloFederationDriver, } from '@nestjs/apollo';
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config(); // preload .env root file before all the others
+/**
+ * This factory function can be reused within tests to
+ * create a test app module with the same imports of the actual app
+ */
 export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, options) {
     const { setupEvents = true, setupJwt = true, keepDBConnectionAlive = false, buildSchemaOptions = {}, disablePlayground = false, } = options ?? {};
     const envPath = [];
     if (!options?.envPath) {
-        envPath.push('.env');
+        envPath.push('.env'); // user-defined env (git-ignored)
         if (process.env.NODE_ENV) {
-            envPath.push(`.env.${process.env.NODE_ENV}`);
+            envPath.push(`.env.${process.env.NODE_ENV}`); // user-defined env (git-ignored)
+            // .env.shared is always loaded except in production
             if (process.env.NODE_ENV !== 'production')
                 envPath.push('conf/dist/.env.shared');
             if (process.env.DOCKER_CONTAINER === '1')
@@ -38,9 +44,13 @@ export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, o
     const configModule = ConfigModule.forRoot({
         load: confs,
         envFilePath: envPath,
+        // isGlobal: true,
     });
+    // configModule and AppContextModule must be global to avoid
+    // import (re-instantiating) them when they are required by other modules
     const imports = [
         configModule,
+        // AppLoggerModule.forRoot(context, configModule),
         AppContextModule,
         HttpModule,
     ];
@@ -89,13 +99,17 @@ export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, o
                 return {
                     autoSchemaFile: true,
                     buildSchemaOptions,
+                    // can cause performance issues (https://docs.nestjs.com/graphql/other-features#execute-enhancers-at-the-field-resolver-level)
+                    // be careful
                     fieldResolverEnhancers: ['interceptors', 'guards', 'filters'],
                     transformAutoSchemaFile: true,
                     transformSchema: (graphQLSchema) => {
                         const opPrefix = options?.operationPrefix ?? conf?.operationPrefix;
                         const rename = (name) => {
+                            // _service, _entities etc. are used by federation and must not be renamed
                             if (!opPrefix || name.startsWith('_'))
                                 return name;
+                            // orphaned types must keep their non-prefixed name
                             if (options?.buildSchemaOptions?.orphanedTypes?.some((cl) => isClass(cl) && cl.name === name))
                                 return name;
                             return `${opPrefix}_${name}`;
@@ -115,6 +129,8 @@ export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, o
                     },
                     include: gqlModules,
                     useGlobalPrefix: true,
+                    // Makes sure not too much info. is revealed when reporting errors in non-dev stages
+                    // @url: https://github.com/nestjs/graphql/issues/1053#issuecomment-740739410
                     formatError: (formattedError, error) => {
                         const graphQLError = error instanceof GraphQLError ? error : undefined;
                         const exception = graphQLError?.extensions?.exception;
@@ -124,15 +140,16 @@ export function AppDependencyFactory(_context, confs, dbConnNames, gqlModules, o
                         if (conf && (conf.isDev || conf.isTest)) {
                             return {
                                 ...formattedError,
-                                message,
+                                message, // override the message with meaningful info
                             };
                         }
+                        // throw only essential error info in production
                         const productionError = {
                             message,
                             extensions: {
                                 path: formattedError.path,
                                 code: formattedError.extensions?.code,
-                                exception: graphQLError?.originalError,
+                                exception: graphQLError?.originalError, // error without stacktrace
                             },
                         };
                         return productionError;

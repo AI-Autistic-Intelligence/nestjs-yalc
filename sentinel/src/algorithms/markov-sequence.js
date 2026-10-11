@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * # Markov Sequence Predictor (`markov-sequence.ts`)
+ * State transition probability matrix P(S_{t+1} | S_t) over endpoint traversal paths
+ * (Academic Ref: *ACM CCS*).
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MarkovBehaviorEngine = void 0;
 class MarkovBehaviorEngine {
@@ -6,6 +11,9 @@ class MarkovBehaviorEngine {
         this.transitionCounts = new Map();
         this.stateTotals = new Map();
     }
+    /**
+     * Trains/updates transition probability matrix with historical user navigation sequences
+     */
     trainSequence(sequence) {
         for (let i = 0; i < sequence.length - 1; i++) {
             const current = sequence[i];
@@ -18,6 +26,9 @@ class MarkovBehaviorEngine {
             this.stateTotals.set(current, (this.stateTotals.get(current) || 0) + 1);
         }
     }
+    /**
+     * Evaluates sequence probability P(S) = product(P(S_{i+1} | S_i))
+     */
     evaluateSequence(sequence) {
         if (sequence.length < 2) {
             return { isAnomaly: false, anomalyScore: 0.0, sequenceProbability: 1.0 };

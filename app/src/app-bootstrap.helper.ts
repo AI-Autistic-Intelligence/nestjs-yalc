@@ -155,7 +155,7 @@ export class AppBootstrap<
         transformOptions: { enableImplicitConversion: false },
         validateCustomDecorators: true,
         exceptionFactory: /* istanbul ignore next */ (errors) => {
-                    const errorMessages: { [key: string]: any } = {};
+                    const errorMessages: { [key: string]: unknown } = {};
                     errors.forEach((error) => {
             errorMessages[error.property] = error;
           });

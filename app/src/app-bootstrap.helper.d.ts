@@ -5,9 +5,16 @@ import { FastifyInstance } from 'fastify';
 import { BaseAppBootstrap, IGlobalOptions } from './app-bootstrap-base.helper.js';
 export interface ICreateOptions {
     enableSwagger?: boolean;
+    /**
+     * Path segment (without leading slash) where Swagger UI/JSON is exposed.
+     * Defaults to "api".
+     */
     swaggerPath?: string;
     filters?: ExceptionFilter[];
     validationPipeOptions?: ValidationPipeOptions;
+    /**
+     * On some cases we do want to manually override the apiPrefix of the service conf
+     */
     apiPrefix?: string;
 }
 export interface INestCreateOptions extends ICreateOptions, NestApplicationOptions {

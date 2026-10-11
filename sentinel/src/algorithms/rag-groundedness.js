@@ -1,7 +1,15 @@
 "use strict";
+/**
+ * # RAG Groundedness & Hallucination Guardrail Engine (`rag-groundedness.ts`)
+ * RAG factual claim overlap ratio scoring engine
+ * (Academic Ref: *Building LLM-Powered Applications* & *Mastering LLM Applications*).
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RagHallucinationGroundednessEngine = void 0;
 class RagHallucinationGroundednessEngine {
+    /**
+     * Computes factual groundedness score as the ratio of generated response claims supported by retrieved context chunks
+     */
     static evaluateGroundedness(generatedResponse, retrievedContexts, groundednessThreshold = 0.70) {
         const claims = generatedResponse
             .split(/[.!?]/)

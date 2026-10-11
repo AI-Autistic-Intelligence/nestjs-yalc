@@ -1,6 +1,11 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { IsNull } from 'typeorm';
 import { OmniExternalRefInternalType } from './omni-external-ref-internal-type.enum.js';
+/**
+ * Reusable validation for an external reference whose declared target is an
+ * Omni record identity. Other internal types remain legacy application-owned
+ * identities and are intentionally not passed to this validator.
+ */
 export class OmniExternalRefBindingValidator {
     constructor(recordRepository, scope) {
         this.recordRepository = recordRepository;

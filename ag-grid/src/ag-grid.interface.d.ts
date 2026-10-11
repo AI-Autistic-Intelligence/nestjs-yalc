@@ -52,6 +52,9 @@ export interface MultiColumnProperty {
 export interface MultiColumnObject extends MultiColumnProperty {
     multiColumnJoinOperator: Operators;
 }
+/**
+ * @deprecated
+ */
 export type FilterInputOld = {
     [key: string]: FilterModel | CombinedSimpleModel | MultiColumnJoinOptions | undefined;
 } & MultiColumnProperty;
@@ -81,11 +84,20 @@ export interface FilterInput {
     childExpressions?: FilterInput[];
 }
 export interface AgGridFindExtraOptions {
+    /** It apply limit and offset at the same level of the join instead of
+     * wrapping the join with another query by applying the limit later
+     */
     rawLimit?: boolean;
     skipCount?: boolean;
+    /**
+     * Extra args
+     */
     args?: {
         [index: string]: unknown;
     };
+    /**
+     * Internally used
+     */
     _fieldMapper?: FieldMapper;
     _keysMeta?: {
         [key: string]: KeyMeta;
@@ -94,6 +106,7 @@ export interface AgGridFindExtraOptions {
 }
 export interface AgGridFindManyOptions<T = unknown> extends Omit<FindManyOptions<T>, 'where'> {
     where?: WhereCondition;
+    /** Contains useful information about the graphql request */
     info?: GraphQLResolveInfo;
     extra?: AgGridFindExtraOptions;
     subQueryFilters?: AgGridFindManyOptions<T>;
@@ -107,9 +120,15 @@ export interface CombinedWhereModel {
     filter_2: FindOperator<string | number | Date | null> | CombinedWhereModel;
 }
 export interface BaseArg {
+    /**
+     *
+     */
     filterMiddleware?: {
         (ctx: GqlExecutionContext, filterValue?: unknown): unknown;
     };
+    /**
+     *
+     */
     hidden?: boolean;
 }
 export interface DArg extends BaseArg {
@@ -121,13 +140,29 @@ export interface ExtraArg extends BaseArg {
     filterCondition: GeneralFilters;
 }
 export interface AgGridArgsSingleOptions {
+    /**
+     * @property Options for the nestjs Args decorator
+     */
     gql?: ArgsOptions;
+    /**
+     * @deprecated use fieldType instead
+     * @property fieldMap is used internally to convert names of exposed fields to database fields
+     */
     fieldMap?: FieldMapper | FieldAndFilterMapper;
+    /**
+     * @property fieldType is used internally to retrieve information about the returned type
+     */
     fieldType?: ClassType | ReturnTypeFuncValue;
+    /**
+     * @property entityType is used internally to generate graphql types for the inputs
+     */
     entityType?: ClassType;
 }
 export interface AgGridArgsOptions extends AgGridArgsSingleOptions {
     defaultValue?: AgQueryParams;
+    /**
+     * Filters with direct arguments
+     */
     extraArgsStrategy?: ExtraArgsStrategy;
     extraArgs?: {
         [index: string]: ExtraArg;

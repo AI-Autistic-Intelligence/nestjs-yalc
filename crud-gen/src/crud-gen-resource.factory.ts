@@ -155,7 +155,7 @@ function normalizeBackendOptions<Entity extends ObjectLiteral>(
   return result;
 }
 
-export function CrudGenResourceFactory<Entity extends Record<string, any>>({
+export function CrudGenResourceFactory<Entity extends Record<string, unknown>>({
   entityModel,
   backend,
   graphql,

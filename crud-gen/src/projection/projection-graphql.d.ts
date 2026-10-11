@@ -6,6 +6,10 @@ export interface ProjectionGraphqlTypes {
     patch: ProjectionGraphqlClass;
     conditions: ProjectionGraphqlClass;
 }
+/**
+ * Derives GraphQL output and input shapes from a projection definition.
+ * `scopeId` is intentionally absent from every public type.
+ */
 export declare function createProjectionGraphqlTypes(definition: ProjectionResourceDefinition, names: {
     object: string;
     create: string;

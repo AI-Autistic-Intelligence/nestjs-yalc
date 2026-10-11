@@ -34,10 +34,11 @@ export function getCachedModule(module, isSingleton) {
 export function envFilePathList(dirname) {
     const _dirname = dirname ?? '.';
     const envFilePath = [];
-    envFilePath.push(`${_dirname}/.env`);
+    envFilePath.push(`${_dirname}/.env`); // user-defined env (git-ignored)
     if (process.env.NODE_ENV) {
-        envFilePath.push(`${_dirname}/.env.${process.env.NODE_ENV}`);
+        envFilePath.push(`${_dirname}/.env.${process.env.NODE_ENV}`); // user-defined env (git-ignored)
     }
+    // .env.dist is always loaded except in production
     if (process.env.NODE_ENV !== 'production')
         envFilePath.push(`${_dirname}/.env.dist`);
     return envFilePath;
@@ -53,21 +54,34 @@ const _buildEnvFilePath = _.memoize((envDir, envPath) => {
     }
     Logger.debug(`Using env file paths: ${envFilePath}`);
     return envFilePath;
-}, (envDir = '', envPath = '') => {
+}, 
+// Since memoize use the first argument as the key, we need to generate a unique key based on both arguments
+(envDir = '', envPath = '') => {
     return `${envDir}-${Array.isArray(envPath) ? envPath.join(',') : envPath}`;
 });
+/**
+ * For some strange reason, the memoize doesn't work well with exporting the const at the same time
+ * and re-use it in the same file
+ */
 export function buildEnvFilePath(envDir, envPath) {
     return _buildEnvFilePath(envDir, envPath);
 }
+/**
+ * Used for applications with controller/resolver support
+ * you should override it
+ */
 export function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     const _options = {
+        // default values
         isSingleton: false,
         global: true,
+        // user defined values
         ...(options ?? {}),
     };
     const { controllers, exports, imports, providers } = _options;
     const cached = getCachedModule(module, _options.isSingleton);
     if (cached) {
+        // Logger.debug(`Using cached metadata for ${module.name}`);
         return cached;
     }
     const _providers = [
@@ -98,7 +112,11 @@ export function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     }
     const hasConfig = _options.extraConfigs || _options.configFactory;
     if (hasConfig) {
-        _providers.push(createAppConfigProvider(appAlias), {
+        _providers.push(createAppConfigProvider(appAlias), 
+        /**
+         * Alias
+         */
+        {
             provide: AppConfigService,
             useExisting: getAppConfigToken(appAlias),
         });
@@ -106,6 +124,7 @@ export function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     if (!_options.skipDuplicateAppCheck) {
         _providers.push(LifeCycleHandler);
     }
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     if (providers) {
         _providers.push(...providers);
     }
@@ -127,6 +146,9 @@ export function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
             envFilePath,
             load: [
                 registerAs(appAlias, async () => {
+                    /**
+                     * @see https://docs.nestjs.com/techniques/configuration#environment-variables-loaded-hook
+                     */
                     await ConfigModule.envVariablesLoaded;
                     return await (_options.configFactory?.() ?? {});
                 }),
@@ -141,6 +163,10 @@ export function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
                 allowUnknown: true,
                 abortEarly: true,
             },
+            /**
+             * It can be global because the ConfigService registers configurations by using an alias, hence there won't be any conflict
+             * It allows us to use the ConfigService in any module without having to import the ConfigModule
+             */
             isGlobal: true,
         }), YalcClsModule);
     }
@@ -173,7 +199,17 @@ export function yalcBaseAppModuleMetadataFactory(module, appAlias, options) {
     registerSingletonDynamicModule(_options.isSingleton, module, config);
     return config;
 }
+/**
+ * Util class that can be extended to create a NestJS application
+ */
 export class YalcBaseAppModule {
+    /**
+     * Used by the CLI and other non-network processes
+     * you should override it
+     *
+     * NOTE: if you need singleton dynamic modules, you should use the `isSingleton` property
+     * but in most of the cases is better to use the static module instead
+     */
     static _forRootStandalone(appAlias, options) {
         return this.assignDynamicProperties(yalcBaseAppModuleMetadataFactory(this, appAlias, {
             isStandalone: true,
@@ -181,6 +217,13 @@ export class YalcBaseAppModule {
             ...options,
         }), options);
     }
+    /**
+     * Used for applications with controller/resolver support
+     * you should override it
+     *
+     * NOTE: if you need singleton dynamic modules, you should use the `isSingleton` property
+     * but in most of the cases is better to use the static module instead
+     */
     static _forRoot(appAlias, options) {
         return this.assignDynamicProperties(yalcBaseAppModuleMetadataFactory(this, appAlias, {
             isStandalone: false,
@@ -213,6 +256,9 @@ YalcGlobalStaticModule = __decorate([
     Module(yalcGlobalStaticModuleFactory())
 ], YalcGlobalStaticModule);
 export { YalcGlobalStaticModule };
+/**
+ * This class is used to create true singleton providers
+ */
 export class YalcDefaultAppModule {
     static forRoot(appAlias, imports, options) {
         const _imports = [

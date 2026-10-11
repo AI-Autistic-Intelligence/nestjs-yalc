@@ -15,8 +15,12 @@ export interface IProjectInfo {
 }
 export interface IOptions {
     skipProjects?: string[];
+    /**
+     * key: project name
+     * value: jest configurations
+     */
     confOverrides?: {
-        [key: string]: any;
+        [key: string]: unknown;
     };
     defaultCoverageThreshold?: {
         branches: number;

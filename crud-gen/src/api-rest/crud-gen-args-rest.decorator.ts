@@ -187,7 +187,7 @@ export const CrudGenCombineDecorators = (params: ICrudGenGqlArgsOptions) => {
 
   const args = Query();
   const mapper = CrudGenArgsMapper(params);
-  return function (target: any, key: string, index: number) {
+  return function (target: object, key: string | symbol, index: number) {
     args(target, key, index);
     // joinArg && joinArg(target, key, index);
     argDecorators.map((d) => d(target, key, index));

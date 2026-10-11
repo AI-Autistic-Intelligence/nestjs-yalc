@@ -36,6 +36,8 @@ export const isSymbolic = (data, key) => {
     }
 };
 export const forceFilters = (where, properties, fieldMap) => {
+    // typeORM where property can be a string as type but we do not allow to use
+    // string with this filter. Should never happen though
     if (typeof where === 'string') {
         throw new CrudGenStringWhereError();
     }
@@ -66,7 +68,7 @@ export const forceFilterWorker = (where, target, value, descriptors) => {
 };
 export function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
     let sql = '';
-    const operator = (where.operator ?? Operators.AND).toUpperCase();
+    const operator = (where.operator ?? Operators.AND).toUpperCase(); // first level is always AND
     if (!where.filters)
         return sql;
     const connection = queryBuilder.connection;
@@ -78,17 +80,24 @@ export function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
     };
     for (const key of Object.keys(where.filters)) {
         const operation = where.filters[key] ?? {};
+        //If we have an operator it means that the filter is combined, or it is a multicolumn
         if (operation.operator !== undefined) {
+            //If it is a multicolumn then we convert all internal filters to the multicolumn and enclose the result in round brackets
             if (isCombinedWhereModel(operation) &&
                 !isCombinedWhereModel(operation.filter_1) &&
                 !isCombinedWhereModel(operation.filter_2)) {
+                //If instead it is a combined filter then we will convert the first and second filters, enclosing them in brackets and using the operator
                 sql += `(${QueryBuilderHelper.computeFindOperatorExpression(queryBuilder, operation.filter_1, QueryBuilderHelper.addAlias(fixParam(key.toString()), alias && escapeFn(alias), fieldMap), operation.filter_1.value)} ${operation.operator.toUpperCase()} ${QueryBuilderHelper.computeFindOperatorExpression(queryBuilder, operation.filter_2, QueryBuilderHelper.addAlias(fixParam(key.toString()), alias && escapeFn(alias), fieldMap), operation.filter_2.value)}) ${operator} `;
             }
             else {
+                /**
+                 * @todo handle the else (?) but it should not happen
+                 */
                 throw new CrudGenConditionNotSupportedError();
             }
         }
         else if (isFindOperator(operation)) {
+            //If it is a normal filter then we simply convert it and add the operator
             sql += `${QueryBuilderHelper.computeFindOperatorExpression(queryBuilder, operation, QueryBuilderHelper.addAlias(fixParam(key.toString()), alias && escapeFn(alias), fieldMap), operation.value)} ${operator} `;
         }
         else if (typeof operation === 'string') {
@@ -106,6 +115,7 @@ export function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
             sql += `(${generatedSql}) ${operator} `;
         });
     }
+    //At the end of the cycle we will have an operator and an excess space, and we remove them
     sql = sql.substring(0, sql.lastIndexOf(operator));
     sql = sql.substring(0, sql.lastIndexOf(' '));
     return sql;
@@ -156,7 +166,17 @@ export const objectToFieldMapper = (object) => {
     }
     else if (isIFieldAndFilterMapper(object)) {
         fieldMapper = object;
-    }
+    } /**
+    @todo rework or delete, it throws an error with enum as gqlType
+    
+    else if (Object.keys(object).length !== 0) {
+      console.trace(object);
+      throw new TypeError(
+        `This object is not compatible with IFieldMapper ${JSON.stringify(
+          object,
+        )}`,
+      );
+    } */
     if ((typeof object === 'object' && object !== null) || typeof object === 'function')
         objectToFieldMapperCache.set(object, fieldMapper);
     return fieldMapper;
@@ -199,6 +219,7 @@ export function CrudGenBackendFactory({ entityModel, dataloader, service, reposi
             const provider = GenericServiceFactory(service.entityModel ?? entityModel, service.dbConnection, service.providerClass);
             serviceToken = getProviderToken(provider.provide);
             providers.push(provider);
+            // We always want a string alias for this provider
             if (typeof provider.provide !== 'string') {
                 providers.push({
                     provide: serviceToken,
@@ -243,7 +264,9 @@ export function CrudGenGraphqlFactory({ entityModel, resolver, serviceToken, dat
     };
     return { providers: [resolverFactory(resolverOptions)] };
 }
-export function getProviderToken(entity) {
+export function getProviderToken(
+// eslint-disable-next-line @typescript-eslint/ban-types
+entity) {
     if (entity && typeof entity === 'object' && entity.provide) {
         return typeof entity.provide === 'function'
             ? entity.provide.name
@@ -291,6 +314,7 @@ export function getEntityRelations(entityModel, dto) {
 export function getTypeProperties(entityModel) {
     const columns = getMetadataArgsStorage().columns.filter((v) => typeof v.target !== 'string' &&
         (entityModel.prototype instanceof v.target || entityModel === v.target));
+    // to get crud-gen fields
     const fieldMetadataList = getModelFieldMetadataList(entityModel);
     if (fieldMetadataList) {
         for (const propertyName of Object.keys(fieldMetadataList)) {
@@ -298,6 +322,7 @@ export function getTypeProperties(entityModel) {
             if (!fieldMetadata)
                 continue;
             if (fieldMetadata.mode !== 'derived') {
+                // skip non virtual columns
                 continue;
             }
             columns.push({
@@ -370,6 +395,7 @@ export function traverseFiltersAndApplyFunction(where, callback) {
         where.childExpressions.map((expr) => traverseFiltersAndApplyFunction(expr, callback));
     }
 }
+// TODO: refactoring formatRawSelection*
 export function formatRawSelectionWithoutAlias(selection, prefix = '') {
     let _prefix = '';
     if (prefix) {
@@ -397,7 +423,16 @@ export function formatRawSelection(selection, fieldName, options = {}) {
     selection = `${_prefix}${selection} AS ${escapeCharacter}${alias}${escapeCharacter}`;
     return selection;
 }
-export function applySelectOnFind(findOptions, field, fieldMapper, path = '') {
+/**
+ * Derived fields need metadata attached in order to be processed by
+ * the CrudGen Repository. Use this method to apply the proper
+ * selection with metadata to a find option object
+ */
+export function applySelectOnFind(findOptions, field, fieldMapper, 
+/**
+ * If it's a nested field, you need to specify a path
+ */
+path = '') {
     if (path && !path.endsWith('.'))
         path = path + '.';
     const fieldName = field.toString();
@@ -408,6 +443,7 @@ export function applySelectOnFind(findOptions, field, fieldMapper, path = '') {
     }
     if (fieldMapper[fieldName]?.mode === 'derived' || path) {
         const keysMeta = findOptions.extra._keysMeta ?? {};
+        // do not apply twice
         if (keysMeta[key])
             return;
         keysMeta[key] = {

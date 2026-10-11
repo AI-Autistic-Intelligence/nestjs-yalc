@@ -1,6 +1,16 @@
+/** GraphQL Int and PostgreSQL integer share this portable signed range. */
 export const PROJECTION_INTEGER_MIN = -(2 ** 31);
 export const PROJECTION_INTEGER_MAX = 2 ** 31 - 1;
+/**
+ * Portable JSON paths are object-property paths only. Keeping the grammar
+ * deliberately small lets both SQLite JSON1 and PostgreSQL jsonb compile a
+ * path as a SQL literal without dialect-specific escaping rules.
+ */
 export const projectionPathSegmentPattern = /^[A-Za-z_][A-Za-z0-9_]*$/;
+/**
+ * UUIDs use their canonical lowercase, hyphenated text representation. The
+ * projection contract stores the same portable text on SQLite and PostgreSQL.
+ */
 export const projectionCanonicalUuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 function freezeDeep(value) {
     if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -171,6 +181,11 @@ function assertProjectionUniqueConstraints(definition, indexNames) {
         }
     }
 }
+/**
+ * Verifies the one metadata contract before it reaches a dialect. This is
+ * exported so callers that receive structural data rather than a value from
+ * defineProjectionResource can fail before executing SQL as well.
+ */
 export function assertProjectionResourceDefinition(definition) {
     assertIdentifier(definition.id, 'Projection resource id');
     assertIdentifier(definition.tableName, 'Projection table name');
@@ -307,9 +322,11 @@ export function assertProjectionResourceDefinition(definition) {
         throw new TypeError('Projection reference and unique constraint names must be distinct.');
     }
 }
+/** The stable child-supporting index generated for a declarative reference. */
 export function getProjectionReferenceIndexName(reference) {
     return `${reference.name}_idx`;
 }
+/** Returns the scope-prefixed local columns for a declarative reference. */
 export function getProjectionReferenceColumnNames(definition, reference) {
     assertProjectionResourceDefinition(definition);
     return [
@@ -317,9 +334,11 @@ export function getProjectionReferenceColumnNames(definition, reference) {
         ...reference.fields.map((fieldName) => promotedColumnField(definition, fieldName, `Projection reference ${reference.name} field ${fieldName}`).column),
     ];
 }
+/** Returns the scope-prefixed target columns for a declarative reference. */
 export function getProjectionReferenceTargetColumnNames(reference) {
     return [reference.target.scopeColumn, ...reference.target.identityColumns];
 }
+/** Returns the scope-prefixed columns covered by a partial unique constraint. */
 export function getProjectionUniqueConstraintColumnNames(definition, constraint) {
     assertProjectionResourceDefinition(definition);
     return [
@@ -350,6 +369,11 @@ function compileProjectionPredicateLiteral(field, value, dialect) {
     }
     throw new TypeError(`Projection unique predicates cannot use ${field.codec} field ${field.name}.`);
 }
+/**
+ * Compiles a structural partial-index predicate without accepting raw SQL.
+ * Identifiers are validated and quoted; values are first checked against their
+ * declared field codecs and then emitted as dialect-specific scalar literals.
+ */
 export function compileProjectionUniqueConstraintPredicate(definition, constraint, dialect) {
     assertProjectionResourceDefinition(definition);
     if (dialect !== 'sqlite' && dialect !== 'postgres') {
@@ -370,6 +394,18 @@ export function compileProjectionUniqueConstraintPredicate(definition, constrain
     })
         .join(' AND ');
 }
+/**
+ * Projection codec values have deliberately portable semantics:
+ * - string: a JavaScript string; equality and sorting are textual.
+ * - uuid: a canonical lowercase hyphenated UUID string; equality, sorting,
+ *   and indexes compare its validated text representation.
+ * - instant: a canonical Date#toISOString UTC timestamp; equality, range,
+ *   sorting and indexes compare the canonical text representation.
+ * - integer: a signed 32-bit integer; equality, range, sorting and indexes
+ *   use a signed SQL integer expression.
+ * - json: a JSON-compatible value; it is transport-only and has no query or
+ *   index capability.
+ */
 export function assertProjectionCodecValue(field, value) {
     if (value === null) {
         if (!field.nullable) {
@@ -416,6 +452,7 @@ export function assertProjectionCodecValue(field, value) {
         throw new TypeError(`Projection JSON field ${field.name} must contain a JSON-compatible value.`);
     }
 }
+/** Normalizes the only non-JSON runtime representation accepted by a codec. */
 export function normalizeProjectionCodecValue(field, value) {
     if (field.codec === 'instant' && value instanceof Date) {
         if (Number.isNaN(value.getTime())) {
@@ -451,6 +488,7 @@ function isJsonCompatible(value, seen) {
     seen.add(value);
     return Object.values(value).every((item) => isJsonCompatible(item, seen));
 }
+/** Validates the opaque payload object before it reaches the JSON column. */
 export function assertProjectionPayloadValue(value) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
         throw new TypeError('Projection payload must be a JSON object.');

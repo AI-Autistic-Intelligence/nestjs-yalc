@@ -1,16 +1,16 @@
 import { CallHandler, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { ObjectMapperType } from '@node-yalc/utils/object-mapper.helper.js';
-export declare function objectMapperInterceptor<TInputObject extends Record<string, any>, TOutputObject extends Record<string, any>>(mapper: ObjectMapperType<TInputObject, TOutputObject>, options?: {
+export declare function objectMapperInterceptor<TInputObject extends Record<string, unknown>, TOutputObject extends Record<string, unknown>>(mapper: ObjectMapperType<TInputObject, TOutputObject>, options?: {
     copyNonMappedProperties?: boolean;
     transformData?: {
-        (data: any): any;
+        (data: unknown): unknown;
     };
     callback?: {
-        (inputData: any, outputData: any): any;
+        (inputData: unknown, outputData: unknown): unknown;
     };
 }): {
     new (): {
-        intercept(_context: ExecutionContext, next: CallHandler): Observable<any>;
+        intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown>;
     };
 };

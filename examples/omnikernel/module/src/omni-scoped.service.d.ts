@@ -6,6 +6,10 @@ type ScopedEntity = ObjectLiteral & {
     scopeId: string;
     deletedAt?: Date | null;
 };
+/**
+ * The shared service boundary for scoped Omni CRUD. Every lookup, mutation,
+ * and generated grid is scoped before it reaches the generic CrudGen service.
+ */
 export declare class OmniScopedService<Entity extends ScopedEntity> extends GenericService<Entity> {
     private readonly deletion;
     constructor(repository: any, scopeOrRepositoryWrite?: OmniScope | any, deletion?: OmniDeletePolicy);

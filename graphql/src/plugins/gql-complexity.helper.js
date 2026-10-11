@@ -6,10 +6,11 @@ const gql_ast_helper_js_1 = require("./gql-ast.helper.js");
 const gql_error_js_1 = require("./gql.error.js");
 const MAX_EXECUTABLE_DEFINITIONS = 50;
 const MAX_DEPTH = 3;
+// GraphQL Object Type returned by queries/mutations/fields that might have a circular dependency.
 const returnTypeMap = {
     ManageUser_getUser: 'UserType',
     ManageUser_getUserGrid: 'UserGrid',
-    User: 'UserType',
+    User: 'UserType', // Temporary solution for wrong type returned by the 'User' in UserEmail object type.
 };
 class GqlComplexityHelper {
     static processDocumentAST(document, schema) {
@@ -47,6 +48,9 @@ class GqlComplexityHelper {
         const { name, selectionSet } = node;
         const { value: fieldName } = name;
         const notNodesField = fieldName !== 'nodes';
+        // Process non-captilized request resources should not be supported
+        // It's still necessary to visit the selectionSet inside 'nodes' (CrudGen).
+        // ID is used as a field name in entities, not a nested resource, it should be skipped.
         const shouldSkipFieldName = fieldName === 'ID' ||
             (notNodesField && fieldName[0] !== fieldName.toUpperCase()[0]);
         if (shouldSkipFieldName) {

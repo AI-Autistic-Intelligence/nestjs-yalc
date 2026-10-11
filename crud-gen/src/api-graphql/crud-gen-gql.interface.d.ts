@@ -51,6 +51,9 @@ export interface IMultiColumnProperty {
 export interface IMultiColumnObject extends IMultiColumnProperty {
     multiColumnJoinOperator: Operators;
 }
+/**
+ * @deprecated
+ */
 export type IFilterInputOld = {
     [key: string]: FilterModel | ICombinedSimpleModel | IMultiColumnJoinOptions | undefined;
 } & IMultiColumnProperty;
@@ -80,11 +83,20 @@ export interface FilterInput {
     childExpressions?: FilterInput[];
 }
 export interface ICrudGenFindExtraOptions {
+    /** It apply limit and offset at the same level of the join instead of
+     * wrapping the join with another query by applying the limit later
+     */
     rawLimit?: boolean;
     skipCount?: boolean;
+    /**
+     * Extra args
+     */
     args?: {
         [index: string]: any;
     };
+    /**
+     * Internally used
+     */
     _fieldMapper?: IFieldMapper;
     _keysMeta?: {
         [key: string]: IKeyMeta;
@@ -93,6 +105,7 @@ export interface ICrudGenFindExtraOptions {
 }
 export interface CrudGenFindManyOptions<T extends ObjectLiteral = any> extends Omit<FindManyOptions<T>, 'where'> {
     where?: IWhereCondition<T>;
+    /** Contains useful information about the graphql request */
     info?: GraphQLResolveInfo;
     extra?: ICrudGenFindExtraOptions;
     subQueryFilters?: CrudGenFindManyOptions<T>;
@@ -106,9 +119,15 @@ export interface ICombinedWhereModel {
     filter_2: FindOperator<string | number | Date | null> | ICombinedWhereModel;
 }
 export interface IBaseArg {
+    /**
+     *
+     */
     filterMiddleware?: {
         (ctx: ExecutionContext, filterValue?: any): any;
     };
+    /**
+     *
+     */
     hidden?: boolean;
 }
 export interface IIDArg extends IBaseArg {
@@ -120,13 +139,29 @@ export interface IExtraArg extends IBaseArg {
     filterCondition: GeneralFilters;
 }
 export interface ICrudGenArgsSingleOptions {
+    /**
+     * @deprecated use fieldType instead
+     * @property fieldMap is used internally to convert names of exposed fields to database fields
+     */
     fieldMap?: IFieldMapper | IModelFieldAndFilterMapper;
+    /**
+     * @property fieldType is used internally to retrieve information about the returned type
+     */
     fieldType?: ClassType | ReturnTypeFuncValue;
+    /**
+     * @property entityType is used internally to generate graphql types for the inputs
+     */
     entityType?: ClassType;
 }
 export interface IGqlArgsOptions {
+    /**
+     * @property Options for the nestjs Args decorator
+     */
     gql?: ArgsOptions;
 }
+/**
+ * for non graphql args
+ */
 export interface ICrudGenArgsOptions extends ICrudGenArgsSingleOptions {
     defaultValue?: ICrudGenBaseParams;
     options?: {
@@ -136,6 +171,9 @@ export interface ICrudGenArgsOptions extends ICrudGenArgsSingleOptions {
 export interface ICrudGenGqlArgsSingleOptions extends ICrudGenArgsSingleOptions, IGqlArgsOptions {
 }
 export interface ICrudGenGqlArgsOptions extends ICrudGenArgsOptions, IGqlArgsOptions {
+    /**
+     * Filters with direct arguments
+     */
     extraArgsStrategy?: ExtraArgsStrategy;
     extraArgs?: {
         [index: string]: IExtraArg;
@@ -154,6 +192,10 @@ export interface ICrudGenBaseParams<T = any> extends ICrudGenPaginationParams {
     filters?: FilterInput;
 }
 export interface ICrudGenSimpleParams<T = any> extends ICrudGenPaginationParams, Omit<FindOneOptions<T>, 'where' | 'join' | 'order' | 'skip' | 'take'> {
+    /**
+     * @property where is used to filter the result
+     * @todo Implement FilterInput as possible type
+     */
     where?: FindOptionsWhere<T>[] | FindOptionsWhere<T>;
     sorting?: ISortModelStrict<T>[];
 }

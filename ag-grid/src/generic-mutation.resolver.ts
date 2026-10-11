@@ -17,7 +17,7 @@ import {
 } from './generic-resolver.type';
 import { InputArgs } from './gqlmapper.decorator';
 
-export function defineCreateMutation<Entity extends Record<string, any>>(
+export function defineCreateMutation<Entity extends Record<string, unknown>>(
   queryName: string,
   returnType: ClassType,
   resolver: ClassType<GenericResolver>,
@@ -119,7 +119,7 @@ export function defineCreateMutation<Entity extends Record<string, any>>(
     queryName,
   );
 }
-export function defineUpdateMutation<Entity extends Record<string, any>>(
+export function defineUpdateMutation<Entity extends Record<string, unknown>>(
   queryName: string,
   returnType: ClassType,
   resolver: ClassType<GenericResolver>,
@@ -191,7 +191,7 @@ export function defineUpdateMutation<Entity extends Record<string, any>>(
     queryName,
   );
 }
-export function defineDeleteMutation<Entity extends Record<string, any>>(
+export function defineDeleteMutation<Entity extends Record<string, unknown>>(
   queryName: string,
   returnType: ClassType,
   resolver: ClassType<GenericResolver>,

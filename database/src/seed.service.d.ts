@@ -2,6 +2,9 @@ import { Provider } from '@nestjs/common';
 import type { LoggerService } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+/**
+ * Application service
+ */
 export declare class SeedService {
     private dbConnections;
     private loggerService;
@@ -12,6 +15,10 @@ export declare class SeedService {
     private clearDatabase;
     private seedDatabase;
     seedDatabases(reseed: boolean): Promise<void>;
+    /**
+     *  Use it to reset connection options to be able to change database connection
+     *
+     */
     private resetConnection;
     private setConnection;
 }

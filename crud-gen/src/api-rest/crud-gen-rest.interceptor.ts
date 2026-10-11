@@ -76,8 +76,8 @@ export class CrudGenRestPaginationInterceptor<
 }
 
 export function buildCrudGenRestMapperInterceptor<
-  TInputObject extends Record<string, any> = any,
-  TOutputObject extends Record<string, any> = any,
+  TInputObject extends Record<string, unknown> = any,
+  TOutputObject extends Record<string, unknown> = any,
 >(
   entityToDtoSchema: ObjectMapperType<TInputObject, TOutputObject>,
   withPagination: boolean = false,
@@ -85,41 +85,41 @@ export function buildCrudGenRestMapperInterceptor<
   return objectMapperInterceptor<TInputObject, TOutputObject>(
     entityToDtoSchema,
     {
-      transformData: (data) => {
-        return withPagination ? data[0] : data; // with pagination, data is [data, count]
+      transformData: (data: unknown) => {
+        return withPagination ? (data as unknown[])[0] : data;
       },
-      callback: (inputData, data) => {
-        return withPagination ? [data, inputData[1]] : data; // [data, count] or data
+      callback: (inputData: unknown, data: unknown) => {
+        return withPagination ? [data, (inputData as unknown[])[1]] : data;
       },
     },
   );
 }
 
 export function buildCrudGenRestSimpleMapperInterceptor<
-  TInputObject extends Record<string, any> = any,
-  TOutputObject extends Record<string, any> = any,
+  TInputObject extends Record<string, unknown> = any,
+  TOutputObject extends Record<string, unknown> = any,
 >(
   dto: new (data: TInputObject) => TOutputObject,
   withPagination: boolean = false,
 ) {
   return buildSimpleMapperInterceptor<TInputObject, TOutputObject>(dto, {
-    transformer: (data) => {
-      return withPagination ? data[0] : data; // with pagination, data is [data, count]
+    transformer: (data: unknown) => {
+      return (withPagination ? (data as unknown[])[0] : data) as TInputObject;
     },
-    callback: (inputData, data) => {
-      return withPagination ? [data, inputData[1]] : data; // [data, count] or data
+    callback: (inputData: unknown, data: unknown) => {
+      return (withPagination ? [data, (inputData as unknown[])[1]] : data) as TOutputObject | TOutputObject[];
     },
   });
 }
 
 export function buildPaginatedResultDto<TDto>(
-  dto: new (...args: any[]) => TDto,
+  dto: new (...args: unknown[]) => TDto,
 ): new (data: TDto[], pageData: PageData) => PaginatedResultDto<TDto> {
   class NewPaginatedResultDto extends PaginatedResultDto<TDto> {
-    constructor(data: any[], pageData: PageData) {
+    constructor(data: unknown[], pageData: PageData) {
       super(
         data.map((item) => {
-          return yalcPlainToInstance<TDto, any>(dto, item);
+          return yalcPlainToInstance<TDto, unknown>(dto, item);
         }),
         pageData,
       );
@@ -132,11 +132,11 @@ export function buildPaginatedResultDto<TDto>(
  * Can be used in combination with the ClassSerializerInterceptor
  */
 export function buildPaginatedDTOInterceptor<T>(
-  dto: new (...args: any[]) => T,
+  dto: new (...args: unknown[]) => T,
 ): ClassType<NestInterceptor> {
   @Injectable()
   class PaginateDTOInterceptor implements NestInterceptor {
-    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
       const http = context.switchToHttp();
       const request = http.getRequest();
 
@@ -169,7 +169,7 @@ export function buildDTOInterceptor<TDto, TSrc>(
 ): ClassType<NestInterceptor> {
   @Injectable()
   class DtoInterceptor implements NestInterceptor {
-    intercept(_context: ExecutionContext, next: CallHandler): Observable<any> {
+    intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown> {
       return next.handle().pipe(
         map((data) => {
           return yalcPlainToInstance<TDto, TSrc>(dto, data);

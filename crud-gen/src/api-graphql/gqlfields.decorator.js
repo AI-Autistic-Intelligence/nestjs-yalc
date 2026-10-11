@@ -4,11 +4,21 @@ import { columnConversion, formatRawSelectionWithoutAlias, objectToFieldMapper, 
 import { removeSymbolicSelection } from '../typeorm/crud-gen-args.helpers.js';
 export const GqlModelFieldsMapper = (data, info) => {
     const fieldMapper = objectToFieldMapper(data);
+    /**
+     * Selections
+     */
     let keys = [];
+    /**
+     * Custom or Derived keys
+     */
     const keysMeta = {};
     const processSubItems = (mapper, item, prefix = '', path = '') => {
         if (path && !path.endsWith('.'))
             path += '.';
+        /**
+         * Do not process fields that are not actual fields (pageData etc)
+         * @todo improve this logic by using metadata on these properties instead of the hardcoded name
+         */
         if (item.name.value === 'pageData' && item.selectionSet)
             return;
         if (item.selectionSet) {
@@ -22,7 +32,7 @@ export const GqlModelFieldsMapper = (data, info) => {
                         keys.push(relationKey);
                     }
                 }
-                else if (!keys.includes(relationKey) && !keysMeta[relationKey]) {
+                else /* istanbul ignore next */ if (!keys.includes(relationKey) && !keysMeta[relationKey]) {
                     keysMeta[relationKey] = {
                         fieldMapper: relationField,
                         isNested: true,
@@ -33,6 +43,9 @@ export const GqlModelFieldsMapper = (data, info) => {
                 }
             }
             item.selectionSet.selections.forEach((subItem) => {
+                /**
+                 * if it's a nested item, then recurse
+                 */
                 if (subItem.selectionSet) {
                     const extraInfo = mapper.extraInfo?.[subItem.name.value];
                     if (extraInfo) {
@@ -43,6 +56,7 @@ export const GqlModelFieldsMapper = (data, info) => {
                         }
                         const _path = path + subItem.name.value;
                         processSubItems(nestedMapper, subItem, subItem.name.value, _path);
+                        // add required fields that have not been selected by the client
                         Object.keys(nestedMapper.field).forEach((k) => {
                             const v = nestedMapper.field[k];
                             if (!v)
@@ -63,7 +77,10 @@ export const GqlModelFieldsMapper = (data, info) => {
                     processSubItems(mapper, subItem, prefix, path);
                     return;
                 }
+                // We have to set a prefix when the parent is a nested item different by "nodes"
                 const _prefix = item.name.value;
+                // const _path =
+                //   item.name.value !== 'nodes' ? path + item.name.value + '.' : path;
                 const dst = columnConversion(subItem.name.value, mapper.field).toString();
                 const _path = !path ? path + item.name.value + '.' : path;
                 const key = _path + dst;
@@ -79,6 +96,9 @@ export const GqlModelFieldsMapper = (data, info) => {
         const dst = columnConversion(item.name.value, mapper.field).toString();
         const key = path + dst;
         const isNested = !!path;
+        /**
+         * If the field is derived we want to add it to the selection
+         */
         if (isNested || mapper.field[item.name.value]?.mode === 'derived') {
             keysMeta[key] = {
                 fieldMapper: mapper.field[item.name.value],
@@ -89,7 +109,17 @@ export const GqlModelFieldsMapper = (data, info) => {
         }
         keys.push(key);
     };
+    /**
+     * START Process first level fields
+     */
+    /**
+     * Process selected fields
+     */
     info.fieldNodes?.[0]?.selectionSet?.selections?.forEach((item) => processSubItems(fieldMapper, item));
+    /**
+     * Process required fields
+     */
+    // add required fields that have not been selected by the client
     Object.keys(fieldMapper.field).forEach((k) => {
         const v = fieldMapper.field[k];
         if (v.isRequired) {
@@ -103,9 +133,12 @@ export const GqlModelFieldsMapper = (data, info) => {
                 };
                 return;
             }
-            keys.indexOf(v.dst) < 0 && keys.push(v.dst);
+            /* istanbul ignore next */ keys.indexOf(v.dst) < 0 && keys.push(v.dst);
         }
     });
+    /**
+     * Remove symbolic fields that can't be used for the database
+     */
     keys = removeSymbolicSelection(keys, fieldMapper.field, '');
     return { keys, keysMeta };
 };

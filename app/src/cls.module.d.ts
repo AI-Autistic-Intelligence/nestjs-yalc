@@ -5,11 +5,17 @@ export interface IYalcCls extends ClsStore {
     headers: Record<string, string>;
     [key: symbol]: any;
 }
+/**
+ * Global Cls. This is useful if you want to have a single Cls instance for your entire application.
+ */
 export declare class YalcGlobalClsService<TCls extends IYalcCls = IYalcCls> extends ClsService<TCls> {
 }
 export interface IYalcAsyncLocalStorageAls {
     placeholder: string;
 }
+/**
+ * Module specific AsyncLocalStorage. This is useful if you want to have multiple AsyncLocalStorage instances for different modules.
+ */
 export declare class YalcAlsService<TStorage extends IYalcAsyncLocalStorageAls = IYalcAsyncLocalStorageAls> extends AsyncLocalStorage<TStorage> {
 }
 export declare class YalcClsModule {

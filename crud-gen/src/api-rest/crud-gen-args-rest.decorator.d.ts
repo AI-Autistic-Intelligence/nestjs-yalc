@@ -6,7 +6,17 @@ import type { ClassType } from '@node-yalc/types/globals.js';
 export declare function mapCrudGenRestParams<Entity extends ObjectLiteral>(params: ICrudGenGqlArgsOptions | undefined, ctx: ExecutionContext): CrudGenFindManyOptions;
 export declare const CrudGenRestArgsFactory: <T extends ObjectLiteral>(data: ICrudGenGqlArgsOptions | undefined, ctx: ExecutionContext) => CrudGenFindManyOptions<T>;
 export declare const CrudGenArgsMapper: <T extends ObjectLiteral>(...dataOrPipes: (import("@nestjs/common").ParameterDecoratorOptions | ICrudGenGqlArgsOptions | import("@nestjs/common").PipeTransform<any, any> | import("@nestjs/common").Type<import("@nestjs/common").PipeTransform<any, any>> | undefined)[]) => ParameterDecorator;
-export declare const CrudGenCombineDecorators: (params: ICrudGenGqlArgsOptions) => (target: any, key: string, index: number) => void;
-export declare const CGQueryArgs: (params: ICrudGenGqlArgsOptions) => (target: any, key: string, index: number) => void;
-export declare const CGQueryArgsNoPagination: (params: ICrudGenGqlArgsOptions) => (target: any, key: string, index: number) => void;
+/**
+ * Combine multiple param decorators
+ */
+export declare const CrudGenCombineDecorators: (params: ICrudGenGqlArgsOptions) => (target: object, key: string | symbol, index: number) => void;
+export declare const CGQueryArgs: (params: ICrudGenGqlArgsOptions) => (target: object, key: string | symbol, index: number) => void;
+/**
+ * Combine multiple param decorators
+ */
+export declare const CGQueryArgsNoPagination: (params: ICrudGenGqlArgsOptions) => (target: object, key: string | symbol, index: number) => void;
+/**
+ * Fix for swagger pagination with generic types
+ * @see https://aalonso.dev/blog/how-to-generate-generics-dtos-with-nestjsswagger-422g
+ */
 export declare const ApiOkResponsePaginated: <DataDto extends ClassType = any>(dataDto: DataDto, options?: ApiResponseOptions) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;

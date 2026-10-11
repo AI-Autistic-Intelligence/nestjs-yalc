@@ -17,6 +17,8 @@ const ag_grid_enum_1 = require("./ag-grid.enum");
 const ag_grid_error_1 = require("./ag-grid.error");
 const ag_grid_input_1 = require("./ag-grid.input");
 const forceFilters = (where, properties, fieldMap) => {
+    // typeORM where property can be a string as type but we do not allow to use
+    // string with this filter. Should never happen though
     if (typeof where === 'string') {
         throw new ag_grid_error_1.AgGridStringWhereError();
     }
@@ -49,7 +51,7 @@ const forceFilterWorker = (where, target, value, descriptors) => {
 exports.forceFilterWorker = forceFilterWorker;
 function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
     let sql = '';
-    const operator = (where.operator ?? ag_grid_enum_1.Operators.AND).toUpperCase();
+    const operator = (where.operator ?? ag_grid_enum_1.Operators.AND).toUpperCase(); // first level is always AND
     if (Array.isArray(where.childExpressions)) {
         where.childExpressions.forEach((childExpression) => {
             const generatedSql = whereObjectToSqlString(queryBuilder, childExpression, alias);
@@ -64,17 +66,24 @@ function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
         const operation = where.filters[key];
         if (!operation)
             continue;
+        //If we have an operator it means that the filter is combined, or it is a multicolumn
         if (operation.operator !== undefined) {
+            //If it is a multicolumn then we convert all internal filters to the multicolumn and enclose the result in round brackets
             if ((0, ag_grid_type_checker_utils_1.isCombinedWhereModel)(operation) &&
                 !(0, ag_grid_type_checker_utils_1.isCombinedWhereModel)(operation.filter_1) &&
                 !(0, ag_grid_type_checker_utils_1.isCombinedWhereModel)(operation.filter_2)) {
+                //If instead it is a combined filter then we will convert the first and second filters, enclosing them in brackets and using the operator
                 sql += `(${query_builder_helper_1.QueryBuilderHelper.computeFindOperatorExpression(queryBuilder, operation.filter_1, query_builder_helper_1.QueryBuilderHelper.addAlias(key.toString(), alias, fieldMap), operation.filter_1.value)} ${operation.operator.toUpperCase()} ${query_builder_helper_1.QueryBuilderHelper.computeFindOperatorExpression(queryBuilder, operation.filter_2, query_builder_helper_1.QueryBuilderHelper.addAlias(key.toString(), alias, fieldMap), operation.filter_2.value)}) ${operator} `;
             }
             else {
+                /**
+                 * @todo handle the else (?) but it should not happen
+                 */
                 throw new ag_grid_error_1.AgGridConditionNotSupportedError();
             }
         }
         else if ((0, ag_grid_type_checker_utils_1.isFindOperator)(operation)) {
+            //If it is a normal filter then we simply convert it and add the operator
             sql += `${query_builder_helper_1.QueryBuilderHelper.computeFindOperatorExpression(queryBuilder, operation, query_builder_helper_1.QueryBuilderHelper.addAlias(key.toString(), alias, fieldMap), operation.value)} ${operator} `;
         }
         else if (typeof operation === 'string') {
@@ -84,6 +93,7 @@ function whereObjectToSqlString(queryBuilder, where, alias, fieldMap) {
             throw new ag_grid_error_1.AgGridConditionNotSupportedError(JSON.stringify(operation));
         }
     }
+    //At the end of the cycle we will have an operator and an excess space, and we remove them
     sql = sql.substring(0, sql.lastIndexOf(operator));
     sql = sql.substring(0, sql.lastIndexOf(' '));
     return sql;
@@ -97,6 +107,7 @@ const isAskingForCount = (info) => {
         }) ?? false);
     }
     catch (e) {
+        // quick way to avoid having dozens of conditions to check the info structure
         return false;
     }
 };
@@ -173,7 +184,16 @@ function formatRawSelection(selection, fieldName, prefix = '', onlyAlias = false
     selection = `${_prefix}${selection} AS \`${alias}\``;
     return selection;
 }
-function applySelectOnFind(findOptions, field, fieldMapper, alias = '', path = '') {
+/**
+ * Derived fields need metadata attached in order to be processed by
+ * the AgGrid Repository. Use this method to apply the proper
+ * selection with metadata to a find option object
+ */
+function applySelectOnFind(findOptions, field, fieldMapper, alias = '', 
+/**
+ * If it's a nested field, you need to specify a path
+ */
+path = '') {
     if (path && !path.endsWith('.'))
         path = path + '.';
     const fieldName = field.toString();
@@ -184,6 +204,7 @@ function applySelectOnFind(findOptions, field, fieldMapper, alias = '', path = '
     }
     if (fieldMapper[fieldName]?.mode === 'derived' || path) {
         const keysMeta = findOptions.extra._keysMeta ?? {};
+        // do not apply twice
         if (keysMeta[key])
             return;
         keysMeta[key] = {

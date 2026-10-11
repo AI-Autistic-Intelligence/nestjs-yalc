@@ -1,6 +1,7 @@
 import { SystemExceptionFilter } from '@nest-yalc-2/errors/filters/index.js';
 import { BadRequestException, ValidationPipe, } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+// import { GqlExceptionFilter } from '@nestjs/graphql';
 import { FastifyAdapter, } from '@nestjs/platform-fastify';
 import fastifyCookie from '@fastify/cookie';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -23,6 +24,8 @@ export class AppBootstrap extends BaseAppBootstrap {
             await this.closeApp();
             process.exit(0);
         }
+        // no need to wait here
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.listen();
         return this;
     }
@@ -66,6 +69,7 @@ export class AppBootstrap extends BaseAppBootstrap {
         }
         catch (err) {
             this.closeCleanup();
+            // eslint-disable-next-line no-console
             console.error(clc.red('Failed to create app'), clc.red(err));
             throw new Error('Process aborted');
         }
@@ -83,7 +87,7 @@ export class AppBootstrap extends BaseAppBootstrap {
             transform: true,
             transformOptions: { enableImplicitConversion: false },
             validateCustomDecorators: true,
-            exceptionFactory: (errors) => {
+            exceptionFactory: /* istanbul ignore next */ (errors) => {
                 const errorMessages = {};
                 errors.forEach((error) => {
                     errorMessages[error.property] = error;
@@ -95,6 +99,9 @@ export class AppBootstrap extends BaseAppBootstrap {
         this.getApp().setGlobalPrefix(options?.apiPrefix ?? (this.getConf()?.apiPrefix || ''));
         await this.getApp().register(fastifyCookie, {});
         this.getApp().useGlobalInterceptors(new UnwrapResultInterceptor());
+        /**
+         * @todo refactor using a factory function to share with all services
+         */
         const filters = [
             new SystemExceptionFilter(this.loggerService),
             ...(options?.filters ?? []),
@@ -127,12 +134,19 @@ export class AppBootstrap extends BaseAppBootstrap {
         apiPrefix = apiPrefix ? `/${apiPrefix}` : '';
         const domain = this.getConf()?.domain || 'localhost';
         await this.getApp().listen(port, host, async (_err, address) => {
+            // eslint-disable-next-line no-console
             console.debug(`Server ${this.appAlias} listening on
         http://localhost:${port}${apiPrefix}/
         http://127.0.0.1:${port}${apiPrefix}/
         http://${domain}:${port}${apiPrefix}/
         ${address}`);
+            // // eslint-disable-next-line no-console
+            // console.debug(`GraphQL ${this.appAlias} listening on
+            //   http://localhost:${port}${apiPrefix}/graphql
+            //   http://127.0.0.1:${port}${apiPrefix}/graphql
+            //   http://${domain}:${port}${apiPrefix}/graphql`);
             if (this.isSwaggerEnabled) {
+                // eslint-disable-next-line no-console
                 console.debug(`Swagger ${this.appAlias} listening on
         http://localhost:${port}${apiPrefix}/${this.swaggerPath}
         http://127.0.0.1:${port}${apiPrefix}/${this.swaggerPath}
@@ -142,8 +156,12 @@ export class AppBootstrap extends BaseAppBootstrap {
             }
             callback?.(port, host, domain);
         });
+        /**
+         * Hot reload @see https://docs.nestjs.com/recipes/hot-reload#hot-module-replacement-1
+         */
         const hmr = typeof module !== 'undefined' ? module.hot : undefined;
         if (hmr) {
+            // eslint-disable-next-line no-console
             console.debug('Hot reload enabled. Reloading...');
             hmr.accept();
             hmr.dispose(() => this.closeApp());

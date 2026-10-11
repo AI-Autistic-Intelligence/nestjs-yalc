@@ -12,12 +12,19 @@ const generic_service_js_1 = require("@nest-yalc-2/crud-gen/typeorm/generic.serv
 const crud_gen_helpers_js_1 = require("@nest-yalc-2/crud-gen/crud-gen.helpers.js");
 const event_enum_js_1 = require("@nest-yalc-2/crud-gen/event.enum.js");
 const eventemitter2_1 = tslib_1.__importDefault(require("eventemitter2"));
+/**
+ * Only used internally to add extra data to the Dataloader result
+ */
 class _DataLoaderWithCount extends dataloader_1.default {
     constructor(batchFn, searchKey, findOptions, options) {
         super(async (keys) => {
+            // we force the filter based on dataloader keys
             const where = {
                 filters: { [searchKey]: (0, typeorm_1.In)([...keys]) },
             };
+            // then, we apply the filters selected by the user with the AND operator
+            // but we first must be sure that the filters or the childExpressions
+            // are specified, otherwise we will have an empty where condition and a SQL error
             if (findOptions.where &&
                 ((findOptions.where.filters &&
                     Object.keys(findOptions.where.filters).length) ||
@@ -29,6 +36,8 @@ class _DataLoaderWithCount extends dataloader_1.default {
                     },
                 ];
             }
+            // searchKey must be part of the selection, otherwise we cannot associate
+            // the keys to their values later
             const selections = Array.isArray(findOptions.select)
                 ? findOptions.select
                 : [];
@@ -36,6 +45,7 @@ class _DataLoaderWithCount extends dataloader_1.default {
                 selections.push(searchKey);
                 findOptions.select = selections;
             }
+            // this is needed for joined and nested queries
             for (const field in findOptions.order) {
                 if (selections.indexOf(field) === -1) {
                     selections.push(field);
@@ -47,6 +57,10 @@ class _DataLoaderWithCount extends dataloader_1.default {
             };
             const [entities, count] = await batchFn(findManyOptions);
             this.count = count;
+            // this loop is needed to associate the result of the query with the
+            // keys of the dataloader.
+            // the dataloader only accepts a result expressed as: <key, elements[]>[]
+            // following the order of the requested keys
             const entityMap = {};
             entities.forEach((result) => {
                 const searchKeyValue = result[searchKey];
@@ -64,6 +78,10 @@ class _DataLoaderWithCount extends dataloader_1.default {
         return this.count;
     }
 }
+/**
+ * This class creates different dataloaders based on the query path
+ * in order to support GraphQL aliases
+ */
 class GQLDataLoader {
     constructor(getFn, searchKey, eventEmitter, options) {
         this.eventEmitter = eventEmitter;
@@ -89,6 +107,7 @@ class GQLDataLoader {
             const sort = typeof findOptions.select?.sort === 'function'
                 ? findOptions.select.sort().join(',')
                 : '';
+            // concat different information to create a proper dataloader key
             DLKey = `${sort}|${JSON.stringify(findOptions.where ?? { filters: {} })}|${JSON.stringify(findOptions.subQueryFilters)}|${JSON.stringify(findOptions.order ?? {})}|${JSON.stringify(findOptions.take ?? {})}|${JSON.stringify(findOptions.skip ?? {})}|${searchKey.toString()}`;
             this.keyMap.set(findOptions, DLKey);
         }
@@ -118,6 +137,7 @@ class GQLDataLoader {
     async loadOneToMany(key, findOptions, withCount = true) {
         const keyValue = Array.isArray(key) ? key[1] : key;
         const keyName = Array.isArray(key) ? key[0] : this.searchKey;
+        // check if null or undefined
         if (keyValue === undefined || keyValue === null)
             return [];
         const dataloader = this.getDataloader(findOptions, keyName);

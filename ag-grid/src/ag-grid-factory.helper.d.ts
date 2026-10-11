@@ -20,6 +20,9 @@ export interface ResolverOverride<T = unknown> {
 interface GenericServiceOptions<Entity extends ObjectLiteral> {
     dbConnection: string;
     entityModel?: ClassType<Entity>;
+    /**
+     * Used only if the service has not external injected dependency rather than the repository
+     */
     providerClass?: ClassType<GenericService<Entity>>;
 }
 interface DataLoaderOptions<Entity> {

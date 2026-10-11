@@ -10,8 +10,8 @@ export declare class ShadowCallStrategy implements IApiCallStrategy {
     private readonly awaitShadows;
     private readonly shadowErrorMode;
     constructor(primary: IApiCallStrategy, shadows: IApiCallStrategy[], options?: ShadowCallStrategyOptions);
-    call<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: ICallOptions<TOptData, TParams>): Promise<IObjectWithData<TResData>>;
-    get<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: ICallOptions<TOptData, TParams>): Promise<IObjectWithData<TResData>>;
-    post<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: ICallOptions<TOptData, TParams>): Promise<IObjectWithData<TResData>>;
+    call<TOptData, TParams extends Record<string, unknown>, TResData>(path: string, options?: ICallOptions<TOptData, TParams>): Promise<IObjectWithData<TResData>>;
+    get<TOptData, TParams extends Record<string, unknown>, TResData>(path: string, options?: ICallOptions<TOptData, TParams>): Promise<IObjectWithData<TResData>>;
+    post<TOptData, TParams extends Record<string, unknown>, TResData>(path: string, options?: ICallOptions<TOptData, TParams>): Promise<IObjectWithData<TResData>>;
     private execute;
 }

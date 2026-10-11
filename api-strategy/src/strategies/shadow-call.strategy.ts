@@ -31,7 +31,7 @@ export class ShadowCallStrategy implements IApiCallStrategy {
       options.awaitShadows ?? this.shadowErrorMode === 'throw';
   }
 
-  call<TOptData, TParams extends Record<string, any>, TResData>(
+  call<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {
@@ -41,7 +41,7 @@ export class ShadowCallStrategy implements IApiCallStrategy {
     );
   }
 
-  get<TOptData, TParams extends Record<string, any>, TResData>(
+  get<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {
@@ -51,7 +51,7 @@ export class ShadowCallStrategy implements IApiCallStrategy {
     );
   }
 
-  post<TOptData, TParams extends Record<string, any>, TResData>(
+  post<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {

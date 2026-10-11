@@ -243,5 +243,5 @@ export interface IModelFieldAndFilterMapper {
   field: IFieldMapper;
   //When filterOption is set we can manage filters on fields with an inclusion/exclusion strategy
   filterOption?: FilterOption;
-  extraInfo?: { [key: string]: any };
+  extraInfo?: { [key: string]: unknown };
 }

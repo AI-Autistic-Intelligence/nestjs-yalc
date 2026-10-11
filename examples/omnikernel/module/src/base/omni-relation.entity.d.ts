@@ -7,6 +7,7 @@ export declare class OmniRelationEntity extends OmniBaseEntity {
     sourceRecord: Relation<OmniRecordEntity>;
     targetRecordId: string;
     targetRecord: Relation<OmniRecordEntity>;
+    /** Validated by the registered relation-kind contract, not a closed enum. */
     kind: string;
     status: OmniRelationStatus;
     payload?: Record<string, unknown> | null;

@@ -8,15 +8,28 @@ const ag_grid_query_helper_1 = require("@nest-yalc-2/ag-grid/ag-grid-query.helpe
 const ag_grid_metadata_helper_1 = require("@nest-yalc-2/ag-grid/ag-grid-metadata.helper");
 const GqlAgGridFieldsMapper = (data, info) => {
     const fieldMapper = (0, ag_grid_metadata_helper_1.objectToFieldMapper)(data);
+    /**
+     * Selections
+     */
     let keys = [];
+    /**
+     * Custom or Derived keys
+     */
     const keysMeta = {};
     const processSubItems = (mapper, item, prefix = '', path = '') => {
         if (path && !path.endsWith('.'))
             path += '.';
+        /**
+         * Do not process fields that are not actual fields (pageData etc)
+         * @todo improve this logic by using metadata on these properties instead of the hardcoded name
+         */
         if (item.name.value === 'pageData' && item.selectionSet)
             return;
         if (item.selectionSet) {
             item.selectionSet.selections.forEach((subItem) => {
+                /**
+                 * if it's a nested item, then recurse
+                 */
                 if (subItem.selectionSet) {
                     const extraInfo = mapper.extraInfo?.[subItem.name.value];
                     if (extraInfo) {
@@ -27,6 +40,7 @@ const GqlAgGridFieldsMapper = (data, info) => {
                         }
                         const _path = path + subItem.name.value;
                         processSubItems(nestedMapper, subItem, subItem.name.value, _path);
+                        // add required fields that have not been selected by the client
                         Object.keys(nestedMapper.field).forEach((k) => {
                             const v = nestedMapper.field[k];
                             const key = _path + '.' + v.dst;
@@ -45,7 +59,10 @@ const GqlAgGridFieldsMapper = (data, info) => {
                     processSubItems(mapper, subItem, prefix, path);
                     return;
                 }
+                // We have to set a prefix when the parent is a nested item different by "nodes"
                 const _prefix = item.name.value;
+                // const _path =
+                //   item.name.value !== 'nodes' ? path + item.name.value + '.' : path;
                 const dst = (0, ag_grid_metadata_helper_1.columnConversion)(subItem.name.value, mapper.field).toString();
                 const _path = !path ? path + item.name.value + '.' : path;
                 const key = _path + dst;
@@ -61,6 +78,9 @@ const GqlAgGridFieldsMapper = (data, info) => {
         const dst = (0, ag_grid_metadata_helper_1.columnConversion)(item.name.value, mapper.field).toString();
         const key = path + dst;
         const isNested = !!path;
+        /**
+         * If the field is derived we want to add it to the selection
+         */
         if (isNested || mapper.field[item.name.value]?.mode === 'derived') {
             keysMeta[key] = {
                 fieldMapper: mapper.field[item.name.value],
@@ -71,7 +91,17 @@ const GqlAgGridFieldsMapper = (data, info) => {
         }
         keys.push(key);
     };
+    /**
+     * START Process first level fields
+     */
+    /**
+     * Process selected fields
+     */
     info.fieldNodes?.[0]?.selectionSet?.selections?.forEach((item) => processSubItems(fieldMapper, item));
+    /**
+     * Process required fields
+     */
+    // add required fields that have not been selected by the client
     Object.keys(fieldMapper.field).forEach((k) => {
         const v = fieldMapper.field[k];
         if (v.isRequired) {
@@ -88,6 +118,9 @@ const GqlAgGridFieldsMapper = (data, info) => {
             keys.indexOf(v.dst) < 0 && keys.push(v.dst);
         }
     });
+    /**
+     * Remove symbolic fields that can't be used for the database
+     */
     keys = (0, ag_grid_args_decorator_1.removeSymbolicSelection)(keys, fieldMapper.field, '');
     return { keys, keysMeta };
 };

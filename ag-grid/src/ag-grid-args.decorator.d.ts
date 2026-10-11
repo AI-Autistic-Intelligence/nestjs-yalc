@@ -21,10 +21,16 @@ export declare function checkFilterScope(where: WhereCondition, filterOption: Fi
 export declare function mapAgGridParams(params: AgGridArgsOptions | undefined, ctx: GqlExecutionContext, args: AgQueryParams, info: GraphQLResolveInfo): AgGridFindManyOptions;
 export declare const AgGridArgsFactory: <T>(data: AgGridArgsOptions | undefined, ctx: ExecutionContext) => AgGridFindManyOptions<T>;
 export declare const AgGridArgsMapper: <T>(...dataOrPipes: (import("@nestjs/common", { with: { "resolution-mode": "import" } }).ParameterDecoratorOptions | import("@nestjs/common", { with: { "resolution-mode": "import" } }).PipeTransform<any, any> | import("@nestjs/common", { with: { "resolution-mode": "import" } }).Type<import("@nestjs/common", { with: { "resolution-mode": "import" } }).PipeTransform<any, any>> | AgGridArgsOptions | undefined)[]) => ParameterDecorator;
-export declare const AgGridCombineDecorators: (params: AgGridArgsOptions) => (target: any, key: string, index: number) => void;
-export declare const AgGridArgs: (params: AgGridArgsOptions) => (target: any, key: string, index: number) => void;
-export declare const AgGridArgsNoPagination: (params: AgGridArgsOptions) => (target: any, key: string, index: number) => void;
+/**
+ * Combine multiple param decorators
+ */
+export declare const AgGridCombineDecorators: (params: AgGridArgsOptions) => (target: object, key: string | symbol, index: number) => void;
+export declare const AgGridArgs: (params: AgGridArgsOptions) => (target: object, key: string | symbol, index: number) => void;
+/**
+ * Combine multiple param decorators
+ */
+export declare const AgGridArgsNoPagination: (params: AgGridArgsOptions) => (target: object, key: string | symbol, index: number) => void;
 export declare function AgGridArgsSingleDecoratorMapper<T>(params: AgGridArgsOptions | undefined, args: AgQueryParams, info: GraphQLResolveInfo): AgGridFindManyOptions<T>;
 export declare const AgGridArgsSingleDecoratorFactory: <T>(data: AgGridArgsOptions | undefined, ctx: ExecutionContext) => AgGridFindManyOptions<T>;
 export declare const AgGridArgsSingleDecorator: <T>(...dataOrPipes: (import("@nestjs/common", { with: { "resolution-mode": "import" } }).ParameterDecoratorOptions | import("@nestjs/common", { with: { "resolution-mode": "import" } }).PipeTransform<any, any> | import("@nestjs/common", { with: { "resolution-mode": "import" } }).Type<import("@nestjs/common", { with: { "resolution-mode": "import" } }).PipeTransform<any, any>> | AgGridArgsOptions | undefined)[]) => ParameterDecorator;
-export declare const AgGridArgsSingle: (params: AgGridArgsSingleOptions) => (target: any, key: string, index: number) => void;
+export declare const AgGridArgsSingle: (params: AgGridArgsSingleOptions) => (target: object, key: string | symbol, index: number) => void;

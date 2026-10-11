@@ -23,6 +23,7 @@ const dateValidatorFactory = () => {
     };
 };
 exports.dateValidatorFactory = dateValidatorFactory;
+//Decoratos
 function StringFormatMatchValidation(validationOptions, stringMatchOptions = {
     toMatch: true,
     pattern: string_format_enum_js_1.StringFormatEnum.ALL,

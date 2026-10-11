@@ -45,7 +45,7 @@ import { getAgGridFieldMetadataList } from './object.decorator';
 // }
 
 export function resolverFactory<
-  Entity extends Record<string, any> = any,
+  Entity extends Record<string, unknown> = any,
   EntityWrite extends ObjectLiteral = Entity,
 >(
   options: GenericResolverOptions<Entity>,

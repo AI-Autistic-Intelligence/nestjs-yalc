@@ -5,6 +5,10 @@ import { IsNull } from 'typeorm';
 function hasOwn(input, key) {
     return Object.prototype.hasOwnProperty.call(input, key);
 }
+/**
+ * The shared service boundary for scoped Omni CRUD. Every lookup, mutation,
+ * and generated grid is scoped before it reaches the generic CrudGen service.
+ */
 export class OmniScopedService extends GenericService {
     constructor(repository, scopeOrRepositoryWrite, deletion = 'hard') {
         const scope = isOmniScope(scopeOrRepositoryWrite)

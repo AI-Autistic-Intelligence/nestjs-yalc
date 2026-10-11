@@ -80,6 +80,9 @@ export const CrudGenRestArgsFactory = (data, ctx) => {
     return params;
 };
 export const CrudGenArgsMapper = createParamDecorator(CrudGenRestArgsFactory);
+/**
+ * Combine multiple param decorators
+ */
 export const CrudGenCombineDecorators = (params) => {
     const argDecorators = [];
     if (params.extraArgs) {
@@ -90,10 +93,25 @@ export const CrudGenCombineDecorators = (params) => {
             argDecorators.push(Query(argName));
         }
     }
+    /** @todo implement join */
+    // if (params.entityType) {
+    //   const JoinOptionInput = agJoinArgFactory(
+    //     params.entityType,
+    //     params.defaultValue,
+    //   );
+    //   if (JoinOptionInput) {
+    //     joinArg = Query('join', {
+    //       type:
+    //           //         () => JoinOptionInput,
+    //       nullable: true,
+    //     });
+    //   }
+    // }
     const args = Query();
     const mapper = CrudGenArgsMapper(params);
     return function (target, key, index) {
         args(target, key, index);
+        // joinArg && joinArg(target, key, index);
         argDecorators.map((d) => d(target, key, index));
         mapper(target, key, index);
     };
@@ -104,6 +122,9 @@ export const CGQueryArgs = (params) => {
     params.gql = gqlOptions;
     return CrudGenCombineDecorators(params);
 };
+/**
+ * Combine multiple param decorators
+ */
 export const CGQueryArgsNoPagination = (params) => {
     const gqlOptions = params.gql ?? {};
     if (!gqlOptions.type) {
@@ -112,6 +133,10 @@ export const CGQueryArgsNoPagination = (params) => {
     params.gql = gqlOptions;
     return CrudGenCombineDecorators(params);
 };
+/**
+ * Fix for swagger pagination with generic types
+ * @see https://aalonso.dev/blog/how-to-generate-generics-dtos-with-nestjsswagger-422g
+ */
 export const ApiOkResponsePaginated = (dataDto, options) => {
     class ConnectionNode {
     }

@@ -11,6 +11,7 @@ let FilterScalar = class FilterScalar {
         this.resultMemoizeInverse = new WeakMap();
     }
     parseValue(value) {
+        // value from the client
         const cached = this.resultMemoize.get(value);
         if (cached)
             return cached;

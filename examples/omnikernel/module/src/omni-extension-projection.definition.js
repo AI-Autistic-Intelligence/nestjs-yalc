@@ -9,6 +9,11 @@ function assertNonEmptyString(value, label, max) {
         throw new TypeError(`${label} must be a non-empty string up to ${max} characters.`);
     }
 }
+/**
+ * Defines an owner-extension projection. The inherited projection metadata
+ * remains the single source for public fields, codecs, JSON paths, and query
+ * capabilities; the extra owner block fixes Omni record metadata server-side.
+ */
 export function defineOmniExtensionProjection(definition) {
     assertNonEmptyString(definition.owner?.kind, 'Omni extension owner kind', 64);
     assertNonEmptyString(definition.owner?.title, 'Omni extension owner title', 255);
@@ -77,6 +82,13 @@ function migrationColumnType(type) {
         return type;
     throw new TypeError('Omni extension projection column type is unsupported.');
 }
+/**
+ * Builds a TypeORM entity target for one extension table. This is deliberately
+ * a decorated class, rather than an EntitySchema: TypeORM builds EntitySchema
+ * metadata separately and cannot resolve an EntitySchema foreign key to the
+ * decorated OmniRecordEntity. The generated class keeps both sides in the
+ * same metadata pass, allowing the composite FK to be synchronized normally.
+ */
 export function createOmniExtensionProjectionEntity(definition, dialect) {
     const { columns, indices, foreignKeys } = extensionSchema(definition, dialect);
     const scopeColumn = definition.scope.column;
@@ -113,6 +125,11 @@ export function createOmniExtensionProjectionEntity(definition, dialect) {
     ForeignKey(() => OmniRecordEntity, [scopeColumn, identityColumn], ['scopeId', 'guid'], { onDelete: 'CASCADE' })(OmniExtensionProjectionEntity);
     return OmniExtensionProjectionEntity;
 }
+/**
+ * Creates reviewed-migration DDL for an extension table. Applications pass
+ * the returned Table to QueryRunner.createTable; runtime CRUD never creates
+ * schema objects. JSON storage remains a ProjectionDialect concern.
+ */
 export function createOmniExtensionProjectionTable(definition, dialect) {
     const { columns, indices, foreignKeys } = extensionSchema(definition, dialect);
     const scopeColumn = definition.scope.column;

@@ -46,6 +46,9 @@ export interface IResolverOverride<T = any> {
 interface IGenericServiceOptions<Entity extends ObjectLiteral> {
     dbConnection: string;
     entityModel?: ClassType<Entity>;
+    /**
+     * Used only if the service has not external injected dependency rather than the repository
+     */
     providerClass?: ClassType<GenericService<Entity>>;
 }
 interface IDataLoaderOptions<Entity> {
@@ -72,9 +75,9 @@ export interface ICrudGenGraphqlFactoryOptions<Entity extends ObjectLiteral> {
     dataLoaderToken?: string;
 }
 export declare function isProviderOverride(resolver: any): resolver is IProviderOverride;
-export declare function CrudGenDependencyFactory<Entity extends Record<string, any>>({ entityModel, dataloader, resolver, service, repository, }: ICrudGenDependencyFactoryOptions<Entity>): IDependencyObject<Entity>;
-export declare function CrudGenBackendFactory<Entity extends Record<string, any>>({ entityModel, dataloader, service, repository, }: ICrudGenBackendFactoryOptions<Entity>): ICrudGenBackendFactoryResult<Entity>;
-export declare function CrudGenGraphqlFactory<Entity extends Record<string, any>>({ entityModel, resolver, serviceToken, dataLoaderToken, }: ICrudGenGraphqlFactoryOptions<Entity>): {
+export declare function CrudGenDependencyFactory<Entity extends Record<string, unknown>>({ entityModel, dataloader, resolver, service, repository, }: ICrudGenDependencyFactoryOptions<Entity>): IDependencyObject<Entity>;
+export declare function CrudGenBackendFactory<Entity extends Record<string, unknown>>({ entityModel, dataloader, service, repository, }: ICrudGenBackendFactoryOptions<Entity>): ICrudGenBackendFactoryResult<Entity>;
+export declare function CrudGenGraphqlFactory<Entity extends Record<string, unknown>>({ entityModel, resolver, serviceToken, dataLoaderToken, }: ICrudGenGraphqlFactoryOptions<Entity>): {
     providers: Provider[];
 };
 export declare function getProviderToken(entity: ClassType | Provider | string | symbol | Function): string;
@@ -105,7 +108,16 @@ export declare function formatRawSelection(selection: string, fieldName: string,
     onlyAlias?: boolean;
     escapeCharacter?: string;
 }): string;
+/**
+ * Derived fields need metadata attached in order to be processed by
+ * the CrudGen Repository. Use this method to apply the proper
+ * selection with metadata to a find option object
+ */
 export declare function applySelectOnFind<T = any>(findOptions: CrudGenFindManyOptions, field: keyof T, fieldMapper: {
     [key: string]: IModelFieldMetadata;
-}, path?: string): void;
+}, 
+/**
+ * If it's a nested field, you need to specify a path
+ */
+path?: string): void;
 export {};

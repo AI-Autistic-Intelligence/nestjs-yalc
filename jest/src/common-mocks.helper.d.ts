@@ -92,5 +92,16 @@ export declare const mockedExecutionContext: {
     } & import("@nestjs/common/internal", { with: { "resolution-mode": "import" } }).WsArgumentsHost);
     getType: import("jest-mock").MockInstance<() => string> & (() => string);
 } & ExecutionContext;
+/**
+ * This method can be used to DeepMock a chained object where all methods return
+ * its instance
+ *
+ * @returns DeepMocked object with all methods returning "this" by default
+ */
 export declare const mockChainingObject: <T extends object>(partial?: PartialFuncReturn<T>, options?: MockOptions) => DeepMocked<T>;
+/**
+ * Similar to mockChainingObject but includes some specific case for
+ * the typeorm QueryBuilder
+ * @returns DeepMocked querybuilder instance
+ */
 export declare const mockQueryBuilder: <T extends object>(partial?: PartialFuncReturn<SelectQueryBuilder<T>>, options?: MockOptions) => DeepMocked<SelectQueryBuilder<T>>;

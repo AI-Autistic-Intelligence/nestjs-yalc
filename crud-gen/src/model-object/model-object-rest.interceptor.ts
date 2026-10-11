@@ -15,16 +15,16 @@ export function modelFieldMapperInterceptor(
 ) {
   @Injectable()
   class ModelFieldMapperInterceptor implements NestInterceptor {
-    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
       const request = context.switchToHttp().getRequest();
       if (request.body) {
-        const mappedInput = modelFieldToDest(inputClass, outputClass);
+        const mappedInput = modelFieldToDest(inputClass as unknown as Record<string, unknown>, outputClass as unknown as Record<string, unknown>);
         context.switchToHttp().getRequest().body = mappedInput;
       }
 
       return next.handle().pipe(
         map((data) => {
-          return modelFieldToDest(data, outputClass);
+          return modelFieldToDest(data as unknown as Record<string, unknown>, outputClass as unknown as Record<string, unknown>);
         }),
       );
     }

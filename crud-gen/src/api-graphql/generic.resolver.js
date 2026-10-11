@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck - TODO: FIX THIS
 import { __decorate, __metadata, __param } from "tslib";
 import { Args, GqlExecutionContext, Parent, Query, ResolveField, Resolver, } from '@nestjs/graphql';
 import { CrudGenArgs, CrudGenArgsSingle, } from '@nest-yalc-2/crud-gen/api-graphql/crud-gen-args-gql.decorator.js';
@@ -54,6 +56,7 @@ export function defineFieldResolver(resolverInfoList, resolver) {
         let relType = (typeof resolverInfo.relation.type === 'function'
             ? resolverInfo.relation.type()
             : resolverInfo.relation.type) ?? resolverInfo.relation.target;
+        // this can happen when there are circular dependencies
         if (typeof relType === 'string') {
             relType = resolverInfo.relation.target;
         }
@@ -109,9 +112,15 @@ export function defineFieldResolver(resolverInfoList, resolver) {
                 defaultValue: resolverInfo.agField?.relation?.defaultValue,
             })(resolver.prototype, resolverInfo.relation.propertyName, 1);
             GetContext()(resolver.prototype, resolverInfo.relation.propertyName, 2);
+            // without the design:paramtypes metadata
+            // it won't work, the following instruction is transpiled and generated
+            // when the decorators are defined in their standard way.
             Reflect.metadata('design:paramtypes', [Object, Object, Object])(resolver.prototype, resolverInfo.relation.propertyName);
         }
         else {
+            /**
+             * ONE-TO-ONE Resolve Fields
+             */
             Object.defineProperty(resolver.prototype, resolverInfo.relation.propertyName, {
                 configurable: true,
                 enumerable: true,
@@ -142,6 +151,9 @@ export function defineFieldResolver(resolverInfoList, resolver) {
             Parent()(resolver.prototype, resolverInfo.relation.propertyName, 0);
             CrudGenArgsSingle({ fieldType: relType, entityType: relType })(resolver.prototype, resolverInfo.relation.propertyName, 1);
             GetContext()(resolver.prototype, resolverInfo.relation.propertyName, 2);
+            // without the design:paramtypes metadata
+            // it won't work, the following instruction is transpiled and generated
+            // when the decorators are defined in their standard way.
             Reflect.metadata('design:paramtypes', [Object, Array, Object])(resolver.prototype, resolverInfo.relation.propertyName);
         }
     }
@@ -234,6 +246,7 @@ export function defineGetGridResource(queryName, returnType, resolver, methodOpt
             entityType,
             extraArgs: methodOptions.extraArgs,
             extraArgsStrategy: methodOptions.extraArgsStrategy,
+            // type: returnValue(crudGenParamsFactory(methodOptions.defaultValue)),
         })(resolver.prototype, queryName, 0);
         if (methodOptions.extraArgs) {
             Object.values(methodOptions.extraArgs).map((a) => {
@@ -276,7 +289,7 @@ export function defineCreateMutation(queryName, returnType, resolver, options, m
     applyDecorators(...generateDecorators(Mutation, queryName, methodOptions.returnType ?? returnValue(returnType), methodOptions))(resolver.prototype, queryName, descriptor);
     InputArgs({
         gql: {
-            type: () => options.input?.create ?? returnType,
+            type: /* istanbul ignore next */ () => options.input?.create ?? returnType,
         },
         fieldType: options.input?.create ?? returnType,
         _name: 'input',
@@ -319,14 +332,14 @@ export function defineUpdateMutation(queryName, returnType, resolver, options, m
     InputArgs({
         fieldType: options.input?.conditions ?? returnType,
         gql: {
-            type: () => options.input?.conditions ?? returnType,
+            type: /* istanbul ignore next */ () => options.input?.conditions ?? returnType,
         },
         _name: 'conditions',
     })(resolver.prototype, queryName, 0);
     InputArgs({
         fieldType: options.input?.update ?? returnType,
         gql: {
-            type: () => options.input?.update ?? returnType,
+            type: /* istanbul ignore next */ () => options.input?.update ?? returnType,
         },
         _name: 'input',
     })(resolver.prototype, queryName, 1);
@@ -355,7 +368,7 @@ export function defineDeleteMutation(queryName, returnType, resolver, options, m
     InputArgs({
         fieldType: options.input?.conditions ?? returnType,
         gql: {
-            type: () => options.input?.conditions ?? returnType,
+            type: /* istanbul ignore next */ () => options.input?.conditions ?? returnType,
         },
         _name: 'conditions',
     })(resolver.prototype, queryName, 0);
@@ -381,6 +394,11 @@ export function resolverFactory(options) {
             GQLDataLoader,
             ModuleRef])
     ], BaseClass);
+    /**
+     *
+     * Retrieve information about relations
+     *
+     */
     const resolverInfoList = getEntityRelations(options.entityModel, options.dto);
     const fieldMetadataList = getModelFieldMetadataList(returnType);
     if (fieldMetadataList) {
@@ -396,6 +414,7 @@ export function resolverFactory(options) {
                     return;
                 }
             });
+            // if already exists override (dataloader options take priority)
             if (objIndex >= 0) {
                 const relInfo = resolverInfoList[objIndex];
                 const target = field.relation.targetKey.alias;
@@ -444,6 +463,11 @@ export function resolverFactory(options) {
             }
         });
     }
+    /**
+     *
+     * Generate Mutations
+     *
+     */
     const createOptions = options.mutations?.createResource ?? {};
     const updateOptions = options.mutations?.updateResource ?? {};
     const deleteOptions = options.mutations?.deleteResource ?? {};
@@ -459,6 +483,11 @@ export function resolverFactory(options) {
     defineDeleteMutation(`${options.prefix ?? ''}delete${options.entityModel.name}`, returnType, Mutations, options, deleteOptions);
     const getResourceOptions = options.queries?.getResource ?? {};
     const getResourceGridOptions = options.queries?.getResourceGrid ?? {};
+    /**
+     *
+     * Generate Queries
+     *
+     */
     let GenericResolver = class GenericResolver extends (options.readonly ? BaseClass : Mutations) {
     };
     GenericResolver = __decorate([
@@ -466,7 +495,17 @@ export function resolverFactory(options) {
     ], GenericResolver);
     defineGetSingleResource(`${options.prefix ?? ''}get${options.entityModel.name}`, returnType, GenericResolver, getResourceOptions);
     defineGetGridResource(`${options.prefix ?? ''}get${options.entityModel.name}Grid`, returnType, GenericResolver, getResourceGridOptions);
+    /**
+     *
+     * Generate Field Resolvers
+     *
+     */
     defineFieldResolver(resolverInfoList, GenericResolver);
+    /**
+     *
+     * Generate dynamic queries
+     *
+     */
     if (options.customQueries) {
         for (const methodName of Object.keys(options.customQueries)) {
             const queryName = methodName;

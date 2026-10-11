@@ -17,6 +17,7 @@ export const ModelField = ({ gqlType, gqlOptions, ...options }) => {
         const classConstructor = target.constructor;
         const propertyName = property.toString();
         const metadata = Reflect.getMetadata(CRUDGEN_FIELD_METADATA_KEY, classConstructor) || {};
+        // create new object reference to avoid this issue: https://github.com/rbuckton/reflect-metadata/issues/62
         const newMetadata = { ...metadata };
         const previousValues = metadata[propertyName];
         newMetadata[propertyName] = {
@@ -29,6 +30,7 @@ export const ModelField = ({ gqlType, gqlOptions, ...options }) => {
             _propertyName: propertyName,
         };
         Reflect.defineMetadata(CRUDGEN_FIELD_METADATA_KEY, newMetadata, classConstructor);
+        // graphql field metadata
         if (gqlOptions || gqlType) {
             addFieldMetadata(gqlType ?? gqlOptions, gqlOptions ?? {}, target, propertyName);
         }
@@ -72,7 +74,7 @@ export const getModelObjectMetadata = (target) => {
         return undefined;
     if (typeof target !== 'object' && typeof target !== 'function') {
         console.log('CRITICAL: target is primitive', typeof target, target);
-        return undefined;
+        return undefined; // Do not call Reflect.getMetadata on primitive
     }
     return Reflect.getMetadata(CRUDGEN_OBJECT_METADATA_KEY, getPrototype(target));
 };
@@ -83,12 +85,19 @@ export const hasModelObjectMetadata = (target) => {
         return false;
     return Reflect.hasMetadata(CRUDGEN_OBJECT_METADATA_KEY, getPrototype(target));
 };
+// Backward-compatible alias
 export const CrudGenObject = ModelObject;
 export const getCrudGenObjectMetadata = getModelObjectMetadata;
 export const hasCrudGenObjectMetadata = hasModelObjectMetadata;
+/**
+ * The options below allow to implement an include/exclude mechanism for mapped fields.
+ * It can be used to deny the usage of certain fields
+ */
 export var FilterOptionType;
 (function (FilterOptionType) {
+    /** include fields specified inside the array of fields and exclude all the others */
     FilterOptionType["INCLUDE"] = "include";
+    /** exclude fields specified inside the array of fields and include all the others */
     FilterOptionType["EXCLUDE"] = "exclude";
 })(FilterOptionType || (FilterOptionType = {}));
 //# sourceMappingURL=object.decorator.js.map

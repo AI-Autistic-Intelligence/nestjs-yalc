@@ -7,7 +7,7 @@ export function modelFieldToDest(inputObject, outputObject) {
     if (!isClass(inputObject)) {
         if (!isLikeOutputObject(inputObject, outputObject))
             return inputObject;
-        return null;
+        return null; // can't map objects
     }
     const mappedObject = {};
     const fieldMetadataList = getModelFieldMetadataList(inputObject);

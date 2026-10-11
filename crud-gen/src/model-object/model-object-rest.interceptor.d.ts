@@ -3,6 +3,6 @@ import { Observable } from 'rxjs';
 import { ClassType } from '@node-yalc/types/globals.js';
 export declare function modelFieldMapperInterceptor(inputClass: ClassType, outputClass: ClassType): {
     new (): {
-        intercept(context: ExecutionContext, next: CallHandler): Observable<any>;
+        intercept(context: ExecutionContext, next: CallHandler): Observable<unknown>;
     };
 };

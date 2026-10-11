@@ -10,6 +10,9 @@ export declare class NestLocalEventStrategy<P = any, O = any> implements IEventS
 export interface NestLocalEventStrategyProviderOptions {
     NestLocalStrategy?: ClassType<NestLocalEventStrategy>;
 }
+/**
+ * Just a convenient provider to inject the NestLocalCallStrategy
+ */
 export declare const NestLocalEventStrategyProvider: (provide: string, options?: NestLocalEventStrategyProviderOptions) => {
     provide: string;
     useFactory: (eventEmitter: EventEmitter2) => NestLocalEventStrategy<any, any>;

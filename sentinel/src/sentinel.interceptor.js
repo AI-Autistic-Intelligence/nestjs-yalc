@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * # NestJS Ferrox-Node RAG Groundedness & Response Interceptor (`sentinel.interceptor.ts`)
+ * Evaluates LLM generated response groundedness against retrieved context
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RagGroundednessInterceptor = void 0;
 const tslib_1 = require("tslib");

@@ -8,7 +8,7 @@ export interface IObjectWithData<TData> {
  */
 export interface ICallOptions<
   TData,
-  TParams extends Record<string, any>,
+  TParams extends Record<string, unknown>,
 > extends IObjectWithData<TData> {
   data?: TData;
   parameters?: TParams;
@@ -20,7 +20,7 @@ export interface IApiCallStrategy {
    * @template TParams - type of parameters to be sent to the server (query params in case of http)
    * @template TResData - type of data to be received from the server (response data in case of http)
    */
-  call<TOptData, TParams extends Record<string, any>, TResData>(
+  call<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>>;
@@ -31,7 +31,7 @@ export interface IApiCallStrategy {
    * @template TParams - type of parameters to be sent to the server (query params in case of http)
    * @template TResData - type of data to be received from the server (response data in case of http)
    */
-  get<TOptData, TParams extends Record<string, any>, TResData>(
+  get<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>>;
@@ -42,7 +42,7 @@ export interface IApiCallStrategy {
    * @template TParams - type of parameters to be sent to the server (query params in case of http)
    * @template TResData - type of data to be received from the server (response data in case of http)
    */
-  post<TOptData, TParams extends Record<string, any>, TResData>(
+  post<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>>;

@@ -12,9 +12,15 @@ export interface GenericResolverMethodOptions {
     disabled?: boolean;
     queryParams?: QueryOptions | MutationOptions;
     returnType?: ReturnTypeFunc;
+    /**
+     * @deprecated please use the property decorator alternative instead
+     */
     fieldMap?: FieldMapper;
     decorators?: DecoratorType[];
     defaultValue?: AgQueryParams | unknown;
+    /**
+     * Filters with direct arguments
+     */
     extraArgsStrategy?: ExtraArgsStrategy;
     extraArgs?: {
         [index: string]: ExtraArg;
@@ -67,9 +73,19 @@ export interface GenericResolverOptions<Entity> {
         deleteResource: GenericResolverMethodOptions;
         updateResource: GenericResolverMethodOptions;
     };
+    /** exclude create/delete/update mutations automatically */
     readonly?: boolean;
+    /**
+     * Override default service. It requires both service and the related dataloader
+     */
     service?: {
+        /**
+         * Override default dataloader (must be based on class GQLDataLoader)
+         */
         dataLoaderToken?: string;
+        /**
+         * Override default service (must be based on class GenericService)
+         */
         serviceToken?: string;
     };
 }

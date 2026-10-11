@@ -5,6 +5,9 @@ import { Exclude, Expose } from 'class-transformer';
 import { ParseInt } from '@nest-yalc-2/field-middleware/class-transformer.helper.js';
 export class CGQueryDto extends PaginationDTOMixin() {
 }
+/**
+ * @deprecated use sortModelRestFactory instead
+ */
 export class SortModelRest {
 }
 __decorate([

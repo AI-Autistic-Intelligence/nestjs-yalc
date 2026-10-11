@@ -26,8 +26,12 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
             !headers[this.internalHeader]) {
             headers[this.internalHeader] = this.internalToken;
         }
+        /**
+         * We need this to do a type check on the options and
+         * implement the mapping from HttpOptions to AxiosRequestConfig
+         */
         const _options = {
-            headers,
+            ...(headers !== undefined ? { headers: headers } : {}),
             ...(options?.method !== undefined ? { method: options.method } : {}),
             ...(options?.signal !== undefined ? { signal: options.signal } : {}),
             ...(options?.data !== undefined ? { data: options.data } : {}),
@@ -47,6 +51,9 @@ export class NestHttpCallStrategy extends HttpAbstractStrategy {
         };
     }
 }
+/**
+ * Just a convenient provider to inject the NestLocalCallStrategy
+ */
 export const NestHttpCallStrategyProvider = (provide, options = {}) => ({
     provide,
     useFactory: (httpAdapter, clsService) => {

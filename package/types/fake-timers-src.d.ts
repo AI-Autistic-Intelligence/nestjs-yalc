@@ -72,7 +72,7 @@ export type Hrtime = (prev?: Array<number>) => Array<number>;
 export type WithGlobal = (_global: object) => FakeTimers;
 export type FakeMethod = "setTimeout" | "clearTimeout" | "setImmediate" | "clearImmediate" | "setInterval" | "clearInterval" | "Date" | "nextTick" | "hrtime" | "requestAnimationFrame" | "cancelAnimationFrame" | "requestIdleCallback" | "cancelIdleCallback" | "performance" | "queueMicrotask" | "Intl" | "Temporal";
 export type TimerId = number | NodeImmediate | Timer;
-export type GlobalObject = Record<string, any> & {
+export type GlobalObject = Record<string, unknown> & {
     setTimeout?: SetTimeout;
     clearTimeout?: ClearTimeout;
     setInterval?: SetInterval;
@@ -112,10 +112,10 @@ export type SetTickModeConfig = {
     mode: TickMode;
     delta?: number;
 };
-export type IntlWithClock = Record<string, any> & {
+export type IntlWithClock = Record<string, unknown> & {
     clock: Clock;
 };
-export type PerformanceLike = Record<string, any> & {
+export type PerformanceLike = Record<string, unknown> & {
     now: () => number;
 };
 export type Timers = {

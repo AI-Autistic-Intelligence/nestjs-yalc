@@ -4,6 +4,11 @@ exports.EntityWithTimestamps = void 0;
 const tslib_1 = require("tslib");
 const graphql_1 = require("@nestjs/graphql");
 const timestamp_entity_js_1 = require("@node-yalc/database/timestamp.entity.js");
+/**
+ * This is a mixin class that can be used to implement the createdAt and updatedAt
+ * Database fields in a standardized way
+ *
+ */
 const EntityWithTimestamps = (base) => {
     let EntityWithTimestamps = class EntityWithTimestamps extends (0, timestamp_entity_js_1.YalcEntityWithTimestamps)(base) {
     };

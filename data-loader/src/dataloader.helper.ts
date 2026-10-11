@@ -27,7 +27,7 @@ export type SearchKeyType<E, T = string> = [keyof E, T] | T | undefined;
  * Only used internally to add extra data to the Dataloader result
  */
 class _DataLoaderWithCount<
-  Entity extends Record<string, any>,
+  Entity extends Record<string, unknown>,
 > extends _DataLoader<string, Entity[], string> {
   private count!: number;
 
@@ -116,7 +116,7 @@ class _DataLoaderWithCount<
  * This class creates different dataloaders based on the query path
  * in order to support GraphQL aliases
  */
-export class GQLDataLoader<Entity extends Record<string, any> = any> {
+export class GQLDataLoader<Entity extends Record<string, unknown> = any> {
   private count = 0;
   private batchFn: (
     findManyOptions: CrudGenFindManyOptions<Entity>,
@@ -277,7 +277,7 @@ export const getFn =
     return service.getEntityListExtended(findManyOptions, true);
   };
 
-export function DataLoaderFactory<Entity extends Record<string, any>>(
+export function DataLoaderFactory<Entity extends Record<string, unknown>>(
   defaultSearchKey: keyof Entity,
   entity: ClassType,
   serviceToken?: string,

@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * # AI Prompt Guardrail & Injection Sanitizer (`ai-guardrails.ts`)
+ * Direct/indirect prompt injection, ChatML delimiter stripping & DAN jailbreak detection
+ * (Academic Ref: *Red Teaming AI*, O'Reilly).
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AiPromptGuardrailEngine = exports.AiPromptThreatLevel = void 0;
 var AiPromptThreatLevel;
@@ -19,6 +24,9 @@ class AiPromptGuardrailEngine {
         'override role',
         'developer mode enabled',
     ]; }
+    /**
+     * Evaluates input prompt for prompt injection patterns and strips harmful ChatML tags
+     */
     static evaluatePrompt(rawPrompt) {
         const promptLower = rawPrompt.toLowerCase();
         const matchedKeywords = [];

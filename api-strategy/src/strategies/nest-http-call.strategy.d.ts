@@ -14,7 +14,7 @@ export declare class NestHttpCallStrategy extends HttpAbstractStrategy {
     private readonly internalHeader;
     private readonly internalToken?;
     constructor(httpService: HttpService, clsService: YalcGlobalClsService, baseUrl?: string, options?: NestHttpCallStrategyOptions);
-    call<TOptData, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams>): Promise<IHttpCallStrategyResponse<TResData>>;
+    call<TOptData, TParams extends Record<string, unknown>, TResData>(path: string, options?: HttpOptions<TOptData, TParams>): Promise<IHttpCallStrategyResponse<TResData>>;
 }
 export interface NestHttpCallStrategyProviderOptions {
     baseUrl?: string;
@@ -23,6 +23,9 @@ export interface NestHttpCallStrategyProviderOptions {
     internalRequestHeader?: string;
     internalRequestToken?: string;
 }
+/**
+ * Just a convenient provider to inject the NestLocalCallStrategy
+ */
 export declare const NestHttpCallStrategyProvider: (provide: string, options?: NestHttpCallStrategyProviderOptions) => {
     provide: string;
     useFactory: (httpAdapter: HttpService, clsService: YalcGlobalClsService) => NestHttpCallStrategy;

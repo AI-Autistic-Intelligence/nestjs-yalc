@@ -17,15 +17,15 @@ export function buildSimpleMapperInterceptor<T, R>(
   Dto: new (data: T) => R,
   options?: {
     transformer?: (data: T) => T;
-    callback?: { (inputData: any, outputData: any): any };
+    callback?: { (inputData: T, outputData: R | R[]): R | R[] };
   },
-): new () => NestInterceptor<T, R> {
+): new () => NestInterceptor<T, R | R[]> {
   @Injectable()
-  class SimpleMapper implements NestInterceptor<T, R> {
+  class SimpleMapper implements NestInterceptor<T, R | R[]> {
     intercept(
       _context: ExecutionContext,
       next: CallHandler<T>,
-    ): Observable<any> {
+    ): Observable<R | R[]> {
       return next.handle().pipe(
         map((data) => {
           const tData = options?.transformer?.(data) ?? data;

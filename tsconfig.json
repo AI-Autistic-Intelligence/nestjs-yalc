@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "NodeNext",
     "declaration": true,
-    "removeComments": true,
+    "removeComments": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -186,6 +186,7 @@
     ]
   },
   "include": [
+    "missing-types.d.ts",
     "**/src/**/*.ts"
   ],
   "exclude": [

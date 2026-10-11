@@ -46,6 +46,7 @@ function defaultGraphqlNames(apiModel) {
         conditions: `${apiModel.name}Condition`,
     };
 }
+/** Builds aliased public types while retaining native fields inside the store. */
 export function createOmniRelationProjectionGraphqlTypes(definition, names) {
     const aliases = getOmniRelationProjectionAliases(definition);
     const multipleKinds = getOmniRelationProjectionAllowedKinds(definition).length > 1;
@@ -93,6 +94,10 @@ export function createOmniRelationProjectionGraphqlTypes(definition, names) {
     addField(conditions, 'guid', 'guid', UUIDScalar, false);
     return { object, create, patch, conditions };
 }
+/**
+ * Composes one generated REST/GraphQL/dataloader surface over omni-relation.
+ * It never creates a relation table or a handwritten transport adapter.
+ */
 export function createOmniRelationProjectionRegistration(options) {
     const graphqlTypes = createOmniRelationProjectionGraphqlTypes(options.definition, options.graphql?.names ?? defaultGraphqlNames(options.apiModel));
     const serviceToken = getServiceToken(options.apiModel);

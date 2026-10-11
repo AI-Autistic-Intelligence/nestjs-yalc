@@ -7,9 +7,21 @@ export type MigrationSelection = {
     [database: string]: string[];
 };
 export interface MigrationOptions {
+    /**
+     * An object to define migrations to explicitly select
+     * it's composed by:
+     * property name -> name of the database
+     * property value -> array of migration class names to skip
+     */
     selMigrations?: MigrationSelection;
+    /**
+     * Reseed after all migrations have been executed
+     */
     reseed?: boolean;
 }
+/**
+ * Application service
+ */
 export declare class DbOpsService {
     private loggerService;
     private seedService;

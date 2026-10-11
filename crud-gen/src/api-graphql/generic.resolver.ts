@@ -220,7 +220,7 @@ export function generateDecorators(
     }),
   ];
 }
-export function defineFieldResolver<Entity extends Record<string, any> = any>(
+export function defineFieldResolver<Entity extends Record<string, unknown> = any>(
   resolverInfoList: IRelationInfo[],
   resolver: ClassType<IGenericResolver>,
 ) {
@@ -854,7 +854,7 @@ export function defineDeleteMutation<Entity>(
 }
 
 export function resolverFactory<
-  Entity extends Record<string, any> = any,
+  Entity extends Record<string, unknown> = any,
   EntityWrite = Entity,
 >(
   options: IGenericResolverOptions<Entity>,

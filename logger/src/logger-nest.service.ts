@@ -23,11 +23,11 @@ export class ImprovedNestLogger
     super(context, options);
   }
 
-  private getOptions(options: LogMethodOptions | any): LogMethodOptions {
-    return typeof options === 'string' ? { message: options } : options;
+  private getOptions(options: LogMethodOptions | unknown): LogMethodOptions {
+    return typeof options === 'string' ? { message: options } : (options as LogMethodOptions);
   }
 
-  private composeMessage(message: any, options: LogMethodOptions) {
+  private composeMessage(message: unknown, options: LogMethodOptions) {
     const data = {
       ...maskDataInObject(options.data, options.masks, options.stack),
       config: options.config,
@@ -41,9 +41,9 @@ export class ImprovedNestLogger
     );
   }
 
-  log(message: any): void;
-  log(message: any, options: LogMethodOptions): void;
-  log(message: any, ...optionalParams: any[]): void;
+  log(message: unknown): void;
+  log(message: unknown, options: LogMethodOptions): void;
+  log(message: unknown, ...optionalParams: unknown[]): void;
   log(
     message: unknown,
     options: LogMethodOptions = {},
@@ -60,13 +60,13 @@ export class ImprovedNestLogger
     );
   }
 
-  error(message: any, stack?: string | undefined): void;
+  error(message: unknown, stack?: string | undefined): void;
   error(
-    message: any,
+    message: unknown,
     stack: string | undefined,
     options: LogMethodOptions,
   ): void;
-  error(message: any, ...optionalParams: any[]): void;
+  error(message: unknown, ...optionalParams: unknown[]): void;
   error(
     message: unknown,
     stack?: unknown,
@@ -84,9 +84,9 @@ export class ImprovedNestLogger
     );
   }
 
-  debug(message: any): void;
-  debug(message: any, options: LogMethodOptions): void;
-  debug(message: any, ...optionalParams: any[]): void;
+  debug(message: unknown): void;
+  debug(message: unknown, options: LogMethodOptions): void;
+  debug(message: unknown, ...optionalParams: unknown[]): void;
   debug(
     message: unknown,
     options: LogMethodOptions = {},
@@ -102,9 +102,9 @@ export class ImprovedNestLogger
     );
   }
 
-  verbose(message: any): void;
-  verbose(message: any, options: LogMethodOptions): void;
-  verbose(message: any, ...optionalParams: any[]): void;
+  verbose(message: unknown): void;
+  verbose(message: unknown, options: LogMethodOptions): void;
+  verbose(message: unknown, ...optionalParams: unknown[]): void;
   verbose(
     message: unknown,
     options: LogMethodOptions = {},
@@ -120,9 +120,9 @@ export class ImprovedNestLogger
     );
   }
 
-  warn(message: any): void;
-  warn(message: any, options: LogMethodOptions): void;
-  warn(message: any, ...optionalParams: any[]): void;
+  warn(message: unknown): void;
+  warn(message: unknown, options: LogMethodOptions): void;
+  warn(message: unknown, ...optionalParams: unknown[]): void;
   warn(
     message: unknown,
     options: LogMethodOptions = {},
@@ -138,7 +138,7 @@ export class ImprovedNestLogger
     );
   }
 
-  beforeLogging(message: any, options: LogMethodOptions) {
+  beforeLogging(message: unknown, options: LogMethodOptions) {
     this.options.event = this.options.event ?? {};
     this.invokePlugins(
       'onBeforeLogging',

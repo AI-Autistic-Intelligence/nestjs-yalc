@@ -2,7 +2,17 @@ import { __decorate, __metadata, __param } from "tslib";
 import { Injectable, Inject, } from '@nestjs/common';
 import { APP_LOGGER_SERVICE, MODULE_ALIAS_TOKEN, MODULE_OPTION_TOKEN, } from './def.const.js';
 import { AppContextService } from './app-context.service.js';
+/**
+ * This class is used to handle the lifecycle of the app
+ * and apply some common logic and checks to all apps
+ */
 let LifeCycleHandler = class LifeCycleHandler {
+    /**
+     * We do this in the constructor since onModuleInit doesn't seem to be called
+     * when we use 'useFactory' to create the provider
+     * @todo: investigate why onModuleInit is not called
+     *
+     */
     constructor(logger, moduleAlias, appContextService, options) {
         this.logger = logger;
         this.moduleAlias = moduleAlias;

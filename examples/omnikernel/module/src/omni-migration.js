@@ -118,6 +118,12 @@ function tableSnapshots(dataSource, entities) {
     }
     return orderTablesTopologically([...byTableName.values()].map(tableOptions));
 }
+/**
+ * Orders a complete migration snapshot from FK parents to children. A
+ * migration may not defer this to registration order: PostgreSQL requires the
+ * referenced table to exist at FK creation time. Self references are valid;
+ * cross-table cycles are rejected during migration authoring.
+ */
 function orderTablesTopologically(tables) {
     const byName = new Map();
     for (const table of tables) {
@@ -173,6 +179,11 @@ function quotedTableName(table) {
         .map(quotedIdentifier)
         .join('.');
 }
+/**
+ * Authoring-only helper. Run this against a metadata-only DataSource and copy
+ * the returned value into a versioned migration source using
+ * defineOmniMigrationSnapshot. Never invoke it from a migration at runtime.
+ */
 export function captureOmniMigrationSnapshot(version, dataSource, extensions = []) {
     const dialect = dialectFor(dataSource);
     return defineOmniMigrationSnapshot({
@@ -185,6 +196,11 @@ export function captureOmniMigrationSnapshot(version, dataSource, extensions = [
         indexStatements: extensions.flatMap((extension) => createProjectionDialect(dialect).compileIndexStatements(extension.definition)),
     });
 }
+/**
+ * Freezes a migration-owned table snapshot. Old migration source calls this
+ * with a literal captured at authoring time, so future entity changes cannot
+ * alter its DDL.
+ */
 export function defineOmniMigrationSnapshot(snapshot) {
     if (typeof snapshot.version !== 'string' ||
         snapshot.version.trim().length === 0) {
@@ -208,6 +224,11 @@ export function defineOmniMigrationSnapshot(snapshot) {
     }
     return freezeDeep(structuredClone(snapshot));
 }
+/**
+ * Creates a migration executor from an already-versioned snapshot. This API
+ * deliberately accepts no DataSource or entity classes: runtime metadata is
+ * never a migration authority.
+ */
 export function createOmniMigrationPlan(snapshot) {
     const source = defineOmniMigrationSnapshot(snapshot);
     const tables = orderTablesTopologically(source.tables);

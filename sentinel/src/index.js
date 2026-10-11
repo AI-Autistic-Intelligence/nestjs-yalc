@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * # Ferrox-Node Sentinel (`@nest-yalc-2/sentinel` / `@ferrox/node-sentinel`)
+ * Enterprise AI/ML Security Analytics & 35 SOTA Innovations for NestJS
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 tslib_1.__exportStar(require("./algorithms/ai-guardrails"), exports);

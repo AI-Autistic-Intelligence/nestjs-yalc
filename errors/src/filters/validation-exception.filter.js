@@ -10,7 +10,7 @@ let ValidationExceptionFilter = class ValidationExceptionFilter {
     catch(error) {
         const newError = new InputValidationError(error.systemMessage, { response: { message: error.message } });
         if (error.stack)
-            newError.stack = error.stack;
+            newError.stack = error.stack; // we need the stack trace for dev
         this.logger.error(error.systemMessage ?? newError.message, newError.stack);
         return newError;
     }

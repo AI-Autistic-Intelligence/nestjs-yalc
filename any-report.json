@@ -1,0 +1,2470 @@
+{
+  ".eslintrc.ts": [
+    {
+      "line": 46,
+      "content": "'@typescript-eslint/no-explicit-any': 'off',"
+    }
+  ],
+  "ag-grid\\src\\ag-grid-args.decorator.ts": [
+    {
+      "line": 196,
+      "content": "arg1: any,"
+    },
+    {
+      "line": 197,
+      "content": "arg2?: any,"
+    },
+    {
+      "line": 310,
+      "content": "filterType: exprType as any /**@todo fix type */,"
+    },
+    {
+      "line": 425,
+      "content": "String((sortParams as any).colId),"
+    },
+    {
+      "line": 453,
+      "content": "const extraParameter: { [key: string]: any } = {};"
+    },
+    {
+      "line": 459,
+      "content": "Object.keys(args as any).length <= 0 ||"
+    },
+    {
+      "line": 461,
+      "content": "(argName) => typeof (args as any)[argName] === 'undefined',"
+    },
+    {
+      "line": 500,
+      "content": "value: value as any,"
+    },
+    {
+      "line": 586,
+      "content": "return function (target: any, key: string, index: number) {"
+    },
+    {
+      "line": 688,
+      "content": "return function (target: any, key: string, index: number) {"
+    }
+  ],
+  "ag-grid\\src\\ag-grid-metadata.helper.ts": [
+    {
+      "line": 79,
+      "content": "const objectMetadata = getAgGridObjectMetadata(object as any);"
+    },
+    {
+      "line": 84,
+      "content": "const fieldMetadataList = getAgGridFieldMetadataList(object as any);"
+    },
+    {
+      "line": 110,
+      "content": "} else if (isIFieldAndFilterMapper(object as any)) {"
+    }
+  ],
+  "ag-grid\\src\\ag-grid-query.helper.ts": [
+    {
+      "line": 123,
+      "content": "if ((operation as any).operator !== undefined) {"
+    },
+    {
+      "line": 132,
+      "content": "queryBuilder as any,"
+    },
+    {
+      "line": 137,
+      "content": "queryBuilder as any,"
+    },
+    {
+      "line": 151,
+      "content": "queryBuilder as any,"
+    },
+    {
+      "line": 175,
+      "content": "info.fieldNodes?.[0]?.selectionSet?.selections.some((item: any) => {"
+    },
+    {
+      "line": 180,
+      "content": "(subItem: any) => subItem.name.value === 'count',"
+    },
+    {
+      "line": 261,
+      "content": "filterInput: any,"
+    },
+    {
+      "line": 311,
+      "content": "export function applySelectOnFind<T = any>("
+    },
+    {
+      "line": 339,
+      "content": "fieldMapper: fieldMapper[fieldName] as any,"
+    },
+    {
+      "line": 346,
+      "content": "const selection = (findOptions.select as any[]) ?? [];"
+    },
+    {
+      "line": 350,
+      "content": "findOptions.select = selection as any;"
+    }
+  ],
+  "ag-grid\\src\\ag-grid-type-checker.utils.ts": [
+    {
+      "line": 103,
+      "content": "const casted = filter as any;"
+    },
+    {
+      "line": 125,
+      "content": "filter: any,"
+    },
+    {
+      "line": 134,
+      "content": "filter: any,"
+    },
+    {
+      "line": 146,
+      "content": "export function isOperator(val: any): val is Operators {"
+    }
+  ],
+  "ag-grid\\src\\ag-grid.args.ts": [
+    {
+      "line": 36,
+      "content": "[index: string]: any;"
+    },
+    {
+      "line": 66,
+      "content": "[index: string]: any;"
+    }
+  ],
+  "ag-grid\\src\\ag-grid.enum.ts": [
+    {
+      "line": 49,
+      "content": "const properties: { [x in string | number]: any } = {};"
+    }
+  ],
+  "ag-grid\\src\\ag-grid.input.ts": [
+    {
+      "line": 30,
+      "content": "export interface SortModel<T = any> {"
+    },
+    {
+      "line": 35,
+      "content": "export interface SortModelString<T = any> extends SortModel<T> {"
+    },
+    {
+      "line": 47,
+      "content": "export class SortModel<T = any> implements SortModel<T> {"
+    },
+    {
+      "line": 226,
+      "content": "// return memoized result if any"
+    },
+    {
+      "line": 254,
+      "content": "let typeClass: any;"
+    },
+    {
+      "line": 256,
+      "content": "typeClass = typeof type === 'function' ? (type as any)() : type;"
+    }
+  ],
+  "ag-grid\\src\\ag-grid.repository.ts": [
+    {
+      "line": 158,
+      "content": "} as any);"
+    },
+    {
+      "line": 172,
+      "content": "// do not create any subquery, however, the amount of data retrieved could"
+    },
+    {
+      "line": 198,
+      "content": "sortingColumns.forEach((v: any) => {"
+    },
+    {
+      "line": 332,
+      "content": "public generateFilterOnPrimaryColumn(ids: any) {"
+    }
+  ],
+  "ag-grid\\src\\filter.scalar.ts": [
+    {
+      "line": 23,
+      "content": "parseValue(value: any): FilterInput {"
+    },
+    {
+      "line": 77,
+      "content": "serialize(value: any): string {"
+    }
+  ],
+  "ag-grid\\src\\generic-mutation.resolver.ts": [
+    {
+      "line": 20,
+      "content": "export function defineCreateMutation<Entity extends Record<string, any>>("
+    },
+    {
+      "line": 53,
+      "content": ") as any;"
+    },
+    {
+      "line": 122,
+      "content": "export function defineUpdateMutation<Entity extends Record<string, any>>("
+    },
+    {
+      "line": 194,
+      "content": "export function defineDeleteMutation<Entity extends Record<string, any>>("
+    }
+  ],
+  "ag-grid\\src\\generic-query.resolver.ts": [
+    {
+      "line": 38,
+      "content": "export function defineFieldResolver<Entity extends Record<string, any> = any>("
+    },
+    {
+      "line": 95,
+      "content": "findOptions as any,"
+    },
+    {
+      "line": 177,
+      "content": "findOptions as any,"
+    },
+    {
+      "line": 216,
+      "content": "export function defineGetSingleResource<Entity extends Record<string, any>>("
+    },
+    {
+      "line": 247,
+      "content": "findOptions as any,"
+    },
+    {
+      "line": 305,
+      "content": "export function defineGetGridResource<Entity extends Record<string, any>>("
+    },
+    {
+      "line": 353,
+      "content": "const extraArgTypes: any[] = [];"
+    }
+  ],
+  "ag-grid\\src\\generic-resolver.resolver.ts": [
+    {
+      "line": 48,
+      "content": "Entity extends Record<string, any> = any,"
+    },
+    {
+      "line": 63,
+      "content": "[index: string]: any; //index signature to allow dynamic properties"
+    },
+    {
+      "line": 134,
+      "content": "} as any,"
+    },
+    {
+      "line": 154,
+      "content": "agField: field as any,"
+    }
+  ],
+  "ag-grid\\src\\generic-resolver.type.ts": [
+    {
+      "line": 136,
+      "content": "): any[] {"
+    },
+    {
+      "line": 145,
+      "content": "] as any[];"
+    }
+  ],
+  "ag-grid\\src\\generic-service.service.ts": [
+    {
+      "line": 57,
+      "content": "repository: AgGridRepository<any>,"
+    },
+    {
+      "line": 58,
+      "content": "repositoryWrite: AgGridRepository<any>,"
+    },
+    {
+      "line": 63,
+      "content": "getRepositoryToken(entity as any, connectionName),"
+    },
+    {
+      "line": 288,
+      "content": "where: where as any,"
+    },
+    {
+      "line": 289,
+      "content": "select: fields as any,"
+    },
+    {
+      "line": 293,
+      "content": "where: where as any,"
+    },
+    {
+      "line": 294,
+      "content": "select: fields as any,"
+    },
+    {
+      "line": 327,
+      "content": "entityHydrated = new (entity as any)();"
+    },
+    {
+      "line": 387,
+      "content": "entityHydrated = new (entity as any)();"
+    },
+    {
+      "line": 504,
+      "content": "const newEntityWrite = new (entity as any)();"
+    },
+    {
+      "line": 512,
+      "content": "(newEntityWrite as any)[propertyName] = (entityRead as any)["
+    },
+    {
+      "line": 520,
+      "content": "dst.transformer(newEntityWrite, (entityRead as any)[propertyName]);"
+    }
+  ],
+  "ag-grid\\src\\gqlfields.decorator.ts": [
+    {
+      "line": 18,
+      "content": "id: Type<any>;"
+    },
+    {
+      "line": 45,
+      "content": "item: any,"
+    },
+    {
+      "line": 58,
+      "content": "item.selectionSet.selections.forEach((subItem: any) => {"
+    },
+    {
+      "line": 151,
+      "content": "info.fieldNodes?.[0]?.selectionSet?.selections?.forEach((item: any) =>"
+    }
+  ],
+  "ag-grid\\src\\gqlmapper.decorator.ts": [
+    {
+      "line": 77,
+      "content": "return function (target: any, key: string, index: number) {"
+    }
+  ],
+  "ag-grid\\src\\object.decorator.ts": [
+    {
+      "line": 45,
+      "content": "export type IAgGridFieldMetadata<T = any> = AgGridFieldMetadata<T>;"
+    },
+    {
+      "line": 47,
+      "content": "export interface AgGridFieldMetadata<T = any> extends YalcAgGridFieldMetadata {"
+    },
+    {
+      "line": 68,
+      "content": "export const AgGridField = <T = any>({"
+    },
+    {
+      "line": 72,
+      "content": "}: AgGridFieldMetadata<T> = {} as any): PropertyDecorator => {"
+    },
+    {
+      "line": 73,
+      "content": "return (target: any, property: string | symbol) => {"
+    }
+  ],
+  "ag-grid\\src\\transformer.helper.ts": [
+    {
+      "line": 4,
+      "content": "return (dstObj: Record<any, any>, srcValue: any) => {"
+    }
+  ],
+  "api-strategy\\src\\context-call.interface.ts": [
+    {
+      "line": 11,
+      "content": "TParams extends Record<string, any>,"
+    },
+    {
+      "line": 23,
+      "content": "call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 34,
+      "content": "get<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 45,
+      "content": "post<TOptData, TParams extends Record<string, any>, TResData>("
+    }
+  ],
+  "api-strategy\\src\\context-event.interface.ts": [
+    {
+      "line": 1,
+      "content": "export interface IEventStrategy<P = any, R = any, O = any> {"
+    }
+  ],
+  "api-strategy\\src\\strategies\\composite-event.strategy.ts": [
+    {
+      "line": 10,
+      "content": "export class CompositeEventStrategy<P = any, R = any, O = any>"
+    }
+  ],
+  "api-strategy\\src\\strategies\\conditional-call.strategy.ts": [
+    {
+      "line": 9,
+      "content": "disabledResponse?: IObjectWithData<any>;"
+    },
+    {
+      "line": 19,
+      "content": "call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 26,
+      "content": "get<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 33,
+      "content": "post<TOptData, TParams extends Record<string, any>, TResData>("
+    }
+  ],
+  "api-strategy\\src\\strategies\\conditional-event.strategy.ts": [
+    {
+      "line": 4,
+      "content": "export interface ConditionalEventStrategyOptions<P = any, R = any, O = any> {"
+    },
+    {
+      "line": 10,
+      "content": "export class ConditionalEventStrategy<P = any, R = any, O = any>"
+    }
+  ],
+  "api-strategy\\src\\strategies\\fallback-call.strategy.ts": [
+    {
+      "line": 21,
+      "content": "call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 28,
+      "content": "get<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 35,
+      "content": "post<TOptData, TParams extends Record<string, any>, TResData>("
+    }
+  ],
+  "api-strategy\\src\\strategies\\http-abstract-call.strategy.ts": [
+    {
+      "line": 42,
+      "content": "TParams extends Record<string, any> = Record<string, any>,"
+    },
+    {
+      "line": 68,
+      "content": "export interface IHttpCallStrategyResponse<T = any> {"
+    },
+    {
+      "line": 78,
+      "content": "request?: any;"
+    },
+    {
+      "line": 89,
+      "content": "* @template TParams - The shape of URL query parameters (default: Record<string, any>)"
+    },
+    {
+      "line": 107,
+      "content": "call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 131,
+      "content": "get<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 159,
+      "content": "post<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 173,
+      "content": "*   async call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 194,
+      "content": "abstract call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 209,
+      "content": "get<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 229,
+      "content": "post<TOptData, TParams extends Record<string, any>, TResData>("
+    }
+  ],
+  "api-strategy\\src\\strategies\\nest-http-call.strategy.ts": [
+    {
+      "line": 37,
+      "content": "async call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 45,
+      "content": "const headers: Record<string, any> = {"
+    },
+    {
+      "line": 77,
+      "content": "headers: _options?.headers as any,"
+    }
+  ],
+  "api-strategy\\src\\strategies\\nest-local-call.strategy.ts": [
+    {
+      "line": 37,
+      "content": "(configService as any)?.values?.internalRequestToken;"
+    },
+    {
+      "line": 42,
+      "content": "TParams extends Record<string, any>,"
+    },
+    {
+      "line": 53,
+      "content": "const headers: Record<string, any> = {"
+    }
+  ],
+  "api-strategy\\src\\strategies\\nest-local-event.strategy.ts": [
+    {
+      "line": 6,
+      "content": "P = any,"
+    },
+    {
+      "line": 7,
+      "content": "O = any,"
+    },
+    {
+      "line": 15,
+      "content": "emitAsync(path: string, payload: P, options?: O): Promise<any> {"
+    }
+  ],
+  "api-strategy\\src\\strategies\\rabbitmq-event.strategy.ts": [
+    {
+      "line": 11,
+      "content": "export interface RabbitMqEventStrategyOptions<P = any> {"
+    },
+    {
+      "line": 22,
+      "content": "export class RabbitMqEventStrategy<P = any, O = any>"
+    },
+    {
+      "line": 86,
+      "content": "export interface RabbitMqEventStrategyProviderOptions<P = any> {"
+    },
+    {
+      "line": 93,
+      "content": "export const RabbitMqEventStrategyProvider = <P = any>("
+    }
+  ],
+  "api-strategy\\src\\strategies\\shadow-call.strategy.ts": [
+    {
+      "line": 34,
+      "content": "call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 44,
+      "content": "get<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 54,
+      "content": "post<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 68,
+      "content": "shadowCall: (strategy: IApiCallStrategy) => Promise<IObjectWithData<any>>,"
+    }
+  ],
+  "api-strategy\\src\\strategy-selector.provider.ts": [
+    {
+      "line": 8,
+      "content": "| (abstract new (...args: any[]) => TStrategy)"
+    },
+    {
+      "line": 9,
+      "content": "| (new (...args: any[]) => TStrategy);"
+    },
+    {
+      "line": 14,
+      "content": "inject?: any[];"
+    },
+    {
+      "line": 16,
+      "content": "...args: any[]"
+    },
+    {
+      "line": 57,
+      "content": "useFactory: async (...args: any[]) => {"
+    }
+  ],
+  "app\\src\\app-bootstrap-base.helper.ts": [
+    {
+      "line": 37,
+      "content": "const bootstrappedApps: Set<any> = new Set();"
+    },
+    {
+      "line": 60,
+      "content": "protected module: Type<any> | DynamicModule;"
+    },
+    {
+      "line": 65,
+      "content": "protected readonly appModule: Type<any>,"
+    }
+  ],
+  "app\\src\\app-bootstrap-standalone.helper.ts": [
+    {
+      "line": 17,
+      "content": "constructor(appAlias: string, module: any, options?: TGlobalOptions) {"
+    }
+  ],
+  "app\\src\\app-bootstrap.helper.ts": [
+    {
+      "line": 53,
+      "content": "constructor(appAlias: string, module: any, options?: TGlobalOptions) {"
+    },
+    {
+      "line": 123,
+      "content": "new FastifyAdapter(this.fastifyInstance as any),"
+    },
+    {
+      "line": 158,
+      "content": "const errorMessages: { [key: string]: any } = {};"
+    },
+    {
+      "line": 172,
+      "content": "await this.getApp().register(fastifyCookie as any, {});"
+    },
+    {
+      "line": 250,
+      "content": "const hmr = typeof module !== 'undefined' ? (module as any).hot : undefined;"
+    }
+  ],
+  "app\\src\\app-config.service.ts": [
+    {
+      "line": 9,
+      "content": "export class AppConfigService<T = any> {"
+    }
+  ],
+  "app\\src\\app-imports.factory.ts": [
+    {
+      "line": 66,
+      "content": "confs: any[],"
+    },
+    {
+      "line": 68,
+      "content": "gqlModules: any[],"
+    },
+    {
+      "line": 146,
+      "content": "const providers: Provider<any>[] = [];"
+    },
+    {
+      "line": 229,
+      "content": "const exception: any = graphQLError?.extensions?.exception;"
+    },
+    {
+      "line": 260,
+      "content": ": false) as any,"
+    },
+    {
+      "line": 267,
+      "content": "request: any;"
+    },
+    {
+      "line": 268,
+      "content": "reply: any;"
+    },
+    {
+      "line": 304,
+      "content": "secret: configService.get<any>(CURAPP_CONF_ALIAS)?.jwtSecretPrivate,"
+    }
+  ],
+  "app\\src\\app.helper.ts": [
+    {
+      "line": 10,
+      "content": "export function isDynamicModule(module: any): module is DynamicModule {"
+    },
+    {
+      "line": 15,
+      "content": "app: BaseAppBootstrap<any>,"
+    },
+    {
+      "line": 16,
+      "content": "serviceType: any,"
+    },
+    {
+      "line": 17,
+      "content": "fn: { (service: any): Promise<any> },"
+    },
+    {
+      "line": 40,
+      "content": "module: any,"
+    },
+    {
+      "line": 42,
+      "content": "): Promise<(serviceType: any, fn: (service: any) => Promise<any>, executeOptions?: { closeApp?: boolean }) => Promise<void>> =>"
+    },
+    {
+      "line": 49,
+      "content": ") as any;"
+    },
+    {
+      "line": 62,
+      "content": "module: DynamicModule | Type<any>,"
+    },
+    {
+      "line": 64,
+      "content": "fn: { (service: TService): Promise<any> },"
+    }
+  ],
+  "app\\src\\base-app-module.helper.ts": [
+    {
+      "line": 39,
+      "content": "const singletonDynamicModules = new Map<any, any>();"
+    },
+    {
+      "line": 43,
+      "content": "moduleToken: any,"
+    },
+    {
+      "line": 44,
+      "content": "module: any,"
+    },
+    {
+      "line": 45,
+      "content": "): any | true {"
+    },
+    {
+      "line": 59,
+      "content": "export function getCachedModule(module: any, isSingleton?: boolean) {"
+    },
+    {
+      "line": 122,
+      "content": "module: any,"
+    },
+    {
+      "line": 142,
+      "content": "const _providers: Array<any> = ["
+    },
+    {
+      "line": 253,
+      "content": "} as any,"
+    },
+    {
+      "line": 255,
+      "content": "* It can be global because the ConfigService registers configurations by using an alias, hence there won't be any conflict"
+    },
+    {
+      "line": 256,
+      "content": "* It allows us to use the ConfigService in any module without having to import the ConfigModule"
+    },
+    {
+      "line": 352,
+      "content": "config: any,"
+    }
+  ],
+  "app\\src\\cls.module.ts": [
+    {
+      "line": 10,
+      "content": "[key: symbol]: any;"
+    }
+  ],
+  "app\\src\\unwrap-result.interceptor.ts": [
+    {
+      "line": 12,
+      "content": "intercept(_: ExecutionContext, next: CallHandler): Observable<any> {"
+    }
+  ],
+  "apps\\ferrox-saas-backend\\src\\modules\\admin-dashboard.controller.ts": [
+    {
+      "line": 61,
+      "content": "(r: any) =>"
+    },
+    {
+      "line": 78,
+      "content": "runKaliAudit(req: any) {"
+    }
+  ],
+  "apps\\ferrox-saas-backend\\src\\modules\\auth.controller.ts": [
+    {
+      "line": 14,
+      "content": "register(req: any) {"
+    },
+    {
+      "line": 25,
+      "content": "login(req: any) {"
+    },
+    {
+      "line": 43,
+      "content": "totpSetup(req: any) {"
+    },
+    {
+      "line": 55,
+      "content": "totpVerify(req: any) {"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\crud-gen-args-gql.decorator.ts": [
+    {
+      "line": 109,
+      "content": "return function (target: any, key: string, index: number) {"
+    },
+    {
+      "line": 210,
+      "content": "return function (target: any, key: string, index: number) {"
+    },
+    {
+      "line": 225,
+      "content": "const extraParameter: { [key: string]: any } = {};"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\crud-gen-gql.helpers.ts": [
+    {
+      "line": 6,
+      "content": "info.fieldNodes?.[0]?.selectionSet?.selections.some((item: any) => {"
+    },
+    {
+      "line": 11,
+      "content": "(subItem: any) => subItem.name.value === 'count',"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\crud-gen-gql.interceptor.ts": [
+    {
+      "line": 37,
+      "content": "const { startRow, endRow } = (gqlCtx?.getArgs?.() as any) ?? {};"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\crud-gen-gql.interface.ts": [
+    {
+      "line": 168,
+      "content": "[index: string]: any;"
+    },
+    {
+      "line": 180,
+      "content": "T extends ObjectLiteral = any,"
+    },
+    {
+      "line": 209,
+      "content": "filterMiddleware?: { (ctx: ExecutionContext, filterValue?: any): any };"
+    },
+    {
+      "line": 278,
+      "content": "export interface ICrudGenBaseParams<T = any> extends ICrudGenPaginationParams {"
+    },
+    {
+      "line": 279,
+      "content": "[index: string]: any; // dynamic parameters"
+    },
+    {
+      "line": 285,
+      "content": "export interface ICrudGenSimpleParams<T = any>"
+    },
+    {
+      "line": 297,
+      "content": "export interface ISortModel<T = any> {"
+    },
+    {
+      "line": 302,
+      "content": "export interface ISortModelString<T = any> extends ISortModel<T> {"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\crud-gen-gql.type.ts": [
+    {
+      "line": 30,
+      "content": "export default function CrudGenGqlType<T>(type: Type<T>): any {"
+    },
+    {
+      "line": 81,
+      "content": "export interface IWhereCondition<Entity extends ObjectLiteral = any> {"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\crud-gen.input.ts": [
+    {
+      "line": 36,
+      "content": "export class SortModel<T = any> implements ISortModel<T> {"
+    },
+    {
+      "line": 263,
+      "content": "// return memoized result if any"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\generic.resolver.ts": [
+    {
+      "line": 61,
+      "content": "[index: string]: any; //index signature"
+    },
+    {
+      "line": 84,
+      "content": "(ctx: GqlExecutionContext, input: Type, filterValue?: any): any;"
+    },
+    {
+      "line": 90,
+      "content": "(ctx: GqlExecutionContext, input: Type, filterValue?: any): any;"
+    },
+    {
+      "line": 223,
+      "content": "export function defineFieldResolver<Entity extends Record<string, any> = any>("
+    },
+    {
+      "line": 545,
+      "content": "const where = findOptions?.where as any;"
+    },
+    {
+      "line": 556,
+      "content": "typeof (service as any).supportsStructuredGraphqlFilters === 'function'"
+    },
+    {
+      "line": 557,
+      "content": "? !!(service as any).supportsStructuredGraphqlFilters()"
+    },
+    {
+      "line": 602,
+      "content": "const extraArgTypes: any[] = [];"
+    },
+    {
+      "line": 857,
+      "content": "Entity extends Record<string, any> = any,"
+    },
+    {
+      "line": 872,
+      "content": "[index: string]: any; //index signature to allow dynamic properties"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\gqlfields.decorator.ts": [
+    {
+      "line": 19,
+      "content": "id: Type<any>;"
+    },
+    {
+      "line": 40,
+      "content": "item: any,"
+    },
+    {
+      "line": 82,
+      "content": "item.selectionSet.selections.forEach((subItem: any) => {"
+    },
+    {
+      "line": 141,
+      "content": "fieldMapper: mapper.field[subItem.name.value] as any,"
+    },
+    {
+      "line": 161,
+      "content": "fieldMapper: mapper.field[item.name.value] as any,"
+    },
+    {
+      "line": 179,
+      "content": "info.fieldNodes?.[0]?.selectionSet?.selections?.forEach((item: any) =>"
+    }
+  ],
+  "crud-gen\\src\\api-graphql\\gqlmapper.decorator.ts": [
+    {
+      "line": 77,
+      "content": "return function (target: any, key: string, index: number) {"
+    }
+  ],
+  "crud-gen\\src\\api-rest\\crud-gen-args-rest.decorator.ts": [
+    {
+      "line": 122,
+      "content": "const fieldMapper = (findParams.extra as any)?._fieldMapper;"
+    },
+    {
+      "line": 190,
+      "content": "return function (target: any, key: string, index: number) {"
+    },
+    {
+      "line": 233,
+      "content": "export const ApiOkResponsePaginated = <DataDto extends ClassType = any>("
+    },
+    {
+      "line": 237,
+      "content": "class ConnectionNode<T = any> implements IConnection<T> {"
+    }
+  ],
+  "crud-gen\\src\\api-rest\\crud-gen-rest.controller.factory.ts": [
+    {
+      "line": 46,
+      "content": "export interface CrudRestControllerOptions<Entity extends Record<string, any>> {"
+    },
+    {
+      "line": 51,
+      "content": "dto?: ClassType<any>;"
+    },
+    {
+      "line": 99,
+      "content": "function inferSinglePrimaryField<Entity extends Record<string, any>>("
+    },
+    {
+      "line": 116,
+      "content": "export function crudRestControllerFactory<Entity extends Record<string, any>>("
+    },
+    {
+      "line": 165,
+      "content": "{ [idField]: id } as any,"
+    },
+    {
+      "line": 179,
+      "content": "return this.service.createEntity(body as any);"
+    },
+    {
+      "line": 186,
+      "content": "return this.service.updateEntity({ [idField]: id } as any, body as any);"
+    },
+    {
+      "line": 193,
+      "content": "await this.service.deleteEntity({ [idField]: id } as any);"
+    },
+    {
+      "line": 236,
+      "content": "order[field as keyof Entity] = direction.toUpperCase() as any;"
+    },
+    {
+      "line": 266,
+      "content": "...(findOptions.extra as any),"
+    },
+    {
+      "line": 270,
+      "content": "} as any;"
+    }
+  ],
+  "crud-gen\\src\\api-rest\\crud-gen-rest.dto.ts": [
+    {
+      "line": 19,
+      "content": "export class CGQueryDto<T = any>"
+    },
+    {
+      "line": 26,
+      "content": "export class SortModelRest<T = any> implements ISortModel<T> {"
+    },
+    {
+      "line": 113,
+      "content": "export class CGRestQueryArgs<T = any>"
+    }
+  ],
+  "crud-gen\\src\\api-rest\\crud-gen-rest.interceptor.ts": [
+    {
+      "line": 79,
+      "content": "TInputObject extends Record<string, any> = any,"
+    },
+    {
+      "line": 80,
+      "content": "TOutputObject extends Record<string, any> = any,"
+    },
+    {
+      "line": 99,
+      "content": "TInputObject extends Record<string, any> = any,"
+    },
+    {
+      "line": 100,
+      "content": "TOutputObject extends Record<string, any> = any,"
+    },
+    {
+      "line": 116,
+      "content": "dto: new (...args: any[]) => TDto,"
+    },
+    {
+      "line": 119,
+      "content": "constructor(data: any[], pageData: PageData) {"
+    },
+    {
+      "line": 122,
+      "content": "return yalcPlainToInstance<TDto, any>(dto, item);"
+    },
+    {
+      "line": 135,
+      "content": "dto: new (...args: any[]) => T,"
+    },
+    {
+      "line": 139,
+      "content": "intercept(context: ExecutionContext, next: CallHandler): Observable<any> {"
+    },
+    {
+      "line": 172,
+      "content": "intercept(_context: ExecutionContext, next: CallHandler): Observable<any> {"
+    }
+  ],
+  "crud-gen\\src\\api-rest\\odata-query.interface.ts": [
+    {
+      "line": 11,
+      "content": "* This type is intentionally generic and does not depend on any specific ORM."
+    }
+  ],
+  "crud-gen\\src\\conditions.error.ts": [
+    {
+      "line": 5,
+      "content": "constructor(conditions: any) {"
+    },
+    {
+      "line": 15,
+      "content": "constructor(conditions: any) {"
+    }
+  ],
+  "crud-gen\\src\\crud-gen-resource.factory.ts": [
+    {
+      "line": 46,
+      "content": "controllers: ClassType<any>[];"
+    },
+    {
+      "line": 71,
+      "content": "return !!(graphql.serviceToken ?? (resolver as any).service?.serviceToken);"
+    },
+    {
+      "line": 83,
+      "content": "return !!(graphql.dataLoaderToken ?? (resolver as any).service?.dataLoaderToken);"
+    },
+    {
+      "line": 158,
+      "content": "export function CrudGenResourceFactory<Entity extends Record<string, any>>({"
+    },
+    {
+      "line": 224,
+      "content": "} as any;"
+    }
+  ],
+  "crud-gen\\src\\crud-gen-type-checker.utils.ts": [
+    {
+      "line": 106,
+      "content": "const casted = filter as any;"
+    },
+    {
+      "line": 128,
+      "content": "filter: any,"
+    },
+    {
+      "line": 137,
+      "content": "filter: any,"
+    },
+    {
+      "line": 149,
+      "content": "export function isOperator(val: any): val is Operators {"
+    }
+  ],
+  "crud-gen\\src\\crud-gen.enum.ts": [
+    {
+      "line": 23,
+      "content": "): { enum: { [index: string]: string }; cached: boolean; prototype: any } {"
+    },
+    {
+      "line": 33,
+      "content": "const properties: { [x in string | number]: any } = {};"
+    }
+  ],
+  "crud-gen\\src\\crud-gen.helpers.ts": [
+    {
+      "line": 195,
+      "content": "if ((operation as any).operator !== undefined) {"
+    },
+    {
+      "line": 294,
+      "content": "const objectMetadata = getModelObjectMetadata(object as any);"
+    },
+    {
+      "line": 299,
+      "content": "const fieldMetadataList = getModelFieldMetadataList(object as any);"
+    },
+    {
+      "line": 325,
+      "content": "} else if (isIFieldAndFilterMapper(object as any)) {"
+    },
+    {
+      "line": 363,
+      "content": "export interface IProviderOverride<T = any> {"
+    },
+    {
+      "line": 371,
+      "content": "export interface IResolverOverride<T = any> {"
+    },
+    {
+      "line": 418,
+      "content": "resolver: any,"
+    },
+    {
+      "line": 424,
+      "content": "export function CrudGenDependencyFactory<Entity extends Record<string, any>>({"
+    },
+    {
+      "line": 451,
+      "content": "export function CrudGenBackendFactory<Entity extends Record<string, any>>({"
+    },
+    {
+      "line": 480,
+      "content": "provide: serviceToken as any,"
+    },
+    {
+      "line": 514,
+      "content": "export function CrudGenGraphqlFactory<Entity extends Record<string, any>>({"
+    },
+    {
+      "line": 606,
+      "content": "if (agField !== undefined) result.agField = agField as any;"
+    },
+    {
+      "line": 723,
+      "content": "filterInput: any,"
+    },
+    {
+      "line": 730,
+      "content": "TEntity extends ObjectLiteral = any,"
+    },
+    {
+      "line": 801,
+      "content": "export function applySelectOnFind<T = any>("
+    },
+    {
+      "line": 828,
+      "content": "fieldMapper: fieldMapper[fieldName] as any,"
+    }
+  ],
+  "crud-gen\\src\\crud-gen.interface.ts": [
+    {
+      "line": 9,
+      "content": "export interface IConnection<T = any> {"
+    }
+  ],
+  "crud-gen\\src\\entity.error.ts": [
+    {
+      "line": 11,
+      "content": "error: any,"
+    },
+    {
+      "line": 16,
+      "content": "export function isEntityError(error: any): error is EntityError {"
+    }
+  ],
+  "crud-gen\\src\\model-object\\model-object-rest.interceptor.ts": [
+    {
+      "line": 18,
+      "content": "intercept(context: ExecutionContext, next: CallHandler): Observable<any> {"
+    }
+  ],
+  "crud-gen\\src\\model-object\\model-object.helper.ts": [
+    {
+      "line": 9,
+      "content": "input: any,"
+    },
+    {
+      "line": 10,
+      "content": "output: any,"
+    },
+    {
+      "line": 16,
+      "content": "TInputObject extends Record<string, any>,"
+    },
+    {
+      "line": 17,
+      "content": "TOutputObject extends Record<string, any>,"
+    },
+    {
+      "line": 41,
+      "content": "] as any;"
+    },
+    {
+      "line": 54,
+      "content": "] as any;"
+    }
+  ],
+  "crud-gen\\src\\object.decorator.ts": [
+    {
+      "line": 13,
+      "content": "export interface DstExtended<TSrc = Record<any, any>, TDst = Record<any, any>> {"
+    },
+    {
+      "line": 15,
+      "content": "transformerSrc?: { (dstObj: TDst, srcValue: any): any };"
+    },
+    {
+      "line": 16,
+      "content": "transformerDst?: { (srcObj: TSrc, dstValue: any): any };"
+    },
+    {
+      "line": 24,
+      "content": "export interface IModelFieldMetadata<T = any> extends Omit<"
+    },
+    {
+      "line": 84,
+      "content": "export function getPrototype(target: Record<string, unknown> | ClassType): any {"
+    },
+    {
+      "line": 89,
+      "content": "export const ModelField = <T = any>({"
+    },
+    {
+      "line": 94,
+      "content": "return (target: any, property: string | symbol) => {"
+    },
+    {
+      "line": 102,
+      "content": "const newMetadata: any = { ...metadata };"
+    },
+    {
+      "line": 134,
+      "content": "export type IModelFieldMetadataList<T = any> = { [key: string]: IModelFieldMetadata<T> };"
+    },
+    {
+      "line": 136,
+      "content": "export const getModelFieldMetadataList = <T = any>("
+    },
+    {
+      "line": 246,
+      "content": "extraInfo?: { [key: string]: any };"
+    }
+  ],
+  "crud-gen\\src\\projection\\projection-dialect.ts": [
+    {
+      "line": 300,
+      "content": ".set(setValues as any)"
+    },
+    {
+      "line": 323,
+      "content": ".set(this.patchSetValues(definition, patch) as any)"
+    }
+  ],
+  "crud-gen\\src\\projection\\projection.service.ts": [
+    {
+      "line": 85,
+      "content": "} as any,"
+    },
+    {
+      "line": 134,
+      "content": "this.repository.create(entity as any) as unknown as Entity,"
+    },
+    {
+      "line": 211,
+      "content": "} as any,"
+    },
+    {
+      "line": 223,
+      "content": "} as any,"
+    },
+    {
+      "line": 232,
+      "content": "} as any);"
+    }
+  ],
+  "crud-gen\\src\\query-builder.helpers.ts": [
+    {
+      "line": 29,
+      "content": "for (const [propertyKey, field] of Object.entries<IModelFieldMetadata<any>>("
+    },
+    {
+      "line": 62,
+      "content": "for (const [propertyKey, field] of Object.entries<IModelFieldMetadata<any>>("
+    }
+  ],
+  "crud-gen\\src\\transformers.helpers.ts": [
+    {
+      "line": 6,
+      "content": "return (dstObj: Record<any, any>, srcValue: any): any => {"
+    },
+    {
+      "line": 15,
+      "content": "onAfterTransform?: { (srcObj: TSrc | any): void };"
+    },
+    {
+      "line": 19,
+      "content": "obj: any,"
+    },
+    {
+      "line": 47,
+      "content": "* This method is useful when you want to instantiate any class"
+    }
+  ],
+  "crud-gen\\src\\typeorm\\crud-gen-args.helpers.ts": [
+    {
+      "line": 183,
+      "content": "arg1: any,"
+    },
+    {
+      "line": 184,
+      "content": "arg2?: any,"
+    },
+    {
+      "line": 300,
+      "content": "filterType: exprType as any /**@todo fix type */,"
+    },
+    {
+      "line": 481,
+      "content": "export function mapSortingParamsToTypeORM<TInputType = any, TEntityType = any>("
+    },
+    {
+      "line": 490,
+      "content": "const colName: keyof TEntityType = transform?.(col) ?? (col as any);"
+    },
+    {
+      "line": 494,
+      "content": "/** @todo fix typehinting error when we remove 'as any' */"
+    },
+    {
+      "line": 495,
+      "content": "order[colName] = sortDir as any;"
+    }
+  ],
+  "crud-gen\\src\\typeorm\\generic.repository.ts": [
+    {
+      "line": 192,
+      "content": "// do not create any subquery, however, the amount of data retrieved could"
+    },
+    {
+      "line": 218,
+      "content": "sortingColumns.forEach((v: any) => {"
+    },
+    {
+      "line": 371,
+      "content": "public generateFilterOnPrimaryColumn(ids: any) {"
+    }
+  ],
+  "crud-gen\\src\\typeorm\\generic.service.ts": [
+    {
+      "line": 163,
+      "content": "repository: GenericTypeORMRepository<any>,"
+    },
+    {
+      "line": 164,
+      "content": "repositoryWrite: GenericTypeORMRepository<any>,"
+    },
+    {
+      "line": 169,
+      "content": "getRepositoryToken(entity as any, connectionName),"
+    },
+    {
+      "line": 233,
+      "content": "protected buildPrimaryKeyWhere(ids: any): FindConditions<EntityRead> {"
+    },
+    {
+      "line": 238,
+      "content": "const repositoryAny: any = this.repository as any;"
+    },
+    {
+      "line": 423,
+      "content": "...(fields !== undefined ? { select: fields as any } : {}),"
+    },
+    {
+      "line": 429,
+      "content": "...(fields !== undefined ? { select: fields as any } : {}),"
+    },
+    {
+      "line": 476,
+      "content": "const repoAny: any = this.repository as any;"
+    },
+    {
+      "line": 554,
+      "content": "const repoAny: any = this.repository as any;"
+    },
+    {
+      "line": 652,
+      "content": "const repo: any = this.repository as any;"
+    },
+    {
+      "line": 680,
+      "content": "where: sanitizedWhere as any,"
+    },
+    {
+      "line": 689,
+      "content": "const repo: any = this.repository as any;"
+    },
+    {
+      "line": 745,
+      "content": "(newEntityWrite as any)[propertyName] = (entityRead as any)["
+    },
+    {
+      "line": 746,
+      "content": "propertyName as any"
+    },
+    {
+      "line": 752,
+      "content": "(newEntityWrite as any)[fieldMetadata.dst] = (entityRead as any)["
+    },
+    {
+      "line": 753,
+      "content": "propertyName as any"
+    },
+    {
+      "line": 759,
+      "content": "(newEntityWrite as any)[propertyName] = (entityRead as any)["
+    },
+    {
+      "line": 760,
+      "content": "propertyName as any"
+    },
+    {
+      "line": 767,
+      "content": "(newEntityWrite as any)[dst.name] = dst.transformerDst?.("
+    },
+    {
+      "line": 769,
+      "content": "(entityRead as any)[propertyName as any],"
+    }
+  ],
+  "data-loader\\src\\dataloader.helper.ts": [
+    {
+      "line": 30,
+      "content": "Entity extends Record<string, any>,"
+    },
+    {
+      "line": 119,
+      "content": "export class GQLDataLoader<Entity extends Record<string, any> = any> {"
+    },
+    {
+      "line": 280,
+      "content": "export function DataLoaderFactory<Entity extends Record<string, any>>("
+    }
+  ],
+  "database\\src\\db-ops.service.ts": [
+    {
+      "line": 40,
+      "content": "_options: any,"
+    },
+    {
+      "line": 217,
+      "content": "connectionTokens: any[],"
+    }
+  ],
+  "database\\src\\seed.service.ts": [
+    {
+      "line": 113,
+      "content": "if ((connection.options as any).__seedAsync) {"
+    },
+    {
+      "line": 141,
+      "content": "(global as any)['TypeORM_Seeding_Connection'] = {"
+    },
+    {
+      "line": 154,
+      "content": "(global as any)['TypeORM_Seeding_Connection']['connection'] = connection;"
+    },
+    {
+      "line": 161,
+      "content": "connectionTokens: any[],"
+    }
+  ],
+  "dummy-app\\test\\complex.e2e-spec.ts": [
+    {
+      "line": 48,
+      "content": "const alice = users.find((u: any) => u.firstName === 'Alice');"
+    }
+  ],
+  "errors\\src\\filters\\database-exception.filter.ts": [
+    {
+      "line": 35,
+      "content": "// Log critically any other error, because those are not expected normally"
+    }
+  ],
+  "errors\\src\\filters\\http-exception.filter.ts": [
+    {
+      "line": 93,
+      "content": "(this.logger as any)[logLevel](error.message, error.stack, {"
+    },
+    {
+      "line": 102,
+      "content": "(this.logger as any)[logLevel](error.message, {"
+    },
+    {
+      "line": 118,
+      "content": "// Log critically any other error, as those are not expected"
+    }
+  ],
+  "eslint.config.ts": [
+    {
+      "line": 96,
+      "content": "'@typescript-eslint/no-explicit-any': 'off',"
+    }
+  ],
+  "event-manager\\src\\event.module.ts": [
+    {
+      "line": 48,
+      "content": "imports?: any[];"
+    },
+    {
+      "line": 71,
+      "content": "? (options.loggerProvider as any).provide"
+    },
+    {
+      "line": 75,
+      "content": "? (options.eventEmitter as any).provide"
+    },
+    {
+      "line": 80,
+      "content": "const imports: any[] = options?.imports ?? [];"
+    }
+  ],
+  "event-manager\\src\\event.service.ts": [
+    {
+      "line": 12,
+      "content": "@Optional() @Inject('YALC_LOGGER_SERVICE_TOKEN_FOR_EVENT_SERVICE_DO_NOT_USE') loggerService: ImprovedLoggerService | any,"
+    },
+    {
+      "line": 13,
+      "content": "@Optional() eventEmitter: EventEmitter2 | any,"
+    }
+  ],
+  "examples\\omnikernel\\app\\apps\\omnikernel-app\\src\\projection-spike\\projection-spike.module.ts": [
+    {
+      "line": 310,
+      "content": "new GQLDataLoader(getFn(service as any), 'guid', undefined, {"
+    },
+    {
+      "line": 322,
+      "content": "new GQLDataLoader(getFn(service as any), 'guid', undefined, {"
+    }
+  ],
+  "examples\\omnikernel\\module\\src\\omni-extension-projection.resource.ts": [
+    {
+      "line": 172,
+      "content": "lifecycle: any,"
+    },
+    {
+      "line": 173,
+      "content": "catalog: any,"
+    },
+    {
+      "line": 202,
+      "content": "lifecycle: any,"
+    }
+  ],
+  "examples\\omnikernel\\module\\src\\omni-extension-projection.service.ts": [
+    {
+      "line": 123,
+      "content": "this.merge(extension, ownersByGuid.get((extension as any)[guidColumn])!),"
+    },
+    {
+      "line": 193,
+      "content": "} as any,"
+    },
+    {
+      "line": 244,
+      "content": "} as any,"
+    },
+    {
+      "line": 266,
+      "content": "} as any,"
+    },
+    {
+      "line": 398,
+      "content": "} as any,"
+    }
+  ],
+  "examples\\omnikernel\\module\\src\\omni-external-ref.service.ts": [
+    {
+      "line": 36,
+      "content": "repository: any,"
+    },
+    {
+      "line": 37,
+      "content": "scopeOrRepositoryWrite: OmniScope | any | undefined,"
+    }
+  ],
+  "examples\\omnikernel\\module\\src\\omni-migration.ts": [
+    {
+      "line": 64,
+      "content": "readonly entities: readonly EntityTarget<any>[];"
+    }
+  ],
+  "examples\\omnikernel\\module\\src\\omni-relation-projection.resource.ts": [
+    {
+      "line": 258,
+      "content": "lifecycle: any,"
+    },
+    {
+      "line": 259,
+      "content": "catalog: any,"
+    },
+    {
+      "line": 288,
+      "content": "lifecycle: any,"
+    }
+  ],
+  "examples\\omnikernel\\module\\src\\omni-relation.service.ts": [
+    {
+      "line": 26,
+      "content": "repository: any,"
+    }
+  ],
+  "examples\\omnikernel\\module\\src\\omni-scoped.service.ts": [
+    {
+      "line": 27,
+      "content": "repository: any,"
+    },
+    {
+      "line": 28,
+      "content": "scopeOrRepositoryWrite?: OmniScope | any,"
+    }
+  ],
+  "examples\\skeleton\\app\\apps\\skeleton-app\\src\\users\\users.validation.controller.ts": [
+    {
+      "line": 30,
+      "content": "const errorMessages: { [key: string]: any } = {};"
+    },
+    {
+      "line": 42,
+      "content": "return this.service.createEntity({ ...body, guid } as any);"
+    }
+  ],
+  "examples\\skeleton\\app\\apps\\skeleton-app\\test\\app.e2e-spec.ts": [
+    {
+      "line": 58,
+      "content": "(app.get('USERS_CLIENT_HTTP_API_STRATEGY') as any).baseUrl = baseUrl;"
+    },
+    {
+      "line": 70,
+      "content": "{ httpAdapter: fastifyAdapter } as any,"
+    },
+    {
+      "line": 71,
+      "content": "{ get: () => ({}) } as any,"
+    },
+    {
+      "line": 72,
+      "content": "{ values: {} } as any,"
+    },
+    {
+      "line": 112,
+      "content": "const strategy = new NestHttpCallStrategy(httpService, { get: () => ({}) } as any, baseUrl, {"
+    },
+    {
+      "line": 122,
+      "content": "const strategy = new NestHttpCallStrategy(httpService, { get: () => ({}) } as any, baseUrl, {});"
+    },
+    {
+      "line": 146,
+      "content": "const list = Array.isArray((clientRes.data as any)?.list) ? (clientRes.data as any).list : (clientRes.data as any[]);"
+    },
+    {
+      "line": 148,
+      "content": "expect(list.find((p: any) => p.phoneNumber === '123456789')).toBeTruthy();"
+    },
+    {
+      "line": 174,
+      "content": "const list = Array.isArray((phonesRes.data as any)?.list) ? (phonesRes.data as any).list : (phonesRes.data as any[]);"
+    },
+    {
+      "line": 176,
+      "content": "const match = list.find((p: any) => String(p.phoneNumber) === '555555555');"
+    }
+  ],
+  "examples\\skeleton\\app\\apps\\skeleton-app\\test\\crud-gen-sqlite.e2e-spec.ts": [
+    {
+      "line": 23,
+      "content": "async (config: any) => {"
+    },
+    {
+      "line": 68,
+      "content": "count: expect.any(Number),"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\events\\task-event.resource.ts": [
+    {
+      "line": 31,
+      "content": "new GQLDataLoader(getFn(service as any), 'guid'),"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\omni-task-app\\task-app-omni-event.service.ts": [
+    {
+      "line": 145,
+      "content": "order: (findOptions.order as any) ?? { createdAt: 'ASC' },"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\omni-task-app\\task-app-omni-external-ref.service.ts": [
+    {
+      "line": 150,
+      "content": "order: (findOptions.order as any) ?? { createdAt: 'ASC' },"
+    },
+    {
+      "line": 342,
+      "content": "if (value instanceof FindOperator && Array.isArray((value as any).value)) {"
+    },
+    {
+      "line": 344,
+      "content": "((value as any).value as unknown[]).map((item) =>"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\omni-task-app\\task-app-omni-project.service.ts": [
+    {
+      "line": 125,
+      "content": "order: (findOptions.order as any) ?? { createdAt: 'ASC' },"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\projects\\task-project.resource.ts": [
+    {
+      "line": 31,
+      "content": "new GQLDataLoader(getFn(service as any), 'guid'),"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\sync\\task-external-ref.resource.ts": [
+    {
+      "line": 31,
+      "content": "new GQLDataLoader(getFn(service as any), 'guid'),"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\sync\\task-sync-state.resource.ts": [
+    {
+      "line": 99,
+      "content": "new GQLDataLoader(getFn(service as any), 'guid', undefined, {"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\src\\tasks\\task-item.resource.ts": [
+    {
+      "line": 31,
+      "content": "new GQLDataLoader(getFn(service as any), 'guid'),"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\test\\task-system.e2e-spec.ts": [
+    {
+      "line": 95,
+      "content": "(app.get('TASKS_CLIENT_HTTP_API_STRATEGY') as any).baseUrl ="
+    },
+    {
+      "line": 100,
+      "content": "{ get: () => ({}) } as any,"
+    },
+    {
+      "line": 114,
+      "content": "{ httpAdapter: fastifyApp.getHttpAdapter() } as any,"
+    },
+    {
+      "line": 115,
+      "content": "{ get: () => ({}) } as any,"
+    },
+    {
+      "line": 116,
+      "content": "{ values: {} } as any,"
+    },
+    {
+      "line": 177,
+      "content": "count: expect.any(Number),"
+    },
+    {
+      "line": 460,
+      "content": "expect(Array.isArray((res.data as any).list ?? res.data)).toBe(true);"
+    },
+    {
+      "line": 603,
+      "content": "expect((createWorkflow.data as any).project.guid).toBe(localProjectGuid);"
+    },
+    {
+      "line": 604,
+      "content": "expect((createWorkflow.data as any).task.guid).toBe(localTaskGuid);"
+    },
+    {
+      "line": 605,
+      "content": "expect((createWorkflow.data as any).task.projectId).toBe(localProjectGuid);"
+    },
+    {
+      "line": 613,
+      "content": "expect((backlogTasks.data as any).list).toEqual("
+    },
+    {
+      "line": 623,
+      "content": "expect((projectTasks.data as any).list).toEqual("
+    },
+    {
+      "line": 639,
+      "content": "expect((completeTask.data as any).task).toMatchObject({"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\test\\task-system.graphql.e2e-spec.ts": [
+    {
+      "line": 249,
+      "content": "const typeName = (field: any) =>"
+    },
+    {
+      "line": 251,
+      "content": "const findField = (fields: any[], name: string) =>"
+    },
+    {
+      "line": 346,
+      "content": "(field: any) => field.name === 'TaskSystem_getTaskItemGrid',"
+    },
+    {
+      "line": 348,
+      "content": "const argNames = gridField.args.map((arg: any) => arg.name);"
+    },
+    {
+      "line": 433,
+      "content": "expect(res.body.errors[0].message).toEqual(expect.any(String));"
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\test\\task-system.observability-spec.ts": [
+    {
+      "line": 70,
+      "content": "(app.get(\"TASKS_CLIENT_HTTP_API_STRATEGY\") as any).baseUrl ="
+    }
+  ],
+  "examples\\task\\app\\apps\\task-system-app\\test\\task-system.rabbitmq-spec.ts": [
+    {
+      "line": 79,
+      "content": "(app.get(\"TASKS_CLIENT_HTTP_API_STRATEGY\") as any).baseUrl ="
+    }
+  ],
+  "ferrox-node\\index.d.ts": [
+    {
+      "line": 3,
+      "content": "constructor(...args: any[]);"
+    },
+    {
+      "line": 4,
+      "content": "generateV4LocalToken(...args: any[]): any;"
+    },
+    {
+      "line": 7,
+      "content": "constructor(...args: any[]);"
+    },
+    {
+      "line": 8,
+      "content": "generateSecret(...args: any[]): any;"
+    },
+    {
+      "line": 9,
+      "content": "generateOtpAuthUri(...args: any[]): any;"
+    },
+    {
+      "line": 10,
+      "content": "verifyTotpCode(...args: any[]): any;"
+    },
+    {
+      "line": 13,
+      "content": "constructor(...args: any[]);"
+    },
+    {
+      "line": 14,
+      "content": "start(...args: any[]): any;"
+    },
+    {
+      "line": 17,
+      "content": "constructor(...args: any[]);"
+    },
+    {
+      "line": 20,
+      "content": "constructor(...args: any[]);"
+    },
+    {
+      "line": 21,
+      "content": "runDiagnosticAudit(): any;"
+    },
+    {
+      "line": 22,
+      "content": "runKaliRedTeamAudit(url: any): any;"
+    },
+    {
+      "line": 25,
+      "content": "constructor(...args: any[]);"
+    },
+    {
+      "line": 26,
+      "content": "generateSeccompBpfPolicy(): any;"
+    },
+    {
+      "line": 27,
+      "content": "generateLandlockPolicy(): any;"
+    },
+    {
+      "line": 28,
+      "content": "generateSysctlHardeningConfig(): any;"
+    },
+    {
+      "line": 30,
+      "content": "export const Roles: (...args: any[]) => any;"
+    }
+  ],
+  "field-middleware\\src\\transformer.helper.ts": [
+    {
+      "line": 10,
+      "content": "export const enumTransformer = <T extends Record<string, any>>("
+    }
+  ],
+  "field-middleware\\src\\validator.decorator.ts": [
+    {
+      "line": 33,
+      "content": "return function (object: any, propertyName: string) {"
+    },
+    {
+      "line": 46,
+      "content": "return function (object: any, propertyName: string) {"
+    }
+  ],
+  "graphql\\src\\plugins\\gql-complexity.plugin.ts": [
+    {
+      "line": 12,
+      "content": "document: any;"
+    },
+    {
+      "line": 13,
+      "content": "schema: any;"
+    }
+  ],
+  "graphql\\src\\sofa.helper.ts": [
+    {
+      "line": 5,
+      "content": "// eslint-disable-next-line @typescript-eslint/no-explicit-any"
+    },
+    {
+      "line": 6,
+      "content": "schema: any,"
+    },
+    {
+      "line": 8,
+      "content": "): any => {"
+    }
+  ],
+  "jest\\src\\common-test.ts": [
+    {
+      "line": 27,
+      "content": "factoryList: FactoryType<any>[],"
+    },
+    {
+      "line": 37,
+      "content": "jest.spyOn(faker.datatype as any, 'number').mockReturnValue(0);"
+    },
+    {
+      "line": 38,
+      "content": "jest.spyOn(faker.datatype as any, 'boolean').mockReturnValue(false);"
+    },
+    {
+      "line": 42,
+      "content": "jest.spyOn(faker.datatype as any, 'number').mockReturnValue(1);"
+    },
+    {
+      "line": 43,
+      "content": "jest.spyOn(faker.datatype as any, 'boolean').mockReturnValue(true);"
+    },
+    {
+      "line": 47,
+      "content": "jest.spyOn(faker.datatype as any, 'number').mockRestore();"
+    },
+    {
+      "line": 48,
+      "content": "jest.spyOn(faker.datatype as any, 'boolean').mockRestore();"
+    }
+  ],
+  "jest\\src\\config\\config\\jest-conf.generator.ts": [
+    {
+      "line": 24,
+      "content": "confOverride?: any;"
+    },
+    {
+      "line": 40,
+      "content": "confOverrides?: { [key: string]: any };"
+    },
+    {
+      "line": 50,
+      "content": "tsJestConfig?: any;"
+    },
+    {
+      "line": 76,
+      "content": "const createProjectSets = (projects: any[]) => {"
+    },
+    {
+      "line": 77,
+      "content": "const _projectSets: { [key: string]: any } = {};"
+    },
+    {
+      "line": 94,
+      "content": "let projects: any[] = [];"
+    },
+    {
+      "line": 99,
+      "content": "projects?: any,"
+    },
+    {
+      "line": 156,
+      "content": "const projectSets: { [key: string]: any } = createProjectSets(projects);"
+    },
+    {
+      "line": 158,
+      "content": "// use argv to catch the path argument in any position"
+    },
+    {
+      "line": 159,
+      "content": "const argv: any = yargs(hideBin(process.argv))"
+    },
+    {
+      "line": 222,
+      "content": "let config: any = {};"
+    },
+    {
+      "line": 253,
+      "content": "let selectedProjects: any[] = [];"
+    },
+    {
+      "line": 257,
+      "content": "...projects.filter((p: any) =>"
+    },
+    {
+      "line": 275,
+      "content": "selectedProjects = projects.filter((v: any) =>"
+    },
+    {
+      "line": 283,
+      "content": "...projects.filter((p: any) =>"
+    },
+    {
+      "line": 298,
+      "content": "selectedProjects.map((v: any) => v.displayName),"
+    },
+    {
+      "line": 335,
+      "content": "tsJestConfig?: any;"
+    }
+  ],
+  "jest\\src\\config\\config\\jest-def.config.ts": [
+    {
+      "line": 25,
+      "content": "overrideTsJestConfig?: any,"
+    },
+    {
+      "line": 30,
+      "content": "const conf: any = {"
+    },
+    {
+      "line": 48,
+      "content": "export const tsJestConfig = (tsConfPath = '', overrideTsJestConfig?: any) => {"
+    },
+    {
+      "line": 73,
+      "content": "projects: any[] = [],"
+    },
+    {
+      "line": 81,
+      "content": "const coverage: Record<string, any> = {"
+    },
+    {
+      "line": 125,
+      "content": "tsJestConf?: any;"
+    },
+    {
+      "line": 126,
+      "content": "jestConf?: any;"
+    },
+    {
+      "line": 137,
+      "content": "tsJestConfig: any = {},"
+    }
+  ],
+  "jest\\src\\config\\config\\jest.setup.ts": [
+    {
+      "line": 19,
+      "content": "//       ...jest.requireActual<any>('@nestjs/graphql'),"
+    },
+    {
+      "line": 36,
+      "content": "//     ...jest.requireActual<any>('@nestjs/common'),"
+    }
+  ],
+  "jest\\src\\config\\jest-conf.generator.ts": [
+    {
+      "line": 23,
+      "content": "confOverride?: any;"
+    },
+    {
+      "line": 39,
+      "content": "confOverrides?: { [key: string]: any };"
+    },
+    {
+      "line": 49,
+      "content": "tsJestConfig?: any;"
+    },
+    {
+      "line": 74,
+      "content": "const createProjectSets = (projects: any[]) => {"
+    },
+    {
+      "line": 75,
+      "content": "const _projectSets: { [key: string]: any } = {};"
+    },
+    {
+      "line": 92,
+      "content": "let projects: any[] = [];"
+    },
+    {
+      "line": 97,
+      "content": "_projects?: any,"
+    },
+    {
+      "line": 149,
+      "content": "const projectSets: { [key: string]: any } = createProjectSets(projects);"
+    },
+    {
+      "line": 151,
+      "content": "// use argv to catch the path argument in any position"
+    },
+    {
+      "line": 152,
+      "content": "const argv: any = yargs(hideBin(process.argv))"
+    },
+    {
+      "line": 215,
+      "content": "let config: any = {};"
+    },
+    {
+      "line": 246,
+      "content": "let selectedProjects: any[] = [];"
+    },
+    {
+      "line": 250,
+      "content": "...projects.filter((p: any) =>"
+    },
+    {
+      "line": 268,
+      "content": "selectedProjects = projects.filter((v: any) =>"
+    },
+    {
+      "line": 276,
+      "content": "...projects.filter((p: any) =>"
+    },
+    {
+      "line": 291,
+      "content": "selectedProjects.map((v: any) => v.displayName),"
+    },
+    {
+      "line": 330,
+      "content": "tsJestConfig?: any;"
+    }
+  ],
+  "jest\\src\\config\\jest-def.config.ts": [
+    {
+      "line": 25,
+      "content": "overrideTsJestConfig?: any,"
+    },
+    {
+      "line": 30,
+      "content": "const conf: any = {"
+    },
+    {
+      "line": 48,
+      "content": "export const tsJestConfig = (tsConfPath = '', overrideTsJestConfig?: any) => {"
+    },
+    {
+      "line": 77,
+      "content": "projects: any[] = [],"
+    },
+    {
+      "line": 85,
+      "content": "const coverage: Record<string, any> = {"
+    },
+    {
+      "line": 129,
+      "content": "tsJestConf?: any;"
+    },
+    {
+      "line": 130,
+      "content": "jestConf?: any;"
+    },
+    {
+      "line": 141,
+      "content": "_tsJestConfig: any = {},"
+    }
+  ],
+  "jest\\src\\config\\jest.setup.ts": [
+    {
+      "line": 20,
+      "content": "//       ...jest.requireActual<any>('@nestjs/graphql'),"
+    },
+    {
+      "line": 37,
+      "content": "//     ...jest.requireActual<any>('@nestjs/common'),"
+    }
+  ],
+  "jest\\src\\esm.helper.ts": [
+    {
+      "line": 20,
+      "content": "obj: any,"
+    },
+    {
+      "line": 22,
+      "content": "([prop, value]: [any, any], obj: any): void;"
+    },
+    {
+      "line": 23,
+      "content": "(arg0: any[], arg1: any, arg2: any[]): any;"
+    },
+    {
+      "line": 31,
+      "content": "objPath: any = [],"
+    },
+    {
+      "line": 32,
+      "content": "): any {"
+    },
+    {
+      "line": 41,
+      "content": "const NOOP = (x: any) => x;"
+    },
+    {
+      "line": 43,
+      "content": "moduleSpecifier: any,"
+    },
+    {
+      "line": 62,
+      "content": "forEachDeep(moduleCopy, ([prop, value]: any, obj: { [x: string]: any }) => {"
+    }
+  ],
+  "jest\\src\\graphql.helper.ts": [
+    {
+      "line": 6,
+      "content": "const mockedGraphql: Record<string, any> = (await importMockedEsm("
+    },
+    {
+      "line": 18,
+      "content": "mockedGraphql.OmitType.mockImplementation((() => Fake) as any);"
+    },
+    {
+      "line": 19,
+      "content": "mockedGraphql.PickType.mockImplementation((() => Fake) as any);"
+    },
+    {
+      "line": 20,
+      "content": "mockedGraphql.PartialType.mockImplementation((() => Fake) as any);"
+    },
+    {
+      "line": 21,
+      "content": "mockedGraphql.IntersectionType.mockImplementation((() => Fake) as any);"
+    }
+  ],
+  "kafka\\src\\plugin\\avro-deserializer.ts": [
+    {
+      "line": 13,
+      "content": "ReadPacket<DeserializedData<any, any>>"
+    },
+    {
+      "line": 30,
+      "content": "async deserialize(message: any): Promise<ReadPacket> {"
+    }
+  ],
+  "observability\\src\\open-telemetry-sdk.service.ts": [
+    {
+      "line": 56,
+      "content": "}) as any,"
+    },
+    {
+      "line": 57,
+      "content": "} as any),"
+    }
+  ],
+  "observability\\src\\strategies\\telemetry-call.strategy.ts": [
+    {
+      "line": 28,
+      "content": "call<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 35,
+      "content": "get<TOptData, TParams extends Record<string, any>, TResData>("
+    },
+    {
+      "line": 42,
+      "content": "post<TOptData, TParams extends Record<string, any>, TResData>("
+    }
+  ],
+  "observability\\src\\strategies\\telemetry-event.strategy.ts": [
+    {
+      "line": 10,
+      "content": "export class TelemetryEventStrategy<P = any, R = any, O = any>"
+    }
+  ],
+  "package\\types\\fake-timers-src.d.ts": [
+    {
+      "line": 27,
+      "content": "export type RequestIdleCallbackCallback = (deadline: IdleDeadline) => any;"
+    },
+    {
+      "line": 31,
+      "content": "export type AnimationFrameCallback = (timestamp: number) => any;"
+    },
+    {
+      "line": 75,
+      "content": "export type GlobalObject = Record<string, any> & {"
+    },
+    {
+      "line": 87,
+      "content": "process?: any;"
+    },
+    {
+      "line": 88,
+      "content": "performance?: any;"
+    },
+    {
+      "line": 89,
+      "content": "Performance?: any;"
+    },
+    {
+      "line": 90,
+      "content": "Intl?: any;"
+    },
+    {
+      "line": 91,
+      "content": "Temporal?: any;"
+    },
+    {
+      "line": 96,
+      "content": "clock?: any;"
+    },
+    {
+      "line": 115,
+      "content": "export type IntlWithClock = Record<string, any> & {"
+    },
+    {
+      "line": 118,
+      "content": "export type PerformanceLike = Record<string, any> & {"
+    },
+    {
+      "line": 128,
+      "content": "Temporal?: any;"
+    },
+    {
+      "line": 209,
+      "content": "performance: any;"
+    },
+    {
+      "line": 232,
+      "content": "Temporal?: any;"
+    }
+  ],
+  "scratch\\base-app-module.helper.ts": [
+    {
+      "line": 39,
+      "content": "const singletonDynamicModules = new Map<any, any>();"
+    },
+    {
+      "line": 43,
+      "content": "moduleToken: any,"
+    },
+    {
+      "line": 44,
+      "content": "module: any,"
+    },
+    {
+      "line": 45,
+      "content": "): any | true {"
+    },
+    {
+      "line": 59,
+      "content": "export function getCachedModule(module: any, isSingleton: boolean) {"
+    },
+    {
+      "line": 117,
+      "content": "module: any,"
+    },
+    {
+      "line": 136,
+      "content": "const _providers: Array<any> = ["
+    },
+    {
+      "line": 156,
+      "content": "let loggerInstance: any;"
+    },
+    {
+      "line": 250,
+      "content": "* It can be global because the ConfigService registers configurations by using an alias, hence there won't be any conflict"
+    },
+    {
+      "line": 251,
+      "content": "* It allows us to use the ConfigService in any module without having to import the ConfigModule"
+    },
+    {
+      "line": 347,
+      "content": "config: any,"
+    }
+  ],
+  "scratch\\test.ts": [
+    {
+      "line": 2,
+      "content": "function dec(a: any, b: any, c: any) {}"
+    }
+  ],
+  "sentinel\\src\\sentinel.interceptor.ts": [
+    {
+      "line": 15,
+      "content": "intercept(context: ExecutionContext, next: CallHandler): Observable<any> {"
+    }
+  ]
+}

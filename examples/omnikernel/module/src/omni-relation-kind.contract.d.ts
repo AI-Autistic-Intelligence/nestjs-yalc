@@ -6,4 +6,9 @@ export interface OmniRelationKindContract {
     assert(kind: unknown): asserts kind is string;
     has(kind: string): boolean;
 }
+/**
+ * Canonical kinds are stable exports. Applications may register additional
+ * syntactically portable kinds at module composition time without changing
+ * OmniKernel or turning arbitrary strings into valid graph semantics.
+ */
 export declare function createOmniRelationKindContract(additionalKinds?: readonly string[]): OmniRelationKindContract;

@@ -6,6 +6,6 @@ import { GQLDataLoader } from '@nest-yalc-2/data-loader/dataloader.helper';
 import { ModuleRef } from '@nestjs/core';
 import { ObjectLiteral } from 'typeorm';
 import { GenericResolver, GenericResolverOptions } from './generic-resolver.type';
-export declare function resolverFactory<Entity extends Record<string, any> = any, EntityWrite extends ObjectLiteral = Entity>(options: GenericResolverOptions<Entity>): {
+export declare function resolverFactory<Entity extends Record<string, unknown> = any, EntityWrite extends ObjectLiteral = Entity>(options: GenericResolverOptions<Entity>): {
     new (service: GenericService<Entity, EntityWrite>, dataloader: GQLDataLoader<Entity>, moduleRef: ModuleRef): GenericResolver;
 };

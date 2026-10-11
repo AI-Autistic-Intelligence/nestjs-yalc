@@ -6,6 +6,10 @@ import { CGExtendedRepositoryFactory } from '@nest-yalc-2/crud-gen/typeorm/gener
 import { GQLDataLoader, getDataloaderToken, getFn, } from '@nest-yalc-2/data-loader';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { OMNI_KERNEL_OPTIONS, OmniScopeContext, } from './omni-scope.js';
+/**
+ * Builds the normal CrudGen service/loader provider shape with a request
+ * scope. The loader cache key carries the same scope as the service query.
+ */
 export function omniScopedBackendProvidersFactory(options) {
     const serviceToken = options.serviceToken ?? getServiceToken(options.entityModel);
     const serviceProviderToken = options.serviceProvider ?? serviceToken;

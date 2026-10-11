@@ -39,7 +39,7 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
 
   async call<
     TOptData extends string | object | Buffer | NodeJS.ReadableStream,
-    TParams extends Record<string, any>,
+    TParams extends Record<string, unknown>,
     TResData,
   >(
     path: string,
@@ -50,7 +50,7 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
       this.clsService.get('headers'),
       this.options.headersWhitelist,
     );
-    const headers: Record<string, any> = {
+    const headers: Record<string, unknown> = {
       ...clsHeaders,
       ...(options?.headers ?? {}),
     };
@@ -70,12 +70,12 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
           [k: string | number | symbol]: never;
         }
       | InjectOptions = {
-      headers,
+      ...(headers !== undefined ? { headers: headers as InjectOptions['headers'] } : {}),
       ...(options?.method !== undefined ? { method: options.method } : {}),
       /**@todo investigate where to set thi */
       // signal: options?.signal,
       ...(options?.data !== undefined ? { payload: options.data } : {}), // map data to payload
-    };
+    } as InjectOptions;
 
     const args: InjectOptions = {
       ..._options,
@@ -83,7 +83,7 @@ export class NestLocalCallStrategy extends HttpAbstractStrategy {
     };
 
     if (options?.parameters) {
-      args.query = Object.fromEntries(new URLSearchParams(options.parameters));
+      args.query = Object.fromEntries(new URLSearchParams(options.parameters as Record<string, string>));
     }
 
     const result = await instance.inject(args);

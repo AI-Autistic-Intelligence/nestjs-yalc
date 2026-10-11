@@ -23,10 +23,12 @@ const getAgGridFieldMetadata = (target, propertyName) => {
 exports.getAgGridFieldMetadata = getAgGridFieldMetadata;
 const AgGridField = ({ gqlType, gqlOptions, ...options } = {}) => {
     return (target, property) => {
+        // Call the base YalcAgGridField to set metadata
         (0, object_decorator_js_1.YalcAgGridField)({
             ...options,
             src: gqlOptions?.name ?? options.src ?? property.toString(),
         })(target, property);
+        // graphql field metadata
         if (gqlOptions || gqlType) {
             if (gqlType) {
                 (0, graphql_1.Field)(gqlType, gqlOptions)(target, property);

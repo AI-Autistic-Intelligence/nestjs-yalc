@@ -60,9 +60,15 @@ function defineFieldResolver(resolverInfoList, resolver) {
                 entityType: relType,
                 defaultValue: resolverInfo.agField?.relation?.defaultValue,
             })(resolver.prototype, resolverInfo.relation.propertyName, 1);
+            // without the design:paramtypes metadata
+            // it won't work, the following instruction is transpiled and generated
+            // when the decorators are defined in their standard way.
             Reflect.metadata('design:paramtypes', [Object, Object])(resolver.prototype, resolverInfo.relation.propertyName);
         }
         else {
+            /**
+             * ONE-TO-ONE Resolve Fields
+             */
             Object.defineProperty(resolver.prototype, resolverInfo.relation.propertyName, {
                 configurable: true,
                 enumerable: true,
@@ -89,6 +95,9 @@ function defineFieldResolver(resolverInfoList, resolver) {
             })(resolver.prototype, resolverInfo.relation.propertyName, descriptor);
             (0, graphql_1.Parent)()(resolver.prototype, resolverInfo.relation.propertyName, 0);
             (0, ag_grid_args_decorator_1.AgGridArgsSingle)({ fieldType: relType, entityType: relType })(resolver.prototype, resolverInfo.relation.propertyName, 1);
+            // without the design:paramtypes metadata
+            // it won't work, the following instruction is transpiled and generated
+            // when the decorators are defined in their standard way.
             Reflect.metadata('design:paramtypes', [Object, Array])(resolver.prototype, resolverInfo.relation.propertyName);
         }
     }
@@ -167,6 +176,7 @@ function defineGetGridResource(queryName, returnType, resolver, methodOptions) {
             entityType,
             ...(methodOptions.extraArgs !== undefined ? { extraArgs: methodOptions.extraArgs } : {}),
             ...(methodOptions.extraArgsStrategy !== undefined ? { extraArgsStrategy: methodOptions.extraArgsStrategy } : {}),
+            // type: returnValue(agQueryParamsFactory(methodOptions.defaultValue)),
         })(resolver.prototype, queryName, 0);
         if (methodOptions.extraArgs) {
             Object.values(methodOptions.extraArgs).map((a) => {

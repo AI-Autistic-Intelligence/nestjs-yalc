@@ -23,6 +23,12 @@ export interface ProjectionPatch {
         value: unknown;
     }>;
 }
+/**
+ * Applies projected values when optimistic concurrency is owned by a related
+ * record rather than by the projection table itself. The dialect still owns
+ * every JSON mutation; the caller owns the surrounding transaction and its
+ * revision predicate.
+ */
 export interface ProjectionValuePatch {
     scopeId: string;
     guid: string;
@@ -53,4 +59,9 @@ export interface ProjectionDialect {
     explainIndexedEquality(dataSource: DataSource, definition: ProjectionResourceDefinition, field: ProjectionFieldDefinition, scopeId: string, value: unknown): Promise<ProjectionQueryPlan>;
 }
 export declare function createProjectionDialect(driver: string): ProjectionDialect;
+/**
+ * Executes compiled index DDL only for an isolated bootstrap or test database.
+ * Production applications should put `compileIndexStatements()` output into a
+ * reviewed migration rather than synchronizing projection indexes at runtime.
+ */
 export declare function applyProjectionIndexesForBootstrap(dataSource: DataSource, dialect: ProjectionDialect, definition: ProjectionResourceDefinition): Promise<void>;

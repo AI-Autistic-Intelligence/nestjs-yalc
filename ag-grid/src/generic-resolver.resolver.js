@@ -16,6 +16,15 @@ const generic_mutation_resolver_1 = require("./generic-mutation.resolver");
 const generic_query_resolver_1 = require("./generic-query.resolver");
 const generic_resolver_type_1 = require("./generic-resolver.type");
 const object_decorator_1 = require("./object.decorator");
+// export interface ICustomQueryOptions extends IGenericResolverMethodOptions {
+//   /**
+//    * Filters with direct arguments
+//    */
+//   extraArgsStrategy?: ExtraArgsStrategy;
+//   extraArgs?: {
+//     [index: string]: IExtraArg;
+//   };
+// }
 function resolverFactory(options) {
     const returnType = options.dto ?? options.entityModel;
     let BaseClass = class BaseClass {
@@ -36,6 +45,11 @@ function resolverFactory(options) {
             dataloader_helper_1.GQLDataLoader,
             core_1.ModuleRef])
     ], BaseClass);
+    /**
+     *
+     * Retrieve information about relations
+     *
+     */
     const resolverInfoList = (0, ag_grid_metadata_helper_1.getEntityRelations)(options.entityModel, options.dto);
     const fieldMetadataList = (0, object_decorator_1.getAgGridFieldMetadataList)(returnType);
     if (fieldMetadataList) {
@@ -51,6 +65,7 @@ function resolverFactory(options) {
                     return;
                 }
             });
+            // if already exists override (dataloader options take priority)
             if (objIndex >= 0) {
                 const relInfo = resolverInfoList[objIndex];
                 if (!relInfo)
@@ -101,6 +116,11 @@ function resolverFactory(options) {
             }
         });
     }
+    /**
+     *
+     * Generate Mutations
+     *
+     */
     const createOptions = options.mutations?.createResource ?? {};
     const updateOptions = options.mutations?.updateResource ?? {};
     const deleteOptions = options.mutations?.deleteResource ?? {};
@@ -116,6 +136,11 @@ function resolverFactory(options) {
     (0, generic_mutation_resolver_1.defineDeleteMutation)(`${options.prefix ?? ''}delete${options.entityModel.name}`, returnType, Mutations, options, deleteOptions);
     const getResourceOptions = options.queries?.getResource ?? {};
     const getResourceGridOptions = options.queries?.getResourceGrid ?? {};
+    /**
+     *
+     * Generate Queries
+     *
+     */
     let GenericResolver = class GenericResolver extends (options.readonly ? BaseClass : Mutations) {
     };
     GenericResolver = tslib_1.__decorate([
@@ -123,7 +148,17 @@ function resolverFactory(options) {
     ], GenericResolver);
     (0, generic_query_resolver_1.defineGetSingleResource)(`${options.prefix ?? ''}get${options.entityModel.name}`, returnType, GenericResolver, getResourceOptions);
     (0, generic_query_resolver_1.defineGetGridResource)(`${options.prefix ?? ''}get${options.entityModel.name}Grid`, returnType, GenericResolver, getResourceGridOptions);
+    /**
+     *
+     * Generate Field Resolvers
+     *
+     */
     (0, generic_query_resolver_1.defineFieldResolver)(resolverInfoList, GenericResolver);
+    /**
+     *
+     * Generate dynamic queries
+     *
+     */
     if (options.customQueries) {
         for (const methodName of Object.keys(options.customQueries)) {
             const queryName = methodName;

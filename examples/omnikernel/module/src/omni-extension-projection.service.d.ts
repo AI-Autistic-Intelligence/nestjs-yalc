@@ -7,6 +7,11 @@ import { type OmniProjectionReaderCatalog } from './omni-projection.catalog.js';
 import type { OmniExtensionProjectionDefinition } from './omni-extension-projection.definition.js';
 import type { OmniProjectionLifecycle } from './omni-projection.lifecycle.js';
 import type { OmniScope } from './omni-scope.js';
+/**
+ * Generated-CRUD compatible store for a dedicated extension table. It keeps
+ * the Omni record as the only root identity and revision owner, while the
+ * extension table owns projected columns and its native JSON payload.
+ */
 export declare class OmniExtensionProjectionService<Extension extends ObjectLiteral> extends ProjectionResourceService<Extension> {
     private readonly ownerRepository;
     private readonly dataSource;

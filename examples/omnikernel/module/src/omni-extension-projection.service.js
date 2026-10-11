@@ -17,6 +17,11 @@ function isRetryableTransactionError(error) {
         code === 'SQLITE_BUSY' ||
         code === 'SQLITE_BUSY_SNAPSHOT');
 }
+/**
+ * Generated-CRUD compatible store for a dedicated extension table. It keeps
+ * the Omni record as the only root identity and revision owner, while the
+ * extension table owns projected columns and its native JSON payload.
+ */
 export class OmniExtensionProjectionService extends ProjectionResourceService {
     constructor(extensionRepository, ownerRepository, dataSource, scope, dialect, events, omniDefinition, lifecycle, readerCatalog) {
         super(extensionRepository, scope, dialect, events, omniDefinition);

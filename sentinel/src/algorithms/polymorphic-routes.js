@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * # Polymorphic API Route Mutation Engine (`polymorphic-routes.ts`)
+ * Ephemeral time-windowed HMAC path rotation for endpoint obfuscation
+ * (Academic Ref: *ACM SIGCOMM*).
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PolymorphicRouteEngine = void 0;
 const tslib_1 = require("tslib");
@@ -8,6 +13,9 @@ class PolymorphicRouteEngine {
         this.secretKey = typeof secretKey === 'string' ? Buffer.from(secretKey) : secretKey;
         this.rotationPeriodSecs = rotationPeriodSecs;
     }
+    /**
+     * Generates the current mutated path for a given base path and timestamp
+     */
     generateMutatedPath(basePath, timestampSecs) {
         const windowSlot = Math.floor(timestampSecs / this.rotationPeriodSecs);
         const hasher = crypto.createHash('sha256');
@@ -26,6 +34,9 @@ class PolymorphicRouteEngine {
             expiresInSecs,
         };
     }
+    /**
+     * Validates incoming request path against current and previous window slot
+     */
     validateRequest(requestPath, basePath, timestampSecs) {
         const currentSlot = Math.floor(timestampSecs / this.rotationPeriodSecs);
         for (const slot of [currentSlot, Math.max(0, currentSlot - 1)]) {

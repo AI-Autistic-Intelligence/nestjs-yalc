@@ -11,6 +11,9 @@ declare const CGQueryDto_base: {
 };
 export declare class CGQueryDto<T = any> extends CGQueryDto_base implements ICrudGenBaseParams<T> {
 }
+/**
+ * @deprecated use sortModelRestFactory instead
+ */
 export declare class SortModelRest<T = any> implements ISortModel<T> {
     colId: string;
     sort: SortDirection;

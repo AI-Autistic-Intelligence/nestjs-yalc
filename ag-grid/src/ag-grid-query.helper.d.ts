@@ -26,6 +26,15 @@ export declare function traverseFiltersAndApplyFunction(where: WhereCondition, c
     (value: WhereFilters, key: string): void;
 }): void;
 export declare function formatRawSelection(selection: string, fieldName: string, prefix?: string, onlyAlias?: boolean): string;
+/**
+ * Derived fields need metadata attached in order to be processed by
+ * the AgGrid Repository. Use this method to apply the proper
+ * selection with metadata to a find option object
+ */
 export declare function applySelectOnFind<T = any>(findOptions: AgGridFindManyOptions, field: keyof T, fieldMapper: {
     [key: string]: AgGridFieldMetadata;
-}, alias?: string, path?: string): void;
+}, alias?: string, 
+/**
+ * If it's a nested field, you need to specify a path
+ */
+path?: string): void;

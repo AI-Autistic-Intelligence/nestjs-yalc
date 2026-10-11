@@ -19,6 +19,17 @@ export declare function crudGenRestPaginationInterceptorWorker<T>(startRow?: num
         endRow: number;
     };
 };
+/**
+ * This interceptor is used to add pagination to the response
+ * by creating an object with the following structure:
+ * {
+ *   list: [data],
+ *   pageData: {
+ *     count: number,
+ *     startRow: number,
+ *     endRow: number,
+ *    }
+ */
 export declare class CrudGenRestPaginationInterceptor<T = IFieldMapper> implements NestInterceptor<T> {
     intercept(context: ExecutionContext, next: CallHandler): Observable<{
         list: any;
@@ -36,12 +47,18 @@ export declare class CrudGenRestPaginationInterceptor<T = IFieldMapper> implemen
         };
     }>;
 }
-export declare function buildCrudGenRestMapperInterceptor<TInputObject extends Record<string, any> = any, TOutputObject extends Record<string, any> = any>(entityToDtoSchema: ObjectMapperType<TInputObject, TOutputObject>, withPagination?: boolean): {
+export declare function buildCrudGenRestMapperInterceptor<TInputObject extends Record<string, unknown> = any, TOutputObject extends Record<string, unknown> = any>(entityToDtoSchema: ObjectMapperType<TInputObject, TOutputObject>, withPagination?: boolean): {
     new (): {
-        intercept(_context: ExecutionContext, next: CallHandler): Observable<any>;
+        intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown>;
     };
 };
-export declare function buildCrudGenRestSimpleMapperInterceptor<TInputObject extends Record<string, any> = any, TOutputObject extends Record<string, any> = any>(dto: new (data: TInputObject) => TOutputObject, withPagination?: boolean): new () => NestInterceptor<TInputObject, TOutputObject>;
-export declare function buildPaginatedResultDto<TDto>(dto: new (...args: any[]) => TDto): new (data: TDto[], pageData: PageData) => PaginatedResultDto<TDto>;
-export declare function buildPaginatedDTOInterceptor<T>(dto: new (...args: any[]) => T): ClassType<NestInterceptor>;
+export declare function buildCrudGenRestSimpleMapperInterceptor<TInputObject extends Record<string, unknown> = any, TOutputObject extends Record<string, unknown> = any>(dto: new (data: TInputObject) => TOutputObject, withPagination?: boolean): new () => NestInterceptor<TInputObject, TOutputObject | TOutputObject[]>;
+export declare function buildPaginatedResultDto<TDto>(dto: new (...args: unknown[]) => TDto): new (data: TDto[], pageData: PageData) => PaginatedResultDto<TDto>;
+/**
+ * Can be used in combination with the ClassSerializerInterceptor
+ */
+export declare function buildPaginatedDTOInterceptor<T>(dto: new (...args: unknown[]) => T): ClassType<NestInterceptor>;
+/**
+ * Can be used in combination with the ClassSerializerInterceptor
+ */
 export declare function buildDTOInterceptor<TDto, TSrc>(dto: new (...args: TSrc[]) => TDto): ClassType<NestInterceptor>;

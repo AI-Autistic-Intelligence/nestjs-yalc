@@ -17,5 +17,9 @@ export interface OmniScopedBackendFactoryResult<Entity extends ObjectLiteral> {
     providers: Provider[];
     repository: ClassType<GenericTypeORMRepository<Entity>>;
 }
+/**
+ * Builds the normal CrudGen service/loader provider shape with a request
+ * scope. The loader cache key carries the same scope as the service query.
+ */
 export declare function omniScopedBackendProvidersFactory<Entity extends ObjectLiteral>(options: OmniScopedBackendFactoryOptions<Entity>): OmniScopedBackendFactoryResult<Entity>;
 export declare function omniBackendServiceToken(provider: Parameters<typeof getProviderToken>[0]): string;

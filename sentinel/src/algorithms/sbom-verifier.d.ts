@@ -1,3 +1,8 @@
+/**
+ * # SBOM & Supply Chain Dependency Integrity Guard (`sbom-verifier.ts`)
+ * Package SHA-256 cryptographic hash & dependency integrity validator
+ * (Academic Ref: *Intelligent Continuous Security*, O'Reilly - Ch. 7).
+ */
 export interface SbomComponentRecord {
     name: string;
     version: string;

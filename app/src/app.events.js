@@ -1,3 +1,6 @@
+/**
+ * This enum contains the list of app-level events
+ */
 export var AppEvents;
 (function (AppEvents) {
     AppEvents["BEFORE_ALL_ROUTES"] = "app.before_all_routes";

@@ -36,29 +36,29 @@ import * as _ from 'lodash-es';
 import { IGlobalOptions } from './app-bootstrap-base.helper.js';
 import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 
-const singletonDynamicModules = new Map<any, any>();
+const singletonDynamicModules = new Map<unknown, unknown>();
 
-export function registerSingletonDynamicModule(
+export function registerSingletonDynamicModule<TModule>(
   isSingleton: boolean,
-  moduleToken: any,
-  module: any,
-): any | true {
+  moduleToken: unknown,
+  module: TModule,
+): TModule | boolean {
   if (!isSingleton) {
     return false;
   }
 
   const cached = singletonDynamicModules.get(moduleToken);
   if (cached) {
-    return cached;
+    return cached as TModule;
   }
 
   singletonDynamicModules.set(moduleToken, module);
-  return singletonDynamicModules.get(moduleToken);
+  return singletonDynamicModules.get(moduleToken) as TModule;
 }
 
-export function getCachedModule(module: any, isSingleton?: boolean) {
+export function getCachedModule<TModule = unknown>(module: unknown, isSingleton?: boolean): TModule | null {
   if (isSingleton) {
-    return singletonDynamicModules.get(module);
+    return singletonDynamicModules.get(module) as TModule;
   }
   return null;
 }
@@ -119,7 +119,7 @@ export function buildEnvFilePath(envDir?: string, envPath?: string | string[]): 
  * you should override it
  */
 export function yalcBaseAppModuleMetadataFactory(
-  module: any,
+  module: unknown,
   appAlias: string,
   options?: Omit<IYalcBaseAppOptions, 'module'>,
 ): IYalcBaseStaticModule {
@@ -133,7 +133,7 @@ export function yalcBaseAppModuleMetadataFactory(
   };
   const { controllers, exports, imports, providers } = _options;
 
-  const cached = getCachedModule(module, _options.isSingleton);
+  const cached = getCachedModule<IYalcBaseStaticModule>(module, _options.isSingleton);
   if (cached) {
     // Logger.debug(`Using cached metadata for ${module.name}`);
     return cached;

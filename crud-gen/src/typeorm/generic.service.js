@@ -69,6 +69,15 @@ function normalizeCrudGenWhereConditionForPlainTypeorm(where) {
     }
     return hasObjectKeys(mergedWhere) ? mergedWhere : undefined;
 }
+/**
+ *
+ * @todo must be refactorized with better types
+ *
+ * Factory function, creates a Provider for the specified Service class, entity and connection
+ * @param providedClass Service Class name or Type
+ * @param entity TypeORM Entity
+ * @param connectionName The Database connection name
+ */
 export function GenericServiceFactory(entity, connectionName, providedClass, entityWrite, connectionNameWrite) {
     const serviceClass = providedClass ?? GenericService;
     return {
@@ -86,6 +95,11 @@ export function GenericServiceFactory(entity, connectionName, providedClass, ent
 export function getServiceToken(entity) {
     return `${getProviderToken(entity)}GenericService`;
 }
+/**
+ * Validates if the error generated is related to the TypeORM Create/Update/Delete operation and re-throw it as a custom error.
+ * @param errorClass The custom error class to throw
+ * @throws EntityError
+ */
 export function validateSupportedError(errorClass) {
     return (error) => {
         if (error instanceof QueryFailedError) {
@@ -94,43 +108,79 @@ export function validateSupportedError(errorClass) {
         throw error;
     };
 }
+/**
+ * @todo must be refactorized with better types
+ */
 let GenericService = class GenericService {
+    /**
+     *
+     * @param repositoryRead the main repository, if you do not specify the repositoryWrite it is used as write repository too
+     * @param repositoryWrite specify this repository when you have to write on another entity, this is useful when you read from a view but you
+     * need to write on another source
+     */
     constructor(repository, repositoryWrite) {
         this.repository = repository;
         this.repositoryWrite =
             repositoryWrite ??
                 this.repository;
+        // Extracts the target Entity from the CrudGenRepository
         this.entityRead = this.repository.target;
         this.entityWrite = this.repositoryWrite.target;
     }
+    /**
+     * Build a simple TypeORM where condition from primary key identifiers.
+     * Used as a fallback when extended repository helpers are not available.
+     */
     buildPrimaryKeyWhere(ids) {
         if (ids && typeof ids === 'object' && !Array.isArray(ids)) {
             return ids;
         }
-        const repositoryAny = this.repository;
-        const primaryColumns = repositoryAny.metadata?.primaryColumns ?? [];
+        const repositoryExtended = this.repository;
+        const primaryColumns = repositoryExtended.metadata?.primaryColumns ?? [];
         const primaryColumnName = primaryColumns[0]?.propertyName ?? 'id';
         return { [primaryColumnName]: ids };
     }
+    /**
+     * Switches this Service database connection to a new specified database
+     * @param dbName The database name
+     */
     switchDatabaseConnection(dbName) {
         const connectionName = getConnectionName(dbName);
         const connection = getConnection(connectionName);
         this.setRepositoryRead(connection.getRepository(this.entityRead));
         this.setRepositoryWrite(connection.getRepository(this.entityWrite));
     }
+    /**
+     * Changes the Service repository (both write and read)
+     * @param repository
+     */
     setRepository(repository) {
         this.setRepositoryRead(repository);
         this.setRepositoryWrite(repository);
     }
+    /**
+     * Changes the Service repository for read operations
+     * @param repository
+     */
     setRepositoryRead(repository) {
         this.repository = repository;
     }
+    /**
+     * Changes the Service repository for read operations
+     * @param repository
+     */
     setRepositoryWrite(repository) {
         this.repositoryWrite = repository;
     }
+    /**
+     * Returns the Service repository (read)
+     */
     getRepository() {
         return this.repository;
     }
+    /**
+     * Returns the Service repository (write)
+     */
     getRepositoryWrite() {
         return this.repositoryWrite;
     }
@@ -139,6 +189,9 @@ let GenericService = class GenericService {
             this.switchDatabaseConnection(databaseName);
         const { sorting, startRow, endRow, select, ...rest } = findOptions;
         const { skip, take } = mapPaginationParamsToTypeORM(startRow, endRow);
+        /**
+         * @todo mapping the find options to the TypeORM FindManyOptions
+         */
         const mappedFindOptions = {
             ...rest,
             ...(sorting ? { order: mapSortingParamsToTypeORM(sorting) } : {}),
@@ -149,12 +202,17 @@ let GenericService = class GenericService {
             ? this.repository.findAndCount(mappedFindOptions)
             : this.repository.find(mappedFindOptions);
     }
+    /**
+     * Shortcut of getEntity with  failOnNull = true
+     * @see {@link getEntity} for further information
+     */
     async getEntityOrFail(where, fields, relations, databaseName) {
         return this.getEntity(where, fields, relations, databaseName, {
             failOnNull: true,
         });
     }
     async getEntity(where, fields, relations, databaseName, options) {
+        // Allows to switch to a different database connection
         if (databaseName)
             this.switchDatabaseConnection(databaseName);
         return options?.failOnNull !== true
@@ -172,6 +230,10 @@ let GenericService = class GenericService {
             });
     }
     async createEntity(input, findOptions, returnEntity = true) {
+        /**
+         * This is needed to keep the prototype of the
+         * entity in order to allow the beforeInsert to be executed
+         */
         let entityHydrated = this.mapEntityR2W(input);
         const entity = this.entityWrite;
         if (isClass(entity)) {
@@ -183,14 +245,18 @@ let GenericService = class GenericService {
         const { identifiers } = await this.repositoryWrite
             .insert(newEntity)
             .catch(validateSupportedError(CreateEntityError));
+        /**
+         * Create where condition for the identifiers
+         * @todo maybe conversion is needed here as well
+         */
         const ids = identifiers[0];
-        const repoAny = this.repository;
-        if (typeof repoAny.generateFilterOnPrimaryColumn === 'function' &&
-            typeof repoAny.getOneExtended === 'function') {
-            const filters = repoAny.generateFilterOnPrimaryColumn(ids);
+        const repoExtended = this.repository;
+        if (typeof repoExtended.generateFilterOnPrimaryColumn === 'function' &&
+            typeof repoExtended.getOneExtended === 'function') {
+            const filters = repoExtended.generateFilterOnPrimaryColumn(ids);
             return !returnEntity
                 ? true
-                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, ReplicationMode.MASTER);
+                : repoExtended.getOneExtended({ ...findOptions, where: { filters } }, true, ReplicationMode.MASTER);
         }
         if (!returnEntity) {
             return true;
@@ -202,6 +268,10 @@ let GenericService = class GenericService {
     }
     async updateEntity(conditions, input, findOptions, returnEntity = true) {
         const result = await this.validateConditions(conditions);
+        /**
+         * This is needed to keep the prototype of the
+         * entity in order to allow the beforeUpdate to be executed
+         */
         let entityHydrated = this.mapEntityR2W(input);
         const entity = this.entityWrite;
         if (isClass(entity)) {
@@ -213,14 +283,17 @@ let GenericService = class GenericService {
         await this.repositoryWrite
             .update(mappedConditions, entityHydrated)
             .catch(validateSupportedError(UpdateEntityError));
+        /**
+         * Create where condition for the the identifiers
+         */
         const ids = this.repository.getId(Object.assign(result, entityHydrated));
-        const repoAny = this.repository;
-        if (typeof repoAny.generateFilterOnPrimaryColumn === 'function' &&
-            typeof repoAny.getOneExtended === 'function') {
-            const filters = repoAny.generateFilterOnPrimaryColumn(ids);
+        const repoExtended = this.repository;
+        if (typeof repoExtended.generateFilterOnPrimaryColumn === 'function' &&
+            typeof repoExtended.getOneExtended === 'function') {
+            const filters = repoExtended.generateFilterOnPrimaryColumn(ids);
             return !returnEntity
                 ? true
-                : repoAny.getOneExtended({ ...findOptions, where: { filters } }, true, ReplicationMode.MASTER);
+                : repoExtended.getOneExtended({ ...findOptions, where: { filters } }, true, ReplicationMode.MASTER);
         }
         if (!returnEntity) {
             return true;
@@ -230,6 +303,13 @@ let GenericService = class GenericService {
             where,
         });
     }
+    /**
+     * Deletes an entity based in the provided conditions and returns wether or not the resource was deleted
+     * @param conditions The conditions to delete
+     * @throws DeleteEntityError
+     * @throws NoResultsForConditions
+     * @throws ConditionsTooBroadError
+     */
     async deleteEntity(conditions) {
         await this.validateConditions(conditions);
         const mappedConditions = this.mapEntityR2W(conditions);
@@ -238,10 +318,16 @@ let GenericService = class GenericService {
             .catch(validateSupportedError(DeleteEntityError));
         return !!result.affected && result.affected > 0;
     }
+    /**
+     * Makes sure that the conditions will affect a single record
+     * @param conditions
+     * @throws NoResultsForConditions
+     * @throws ConditionsTooBroadError
+     */
     async validateConditions(conditions) {
         const results = await this.repository.find({
             where: conditions,
-            take: 2,
+            take: 2, // Prevent finding more records than we need for the validation
         });
         if (results.length === 0) {
             throw new NoResultsFoundError(conditions);
@@ -252,6 +338,7 @@ let GenericService = class GenericService {
         return results[0];
     }
     async getEntityListExtended(findOptions, withCount = false, relations, databaseName) {
+        // Allows to switch to a different database connection
         if (databaseName)
             this.switchDatabaseConnection(databaseName);
         if (relations)
@@ -267,6 +354,9 @@ let GenericService = class GenericService {
                 ? repo.getManyAndCountExtended(findOptions)
                 : repo.getManyExtended(findOptions);
         }
+        // Fallback for plain TypeORM repositories (no extended helpers):
+        // keep support minimal, but sanitize internal helper artifacts such as
+        // empty `where.filters` before delegating to TypeORM.
         const { where, info, extra, subQueryFilters, ...typeormOptions } = findOptions;
         const sanitizedWhere = normalizeCrudGenWhereForPlainTypeorm(where);
         const mappedFindOptions = {

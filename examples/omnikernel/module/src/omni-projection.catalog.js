@@ -4,6 +4,7 @@ import { OmniRecordEntity } from './base/omni-record.entity.js';
 import { OmniRelationEntity } from './base/omni-relation.entity.js';
 import { getOmniRelationProjectionAllowedKinds, } from './omni-relation-projection.definition.js';
 import { OmniRelationStatus } from './omni-relation-status.enum.js';
+/** Default token for a composed set of generated Omni projection resources. */
 export const OMNI_PROJECTION_READER_CATALOG = Symbol('OMNI_PROJECTION_READER_CATALOG');
 function freeze(value) {
     if (value && typeof value === 'object')
@@ -132,6 +133,10 @@ function relationReader(manager, scope, registration) {
         },
     });
 }
+/**
+ * Creates an immutable catalog from resource registrations. It has no global
+ * state: each hook binds the catalog to its active transaction manager.
+ */
 export function createOmniProjectionReaderCatalog(registrations) {
     const byId = new Map();
     for (const source of registrations) {
@@ -163,6 +168,11 @@ export function createOmniProjectionReaderCatalog(registrations) {
         },
     });
 }
+/**
+ * Creates the one Nest provider shared by lifecycle-enabled registrations.
+ * Call it after creating the individual resource registrations, passing those
+ * registrations directly; the catalog captures their immutable reader entries.
+ */
 export function createOmniProjectionReaderCatalogProvider(registrations, token = OMNI_PROJECTION_READER_CATALOG) {
     return {
         provide: token,

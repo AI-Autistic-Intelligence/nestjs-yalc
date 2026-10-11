@@ -2,12 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoResultsFoundError = exports.ConditionsTooBroadError = void 0;
 const common_1 = require("@nestjs/common");
+// nothing to cover on simple class
 class ConditionsTooBroadError extends common_1.ConflictException {
     constructor(conditions) {
         super({ conditions }, 'The provided conditions are too broad and affect multiple records.');
     }
 }
 exports.ConditionsTooBroadError = ConditionsTooBroadError;
+// nothing to cover on simple class
 class NoResultsFoundError extends common_1.NotFoundException {
     constructor(conditions) {
         super({ conditions }, 'No results found for the provided conditions.');

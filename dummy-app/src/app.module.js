@@ -30,7 +30,7 @@ exports.AppModule = AppModule = tslib_1.__decorate([
                 autoSchemaFile: 'dummy-schema.gql',
                 playground: false,
                 buildSchemaOptions: {
-                    fieldMiddleware: [],
+                    fieldMiddleware: [], // The field middlewares are specified on decorators
                 },
             }),
             user_module_1.UserModule,

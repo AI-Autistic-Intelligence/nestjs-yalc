@@ -16,7 +16,7 @@ export declare class NestLocalCallStrategy extends HttpAbstractStrategy {
     private readonly internalHeader;
     private readonly internalToken?;
     constructor(adapterHost: HttpAdapterHost, clsService: YalcGlobalClsService, configService: AppConfigService, baseUrl?: string, options?: NestLocalCallStrategyOptions);
-    call<TOptData extends string | object | Buffer | NodeJS.ReadableStream, TParams extends Record<string, any>, TResData>(path: string, options?: HttpOptions<TOptData, TParams>): Promise<IHttpCallStrategyResponse<TResData>>;
+    call<TOptData extends string | object | Buffer | NodeJS.ReadableStream, TParams extends Record<string, unknown>, TResData>(path: string, options?: HttpOptions<TOptData, TParams>): Promise<IHttpCallStrategyResponse<TResData>>;
 }
 export interface NestLocalCallStrategyProviderOptions {
     baseUrl?: string;
@@ -25,6 +25,9 @@ export interface NestLocalCallStrategyProviderOptions {
     internalRequestHeader?: string;
     internalRequestToken?: string;
 }
+/**
+ * Just a convenient provider to inject the NestLocalCallStrategy
+ */
 export declare const NestLocalCallStrategyProvider: (provide: string, options?: NestLocalCallStrategyProviderOptions) => {
     provide: string;
     useFactory: (httpAdapter: HttpAdapterHost, clsService: YalcGlobalClsService, configService: AppConfigService) => NestLocalCallStrategy;

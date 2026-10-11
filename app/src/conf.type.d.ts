@@ -4,6 +4,7 @@ export interface IServiceConf {
     appName: string;
     loggerType: LoggerTypeEnum | string;
     logLevels: LogLevel[];
+    /** You can specialize log levels per each logger context. By default logLevels is used instead */
     logContextLevels?: {
         [key: string]: LogLevel[];
     };

@@ -1,3 +1,6 @@
+/**
+ * # NestJS Ferrox-Node Sentinel Module (`sentinel.module.ts`)
+ */
 import { DynamicModule } from '@nestjs/common';
 export interface SentinelModuleOptions {
     enablePromptSanitizer?: boolean;

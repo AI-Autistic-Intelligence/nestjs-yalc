@@ -12,9 +12,19 @@ export declare const coverageThreshold: (projects?: any[], defaultCoverageThresh
     statements: number;
 }) => Record<string, any>;
 export interface IDefaultConfOptions {
+    /** node modules to transform
+     * string array -> add extra esmodule to transform
+     * true -> transform esmodule only using the default array
+     * false -> disable esmodule transformation (default)
+     */
     transformEsModules?: string[] | boolean;
     tsJestConf?: any;
     jestConf?: any;
 }
+/**
+ * for both unit and e2e
+ * @param dirname
+ * @returns
+ */
 declare const defaultConf: (dirname: string, options?: IDefaultConfOptions, _tsJestConfig?: any) => JestConfigWithTsJest;
 export default defaultConf;

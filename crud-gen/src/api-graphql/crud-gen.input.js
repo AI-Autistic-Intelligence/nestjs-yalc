@@ -6,6 +6,9 @@ import { FilterType, GeneralFilters, Operators, SortDirection, } from '../crud-g
 import { getEntityRelations } from '../crud-gen.helpers.js';
 import { JoinTypes, } from './crud-gen-gql.interface.js';
 export { JoinTypes } from './crud-gen-gql.interface.js';
+/**
+ * @deprecated use sortModelFactory instead
+ */
 let SortModel = class SortModel {
 };
 __decorate([
@@ -151,6 +154,10 @@ export function filterExpressionInputFactory(entityModel) {
     FilterSet = __decorate([
         InputType(`${entityModel.name}FilterSetInput`)
     ], FilterSet);
+    /**
+     * Since union for input types are not possible yet, we need this type
+     * @see https://github.com/graphql/graphql-spec/issues/488
+     */
     let FilterExpressionProperty = class FilterExpressionProperty {
         static { _a = FilterType.TEXT, _b = FilterType.NUMBER, _c = FilterType.DATE, _d = FilterType.SET; }
     };
@@ -193,8 +200,10 @@ export function filterExpressionInputFactory(entityModel) {
     filterExpressionInputCache.set(entityModel, FilterExpression);
     return FilterExpression;
 }
+// memoize pre-generated InputType
 const JoinOptionInputCache = new WeakMap();
 export function agJoinArgFactory(entityModel, defaultValues) {
+    // return memoized result if any
     const cached = JoinOptionInputCache.get(entityModel);
     if (cached)
         return cached;

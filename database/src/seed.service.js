@@ -6,6 +6,9 @@ const typeorm_seeding_1 = require("typeorm-seeding");
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const conn_helper_js_1 = require("@node-yalc/database/conn.helper.js");
+/**
+ * Application service
+ */
 let SeedService = class SeedService {
     constructor(dbConnections, loggerService, configService, configPath) {
         this.dbConnections = dbConnections;
@@ -54,14 +57,16 @@ let SeedService = class SeedService {
         const seeders = dbConf?.seeds;
         for (const seeder of seeders) {
             const label = `${name}.${seeder.name} execution time:`;
+            // eslint-disable-next-line no-console
             console.time(label);
             this.loggerService.debug?.(`Running seeder ${seeder.name} on ${name}`);
             await new seeder().run(typeorm_seeding_1.factory, connection);
+            // eslint-disable-next-line no-console
             console.timeEnd(label);
         }
         this.loggerService.debug?.(`Completed: ${name}`);
     }
-    async seedDatabases(reseed) {
+    async seedDatabases(reseed /*, _databases*/) {
         this.loggerService.debug?.('Seeding db...');
         if (reseed) {
             await Promise.all(this.dbConnections.map(async (connection) => {
@@ -88,6 +93,10 @@ let SeedService = class SeedService {
         await Promise.all(promiseList.map((fn) => fn()));
         this.loggerService.debug?.('Seeding completed!');
     }
+    /**
+     *  Use it to reset connection options to be able to change database connection
+     *
+     */
     resetConnection() {
         global['TypeORM_Seeding_Connection'] = {
             configureOption: {

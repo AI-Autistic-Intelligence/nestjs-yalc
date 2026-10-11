@@ -35,7 +35,7 @@ import {
   isIDArg,
 } from './generic-resolver.type';
 
-export function defineFieldResolver<Entity extends Record<string, any> = any>(
+export function defineFieldResolver<Entity extends Record<string, unknown> = any>(
   resolverInfoList: RelationInfo[],
   resolver: ClassType<GenericResolver>,
 ) {
@@ -74,7 +74,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
                   'Cannot specify join arguments and resolver arguments at the same time',
                 );
 
-              return [parentRes, -1];
+              return [parentRes as unknown as (Entity | null)[], -1];
             }
 
             const dataLoader: GQLDataLoader<Entity> =
@@ -91,7 +91,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
               resolverInfo.join?.name ?? dataLoader.getSearchKey();
 
             return dataLoader.loadOneToMany(
-              [joinCol, parent[parentCol]],
+              [joinCol as any, parent[parentCol as keyof Entity] as unknown as string],
               findOptions as any,
               true,
             );
@@ -157,7 +157,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
                   'Cannot specify join arguments and resolver arguments at the same time',
                 );
 
-              return parentRes;
+              return parentRes as unknown as Entity;
             }
 
             const dataLoader: GQLDataLoader<Entity> =
@@ -173,7 +173,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
             const parentCol =
               resolverInfo.join?.name ?? dataLoader.getSearchKey();
             return dataLoader.loadOne(
-              [joinCol, parent[parentCol]],
+              [joinCol as any, parent[parentCol as keyof Entity] as unknown as string],
               findOptions as any,
               false,
             );
@@ -213,7 +213,7 @@ export function defineFieldResolver<Entity extends Record<string, any> = any>(
     }
   }
 }
-export function defineGetSingleResource<Entity extends Record<string, any>>(
+export function defineGetSingleResource<Entity extends Record<string, unknown>>(
   queryName: string,
   returnType: ClassType,
   resolver: ClassType<GenericResolver>,
@@ -302,7 +302,7 @@ export function defineGetSingleResource<Entity extends Record<string, any>>(
     queryName,
   );
 }
-export function defineGetGridResource<Entity extends Record<string, any>>(
+export function defineGetGridResource<Entity extends Record<string, unknown>>(
   queryName: string,
   returnType: ClassType,
   resolver: ClassType<GenericResolver>,

@@ -6,6 +6,12 @@ function typeForCodec(codec) {
         return Boolean;
     return String;
 }
+/**
+ * Derives the projection-owned TypeORM schema from its immutable definition.
+ * A surrogate primary key remains an application storage choice; all public
+ * scope, identity, revision, payload and projected column declarations live
+ * in the projection contract.
+ */
 export function createProjectionSchemaOptions(definition, dialect) {
     assertProjectionResourceDefinition(definition);
     const columns = {

@@ -7,6 +7,7 @@ export const isAskingForCount = (info) => {
         }) ?? false);
     }
     catch (e) {
+        // quick way to avoid having dozens of conditions to check the info structure
         return false;
     }
 };

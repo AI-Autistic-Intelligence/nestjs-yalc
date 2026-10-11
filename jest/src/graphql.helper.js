@@ -8,9 +8,11 @@ async function createNestJsGraphqlMock(importMeta) {
     const mockedGraphql = (await (0, esm_helper_js_1.importMockedEsm)('@nestjs/graphql', importMeta, true));
     class Fake {
     }
+    // mock everything as a jest.fn
     Object.keys(mockedGraphql).forEach((key) => {
         mockedGraphql[key].mockImplementation?.(() => globals_1.jest.fn());
     });
+    // except these that should be a class
     mockedGraphql.OmitType.mockImplementation((() => Fake));
     mockedGraphql.PickType.mockImplementation((() => Fake));
     mockedGraphql.PartialType.mockImplementation((() => Fake));

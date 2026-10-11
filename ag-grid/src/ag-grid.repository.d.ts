@@ -10,6 +10,9 @@ import './query-builder.helpers';
 export declare const AG_GRID_MAIN_ALIAS = "AgGridMainAlias";
 export declare class AgGridRepository<Entity extends ObjectLiteral> extends Repository<Entity> {
     protected entity: EntityClassOrSchema;
+    /**
+     * @todo we should create a class helper/adapter for the findOptions and move this method there
+     */
     getActualLimits(findOptions: AgGridFindManyOptions<Entity>): {
         skip?: number;
         take?: number;
@@ -26,20 +29,38 @@ export declare class AgGridRepository<Entity extends ObjectLiteral> extends Repo
             [key: string]: FieldMapper;
         };
     }): SelectQueryBuilder<Entity>;
+    /**
+     * Returns a List of entities based in the provided options.
+     * @param findOptions Filter options
+     */
     getManyAndCountAgGrid(findOptions: AgGridFindManyOptions<Entity>, fieldMap?: {
         parent: FieldMapper;
         joined: FieldMapper | {
             [key: string]: FieldMapper;
         };
     }): Promise<[Entity[], number]>;
+    /**
+     * Returns a List of entities based in the provided options.
+     * @param findOptions Filter options
+     */
     getManyAgGrid(findOptions: AgGridFindManyOptions<Entity>, fieldMap?: {
         parent: FieldMapper;
         joined: FieldMapper | {
             [key: string]: FieldMapper;
         };
     }): Promise<Entity[]>;
+    /**
+     * @param findOptions All we need to select, filter, order and join the data
+     * @param withFail If true ignore the fail, if false when u don't find a entity it'll trhow an error
+     * @param mode Set it to true to query data after a mutation
+     */
     getOneAgGrid(findOptions: AgGridFindManyOptions<Entity>, withFail?: boolean, mode?: ReplicationMode): Promise<Entity>;
     private getOneOrFail;
+    /**
+     *
+     * @param ids Could be either a object map between entity primaryColumn name and value or a single value of the primaryColumn
+     * @returns where filter with conditions on entity primaryColumn
+     */
     generateFilterOnPrimaryColumn(ids: any): WhereFilters;
     generateSelectOnFind(fields: (keyof Entity)[], gqlType: ClassType<Entity>): AgGridFindManyOptions<unknown>;
 }

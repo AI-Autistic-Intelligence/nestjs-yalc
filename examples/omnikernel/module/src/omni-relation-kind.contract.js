@@ -6,6 +6,11 @@ export const canonicalOmniRelationKinds = Object.freeze([
     OmniRelationKind.RelatedTo,
     OmniRelationKind.DerivedFrom,
 ]);
+/**
+ * Canonical kinds are stable exports. Applications may register additional
+ * syntactically portable kinds at module composition time without changing
+ * OmniKernel or turning arbitrary strings into valid graph semantics.
+ */
 export function createOmniRelationKindContract(additionalKinds = []) {
     const kinds = new Set(canonicalOmniRelationKinds);
     for (const kind of additionalKinds) {

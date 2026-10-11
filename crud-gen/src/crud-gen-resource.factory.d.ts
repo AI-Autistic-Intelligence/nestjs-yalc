@@ -24,5 +24,5 @@ export interface ICrudGenResourceFactoryResult<Entity extends ObjectLiteral> {
     serviceToken?: string;
     dataLoaderToken?: string;
 }
-export declare function CrudGenResourceFactory<Entity extends Record<string, any>>({ entityModel, backend, graphql, rest, }: ICrudGenResourceFactoryOptions<Entity>): ICrudGenResourceFactoryResult<Entity>;
+export declare function CrudGenResourceFactory<Entity extends Record<string, unknown>>({ entityModel, backend, graphql, rest, }: ICrudGenResourceFactoryOptions<Entity>): ICrudGenResourceFactoryResult<Entity>;
 export {};

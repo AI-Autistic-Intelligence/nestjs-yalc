@@ -25,21 +25,21 @@ export class TelemetryCallStrategy implements IApiCallStrategy {
     (this.strategy as { baseUrl?: string | undefined }).baseUrl = value;
   }
 
-  call<TOptData, TParams extends Record<string, any>, TResData>(
+  call<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {
     return this.measure('call', path, () => this.strategy.call(path, options));
   }
 
-  get<TOptData, TParams extends Record<string, any>, TResData>(
+  get<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {
     return this.measure('get', path, () => this.strategy.get(path, options));
   }
 
-  post<TOptData, TParams extends Record<string, any>, TResData>(
+  post<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: ICallOptions<TOptData, TParams>,
   ): Promise<IObjectWithData<TResData>> {

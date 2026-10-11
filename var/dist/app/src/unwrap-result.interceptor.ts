@@ -9,7 +9,7 @@ import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class UnwrapResultInterceptor implements NestInterceptor {
-  intercept(_: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(_: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
       map((result) => {
         if (

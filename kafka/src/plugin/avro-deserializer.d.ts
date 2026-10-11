@@ -4,8 +4,17 @@ import type { SchemaRegistryAPIClientArgs } from '@kafkajs/confluent-schema-regi
 import type { SchemaRegistryAPIClientOptions } from '@kafkajs/confluent-schema-registry/dist/@types.js';
 import type { KafkaMessage } from '@nestjs/microservices/external/kafka.interface.js';
 import type { DeserializedData } from '../interface/debezium.interface.js';
+/**
+ * Deserializer for Kafka data by using Avro Schema
+ */
 export declare class KafkaAvroDeserializer implements Deserializer<KafkaMessage, ReadPacket<DeserializedData<any, any>>> {
     protected registry: SchemaRegistry;
     constructor(config: SchemaRegistryAPIClientArgs, options?: SchemaRegistryAPIClientOptions);
+    /**
+     * Deserializer function: The return type must be a ReadPacket type for the purpose of using MessagePattern Nestjs
+     * @param message
+     * @param _options
+     * @returns
+     */
     deserialize(message: any): Promise<ReadPacket>;
 }

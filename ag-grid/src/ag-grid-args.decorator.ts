@@ -450,7 +450,7 @@ export function mapAgGridParams(
 
   const skipCount = !isAskingForCount(ctx.getInfo());
 
-  const extraParameter: { [key: string]: any } = {};
+  const extraParameter: { [key: string]: unknown } = {};
   if (params && params.extraArgs) {
     const extraArgsKeys = Object.keys(params.extraArgs);
     switch (params.extraArgsStrategy) {
@@ -583,7 +583,7 @@ export const AgGridCombineDecorators = (params: AgGridArgsOptions) => {
 
   const args = Args(params.gql ?? {});
   const mapper = AgGridArgsMapper(params);
-  return function (target: any, key: string, index: number) {
+  return function (target: object, key: string | symbol, index: number) {
     args(target, key, index);
     joinArg && joinArg(target, key, index);
     argDecorators.map((d) => d(target, key, index));
@@ -685,7 +685,7 @@ export const AgGridArgsSingle = (params: AgGridArgsSingleOptions) => {
   }
 
   const mapper = AgGridArgsSingleDecorator(params);
-  return function (target: any, key: string, index: number) {
+  return function (target: object, key: string | symbol, index: number) {
     joinArg && joinArg(target, key, index);
     mapper(target, key, index);
   };

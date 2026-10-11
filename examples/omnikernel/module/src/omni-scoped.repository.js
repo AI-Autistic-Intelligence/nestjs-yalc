@@ -1,3 +1,8 @@
+/**
+ * Small repository facade for normal Omni lookups. It mechanically adds the
+ * current scope and is the supported lower-level alternative to passing raw
+ * repositories between application layers.
+ */
 export class OmniScopedRepository {
     constructor(repository, scope) {
         this.repository = repository;

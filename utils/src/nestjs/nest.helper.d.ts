@@ -1,2 +1,2 @@
 import { Provider } from '@nestjs/common';
-export declare function isProviderObject(obj: any): obj is Provider;
+export declare function isProviderObject(obj: unknown): obj is Provider;

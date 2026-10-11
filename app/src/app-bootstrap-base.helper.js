@@ -4,6 +4,9 @@ import { SYSTEM_LOGGER_SERVICE } from './def.const.js';
 import { YalcDefaultAppModule } from './base-app-module.helper.js';
 import { getEnvLoggerLevels } from '@node-yalc/logger/logger.helper.js';
 import { globalPromiseTracker } from '@node-yalc/utils/promise.helper.js';
+/**
+ * Side effect to be executed as soon as the module is imported
+ */
 Logger.overrideLogger(getEnvLoggerLevels());
 const bootstrappedApps = new Set();
 export const getBootstrappedApps = () => {
@@ -30,17 +33,23 @@ export class BaseAppBootstrap {
         getBootstrappedApps().add(this);
     }
     async initApp(options) {
-        options;
+        options; // extend this method in the child class
         return this;
     }
     setApp(app) {
         this.app = app;
+        /**
+         * Monkey patch the close method to set the isClosed flag
+         */
         const originalCloseFn = this.app.close.bind(this.app);
         this.app.close = async () => {
             const closeRes = await originalCloseFn();
             this.closeCleanup();
             return closeRes;
         };
+        /**
+         * Monkey patch the init method to set the isClosed flag
+         */
         const originalInitFn = this.app.init.bind(this.app);
         this.app.init = async () => {
             this.isClosed = false;
@@ -57,6 +66,9 @@ export class BaseAppBootstrap {
         };
         return this;
     }
+    /**
+     * This method is used to cleanup the app and remove it from the global set of bootstrapped apps
+     */
     closeCleanup() {
         this.isClosed = true;
         getBootstrappedApps().delete(this);
@@ -83,11 +95,24 @@ export class BaseAppBootstrap {
         this.closeCleanup();
     }
     async cleanup() {
+        /**
+         * When running behind a lambda, we have to await for all the promises that have been added to the global promise tracker
+         * to avoid them being killed by the lambda
+         * @see - https://stackoverflow.com/questions/64688812/running-tasks-in-aws-lambda-background
+         */
         await globalPromiseTracker.waitForAll();
     }
+    /**
+     *
+     * @returns The main module of the business logic (the one that is passed in the constructor)
+     */
     getAppModule() {
         return this.appModule;
     }
+    /**
+     *
+     * @returns The global module that is used to bootstrap the app (YalcDefaultAppModule)
+     */
     getModule() {
         return this.module;
     }

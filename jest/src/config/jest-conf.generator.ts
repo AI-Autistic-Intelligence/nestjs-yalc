@@ -36,7 +36,7 @@ export interface IOptions {
    * key: project name
    * value: jest configurations
    */
-  confOverrides?: { [key: string]: any };
+  confOverrides?: { [key: string]: unknown };
   defaultCoverageThreshold?: {
     branches: number;
     functions: number;
@@ -72,7 +72,7 @@ export function jestConfGenerator(
   options: IOptions,
 ): JestConfigWithTsJest {
   const createProjectSets = (projects: any[]) => {
-    const _projectSets: { [key: string]: any } = {};
+    const _projectSets: { [key: string]: unknown } = {};
     for (const app in appProjectsSettings) {
       _projectSets[app] = projects.filter((p) =>
         appProjectsSettings[app]!.deps.some((v) =>
@@ -146,7 +146,7 @@ export function jestConfGenerator(
     }
   }
 
-  const projectSets: { [key: string]: any } = createProjectSets(projects);
+  const projectSets: { [key: string]: unknown } = createProjectSets(projects);
 
   // use argv to catch the path argument in any position
   const argv: any = yargs(hideBin(process.argv))
@@ -186,12 +186,12 @@ export function jestConfGenerator(
   projects = Array.isArray(selectedProj)
     ? Object.values(projectSets)
       .flat()
-      .filter((value) => {
+      .filter((value: any) => {
         return selectedProj.some((projName) => {
           return value.displayName === `unit/${projName}`;
         });
       })
-    : projectSets[selectedProj];
+    : (projectSets[selectedProj] as unknown[]);
 
   const paths: string[] = [];
 

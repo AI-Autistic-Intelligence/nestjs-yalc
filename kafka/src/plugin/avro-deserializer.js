@@ -2,10 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KafkaAvroDeserializer = void 0;
 const confluent_schema_registry_1 = require("@kafkajs/confluent-schema-registry");
+/**
+ * Deserializer for Kafka data by using Avro Schema
+ */
 class KafkaAvroDeserializer {
     constructor(config, options) {
         this.registry = new confluent_schema_registry_1.SchemaRegistry(config, options);
     }
+    /**
+     * Deserializer function: The return type must be a ReadPacket type for the purpose of using MessagePattern Nestjs
+     * @param message
+     * @param _options
+     * @returns
+     */
     async deserialize(message) {
         try {
             message.key = message.key
@@ -16,6 +25,7 @@ class KafkaAvroDeserializer {
                 : message.value;
         }
         catch (e) {
+            // eslint-disable-next-line no-console
             console.error('Deserialization error', e);
         }
         return {

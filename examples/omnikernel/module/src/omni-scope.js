@@ -51,6 +51,11 @@ export function normalizeOmniKernelRegistrationOptions(options) {
         deletion: normalizeOmniDeletionPolicies(candidate.deletion),
     };
 }
+/**
+ * Request-scoped server context used by every Omni generated API and loader.
+ * It is intentionally unavailable when neither the trusted adapter nor a
+ * configured default provides a scope.
+ */
 let OmniScopeContext = class OmniScopeContext {
     constructor(request, options) {
         const requestForResolver = request?.req ?? request;

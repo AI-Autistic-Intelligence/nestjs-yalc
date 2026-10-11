@@ -1,30 +1,30 @@
 export * from '@nestjs/common';
 export class PasetoAuthService {
-  constructor(...args: any[]);
-  generateV4LocalToken(...args: any[]): any;
+  constructor(...args: unknown[]);
+  generateV4LocalToken(...args: unknown[]): any;
 }
 export class TotpAuthService {
-  constructor(...args: any[]);
-  generateSecret(...args: any[]): any;
-  generateOtpAuthUri(...args: any[]): any;
-  verifyTotpCode(...args: any[]): any;
+  constructor(...args: unknown[]);
+  generateSecret(...args: unknown[]): any;
+  generateOtpAuthUri(...args: unknown[]): any;
+  verifyTotpCode(...args: unknown[]): any;
 }
 export class FerroxApp {
-  constructor(...args: any[]);
-  start(...args: any[]): any;
+  constructor(...args: unknown[]);
+  start(...args: unknown[]): any;
 }
 export class MandatoryComplianceGuard {
-  constructor(...args: any[]);
+  constructor(...args: unknown[]);
 }
 export class FerroxSelfTestEngine {
-  constructor(...args: any[]);
+  constructor(...args: unknown[]);
   runDiagnosticAudit(): any;
   runKaliRedTeamAudit(url: any): any;
 }
 export class KernelSandboxEngine {
-  constructor(...args: any[]);
+  constructor(...args: unknown[]);
   generateSeccompBpfPolicy(): any;
   generateLandlockPolicy(): any;
   generateSysctlHardeningConfig(): any;
 }
-export const Roles: (...args: any[]) => any;
+export const Roles: (...args: unknown[]) => any;

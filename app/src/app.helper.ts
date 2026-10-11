@@ -7,22 +7,22 @@ import {
   IGlobalOptions,
 } from './app-bootstrap-base.helper.js';
 
-export function isDynamicModule(module: any): module is DynamicModule {
-  return module.module !== undefined;
+export function isDynamicModule(module: unknown): module is DynamicModule {
+  return typeof module === 'object' && module !== null && 'module' in module;
 }
 
-export const executeFunctionForApp = async (
+export const executeFunctionForApp = async <TService, TResult = unknown>(
   app: BaseAppBootstrap<any>,
-  serviceType: any,
-  fn: { (service: any): Promise<any> },
+  serviceType: ClassType<TService>,
+  fn: (service: TService) => Promise<TResult>,
   options: { closeApp?: boolean },
-): Promise<void> => {
+): Promise<TResult> => {
   const nestApp = await app.getApp();
   await nestApp.init();
 
   const service = await nestApp.resolve(serviceType);
 
-  await fn(service).finally(async () => {
+  return fn(service).finally(async () => {
     if (options.closeApp) await app.closeApp();
   });
 };
@@ -37,16 +37,16 @@ export const executeFunctionForApp = async (
 export const curriedExecuteStandaloneFunction = async <
   TOptions extends IGlobalOptions,
 >(
-  module: any,
+  module: DynamicModule | Type<unknown>,
   options?: TOptions,
-): Promise<(serviceType: any, fn: (service: any) => Promise<any>, executeOptions?: { closeApp?: boolean }) => Promise<void>> =>
+): Promise<<TService, TResult = unknown>(serviceType: ClassType<TService>, fn: (service: TService) => Promise<TResult>, executeOptions?: { closeApp?: boolean }) => Promise<TResult>> =>
   curry(executeFunctionForApp)(
     await new StandaloneAppBootstrap(
       isDynamicModule(module) ? module.module.name : module.name,
       module,
       options,
     ).initApp(),
-  ) as any;
+  ) as unknown as <TService, TResult = unknown>(serviceType: ClassType<TService>, fn: (service: TService) => Promise<TResult>, executeOptions?: { closeApp?: boolean }) => Promise<TResult>;
 
 /**
  *
@@ -57,11 +57,12 @@ export const curriedExecuteStandaloneFunction = async <
  */
 export const executeStandaloneFunction = async <
   TService,
-  TOptions extends IGlobalOptions,
+  TResult = unknown,
+  TOptions extends IGlobalOptions = IGlobalOptions,
 >(
-  module: DynamicModule | Type<any>,
+  module: DynamicModule | Type<unknown>,
   serviceType: ClassType<TService>,
-  fn: { (service: TService): Promise<any> },
+  fn: (service: TService) => Promise<TResult>,
   options?: TOptions,
   executeOptions: { closeApp?: boolean } = {},
 ) => {

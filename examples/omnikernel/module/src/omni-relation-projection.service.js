@@ -17,6 +17,11 @@ function isRetryableTransactionError(error) {
         code === 'SQLITE_BUSY' ||
         code === 'SQLITE_BUSY_SNAPSHOT');
 }
+/**
+ * One generated relation surface over OmniRelationEntity. Creation selects an
+ * allowed kind; every other operation constrains that field to the registered
+ * set and keeps endpoints, status, and schema metadata server-owned.
+ */
 export class OmniRelationProjectionService extends OmniRelationService {
     constructor(repository, scope, relationDeletion, recordRepository, kinds, definition, dataSource, lifecycle, readerCatalog) {
         super(repository, scope, relationDeletion, recordRepository, kinds);
@@ -219,6 +224,7 @@ export class OmniRelationProjectionService extends OmniRelationService {
                 : { [aliases.payload]: entity.payload }),
         };
     }
+    /** Keeps lifecycle policies transport-neutral by exposing definition aliases. */
     publicInput(input) {
         const aliases = getOmniRelationProjectionAliases(this.definition);
         const output = { ...input };

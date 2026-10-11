@@ -421,7 +421,7 @@ export function isProviderOverride(
   return !!casted.provider;
 }
 
-export function CrudGenDependencyFactory<Entity extends Record<string, any>>({
+export function CrudGenDependencyFactory<Entity extends Record<string, unknown>>({
   entityModel,
   dataloader,
   resolver,
@@ -448,7 +448,7 @@ export function CrudGenDependencyFactory<Entity extends Record<string, any>>({
   };
 }
 
-export function CrudGenBackendFactory<Entity extends Record<string, any>>({
+export function CrudGenBackendFactory<Entity extends Record<string, unknown>>({
   entityModel,
   dataloader,
   service,
@@ -511,7 +511,7 @@ export function CrudGenBackendFactory<Entity extends Record<string, any>>({
   return result;
 }
 
-export function CrudGenGraphqlFactory<Entity extends Record<string, any>>({
+export function CrudGenGraphqlFactory<Entity extends Record<string, unknown>>({
   entityModel,
   resolver,
   serviceToken,

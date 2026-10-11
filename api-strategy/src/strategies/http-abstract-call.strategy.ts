@@ -39,7 +39,7 @@ export interface IHttpCallStrategyOptions {
  */
 export interface HttpOptions<
   TData = string | object | Buffer | NodeJS.ReadableStream,
-  TParams extends Record<string, any> = Record<string, any>,
+  TParams extends Record<string, unknown> = Record<string, unknown>,
 > {
   /** HTTP headers to include in the request */
   headers?: IncomingHttpHeaders | Record<string, string>;
@@ -86,7 +86,7 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
   /**
    * Execute an HTTP request with full control over method, data, and parameters.
    * @template TOptData - The type of request body data (default: string | object | Buffer | stream)
-   * @template TParams - The shape of URL query parameters (default: Record<string, any>)
+   * @template TParams - The shape of URL query parameters (default: Record<string, unknown>)
    * @template TResData - The expected type of the response body after parsing
    * @param path - The URL path or full URL to request
    * @param options - HTTP request configuration including method, headers, data, and parameters
@@ -104,7 +104,7 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
    * console.log(response.data.id); // TypeScript knows this is a number
    * ```
    */
-  call<TOptData, TParams extends Record<string, any>, TResData>(
+  call<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: HttpOptions<TOptData, TParams> | { method?: string },
   ): Promise<IHttpCallStrategyResponse<TResData>>;
@@ -128,7 +128,7 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
    * console.log(response.data.total);
    * ```
    */
-  get<TOptData, TParams extends Record<string, any>, TResData>(
+  get<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: HttpOptions<TOptData, TParams> | { method?: string },
   ): Promise<IHttpCallStrategyResponse<TResData>>;
@@ -156,7 +156,7 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
    * console.log(response.data.orderId);
    * ```
    */
-  post<TOptData, TParams extends Record<string, any>, TResData>(
+  post<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: HttpOptions<TOptData, TParams> | { method?: string },
   ): Promise<IHttpCallStrategyResponse<TResData>>;
@@ -170,7 +170,7 @@ export interface IHttpCallStrategy extends IApiCallStrategy {
  * @example
  * ```typescript
  * class MyHttpStrategy extends HttpAbstractStrategy {
- *   async call<TOptData, TParams extends Record<string, any>, TResData>(
+ *   async call<TOptData, TParams extends Record<string, unknown>, TResData>(
  *     path: string,
  *     options?: HttpOptions<TOptData, TParams>
  *   ): Promise<IHttpCallStrategyResponse<TResData>> {
@@ -191,7 +191,7 @@ export abstract class HttpAbstractStrategy implements IHttpCallStrategy {
    * @param options - HTTP request configuration including method, headers, data, and parameters
    * @returns Promise resolving to the HTTP response with typed data
    */
-  abstract call<TOptData, TParams extends Record<string, any>, TResData>(
+  abstract call<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: HttpOptions<TOptData, TParams> | { method?: string },
   ): Promise<IHttpCallStrategyResponse<TResData>>;
@@ -206,7 +206,7 @@ export abstract class HttpAbstractStrategy implements IHttpCallStrategy {
    * @param options - HTTP request configuration (method will be overridden to GET)
    * @returns Promise resolving to the HTTP response with typed data
    */
-  get<TOptData, TParams extends Record<string, any>, TResData>(
+  get<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: HttpOptions<TOptData, TParams> | { method?: string },
   ): Promise<IHttpCallStrategyResponse<TResData>> {
@@ -226,7 +226,7 @@ export abstract class HttpAbstractStrategy implements IHttpCallStrategy {
    * @param options - HTTP request configuration (method will be overridden to POST)
    * @returns Promise resolving to the HTTP response with typed data
    */
-  post<TOptData, TParams extends Record<string, any>, TResData>(
+  post<TOptData, TParams extends Record<string, unknown>, TResData>(
     path: string,
     options?: HttpOptions<TOptData, TParams> | { method?: string },
   ): Promise<IHttpCallStrategyResponse<TResData>> {

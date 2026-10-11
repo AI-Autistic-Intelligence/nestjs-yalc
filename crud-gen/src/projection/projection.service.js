@@ -10,6 +10,11 @@ function isFindOperator(value) {
             'type' in value &&
             'value' in value));
 }
+/**
+ * Generic scoped CRUD behavior for one projection definition. The consumer
+ * supplies only immutable metadata, a trusted scope context and a repository;
+ * JSON paths and dialect SQL stay inside the framework.
+ */
 export class ProjectionResourceService {
     constructor(repository, scope, dialect, events, definition) {
         this.repository = repository;
@@ -20,6 +25,10 @@ export class ProjectionResourceService {
         assertProjectionResourceDefinition(definition);
     }
     supportsStructuredGraphqlFilters() {
+        // CrudGen's public filter input can model boolean trees, but this dialect
+        // adapter only has one conjunctive ProjectionFilter list. Advertising the
+        // capability remains correct for the documented AND-only subset; all
+        // other shapes fail before query compilation.
         return true;
     }
     supportsExtendedRepository() {

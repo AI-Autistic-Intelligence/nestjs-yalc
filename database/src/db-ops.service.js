@@ -10,6 +10,9 @@ const Engine = tslib_1.__importStar(require("typeorm-model-generator/dist/src/En
 const IConnectionOptions_1 = require("typeorm-model-generator/dist/src/IConnectionOptions");
 const IGenerationOptions_1 = require("typeorm-model-generator/dist/src/IGenerationOptions");
 const seed_service_1 = require("./seed.service");
+/**
+ * Application service
+ */
 let DbOpsService = class DbOpsService {
     constructor(_options, loggerService, seedService, dbConnections) {
         this.loggerService = loggerService;
@@ -67,6 +70,7 @@ let DbOpsService = class DbOpsService {
             migrationExecutor.transaction = 'all';
             const migrations = await migrationExecutor.getAllMigrations();
             const dbName = v.conn.driver.database ?? v.dbName;
+            // if there are no migrations, then do not execute anything!
             if (!Array.isArray(migrations) || migrations.length <= 0) {
                 this.loggerService.debug?.(`No migrations available on ${dbName}`);
                 continue;
@@ -76,7 +80,7 @@ let DbOpsService = class DbOpsService {
                 const pendingMigrations = await migrationExecutor.getPendingMigrations();
                 const selectedMigrations = dbName
                     ? options.selMigrations[dbName]
-                    : true;
+                    : true; // execute all migrations when it's a connection without db specified
                 for (const migration of pendingMigrations) {
                     if (selectedMigrations === true ||
                         (Array.isArray(selectedMigrations) &&

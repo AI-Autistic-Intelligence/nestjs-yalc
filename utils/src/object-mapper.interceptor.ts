@@ -8,8 +8,8 @@ import { Observable, map } from 'rxjs';
 import { objectMapper, ObjectMapperType } from '@node-yalc/utils/object-mapper.helper.js';
 
 export function objectMapperInterceptor<
-  TInputObject extends Record<string, any>,
-  TOutputObject extends Record<string, any>,
+  TInputObject extends Record<string, unknown>,
+  TOutputObject extends Record<string, unknown>,
 >(
   mapper: ObjectMapperType<TInputObject, TOutputObject>,
   options: {
@@ -19,13 +19,13 @@ export function objectMapperInterceptor<
      * of the data contains the object that needs to be mapped in a nested property
      * Can also be used to transform the data before mapping
      */
-    transformData?: { (data: any): any };
-    callback?: { (inputData: any, outputData: any): any };
+    transformData?: { (data: unknown): unknown };
+    callback?: { (inputData: unknown, outputData: unknown): unknown };
   } = {},
 ) {
   @Injectable()
   class ObjectMapperInterceptor implements NestInterceptor {
-    intercept(_context: ExecutionContext, next: CallHandler): Observable<any> {
+    intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown> {
       return next.handle().pipe(
         map((data) => {
           const _data = options.transformData

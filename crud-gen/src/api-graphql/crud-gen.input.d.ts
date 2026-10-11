@@ -2,6 +2,9 @@ import { ClassType } from '@node-yalc/types/globals.js';
 import { SortDirection } from '../crud-gen.enum.js';
 import { ICrudGenBaseParams, ISortModel } from './crud-gen-gql.interface.js';
 export { JoinTypes } from './crud-gen-gql.interface.js';
+/**
+ * @deprecated use sortModelFactory instead
+ */
 export declare class SortModel<T = any> implements ISortModel<T> {
     colId: string;
     sort: SortDirection;

@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * # LSASS Process Handle & Credential Dumping Guard (`lsass-guard.ts`)
+ * Intercepts process handle access requests targeting security processes
+ * (Academic Ref: *Evading EDR*, No Starch Press - Ch. 4 & 12).
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LsassCredentialGuardEngine = void 0;
 class LsassCredentialGuardEngine {

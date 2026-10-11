@@ -16,6 +16,9 @@ export declare class GenericTypeORMRepository<Entity extends ObjectLiteral> exte
     protected entity: EntityClassOrSchema;
     getCrudGenCapabilities(): CrudGenRepositoryCapabilities;
     supportsExtendedRepository(): boolean;
+    /**
+     * @todo we should create a class helper/adapter for the findOptions and move this method there
+     */
     getActualLimits(findOptions: CrudGenFindManyOptions<Entity>): {
         skip?: number;
         take?: number;
@@ -33,12 +36,20 @@ export declare class GenericTypeORMRepository<Entity extends ObjectLiteral> exte
         };
     }): SelectQueryBuilder<Entity>;
     processQueryBuilderWithCount(queryBuilder: SelectQueryBuilder<Entity>, findOptions: CrudGenFindManyOptions<Entity>): Promise<[Entity[], number]>;
+    /**
+     * Returns a List of entities based in the provided options.
+     * @param findOptions Filter options
+     */
     getManyAndCountExtended(findOptions: CrudGenFindManyOptions<Entity>, fieldMap?: {
         parent: IFieldMapper;
         joined: IFieldMapper | {
             [key: string]: IFieldMapper;
         };
     }): Promise<[Entity[], number]>;
+    /**
+     * Returns a List of entities based in the provided options.
+     * @param findOptions Filter options
+     */
     getManyExtended(findOptions: CrudGenFindManyOptions<Entity>, fieldMap?: {
         parent: IFieldMapper;
         joined: IFieldMapper | {
@@ -51,8 +62,18 @@ export declare class GenericTypeORMRepository<Entity extends ObjectLiteral> exte
             [key: string]: IFieldMapper;
         };
     }): Promise<number>;
+    /**
+     * @param findOptions All we need to select, filter, order and join the data
+     * @param withFail If true ignore the fail, if false when u don't find a entity it'll trhow an error
+     * @param mode Set it to true to query data after a mutation
+     */
     getOneExtended(findOptions: CrudGenFindManyOptions<Entity>, withFail?: boolean, mode?: ReplicationMode): Promise<Entity>;
     private getOneOrFail;
+    /**
+     *
+     * @param ids Could be either a object map between entity primaryColumn name and value or a single value of the primaryColumn
+     * @returns where filter with conditions on entity primaryColumn
+     */
     generateFilterOnPrimaryColumn(ids: any): Partial<{ [key in keyof Entity]: import("../api-graphql/crud-gen-gql.type.js").IWhereConditionType; }>;
     generateSelectOnFind(fields: (keyof Entity)[], gqlType: ClassType<Entity>): CrudGenFindManyOptions<any>;
 }

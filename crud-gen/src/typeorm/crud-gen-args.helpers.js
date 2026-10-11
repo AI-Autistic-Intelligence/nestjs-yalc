@@ -9,6 +9,7 @@ export function getTextFilter(filter, firstParameter) {
     switch (filter.toLowerCase()) {
         case GeneralFilters.EQUALS.toLowerCase():
             return Equal(firstParameter);
+        //NOT_EQUAL should use the EQUALS condition, but the name is a little bit different
         case GeneralFilters.EQUAL.toLowerCase():
             return Equal(firstParameter);
         case GeneralFilters.STARTSWITH.toLowerCase():
@@ -66,6 +67,7 @@ export function getDateFilter(filter, firstParameter, secondParameter) {
 export function filterSwitch(filter, filterName) {
     let arg1 = undefined;
     let arg2 = undefined;
+    // handle SET before hand
     if (isSetFilterModel(filter)) {
         return In(filter.values);
     }
@@ -78,7 +80,7 @@ export function filterSwitch(filter, filterName) {
         arg2 = filter.filterTo;
     }
     else {
-        arg1 = filter.filter;
+        arg1 = filter.filter; // text filter model
     }
     if (arg1 === undefined) {
         throw new CrudGenInvalidArgumentError();
@@ -150,6 +152,10 @@ export function createWhere(filtersObject, fieldMapper, alias, where = { filters
     if (filtersObject.expressions) {
         Object.values(filtersObject.expressions).map((field) => {
             const exprTypes = Object.keys(field);
+            /**
+             * Since union for input types are not possible yet, we need this check
+             * @see https://github.com/graphql/graphql-spec/issues/488
+             */
             if (exprTypes.length > 1) {
                 throw new CrudGenError(`Field can't use more than one expression type on same expression: ${exprTypes}`);
             }
@@ -162,17 +168,22 @@ export function createWhere(filtersObject, fieldMapper, alias, where = { filters
             filtersObjectCleared.push({
                 ...expr,
                 field: filterName,
-                filterType: exprType,
+                filterType: exprType /**@todo fix type */,
             });
         });
     }
     if (filtersObject.operator !== undefined) {
         where.operator = filtersObject.operator;
     }
+    // we skip the "filters" property of the first level and use the childExpressions
+    // directly in order to be able processing conditions on same column name
     const childExpressions = where.childExpressions ?? [];
     for (const expr of filtersObjectCleared) {
+        // for every property in the mapper or in the query we're checking if the relative filter exist
         const key = expr.field;
         if (isFilterModel(expr) || isCombinedFilterModel(expr)) {
+            // after processing the filter, we take advantage of a function to perform all the necessary checks
+            // and manage the filter cases based on the type of the filter itself
             childExpressions.push({
                 filters: { [key]: resolveFilter(expr) },
             });
@@ -221,12 +232,14 @@ export function mapCrudGenParam(params, select, args, options = {}) {
         fieldMapper = fieldMapperAndFilter.field;
     }
     const defaultSorting = params?.defaultValue?.sorting;
+    // MAP filter -> where
     const where = args.filters
         ? createWhere(args.filters, fieldMapper)
         : { filters: {} };
     if (filterOption) {
         checkFilterScope(where, filterOption);
     }
+    // MAP sorting -> order
     const order = mapSortingParamsToTypeORM(args.sorting ?? defaultSorting ?? [], (col) => {
         let colName = col.toString();
         if (fieldMapper[colName]?.mode === 'derived') {
@@ -237,6 +250,7 @@ export function mapCrudGenParam(params, select, args, options = {}) {
         }
         return colName;
     });
+    // MAP startRow/endRow -> take/skip
     const { take, skip } = mapPaginationParamsToTypeORM(args.startRow, args.endRow, params?.options?.maxRow);
     const skipCount = !options.isCount;
     const findManyOptions = {
@@ -280,6 +294,7 @@ export function mapSortingParamsToTypeORM(sorting, transform) {
             const colName = transform?.(col) ?? col;
             const val = sortParams.sort?.toUpperCase();
             const sortDir = val ?? 'ASC';
+            /** @todo fix typehinting error when we remove 'as any' */
             order[colName] = sortDir;
         });
     }

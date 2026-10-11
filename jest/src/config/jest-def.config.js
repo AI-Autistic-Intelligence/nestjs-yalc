@@ -71,6 +71,20 @@ const coverageThreshold = (projects = [], defaultCoverageThreshold = {
         },
     };
     projects.map((project) => {
+        // /**
+        //  * @todo  should be removed and be set to 100% asap
+        //  */
+        // switch (project.name) {
+        //   case 'unit/common/crud-gen':
+        //     branches = 92.27;
+        //     functions = 98.92;
+        //     lines = 98.75;
+        //     statements = 98.5;
+        //     break;
+        //   default:
+        //     branches = 100;
+        //     break;
+        // }
         coverage[project.rootDir] = {
             ...defaultCoverageThreshold,
         };
@@ -84,9 +98,17 @@ const coverageThreshold = (projects = [], defaultCoverageThreshold = {
     return coverage;
 };
 exports.coverageThreshold = coverageThreshold;
+/**
+ * for both unit and e2e
+ * @param dirname
+ * @returns
+ */
 const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
     const tsConfigFile = readTsConfig.getTsconfig(path.join(dirname, 'tsconfig.json'));
     const compilerOptions = tsConfigFile?.config.compilerOptions ?? {};
+    // We need this to make sure that some esm modules are transformed
+    // ref: https://github.com/nrwl/nx/issues/812
+    // ref: https://github.com/jaredpalmer/tsdx/issues/187#issuecomment-825536863
     const config = {
         rootDir: dirname,
         modulePathIgnorePatterns: [
@@ -99,7 +121,7 @@ const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
             '.*/dist/',
         ],
         testEnvironment: 'node',
-        moduleFileExtensions: [...jest_config_1.defaults.moduleFileExtensions, 'ts'],
+        moduleFileExtensions: [...jest_config_1.defaults.moduleFileExtensions, 'ts'], // add typescript to the default options
         transformIgnorePatterns: ['node_modules[\\\\/](?!(p-map|lodash-es|@faker-js|@nestjs|nestjs-cls)[\\\\/])'],
         testRegex: '.*\\.spec\\.ts$',
         transform: {
@@ -144,6 +166,7 @@ const defaultConf = (dirname, options = {}, _tsJestConfig = {}) => {
             }),
         },
         errorOnDeprecated: true,
+        // injectGlobals: false,
         ...options?.jestConf,
     };
     if (options.transformEsModules) {

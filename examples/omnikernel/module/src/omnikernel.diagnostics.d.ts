@@ -6,6 +6,10 @@ export interface OmniKernelQueryPlanEvidence {
     usesRecordGridIndex: boolean;
     usesRelationSourceIndex: boolean;
 }
+/**
+ * Bounded operator evidence for the two high-fanout generated read shapes.
+ * This is diagnostic-only: CRUD continues to use the normal TypeORM path.
+ */
 export declare function collectOmniKernelQueryPlanEvidence(dataSource: DataSource, sample: {
     scopeId: string;
     recordKind: string;

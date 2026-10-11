@@ -13,8 +13,8 @@ function isLikeOutputObject<TOutputObject>(
 }
 
 export function modelFieldToDest<
-  TInputObject extends Record<string, any>,
-  TOutputObject extends Record<string, any>,
+  TInputObject extends Record<string, unknown>,
+  TOutputObject extends Record<string, unknown>,
 >(
   inputObject: TInputObject,
   outputObject: TOutputObject,

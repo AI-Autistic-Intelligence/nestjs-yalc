@@ -7,13 +7,20 @@ import { GenericService } from '@nest-yalc-2/crud-gen/typeorm/generic.service.js
 import { ClassType } from '@node-yalc/types/globals.js';
 import { type EventEmitter2 } from 'eventemitter2';
 export type SearchKeyType<E, T = string> = [keyof E, T] | T | undefined;
-export declare class GQLDataLoader<Entity extends Record<string, any> = any> {
+/**
+ * This class creates different dataloaders based on the query path
+ * in order to support GraphQL aliases
+ */
+export declare class GQLDataLoader<Entity extends Record<string, unknown> = any> {
     private readonly eventEmitter?;
     private count;
     private batchFn;
     private searchKey;
     private options;
     private dataLoaders;
+    /**
+     * to cache generated dataloader keys
+     */
     private keyMap;
     constructor(getFn: (findManyOptions: CrudGenFindManyOptions<Entity>) => Promise<FindAndCountResult<Entity>>, searchKey: keyof Entity, eventEmitter?: EventEmitter2 | undefined, options?: _DataLoader.Options<string, Entity[], string>);
     getSearchKey(): keyof Entity;
@@ -25,5 +32,5 @@ export declare class GQLDataLoader<Entity extends Record<string, any> = any> {
     loadOneToMany(key: SearchKeyType<Entity>, findOptions: CrudGenFindManyOptions<Entity>, withCount?: true): Promise<FindAndCountResult<Entity>>;
 }
 export declare const getFn: <Entity extends ObjectLiteral>(service: GenericService<Entity>) => (findManyOptions: CrudGenFindManyOptions) => Promise<[Entity[], number]>;
-export declare function DataLoaderFactory<Entity extends Record<string, any>>(defaultSearchKey: keyof Entity, entity: ClassType, serviceToken?: string): FactoryProvider;
+export declare function DataLoaderFactory<Entity extends Record<string, unknown>>(defaultSearchKey: keyof Entity, entity: ClassType, serviceToken?: string): FactoryProvider;
 export declare function getDataloaderToken(entity: ClassType | string): string;

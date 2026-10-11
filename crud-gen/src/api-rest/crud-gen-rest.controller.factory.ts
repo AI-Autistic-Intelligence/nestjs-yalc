@@ -43,7 +43,7 @@ export interface CrudRestMutationsOptions {
   delete?: CrudRestMutationOptions;
 }
 
-export interface CrudRestControllerOptions<Entity extends Record<string, any>> {
+export interface CrudRestControllerOptions<Entity extends Record<string, unknown>> {
   entityModel: ClassType<Entity>;
   /**
    * DTO used to serialize output. Defaults to `entityModel`.
@@ -96,7 +96,7 @@ const toKebabCase = (value: string) =>
     .replace(/_+/g, '-')
     .toLowerCase();
 
-function inferSinglePrimaryField<Entity extends Record<string, any>>(
+function inferSinglePrimaryField<Entity extends Record<string, unknown>>(
   entityModel: ClassType<Entity>,
 ) {
   const primaryColumns = getMetadataArgsStorage().columns.filter((column) => {
@@ -113,7 +113,7 @@ function inferSinglePrimaryField<Entity extends Record<string, any>>(
     : undefined;
 }
 
-export function crudRestControllerFactory<Entity extends Record<string, any>>(
+export function crudRestControllerFactory<Entity extends Record<string, unknown>>(
   options: CrudRestControllerOptions<Entity>,
 ) {
   const {

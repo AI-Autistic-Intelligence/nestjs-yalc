@@ -26,6 +26,17 @@ export function crudGenRestPaginationInterceptorWorker(startRow, endRow) {
         };
     };
 }
+/**
+ * This interceptor is used to add pagination to the response
+ * by creating an object with the following structure:
+ * {
+ *   list: [data],
+ *   pageData: {
+ *     count: number,
+ *     startRow: number,
+ *     endRow: number,
+ *    }
+ */
 let CrudGenRestPaginationInterceptor = class CrudGenRestPaginationInterceptor {
     intercept(context, next) {
         const http = context.switchToHttp();
@@ -54,10 +65,10 @@ export function buildCrudGenRestMapperInterceptor(entityToDtoSchema, withPaginat
 export function buildCrudGenRestSimpleMapperInterceptor(dto, withPagination = false) {
     return buildSimpleMapperInterceptor(dto, {
         transformer: (data) => {
-            return withPagination ? data[0] : data;
+            return (withPagination ? data[0] : data);
         },
         callback: (inputData, data) => {
-            return withPagination ? [data, inputData[1]] : data;
+            return (withPagination ? [data, inputData[1]] : data);
         },
     });
 }
@@ -71,6 +82,9 @@ export function buildPaginatedResultDto(dto) {
     }
     return NewPaginatedResultDto;
 }
+/**
+ * Can be used in combination with the ClassSerializerInterceptor
+ */
 export function buildPaginatedDTOInterceptor(dto) {
     let PaginateDTOInterceptor = class PaginateDTOInterceptor {
         intercept(context, next) {
@@ -94,6 +108,9 @@ export function buildPaginatedDTOInterceptor(dto) {
     ], PaginateDTOInterceptor);
     return PaginateDTOInterceptor;
 }
+/**
+ * Can be used in combination with the ClassSerializerInterceptor
+ */
 export function buildDTOInterceptor(dto) {
     let DtoInterceptor = class DtoInterceptor {
         intercept(_context, next) {

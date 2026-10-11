@@ -18,9 +18,11 @@ function freeze(definition) {
     }
     return definition;
 }
+/** Resolves legacy kind syntax into the canonical immutable allowed-kind set. */
 export function getOmniRelationProjectionAllowedKinds(definition) {
     return definition.relation.allowedKinds ?? [definition.relation.kind];
 }
+/** Resolves omitted aliases to the native OmniRelationEntity field names. */
 export function getOmniRelationProjectionAliases(definition) {
     return {
         kind: definition.aliases?.kind ?? 'kind',
@@ -29,6 +31,11 @@ export function getOmniRelationProjectionAliases(definition) {
         payload: definition.aliases?.payload ?? 'payload',
     };
 }
+/**
+ * Defines one generated relation resource over omni-relation. A resource can
+ * expose one or more registered relation kinds, while status, schema, and
+ * endpoint kinds remain server-owned.
+ */
 export function defineOmniRelationProjection(definition) {
     assertFixedValue(definition.id, 'Omni relation projection id', 128);
     const relation = definition.relation;

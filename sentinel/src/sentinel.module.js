@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * # NestJS Ferrox-Node Sentinel Module (`sentinel.module.ts`)
+ */
 var FerroxSentinelModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FerroxSentinelModule = void 0;

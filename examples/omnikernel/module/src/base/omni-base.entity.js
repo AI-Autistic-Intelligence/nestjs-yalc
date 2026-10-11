@@ -4,6 +4,11 @@ import { BaseEntity, CreateDateColumn, DeleteDateColumn, PrimaryColumn, UpdateDa
 let OmniBaseEntity = class OmniBaseEntity extends BaseEntity {
     constructor() {
         super(...arguments);
+        /**
+         * The server-owned partition key. It is never represented by the public
+         * CRUD DTOs. Together with guid it is the composite primary identity, which
+         * lets the same logical GUID exist in independent server-owned partitions.
+         */
         this.scopeId = 'default';
     }
 };

@@ -15,14 +15,21 @@ let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter 
     catch(error, host, { sendResponse } = { sendResponse: true }) {
         try {
             const isHttpError = this.isHttpError(error) || error instanceof common.HttpException;
+            // TODO: Validate when monitoring is in place if we need an eventEmitter here instead of log
             switch (true) {
+                // Base logging for normal operation execution errors
                 case error instanceof MissingArgumentsError:
                     this.logger.log(error.message, {
                         ...(error.stack !== undefined ? { stack: error.stack } : {}),
                     });
                     break;
                 case isDefaultErrorMixin(error):
+                    // no need to log, DefaultErrorMixin already logs
                     break;
+                /**
+                 * Log original error message (for now only if is an EntityError)
+                 * @todo refactor with the default error mixin
+                 */
                 case isEntityError(error):
                     {
                         const entityError = error;
@@ -68,6 +75,7 @@ let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter 
                 case error instanceof GqlError:
                     this.logger.error(error.systemMessage ?? error.message);
                     break;
+                // Log critically any other error, as those are not expected
                 default:
                     this.logger.error(error.message, error.stack, {
                         ...(error.stack !== undefined ? { stack: error.stack } : {}),
@@ -90,7 +98,8 @@ let HttpExceptionFilter = class HttpExceptionFilter extends BaseExceptionFilter 
             }
         }
         catch (e) {
-            console.error(e);
+            // eslint-disable-next-line no-console
+            console.error(e); // if there's an error with the logger itself
         }
         return error;
     }

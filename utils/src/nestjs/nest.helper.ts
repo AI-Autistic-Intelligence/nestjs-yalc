@@ -1,5 +1,5 @@
 import { Provider } from '@nestjs/common';
 
-export function isProviderObject(obj: any): obj is Provider {
-  return obj && typeof obj === 'object' && 'provide' in obj;
+export function isProviderObject(obj: unknown): obj is Provider {
+  return obj !== null && typeof obj === 'object' && 'provide' in obj;
 }

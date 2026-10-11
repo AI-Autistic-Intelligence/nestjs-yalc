@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * # SBOM & Supply Chain Dependency Integrity Guard (`sbom-verifier.ts`)
+ * Package SHA-256 cryptographic hash & dependency integrity validator
+ * (Academic Ref: *Intelligent Continuous Security*, O'Reilly - Ch. 7).
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SbomSupplyChainVerifierEngine = void 0;
 const tslib_1 = require("tslib");

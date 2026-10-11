@@ -54,7 +54,7 @@ export class TelemetryService {
       return this.tracer.startActiveSpan(
         name,
         { attributes: normalizedAttributes },
-        (span) =>
+        (span: any) =>
           this.measureWithSpan(
             name,
             operation,
