@@ -20,6 +20,7 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
     "exactOptionalPropertyTypes": true,
     "ignoreDeprecations": "6.0",
     "target": "es2022",
