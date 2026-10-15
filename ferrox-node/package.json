@@ -1,6 +1,7 @@
 {
   "name": "@ferrox-node/core",
   "version": "2.2.18",
+  "private": true,
   "main": "index.js",
   "exports": {
     ".": "./index.js"

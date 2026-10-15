@@ -1,13 +1,30 @@
 import { __decorate, __metadata, __param } from "tslib";
 import { Inject, Injectable } from '@nestjs/common';
 import { logs } from '@opentelemetry/api-logs';
-import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
-import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
-import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
-import { NodeSDK } from '@opentelemetry/sdk-node';
-import { SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { OBSERVABILITY_OPTIONS } from './tokens.js';
+let OTLPLogExporter;
+let OTLPMetricExporter;
+let OTLPTraceExporter;
+let PeriodicExportingMetricReader;
+let NodeSDK;
+let SimpleLogRecordProcessor;
+try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    ({ OTLPLogExporter } = require('@opentelemetry/exporter-logs-otlp-http'));
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    ({ OTLPMetricExporter } = require('@opentelemetry/exporter-metrics-otlp-http'));
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    ({ OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http'));
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    ({ PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics'));
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    ({ NodeSDK } = require('@opentelemetry/sdk-node'));
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    ({ SimpleLogRecordProcessor } = require('@opentelemetry/sdk-logs'));
+}
+catch {
+    // Optional exporter dependencies not installed in test or lightweight runner
+}
 let OpenTelemetrySdkService = class OpenTelemetrySdkService {
     constructor(options) {
         this.options = options;
@@ -18,34 +35,43 @@ let OpenTelemetrySdkService = class OpenTelemetrySdkService {
             return;
         }
         await this.execute(() => this.sdk?.shutdown());
-        logs.disable();
+        try {
+            logs.disable();
+        }
+        catch { }
         this.sdk = undefined;
     }
     start() {
-        if (!this.options.enabled) {
+        if (!this.options.enabled || !NodeSDK) {
             return;
         }
         const endpoint = this.options.otlpEndpoint;
         this.sdk = new NodeSDK({
             serviceName: this.options.serviceName,
-            traceExporter: new OTLPTraceExporter({
-                url: `${endpoint}/v1/traces`,
-            }),
-            metricReaders: [
-                new PeriodicExportingMetricReader({
-                    exporter: new OTLPMetricExporter({
-                        url: `${endpoint}/v1/metrics`,
+            traceExporter: OTLPTraceExporter
+                ? new OTLPTraceExporter({
+                    url: `${endpoint}/v1/traces`,
+                })
+                : undefined,
+            metricReaders: PeriodicExportingMetricReader && OTLPMetricExporter
+                ? [
+                    new PeriodicExportingMetricReader({
+                        exporter: new OTLPMetricExporter({
+                            url: `${endpoint}/v1/metrics`,
+                        }),
+                        exportIntervalMillis: this.options.metricExportIntervalMillis,
                     }),
-                    exportIntervalMillis: this.options.metricExportIntervalMillis,
-                }),
-            ],
-            logRecordProcessors: [
-                new SimpleLogRecordProcessor({
-                    exporter: new OTLPLogExporter({
-                        url: `${endpoint}/v1/logs`,
+                ]
+                : [],
+            logRecordProcessors: SimpleLogRecordProcessor && OTLPLogExporter
+                ? [
+                    new SimpleLogRecordProcessor({
+                        exporter: new OTLPLogExporter({
+                            url: `${endpoint}/v1/logs`,
+                        }),
                     }),
-                }),
-            ],
+                ]
+                : [],
         });
         this.execute(() => this.sdk?.start());
     }
