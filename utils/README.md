@@ -1,10 +1,10 @@
-
-  @nest-yalc-2/utils
-  <em>Core enterprise module for the @nest-yalc-2/utils integration within the Ferrox/YALC ecosystem.</em>
+<div align="center">
+  <h1>@nest-yalc-2/utils</h1>
+  <p><em>Core enterprise module for the @nest-yalc-2/utils integration within the Ferrox/YALC ecosystem.</em></p>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Futils.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Futils)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Futils.svg)](https://github.com/AI-Autistic-Intelligence)
-
+</div>
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/utils
 pnpm add @nest-yalc-2/utils
 ```
 
-<hr/>
+---
 
 # Core Utilities, Helpers & Object Manipulation
 
 The `@nestjs-yalc/utils` package is the core utility toolkit for the NestJS-Yalc ecosystem. It provides high-performance, type-safe utility functions for object manipulation, array operations, concurrent async processing, string transformations, class reflection helpers, and cryptographic hashing.
 
-<hr/>
+---
 
 ## 1. What It Is & Architectural Purpose
 
@@ -44,7 +44,7 @@ Node.js enterprise applications frequently require low-level helper routines: de
 └──────────────────┘       └──────────────────┘         └──────────────────┘        └──────────────────┘
 ```
 
-<hr/>
+---
 
 ## 2. What It Does & Key Capabilities
 
@@ -54,7 +54,7 @@ Node.js enterprise applications frequently require low-level helper routines: de
 - **Class & Reflection Helpers**: Utility methods to inspect NestJS metadata keys, extract class property names, and manipulate decorators at runtime.
 - **Deterministic Hashing**: Fast SHA-256 and MD5 hashing helpers for object checksum comparison and caching keys.
 
-<hr/>
+---
 
 ## 3. How It Works Under the Hood
 
@@ -77,7 +77,7 @@ sequenceDiagram
     Output-->>App: Promise.all Settled Output Array
 ```
 
-<hr/>
+---
 
 ## 4. Why It Was Designed This Way
 
@@ -87,7 +87,7 @@ sequenceDiagram
 | **Concurrency** | `Promise.all` executes all items simultaneously, overloading DB pools. | Controlled concurrency limits (e.g., max 10 concurrent requests). |
 | **Type Safety** | Loose `any` typing in generic helpers. | Fully typed TS generics preserving object schema inferencing. |
 
-<hr/>
+---
 
 ## 5. Practical Usage Guide & Extended Code Examples
 
@@ -132,7 +132,7 @@ const safeObject = sanitizeObject(rawUserData, ['passwordHash', 'cvv']);
 const cacheKey = hashObject(safeObject);
 ```
 
-<hr/>
+---
 
 ## 6. Anti-Patterns: How NOT to Use It
 
@@ -140,7 +140,7 @@ const cacheKey = hashObject(safeObject);
 > **Anti-Pattern 1: Unbounded Concurrency**
 > Setting `concurrency: 1000` in `runConcurrently()` defeats the purpose of queue throttling and will exhaust Node.js socket pools or TypeORM database connection limits.
 
-<hr/>
+---
 
 ## 7. Pro-Tips & Best Practices
 
@@ -149,7 +149,7 @@ const cacheKey = hashObject(safeObject);
 > Use `deepMerge(target, source)` when building composite configuration objects in microservice factories to guarantee nested properties are merged cleanly without mutating original templates.
 
 
-<hr/>
+---
 
 ## 🔗 Cross-References
 
@@ -160,7 +160,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Node-YALC Errors](https://ferrox-rust.dev/docs/nestjs-yalc/node-yalc/docs/fundamentals/errors)
 
 
-<hr/>
+---
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

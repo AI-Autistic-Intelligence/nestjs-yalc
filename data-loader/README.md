@@ -1,10 +1,10 @@
-
-  @nest-yalc-2/data-loader
-  <em>Core enterprise module for the @nest-yalc-2/data-loader integration within the Ferrox/YALC ecosystem.</em>
+<div align="center">
+  <h1>@nest-yalc-2/data-loader</h1>
+  <p><em>Core enterprise module for the @nest-yalc-2/data-loader integration within the Ferrox/YALC ecosystem.</em></p>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fdata-loader.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fdata-loader)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fdata-loader.svg)](https://github.com/AI-Autistic-Intelligence)
-
+</div>
 
 ## 🚀 Installation
 
@@ -16,21 +16,21 @@ yarn add @nest-yalc-2/data-loader
 pnpm add @nest-yalc-2/data-loader
 ```
 
-<hr/>
+---
 
 # 🚀 Automated GraphQL DataLoader Batching (`@nest-yalc-2/data-loader`)
 
 ## 💡 1. What It Is & Architectural Purpose
 `@nest-yalc-2/data-loader` is the automated query optimization module for GraphQL APIs in NestJS. It eliminates the **N+1 query problem** at the root, reducing database query complexity from quadratic (O(N * M)) to constant (O(1)).
 
-<hr/>
+---
 
 ## ⚙️ 2. What It Does & Key Features
 - **Automated Relational Field Batching**: Collects all entity IDs requested by nested GraphQL field resolvers during the same Event Loop tick and groups them into a single SQL `WHERE IN (...)` query.
 - **In-Memory Request Caching**: Temporarily caches results during the lifecycle of a single HTTP/GraphQL request to prevent duplicate database queries.
 - **Transparent Integration**: Requires no manual `DataLoader` instantiation inside individual resolver files.
 
-<hr/>
+---
 
 ## 🔬 3. How It Works Under the Hood
 
@@ -47,7 +47,7 @@ pnpm add @nest-yalc-2/data-loader
 2. **Bulk Fetch**: Executes a single database query: `SELECT * FROM posts WHERE userId IN ('u1', 'u2', ..., 'u100')`.
 3. **Map Dispatch**: Distributes returned entities back to individual GraphQL field nodes in memory.
 
-<hr/>
+---
 
 ## 🧠 4. Why It Was Designed This Way (Automatic Interceptor vs Manual DataLoader)
 
@@ -57,7 +57,7 @@ pnpm add @nest-yalc-2/data-loader
 | **Database Complexity** | **O(1) Constant** | O(N * M) Quadratic (If developer forgets) |
 | **Maintainability** | **Zero Boilerplate** | Dozens of manual loaders to maintain |
 
-<hr/>
+---
 
 ## 🚀 5. Practical Usage Guide & Extended Code Examples
 
@@ -77,13 +77,13 @@ export class UserResolver {
 }
 ```
 
-<hr/>
+---
 
 ## ⚠️ 6. Anti-Patterns: How NOT to Use It
 
 1. ❌ **DO NOT use DataLoader as a persistent global cache**: DataLoader is scoped strictly to the lifecycle of a single HTTP/GraphQL request. Sharing DataLoader instances across separate requests causes stale data reads.
 
-<hr/>
+---
 
 ## 💡 7. Pro-Tips & Best Practices
 
@@ -91,7 +91,7 @@ export class UserResolver {
 > **OpenTelemetry Tracing**: `@nest-yalc-2/data-loader` emits dedicated OpenTelemetry spans showing exactly how many SQL queries were saved during GraphQL query resolution.
 
 
-<hr/>
+---
 
 ## 🔗 Cross-References
 
@@ -103,7 +103,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [GraphQL Transport Module](https://ferrox-rust.dev/docs/nestjs-yalc/graphql)
 
 
-<hr/>
+---
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

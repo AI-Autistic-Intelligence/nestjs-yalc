@@ -1,10 +1,10 @@
-
-  @nest-yalc-2/sentinel
-  <em>Ferrox-Node Sentinel: AI/ML Security Analytics, Prompt Injection Sanitizer, RAG Groundedness & 35 SOTA Innovations for NestJS</em>
+<div align="center">
+  <h1>@nest-yalc-2/sentinel</h1>
+  <p><em>Ferrox-Node Sentinel: AI/ML Security Analytics, Prompt Injection Sanitizer, RAG Groundedness & 35 SOTA Innovations for NestJS</em></p>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fsentinel.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fsentinel)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fsentinel.svg)](https://github.com/AI-Autistic-Intelligence)
-
+</div>
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/sentinel
 pnpm add @nest-yalc-2/sentinel
 ```
 
-<hr/>
+---
 
 # 🛡️ Sentinel Security Middleware (`@nest-yalc-2/sentinel`)
 
 `@nest-yalc-2/sentinel` is the security middleware and policy enforcement module for NestJS 11+. It enforces OWASP recommended HTTP security headers, CORS origin policies, request payload size bounds, and input sanitization across all REST and GraphQL endpoints.
 
-<hr/>
+---
 
 ## 🌟 Key Features
 
@@ -31,7 +31,7 @@ pnpm add @nest-yalc-2/sentinel
 - **Strict CORS Policy Enforcer**: Validates request origins against dynamically loaded allowed domain patterns.
 - **Payload Bound Validator**: Rejects oversized JSON/GraphQL request payloads to prevent Denial of Service (DoS) memory exhaustion.
 
-<hr/>
+---
 
 ## 🔬 Internal Architecture & Execution Mechanics
 
@@ -53,7 +53,7 @@ flowchart TD
     Sanitizer --> Next
 ```
 
-<hr/>
+---
 
 ## 📊 Architectural Comparison: `@nest-yalc-2/sentinel` vs Helmet.js
 
@@ -63,7 +63,7 @@ flowchart TD
 | **Payload Size Bouncer** | **Built-in Dynamic Bouncer** | Requires Body-Parser Middleware Config |
 | **NestJS Lifecycle Integration** | **Native Dynamic Module (`forRoot`)** | Raw Middleware Mounting |
 
-<hr/>
+---
 
 ## 🚀 Practical Usage & Production Code Examples
 
@@ -93,14 +93,14 @@ import { YalcSentinelModule } from '@nest-yalc-2/sentinel';
 export class AppModule {}
 ```
 
-<hr/>
+---
 
 ## ⚠️ Common Pitfalls & Anti-Patterns
 
 > [!CAUTION]
 > **Using Wildcard CORS (`origin: '*'`) with Credentials**: Allowing wildcard origins (`*`) while enabling `credentials: true` breaks browser security policies and leaves your API vulnerable to Cross-Origin Request Forgery (CSRF). Always specify explicit origin domains.
 
-<hr/>
+---
 
 ## 💡 Best Practices
 
@@ -108,7 +108,7 @@ export class AppModule {}
 > **HSTS Preload**: Enable `Strict-Transport-Security` with `includeSubDomains` and `preload` directives in production to force browsers to interact with your domain exclusively over HTTPS.
 
 
-<hr/>
+---
 
 ## 🔗 Cross-References
 
@@ -117,7 +117,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [GraphQL Transport Module](https://ferrox-rust.dev/docs/nestjs-yalc/transports/graphql)
 
 
-<hr/>
+---
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 

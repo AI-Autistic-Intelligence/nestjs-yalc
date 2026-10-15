@@ -1,10 +1,10 @@
-
-  @nest-yalc-2/ag-grid
-  <em>Core enterprise module for the @nest-yalc-2/ag-grid integration within the Ferrox/YALC ecosystem.</em>
+<div align="center">
+  <h1>@nest-yalc-2/ag-grid</h1>
+  <p><em>Core enterprise module for the @nest-yalc-2/ag-grid integration within the Ferrox/YALC ecosystem.</em></p>
   
   [![npm version](https://badge.fury.io/js/%40nest-yalc-2%2Fag-grid.svg)](https://badge.fury.io/js/%40nest-yalc-2%2Fag-grid)
   [![License](https://img.shields.io/npm/l/%40nest-yalc-2%2Fag-grid.svg)](https://github.com/AI-Autistic-Intelligence)
-
+</div>
 
 ## 🚀 Installation
 
@@ -16,13 +16,13 @@ yarn add @nest-yalc-2/ag-grid
 pnpm add @nest-yalc-2/ag-grid
 ```
 
-<hr/>
+---
 
 # AG-Grid Server-Side Integration & Query Transformers
 
 The `@nestjs-yalc/ag-grid` package provides enterprise-grade, server-side data grid processing for NestJS applications. It automatically translates frontend AG-Grid request payloads (containing complex filtering rules, multi-column sorting, pagination limits, and grouping expressions) into optimized TypeORM `SelectQueryBuilder` execution plans with parameterized SQL generation.
 
-<hr/>
+---
 
 ## 1. What It Is & Architectural Purpose
 
@@ -44,7 +44,7 @@ Modern enterprise applications require rendering massive datasets (millions of r
                                                           └─────────────────────────────┘
 ```
 
-<hr/>
+---
 
 ## 2. What It Does & Key Capabilities
 
@@ -54,7 +54,7 @@ Modern enterprise applications require rendering massive datasets (millions of r
 - **Column Mapping & Security Sanitization**: Maps grid field keys to actual entity properties or joined table aliases while stripping SQL injection vectors.
 - **Relational Field Resolution**: Supports deeply nested column paths (e.g., `user.profile.firstName`) across TypeORM `LEFT JOIN` aliases.
 
-<hr/>
+---
 
 ## 3. How It Works Under the Hood
 
@@ -89,7 +89,7 @@ sequenceDiagram
 2. **Date Range Normalization**: Date filters automatically cast ISO-8601 strings into database-compatible timestamps and apply boundary ranges (`BETWEEN` or `>=` and `<=`).
 3. **Set Filters (`IN` Clauses)**: Multi-selection set filters convert array values into parameterized `IN (:...setValues)` conditions.
 
-<hr/>
+---
 
 ## 4. Why It Was Designed This Way
 
@@ -100,7 +100,7 @@ sequenceDiagram
 | **Performance** | Inefficient table scans from non-indexed dynamic joins. | Strict relation aliasing with indexed column mapping rules. |
 | **Type Safety** | Loose `any` typing for grid filter parameters. | Strictly typed DTO wrappers for `IServerSideGetRowsRequest`. |
 
-<hr/>
+---
 
 ## 5. Practical Usage Guide & Extended Code Examples
 
@@ -163,7 +163,7 @@ transformer.registerCustomFilter('metadata', (qb, filterModel: FilterCondition) 
 const result = await transformer.execute();
 ```
 
-<hr/>
+---
 
 ## 6. Anti-Patterns: How NOT to Use It
 
@@ -185,7 +185,7 @@ const transformer = new AgGridQueryTransformer(queryBuilder, gridRequest, {
 > **Anti-Pattern 2: Unbounded Count Queries on Large Tables**
 > Calling `getManyAndCount()` on tables with tens of millions of rows without indexes can freeze database workers. Always pass pre-filtered indexing constraints or set maximum `take` limits.
 
-<hr/>
+---
 
 ## 7. Pro-Tips & Best Practices
 
@@ -198,7 +198,7 @@ const transformer = new AgGridQueryTransformer(queryBuilder, gridRequest, {
 > Always provide a fallback default sort order (e.g., `user.id DESC`) in case the user clears all grid sorts, ensuring deterministic SQL pagination results.
 
 
-<hr/>
+---
 
 ## 🔗 Cross-References
 
@@ -207,7 +207,7 @@ To see how this module integrates with the rest of the Ferrox architecture, refe
 - [Database & TypeORM](https://ferrox-rust.dev/docs/nestjs-yalc/databases/database)
 
 
-<hr/>
+---
 ## 📚 Ecosystem Documentation
 
 This module is a core component of the Ferrox enterprise microservice architecture. 
