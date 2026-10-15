@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from '@nest-yalc-2/errors/filters/http-exception.filter.js';
+import { AppLoggerFactory } from '@nest-yalc-2/logger';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -70,6 +73,10 @@ import { TaskAppEventModule } from './task-app-event.module';
     TaskItemRelationsResolver,
     TaskEventRelationsResolver,
     TaskProjectRelationsResolver,
+    {
+      provide: APP_FILTER,
+      useFactory: () => new HttpExceptionFilter(AppLoggerFactory('TaskSystemApp')),
+    },
   ],
 })
 export class AppModule {}

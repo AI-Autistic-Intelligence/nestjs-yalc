@@ -49,7 +49,7 @@ describe('Skeleton App (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    await app.listen(0);
+    await app.listen(0, '127.0.0.1');
     const address = app.getHttpServer().address();
     const port = typeof address === 'object' && address?.port ? address.port : 0;
     baseUrl = `http://127.0.0.1:${port}`;
@@ -64,7 +64,7 @@ describe('Skeleton App (e2e)', () => {
     }).compile();
     fastifyApp = fastifyFixture.createNestApplication(new FastifyAdapter());
     await fastifyApp.init();
-    await fastifyApp.listen(0);
+    await fastifyApp.listen(0, '127.0.0.1');
     const fastifyAdapter = fastifyApp.getHttpAdapter();
     localStrategy = new NestLocalCallStrategy(
       { httpAdapter: fastifyAdapter } as any,
@@ -76,7 +76,7 @@ describe('Skeleton App (e2e)', () => {
         internalRequestToken: 'local-token',
       },
     );
-  });
+  }, 30000);
 
   afterAll(async () => {
     await app?.close();

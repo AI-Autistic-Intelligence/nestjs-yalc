@@ -12,7 +12,7 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/apps/omnikernel-app/main",
     "test": "jest",
-    "test:e2e": "NODE_OPTIONS=\"--experimental-vm-modules --experimental-import-meta-resolve \" jest --config ./apps/omnikernel-app/test/jest-e2e.json"
+    "test:e2e": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --experimental-import-meta-resolve \" jest --config ./apps/omnikernel-app/test/jest-e2e.json"
   },
   "dependencies": {
     "@apollo/server": "^5.5.0",

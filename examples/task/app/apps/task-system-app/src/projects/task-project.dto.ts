@@ -27,16 +27,16 @@ export class TaskProjectType extends TaskProject {
   @Field(() => UUIDScalar)
   guid!: string;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   name!: string;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => String, gqlOptions: { nullable: true } })
+  @Field(() => String, { nullable: true })
   description?: string | null;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   status!: string;
 }
 

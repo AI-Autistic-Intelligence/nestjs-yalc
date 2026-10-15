@@ -21,12 +21,7 @@ import { type ImprovedLoggerService } from '@node-yalc/logger/logger-abstract.se
 
 type HttpErrorType =
   common.HttpException | MissingArgumentsError | GqlError | IAbstractDefaultError;
-@common.Catch(
-  common.HttpException,
-  MissingArgumentsError,
-  GqlError,
-  DefaultErrorMixin,
-)
+@common.Catch()
 export class HttpExceptionFilter
   extends BaseExceptionFilter
   implements GqlExceptionFilter, common.ExceptionFilter
@@ -45,7 +40,12 @@ export class HttpExceptionFilter
   ) {
     try {
       const isHttpError =
-        this.isHttpError(error) || error instanceof common.HttpException;
+        this.isHttpError(error) ||
+        error instanceof common.HttpException ||
+        typeof (error as any).getStatus === 'function' ||
+        typeof (error as any).status === 'number' ||
+        typeof (error as any).statusCode === 'number' ||
+        isDefaultErrorMixin(error);
       // TODO: Validate when monitoring is in place if we need an eventEmitter here instead of log
       switch (true) {
         // Base logging for normal operation execution errors
@@ -132,8 +132,20 @@ export class HttpExceptionFilter
           const ctx = host.switchToHttp();
           const response = ctx.getResponse<FResponse>();
           let status = common.HttpStatus.INTERNAL_SERVER_ERROR;
-          if (isHttpError) status = (error as common.HttpException).getStatus();
-          return response.status(status).send(error.message);
+          if (typeof (error as any).getStatus === 'function') {
+            status = (error as any).getStatus();
+          } else if (typeof (error as any).status === 'number') {
+            status = (error as any).status;
+          } else if (typeof (error as any).statusCode === 'number') {
+            status = (error as any).statusCode;
+          }
+          const rawBody = typeof (error as any).getResponse === 'function'
+            ? (error as any).getResponse()
+            : ((error as any).response ?? { message: error.message });
+          const body = typeof rawBody === 'object' && rawBody !== null
+            ? { statusCode: status, ...rawBody }
+            : { statusCode: status, message: rawBody };
+          return response.status(status).send(body);
         }
       }
     } catch (e) {

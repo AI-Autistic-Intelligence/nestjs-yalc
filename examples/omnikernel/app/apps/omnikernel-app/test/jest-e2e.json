@@ -1,17 +1,21 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": ["ts", "js", "json"],
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
+  "transformIgnorePatterns": [
+    "node_modules[\\\\/](?!(p-map|lodash-es|@faker-js|@nestjs|nestjs-cls|@paralleldrive|@node-yalc)[\\\\/])"
+  ],
   "transform": {
-    "^.+\\.ts$": [
-      "ts-jest",
+    "^.+\\.(t|j)sx?$": [
+      "@swc/jest",
       {
-        "tsconfig": "<rootDir>/../../../tsconfig.e2e.json",
-        "diagnostics": false,
-        "astTransformers": {
-          "before": ["<rootDir>/graphql-plugin.wrapper.cjs"]
-        }
+        "jsc": {
+          "target": "es2022",
+          "parser": { "syntax": "typescript", "decorators": true },
+          "transform": { "legacyDecorator": true, "decoratorMetadata": true, "useDefineForClassFields": false }
+        },
+        "module": { "type": "commonjs", "strict": false, "strictMode": false }
       }
     ]
   },
@@ -22,6 +26,9 @@
     "^typeorm$": "<rootDir>/../../../../../../node_modules/typeorm",
     "^p-map$": "<rootDir>/p-map.mock.ts",
     "^lodash-es$": "lodash",
+    "^@node-yalc/([^/]+)/(.+?)\\.js$": "<rootDir>/../../../../../../../node-yalc/$1/src/$2",
+    "^@node-yalc/([^/]+)/(.*)$": "<rootDir>/../../../../../../../node-yalc/$1/src/$2",
+    "^@node-yalc/([^/]+)$": "<rootDir>/../../../../../../../node-yalc/$1/src",
     "^@nest-yalc-2/([^/]+)/(.+?)\\.js$": "<rootDir>/../../../../../../$1/src/$2",
     "^@nest-yalc-2/([^/]+)/(.*)$": "<rootDir>/../../../../../../$1/src/$2",
     "^@nest-yalc-2/([^/]+)$": "<rootDir>/../../../../../../$1/src",

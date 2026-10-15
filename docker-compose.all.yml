@@ -1,0 +1,123 @@
+version: '3.8'
+
+# ==============================================================================
+# 🚀 NestJS-Yalc Unified Ecosystem Infrastructure
+# ==============================================================================
+# Starts shared enterprise infrastructure allowing all examples:
+# - Skeleton (Base CRUD)
+# - OmniKernel (Persistence & Contracts)
+# - Task System (CQRS, RabbitMQ, Observability)
+# to run concurrently without port conflicts.
+# ==============================================================================
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. PostgreSQL 16 Relational Persistence
+  # ----------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: nestjs-yalc-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: yalc_shared
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yalc_shared"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - yalc-shared-net
+
+  # ----------------------------------------------------------------------------
+  # 2. RabbitMQ Event & Task Message Broker
+  # ----------------------------------------------------------------------------
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: nestjs-yalc-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"   # AMQP protocol
+      - "15672:15672" # Management Web UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - yalc-shared-net
+
+  # ----------------------------------------------------------------------------
+  # 3. Redis 7 High-Speed In-Memory Cache & Streams
+  # ----------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: nestjs-yalc-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - yalc-shared-net
+
+  # ----------------------------------------------------------------------------
+  # 4. OpenTelemetry Collector (Tracing & Metrics)
+  # ----------------------------------------------------------------------------
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: nestjs-yalc-otel-collector
+    restart: unless-stopped
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./scripts/otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP HTTP receiver
+      - "8889:8889" # Prometheus metrics exporter
+    networks:
+      - yalc-shared-net
+
+  # ----------------------------------------------------------------------------
+  # 5. Jaeger Distributed Tracing UI
+  # ----------------------------------------------------------------------------
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: nestjs-yalc-jaeger
+    restart: unless-stopped
+    ports:
+      - "16686:16686" # Web UI
+      - "14268:14268" # HTTP thrift
+    networks:
+      - yalc-shared-net
+
+  # ----------------------------------------------------------------------------
+  # 6. MailHog Transactional Email Sink
+  # ----------------------------------------------------------------------------
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: nestjs-yalc-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
+    networks:
+      - yalc-shared-net
+
+volumes:
+  pgdata:
+
+networks:
+  yalc-shared-net:
+    driver: bridge

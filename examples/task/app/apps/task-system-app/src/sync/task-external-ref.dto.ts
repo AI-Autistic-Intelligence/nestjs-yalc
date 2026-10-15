@@ -26,28 +26,28 @@ export class TaskExternalRefType extends TaskExternalRef {
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   guid!: string;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   internalType!: string;
 
   @ModelField({ gqlType: returnValue(UUIDScalar), isRequired: true })
   @Field(() => UUIDScalar)
   internalId!: string;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   provider!: string;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => String, gqlOptions: { nullable: true } })
+  @Field(() => String, { nullable: true })
   account?: string | null;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => String, gqlOptions: { nullable: true } })
+  @Field(() => String, { nullable: true })
   container?: string | null;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   externalId!: string;
 }
 

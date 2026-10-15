@@ -27,28 +27,28 @@ export class TaskEventType extends TaskEvent {
   @Field(() => UUIDScalar)
   guid!: string;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   title!: string;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => String, gqlOptions: { nullable: true } })
+  @Field(() => String, { nullable: true })
   description?: string | null;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   status!: string;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => Date })
+  @Field(() => Date)
   startAt!: Date;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => Date, gqlOptions: { nullable: true } })
+  @Field(() => Date, { nullable: true })
   endAt?: Date | null;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => Boolean })
+  @Field(() => Boolean)
   allDay!: boolean;
 
   @ModelField({
@@ -58,8 +58,8 @@ export class TaskEventType extends TaskEvent {
   @Field(() => UUIDScalar, { nullable: true })
   projectId?: string | null;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => String, gqlOptions: { nullable: true } })
+  @Field(() => String, { nullable: true })
   location?: string | null;
 }
 

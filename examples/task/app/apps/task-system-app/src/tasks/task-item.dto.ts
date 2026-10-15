@@ -29,16 +29,16 @@ export class TaskItemType extends TaskItem {
   @Field(() => UUIDScalar)
   guid!: string;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   title!: string;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => String, gqlOptions: { nullable: true } })
+  @Field(() => String, { nullable: true })
   description?: string | null;
 
-  @ModelField({})
-  @Field()
+  @ModelField({ gqlType: () => String })
+  @Field(() => String)
   status!: string;
 
   @ModelField({
@@ -61,8 +61,8 @@ export class TaskItemType extends TaskItem {
   @Field(() => TaskProjectType, { nullable: true })
   project?: TaskProjectType | null;
 
-  @ModelField({ gqlOptions: { nullable: true } })
-  @Field({ nullable: true })
+  @ModelField({ gqlType: () => Date, gqlOptions: { nullable: true } })
+  @Field(() => Date, { nullable: true })
   dueAt?: Date | null;
 }
 
